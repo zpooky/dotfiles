@@ -37,3 +37,7 @@ let g:ycm_confirm_extra_conf = 0
 
 hi clear SpellBad
 hi SpellBad cterm=underline
+
+" clang format
+" /local/tools/clang/bin
+
