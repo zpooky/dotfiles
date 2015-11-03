@@ -39,5 +39,17 @@ hi clear SpellBad
 hi SpellBad cterm=underline
 
 " clang format
-" /local/tools/clang/bin
+let g:clang_format#style_options = {
+            \ "AlwaysBreakTemplateDeclarations" : "true",
+            \ "Standard" : "Cpp11",
+            \ "AllowShortFunctionsOnASingleLine" : "None",
+            \ "BasedOnStyle" : "LLVM"}
+" map to <Leader>cf in C++ code
+autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
 
+"
+set tags=./tags;/
+" Alias
+" insert character(space+*char*)
+nmap <Space> i_<Esc>r
