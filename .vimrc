@@ -44,12 +44,15 @@ let g:clang_format#style_options = {
             \ "Standard" : "Cpp11",
             \ "AllowShortFunctionsOnASingleLine" : "None",
             \ "BasedOnStyle" : "LLVM"}
-" map to <Leader>cf in C++ code
+" clang format - map to <Leader>cf in C++ code(\cf)
 autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
 autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
-
-"
+" ctags - file search
 set tags=./tags;/
+" ctags list 
+nmap <Leader>ct :TlistToggle<CR>
+
 " Alias
 " insert character(space+*char*)
 nmap <Space> i_<Esc>r
+nmap <S-Enter> O<Esc>j
