@@ -24,7 +24,7 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 "syntastic c++
 let g:syntastic_cpp_compiler = 'g++'
-let g:syntastic_cpp_compiler_options = ' -std=c++14'
+let g:syntastic_cpp_compiler_options = ' -std=c++14 -Wall -Wextra -Wpedantic'
 
 let g:syntastic_cpp_checkers=["clang_check","g++","cpp_check"]
 
@@ -50,9 +50,14 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
 " ctags - file search
 set tags=./tags;/
 " ctags list 
-nmap <Leader>ct :TlistToggle<CR>
+nmap <F8> :TagbarToggle<CR>
 
 " Alias
 " insert character(space+*char*)
 nmap <Space> i_<Esc>r
 nmap <S-Enter> O<Esc>j
+
+
+" YouCompleteMe - Install
+" cd ~/.vim/bundle/YouCompleteMe
+" ./install.sh --clang-completer
