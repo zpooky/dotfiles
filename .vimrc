@@ -51,12 +51,17 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
 set tags=./tags;/
 " ctags list 
 nmap <F8> :TagbarToggle<CR>
+" TComment
+nmap <leader>c :TComment<CR>
+nmap <leader>= :TCommentBlock<CR>
+" Tcomment visual
+vmap <leader>c :TComment<CR>
+vmap <leader>= :TCommentBlock<CR>
 
 " Alias
 " insert character(space+*char*)
 nmap <Space> i_<Esc>r
 nmap <S-Enter> O<Esc>j
-
 
 " YouCompleteMe - Install
 " cd ~/.vim/bundle/YouCompleteMe
