@@ -58,6 +58,9 @@ nmap <leader>= :TCommentBlock<CR>
 vmap <leader>c :TComment<CR>
 vmap <leader>= :TCommentBlock<CR>
 
+" tagbar
+nmap <F8> :TagbarToggle<CR>
+
 " Alias
 " insert character(space+*char*)
 nmap <Space> i_<Esc>r
