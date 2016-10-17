@@ -61,6 +61,12 @@ vmap <leader>= :TCommentBlock<CR>
 " tagbar
 nmap <F8> :TagbarToggle<CR>
 
+" nerdtree
+map <F10> :NERDTreeToggle<CR>
+let NERDTreeAutoDeleteBuffer = 1
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+
 " Alias
 " insert character(space+*char*)
 nmap <Space> i_<Esc>r
