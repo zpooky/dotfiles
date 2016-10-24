@@ -1,6 +1,3 @@
-[submodule ".vim/bundle/-f"]
-	path = .vim/bundle/vim-clang-format
-	url = git@github.com:rhysd/vim-clang-format.git
 [submodule ".vim/bundle/vim-clang-format"]
 	path = .vim/bundle/vim-clang-format
 	url = git@github.com:rhysd/vim-clang-format.git
@@ -34,3 +31,9 @@
 [submodule ".vim/bundle/nerdtree"]
 	path = .vim/bundle/nerdtree
 	url = git@github.com:scrooloose/nerdtree.git
+[submodule ".vim/bundle/command-t"]
+	path = .vim/bundle/command-t
+	url = git@github.com:wincent/command-t.git
+[submodule ".vim/bundle/vim-autotag"]
+	path = .vim/bundle/vim-autotag
+	url = git@github.com:craigemery/vim-autotag.git
