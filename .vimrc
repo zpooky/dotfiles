@@ -2,6 +2,7 @@
 let g:tagbar_show_linenumbers = 1
 " general
 " set number
+let mapleader = "\<Space>"
 set relativenumber
 set ic
 set hls
@@ -33,19 +34,6 @@ let g:syntastic_cpp_check_header = 1
 "let g:syntastic_cpp_checkers=["clang_check","g++","cpp_check"]
 let g:syntastic_cpp_checkers=["gcc","cppcheck","clang-check"]
 
-" Toggle between header and source by pressing F2 
-set path=".,,..,../..,./*,./*/*,../*,~/,~/**,/usr/include/*"
-function! Mosh_Flip_Ext()
-  if match(expand("%"),'\.c.*') > 0
-    let s:flipname = "./" . substitute(expand("%"),'\.c.*','.h',"")
-    exe ":find " s:flipname
-  elseif match(expand("%"),"\\.h") > 0
-    let s:flipname = "./" . substitute(expand("%"),'\.h.*','.cpp',"")
-    exe ":find " s:flipname
-  endif
-endfun
-map <F2> :call Mosh_Flip_Ext()<CR>
-
 " YouCompleteMe
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_collect_identifiers_from_tags_files = 1
@@ -67,6 +55,7 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
 " ctags - look in the current directory for 'tags',
 " and work up the tree towards root until one is found
 set tags=./.tags;/
+map <silent> <F3> <c-]>
 
 " TComment
 nmap <leader>c :TComment<CR>
@@ -99,8 +88,8 @@ noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
 
 " Alias
 " insert character(space+*char*)
-nmap <Space> i_<Esc>r
-nmap <S-Enter> O<Esc>j
+" nmap <Space> i_<Esc>r " Need to have another than space it is now the leadr
+" nmap <S-Enter> O<Esc>j
 
 " YouCompleteMe - Install
 " cd ~/.vim/bundle/YouCompleteMe
@@ -135,3 +124,5 @@ endfunction
 
 " vim-autotool
 let g:autotagTagsFile=".tags" " what is the ctag file name
+" a.vim
+map <silent> <F2> :A<CR>
