@@ -55,7 +55,8 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
 " ctags - look in the current directory for 'tags',
 " and work up the tree towards root until one is found
 set tags=./.tags;/
-map <silent> <F3> <c-]>
+map <silent> <F3> <c-]> " open tag
+map <silent> <A-Left> <c-t> " previous 
 
 " TComment
 nmap <leader>c :TComment<CR>
