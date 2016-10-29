@@ -2,11 +2,17 @@
 let g:tagbar_show_linenumbers = 1
 " general
 " set number
-let mapleader = "\<Space>"
-set relativenumber
+let mapleader = "\<Space>"        " map leader to  <space>
+set relativenumber                " relative line numbers
+set incsearch                     " search wile you type
 set ic
 set hls
-syntax on
+syntax on                         " Highlight the syntax.
+" language
+set spelllang=en_us               " Specify the spell checking language.
+set nospell                       " Disable spell checking by default.
+"
+set ruler                         " Display the ruler.
 " tabbs
 set tabstop=2
 set shiftwidth=2
@@ -14,7 +20,9 @@ set expandtab
 " pathogen plugin manager
 execute pathogen#infect()
 " file type specific indentention support 
-filetype plugin indent on
+filetype plugin on                " Enable file type plug-ins
+filetype on                       " Enable file type detection
+set smartindent                   " smart indentation
 " vim2hs
 let g:haskell_conceal_wide = 1
 " syntastic
@@ -28,11 +36,12 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 "syntastic c++
 let g:syntastic_cpp_compiler = "gcc"
-"let g:syntastic_cpp_compiler = 'clang++'
+" let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_cpp_compiler_options = "-std=c++14 -Wall -Wextra -Wpedantic"
+" let g:syntastic_cpp_compiler_options = ' -std=c++14 -stdlib=libc++'
 let g:syntastic_cpp_check_header = 1
 "let g:syntastic_cpp_checkers=["clang_check","g++","cpp_check"]
-let g:syntastic_cpp_checkers=["gcc","cppcheck","clang-check"]
+let g:syntastic_cpp_checkers=["gcc","cppcheck"]
 
 " YouCompleteMe
 let g:ycm_show_diagnostics_ui = 0
@@ -57,6 +66,8 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
 set tags=./.tags;/
 map <silent> <F3> <c-]> " open tag
 map <silent> <A-Left> <c-t> " previous 
+map <silent> å <PageUp>
+map <silent> ä <PageDown>
 
 " TComment
 nmap <leader>c :TComment<CR>
@@ -88,6 +99,8 @@ noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
 ":CommandTMRU
 
 " Alias
+" Alternative save with <leader>+w
+nnoremap <Leader>w :w<CR>
 " insert character(space+*char*)
 " nmap <Space> i_<Esc>r " Need to have another than space it is now the leadr
 " nmap <S-Enter> O<Esc>j
@@ -106,9 +119,12 @@ set noerrorbells         " don't beep
 "
 set nobackup
 set noswapfile
+" Stop that stupid window from popping up
+map q: :q
 "
 au BufNewFile,BufRead *.md set ft=markdown
 au FileType markdown,python set ts=2 sw=2 expandtab
+au FileType gitcommit,md,txt set spell      " turn of spelling for thease types
 
 " Close all open buffers on entering a window if the only
 " buffer that's left is the NERDTree buffer
