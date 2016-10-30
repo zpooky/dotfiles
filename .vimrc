@@ -66,8 +66,6 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
 set tags=./.tags;/
 map <silent> <F3> <c-]> " open tag
 map <silent> <A-Left> <c-t> " previous 
-map <silent> å <PageUp>
-map <silent> ä <PageDown>
 
 " TComment
 nmap <leader>c :TComment<CR>
@@ -94,33 +92,37 @@ let NERDTreeDirArrows = 1
 noremap <silent> <leader>o <Esc>:CommandT<CR>
 noremap <silent> <leader>O <Esc>:CommandTFlush<CR>
 noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
-
-" :CommandTTag
+noremap <silent> <leader>. :CommandTTag<cr>
 ":CommandTMRU
 
 " Alias
-" Alternative save with <leader>+w
-nnoremap <Leader>w :w<CR>
+nnoremap <leader>w :wa<CR>  " Alternative save with <leader>+w
+map <silent> å <PageUp>     " map å to page up
+map <silent> ä <PageDown>   " map ä to page down
+" navigate between pane
+map <silent> <leader><Left> <C-W><Left>   " pane Left
+map <silent> <leader><Right> <C-W><Right> " pane Right
+map <silent> <leader><Up> <C-W><Up>       " pane Up
+map <silent> <leader><Down> <C-W><Down>   " pane Down
+
 " insert character(space+*char*)
 " nmap <Space> i_<Esc>r " Need to have another than space it is now the leadr
 " nmap <S-Enter> O<Esc>j
 
 " YouCompleteMe - Install
-" cd ~/.vim/bundle/YouCompleteMe
-" ./install.sh --clang-completer
+" cd ~/.vim/bundle/YouCompleteMe;./install.sh --clang-completer
 
 "
 set history=1000         " remember more commands and search history
 set undolevels=1000      " use many levels of undo
 set wildignore=*.swp,*.bak,*.pyc,*.class
 set title                " change the terminal's title
-set visualbell           " don't beep
+set novisualbell         " don't beep
 set noerrorbells         " don't beep
 "
 set nobackup
 set noswapfile
-" Stop that stupid window from popping up
-map q: :q
+map q: :q                " Stop that stupid window from popping up
 "
 au BufNewFile,BufRead *.md set ft=markdown
 au FileType markdown,python set ts=2 sw=2 expandtab
@@ -140,6 +142,9 @@ function! s:CloseIfOnlyNerdTreeLeft()
 endfunction
 
 " vim-autotool
-let g:autotagTagsFile=".tags" " what is the ctag file name
+let g:autotagTagsFile=".tags" " the ctag file name
 " a.vim
-map <silent> <F2> :A<CR>
+" toggle between header and source
+autocmd FileType c,cpp,objc,h map <silent> <F2> :A<CR>
+" open source or header in vertical split
+autocmd FileType c,cpp,objc,h map <silent> <leader><F2> :AV<CR>
