@@ -1,5 +1,5 @@
 " Tagbar
-let g:tagbar_show_linenumbers = 1
+let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
 " general
 " set number
 let mapleader = "\<Space>"        " map leader to  <space>
@@ -46,7 +46,7 @@ let g:syntastic_cpp_checkers=["gcc","cppcheck"]
 " YouCompleteMe
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_confirm_extra_conf = 0 " disable confirm
+let g:ycm_confirm_extra_conf = 0                  " disable confirm
 
 hi clear SpellBad
 hi SpellBad cterm=underline
@@ -89,8 +89,8 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 
 " CommandT
-noremap <silent> <leader>o <Esc>:CommandT<CR>
-noremap <silent> <leader>O <Esc>:CommandTFlush<CR>
+noremap <silent> <leader>r <Esc>:CommandT<CR>
+" noremap <silent> <leader>O <Esc>:CommandTFlush<CR>
 noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
 noremap <silent> <leader>. :CommandTTag<cr>
 ":CommandTMRU
@@ -99,11 +99,14 @@ noremap <silent> <leader>. :CommandTTag<cr>
 nnoremap <leader>w :wa<CR>  " Alternative save with <leader>+w
 map <silent> å <PageUp>     " map å to page up
 map <silent> ä <PageDown>   " map ä to page down
-" navigate between pane
+" navigate between panes
 map <silent> <leader><Left> <C-W><Left>   " pane Left
 map <silent> <leader><Right> <C-W><Right> " pane Right
 map <silent> <leader><Up> <C-W><Up>       " pane Up
 map <silent> <leader><Down> <C-W><Down>   " pane Down
+" new line above and below without entering insert mode
+map <silent> <leader>o o<esc>
+map <silent> <leader>O O<esc>
 
 " insert character(space+*char*)
 " nmap <Space> i_<Esc>r " Need to have another than space it is now the leadr
