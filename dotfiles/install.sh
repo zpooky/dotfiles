@@ -74,3 +74,12 @@ if [ ! -e $KHAL_HOME ]; then
   touch $KHAL_HOME
   stop_feature "khal"
 fi
+
+#davmail
+DAVMAIL_FEATURE=$FEATURE_HOME/davmail
+if [ ! -e $DAVMAIL_HOME ];then
+  start_feature "davmail"
+# wget http://sourceforge.net/projects/davmail/files/davmail/4.7.2/davmail_4.7.2-2427-1_all.deb
+  touch $DAVMAIL_FEATURE
+  stop_feature "davmail"
+fi
