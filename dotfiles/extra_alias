@@ -1,0 +1,1 @@
+alias sp-khal='khal calendar --format="{red-bold}{start-time}{reset}-{green-bold}{end-time}{reset} {calendar-color}{title}{reset}{yellow}{repeat-symbol}{reset} [{cyan}{location}{reset}][{magenta}{calendar}{reset}]"'
