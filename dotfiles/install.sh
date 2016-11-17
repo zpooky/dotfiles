@@ -67,6 +67,9 @@ sudo apt-get  -y  install antiword
 sudo apt-get  -y  install catdoc
 sudo apt-get  -y  install python-sqlite
 sudo apt-get  -y  install python-vobject
+sudo apt-get  -y  installpython-gnomekeyring
+sudo apt-get  -y  install ranger caca-utils highlight atool w3m poppler-utils mediainfo
+
 
 stop_feature "apt-get install"
 
@@ -74,6 +77,7 @@ stop_feature "apt-get install"
 start_feature "update pip"
 
 sudo -H python3.5 `which pip` install --upgrade pip
+sudo -H python3.5 `which pip` install keyring
 
 stop_feature "update pip"
 
@@ -101,7 +105,7 @@ if [ ! -e "$VDIR_FEATURE" ]; then
   stop_feature "vdirsyncer" 
 fi
 
-# khal
+# khal - interface to display calendar
 KHAL_HOME=$FEATURE_HOME/khal
 if [ ! -e $KHAL_HOME ]; then
   start_feature "khal"
@@ -112,7 +116,7 @@ if [ ! -e $KHAL_HOME ]; then
   stop_feature "khal"
 fi
 
-#davmail
+# davmail - translates protocol used by vdirsyncer for calendar
 DAVMAIL_FEATURE=$FEATURE_HOME/davmail
 if [ ! -e $DAVMAIL_FEATURE ];then
   start_feature "davmail"
@@ -145,7 +149,7 @@ if [ ! -e $DAVMAIL_FEATURE ];then
   fi
 fi
 
-#lbdb
+# lbdb - contact list for mutt
 LBDB_FEATURE=$FEATURE_HOME/lbdb
 if [ ! -e $LBDB_FEATURE ]; then
   start_feature "LBDB"
@@ -159,7 +163,7 @@ if [ ! -e $LBDB_FEATURE ]; then
   touch $LBDB_FEATURE
 fi
 
-#offlineimap
+# offlineimap - offline mail sync
 OFFLINEIMAP_FEATURE=$FEATURE_HOME/offlineimap
 if [ ! -e $OFFLINEIMAP_FEATURE ]; then
   start_feature "offlineimap"
@@ -171,7 +175,7 @@ if [ ! -e $OFFLINEIMAP_FEATURE ]; then
   stop_feature "offlineimap"
 fi
 
-#mutt
+# mutt - mail client reads mail from disk
 MUTT_FEATURE=$FEATURE_HOME/mutt
 if [ ! -e $MUTT_FEATURE ]; then
   start_feature "mutt"

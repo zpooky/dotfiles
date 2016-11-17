@@ -18,10 +18,10 @@ fileext = ".ics"
 [storage work_remote]
 type = "caldav"
 read_only = true
-url = "http://localhost:1080/users/fredrik.a.olsson@ericsson.com/calendar"
-username.fetch = ["command", "~/.mutt/lib/offlineimap-helper.py", "mail", "work_email"]
+url.fetch = ["command", "~/dotfiles/lib/davmail-url.sh", "work", "email"]
+username.fetch = ["command", "~/dotfiles/lib/keyring-helper.py", "work", "email"]
 #password =	"ss" 
-password.fetch = ["command", "~/.mutt/lib/offlineimap-helper.py", "mail", "work"]
+password.fetch = ["command", "~/dotfiles/lib/keyring-helper.py", "work", "password"]
 #password.fetch = ["prompt", "Password for CalDAV"]
 
 
@@ -36,8 +36,8 @@ collections = ["from a", "from b"]
 
 [storage google_calendar_remote]
 type = "google_calendar"
-client_id = "vdirsyncer-148507@appspot.gserviceaccount.com"
-client_secret.fetch = ["command", "~/.mutt/lib/offlineimap-helper.py", "mail", "personal"]
+client_id.fetch = ["command", "~/dotfiles/lib/keyring-helper.py", "personal", "username"]
+client_secret.fetch = ["command", "~/dotfiles/lib/keyring-helper.py", "personal", "password"]
 token_file = "~/.vdirsyncer/key.json"
 
 [storage google_calendar_local]

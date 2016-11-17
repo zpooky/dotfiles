@@ -3,7 +3,7 @@ accounts = work
 ui = ttyui
 fsync = False
 socktimeout = 60
-pythonfile = ~/dotfiles/lib/offlineimap-helper.py
+pythonfile = ~/dotfiles/lib/keyring-helper.py
 autorefresh = 5
 
 [Account work]

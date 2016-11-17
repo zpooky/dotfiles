@@ -1,6 +1,6 @@
 [calendars]
 [[private]]
-path = ~/.local/share/khal/calendars/private
+path = ~/.calendars/work/
 type = calendar
 
 [locale]
