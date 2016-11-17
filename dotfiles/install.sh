@@ -78,7 +78,7 @@ sudo -H python3.5 `which pip` install --upgrade pip
 stop_feature "update pip"
 
 # keyring
-## work host outlook.office365.com
+## work host
 ## work port 993
 ## work username
 ## work email
