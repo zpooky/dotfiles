@@ -1,0 +1,48 @@
+[general]
+accounts = work
+ui = ttyui
+fsync = False
+socktimeout = 60
+pythonfile = ~/dotfiles/lib/offlineimap-helper.py
+autorefresh = 5
+
+[Account work]
+localrepository = work-local
+remoterepository = work-remote
+status_backend = sqlite
+#postsynchook = notmuch new
+
+[Repository work-local]
+type = Maildir
+localfolders = ~/.mail/work
+nametrans = lambda folder: {'inbox': 'INBOX',
+														'Sent Items': 'Sent Items',
+														'Sent_Items': 'Sent Items'
+                            }.get(folder, folder)
+
+[Repository work-remote]
+maxconnections = 4
+type = IMAP
+ssl = yes
+sslcacertfile = ~/.mutt/certificates/cacert.pem
+remotehost = get_password("work", "host")
+remoteuser = get_password("work", "email")
+remotepasseval = get_password("work", "password")
+remoteport = get_password("work", "port")
+nametrans = lambda folder: {'INBOX': 'inbox',
+                            'elx': 'elx',
+														'Sent Items': 'Sent_Items',
+                        #    'Sent Items': 'Sent Items',
+                        #    'errors': 'errors',
+                        #    'github': 'github',
+                        #    'archive': 'archive',
+                        #    'cron': 'cron',
+                        #    'chef_run_failed': 'chef_run_failed',
+                            }.get(folder, folder)
+folderfilter = lambda folder: folder.startswith('INBOX') or folder in ['Sent Items','Drafts']
+#, 'errors', 'github', 'archive', 'cron', 'chef_run_failed'
+
+# Or, if you have a lot of mail and don't want to wait for a long time before
+# using sup, you can archive all your old mails on Gmail and only sync the
+# inbox with the following line replacing the previous `folderfilter` line:
+# folderfilter = lambda folder: folder == 'INBOX'

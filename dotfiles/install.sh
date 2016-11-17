@@ -72,14 +72,23 @@ stop_feature "apt-get install"
 
 # update
 start_feature "update pip"
+
 sudo -H python3.5 `which pip` install --upgrade pip
+
 stop_feature "update pip"
+
+# keyring
+## work host outlook.office365.com
+## work port 993
+## work username
+## work email
+## work password
 
 # vdirsyncer
 VDIR_FEATURE=$FEATURE_HOME/vdirsyncer
 if [ ! -e "$VDIR_FEATURE" ]; then
   start_feature "vdirsyncer" 
-  ## otath support for googlecalendar
+  ## oauth support for googlecalendar
   sudo -H python3.5 `which pip` install requests requests_oauthlib
   
   ## install
@@ -154,8 +163,11 @@ fi
 OFFLINEIMAP_FEATURE=$FEATURE_HOME/offlineimap
 if [ ! -e $OFFLINEIMAP_FEATURE ]; then
   start_feature "offlineimap"
-  # TODO fix
+
+  sudo apt-get -y install offlineimap
   install_cron "*/5 * * * *	~/dotfiles/lib/offlineimap_cron.sh"
+
+  touch $OFFLINEIMAP_FEATURE
   stop_feature "offlineimap"
 fi
 
@@ -166,4 +178,3 @@ if [ ! -e $MUTT_FEATURE ]; then
   # TODO fix
   stop_feature "mutt"
 fi
-
