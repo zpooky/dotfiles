@@ -1,0 +1,48 @@
+## Basic configuration
+
+source "~/.mutt/user_work"
+
+# Loading language properties
+
+source "~/.mutt/lang/$my_lang"
+
+## Server config
+
+# IMAP config
+set imap_user="$my_username@$my_domain"
+set imap_pass=$my_password
+
+set folder="imaps://outlook.office365.com/"
+set spoolfile= +INBOX
+set postponed= +$my_drafts_noquote
+set record = +$my_sent_noquote
+set trash = +$my_trash_noquote
+mailboxes = PLACEHOLDER
+
+set imap_check_subscribed="yes"
+set imap_list_subscribed="yes"
+set timeout=15
+set mail_check=90
+set imap_keepalive=180
+set imap_idle
+unset mark_old
+set ssl_use_sslv3=yes
+
+# Common
+
+source ~/.mutt/common
+
+# Keymaps
+
+source ~/.mutt/keymaps
+
+# Colors
+
+source ~/.mutt/colors
+
+# Status Bar -----------------------------------------
+set status_chars  = " *%A"
+set status_format = "---[ Folder: %f ]---[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]---%>-%?p?( %p postponed )?---"
+
+# Theme
+#source ~/.mutt/themes/solarized-dark

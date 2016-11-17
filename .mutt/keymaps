@@ -1,0 +1,41 @@
+# Mailboxes
+bind    index   G  imap-fetch-mail
+macro   index   gi "<change-folder>=INBOX<enter>"       "Go to Inbox"
+macro   index   gs "<change-folder>=$my_sent<enter>"    "Go to Sent"
+macro   index   gd "<change-folder>=$my_drafts<enter>"  "Go to Drafts"
+macro   index   gt "<change-folder>=$my_trash<enter>"   "Go to Trash"
+# search
+macro		generic,index,pager		n		"<esc>/\n" # search backwards for next previously searched
+macro		generic,index,pager		N		"#\n" # search backwards for next previously searched
+bind		generic,index,pager		/		search-reverse
+bind		generic,index,pager		\#		search
+
+# Index
+bind    index   <up>        previous-entry
+bind    index   <down>      next-entry
+bind    index   <delete>    delete-message
+macro   index   Q           ":set quit=yes\nq" "Quit mutt without asking"
+bind    index   C           noop
+bind    index   -           collapse-thread
+bind    index   _           collapse-all
+
+# Pager
+bind    pager   <up>        previous-line
+bind    pager   <down>      next-line
+bind    pager   <left>      previous-entry
+bind    pager   <right>     next-entry
+bind    pager   <delete>    delete-message
+bind    pager   k           previous-line
+bind    pager   j           next-line
+bind    pager   w           previous-page
+
+# Sidebar sp
+bind    index   CP          sidebar-prev
+bind    index   CN          sidebar-next
+bind    index   CO          sidebar-open
+bind    pager   CP          sidebar-prev
+bind    pager   CN          sidebar-next
+bind    pager   CO          sidebar-open
+
+#
+bind		pager		R						group-reply

@@ -1,0 +1,52 @@
+# enable sidebar
+set sidebar_visible
+# defaults for how to open attachments
+set mailcap_path = ~/.mutt/mailcap # defines how to open different mime types
+# to atomaticly view content of this mime type in the "pager"
+auto_view text/html
+auto_view text/calendar
+auto_view image/jpeg
+set allow_ansi
+
+## More settings
+
+# File storage settings
+
+set signature="~/.mutt/signature"
+set message_cachedir="~/.mutt/message_cache"
+set header_cache="~/.mutt/header_cache"
+set tmpdir="~/.mutt/tmp"
+set certificate_file 	= ~/.mutt/certificates  # where to store certs
+
+# Text view first
+set pager_stop="yes"
+set smart_wrap="yes"
+alternative_order text/plain
+auto_view text/html
+set reverse_name=yes
+set reverse_realname=yes
+
+# Text editor
+set editor="vim"
+# no '+' for wrapped lines
+set markers=no
+
+# Adress book handling
+set sort_alias=alias
+set reverse_alias=yes
+set alias_file="~/.mutt/aliases"
+source "~/.mutt/aliases"
+source "~/.mutt/mailing_lists"
+
+# Thread ordering
+set sort = 'threads'
+set sort_browser="reverse-date"
+set sort_aux="last-date-received"
+unset collapse_unread
+set index_format=" %?M?   ↳&%4C?   %Z      %D     %-15.15n    %s"
+
+# Header Options -------------------------------------
+ignore *                                # ignore all headers
+unignore from: to: cc: date: subject:   # show only these
+unhdr_order *                           # some distros order things by default
+hdr_order from: to: cc: date: subject:  # and in this order

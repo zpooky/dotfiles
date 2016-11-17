@@ -69,7 +69,7 @@ sudo apt-get  -y  install python-sqlite
 sudo apt-get  -y  install python-vobject
 sudo apt-get  -y  installpython-gnomekeyring
 sudo apt-get  -y  install ranger caca-utils highlight atool w3m poppler-utils mediainfo
-
+sudo apt-get  -y  install ncurses-term
 
 stop_feature "apt-get install"
 
@@ -82,17 +82,23 @@ sudo -H python3.5 `which pip` install keyring
 stop_feature "update pip"
 
 # keyring
-## work host
-## work port 993
-## work username
-## work email
-## work password
+## work host <outlook.office365.com>
+## work port <993>
+## work username <>
+## work email <>
+## work password <>
+## work domain <> mail_name@domain.com
+## work realname <>
+## work mail_name mail_name@domain.com
 
-# vdirsyncer
+## personal username vdirsyncer-148507@appspot.gserviceaccount.com
+## personal password
+
+# vdirsyncer - sync calendar events to disk
 VDIR_FEATURE=$FEATURE_HOME/vdirsyncer
 if [ ! -e "$VDIR_FEATURE" ]; then
   start_feature "vdirsyncer" 
-  ## oauth support for googlecalendar
+
   sudo -H python3.5 `which pip` install requests requests_oauthlib
   
   ## install

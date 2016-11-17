@@ -1,0 +1,55 @@
+## Basic configuration
+
+set query_command="lbdbq %s"
+source "~/.mutt/user_work"
+
+# Loading language properties
+
+source "~/.mutt/lang/$my_lang"
+
+## Server config
+
+# SMTP config
+
+source "$HOME/.mutt/smtp"
+
+## More settings
+
+#set spoolfile = "+mail.com/INBOX"
+#set spoolfile = "+work"
+set spoolfile = "+/"
+#where to put send mails
+set record = "~/.mail/work/Sent_Items"
+
+
+# File storage settings
+
+set mbox_type=maildir
+set my_mail_root="~/.mail/work"
+
+set mbox=$my_mail_root/inbox/
+set spoolfile=$my_mail_root/inbox/
+set folder="~/.mail/"
+
+#mailboxes +work
+mailboxes "+work/inbox" \
+          +work/Drafts \
+          +work/Sent_Items \
+					+work/INBOX.*"
+
+## Common
+
+source ~/.mutt/common
+
+## Key bindings
+
+source ~/.mutt/keymaps
+
+# Colors
+
+source ~/.mutt/colors
+#source $HOME/.mutt/mutt-colors-solarized/mutt-colors-solarized-dark-256.muttrc
+
+# Status Bar -----------------------------------------
+set status_chars  = " *%A"
+set status_format = "---[ Folder: %f ]---[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]---%>-%?p?( %p postponed )?---"

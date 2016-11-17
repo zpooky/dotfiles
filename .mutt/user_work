@@ -1,0 +1,5 @@
+set my_realname="`~/dotfiles/lib/keyring-helper.py work realname`"
+set my_username="`~/dotfiles/lib/keyring-helper.py work mail_name`"
+set my_domain="`~/dotfiles/lib/keyring-helper.py work domain`"
+set my_password="`~/dotfiles/lib/keyring-helper.py work password`"
+set my_lang="en_US"

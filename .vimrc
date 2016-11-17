@@ -1,39 +1,58 @@
+" pathogen plugin manager
+execute pathogen#infect()
+
 " Tagbar
 let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
+
 " general
-" set number
+" set cursorline                    " Higlight current line
 let mapleader = "\<Space>"        " map leader to  <space>
 set relativenumber                " relative line numbers
+set number                        " both relative and absolute number
 set incsearch                     " search wile you type
 set ic
 set hls
-syntax on                         " Highlight the syntax.
+
 " language
 set spelllang=en_us               " Specify the spell checking language.
 set nospell                       " Disable spell checking by default.
+
+" theme
+syntax on                         " Highlight the syntax.
+" if has('gui_running')
+"     set background=light
+" else
+"     set background=dark
+" endif 
+" colorscheme solarized
+" let g:solarized_termcolors=256
+" set t_Co=256
+
 "
 set ruler                         " Display the ruler.
-" tabbs
+" Tab config
 set tabstop=2
 set shiftwidth=2
 set expandtab
-" pathogen plugin manager
-execute pathogen#infect()
+
 " file type specific indentention support 
 filetype plugin on                " Enable file type plug-ins
 filetype on                       " Enable file type detection
 set smartindent                   " smart indentation
 " vim2hs
 let g:haskell_conceal_wide = 1
+
 " syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+
 " syntastic conf
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
 "syntastic c++
 let g:syntastic_cpp_compiler = "gcc"
 " let g:syntastic_cpp_compiler = 'clang++'
@@ -64,12 +83,17 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
 " ctags - look in the current directory for 'tags',
 " and work up the tree towards root until one is found
 set tags=./.tags;/
-map <silent> <F3> <c-]> " open tag
-map <silent> <A-Left> <c-t> " previous 
+" open tag
+map <silent> <F3> <c-]>
+" open tag in vertical split
+map <silent> <leader><F3> <a-]>
+" previous 
+map <silent> <A-Left> <c-t>
 
 " TComment
 nmap <leader>c :TComment<CR>
 nmap <leader>= :TCommentBlock<CR>
+
 " Tcomment visual
 vmap <leader>c :TComment<CR>
 vmap <leader>= :TCommentBlock<CR>
@@ -93,17 +117,28 @@ noremap <silent> <leader>r <Esc>:CommandT<CR>
 " noremap <silent> <leader>O <Esc>:CommandTFlush<CR>
 noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
 noremap <silent> <leader>. :CommandTTag<cr>
+
 ":CommandTMRU
 
 " Alias
-nnoremap <leader>w :wa<CR>  " Alternative save with <leader>+w
-map <silent> å <PageUp>     " map å to page up
-map <silent> ä <PageDown>   " map ä to page down
+" set pastetoggle=<F2>
+
+" Alternative save with <leader>+w
+nnoremap <leader>w :wa<CR>
+" map å to page up
+map <silent> å <PageUp>
+" map ä to page down
+map <silent> ä <PageDown>
+
 " navigate between panes
-map <silent> <leader><Left> <C-W><Left>   " pane Left
-map <silent> <leader><Right> <C-W><Right> " pane Right
-map <silent> <leader><Up> <C-W><Up>       " pane Up
-map <silent> <leader><Down> <C-W><Down>   " pane Down
+" pane Left
+map <silent> <leader><Left> <C-W><Left>
+" pane Right
+map <silent> <leader><Right> <C-W><Right>
+" pane Up
+map <silent> <leader><Up> <C-W><Up>
+" pane Down
+map <silent> <leader><Down> <C-W><Down>
 " new line above and below without entering insert mode
 map <silent> <leader>o o<esc>
 map <silent> <leader>O O<esc>
@@ -123,9 +158,14 @@ set title                " change the terminal's title
 set novisualbell         " don't beep
 set noerrorbells         " don't beep
 "
-set nobackup
-set noswapfile
-map q: :q                " Stop that stupid window from popping up
+
+set nobackup            " no bak
+set noswapfile          " no swap
+set autoread            " auto reload when changes
+
+" Stop that stupid window from popping up
+map q: :q
+
 "
 au BufNewFile,BufRead *.md set ft=markdown
 au FileType markdown,python set ts=2 sw=2 expandtab
