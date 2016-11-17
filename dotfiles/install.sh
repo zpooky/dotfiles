@@ -178,3 +178,14 @@ if [ ! -e $MUTT_FEATURE ]; then
   # TODO fix
   stop_feature "mutt"
 fi
+
+# bashrc
+BASHRC_FEATURE=$FEATURE_HOME/bashrc
+if [ ! -e $BASHRC_FEATURE ]; then
+  start_feature "bashrc"
+
+  echo 'source ~/dotfiles/extrarc' >> ~/.bashrc
+
+  touch $BASHRC_FEATURE
+  stop_feature "bashrc"
+fi
