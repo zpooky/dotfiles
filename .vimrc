@@ -21,11 +21,12 @@ set nospell                       " Disable spell checking by default.
 syntax on                         " Highlight the syntax.
 " if has('gui_running')
 "     set background=light
+"let g:solarized_contrast="high"
 " else
 "     set background=dark
 " endif 
 " colorscheme solarized
-" let g:solarized_termcolors=256
+" let g:solarized_termcolors = 256
 " set t_Co=256
 
 "
@@ -155,10 +156,12 @@ set history=1000         " remember more commands and search history
 set undolevels=1000      " use many levels of undo
 set wildignore=*.swp,*.bak,*.pyc,*.class
 set title                " change the terminal's title
+
+"
 set novisualbell         " don't beep
 set noerrorbells         " don't beep
-"
 
+"
 set nobackup            " no bak
 set noswapfile          " no swap
 set autoread            " auto reload when changes

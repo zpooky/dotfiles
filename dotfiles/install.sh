@@ -199,3 +199,34 @@ if [ ! -e $BASHRC_FEATURE ]; then
   touch $BASHRC_FEATURE
   stop_feature "bashrc"
 fi
+
+# stdman
+# example man std::vector
+STDMAN_FEATURE=$FEATURE_HOME/stdman
+if [ ! -e $STDMAN_FEATURE ]; then
+  start_feature "stdman"
+  
+  STDMAN_ROOT=$USER_BIN/stdman
+  rm -rf $STDMAN_ROOT
+
+  git clone https://github.com/jeaye/stdman.git $STDMAN_ROOT
+  if [ -e $STDMAN_ROOT ]; then
+    PREV_DIR=`pwd`
+
+    cd $STDMAN_ROOT
+    ./configure
+
+    RET=$?
+    if [ $RET -eq 0 ];then
+      sudo make install
+
+      RET=$?
+      if [ $RET -eq 0 ];then
+        touch $STDMAN_FEATURE
+        sudo mandb
+        stop_feature "stdman"
+      fi
+     fi
+     cd $PREV_DIR
+   fi
+fi
