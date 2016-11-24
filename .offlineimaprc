@@ -25,10 +25,11 @@ maxconnections = 4
 type = IMAP
 ssl = yes
 sslcacertfile = ~/.mutt/certificates/cacert.pem
-remotehost = get_password("work", "host")
-remoteuser = get_password("work", "email")
+# note: eval invokes py function
+remotehosteval = get_password("work", "host")
+remoteusereval = get_password("work", "email")
 remotepasseval = get_password("work", "password")
-remoteport = get_password("work", "port")
+remoteporteval = get_password("work", "port")
 nametrans = lambda folder: {'INBOX': 'inbox',
                             'elx': 'elx',
 														'Sent Items': 'Sent_Items',
