@@ -10,6 +10,9 @@ echo 'export DBUS_SESSION_BUS_ADDRESS' >> $HOME/.Xdbus
 # git ps line
 source ~/.git-prompt.sh
 
+#
+[[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
+
 # alias
 alias sp-khal='khal calendar --format="{red-bold}{start-time}{reset}-{green-bold}{end-time}{reset} {calendar-color}{title}{reset}{yellow}{repeat-symbol}{reset} [{cyan}{location}{reset}][{magenta}{calendar}{reset}]"'
 alias sp-sync='~/dotfiles/lib/keypass_cron.sh ~/dotfiles/lib/offlineimap_cron.sh; ~/dotfiles/lib/vdirsyncer_cron.sh'
