@@ -1,6 +1,6 @@
 [calendars]
 [[private]]
-path = ~/.calendars/work/
+path = ~/.calendars/work/calendar
 type = calendar
 
 [locale]
