@@ -10,7 +10,7 @@ def get_password(keyring_name, key):
 		if display_name == key:
 			secret = gkey.item_get_info_sync(keyring_name,id).get_secret()
 			return secret
-	raise Exception("no credential found")
+	raise Exception("no credential found:"+ keyring_name + '|' + key)
 
 
 

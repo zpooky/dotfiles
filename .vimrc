@@ -55,13 +55,14 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 "syntastic c++
-let g:syntastic_cpp_compiler = "gcc"
+let g:syntastic_cpp_compiler = 'gcc'
 " let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_cpp_compiler_options = "-std=c++14 -Wall -Wextra -Wpedantic"
 " let g:syntastic_cpp_compiler_options = ' -std=c++14 -stdlib=libc++'
 let g:syntastic_cpp_check_header = 1
 "let g:syntastic_cpp_checkers=["clang_check","g++","cpp_check"]
-let g:syntastic_cpp_checkers=["gcc","cppcheck"]
+let g:syntastic_cpp_checkers=["gcc","cppcheck","cpplint"]
+let g:syntastic_cppcheck_config_file="~/.syntastic_cppcheck_config"
 
 " YouCompleteMe
 let g:ycm_show_diagnostics_ui = 0
@@ -78,8 +79,8 @@ let g:clang_format#style_options = {
             \ "AllowShortFunctionsOnASingleLine" : "None",
             \ "BasedOnStyle" : "LLVM"}
 " clang format - map to <Leader>cf in C++ code(\cf)
-autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
-autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
+autocmd FileType c,cpp,objc nnoremap <buffer><Leader>f :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,objc vnoremap <buffer><Leader>f :ClangFormat<CR>
 
 " ctags - look in the current directory for 'tags',
 " and work up the tree towards root until one is found

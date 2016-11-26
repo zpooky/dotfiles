@@ -20,8 +20,8 @@ type = "caldav"
 read_only = true
 url.fetch = ["command", "~/dotfiles/lib/davmail-url.sh", "work", "email"]
 username.fetch = ["command", "~/dotfiles/lib/keyring-helper.py", "work", "email"]
-#password =	"ss" 
 password.fetch = ["command", "~/dotfiles/lib/keyring-helper.py", "work", "password"]
+#password =	"ss" 
 #password.fetch = ["prompt", "Password for CalDAV"]
 
 

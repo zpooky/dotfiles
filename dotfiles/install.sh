@@ -5,6 +5,7 @@ USER_BIN=~/bin
 USER=`whoami`
 GROUP=$USER
 FEATURE_HOME=$DOTFILES_HOME/features
+KERNEL_VERSION="`uname -r`"
 
 function echoerr() { echo "$@" 1>&2; }
 
@@ -51,10 +52,26 @@ if [ ! -e $USER_BIN ]; then
 fi
 
 # submodules
-start_feature "submodules"
+start_feature "vim"
 git submodule update --init --recursive
-stop_feature "submodules"
+VIM_AUTOLOAD=~/.vim/autoload
+if [ ! -e $VIM_AUTOLOAD ]; then
+  mkdir $VIM_AUTOLOAD
+fi
+PATHOGEN_AUTLOAD=$VIM_AUTOLOAD/pathogen.vim
+if [ ! -e $PATHOGEN_AUTLOAD ]; then
+  PATHOGEN_VIM=~/.pathogen/vim-pathogen/autoload/pathogen.vim
+  ln -s $PATHOGEN_VIM $PATHOGEN_AUTLOAD
+fi
+stop_feature "vim"
 
+# update
+start_feature "update pip"
+
+sudo -H python3.5 `which pip` install --upgrade pip
+sudo -H python3.5 `which pip` install keyring
+
+stop_feature "update pip"
 # apps
 start_feature "apt-get install"
 
@@ -70,16 +87,12 @@ sudo apt-get  -y  install python-vobject
 sudo apt-get  -y  installpython-gnomekeyring
 sudo apt-get  -y  install ranger caca-utils highlight atool w3m poppler-utils mediainfo
 sudo apt-get  -y  install ncurses-term
+# cpp
+sudo apt-get  -y install cppcheck 
+sudo apt-get  -y install cmake
+sudo -H pip install cpplint
 
 stop_feature "apt-get install"
-
-# update
-start_feature "update pip"
-
-sudo -H python3.5 `which pip` install --upgrade pip
-sudo -H python3.5 `which pip` install keyring
-
-stop_feature "update pip"
 
 # keyring
 ## work host <outlook.office365.com>
@@ -93,6 +106,7 @@ stop_feature "update pip"
 
 ## personal username vdirsyncer-148507@appspot.gserviceaccount.com
 ## personal password
+## personal email
 
 # vdirsyncer - sync calendar events to disk
 VDIR_FEATURE=$FEATURE_HOME/vdirsyncer
@@ -172,6 +186,13 @@ fi
 # offlineimap - offline mail sync
 OFFLINEIMAP_FEATURE=$FEATURE_HOME/offlineimap
 if [ ! -e $OFFLINEIMAP_FEATURE ]; then
+  # 1. create project in https://console.developers.google.com/iam-admin/projects
+  # 2. add permissions https://console.developers.google.com/apis/api/
+  # - gmail API
+  # - Calendar API
+  # - CalDAV API?
+  # 3. Credentials > Oath Constant Screen > Product name > Save
+  # 4. Crednetials > Create credential > oath client id
   start_feature "offlineimap"
 
   sudo apt-get -y install offlineimap
@@ -179,14 +200,6 @@ if [ ! -e $OFFLINEIMAP_FEATURE ]; then
 
   touch $OFFLINEIMAP_FEATURE
   stop_feature "offlineimap"
-fi
-
-# mutt - mail client reads mail from disk
-MUTT_FEATURE=$FEATURE_HOME/mutt
-if [ ! -e $MUTT_FEATURE ]; then
-  start_feature "mutt"
-  # TODO fix
-  stop_feature "mutt"
 fi
 
 # bashrc
