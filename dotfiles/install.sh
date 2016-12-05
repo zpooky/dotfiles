@@ -126,13 +126,15 @@ if [ ! -e "$VDIR_FEATURE" ]; then
 fi
 
 # khal - interface to display calendar
-KHAL_HOME=$FEATURE_HOME/khal
-if [ ! -e $KHAL_HOME ]; then
+KHAL_FEATURE=$FEATURE_HOME/khal1
+if [ ! -e $KHAL_FEATURE ]; then
   start_feature "khal"
-  ## 
+  # clear buggy cache
+  rm ~/.local/share/khal/khal.db 
+  # install/update
   sudo -H python3.5 `which pip` install git+https://github.com/pimutils/khal
   
-  touch $KHAL_HOME
+  touch $KHAL_FEATURE
   stop_feature "khal"
 fi
 

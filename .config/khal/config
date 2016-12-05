@@ -1,7 +1,21 @@
 [calendars]
-[[private]]
+[[work]]
 path = ~/.calendars/work/calendar
 type = calendar
+color = dark blue
+readonly = true
+
+[[personal]]
+path = ~/.calendars/personal
+type = calendar
+color = yellow
+readonly = true
+
+[[red]]
+path = ~/.calendars/red
+type = calendar
+color = dark red
+readonly = true
 
 [locale]
 timeformat = %H:%M
@@ -9,3 +23,12 @@ dateformat = %Y-%m-%d
 longdateformat = %Y-%m-%d
 datetimeformat = %Y-%m-%d %H:%M
 longdatetimeformat = %Y-%m-%d %H:%M
+weeknumbers = left
+firstweekday = 0
+
+[default]
+default_command= calendar
+default_calendar= work
+show_all_days= true
+highlight_event_days= true
+timedelta= 7d
