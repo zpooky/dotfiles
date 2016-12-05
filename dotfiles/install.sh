@@ -78,6 +78,7 @@ start_feature "apt-get install"
 sudo apt update
 sudo apt      -y  install tmux htop
 sudo apt-get  -y  install python3.5
+sudo apt-get  -y  install sqlite3
 sudo apt-get  -y  install w3m
 sudo apt-get  -y  install feh
 sudo apt-get  -y  install antiword
@@ -100,13 +101,13 @@ stop_feature "apt-get install"
 ## work username <>
 ## work email <>
 ## work password <>
-## work domain <> mail_name@domain.com
+## work domain <> mail_name@*domain*.com
 ## work realname <>
-## work mail_name mail_name@domain.com
+## work mail_name *mail_name*@domain.com
 
-## personal username vdirsyncer-148507@appspot.gserviceaccount.com
 ## personal password
 ## personal email
+## personal cal_ical #gmail > settings > ... > copy private cal url
 
 # vdirsyncer - sync calendar events to disk
 VDIR_FEATURE=$FEATURE_HOME/vdirsyncer
