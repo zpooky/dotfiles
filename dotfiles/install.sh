@@ -109,10 +109,6 @@ sudo apt-get  -y install cppcheck
 sudo apt-get  -y install cmake
 
 start_feature "apt-get install keepass"
-# keepass
-sudo apt-add-repository ppa:jtaylor/keepass
-sudo apt-get update
-sudo apt-get -y install keepass2
 
 start_feature "pip install cpp"
 sudo -H pip install cpplint
@@ -270,3 +266,133 @@ if [ ! -e $STDMAN_FEATURE ]; then
      cd $PREV_DIR
    fi
 fi
+
+# bcc tools containging kernel debug stuff
+BCC_FEATURE=$FEATURE_HOME/bcc
+if [ ! -e $BCC_FEATURE ]; then
+  if [ $KERNEL_VERSION != ^3.* ]; then
+     start_feature "bcc"
+
+     # https://github.com/iovisor/bcc/blob/master/INSTALL.md
+     echo "deb [trusted=yes] https://repo.iovisor.org/apt/xenial xenial-nightly main" | sudo tee /etc/apt/sources.list.d/iovisor.list
+     sudo apt-get update
+     sudo apt-get -y install bcc-tools
+
+     touch $BCC_FEATURE
+     stop_feature "bcc"
+  fi
+fi
+
+# slang (mutt dependency)
+SLANG_DEP=slang-2.3.1
+SLANG_FEATURE=$FEATURE_HOME/$SLANG_DEP
+if [ ! -e $SLANG_FEATURE ]; then
+  start_feature "slang"
+
+  PREV_DIR=`pwd`
+  SLANG_TAR=$SLANG_DEP.tar.bz2
+  SLANG_TAR_PATH=$USER_BIN/$SLANG_TAR
+  SLANG_INSTALL_PATH=$USER_BIN/$SLANG_DEP
+
+  if [ -e $SLANG_INSTALL_PATH ]; then
+    rm -rf $SLANG_INSTALL_PATH
+  fi
+
+  wget "http://www.jedsoft.org/releases/slang/$SLANG_TAR" -O $SLANG_TAR_PATH
+  RET=$?
+  if [ $RET -eq 0 ];then
+    tar -xvf $SLANG_TAR_PATH --directory=$USER_BIN
+    RET=$?
+    rm $SLANG_TAR_PATH
+    if [ $RET -eq 0 ];then 
+      cd $SLANG_INSTALL_PATH
+      ./configure --prefix=/usr \
+            --sysconfdir=/etc \
+            --with-readline=gnu
+      RET=$?
+      if [ $RET -eq 0 ]; then
+        make -j1
+        RET=$?
+        if [ $RET -eq 0 ]; then
+          sudo make install
+          RET=$?
+          if [ $RET -e 0 ]; then
+            stop_feature "slang"
+            touch $SLANG_FEATURE
+          fi
+        fi
+      fi
+    fi
+  fi
+  cd $PREV_DIR
+fi
+
+# mutt
+MUTT_DIR=mutt-1.7.2
+MUTT_FEATURE=$FEATURE_HOME/$MUTT_DIR
+if [ ! -e $MUTT_FEATURE ]; then
+  start_feature "mutt"
+  
+  PREV_DIR=`pwd`
+  MUTT_TAR=$MUTT_DIR.tar.gz
+  MUTT_INSTALL_ROOT=$USER_BIN/$MUTT_DIR
+  MUTT_TAR_PATH=$USER_BIN/$MUTT_TAR
+
+  if [ -e $MUTT_INSTALL_ROOT ]; then
+    rm -rf $MUTT_INSTALL_ROOT
+  fi
+  
+  cd $USER_BIN
+  wget "ftp://ftp.mutt.org/pub/mutt/$MUTT_TAR" -O $MUTT_TAR_PATH
+  RET=$?
+  if [ $RET -eq 0 ];then
+     tar -xzvf $MUTT_TAR_PATH --directory=$USER_BIN
+     rm $MUTT_TAR_PATH
+
+     # touch $MUTT_FEATURE
+     stop_feature "mutt"
+  fi
+  cd $PREV_DIR
+fi
+# TODO clang
+
+# git
+GIT_CONFIG_FEATURE=$FEATURE_HOME/gitconfig1
+if [ ! -e $GIT_CONFIG_FEATURE ]; then
+  start_feature "git config"
+
+  # TODO fetch from keychain
+  git config --global user.name ""
+  git config --global user.email ""
+  git config --global core.editor vim
+
+  git config --global alias.st status
+  git config --global alias.tree "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+  
+  touch $GIT_CONFIG_FEATURE
+
+  stop_feature "git config"
+fi
+
+# keepass
+FEATURE=$FEATURE_HOME/keepass1
+if [ ! -e $FEATURE ]; then
+  start_feature "keepass"
+
+  #keepass
+  sudo apt-add-repository -y ppa:jtaylor/keepass
+  sudo apt-get update
+  sudo apt-get -y install keepass2
+
+  touch $FEATURE
+  stop_feature "keepass"
+fi
+# # less colors
+# LESS_COLORS_FEATURE=$FEATURE_HOME/lesscolors
+# if [ ! -e $LESS_COLORS_FEATURE ]; then
+#   start_feature "lesscolors"
+# 
+# 
+#   touch $LESS_COLORS_FEATURE
+#   stop_feature "lesscolors"
+# fi
