@@ -83,6 +83,7 @@ sudo apt-get  -y  install python3.5
 sudo apt-get  -y  install python-sqlite
 sudo apt-get  -y  install python-vobject
 sudo apt-get  -y  install python-gnomekeyring
+sudo apt-get install build-essential python-dev
 
 start_feature "apt-get install tools"
 sudo apt      -y  install tmux htop
@@ -386,6 +387,26 @@ if [ ! -e $FEATURE ]; then
 
   touch $FEATURE
   stop_feature "keepass"
+fi
+
+# git You Complete Me
+FEATURE=$FEATURE_HOME/YouCompleteMe1
+if [ ! -e $FEATURE ]; then
+  start_feature "YouCompleteMe"
+
+  PREV_DIR=`pwd`
+
+  cd ~/.vim/bundle/YouCompleteMe/
+  ./install.sh --clang-completer
+  RET=$?
+
+  if [ $RET -eq 0 ];then
+    touch $FEATURE
+  fi
+  
+  cd $PREV_DIR
+
+  stop_feature "YouCompleteMe"
 fi
 # # less colors
 # LESS_COLORS_FEATURE=$FEATURE_HOME/lesscolors

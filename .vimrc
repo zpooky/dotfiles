@@ -10,12 +10,15 @@ let mapleader = "\<Space>"        " map leader to  <space>
 set relativenumber                " relative line numbers
 set number                        " both relative and absolute number
 set incsearch                     " search wile you type
-set ic
-set hls
+set ic                            " ignore case when searching
+set hls                           " highligt search?
 
 " language
 set spelllang=en_us               " Specify the spell checking language.
 set nospell                       " Disable spell checking by default.
+"
+scriptencoding utf-8
+set encoding=utf-8
 
 " theme
 syntax on                         " Highlight the syntax.
@@ -30,11 +33,20 @@ syntax on                         " Highlight the syntax.
 " set t_Co=256
 
 "
-set ruler                         " Display the ruler.
+set nowrap        " don't wrap lines
+set backspace=indent,eol,start " allow backspacing over everything in insert mode
+set shiftwidth=2  " number of spaces to use for autoindenting
+set smarttab      " insert tabs on the start of a line according to shiftwidth, not tabstop
+"
+set ruler                         " Display the ruler
 " Tab config
 set tabstop=2
 set shiftwidth=2
 set expandtab
+
+"
+set autoindent    " always set autoindenting on
+set copyindent    " copy the previous indentation on autoindenting
 
 " file type specific indentention support 
 filetype plugin on                " Enable file type plug-ins
@@ -68,6 +80,7 @@ let g:syntastic_cppcheck_config_file="~/.syntastic_cppcheck_config"
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_confirm_extra_conf = 0                  " disable confirm
+" let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra'
 
 hi clear SpellBad
 hi SpellBad cterm=underline
@@ -109,10 +122,18 @@ cmap <silent> <F10> <ESC>:TagbarToggle<CR>
 map <silent> <F8> :NERDTreeToggle<CR>
 imap <silent> <F8> <ESC>:NERDTreeToggle<CR>
 cmap <silent> <F8> <ESC>:NERDTreeToggle<CR>
+let NERDTreeIgnore = [
+    \ '\.pyc$',
+    \ '\.class$',
+    \ '\.cm\(x\(a\)\?\|i\|t\)$',
+    \ '\.sp\(o\|i\)t$',
+    \ '\.o\(\(pt\|mc\)\)\=$',
+\ '\.annot$'] " Ignores
 
 let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
+let NERDTreeShowHidden=1  " show hidden dotfiles
 
 " CommandT
 noremap <silent> <leader>r <Esc>:CommandT<CR>
@@ -147,8 +168,10 @@ nnoremap <leader>s :vsplit<enter>
 
 
 " new line above and below without entering insert mode
-map <silent> <leader>o o<esc>
-map <silent> <leader>O O<esc>
+" To preserve identation vanilla 'o' adds indentation, add single char and the
+" remove it
+map <silent> <leader>o ox<esc>x
+map <silent> <leader>O Ox<esc>x
 
 " insert character(space+*char*)
 " nmap <Space> i_<Esc>r " Need to have another than space it is now the leadr
@@ -171,6 +194,11 @@ set noerrorbells         " don't beep
 set nobackup            " no bak
 set noswapfile          " no swap
 set autoread            " auto reload when changes
+
+" Get rid of nasty lag on ESC (timeout and ttimeout seem useless) sp??
+au InsertEnter * set timeoutlen=1
+au InsertLeave * set timeoutlen=1000
+set timeoutlen=1000 ttimeoutlen=0
 
 " Stop that stupid window from popping up
 map q: :q
