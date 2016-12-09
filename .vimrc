@@ -101,14 +101,14 @@ vmap <leader>c :TComment<CR>
 vmap <leader>= :TCommentBlock<CR>
 
 " tagbar
-nmap <silent> <F8> :TagbarToggle<CR>
-imap <silent> <F8> <ESC>:TagbarToggle<CR>
-cmap <silent> <F8> <ESC>:TagbarToggle<CR>
+nmap <silent> <F10> :TagbarToggle<CR>
+imap <silent> <F10> <ESC>:TagbarToggle<CR>
+cmap <silent> <F10> <ESC>:TagbarToggle<CR>
 
 " nerdtree
-map <silent> <F10> :NERDTreeToggle<CR>
-imap <silent> <F10> <ESC>:NERDTreeToggle<CR>
-cmap <silent> <F10> <ESC>:NERDTreeToggle<CR>
+map <silent> <F8> :NERDTreeToggle<CR>
+imap <silent> <F8> <ESC>:NERDTreeToggle<CR>
+cmap <silent> <F8> <ESC>:NERDTreeToggle<CR>
 
 let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeMinimalUI = 1
@@ -141,6 +141,11 @@ map <silent> <leader><Right> <C-W><Right>
 map <silent> <leader><Up> <C-W><Up>
 " pane Down
 map <silent> <leader><Down> <C-W><Down>
+
+" Create vertical pane
+nnoremap <leader>s :vsplit<enter>
+
+
 " new line above and below without entering insert mode
 map <silent> <leader>o o<esc>
 map <silent> <leader>O O<esc>

@@ -73,24 +73,48 @@ sudo -H python3.5 `which pip` install keyring
 
 stop_feature "update pip"
 # apps
-start_feature "apt-get install"
 
+start_feature "apt-get update"
 sudo apt update
-sudo apt      -y  install tmux htop
+
+start_feature "apt-get install python"
+
 sudo apt-get  -y  install python3.5
-sudo apt-get  -y  install sqlite3
+sudo apt-get  -y  install python-sqlite
+sudo apt-get  -y  install python-vobject
+sudo apt-get  -y  install python-gnomekeyring
+
+start_feature "apt-get install tools"
+sudo apt      -y  install tmux htop
+sudo apt      -y  install wget
 sudo apt-get  -y  install w3m
 sudo apt-get  -y  install feh
 sudo apt-get  -y  install antiword
 sudo apt-get  -y  install catdoc
-sudo apt-get  -y  install python-sqlite
-sudo apt-get  -y  install python-vobject
-sudo apt-get  -y  installpython-gnomekeyring
 sudo apt-get  -y  install ranger caca-utils highlight atool w3m poppler-utils mediainfo
 sudo apt-get  -y  install ncurses-term
+sudo apt-get  -y  install sqlite3
+
+start_feature "apt-get install libs"
+sudo apt-get  -y  install openssl
+
+start_feature "apt-get install gnu stuff"
+# The package libreadline is for running applications using readline command
+# and the package libreadline-dev is for compiling and building readline application.
+sudo apt-get  -y  install libreadline6 libreadline6-dev
+
+start_feature "apt-get install cpp stuff"
 # cpp
 sudo apt-get  -y install cppcheck 
 sudo apt-get  -y install cmake
+
+start_feature "apt-get install keepass"
+# keepass
+sudo apt-add-repository ppa:jtaylor/keepass
+sudo apt-get update
+sudo apt-get -y install keepass2
+
+start_feature "pip install cpp"
 sudo -H pip install cpplint
 
 stop_feature "apt-get install"
