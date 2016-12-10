@@ -1,6 +1,12 @@
 " pathogen plugin manager
 execute pathogen#infect()
 
+"
+if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal"
+  set t_Co=256
+  " let g:solarized_termcolors = 256
+endif
+
 " Tagbar
 let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
 
@@ -9,28 +15,31 @@ let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
 let mapleader = "\<Space>"        " map leader to  <space>
 set relativenumber                " relative line numbers
 set number                        " both relative and absolute number
+set nocompatible                  " Turn off vi compatibility.
+" set mouse=a                       " Enables scrolling in the terminal.
+
+" search
 set incsearch                     " search wile you type
+set smartcase                     " Case insensitive search, except when capital letters are used.
 set ic                            " ignore case when searching
 set hls                           " highligt search?
 
 " language
-set spelllang=en_us               " Specify the spell checking language.
+set spelllang=en_gb,sv              " Specify the spell checking language.
 set nospell                       " Disable spell checking by default.
 "
 scriptencoding utf-8
 set encoding=utf-8
 
 " theme
-syntax on                         " Highlight the syntax.
+syntax enable                         " Highlight the syntax.
+" colorscheme solarized
 " if has('gui_running')
 "     set background=light
-"let g:solarized_contrast="high"
+" let g:solarized_contrast="high"
 " else
 "     set background=dark
 " endif 
-" colorscheme solarized
-" let g:solarized_termcolors = 256
-" set t_Co=256
 
 "
 set nowrap        " don't wrap lines
@@ -65,6 +74,18 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_loc_list_height=5 " height of error split
+
+"
+let g:syntastic_error_symbol = '❌'
+let g:syntastic_style_error_symbol = '⁉️'
+let g:syntastic_warning_symbol = '⚠️'
+let g:syntastic_style_warning_symbol = '💩'
+
+highlight link SyntasticErrorSign SignColumn
+highlight link SyntasticWarningSign SignColumn
+highlight link SyntasticStyleErrorSign SignColumn
+highlight link SyntasticStyleWarningSign SignColumn
 
 "syntastic c++
 let g:syntastic_cpp_compiler = 'gcc'

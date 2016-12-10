@@ -430,6 +430,7 @@ fi
 # powerline
 FEATURE=$FEATURE_HOME/powerline1
 if [ ! -e $FEATURE ]; then
+  # http://askubuntu.com/questions/283908/how-can-i-install-and-use-powerline-plugin
   start_feature "powerline"
 
   PREV_DIR=`pwd`

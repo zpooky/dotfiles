@@ -5,7 +5,7 @@ env | grep DBUS_SESSION_BUS_ADDRESS > $HOME/.Xdbus
 echo 'export DBUS_SESSION_BUS_ADDRESS' >> $HOME/.Xdbus
 
 # using terminal emulator xterm with 256 color support
-# TERM=xterm-256color
+TERM=xterm-256color
 
 # git ps line
 source ~/.git-prompt.sh
