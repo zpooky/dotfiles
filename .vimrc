@@ -228,3 +228,8 @@ let g:autotagTagsFile=".tags" " the ctag file name
 autocmd FileType c,cpp,objc,h map <silent> <F2> :A<CR>
 " open source or header in vertical split
 autocmd FileType c,cpp,objc,h map <silent> <leader><F2> :AV<CR>
+
+" Powerline
+set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
+" Always show statusline
+set laststatus=2
