@@ -62,9 +62,6 @@ if [ ! -e $GIT_CONFIG_FEATURE ]; then
   stop_feature "git config"
 fi
 
-echo "Enter sudo password"
-sudo echo "start" || exit 1
-
 # setup directory structure
 if [ ! -e $USER_BIN ]; then
   mkdir $USER_BIN || exit 1
@@ -83,6 +80,9 @@ if [ ! -e $PATHOGEN_AUTLOAD ]; then
   ln -s $PATHOGEN_VIM $PATHOGEN_AUTLOAD
 fi
 stop_feature "vim"
+
+echo "Enter sudo password"
+sudo echo "start" || exit 1
 
 # update
 start_feature "update pip"
