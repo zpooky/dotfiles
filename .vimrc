@@ -178,7 +178,10 @@ map <silent> å <PageUp>
 " map ä to page down
 map <silent> ä <PageDown>
 
-" navigate between panes
+" resize split
+map <silent> <leader>- <C-W><
+map <silent> <leader>+ <C-W>>
+" navigate between splits
 " pane Left
 map <silent> <leader><Left> <C-W><Left>
 " pane Right
