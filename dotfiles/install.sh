@@ -1,7 +1,8 @@
 #!/bin/bash
-DOTFILES_HOME=~/dotfiles
+THE_HOME=~
+DOTFILES_HOME=$THE_HOME/dotfiles
 DOTFILES_LIB=$DOTFILES_HOME/lib
-USER_BIN=~/bin
+USER_BIN=$THE_HOME/bin
 USER=`whoami`
 GROUP=$USER
 FEATURE_HOME=$DOTFILES_HOME/features
@@ -44,6 +45,24 @@ function install_cron(){
   rm $CRON_FILE
 }
 
+GIT_CONFIG_FEATURE=$FEATURE_HOME/gitconfig1
+if [ ! -e $GIT_CONFIG_FEATURE ]; then
+  start_feature "git config"
+
+  # TODO fetch from keychain
+  git config --global user.name "Fredrik Olsson"
+  git config --global user.email "spooky.bender@gmail.com"
+  git config --global core.editor vim
+
+  git config --global alias.st status
+  git config --global alias.tree "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+  
+  touch $GIT_CONFIG_FEATURE
+
+  stop_feature "git config"
+fi
+
+echo "Enter sudo password"
 sudo echo "start" || exit 1
 
 # setup directory structure
@@ -54,13 +73,13 @@ fi
 # submodules
 start_feature "vim"
 git submodule update --init --recursive
-VIM_AUTOLOAD=~/.vim/autoload
+VIM_AUTOLOAD=$THE_HOME/.vim/autoload
 if [ ! -e $VIM_AUTOLOAD ]; then
   mkdir $VIM_AUTOLOAD
 fi
 PATHOGEN_AUTLOAD=$VIM_AUTOLOAD/pathogen.vim
 if [ ! -e $PATHOGEN_AUTLOAD ]; then
-  PATHOGEN_VIM=~/.pathogen/vim-pathogen/autoload/pathogen.vim
+  PATHOGEN_VIM=$THE_HOME/.pathogen/vim-pathogen/autoload/pathogen.vim
   ln -s $PATHOGEN_VIM $PATHOGEN_AUTLOAD
 fi
 stop_feature "vim"
@@ -68,54 +87,54 @@ stop_feature "vim"
 # update
 start_feature "update pip"
 
-sudo -H pip3 install --upgrade pip
-sudo -H pip3 install keyring
+sudo -H pip3 install --upgrade pip || exit 1
+sudo -H pip3 install keyring || exit 1
 
 stop_feature "update pip"
 # apps
 
 start_feature "apt-get update"
-sudo apt update
+sudo apt update || exit 1
 
 start_feature "apt-get install python"
 
-sudo apt-get  -y  install python3.5
-sudo apt-get  -y  install python-sqlite
-sudo apt-get  -y  install python-vobject
-sudo apt-get  -y  install python-gnomekeyring
-sudo apt-get install build-essential python-dev
+sudo apt-get  -y  install python3.5 || exit 1
+sudo apt-get  -y  install python-sqlite || exit 1
+sudo apt-get  -y  install python-vobject || exit 1
+sudo apt-get  -y  install python-gnomekeyring || exit 1
+sudo apt-get install build-essential python-dev || exit 1
 
 start_feature "apt-get install tools"
-sudo apt      -y  install tmux htop
-sudo apt      -y  install wget
-sudo apt      -y  install curl
-sudo apt-get  -y  install w3m
-sudo apt-get  -y  install feh
-sudo apt-get  -y  install antiword
-sudo apt-get  -y  install catdoc
-sudo apt-get  -y  install ranger caca-utils highlight atool w3m poppler-utils mediainfo
-sudo apt-get  -y  install ncurses-term
-sudo apt-get  -y  install sqlite3
+sudo apt      -y  install tmux htop || exit 1
+sudo apt      -y  install wget || exit 1
+sudo apt      -y  install curl || exit 1
+sudo apt-get  -y  install w3m || exit 1
+sudo apt-get  -y  install feh || exit 1
+sudo apt-get  -y  install antiword || exit 1
+sudo apt-get  -y  install catdoc || exit 1
+sudo apt-get  -y  install ranger caca-utils highlight atool w3m poppler-utils mediainfo || exit 1
+sudo apt-get  -y  install ncurses-term || exit 1
+sudo apt-get  -y  install sqlite3 || exit 1
 
 start_feature "apt-get install libs"
-sudo apt-get  -y  install openssl
+sudo apt-get  -y  install openssl || exit 1
 
 start_feature "apt-get install gnu stuff"
 # The package libreadline is for running applications using readline command
 # and the package libreadline-dev is for compiling and building readline application.
-sudo apt-get  -y  install libreadline6 libreadline6-dev
+sudo apt-get  -y  install libreadline6 libreadline6-dev || exit 1
 
 start_feature "apt-get install cpp stuff"
 # cpp
-sudo apt-get  -y install clang
-sudo apt-get  -y install cppcheck 
-sudo apt-get  -y install cmake
+sudo apt-get  -y install clang || exit 1
+sudo apt-get  -y install cppcheck  || exit 1
+sudo apt-get  -y install cmake || exit 1
 
 start_feature "apt-get install perf"
-sudo apt-get -y  install linux-tools-common linux-tools-generic linux-tools-`uname -r`
+sudo apt-get -y  install linux-tools-common linux-tools-generic linux-tools-`uname -r` || exit 1
 
 start_feature "pip install cpp"
-sudo -H pip3 install cpplint
+sudo -H pip3 install cpplint || exit 1
 
 stop_feature "apt-get install"
 
@@ -153,10 +172,10 @@ VDIR_FEATURE=$FEATURE_HOME/vdirsyncer
 if [ ! -e "$VDIR_FEATURE" ]; then
   start_feature "vdirsyncer" 
 
-  sudo -H pip3 install requests requests_oauthlib
+  sudo -H pip3 install requests requests_oauthlib || exit 1
   
   ## install
-  sudo -H pip3 install git+https://github.com/untitaker/vdirsyncer.git
+  sudo -H pip3 install git+https://github.com/untitaker/vdirsyncer.git || exit 1
   
   ## crontab
   install_cron "*/5 * * * *	$DOTFILES_LIB/vdirsyncer_cron.sh"
@@ -170,7 +189,7 @@ KHAL_FEATURE=$FEATURE_HOME/khal1
 if [ ! -e $KHAL_FEATURE ]; then
   start_feature "khal"
   # clear buggy cache
-  rm ~/.local/share/khal/khal.db 
+  rm $THE_HOME/.local/share/khal/khal.db 
   # install/update
   sudo -H pip3 install git+https://github.com/pimutils/khal
   
@@ -193,7 +212,7 @@ if [ ! -e $DAVMAIL_FEATURE ];then
   
     # wget http://sourceforge.net/projects/davmail/files/davmail/4.7.2/davmail_4.7.2-2427-1_all.deb
 
-    DAVMAIL_SERVICE_SRC=~/dotfiles/service/davmail
+    DAVMAIL_SERVICE_SRC=$THE_HOME/dotfiles/service/davmail
     DAVMAIL_SERVICE_DEST=/etc/init.d/davmail
     if [ ! -e $DAVMAIL_SERVICE_DEST ];then
       sudo cp $DAVMAIL_SERVICE_SRC /etc/init.d
@@ -238,7 +257,7 @@ if [ ! -e $OFFLINEIMAP_FEATURE ]; then
   start_feature "offlineimap"
 
   sudo apt-get -y install offlineimap
-  install_cron "*/5 * * * *	~/dotfiles/lib/offlineimap_cron.sh"
+  install_cron "*/5 * * * *	$THE_HOME/dotfiles/lib/offlineimap_cron.sh"
 
   touch $OFFLINEIMAP_FEATURE
   stop_feature "offlineimap"
@@ -375,22 +394,6 @@ fi
 # fi
 
 # git
-GIT_CONFIG_FEATURE=$FEATURE_HOME/gitconfig1
-if [ ! -e $GIT_CONFIG_FEATURE ]; then
-  start_feature "git config"
-
-  # TODO fetch from keychain
-  git config --global user.name ""
-  git config --global user.email ""
-  git config --global core.editor vim
-
-  git config --global alias.st status
-  git config --global alias.tree "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
-  
-  touch $GIT_CONFIG_FEATURE
-
-  stop_feature "git config"
-fi
 
 # keepass
 FEATURE=$FEATURE_HOME/keepass1
@@ -413,7 +416,7 @@ if [ ! -e $FEATURE ]; then
 
   PREV_DIR=`pwd`
 
-  cd ~/.vim/bundle/YouCompleteMe/
+  cd $THE_HOME/.vim/bundle/YouCompleteMe/
   ./install.sh --clang-completer
   RET=$?
 
@@ -439,7 +442,7 @@ if [ ! -e $FEATURE ]; then
   RET=$?
   if [ $RET -eq 0 ];then
     
-    FONTS_DIR=~/.fonts
+    FONTS_DIR=$THE_HOME/.fonts
     if [ ! -e $FONTS_DIR ]; then
       mkdir $FONTS_DIR
     fi
@@ -455,7 +458,7 @@ if [ ! -e $FEATURE ]; then
     fi
     
     if [ $RET -eq 0 ];then
-      FONTCONFIG_DIR=~/.config/fontconfig/conf.d
+      FONTCONFIG_DIR=$THE_HOME/.config/fontconfig/conf.d
       if [ ! -e $FONTCONFIG_DIR ];then
         mkdir -p $FONTCONFIG_DIR
       fi
