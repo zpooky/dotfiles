@@ -46,3 +46,6 @@
 [submodule ".vim/bundle/syntax"]
 	path = .vim/bundle/syntax
 	url = https://github.com/octol/vim-cpp-enhanced-highlight.git
+[submodule ".vim/bundle/color_coded"]
+	path = .vim/bundle/color_coded
+	url = https://github.com/jeaye/color_coded.git

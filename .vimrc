@@ -162,6 +162,10 @@ noremap <silent> <leader>r <Esc>:CommandT<CR>
 noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
 noremap <silent> <leader>. :CommandTTag<cr>
 
+" vim-cpp-enhanced-highlight
+let g:cpp_class_scope_highlight = 1 " Highlighting of class scope
+let g:cpp_experimental_template_highlight = 1 " Highlighting of template functions
+
 ":CommandTMRU
 
 " Alias
@@ -189,10 +193,11 @@ nnoremap <leader>s :vsplit<enter>
 
 
 " new line above and below without entering insert mode
-" To preserve identation vanilla 'o' adds indentation, add single char and the
-" remove it
-map <silent> <leader>o ox<esc>x
-map <silent> <leader>O Ox<esc>x
+map <silent> <leader>o o<esc>
+map <silent> <leader>O O<esc>
+
+map <silent> ö <C-D>
+map <silent> Ö <C-U>
 
 " insert character(space+*char*)
 " nmap <Space> i_<Esc>r " Need to have another than space it is now the leadr
