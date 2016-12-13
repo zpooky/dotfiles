@@ -115,9 +115,15 @@ sudo apt-get  -y  install catdoc || exit 1
 sudo apt-get  -y  install ranger caca-utils highlight atool w3m poppler-utils mediainfo || exit 1
 sudo apt-get  -y  install ncurses-term || exit 1
 sudo apt-get  -y  install sqlite3 || exit 1
+sudo apt      -y  install sed || exit 1
 
 sudo apt-get -y install libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev || exit 1
 sudo apt-get -y install libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev || exit 1
+
+# vim things
+sudo apt-get  -y  install build-essential libclang-3.9-dev libncurses-dev libz-dev cmake xz-utils libpthread-workqueue-dev
+LUA_VIM_MINOR_VERSION=`vim --version | grep "\-llua" | sed -r "s/.*\-llua5.([0-9]*).*/\1/"`
+sudo apt-get -y   install liblua5.$LUA_VIM_MINOR_VERSION-dev lua5.$LUA_VIM_MINOR_VERSION
 
 start_feature "apt-get install libs"
 sudo apt-get  -y  install openssl || exit 1
@@ -483,6 +489,34 @@ if [ ! -e $FEATURE ]; then
 
   cd $PREV_DIR 
   stop_feature "powerline"
+fi
+
+
+# vim color
+FEATURE=$FEATURE_HOME/color_coded1
+if [ ! -e $FEATURE ]; then
+  start_feature "color_coded1"
+
+  PREV_DIR=`pwd`
+  
+  cd ~/.vim/bundle/color_coded
+  mkdir build && cd build
+  cmake ..
+  if [ $? -eq 0 ];then 
+    make && make install
+    RET=$?
+    
+      # Cleanup afterward; frees several hundred megabytes
+      make clean && make clean_clang
+
+    if [ $RET -eq 0 ];then 
+      touch $FEATURE
+    fi
+  fi
+  
+  cd $PREV_DIR
+  
+  stop_feature "color_coded1"
 fi
 
 # # less colors
