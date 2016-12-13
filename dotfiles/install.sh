@@ -116,6 +116,9 @@ sudo apt-get  -y  install ranger caca-utils highlight atool w3m poppler-utils me
 sudo apt-get  -y  install ncurses-term || exit 1
 sudo apt-get  -y  install sqlite3 || exit 1
 
+sudo apt-get -y install libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev || exit 1
+sudo apt-get -y install libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev || exit 1
+
 start_feature "apt-get install libs"
 sudo apt-get  -y  install openssl || exit 1
 
