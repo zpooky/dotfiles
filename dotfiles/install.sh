@@ -518,7 +518,38 @@ if [ ! -e $FEATURE ]; then
   
   stop_feature "color_coded1"
 fi
+# csope bin. install to /usr/bin
+FEATURE=$FEATURE_HOME/cscope
+if [ ! -e $FEATURE ]; then
+  start_feature "cscope"
 
+  PREV_DIR=`pwd`
+
+  TEMP_DIR=`mktemp -d`
+  cd $TEMP_DIR
+  wget https://sourceforge.net/projects/cscope/files/cscope/15.8b/cscope-15.8b.tar.gz/download
+  if [ $? -eq 0 ];then 
+    UNTAR_CSCOPE=$TEMP_DIR/cscope
+    tar -xzvf download --directory=$UNTAR_CSCOPE
+    if [ $? -eq 0 ];then 
+      cd $UNTAR_CSCOPE
+      ./configure --prefix=/usr
+      if [ $? -eq 0 ];then 
+        make
+        if [ $? -eq 0 ];then 
+          sudo make install
+          if [ $? -eq 0 ];then 
+            touch $FEATURE
+          fi
+        fi
+      fi
+    fi
+  fi
+
+  cd $PREV_DIR
+
+  stop_feature "cscope"
+fi
 # # less colors
 # FEATURE=$FEATURE_HOME/lesscolors
 # if [ ! -e $FEATURE ]; then
