@@ -551,6 +551,18 @@ if [ ! -e $FEATURE ]; then
 
   stop_feature "cscope"
 fi
+
+# caps to shift
+FEATURE=$FEATURE_HOME/caps_to_shift
+if [ ! -e $FEATURE ]; then
+  start_feature "caps_to_shift"
+
+  xmodmap -e "keycode 66 = Shift_L NoSymbol Shift_L"
+
+  touch $FEATURE
+  stop_feature "caps_to_shift"
+fi
+
 # less colors
 # FEATURE=$FEATURE_HOME/lesscolors
 # if [ ! -e $FEATURE ]; then
