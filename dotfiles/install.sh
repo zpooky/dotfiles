@@ -81,6 +81,54 @@ if [ ! -e $PATHOGEN_AUTLOAD ]; then
 fi
 stop_feature "vim"
 
+# git You Complete Me
+FEATURE=$FEATURE_HOME/YouCompleteMe1
+if [ ! -e $FEATURE ]; then
+  start_feature "YouCompleteMe"
+
+  PREV_DIR=`pwd`
+
+  cd $THE_HOME/.vim/bundle/YouCompleteMe/
+  ./install.sh --clang-completer
+  RET=$?
+
+  if [ $RET -eq 0 ];then
+    touch $FEATURE
+  fi
+  
+  cd $PREV_DIR
+
+  stop_feature "YouCompleteMe"
+fi
+
+# vim color coded
+FEATURE=$FEATURE_HOME/color_coded1
+if [ ! -e $FEATURE ]; then
+  start_feature "color_coded1"
+
+  PREV_DIR=`pwd`
+  
+  cd ~/.vim/bundle/color_coded
+  mkdir build && cd build
+  cmake ..
+  if [ $? -eq 0 ];then 
+    make && make install
+    RET=$?
+    
+      # Cleanup afterward; frees several hundred megabytes
+      make clean && make clean_clang
+
+    if [ $RET -eq 0 ];then 
+      touch $FEATURE
+    fi
+  fi
+  
+  cd $PREV_DIR
+  
+  stop_feature "color_coded1"
+fi
+
+
 echo "Enter sudo password"
 sudo echo "start" || exit 1
 
@@ -418,26 +466,6 @@ if [ ! -e $FEATURE ]; then
   stop_feature "keepass"
 fi
 
-# git You Complete Me
-FEATURE=$FEATURE_HOME/YouCompleteMe1
-if [ ! -e $FEATURE ]; then
-  start_feature "YouCompleteMe"
-
-  PREV_DIR=`pwd`
-
-  cd $THE_HOME/.vim/bundle/YouCompleteMe/
-  ./install.sh --clang-completer
-  RET=$?
-
-  if [ $RET -eq 0 ];then
-    touch $FEATURE
-  fi
-  
-  cd $PREV_DIR
-
-  stop_feature "YouCompleteMe"
-fi
-
 
 # powerline
 FEATURE=$FEATURE_HOME/powerline1
@@ -491,33 +519,6 @@ if [ ! -e $FEATURE ]; then
   stop_feature "powerline"
 fi
 
-
-# vim color
-FEATURE=$FEATURE_HOME/color_coded1
-if [ ! -e $FEATURE ]; then
-  start_feature "color_coded1"
-
-  PREV_DIR=`pwd`
-  
-  cd ~/.vim/bundle/color_coded
-  mkdir build && cd build
-  cmake ..
-  if [ $? -eq 0 ];then 
-    make && make install
-    RET=$?
-    
-      # Cleanup afterward; frees several hundred megabytes
-      make clean && make clean_clang
-
-    if [ $RET -eq 0 ];then 
-      touch $FEATURE
-    fi
-  fi
-  
-  cd $PREV_DIR
-  
-  stop_feature "color_coded1"
-fi
 # csope bin. install to /usr/bin
 FEATURE=$FEATURE_HOME/cscope
 if [ ! -e $FEATURE ]; then
@@ -550,7 +551,7 @@ if [ ! -e $FEATURE ]; then
 
   stop_feature "cscope"
 fi
-# # less colors
+# less colors
 # FEATURE=$FEATURE_HOME/lesscolors
 # if [ ! -e $FEATURE ]; then
 #   start_feature "lesscolors"
