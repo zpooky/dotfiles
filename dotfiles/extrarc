@@ -21,3 +21,4 @@ alias port-scan='netstat -alnptu | egrep '\''Proto|LISTEN'\'''
 
 alias sp-open="~/dotfiles/lib/open_keyring.py"
 alias sp-linux="cd ~/Dropbox/root/[]ref/linux"
+alias sp-space="du -hsc *"
