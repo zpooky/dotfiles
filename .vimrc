@@ -171,8 +171,10 @@ let g:cpp_experimental_template_highlight = 1 " Highlighting of template functio
 " Alias
 " set pastetoggle=<F2>
 
-" Alternative save with <leader>+w
+" Alternative save
 nnoremap <leader>w :wa<CR>
+" Alternative quit
+nnoremap <leader>q :q<CR>
 " map å to page up
 map <silent> å <PageUp>
 " map ä to page down
