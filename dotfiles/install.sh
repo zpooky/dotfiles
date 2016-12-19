@@ -69,6 +69,7 @@ fi
 
 # submodules
 start_feature "vim"
+git submodule sync
 git submodule update --init --recursive
 VIM_AUTOLOAD=$THE_HOME/.vim/autoload
 if [ ! -e $VIM_AUTOLOAD ]; then
@@ -107,9 +108,14 @@ if [ ! -e $FEATURE ]; then
   start_feature "color_coded1"
 
   PREV_DIR=`pwd`
-  
-  cd ~/.vim/bundle/color_coded
-  mkdir build && cd build
+  COLOR_CODED_PATH=~/.vim/bundle/color_coded 
+  COLOR_CODED_BUILD_PATH=$COLOR_CODED_PATH/build
+  cd $COLOR_CODED_PATH
+  if [ -d $COLOR_CODED_BUILD_PATH ]; then
+    rm -rf $COLOR_CODED_BUILD_PATH
+  fi
+  mkdir build
+  cd build
   cmake ..
   if [ $? -eq 0 ];then 
     make && make install
@@ -128,6 +134,16 @@ if [ ! -e $FEATURE ]; then
   stop_feature "color_coded1"
 fi
 
+# bashrc
+BASHRC_FEATURE=$FEATURE_HOME/bashrc
+if [ ! -e $BASHRC_FEATURE ]; then
+  start_feature "bashrc"
+
+  echo 'source ~/dotfiles/extrarc' >> ~/.bashrc
+
+  touch $BASHRC_FEATURE
+  stop_feature "bashrc"
+fi
 
 echo "Enter sudo password"
 sudo echo "start" || exit 1
@@ -142,7 +158,7 @@ stop_feature "update pip"
 # apps
 
 start_feature "apt-get update"
-sudo apt update || exit 1
+sudo apt-get update || exit 1
 
 start_feature "apt-get install python"
 
@@ -153,9 +169,9 @@ sudo apt-get  -y  install python-gnomekeyring || exit 1
 sudo apt-get install build-essential python-dev || exit 1
 
 start_feature "apt-get install tools"
-sudo apt      -y  install tmux htop || exit 1
-sudo apt      -y  install wget || exit 1
-sudo apt      -y  install curl || exit 1
+sudo apt-get  -y  install tmux htop || exit 1
+sudo apt-get  -y  install wget || exit 1
+sudo apt-get  -y  install curl || exit 1
 sudo apt-get  -y  install w3m || exit 1
 sudo apt-get  -y  install feh || exit 1
 sudo apt-get  -y  install antiword || exit 1
@@ -163,7 +179,7 @@ sudo apt-get  -y  install catdoc || exit 1
 sudo apt-get  -y  install ranger caca-utils highlight atool w3m poppler-utils mediainfo || exit 1
 sudo apt-get  -y  install ncurses-term || exit 1
 sudo apt-get  -y  install sqlite3 || exit 1
-sudo apt      -y  install sed || exit 1
+sudo apt-get  -y  install sed || exit 1
 
 sudo apt-get -y install libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev || exit 1
 sudo apt-get -y install libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev || exit 1
@@ -318,17 +334,6 @@ if [ ! -e $OFFLINEIMAP_FEATURE ]; then
 
   touch $OFFLINEIMAP_FEATURE
   stop_feature "offlineimap"
-fi
-
-# bashrc
-BASHRC_FEATURE=$FEATURE_HOME/bashrc
-if [ ! -e $BASHRC_FEATURE ]; then
-  start_feature "bashrc"
-
-  echo 'source ~/dotfiles/extrarc' >> ~/.bashrc
-
-  touch $BASHRC_FEATURE
-  stop_feature "bashrc"
 fi
 
 # stdman

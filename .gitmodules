@@ -1,27 +1,27 @@
 [submodule ".vim/bundle/vim-clang-format"]
 	path = .vim/bundle/vim-clang-format
-	url = git@github.com:rhysd/vim-clang-format.git
+	url = https://github.com/rhysd/vim-clang-format.git
 [submodule ".vim/bundle/a.vim"]
 	path = .vim/bundle/a.vim
-	url = git@github.com:vim-scripts/a.vim.git
+	url = https://github.com/vim-scripts/a.vim.git
 [submodule ".vim/bundle/neco-ghc"]
 	path = .vim/bundle/neco-ghc
-	url = git@github.com:eagletmt/neco-ghc.git
+	url = https://github.com/eagletmt/neco-ghc.git
 [submodule ".vim/bundle/syntastic"]
 	path = .vim/bundle/syntastic
-	url = git@github.com:scrooloose/syntastic.git
+	url = https://github.com/scrooloose/syntastic.git
 [submodule ".vim/bundle/vim2hs"]
 	path = .vim/bundle/vim2hs
-	url = git@github.com:dag/vim2hs.git
+	url = https://github.com/dag/vim2hs.git
 [submodule ".vim/bundle/YouCompleteMe"]
 	path = .vim/bundle/YouCompleteMe
-	url = git@github.com:Valloric/YouCompleteMe.git
+	url = https://github.com/Valloric/YouCompleteMe.git
 [submodule ".vim/bundle/tagbar"]
 	path = .vim/bundle/tagbar
-	url = git@github.com:majutsushi/tagbar.git
+	url = https://github.com/majutsushi/tagbar.git
 [submodule ".vim/bundle/tcomment_vim"]
 	path = .vim/bundle/tcomment_vim
-	url = git@github.com:tomtom/tcomment_vim.git
+	url = https://github.com/tomtom/tcomment_vim.git
 [submodule ".pathogen/vim-pathogen"]
 	path = .pathogen/vim-pathogen
 	url = https://github.com/tpope/vim-pathogen.git
@@ -30,16 +30,16 @@
 	url = https://github.com/tpope/vim-fugitive.git
 [submodule ".vim/bundle/nerdtree"]
 	path = .vim/bundle/nerdtree
-	url = git@github.com:scrooloose/nerdtree.git
+	url = https://github.com/scrooloose/nerdtree.git
 [submodule ".vim/bundle/command-t"]
 	path = .vim/bundle/command-t
-	url = git@github.com:wincent/command-t.git
+	url = https://github.com/wincent/command-t.git
 [submodule ".vim/bundle/vim-autotag"]
 	path = .vim/bundle/vim-autotag
-	url = git@github.com:craigemery/vim-autotag.git
+	url = https://github.com/craigemery/vim-autotag.git
 [submodule ".vim/bundle/vim-colors-solarized"]
 	path = .vim/bundle/vim-colors-solarized
-	url = git://github.com/altercation/vim-colors-solarized.git
+	url = https://github.com/altercation/vim-colors-solarized.git
 [submodule ".vim/bundle/vim-scala"]
 	path = .vim/bundle/vim-scala
 	url = https://github.com/derekwyatt/vim-scala.git
