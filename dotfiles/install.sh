@@ -202,7 +202,7 @@ start_feature "apt-get install cpp stuff"
 sudo apt-get  -y install clang || exit 1
 sudo apt-get  -y install cppcheck  || exit 1
 sudo apt-get  -y install cmake || exit 1
-//TODO assert cmake version is greater than 2.8
+#TODO assert cmake version is greater than 2.8
 
 start_feature "apt-get install perf"
 sudo apt-get -y  install linux-tools-common linux-tools-generic linux-tools-`uname -r` || exit 1
