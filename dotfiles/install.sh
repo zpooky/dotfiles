@@ -538,7 +538,7 @@ if [ ! -e $FEATURE ]; then
   wget -O $CSCOPE_TAR_PATH https://sourceforge.net/projects/cscope/files/cscope/15.8b/cscope-15.8b.tar.gz/download
   if [ $? -eq 0 ];then 
     UNTAR_CSCOPE=$TEMP_DIR/cscope
-    tar -xzvf $CSCOPE_TAR_PATH
+    tar -xzvf $CSCOPE_TAR_PATH -C $UNTAR_CSCOPE --strip-components=1
     if [ $? -eq 0 ];then 
       cd $UNTAR_CSCOPE
       ./configure --prefix=/usr
