@@ -534,10 +534,11 @@ if [ ! -e $FEATURE ]; then
 
   TEMP_DIR=`mktemp -d`
   cd $TEMP_DIR
-  wget https://sourceforge.net/projects/cscope/files/cscope/15.8b/cscope-15.8b.tar.gz/download
+  CSCOPE_TAR_PATH=$TEMP_DIR/csope.tar.gz
+  wget -O $CSCOPE_TAR_PATH https://sourceforge.net/projects/cscope/files/cscope/15.8b/cscope-15.8b.tar.gz/download
   if [ $? -eq 0 ];then 
     UNTAR_CSCOPE=$TEMP_DIR/cscope
-    tar -xzvf download --directory=$UNTAR_CSCOPE
+    tar -xzvf $CSCOPE_TAR_PATH --directory=$UNTAR_CSCOPE
     if [ $? -eq 0 ];then 
       cd $UNTAR_CSCOPE
       ./configure --prefix=/usr
