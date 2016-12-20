@@ -82,7 +82,7 @@ if [ ! -e $PATHOGEN_AUTLOAD ]; then
 fi
 stop_feature "vim"
 
-# git You Complete Me
+# git You Complete Me(YCM)
 FEATURE=$FEATURE_HOME/YouCompleteMe1
 if [ ! -e $FEATURE ]; then
   start_feature "YouCompleteMe"
@@ -90,7 +90,7 @@ if [ ! -e $FEATURE ]; then
   PREV_DIR=`pwd`
 
   cd $THE_HOME/.vim/bundle/YouCompleteMe/
-  ./install.sh --clang-completer
+  ./install.py --clang-completer
   RET=$?
 
   if [ $RET -eq 0 ];then
@@ -202,6 +202,7 @@ start_feature "apt-get install cpp stuff"
 sudo apt-get  -y install clang || exit 1
 sudo apt-get  -y install cppcheck  || exit 1
 sudo apt-get  -y install cmake || exit 1
+//TODO assert cmake version is greater than 2.8
 
 start_feature "apt-get install perf"
 sudo apt-get -y  install linux-tools-common linux-tools-generic linux-tools-`uname -r` || exit 1

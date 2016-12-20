@@ -40,7 +40,7 @@ fi
 echo ""
 echo ""
 echo ""
-wget https://cmake.org/files/v3.7/$CMAKE_NAME
+wget -O $CMAKE_TAR https://cmake.org/files/v3.7/$CMAKE_NAME
 if [ $? -eq 0 ]; then
   tar -xzvf $CMAKE_TAR
   if [ $? -eq 0 ]; then

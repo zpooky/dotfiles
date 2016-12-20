@@ -8,7 +8,9 @@ echo 'export DBUS_SESSION_BUS_ADDRESS' >> $HOME/.Xdbus
 TERM=xterm-256color
 
 # git ps line
-source ~/.git-prompt.sh
+if [[ -e ~/.git-prompt.sh ]]; then
+  source ~/.git-prompt.sh
+fi
 
 #
 [[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
