@@ -571,6 +571,45 @@ if [ ! -e $FEATURE ]; then
   stop_feature "caps_to_shift"
 fi
 
+# ctags
+FEATURE=$FEATURE_HOME/ctags
+if [ ! -e $FEATURE ]; then
+  start_feature "ctags"
+
+  PREV_DIR=`pwd`
+
+  TEMP_DIR=`mktemp -d`
+  cd $TEMP_DIR
+  TAR_PATH=$TEMP_DIR/ctags.tar.gz
+  wget -O $TAR_PATH http://prdownloads.sourceforge.net/ctags/ctags-5.8.tar.gz 
+  
+  if [ $? -eq 0 ];then 
+    UNTAR_PATH=$TEMP_DIR/ctags
+    mkdir $UNTAR_PATH
+
+    tar -xzvf $TAR_PATH -C $UNTAR_PATH --strip-components=1
+
+    if [ $? -eq 0 ];then 
+      cd $UNTAR_PATH
+      ./configure --prefix=/usr
+
+      if [ $? -eq 0 ];then 
+        make
+        if [ $? -eq 0 ];then 
+          sudo make install
+          if [ $? -eq 0 ];then 
+            touch $FEATURE
+          fi
+        fi
+      fi
+    fi
+  fi
+
+  cd $PREV_DIR
+
+  stop_feature "ctags"
+fi
+
 # less colors
 # FEATURE=$FEATURE_HOME/lesscolors
 # if [ ! -e $FEATURE ]; then
