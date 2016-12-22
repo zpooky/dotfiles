@@ -181,8 +181,8 @@ map <silent> å <PageUp>
 map <silent> ä <PageDown>
 
 " resize split
-map <silent> <leader>- <C-W><
-map <silent> <leader>+ <C-W>>
+map <silent> <leader>- :vertical resize -5<CR>
+map <silent> <leader>+ :vertical resize +5<CR>
 " navigate between splits
 " pane Left
 map <silent> <leader><Left> <C-W><Left>

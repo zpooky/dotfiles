@@ -7,7 +7,6 @@
 --fields=+s
 --languages=C++,C
 
-# Regex for Clojure
 --langdef=Clojure
 --langmap=Clojure:.clj
 --regex-clojure=/\([ \t]*create-ns[ \t]+([-[:alnum:]*+!_:\/.?]+)/\1/n,namespace/
