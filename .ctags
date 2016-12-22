@@ -1,9 +1,10 @@
 -f .tags
 --recurse=yes
 --exclude=.git
---exclude=vendor/*
---exclude=node_modules/*
---exclude=idea/*
+--exclude=vendor
+--exclude=node_modules
+--exclude=idea
+--exclude=googletest
 --fields=+s
 --languages=C++,C
 
