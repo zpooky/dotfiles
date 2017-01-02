@@ -134,6 +134,23 @@ if [ ! -e $FEATURE ]; then
   stop_feature "color_coded1"
 fi
 
+# command-t(vim)
+FEATURE=$FEATURE_HOME/commandt1
+if [ ! -e $FEATURE ]; then
+  start_feature "commandt1"
+  
+  PREV_DIR=`pwd`
+
+  cd $THE_HOME/.vim/bundle/command-t/plugin
+  rake make
+  if [ $? -eq 0 ]; then 
+    touch $FEATURE
+  fi
+  cd $PREV_DIR
+
+  stop_feature "commandt1"
+fi
+
 # bashrc
 BASHRC_FEATURE=$FEATURE_HOME/bashrc
 if [ ! -e $BASHRC_FEATURE ]; then
