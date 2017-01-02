@@ -96,7 +96,8 @@ let g:syntastic_cpp_check_header = 1
 "let g:syntastic_cpp_checkers=["clang_check","g++","cpp_check"]
 let g:syntastic_cpp_checkers=["gcc","cppcheck","cpplint"]
 let g:syntastic_cppcheck_config_file="~/.syntastic_cppcheck_config"
-
+" java remove because it runs mvn wich is realy slow
+let g:syntastic_java_checkers=['']
 " YouCompleteMe
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_collect_identifiers_from_tags_files = 1
