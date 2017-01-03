@@ -70,6 +70,8 @@ fi
 # submodules
 start_feature "vim"
 git submodule sync
+# recursivly pull in all submodule repos
+# git submodule update --init --recursive --remote
 git submodule update --init --recursive
 VIM_AUTOLOAD=$THE_HOME/.vim/autoload
 if [ ! -e $VIM_AUTOLOAD ]; then
