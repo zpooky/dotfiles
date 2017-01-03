@@ -218,7 +218,6 @@ sudo apt-get  -y  install libreadline6 libreadline6-dev || exit 1
 start_feature "apt-get install cpp stuff"
 # cpp
 sudo apt-get  -y install clang || exit 1
-sudo apt-get  -y install cppcheck  || exit 1
 sudo apt-get  -y install cmake || exit 1
 #TODO assert cmake version is greater than 2.8
 
@@ -633,6 +632,41 @@ if [ ! -e $FEATURE ]; then
   cd $PREV_DIR
 
   stop_feature "ctags"
+fi
+
+# cppcheck
+FEATURE=$FEATURE_HOME/cppcheck1
+if [ ! -e $FEATURE ]; then
+  start_feature "cppcheck"
+  
+  PREV_DIR=`pwd`
+
+  sudo apt-get remove cppcheck
+
+  TEMP_DIR=`mktemp -d`
+  cd $TEMP_DIR
+
+  CPPCHECK=cppcheck
+  git clone https://github.com/danmar/$CPPCHECK.git 
+
+  if [ $? -eq 0 ];then 
+    cd $CPPCHECK
+
+      if [ $? -eq 0 ];then 
+        make
+        if [ $? -eq 0 ];then 
+          sudo make install
+          if [ $? -eq 0 ];then 
+            cppcheck --version
+            touch $FEATURE
+          fi
+        fi
+      fi
+  fi
+
+  cd $PREV_DIR
+
+  stop_feature "cppcheck"
 fi
 
 # less colors
