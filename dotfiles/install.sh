@@ -197,6 +197,7 @@ sudo apt-get  -y  install ranger caca-utils highlight atool w3m poppler-utils me
 sudo apt-get  -y  install ncurses-term || exit 1
 sudo apt-get  -y  install sqlite3 || exit 1
 sudo apt-get  -y  install sed || exit 1
+sudo apt-get  -y  install ack-grep || exit 1
 
 sudo apt-get -y install libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev || exit 1
 sudo apt-get -y install libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev || exit 1
@@ -588,8 +589,16 @@ if [ ! -e $FEATURE ]; then
   stop_feature "caps_to_shift"
 fi
 
+#uninstall ctags
+OLD_FEATURE=$FEATURE_HOME/ctags
+if [ ! -e $OLD_FEATURE ]; then
+  sudo apt-get remove ctags
+  sudo apt-get autoremove
+  rm $OLD_FEATURE
+fi
+
 # ctags
-FEATURE=$FEATURE_HOME/ctags
+FEATURE=$FEATURE_HOME/ctags_universal1
 if [ ! -e $FEATURE ]; then
   start_feature "ctags"
 
@@ -597,18 +606,17 @@ if [ ! -e $FEATURE ]; then
 
   TEMP_DIR=`mktemp -d`
   cd $TEMP_DIR
-  TAR_PATH=$TEMP_DIR/ctags.tar.gz
-  wget -O $TAR_PATH http://prdownloads.sourceforge.net/ctags/ctags-5.8.tar.gz 
-  
-  if [ $? -eq 0 ];then 
-    UNTAR_PATH=$TEMP_DIR/ctags
-    mkdir $UNTAR_PATH
 
-    tar -xzvf $TAR_PATH -C $UNTAR_PATH --strip-components=1
+  CTAGS=ctags
+  git clone https://github.com/universal-ctags/$CTAGS.git
+
+  if [ $? -eq 0 ];then 
+    cd $CTAGS
+    ./autogen.sh
+    ./install-sh
 
     if [ $? -eq 0 ];then 
-      cd $UNTAR_PATH
-      ./configure --prefix=/usr
+      ./configure
 
       if [ $? -eq 0 ];then 
         make
