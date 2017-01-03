@@ -85,7 +85,7 @@ fi
 stop_feature "vim"
 
 # git You Complete Me(YCM)
-FEATURE=$FEATURE_HOME/YouCompleteMe1
+FEATURE=$FEATURE_HOME/YouCompleteMe2
 if [ ! -e $FEATURE ]; then
   start_feature "YouCompleteMe"
 
@@ -137,7 +137,7 @@ if [ ! -e $FEATURE ]; then
 fi
 
 # command-t(vim)
-FEATURE=$FEATURE_HOME/commandt1
+FEATURE=$FEATURE_HOME/commandt2
 if [ ! -e $FEATURE ]; then
   start_feature "commandt1"
   
@@ -567,6 +567,7 @@ if [ ! -e $FEATURE ]; then
         if [ $? -eq 0 ];then 
           sudo make install
           if [ $? -eq 0 ];then 
+            cscope --version
             touch $FEATURE
           fi
         fi
@@ -592,9 +593,9 @@ fi
 
 #uninstall ctags
 OLD_FEATURE=$FEATURE_HOME/ctags
-if [ ! -e $OLD_FEATURE ]; then
-  sudo apt-get remove ctags
-  sudo apt-get autoremove
+if [ -e $OLD_FEATURE ]; then
+  sudo apt-get -y remove ctags
+  sudo apt-get -y autoremove
   rm $OLD_FEATURE
 fi
 
@@ -614,16 +615,16 @@ if [ ! -e $FEATURE ]; then
   if [ $? -eq 0 ];then 
     cd $CTAGS
     ./autogen.sh
-    ./install-sh
 
     if [ $? -eq 0 ];then 
-      ./configure
+      ./configure --prefix=/usr/local
 
       if [ $? -eq 0 ];then 
         make
         if [ $? -eq 0 ];then 
           sudo make install
           if [ $? -eq 0 ];then 
+            ctags --version
             touch $FEATURE
           fi
         fi
@@ -643,7 +644,7 @@ if [ ! -e $FEATURE ]; then
   
   PREV_DIR=`pwd`
 
-  sudo apt-get remove cppcheck
+  sudo apt-get -y remove cppcheck
 
   TEMP_DIR=`mktemp -d`
   cd $TEMP_DIR
