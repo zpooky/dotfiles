@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 count=$(ls ~/.mail/work/inbox/new/ | wc -l)
 
-if [[ -n "$count"  && "$count" -gt 0 ]]; then
+if [ "$count" -gt 0 ]; then
   echo "┃ ✉ ${count} "
 fi
