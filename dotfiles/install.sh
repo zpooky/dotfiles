@@ -507,9 +507,9 @@ if [ ! -e $FEATURE ]; then
 
   if [ $? -eq 0 ];then
     sudo apt-get -y install libcrypto++9
-    if [ $? -eq 0];then
+    if [ $? -eq 0 ];then
       sudo dpkg -y -i $MEGA_DEB
-        if [ $? -eq 0];then
+        if [ $? -eq 0 ];then
           touch $FEATURE
         fi
     fi

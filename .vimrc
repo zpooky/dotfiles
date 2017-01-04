@@ -77,10 +77,10 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_loc_list_height=5 " height of error split
 
 "
-let g:syntastic_error_symbol = '❌'
-let g:syntastic_style_error_symbol = '⁉️'
-let g:syntastic_warning_symbol = '⚠️'
-let g:syntastic_style_warning_symbol = '💩'
+" let g:syntastic_error_symbol = '❌'
+" let g:syntastic_style_error_symbol = '⁉️'
+" let g:syntastic_warning_symbol = '⚠️'
+" let g:syntastic_style_warning_symbol = '💩'
 
 highlight link SyntasticErrorSign SignColumn
 highlight link SyntasticWarningSign SignColumn
@@ -195,8 +195,9 @@ map <silent> <leader><Up> <C-W><Up>
 map <silent> <leader><Down> <C-W><Down>
 
 " Create vertical pane
-nnoremap <leader>s :vsplit<enter>
-
+nnoremap <leader>s <esc>:vsplit<enter>
+" Create tab
+nnoremap <leader>e <esc>:tabedit<enter>
 
 " new line above and below without entering insert mode
 map <silent> <leader>o o<esc>
