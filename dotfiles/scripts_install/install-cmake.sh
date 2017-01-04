@@ -11,6 +11,7 @@ cd $TEMP_DIR
 echo "Specify target"
 echo "suggestions: "
 echo " - /usr/ - for all"
+echo " - /usr/local - for all(Prefered)"
 echo " - / - for all..."
 echo " - $HOME - for only you. have to add $HOME/bin to path."
 printf "target[$HOME]: "

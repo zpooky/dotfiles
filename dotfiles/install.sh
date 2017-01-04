@@ -491,6 +491,32 @@ if [ ! -e $FEATURE ]; then
   stop_feature "keepass"
 fi
 
+# mega
+FEATURE=$FEATURE_HOME/mega1
+if [ ! -e $FEATURE ]; then
+  start_feature "mega"
+
+  PREV_DIR=`pwd`
+
+  TEMP_DIR=`mktemp -d`
+  cd $TEMP_DIR
+
+  MEGA_DEB=$TEMP_DIR/megasync.deb
+  # TODO automatic fetch ubuntu version and use it in the wget
+  wget -O $MEGA_DEB https://mega.nz/linux/MEGAsync/xUbuntu_16.04/amd64/megasync-xUbuntu_16.04_amd64.deb
+
+  if [ $? -eq 0 ];then
+    sudo apt-get -y install libcrypto++9
+    if [ $? -eq 0];then
+      sudo dpkg -y -i $MEGA_DEB
+        if [ $? -eq 0];then
+          touch $FEATURE
+        fi
+    fi
+  fi
+
+  stop_feature "mega"
+fi
 
 # powerline
 FEATURE=$FEATURE_HOME/powerline1
