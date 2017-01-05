@@ -522,6 +522,7 @@ fi
 FEATURE=$FEATURE_HOME/powerline1
 if [ ! -e $FEATURE ]; then
   # http://askubuntu.com/questions/283908/how-can-i-install-and-use-powerline-plugin
+  # TODO add system wide font install base on answer above
   start_feature "powerline"
 
   PREV_DIR=`pwd`
@@ -542,7 +543,7 @@ if [ ! -e $FEATURE ]; then
       wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
       RET=$?
       
-      sudo fc-cache -vf $FONTS_DIR
+      fc-cache -vf $FONTS_DIR
     fi
     
     if [ $RET -eq 0 ];then
