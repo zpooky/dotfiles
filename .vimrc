@@ -59,6 +59,7 @@ set copyindent    " copy the previous indentation on autoindenting
 
 " file type specific indentention support 
 filetype plugin on                " Enable file type plug-ins
+filetype indent plugin on
 filetype on                       " Enable file type detection
 set smartindent                   " smart indentation
 " vim2hs
@@ -196,6 +197,8 @@ map <silent> <leader><Down> <C-W><Down>
 
 " Create vertical pane
 nnoremap <leader>s <esc>:vsplit<enter>
+" Create horizontal pane
+nnoremap <leader>h <esc>:sp<enter>
 " Create tab
 nnoremap <leader>e <esc>:tabedit<enter>
 
