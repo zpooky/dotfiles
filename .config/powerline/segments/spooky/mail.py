@@ -8,7 +8,7 @@ import os
 def file(pl, folders = []):
   count = 0
   for folder in folders:
-    normalized = folder.replace("~/", os.environ['HOME']+"/", 1)
+    normalized = folder.replace("~", os.environ['HOME'], 1)
     count += len(os.listdir(normalized))
 
   ret = []
@@ -21,5 +21,5 @@ def file(pl, folders = []):
     })
   return ret
 
-# ll = file(None, ['/'])
+# ll = file(None, ['~'])
 # print ll[0].get('contents')
