@@ -8,7 +8,8 @@ import os
 def file(pl, folders = []):
   count = 0
   for folder in folders:
-    count += len(os.listdir(folder))
+    normalized = folder.replace("~/", os.environ['HOME']+"/", 1)
+    count += len(os.listdir(normalized))
 
   ret = []
   if count > 0:
