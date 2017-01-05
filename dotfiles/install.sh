@@ -571,6 +571,12 @@ if [ ! -e $FEATURE ]; then
   stop_feature "powerline"
 fi
 
+# install powerline tmux segments
+POWERLINE_SEGMENTS=/usr/local/lib/python2.7/dist-packages/powerline/segments
+if [ ! -e $POWERLINE_SEGMENTS/spooky ]; then
+ sudo cp $THE_HOME/.config/powerline/segments/spooky $POWERLINE_SEGMENTS -R 
+fi
+
 # csope bin. install to /usr/bin
 FEATURE=$FEATURE_HOME/cscope
 if [ ! -e $FEATURE ]; then
