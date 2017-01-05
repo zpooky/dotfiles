@@ -6,7 +6,9 @@
 			},
 			{
 				"function": "powerline.segments.spooky.mail.file",
-				"folders": ["~/.mail/work/inbox/new"]
+				"args": {
+          "folders": ["~/.mail/work/inbox/new"]
+        }
 			},
 			{
 				"function": "powerline.segments.common.bat.battery"
