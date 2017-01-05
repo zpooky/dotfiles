@@ -24,12 +24,6 @@
 			},
 			{
 				"function": "powerline.segments.common.vcs.branch"
-			},
-			{
-				"function": "powerline.segments.common.env.user",
-			  "args": {
-			    "hide_domain": true
-        }
 			}
 		]
 	}
