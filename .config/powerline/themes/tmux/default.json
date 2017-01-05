@@ -5,7 +5,8 @@
 				"function": "powerline.segments.common.sys.cpu_load_percent"
 			},
 			{
-				"function": "powerline.segments.spooky.mail.file"
+				"function": "powerline.segments.spooky.mail.file",
+				"folders": ["~/.mail/work/inbox/new"]
 			},
 			{
 				"function": "powerline.segments.common.bat.battery"
