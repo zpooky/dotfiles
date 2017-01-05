@@ -31,4 +31,4 @@ alias sp-linux="cd ~/Dropbox/root/[]ref/linux"
 alias sp-space="du -hsc *"
 
 alias tmux='tmux -2'
-alias sp-source='tmux source-file ~/.tmux.conf'
+alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
