@@ -167,9 +167,12 @@ fi
 echo "Enter sudo password"
 sudo echo "start" || exit 1
 
+# pip3
+
 # update
 start_feature "update pip"
 
+sudo apt-get  -y  install python3.5 || exit 1
 sudo -H pip3 install --upgrade pip || exit 1
 sudo -H pip3 install keyring || exit 1
 
@@ -181,7 +184,6 @@ sudo apt-get update || exit 1
 
 start_feature "apt-get install python"
 
-sudo apt-get  -y  install python3.5 || exit 1
 sudo apt-get  -y  install python-sqlite || exit 1
 sudo apt-get  -y  install python-vobject || exit 1
 sudo apt-get  -y  install python-gnomekeyring || exit 1
@@ -189,6 +191,7 @@ sudo apt-get install build-essential python-dev || exit 1
 
 start_feature "apt-get install tools"
 sudo apt-get  -y  install tmux htop || exit 1
+sudo apt-get  -y  install rake || exit 1
 sudo apt-get  -y  install wget || exit 1
 sudo apt-get  -y  install curl || exit 1
 sudo apt-get  -y  install w3m || exit 1
