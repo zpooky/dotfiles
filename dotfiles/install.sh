@@ -746,6 +746,46 @@ if [ ! -e $FEATURE ]; then
   touch $FEATURE
   stop_feature "libevent"
 fi
+
+# tmux
+FEATURE=$FEATURE_HOME/tmux1
+if [ ! -e $FEATURE ]; then
+  start_feature "tmux1"
+
+  PREV_DIR=`pwd`
+
+  TEMP_DIR=`mktemp -d`
+  cd $TEMP_DIR
+
+  TMUX=tmux
+  git clone https://github.com/tmux/$TMUX.git
+
+  if [ $? -eq 0 ];then 
+    cd $TMUX
+    ./autogen.sh
+
+    if [ $? -eq 0 ];then 
+      ./configure
+
+      if [ $? -eq 0 ];then 
+        make
+
+        if [ $? -eq 0 ];then 
+          sudo make install
+
+          if [ $? -eq 0 ];then 
+            tmux -V
+            touch $FEATURE
+          fi
+        fi
+      fi
+    fi
+  fi
+
+  cd $PREV_DIR
+
+  stop_feature "tmux1"
+fi
 # less colors
 # FEATURE=$FEATURE_HOME/lesscolors
 # if [ ! -e $FEATURE ]; then
