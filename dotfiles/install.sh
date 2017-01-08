@@ -190,7 +190,7 @@ sudo apt-get  -y  install python-gnomekeyring || exit 1
 sudo apt-get install build-essential python-dev || exit 1
 
 start_feature "apt-get install tools"
-sudo apt-get  -y  install tmux htop || exit 1
+sudo apt-get  -y  install htop || exit 1
 sudo apt-get  -y  install rake || exit 1
 sudo apt-get  -y  install wget || exit 1
 sudo apt-get  -y  install curl || exit 1
