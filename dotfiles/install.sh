@@ -708,6 +708,44 @@ if [ ! -e $FEATURE ]; then
   stop_feature "cppcheck"
 fi
 
+# libevent(tmux)
+FEATURE=$FEATURE_HOME/libevent
+if [ ! -e $FEATURE ]; then
+  start_feature "libevent"
+
+  PREV_DIR=`pwd`
+  TEMP_DIR=`mktemp -d`
+  cd $TEMP_DIR
+
+
+  LIBEVENT=libevent
+  UNTAR_LIBEVENT=$TEMP_DIR/libevent
+  LIBEVENT_TAR=$UNTAR_LIBEVENT.tar.gz
+  wget -O $LIBEVENT_TAR https://github.com/libevent/libevent/releases/download/release-2.0.22-stable/libevent-2.0.22-stable.tar.gz
+
+  if [ $? -eq 0 ];then 
+    mkdir $UNTAR_LIBEVENT
+    tar -xzvf $LIBEVENT_TAR -C $UNTAR_LIBEVENT --strip-components=1
+    if [ $? -eq 0 ];then 
+      cd $UNTAR_LIBEVENT
+      ./configure
+      if [ $? -eq 0 ];then 
+        make
+        if [ $? -eq 0 ];then 
+          sudo make install
+          if [ $? -eq 0 ];then 
+            touch $FEATURE
+          fi
+        fi
+      fi
+      fi
+  fi
+
+  cd $PREV_DIR
+
+  touch $FEATURE
+  stop_feature "libevent"
+fi
 # less colors
 # FEATURE=$FEATURE_HOME/lesscolors
 # if [ ! -e $FEATURE ]; then
