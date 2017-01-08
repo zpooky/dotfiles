@@ -173,8 +173,17 @@ sudo echo "start" || exit 1
 start_feature "update pip"
 
 sudo apt-get  -y  install python3.5 || exit 1
+sudo apt-get  -y  install python3-pip || exit 1
 sudo -H pip3 install --upgrade pip || exit 1
 sudo -H pip3 install keyring || exit 1
+
+sudo apt-get install gnome-common gtk-doc-tools libglib2.0-dev libgtk2.0-dev || exit 1
+sudo apt-get install python-gtk2 python-gtk2-dev python-vte glade python-glade2 || exit 1
+sudo apt-get install libgconf2-dev python-appindicator || exit 1
+sudo apt-get install python-vte python-gconf python-keybinder || exit 1
+sudo apt-get install notify-osd || exit 1
+sudo apt-get install libutempter0 || exit 1
+sudo apt-get install python-notify || exit 1
 
 stop_feature "update pip"
 # apps
@@ -203,6 +212,7 @@ sudo apt-get  -y  install ncurses-term || exit 1
 sudo apt-get  -y  install sqlite3 || exit 1
 sudo apt-get  -y  install sed || exit 1
 sudo apt-get  -y  install ack-grep || exit 1
+sudo apt-get  -y  install  autoconf || exit 1
 
 sudo apt-get -y install libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev || exit 1
 sudo apt-get -y install libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev || exit 1
@@ -743,12 +753,11 @@ if [ ! -e $FEATURE ]; then
 
   cd $PREV_DIR
 
-  touch $FEATURE
   stop_feature "libevent"
 fi
 
 # tmux
-FEATURE=$FEATURE_HOME/tmux1
+FEATURE=$FEATURE_HOME/tmux2
 if [ ! -e $FEATURE ]; then
   start_feature "tmux1"
 
@@ -766,11 +775,14 @@ if [ ! -e $FEATURE ]; then
 
     if [ $? -eq 0 ];then 
       ./configure
+      sudo make uninstall
+      ./configure --prefix=/usr
 
       if [ $? -eq 0 ];then 
         make
 
         if [ $? -eq 0 ];then 
+          # sudo apt-get -y remove tmux
           sudo make install
 
           if [ $? -eq 0 ];then 
@@ -786,6 +798,53 @@ if [ ! -e $FEATURE ]; then
 
   stop_feature "tmux1"
 fi
+
+# less colors
+FEATURE=$FEATURE_HOME/guake1
+if [ ! -e $FEATURE ]; then
+  start_feature "guake"
+  
+  PREV_DIR=`pwd`
+
+  GUAKE_ROOT=$THE_HOME/.guake
+  if [ ! -e $GUAKE_ROOT ]; then
+    git clone https://github.com/Guake/guake.git $GUAKE_ROOT
+    if [ ! $? -eq 0 ]; then
+      rm -rf $GUAKE_ROOT
+    fi
+  fi
+
+  cd $GUAKE_ROOT
+  
+  git pull --rebase origin master
+  
+  if [ $? -eq 0 ];then 
+    ./autogen.sh
+
+    if [ $? -eq 0 ];then 
+      ./configure
+
+      if [ $? -eq 0 ];then 
+        make uninstall
+        make
+
+        if [ $? -eq 0 ];then 
+          sudo make install
+
+          if [ $? -eq 0 ];then 
+            guake --help
+            touch $FEATURE
+          fi
+        fi
+      fi
+    fi
+  fi
+
+  cd $PREV_DIR
+
+  stop_feature "guake"
+fi
+
 # less colors
 # FEATURE=$FEATURE_HOME/lesscolors
 # if [ ! -e $FEATURE ]; then
