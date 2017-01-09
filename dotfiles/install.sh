@@ -45,6 +45,9 @@ function install_cron(){
   rm $CRON_FILE
 }
 
+# compile less settings from .lesskey into .less
+lesskey -o .less .lesskey
+
 GIT_CONFIG_FEATURE=$FEATURE_HOME/gitconfig1
 if [ ! -e $GIT_CONFIG_FEATURE ]; then
   start_feature "git config"

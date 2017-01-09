@@ -29,6 +29,13 @@ alias port-scan='netstat -alnptu | egrep '\''Proto|LISTEN'\'''
 alias sp-open="~/dotfiles/lib/open_keyring.py"
 alias sp-linux="cd ~/Dropbox/root/[]ref/linux"
 alias sp-space="du -hsc *"
-
+#tmux
 alias tmux='tmux -2'
 alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
+# meta alias
+alias sp-alias="vim ~/dotfiles/extrarc && source ~/dotfiles/extrarc"
+# dropbox
+alias sp-tmux="vim ~/Dropbox/root/[]ref/linux/tmux.txt"
+alias sp-vim="vim ~/Dropbox/root/[]ref/linux/vim.txt"
+alias sp-gdb="vim ~/Dropbox/root/[]ref/linux/debug/gdb.txt"
+alias sp-ref="cd ~/Dropbox/root/[]ref/linux/"
