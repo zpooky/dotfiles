@@ -1,0 +1,9 @@
+#env
+LESS = -i -R
+LESSCHARSET = utf-8
+
+#command 
+å   PAGE UP
+Å   PAGE UP
+ä   PAGE DOWN
+Ä   PAGE DOWN

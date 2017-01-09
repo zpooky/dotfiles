@@ -1,5 +1,7 @@
+set nocompatible                  " Turn off vi compatibility.(should be set first)
 " pathogen plugin manager
 execute pathogen#infect()
+execute pathogen#helptags()
 
 "
 if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal"
@@ -11,11 +13,11 @@ endif
 let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
 
 " general
+set ttyfast                      " Faster refraw
 " set cursorline                    " Higlight current line
 let mapleader = "\<Space>"        " map leader to  <space>
 set relativenumber                " relative line numbers
 set number                        " both relative and absolute number
-set nocompatible                  " Turn off vi compatibility.
 " set mouse=a                       " Enables scrolling in the terminal.
 
 " search
@@ -29,7 +31,7 @@ set spelllang=en_gb,sv              " Specify the spell checking language.
 set nospell                       " Disable spell checking by default.
 "
 scriptencoding utf-8
-set encoding=utf-8
+set encoding=utf-8 nobomb
 
 " theme
 syntax enable                         " Highlight the syntax.
@@ -107,6 +109,9 @@ let g:ycm_confirm_extra_conf = 0                  " disable confirm
 
 hi clear SpellBad
 hi SpellBad cterm=underline
+
+" color_coded
+let g:color_coded_filetypes = ['c', 'cpp', 'objc', 'h']
 
 " clang format
 let g:clang_format#style_options = {
