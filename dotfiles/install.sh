@@ -74,7 +74,7 @@ fi
 start_feature "vim"
 git submodule sync
 # recursivly pull in all submodule repos
-# git submodule update --init --recursive --remote
+git submodule update --init --recursive --remote
 git submodule update --init --recursive
 VIM_AUTOLOAD=$THE_HOME/.vim/autoload
 if [ ! -e $VIM_AUTOLOAD ]; then
@@ -199,7 +199,7 @@ start_feature "apt-get install python"
 sudo apt-get  -y  install python-sqlite || exit 1
 sudo apt-get  -y  install python-vobject || exit 1
 sudo apt-get  -y  install python-gnomekeyring || exit 1
-sudo apt-get install build-essential python-dev || exit 1
+sudo apt-get install python-dev || exit 1
 
 start_feature "apt-get install tools"
 sudo apt-get  -y  install htop || exit 1
@@ -829,7 +829,7 @@ if [ ! -e $FEATURE ]; then
       ./configure
 
       if [ $? -eq 0 ];then 
-        make uninstall
+        sudo make uninstall
         make
 
         if [ $? -eq 0 ];then 
@@ -855,12 +855,56 @@ if [ ! -e $FEATURE ]; then
   start_feature "ranger"
 
   sudo apt-get -y remove ranger
-  sudo pip2 install git+https://github.com/ranger/ranger.git
+  sudo -H pip2 install git+https://github.com/ranger/ranger.git
   if [ $? -eq 0 ]; then
     touch $FEATURE
   fi
 
   stop_feature "ranger"
+fi
+
+# less colors
+FEATURE=$FEATURE_HOME/xclip
+if [ ! -e $FEATURE ]; then
+  start_feature "xclip"
+  
+  PREV_DIR=`pwd`
+
+  XCLIP_ROOT=$THE_HOME/.xclip
+  if [ ! -e $XCLIP_ROOT ]; then 
+    git clone https://github.com/astrand/xclip.git $XCLIP_ROOT
+  fi
+
+  if [ -e $XCLIP_ROOT ];then
+    cd $XCLIP_ROOT
+    sudo apt-get install libxcb-util-dev
+    if [ $? -eq 0 ];then 
+      autoreconf
+
+      if [ $? -eq 0 ];then 
+        ./configure
+
+        if [ $? -eq 0 ];then 
+          sudo make uninstall
+          make
+
+          if [ $? -eq 0 ];then 
+            sudo make install.man
+            sudo make install
+
+            if [ $? -eq 0 ];then 
+              xclip -h
+              touch $FEATURE
+            fi
+          fi
+        fi
+      fi
+    fi
+  fi
+
+  cd $PREV_DIR
+
+  stop_feature "xclip"
 fi
 
 # less colors
