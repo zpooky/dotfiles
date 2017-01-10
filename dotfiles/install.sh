@@ -210,7 +210,7 @@ sudo apt-get  -y  install w3m || exit 1
 sudo apt-get  -y  install feh || exit 1
 sudo apt-get  -y  install antiword || exit 1
 sudo apt-get  -y  install catdoc || exit 1
-sudo apt-get  -y  install ranger caca-utils highlight atool w3m poppler-utils mediainfo || exit 1
+sudo apt-get  -y  install caca-utils highlight atool w3m poppler-utils mediainfo || exit 1
 sudo apt-get  -y  install ncurses-term || exit 1
 sudo apt-get  -y  install sqlite3 || exit 1
 sudo apt-get  -y  install sed || exit 1
@@ -275,6 +275,7 @@ if [ ! $? -eq 0 ]; then
   
   cd $PREV_DIR
 fi
+sudo -H pip2 install --upgrade pip || exit 1
 
 # vdirsyncer - sync calendar events to disk
 VDIR_FEATURE=$FEATURE_HOME/vdirsyncer
@@ -846,6 +847,20 @@ if [ ! -e $FEATURE ]; then
   cd $PREV_DIR
 
   stop_feature "guake"
+fi
+
+# ranger
+FEATURE=$FEATURE_HOME/ranger1
+if [ ! -e $FEATURE ]; then
+  start_feature "ranger"
+
+  sudo apt-get -y remove ranger
+  sudo pip2 install git+https://github.com/ranger/ranger.git
+  if [ $? -eq 0 ]; then
+    touch $FEATURE
+  fi
+
+  stop_feature "ranger"
 fi
 
 # less colors
