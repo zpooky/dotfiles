@@ -49,3 +49,6 @@
 [submodule ".vim/bundle/color_coded"]
 	path = .vim/bundle/color_coded
 	url = https://github.com/jeaye/color_coded.git
+[submodule "/home/dev/.tmux/plugins/tpm"]
+	path = .tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
