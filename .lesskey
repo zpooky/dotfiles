@@ -1,9 +1,12 @@
+#command
+l           right-scroll
+h           left-scroll
+
+å   back-screen 
+Å   back-screen
+ä   forw-screen
+Ä   forw-screen
+
 #env
 LESS = -i -R
 LESSCHARSET = utf-8
-
-#command 
-å   PAGE UP
-Å   PAGE UP
-ä   PAGE DOWN
-Ä   PAGE DOWN

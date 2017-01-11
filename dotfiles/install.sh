@@ -167,6 +167,11 @@ if [ ! -e $BASHRC_FEATURE ]; then
   stop_feature "bashrc"
 fi
 
+start_feature "update tmux plugins"
+~/.tmux/plugins/tpm/bin/install_plugins
+stop_feature "update tmux plugins"
+
+
 echo "Enter sudo password"
 sudo echo "start" || exit 1
 

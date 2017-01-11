@@ -170,7 +170,7 @@ noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
 noremap <silent> <leader>. :CommandTTag<cr>
 
 " ignore files in filefinder
-let g:CommandTWildIgnore='*.class,*.cache'
+let g:CommandTWildIgnore='*.class,*.cache,*.part,*.exe,*.zip,*.tar,*.tar.gz,*.jar,*.so,*.gif,*.pdf'
 
 " vim-cpp-enhanced-highlight
 let g:cpp_class_scope_highlight = 1 " Highlighting of class scope
