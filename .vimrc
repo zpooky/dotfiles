@@ -111,7 +111,9 @@ hi clear SpellBad
 hi SpellBad cterm=underline
 
 " color_coded
-let g:color_coded_filetypes = ['c', 'cpp', 'objc', 'h']
+let g:color_coded_enabled = 1
+let g:color_coded_filetypes = ['c', 'cpp', 'objc']
+let g:rehash256 = 1
 
 " clang format
 let g:clang_format#style_options = {
@@ -189,6 +191,8 @@ nnoremap <leader>q :q<CR>
 map <silent> å <PageUp>
 " map ä to page down
 map <silent> ä <PageDown>
+
+map <silent> <leader>, <Esc>:noh<CR>
 
 " resize split
 map <silent> <leader>- :vertical resize -5<CR>

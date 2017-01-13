@@ -1,7 +1,17 @@
 -f .tags
 --recurse=yes
 --exclude=.git
+--exclude=.svn
+--exclude=bundle.js
+--exclude=*.js.map
+--exclude=*.min.*
+--exclude=*.swp
+--exclude=*.bak
+--exclude=*.tar.*
+--exclude=.hg
 --exclude=vendor
+--exclude=flycheck_*
+--exclude=target
 --exclude=node_modules
 --exclude=idea
 --exclude=googletest
