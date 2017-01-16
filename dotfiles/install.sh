@@ -46,7 +46,7 @@ function install_cron(){
 }
 
 # compile less settings from .lesskey into .less
-lesskey -o .less .lesskey
+lesskey -o $THE_HOME/.less $THE_HOME/.lesskey
 
 GIT_CONFIG_FEATURE=$FEATURE_HOME/gitconfig1
 if [ ! -e $GIT_CONFIG_FEATURE ]; then
@@ -212,6 +212,7 @@ sudo apt-get  -y  install rake || exit 1
 sudo apt-get  -y  install wget || exit 1
 sudo apt-get  -y  install curl || exit 1
 sudo apt-get  -y  install w3m || exit 1
+sudo apt-get  -y  install w3m-img
 sudo apt-get  -y  install feh || exit 1
 sudo apt-get  -y  install antiword || exit 1
 sudo apt-get  -y  install catdoc || exit 1
@@ -912,6 +913,34 @@ if [ ! -e $FEATURE ]; then
   stop_feature "xclip"
 fi
 
+# ensime scala vim support
+FEATURE=$FEATURE_HOME/ensime
+if [ ! -e $FEATURE ]; then
+  start_feature "ensim"
+
+  sudo -H pip2 install websocket-client sexpdata 
+
+
+  touch $FEATURE
+  stop_feature "ensime"
+fi
+
+sudo apt-get -y remove ack-grep
+# grep optimized for code used by vim ack plugin
+which ack-grep
+if [ ! $? -eq 0 ]; then
+  start_feature "ack"
+
+  ACK_BIN=$THE_HOME/bin/ack-grep
+  curl http://beyondgrep.com/ack-2.14-single-file > $ACK_BIN
+  if [ $? -eq 0 ];then
+    chmod 0755 $ACK_BIN
+  else
+    rm $ACK_BIN
+  fi
+
+  stop_feature "ack"
+fi
 # less colors
 # FEATURE=$FEATURE_HOME/lesscolors
 # if [ ! -e $FEATURE ]; then
