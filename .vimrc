@@ -13,7 +13,7 @@ endif
 let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
 
 " general
-set ttyfast                      " Faster refraw
+set ttyfast                      " Faster redraw
 " set cursorline                    " Higlight current line
 let mapleader = "\<Space>"        " map leader to  <space>
 set relativenumber                " relative line numbers
@@ -66,6 +66,12 @@ filetype on                       " Enable file type detection
 set smartindent                   " smart indentation
 " vim2hs
 let g:haskell_conceal_wide = 1
+
+" vim-scala
+let g:scala_use_default_keymappings = 0
+
+" 
+let g:rainbow_active = 1
 
 " syntastic
 set statusline+=%#warningmsg#
@@ -122,8 +128,8 @@ let g:clang_format#style_options = {
             \ "AllowShortFunctionsOnASingleLine" : "None",
             \ "BasedOnStyle" : "LLVM"}
 " clang format - map to <Leader>cf in C++ code(\cf)
-autocmd FileType c,cpp,objc nnoremap <buffer><Leader>f :<C-u>ClangFormat<CR>
-autocmd FileType c,cpp,objc vnoremap <buffer><Leader>f :ClangFormat<CR>
+autocmd FileType c,cpp,objc,javascript,java,typescript nnoremap <buffer><Leader>f :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,objc,javascript,java,typescript vnoremap <buffer><Leader>f :ClangFormat<CR>
 
 " ctags - look in the current directory for 'tags',
 " and work up the tree towards root until one is found
@@ -221,6 +227,17 @@ map <silent> <leader>O O<esc>
 map <silent> ö <C-D>
 map <silent> Ö <C-U>
 
+" pane navigation
+map <silent> <leader>1 <esc>1gt
+map <silent> <leader>2 <esc>2gt
+map <silent> <leader>3 <esc>3gt
+map <silent> <leader>4 <esc>4gt
+map <silent> <leader>5 <esc>5gt
+map <silent> <leader>6 <esc>6gt
+map <silent> <leader>7 <esc>7gt
+map <silent> <leader>8 <esc>8gt
+map <silent> <leader>9 <esc>9gt
+
 " insert character(space+*char*)
 " nmap <Space> i_<Esc>r " Need to have another than space it is now the leadr
 " nmap <S-Enter> O<Esc>j
@@ -269,6 +286,9 @@ function! s:CloseIfOnlyNerdTreeLeft()
   endif
 endfunction
 
+" ack
+" Do not auto open first match
+cnoreabbrev Ack Ack!
 " vim-autotool
 let g:autotagTagsFile=".tags" " the ctag file name
 " a.vim
