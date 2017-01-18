@@ -387,29 +387,42 @@ STDMAN_FEATURE=$FEATURE_HOME/stdman
 if [ ! -e $STDMAN_FEATURE ]; then
   start_feature "stdman"
   
-  STDMAN_ROOT=$USER_BIN/stdman
-  rm -rf $STDMAN_ROOT
+  PREV_DIR=`pwd`
 
-  git clone https://github.com/jeaye/stdman.git $STDMAN_ROOT
+  STDMAN_ROOT=$GIT_SOURCES/stdman
+
+  if [ ! -e $STDMAN_ROOT ]; then
+    git clone https://github.com/jeaye/stdman.git $STDMAN_ROOT
+    if [ ! $? -eq 0 ]; then
+      rm -rf $STDMAN_ROOT
+    fi
+  fi
+
+  cd $STDMAN_ROOT
+  git pull --rebase origin master
+
   if [ -e $STDMAN_ROOT ]; then
-    PREV_DIR=`pwd`
 
-    cd $STDMAN_ROOT
+    sudo make uninstall
     ./configure
 
-    RET=$?
-    if [ $RET -eq 0 ];then
-      sudo make install
-
-      RET=$?
-      if [ $RET -eq 0 ];then
-        touch $STDMAN_FEATURE
-        sudo mandb
-        stop_feature "stdman"
+    if [ $? -eq 0 ];then
+      make
+      if [ $? -eq 0 ];then
+        sudo make install
+        if [ $? -eq 0 ];then
+          sudo mandb
+          if [ $? -eq 0 ];then
+            touch $STDMAN_FEATURE
+          fi
+        fi
       fi
-     fi
-     cd $PREV_DIR
-   fi
+    fi
+  fi
+
+  stop_feature "stdman"
+
+  cd $PREV_DIR
 fi
 
 # bcc tools containging kernel debug stuff
@@ -664,24 +677,29 @@ if [ ! -e $FEATURE ]; then
 
   PREV_DIR=`pwd`
 
-  TEMP_DIR=`mktemp -d`
-  cd $TEMP_DIR
-
   CTAGS=ctags
-  git clone https://github.com/universal-ctags/$CTAGS.git
+  CTAGS_ROOT=$GIT_SOURCES/$CTAGS
+  if [ ! -e $CTAGS_ROOT ]; then
+    git clone https://github.com/universal-ctags/$CTAGS.git $CTAGS_ROOT
+    if [ ! $? -eq 0 ]; then
+      rm -rf $CTAGS_ROOT
+    fi
+  fi
+  cd $CTAGS_ROOT
+  git pull --rebase origin master
 
-  if [ $? -eq 0 ];then 
-    cd $CTAGS
+  if [ $? -eq 0 ];then
+    sudo make uninstall
     ./autogen.sh
 
-    if [ $? -eq 0 ];then 
+    if [ $? -eq 0 ];then
       ./configure --prefix=/usr/local
 
-      if [ $? -eq 0 ];then 
+      if [ $? -eq 0 ];then
         make
-        if [ $? -eq 0 ];then 
+        if [ $? -eq 0 ];then
           sudo make install
-          if [ $? -eq 0 ];then 
+          if [ $? -eq 0 ];then
             ctags --version
             touch $FEATURE
           fi
@@ -712,6 +730,7 @@ if [ ! -e $FEATURE ]; then
       rm -rf $CPPCHECK_ROOT
     fi
   fi
+
   git pull --rebase origin master
   if [ $? -eq 0 ];then 
     cd $CPPCHECK
