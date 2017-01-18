@@ -704,16 +704,20 @@ if [ ! -e $FEATURE ]; then
 
   sudo apt-get -y remove cppcheck
 
-  TEMP_DIR=`mktemp -d`
-  cd $TEMP_DIR
-
   CPPCHECK=cppcheck
-  git clone https://github.com/danmar/$CPPCHECK.git 
-
+  CPPCHECK_ROOT=$GIT_SOURCES/$CPPCHECK
+  if [ ! -e $CPPCHECK_ROOT ]; then
+    git clone https://github.com/danmar/$CPPCHECK.git $CPPCHECK_ROOT
+    if [ ! $? -eq 0 ]; then
+      rm -rf $CPPCHECK_ROOT
+    fi
+  fi
+  git pull --rebase origin master
   if [ $? -eq 0 ];then 
     cd $CPPCHECK
 
       if [ $? -eq 0 ];then 
+        sudo make uninstall
         make
         if [ $? -eq 0 ];then 
           sudo make install
@@ -736,32 +740,31 @@ if [ ! -e $FEATURE ]; then
   start_feature "libevent"
 
   PREV_DIR=`pwd`
-  TEMP_DIR=`mktemp -d`
-  cd $TEMP_DIR
-
-  # TODO make git sources instead
 
   LIBEVENT=libevent
-  UNTAR_LIBEVENT=$TEMP_DIR/libevent
-  LIBEVENT_TAR=$UNTAR_LIBEVENT.tar.gz
-  wget -O $LIBEVENT_TAR https://github.com/libevent/libevent/releases/download/release-2.0.22-stable/libevent-2.0.22-stable.tar.gz
+  LIBEVENT_ROOT=$GIT_SOURCES/$LIBEVENT
+
+  if [ ! -e $LIBEVENT_ROOT ]; then
+    git clone https://github.com/libevent/libevent.git $LIBEVENT_ROOT
+    if [ ! $? -eq 0 ]; then
+      rm -rf $LIBEVENT_ROOT
+    fi
+  fi
+  cd $LIBEVENT_ROOT
+  git pull --rebase origin master
 
   if [ $? -eq 0 ];then 
-    mkdir $UNTAR_LIBEVENT
-    tar -xzvf $LIBEVENT_TAR -C $UNTAR_LIBEVENT --strip-components=1
+    sudo make uninstall
+    ./configure
     if [ $? -eq 0 ];then 
-      cd $UNTAR_LIBEVENT
-      ./configure
+      make
       if [ $? -eq 0 ];then 
-        make
+        sudo make install
         if [ $? -eq 0 ];then 
-          sudo make install
-          if [ $? -eq 0 ];then 
-            touch $FEATURE
-          fi
+          touch $FEATURE
         fi
       fi
-      fi
+    fi
   fi
 
   cd $PREV_DIR
