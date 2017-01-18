@@ -29,6 +29,7 @@ if [ ! -e $TARGET ]; then
       if [ $? -eq 0 ]; then
         echo "INSTALLED"
         sudo rm -rf $UNTAR 
+        sudo chown root:root $TARGET -R
         which java
         if [ ! $? -eq 0 ]; then
           # only do this when there is no java

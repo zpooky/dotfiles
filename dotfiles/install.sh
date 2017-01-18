@@ -322,9 +322,8 @@ if [ ! -e $DAVMAIL_FEATURE ];then
   
   DAVMAIL_ZIP=$USER_BIN/davmail.zip
   wget -O $DAVMAIL_ZIP https://sourceforge.net/projects/davmail/files/latest/download?source=files
-  RET=$?
 
-  if [ $RET -eq 0 ];then
+  if [ $? -eq 0 ];then
     unzip $DAVMAIL_ZIP -d $USER_BIN
     rm $DAVMAIL_ZIP
   
