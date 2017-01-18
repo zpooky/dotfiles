@@ -354,6 +354,7 @@ if [ ! -e $LBDB_FEATURE ]; then
   start_feature "LBDB"
 	sudo apt-get -y install lbdb
   RET=$?
+  # TODO build from github https://github.com/tgray/lbdb
   if [ $RET -ne 0 ]; then
     failed_feature "LBDB"
   else
