@@ -916,7 +916,7 @@ fi
 # ensime scala vim support
 FEATURE=$FEATURE_HOME/ensime
 if [ ! -e $FEATURE ]; then
-  start_feature "ensim"
+  start_feature "ensime"
 
   sudo -H pip2 install websocket-client sexpdata 
 
@@ -931,12 +931,14 @@ which ack-grep
 if [ ! $? -eq 0 ]; then
   start_feature "ack"
 
-  ACK_BIN=$THE_HOME/bin/ack-grep
-  curl http://beyondgrep.com/ack-2.14-single-file > $ACK_BIN
+  TEMP_DIR=`mktemp -d`
+  ACK_SOURCE=$TEMP_DIR/ack-grep
+  ACK_DESTINATION=/usr/bin/ack-grep
+  curl http://beyondgrep.com/ack-2.14-single-file > $ACK_SOURCE
   if [ $? -eq 0 ];then
-    chmod 0755 $ACK_BIN
-  else
-    rm $ACK_BIN
+    chmod 0755 $ACK_SOURCE
+    sudo chown root:root $ACK_SOURCE
+    sudo mv $ACK_SOURCE $ACK_DESTINATION
   fi
 
   stop_feature "ack"
