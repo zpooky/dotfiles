@@ -7,6 +7,8 @@ USER=`whoami`
 GROUP=$USER
 FEATURE_HOME=$DOTFILES_HOME/features
 KERNEL_VERSION="`uname -r`"
+GIT_SOURCES=$THE_HOME/sources
+mkdir $GIT_SOURCES
 
 function echoerr() { echo "$@" 1>&2; }
 
@@ -737,6 +739,7 @@ if [ ! -e $FEATURE ]; then
   TEMP_DIR=`mktemp -d`
   cd $TEMP_DIR
 
+  # TODO make git sources instead
 
   LIBEVENT=libevent
   UNTAR_LIBEVENT=$TEMP_DIR/libevent
@@ -773,11 +776,17 @@ if [ ! -e $FEATURE ]; then
 
   PREV_DIR=`pwd`
 
-  TEMP_DIR=`mktemp -d`
-  cd $TEMP_DIR
-
   TMUX=tmux
-  git clone https://github.com/tmux/$TMUX.git
+  TMUX_ROOT=$GIT_SOURCES/$TMUX
+
+  cd $TMUX_ROOT
+  if [ ! -e $TMUX_ROOT ]; then
+    git clone https://github.com/tmux/$TMUX.git $TMUX_ROOT
+    if [ ! $? -eq 0 ]; then
+      rm -rf $TMUX_ROOT
+    fi
+  fi
+  git pull --rebase origin master
 
   if [ $? -eq 0 ];then 
     cd $TMUX
@@ -816,7 +825,7 @@ if [ ! -e $FEATURE ]; then
   
   PREV_DIR=`pwd`
 
-  GUAKE_ROOT=$THE_HOME/.guake
+  GUAKE_ROOT=$GIT_SOURCES/guake
   if [ ! -e $GUAKE_ROOT ]; then
     git clone https://github.com/Guake/guake.git $GUAKE_ROOT
     if [ ! $? -eq 0 ]; then
@@ -876,13 +885,14 @@ if [ ! -e $FEATURE ]; then
   
   PREV_DIR=`pwd`
 
-  XCLIP_ROOT=$THE_HOME/.xclip
+  XCLIP_ROOT=$GIT_SOURCES/xclip
   if [ ! -e $XCLIP_ROOT ]; then 
     git clone https://github.com/astrand/xclip.git $XCLIP_ROOT
   fi
 
   if [ -e $XCLIP_ROOT ];then
     cd $XCLIP_ROOT
+    git pull --rebase origin master
     sudo apt-get install libxcb-util-dev
     if [ $? -eq 0 ];then 
       autoreconf
@@ -943,7 +953,33 @@ if [ ! $? -eq 0 ]; then
 
   stop_feature "ack"
 fi
-# less colors
+# clipster cliboard manager
+FEATURE=$FEATURE_HOME/clipster1
+if [ ! -e $FEATURE ]; then
+  start_feature "clipster"
+
+  PREV_DIR=`pwd`
+  
+  CLIPSTER=clipster
+  CLIPSTER_ROOT=$GIT_SOURCES/$CLIPSTER
+  cd $CLIPSTER_ROOT
+  if [ ! -e $CLIPSTER_ROOT ]; then
+    git clone https://github.com/mrichar1/clipster.git $CLIPSTER_ROOT || exit 1
+  fi
+  git pull --rebase origin master
+  if [ $? -eq 0 ];then
+    CLIPSTER_BIN=$USER_BIN/$CLIPSTER
+    if [ ! -e $CLIPSTER_BIN ]; then
+      ln -s $CLIPSTER_ROOT/$CLIPSTER $CLIPSTER_BIN
+    fi
+    touch $FEATURE
+  fi
+  cd $PREV_DIR
+
+  stop_feature "clipster"
+fi
+
+## less colors
 # FEATURE=$FEATURE_HOME/lesscolors
 # if [ ! -e $FEATURE ]; then
 #   start_feature "lesscolors"
