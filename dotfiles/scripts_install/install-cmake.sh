@@ -1,3 +1,5 @@
+#!/bin/bash
+
 PREV_DIR=`pwd`
 
 CMAKE_NAME=cmake-3.7.1

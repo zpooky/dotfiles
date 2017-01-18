@@ -42,5 +42,7 @@ alias sp-xclip="vim ~/Dropbox/root/[]ref/linux/xclip.txt"
 alias sp-gdb="vim ~/Dropbox/root/[]ref/linux/debug/gdb.md"
 alias sp-perf="vim ~/Dropbox/root/[]ref/linux/debug/perf.txt"
 alias sp-ref="cd ~/Dropbox/root/[]ref/linux/"
+alias sp-todo="cd ~/Dropbox/term_todo/"
+alias sp-systemd="vim ~/Dropbox/root/[]ref/linux/systemd.md"
 # tags
 alias sp-tag="rm .tags;touch .tags;ctags -R *"
