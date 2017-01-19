@@ -7,6 +7,7 @@ NODE_VERSION=v6.9.4
 DEST_TAR=$TEMP_DIR/node.tar.gz
 UNTAR=$TEMP_DIR/node
 TARGET=/opt/node-$NODE_VERSION
+TARGET_LINK=/opt/node-latest
 
 if [ ! -e $TARGET ]; then
 
@@ -16,9 +17,10 @@ if [ ! -e $TARGET ]; then
     mkdir $UNTAR
     tar -xf $DEST_TAR -C $UNTAR --strip-components=1
     if [ $? -eq 0 ]; then
-      sudo chown root:root $UNTAR
+      sudo chown root:root $UNTAR || exit 1
       sudo mv $UNTAR $TARGET
       if [ ! $? -eq 0 ];then
+        ln -s $TARGET $TARGET_LINK
         sudo rm $TARGET
       else
         which node

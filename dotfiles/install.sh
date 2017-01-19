@@ -1026,12 +1026,21 @@ FEATURE=$FEATURE_HOME/jsonlint
 if [ ! -e $FEATURE ]; then
   start_feature "jsonlint"
 
-  sudo npm -g install jsonlint
-  if [ $? -eq 0 ];then
-    sudo update-alternatives --install /usr/bin/jsonlint jsonlint /opt/jsonlint 100
+  JSONLINT=jsonlint
+  NODE_LATEST=/opt/node-latest
+  if [ -e $NODE_LATEST ];then
+    sudo npm -g install $JSONLINT
     if [ $? -eq 0 ];then
-      touch $FEATURE
+      JSONLINT_BIN=$NODE_LATEST/bin/$JSONLINT
+      JSONLINT_LINK=/opt/$JSONLINT
+      sudo ln -s $JSONLINT_BIN $JSONLINT_LINK
+      sudo update-alternatives --install /usr/bin/$JSONLINT $JSONLINT $JSONLINT_LINK 100
+      if [ $? -eq 0 ];then
+        touch $FEATURE
+      fi
     fi
+  else
+    echo "NO $NODE_LATEST"
   fi
 
   stop_feature "jsonlint"
@@ -1039,7 +1048,7 @@ fi
 
 # haskell enviornment
 FEATURE=$FEATURE_HOME/haskell8
-if [ ! $? -eq 0 ]; then
+if [ ! -e $FEATURE ]; then
   start_feature "haskell8"
 
   PREV_DIR=`pwd`
@@ -1051,9 +1060,9 @@ if [ ! $? -eq 0 ]; then
   wget -O $TAR https://haskell.org/platform/download/$HASKELL_VERSION/haskell-platform-$HASKELL_VERSION-unknown-posix--minimal-x86_64.tar.gz
   if [ $? -eq 0 ]; then
     tar xf $TAR
-    if [ $? -eq 0]; then
+    if [ $? -eq 0 ]; then
       sudo ./install-haskell-platform.sh
-      if [ $? -eq 0]; then
+      if [ $? -eq 0 ]; then
         touch $FEATURE
       fi
     fi
