@@ -37,33 +37,24 @@
 [submodule ".vim/bundle/vim-autotag"]
 	path = .vim/bundle/vim-autotag
 	url = https://github.com/craigemery/vim-autotag.git
-[submodule ".vim/bundle/vim-colors-solarized"]
-	path = .vim/bundle/vim-colors-solarized
-	url = https://github.com/altercation/vim-colors-solarized.git
 [submodule ".vim/bundle/vim-scala"]
 	path = .vim/bundle/vim-scala
 	url = https://github.com/derekwyatt/vim-scala.git
-# [submodule ".vim/bundle/syntax"]
-# 	path = .vim/bundle/syntax
-# 	url = https://github.com/octol/vim-cpp-enhanced-highlight.git
 [submodule ".vim/bundle/color_coded"]
 	path = .vim/bundle/color_coded
 	url = https://github.com/jeaye/color_coded.git
 [submodule "/home/dev/.tmux/plugins/tpm"]
 	path = .tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
-[submodule ".vim/bundle/ensime-vim"]
-	path = .vim/bundle/ensime-vim
-	url = https://github.com/ensime/ensime-vim.git
-[submodule ".vim/bundle/color_coded-colorschemes"]
-	path = .vim/bundle/color_coded-colorschemes
-	url = https://github.com/NigoroJr/color_coded-colorschemes.git
-[submodule ".vim/bundle/vim-colorschemes"]
-	path = .vim/bundle/vim-colorschemes
-	url = https://github.com/flazz/vim-colorschemes.git
-[submodule ".vim/bundle/ack.vim"]
-	path = .vim/bundle/ack.vim
-	url = https://github.com/mileszs/ack.vim.git
 [submodule ".vim/bundle/rainbow"]
 	path = .vim/bundle/rainbow
 	url = https://github.com/luochen1990/rainbow.git
+[submodule ".vim/bundle/ack.vim"]
+	path = .vim/bundle/ack.vim
+	url = https://github.com/mileszs/ack.vim.git
+[submodule ".vim/bundle/vim-colorschemes"]
+	path = .vim/bundle/vim-colorschemes
+	url = https://github.com/flazz/vim-colorschemes.git
+[submodule ".vim/bundle/color_coded-colorschemes"]
+	path = .vim/bundle/color_coded-colorschemes
+	url = https://github.com/NigoroJr/color_coded-colorschemes.git
