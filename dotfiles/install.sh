@@ -74,7 +74,7 @@ fi
 
 # submodules
 start_feature "vim"
-git submodule sync
+git submodule sync --recursive
 # recursivly pull in all submodule repos
 git submodule update --init --recursive --remote
 git submodule update --init --recursive
