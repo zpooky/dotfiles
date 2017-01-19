@@ -1,0 +1,15 @@
+--ignore-file=is:.tags
+--ignore-file=is:tags
+--ignore-dir=.idea
+--ignore-dir=target
+--ignore-dir=vendor
+--ignore-dir=log
+--ignore-dir=tmp
+--ignore-dir=doc
+--ignore-dir=coverage
+--smart-case
+--sort-files
+--color
+--follow
+--group
+--recurse
