@@ -320,31 +320,38 @@ DAVMAIL_FEATURE=$FEATURE_HOME/davmail
 if [ ! -e $DAVMAIL_FEATURE ];then
   start_feature "davmail"
   
-  DAVMAIL_ZIP=$USER_BIN/davmail.zip
-  wget -O $DAVMAIL_ZIP https://sourceforge.net/projects/davmail/files/latest/download?source=files
+  PREV_DIR=`pwd`
+  TEMP_DIR=`mktemp -d`
+  cd $TEMP_DIR
+  TARGET=/opt/davmail
+  if [ -e $TARGET ];then
+    sudo mkdir $TARGET || exit 1
+  fi
+
+  TAR=$TEMP_DIR/davmail.tar.gz
+  DAVMAIL_VERSION=4.7.3
+  wget -O $TAR https://sourceforge.net/projects/davmail/files/davmail/$DAVMAIL_VERSION/davmail-linux-x86_64-$DAVMAIL_VERSION-2438.tgz
 
   if [ $? -eq 0 ];then
-    unzip $DAVMAIL_ZIP -d $USER_BIN
-    rm $DAVMAIL_ZIP
-  
-    # wget http://sourceforge.net/projects/davmail/files/davmail/4.7.2/davmail_4.7.2-2427-1_all.deb
+    sudo tar -xzvf $TAR -C $TARGET --strip-components=1
+    if [ $? -eq 0 ];then
 
-    DAVMAIL_SERVICE_SRC=$THE_HOME/dotfiles/service/davmail
-    DAVMAIL_SERVICE_DEST=/etc/init.d/davmail
-    if [ ! -e $DAVMAIL_SERVICE_DEST ];then
-      sudo cp $DAVMAIL_SERVICE_SRC /etc/init.d
-      sudo chmod a+x $DAVMAIL_SERVICE_DEST
-      # TODO fix service
-      sudo service davmail start
-      sudo update-rc.d davmail defaults
+      SOURCE_ROOT=$THE_HOME/dotfiles/davmail
+      sudo cp $SOURCE_ROOT/davmail.properties $TARGET || exit 1
+      sudo cp $SOURCE_ROOT/start.sh $TARGET || exit 1
+      sudo cp $SOURCE_ROOT/davmail.service /lib/systemd/system || exit 1
+      sudo systemctl start davmail.service
 
-    fi
-
-    touch $DAVMAIL_FEATURE
+      touch $DAVMAIL_FEATURE
+    else
+      sudo rm -rf $TARGET
+    fi 
     stop_feature "davmail"
   else
     failed_feature "davmail remote zip"
   fi
+  
+  cd $PREV_DIR
 fi
 
 # lbdb - contact list for mutt
