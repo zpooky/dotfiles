@@ -9,6 +9,10 @@ if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gno
   " let g:solarized_termcolors = 256
 endif
 
+"
+let g:BufSurfIgnore = "__TAGBAR__,help.txt,NERD_tree_*"
+map <silent> <A-Left> <esc>:BufSurfBack<cr>
+map <silent> <A-Right> <esc>:BufSurfForward<cr>
 " Tagbar
 let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
 
@@ -107,6 +111,7 @@ let g:syntastic_cpp_checkers=["gcc","cppcheck","cpplint"]
 let g:syntastic_cppcheck_config_file="~/.syntastic_cppcheck_config"
 " java remove because it runs mvn wich is realy slow
 let g:syntastic_java_checkers=['']
+let g:syntastic_json_checkers=['jsonlint']
 " YouCompleteMe
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_collect_identifiers_from_tags_files = 1
@@ -139,7 +144,7 @@ map <silent> <F3> <c-]>
 " open tag in vertical split
 map <silent> <leader><F3> <a-]>
 " previous 
-map <silent> <A-Left> <c-t>
+" map <silent> <A-Left> <c-t>
 
 " TComment
 nmap <leader>c :TComment<CR>

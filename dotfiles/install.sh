@@ -399,22 +399,24 @@ if [ ! -e $STDMAN_FEATURE ]; then
     fi
   fi
 
-  cd $STDMAN_ROOT
-  git pull --rebase origin master
+  if [ -e $STDMAN_ROOT ];then
+    cd $STDMAN_ROOT
+    git pull --rebase origin master
 
-  if [ -e $STDMAN_ROOT ]; then
+    if [ -e $STDMAN_ROOT ]; then
 
-    sudo make uninstall
-    ./configure
+      sudo make uninstall
+      ./configure
 
-    if [ $? -eq 0 ];then
-      make
       if [ $? -eq 0 ];then
-        sudo make install
+        make
         if [ $? -eq 0 ];then
-          sudo mandb
+          sudo make install
           if [ $? -eq 0 ];then
-            touch $STDMAN_FEATURE
+            sudo mandb
+            if [ $? -eq 0 ];then
+              touch $STDMAN_FEATURE
+            fi
           fi
         fi
       fi
@@ -686,23 +688,25 @@ if [ ! -e $FEATURE ]; then
       rm -rf $CTAGS_ROOT
     fi
   fi
-  cd $CTAGS_ROOT
-  git pull --rebase origin master
-
-  if [ $? -eq 0 ];then
-    sudo make uninstall
-    ./autogen.sh
+  if [ -e $CTAGS_ROOT ]; then
+    cd $CTAGS_ROOT
+    git pull --rebase origin master
 
     if [ $? -eq 0 ];then
-      ./configure --prefix=/usr/local
+      sudo make uninstall
+      ./autogen.sh
 
       if [ $? -eq 0 ];then
-        make
+        ./configure --prefix=/usr/local
+
         if [ $? -eq 0 ];then
-          sudo make install
+          make
           if [ $? -eq 0 ];then
-            ctags --version
-            touch $FEATURE
+            sudo make install
+            if [ $? -eq 0 ];then
+              ctags --version
+              touch $FEATURE
+            fi
           fi
         fi
       fi
@@ -732,13 +736,14 @@ if [ ! -e $FEATURE ]; then
     fi
   fi
 
-  git pull --rebase origin master
-  if [ $? -eq 0 ];then 
-    cd $CPPCHECK
-
+  if [ -e $CPPCHECK_ROOT ];then
+    cd $CPPCHECK_ROOT
+    git pull --rebase origin master
+    if [ $? -eq 0 ];then 
+      cd $CPPCHECK
       if [ $? -eq 0 ];then 
-        sudo make uninstall
-        make
+          sudo make uninstall
+          make
         if [ $? -eq 0 ];then 
           sudo make install
           if [ $? -eq 0 ];then 
@@ -747,6 +752,7 @@ if [ ! -e $FEATURE ]; then
           fi
         fi
       fi
+    fi
   fi
 
   cd $PREV_DIR
@@ -770,18 +776,21 @@ if [ ! -e $FEATURE ]; then
       rm -rf $LIBEVENT_ROOT
     fi
   fi
-  cd $LIBEVENT_ROOT
-  git pull --rebase origin master
 
-  if [ $? -eq 0 ];then 
-    sudo make uninstall
-    ./configure
+  if [ -e $LIBEVENT_ROOT ]; then
+    cd $LIBEVENT_ROOT
+    git pull --rebase origin master
+
     if [ $? -eq 0 ];then 
-      make
+      sudo make uninstall
+      ./configure
       if [ $? -eq 0 ];then 
-        sudo make install
+        make
         if [ $? -eq 0 ];then 
-          touch $FEATURE
+          sudo make install
+          if [ $? -eq 0 ];then 
+            touch $FEATURE
+          fi
         fi
       fi
     fi
@@ -802,34 +811,37 @@ if [ ! -e $FEATURE ]; then
   TMUX=tmux
   TMUX_ROOT=$GIT_SOURCES/$TMUX
 
-  cd $TMUX_ROOT
   if [ ! -e $TMUX_ROOT ]; then
     git clone https://github.com/tmux/$TMUX.git $TMUX_ROOT
     if [ ! $? -eq 0 ]; then
       rm -rf $TMUX_ROOT
     fi
   fi
-  git pull --rebase origin master
 
-  if [ $? -eq 0 ];then 
-    cd $TMUX
-    ./autogen.sh
+  if [ -e $TMUX_ROOT ]; then
+    cd $TMUX_ROOT
+    git pull --rebase origin master
 
     if [ $? -eq 0 ];then 
-      ./configure
-      sudo make uninstall
-      ./configure --prefix=/usr
+      cd $TMUX
+      ./autogen.sh
 
       if [ $? -eq 0 ];then 
-        make
+        ./configure
+        sudo make uninstall
+        ./configure --prefix=/usr
 
         if [ $? -eq 0 ];then 
-          # sudo apt-get -y remove tmux
-          sudo make install
+          make
 
           if [ $? -eq 0 ];then 
-            tmux -V
-            touch $FEATURE
+            # sudo apt-get -y remove tmux
+            sudo make install
+
+            if [ $? -eq 0 ];then 
+              tmux -V
+              touch $FEATURE
+            fi
           fi
         fi
       fi
@@ -856,26 +868,28 @@ if [ ! -e $FEATURE ]; then
     fi
   fi
 
-  cd $GUAKE_ROOT
-  
-  git pull --rebase origin master
-  
-  if [ $? -eq 0 ];then 
-    ./autogen.sh
-
+  if [ -e $GUAKE_ROOT ];then
+    cd $GUAKE_ROOT
+    
+    git pull --rebase origin master
+    
     if [ $? -eq 0 ];then 
-      ./configure
+      ./autogen.sh
 
       if [ $? -eq 0 ];then 
-        sudo make uninstall
-        make
+        ./configure
 
         if [ $? -eq 0 ];then 
-          sudo make install
+          sudo make uninstall
+          make
 
           if [ $? -eq 0 ];then 
-            guake --help
-            touch $FEATURE
+            sudo make install
+
+            if [ $? -eq 0 ];then 
+              guake --help
+              touch $FEATURE
+            fi
           fi
         fi
       fi
@@ -911,30 +925,30 @@ if [ ! -e $FEATURE ]; then
   XCLIP_ROOT=$GIT_SOURCES/xclip
   if [ ! -e $XCLIP_ROOT ]; then 
     git clone https://github.com/astrand/xclip.git $XCLIP_ROOT
+    if [ ! $? -eq 0 ]; then
+      rm -rf $XCLIP_ROOT
+    fi
   fi
 
   if [ -e $XCLIP_ROOT ];then
     cd $XCLIP_ROOT
     git pull --rebase origin master
     sudo apt-get install libxcb-util-dev
+    autoreconf
     if [ $? -eq 0 ];then 
-      autoreconf
+      ./configure
 
       if [ $? -eq 0 ];then 
-        ./configure
+        sudo make uninstall
+        make
 
         if [ $? -eq 0 ];then 
-          sudo make uninstall
-          make
+          sudo make install.man
+          sudo make install
 
           if [ $? -eq 0 ];then 
-            sudo make install.man
-            sudo make install
-
-            if [ $? -eq 0 ];then 
-              xclip -h
-              touch $FEATURE
-            fi
+            xclip -h
+            touch $FEATURE
           fi
         fi
       fi
@@ -985,21 +999,68 @@ if [ ! -e $FEATURE ]; then
   
   CLIPSTER=clipster
   CLIPSTER_ROOT=$GIT_SOURCES/$CLIPSTER
-  cd $CLIPSTER_ROOT
   if [ ! -e $CLIPSTER_ROOT ]; then
     git clone https://github.com/mrichar1/clipster.git $CLIPSTER_ROOT || exit 1
-  fi
-  git pull --rebase origin master
-  if [ $? -eq 0 ];then
-    CLIPSTER_BIN=$USER_BIN/$CLIPSTER
-    if [ ! -e $CLIPSTER_BIN ]; then
-      ln -s $CLIPSTER_ROOT/$CLIPSTER $CLIPSTER_BIN
+    if [ ! $? -eq 0 ]; then
+      rm -rf $CLIPSTER_ROOT
     fi
-    touch $FEATURE
+  fi
+
+  if [ -e $CLIPSTER_ROOT ]; then
+    cd $CLIPSTER_ROOT
+    git pull --rebase origin master
+    if [ $? -eq 0 ];then
+      CLIPSTER_BIN=$USER_BIN/$CLIPSTER
+      if [ ! -e $CLIPSTER_BIN ]; then
+        ln -s $CLIPSTER_ROOT/$CLIPSTER $CLIPSTER_BIN
+      fi
+      touch $FEATURE
+    fi
   fi
   cd $PREV_DIR
 
   stop_feature "clipster"
+fi
+
+# jsonlint used by syntastic to check json
+FEATURE=$FEATURE_HOME/jsonlint
+if [ ! -e $FEATURE ]; then
+  start_feature "jsonlint"
+
+  sudo npm -g install jsonlint
+  if [ $? -eq 0 ];then
+    sudo update-alternatives --install /usr/bin/jsonlint jsonlint /opt/jsonlint 100
+    if [ $? -eq 0 ];then
+      touch $FEATURE
+    fi
+  fi
+
+  stop_feature "jsonlint"
+fi
+
+# haskell enviornment
+FEATURE=$FEATURE_HOME/haskell8
+if [ ! $? -eq 0 ]; then
+  start_feature "haskell8"
+
+  PREV_DIR=`pwd`
+  TEMP_DIR=`mktemp -d`
+  cd $TEMP_DIR
+
+  HASKELL_VERSION=8.0.1
+  TAR=$TEMP_DIR/haskell-$HASKELL_VERSION.tar.gz
+  wget -O $TAR https://haskell.org/platform/download/$HASKELL_VERSION/haskell-platform-$HASKELL_VERSION-unknown-posix--minimal-x86_64.tar.gz
+  if [ $? -eq 0 ]; then
+    tar xf $TAR
+    if [ $? -eq 0]; then
+      sudo ./install-haskell-platform.sh
+      if [ $? -eq 0]; then
+        touch $FEATURE
+      fi
+    fi
+  fi
+
+  stop_feature "haskell8"
 fi
 
 ## less colors

@@ -35,6 +35,7 @@ alias tmux='tmux -2'
 alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
 # meta alias
 alias sp-alias="vim ~/dotfiles/extrarc && source ~/dotfiles/extrarc"
+alias sp-vimrc="vim ~/.vimrc"
 # dropbox
 alias sp-tmux="vim ~/Dropbox/root/[]ref/linux/tmux.txt"
 alias sp-vim="vim ~/Dropbox/root/[]ref/linux/vim.txt"
@@ -44,5 +45,7 @@ alias sp-perf="vim ~/Dropbox/root/[]ref/linux/debug/perf.txt"
 alias sp-ref="cd ~/Dropbox/root/[]ref/linux/"
 alias sp-todo="cd ~/Dropbox/term_todo/"
 alias sp-systemd="vim ~/Dropbox/root/[]ref/linux/systemd.md"
+alias sp-gcc="vim ~/Dropbox/root/[]ref/c/gcc.md"
+alias sp-linker="vim ~/Dropbox/root/[]ref/linux/debug/linker-debug.md"
 # tags
 alias sp-tag="rm .tags;touch .tags;ctags -R *"

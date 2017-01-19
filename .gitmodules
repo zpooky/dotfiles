@@ -58,3 +58,6 @@
 [submodule ".vim/bundle/color_coded-colorschemes"]
 	path = .vim/bundle/color_coded-colorschemes
 	url = https://github.com/NigoroJr/color_coded-colorschemes.git
+[submodule ".vim/bundle/vim-bufsurf"]
+	path = .vim/bundle/vim-bufsurf
+	url = https://github.com/ton/vim-bufsurf.git
