@@ -222,8 +222,7 @@ sudo apt-get  -y  install caca-utils highlight atool w3m poppler-utils mediainfo
 sudo apt-get  -y  install ncurses-term || exit 1
 sudo apt-get  -y  install sqlite3 || exit 1
 sudo apt-get  -y  install sed || exit 1
-sudo apt-get  -y  install ack-grep || exit 1
-sudo apt-get  -y  install  autoconf || exit 1
+sudo apt-get  -y  install autoconf || exit 1
 
 sudo apt-get -y install libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev || exit 1
 sudo apt-get -y install libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev || exit 1
@@ -336,10 +335,10 @@ if [ ! -e $DAVMAIL_FEATURE ];then
     sudo tar -xzvf $TAR -C $TARGET --strip-components=1
     if [ $? -eq 0 ];then
 
-      SOURCE_ROOT=$THE_HOME/dotfiles/davmail
-      sudo cp $SOURCE_ROOT/davmail.properties $TARGET || exit 1
-      sudo cp $SOURCE_ROOT/start.sh $TARGET || exit 1
-      sudo cp $SOURCE_ROOT/davmail.service /lib/systemd/system || exit 1
+      DAVMAIL_SOURCE_ROOT=$THE_HOME/dotfiles/davmail
+      sudo cp $DAVMAIL_SOURCE_ROOT/davmail.properties $TARGET || exit 1
+      sudo cp $DAVMAIL_SOURCE_ROOT/start.sh $TARGET || exit 1
+      sudo cp $DAVMAIL_SOURCE_ROOT/davmail.service /lib/systemd/system || exit 1
       sudo systemctl start davmail.service
 
       touch $DAVMAIL_FEATURE
@@ -1078,6 +1077,57 @@ if [ ! -e $FEATURE ]; then
   stop_feature "haskell8"
 fi
 
+# global
+FEATURE=$FEATURE_HOME/global
+if [ ! -e $FEATURE ]; then
+  start_feature "global"
+
+  PREV_DIR=`pwd`
+  GLOBAL_ROOT=$GIT_SOURCES/global
+  GLOBAL_LATEST=$GLOBAL_ROOT/global-latest
+
+  if [ ! -e $GLOBAL_ROOT ]; then
+    mkdir $GLOBAL_ROOT
+  fi
+  VERSION=6.5.6
+  TAR=$GLOBAL_ROOT/global-$VERSION.tar.gz
+  TARGET=$GLOBAL_ROOT/global-$VERSION
+  if [ ! -e $TARGET ]; then
+    wget -O $TAR http://tamacom.com/global/global-$VERSION.tar.gz
+    if [ $? -eq 0 ]; then
+      mkdir $TARGET
+      tar -xzvf $TAR -C $TARGET --strip-components=1
+      if [ $? -eq 0 ]; then
+        cd $TARGET
+        ./configure
+        if [ $? -eq 0 ];then
+          make
+          if [ $? -eq 0 ];then
+            CURRENT=`pwd`
+            if [ -e $GLOBAL_LATEST ]; then
+              # uninstall previous
+              cd $GLOBAL_LATEST
+              sudo make uninstall
+              cd $CURRENT
+              rm -rf $GLOBAL_LATEST
+            fi
+            sudo make install
+            if [ $? -eq 0 ]; then
+              ln -s $TARGET $GLOBAL_LATEST 
+              touch $FEATURE
+            fi
+          fi
+        fi
+      else
+        rm -rf $TARGET
+      fi
+    fi
+    rm $TAR
+  fi
+
+  cd $PREV_DIR
+  stop_feature "global"
+fi
 ## less colors
 # FEATURE=$FEATURE_HOME/lesscolors
 # if [ ! -e $FEATURE ]; then
