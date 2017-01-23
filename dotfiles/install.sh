@@ -47,6 +47,10 @@ function install_cron(){
   rm $CRON_FILE
 }
 
+function head_id(){
+  git rev-parse HEAD
+}
+
 # compile less settings from .lesskey into .less
 lesskey -o $THE_HOME/.less $THE_HOME/.lesskey
 
@@ -348,7 +352,9 @@ if [ ! -e $DAVMAIL_FEATURE ];then
       DAVMAIL_SOURCE_ROOT=$THE_HOME/dotfiles/davmail
       sudo cp $DAVMAIL_SOURCE_ROOT/davmail.properties $TARGET || exit 1
       sudo cp $DAVMAIL_SOURCE_ROOT/start.sh $TARGET || exit 1
-      sudo cp $DAVMAIL_SOURCE_ROOT/davmail.service /user/lib/systemd/system || exit 1
+      SYSTEMD_ROOT=/usr/local/lib/systemd/system
+      sudo mkdir -p $SYSTEMD_ROOT || exit 1
+      sudo cp $DAVMAIL_SOURCE_ROOT/davmail.service $SYSTEMD_ROOT || exit 1
       sudo systemctl enable davmail.service
       sudo systemctl start davmail.service
 
@@ -641,28 +647,49 @@ if [ ! -e $FEATURE ]; then
 
   PREV_DIR=`pwd`
 
-  TEMP_DIR=`mktemp -d`
-  cd $TEMP_DIR
-  CSCOPE_TAR_PATH=$TEMP_DIR/csope.tar.gz
-  wget -O $CSCOPE_TAR_PATH https://sourceforge.net/projects/cscope/files/cscope/15.8b/cscope-15.8b.tar.gz/download
-  if [ $? -eq 0 ];then 
-    UNTAR_CSCOPE=$TEMP_DIR/cscope
-    mkdir $UNTAR_CSCOPE
-    tar -xzvf $CSCOPE_TAR_PATH -C $UNTAR_CSCOPE --strip-components=1
-    if [ $? -eq 0 ];then 
-      cd $UNTAR_CSCOPE
-      ./configure --prefix=/usr
-      if [ $? -eq 0 ];then 
-        make
-        if [ $? -eq 0 ];then 
-          sudo make install
-          if [ $? -eq 0 ];then 
-            cscope --version
-            touch $FEATURE
+  CSOPE=csope
+  CSOPE_VERSION=15.8b
+  CSOPE_ROOT=$GIT_SOURCES/$CSOPE
+  CSCOPE_TAR_PATH=$CSOPE_ROOT/$CSOPE.tar.gz
+  TARGET=$CSOPE_ROOT/$CSOPE-$CSOPE_VERSION
+  CSOPE_LATEST=$CSOPE_ROOT/$CSOPE-latest
+  if [ -e ! $CSOPE_ROOT ]; then
+    mkdir $CSOPE_ROOT
+  fi
+
+  if [ ! -e $TARGET ]; then
+    wget -O $CSCOPE_TAR_PATH https://sourceforge.net/projects/cscope/files/$CSOPE/$CSOPE_VERSION/$CSOPE-$CSOPE_VERSION.tar.gz
+    if [ $? -eq 0 ];then
+      mkdir $TARGET
+      tar -xzvf $CSCOPE_TAR_PATH -C $TARGET --strip-components=1
+      if [ $? -eq 0 ];then
+        cd $TARGET
+        ./configure --prefix=/usr
+        if [ $? -eq 0 ];then
+          make
+          if [ $? -eq 0 ];then
+            CURRENT=`pwd`
+            if [ -e $CSOPE_LATEST ];then
+              # uninstall previous
+              cd $CSOPE_LATEST
+              sudo make uninstall
+              cd $CURRENT
+              rm -rf $CSOPE_LATEST
+            fi
+            sudo make install
+            if [ $? -eq 0 ];then
+              ln -s $TARGET $CSOPE_LATEST
+              cscope --version
+              touch $FEATURE
+            fi
           fi
         fi
       fi
     fi
+    if [ ! $? -eq 0 ]; then
+      rm -rf $TARGET
+    fi
+    rm $CSCOPE_TAR_PATH
   fi
 
   cd $PREV_DIR
