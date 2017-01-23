@@ -25,7 +25,9 @@ done
 
 if [[ $ANY_NEW = true ]];then
 	#--hint=STRING:body:11 --hint=STRING:body:"$MSG"
-	notify-send --urgency=critical "$MSG" --expire-time=10
+	if [ ! -e ~/.nonotify ]; then
+    notify-send --urgency=critical "$MSG" --expire-time=10
+  fi
 fi
 
 
