@@ -1,0 +1,11 @@
+[Unit]
+Description=Job that runs the clipster daemon
+; Documentation=man:foo(1)
+
+[Service]
+; Type=forking
+ExecStart=/home/spooky/dotfiles/clipster/start.sh
+
+[Install]
+; WantedBy=multi-user.target
+WantedBy=default.target

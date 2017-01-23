@@ -218,11 +218,21 @@ sudo apt-get  -y  install w3m-img
 sudo apt-get  -y  install feh || exit 1
 sudo apt-get  -y  install antiword || exit 1
 sudo apt-get  -y  install catdoc || exit 1
-sudo apt-get  -y  install caca-utils highlight atool w3m poppler-utils mediainfo || exit 1
 sudo apt-get  -y  install ncurses-term || exit 1
 sudo apt-get  -y  install sqlite3 || exit 1
 sudo apt-get  -y  install sed || exit 1
 sudo apt-get  -y  install autoconf || exit 1
+sudo apt-get  -y  install caca-utils || exit 1
+# for archives text
+sudo apt-get  -y  install atool || exit 1
+# for syntax highlighting. text ranger
+sudo apt-get  -y  install highlight || exit 1
+# for media file information.
+sudo apt-get  -y  install mediainfo || exit 1
+#  for PDF text
+sudo apt-get  -y  install poppler-utils || exit 1
+sudo apt-get  -y  install transmission-cli || exit 1
+
 
 sudo apt-get -y install libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev || exit 1
 sudo apt-get -y install libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev || exit 1
@@ -1019,6 +1029,7 @@ if [ ! -e $FEATURE ]; then
       if [ ! -e $CLIPSTER_BIN ]; then
         ln -s $CLIPSTER_ROOT/$CLIPSTER $CLIPSTER_BIN
       fi
+      systemctl enable --user clipster.service
       touch $FEATURE
     fi
   fi
