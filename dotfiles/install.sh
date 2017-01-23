@@ -348,7 +348,8 @@ if [ ! -e $DAVMAIL_FEATURE ];then
       DAVMAIL_SOURCE_ROOT=$THE_HOME/dotfiles/davmail
       sudo cp $DAVMAIL_SOURCE_ROOT/davmail.properties $TARGET || exit 1
       sudo cp $DAVMAIL_SOURCE_ROOT/start.sh $TARGET || exit 1
-      sudo cp $DAVMAIL_SOURCE_ROOT/davmail.service /lib/systemd/system || exit 1
+      sudo cp $DAVMAIL_SOURCE_ROOT/davmail.service /user/lib/systemd/system || exit 1
+      sudo systemctl enable davmail.service
       sudo systemctl start davmail.service
 
       touch $DAVMAIL_FEATURE

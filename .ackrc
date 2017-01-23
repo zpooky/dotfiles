@@ -1,12 +1,17 @@
 --ignore-file=is:.tags
 --ignore-file=is:tags
+--ignore-file=is:.ensime
+--ignore-file=is:soapui.log
 --ignore-dir=.idea
+--ignore-dir=.m2
+--ignore-dir=.ivy2
 --ignore-dir=target
 --ignore-dir=vendor
 --ignore-dir=log
 --ignore-dir=tmp
 --ignore-dir=doc
 --ignore-dir=coverage
+--ignore-dir=.ensime_cache
 --smart-case
 --sort-files
 --color

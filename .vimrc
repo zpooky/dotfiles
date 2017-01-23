@@ -74,7 +74,7 @@ let g:haskell_conceal_wide = 1
 " vim-scala
 let g:scala_use_default_keymappings = 0
 
-" 
+" active rainbow scope higlight 
 let g:rainbow_active = 1
 
 " syntastic
@@ -112,6 +112,7 @@ let g:syntastic_cppcheck_config_file="~/.syntastic_cppcheck_config"
 " java remove because it runs mvn wich is realy slow
 let g:syntastic_java_checkers=['']
 let g:syntastic_json_checkers=['jsonlint']
+let g:syntastic_python_checkers = ['python']
 " YouCompleteMe
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_collect_identifiers_from_tags_files = 1
