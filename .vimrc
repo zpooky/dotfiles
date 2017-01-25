@@ -11,6 +11,7 @@ endif
 
 " theme
 syntax enable                     " Highlight the syntax.
+" colorscheme obsidian            " works for vimrc atleast
 " colorscheme twilighted
 " if has('gui_running')
 "     set background=light
@@ -55,7 +56,6 @@ if has('vim_starting')
   set encoding=utf-8 nobomb
 endif
 
-"
 set nowrap        " don't wrap lines
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 set shiftwidth=2  " number of spaces to use for autoindenting
