@@ -88,7 +88,7 @@ let g:rainbow_active = 1
 "\ 'guifgs': ['darkorange3', 'seagreen3', 'deepskyblue', 'darkorchid3', 'forestgreen', 'lightblue', 'hotpink', 'mistyrose1'],
 " \ 'operators': '_[\,\+\*\-\&\^\!\.\<\>\=\|\?]_',
 ", 'lightmagenta'
-let g:rainbow_conf = 
+let g:rainbow_conf =
 \ {
 \ 'ctermfgs': ['lightblue', 'red', 'cyan', 'darkgreen'],
 \ 'operators': '_[\,\-\<\>\.|]_'

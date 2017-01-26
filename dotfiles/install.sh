@@ -468,80 +468,6 @@ if [ ! -e $BCC_FEATURE ]; then
   fi
 fi
 
-# # slang (mutt dependency)
-# SLANG_DEP=slang-2.3.1
-# SLANG_FEATURE=$FEATURE_HOME/$SLANG_DEP
-# if [ ! -e $SLANG_FEATURE ]; then
-#   start_feature "slang"
-#
-#   PREV_DIR=`pwd`
-#   SLANG_TAR=$SLANG_DEP.tar.bz2
-#   SLANG_TAR_PATH=$USER_BIN/$SLANG_TAR
-#   SLANG_INSTALL_PATH=$USER_BIN/$SLANG_DEP
-#
-#   if [ -e $SLANG_INSTALL_PATH ]; then
-#     rm -rf $SLANG_INSTALL_PATH
-#   fi
-#
-#   wget "http://www.jedsoft.org/releases/slang/$SLANG_TAR" -O $SLANG_TAR_PATH
-#   RET=$?
-#   if [ $RET -eq 0 ];then
-#     tar -xvf $SLANG_TAR_PATH --directory=$USER_BIN
-#     RET=$?
-#     rm $SLANG_TAR_PATH
-#     if [ $RET -eq 0 ];then 
-#       cd $SLANG_INSTALL_PATH
-#       ./configure --prefix=/usr \
-#             --sysconfdir=/etc \
-#             --with-readline=gnu
-#       RET=$?
-#       if [ $RET -eq 0 ]; then
-#         make -j1
-#         RET=$?
-#         if [ $RET -eq 0 ]; then
-#           sudo make install
-#           RET=$?
-#           if [ $RET -e 0 ]; then
-#             stop_feature "slang"
-#             touch $SLANG_FEATURE
-#           fi
-#         fi
-#       fi
-#     fi
-#   fi
-#   cd $PREV_DIR
-# fi
-
-# # mutt
-# MUTT_DIR=mutt-1.7.2
-# MUTT_FEATURE=$FEATURE_HOME/$MUTT_DIR
-# if [ ! -e $MUTT_FEATURE ]; then
-#   start_feature "mutt"
-#   
-#   PREV_DIR=`pwd`
-#   MUTT_TAR=$MUTT_DIR.tar.gz
-#   MUTT_INSTALL_ROOT=$USER_BIN/$MUTT_DIR
-#   MUTT_TAR_PATH=$USER_BIN/$MUTT_TAR
-#
-#   if [ -e $MUTT_INSTALL_ROOT ]; then
-#     rm -rf $MUTT_INSTALL_ROOT
-#   fi
-#   
-#   cd $USER_BIN
-#   wget "ftp://ftp.mutt.org/pub/mutt/$MUTT_TAR" -O $MUTT_TAR_PATH
-#   RET=$?
-#   if [ $RET -eq 0 ];then
-#      tar -xzvf $MUTT_TAR_PATH --directory=$USER_BIN
-#      rm $MUTT_TAR_PATH
-#
-#      # touch $MUTT_FEATURE
-#      stop_feature "mutt"
-#   fi
-#   cd $PREV_DIR
-# fi
-
-# git
-
 # keepass
 FEATURE=$FEATURE_HOME/keepass1
 if [ ! -e $FEATURE ]; then
@@ -719,7 +645,7 @@ if [ -e $OLD_FEATURE ]; then
 fi
 
 # ctags
-FEATURE=$FEATURE_HOME/ctags_universal1
+FEATURE=$FEATURE_HOME/ctags_universal2
 if [ ! -e $FEATURE ]; then
   start_feature "ctags"
 

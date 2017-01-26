@@ -21,6 +21,12 @@ if [[ -e $HOME/bin ]]; then
   PATH=$HOME/bin/:$PATH
 fi
 
+export LD_LIBRARY_PATH=/usr/lib64:/usr/local/lib
+SASAL_LIB=/usr/local/lib/sasl2
+if [[ -e $SASAL_LIB ]]; then
+  LD_LIBRARY_PATH=$SASAL_LIB:$LD_LIBRARY_PATH
+fi
+
 # alias
 alias sp-khal='khal calendar -a red -a work -a personal --format="{red-bold}{start-time}{reset}-{green-bold}{end-time}{reset} {calendar-color}{title}{reset}{yellow}{repeat-symbol}{reset} [{cyan}{location}{reset}][{magenta}{calendar}{reset}]"'
 alias sp-sync='~/dotfiles/lib/keypass_cron.sh; ~/dotfiles/lib/offlineimap_cron.sh; ~/dotfiles/lib/vdirsyncer_cron.sh'
