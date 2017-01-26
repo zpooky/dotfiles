@@ -37,7 +37,7 @@ set number                        " both relative and absolute number
 " search
 set incsearch                     " search wile you type
 set smartcase                     " Case insensitive search, except when capital letters are used.
-" set ignorecase                    " ignore case when searching
+set ignorecase                    " ignore case when searching
 set hls                           " highligt search?
 
 " language
@@ -198,7 +198,7 @@ let g:cpp_experimental_template_highlight = 1 " Highlighting of template functio
 " Alternative save
 nnoremap <leader>w :wa<CR>
 " Alternative quit
-nnoremap <leader>q :q<CR>
+nnoremap <leader>q <esc>:q<CR>
 " map å to page up
 map <silent> å <PageUp>
 " map ä to page down

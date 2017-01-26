@@ -27,7 +27,6 @@ alias sp-sync='~/dotfiles/lib/keypass_cron.sh; ~/dotfiles/lib/offlineimap_cron.s
 alias port-scan='netstat -alnptu | egrep '\''Proto|LISTEN'\'''
 
 alias sp-open="~/dotfiles/lib/open_keyring.py"
-alias sp-linux="cd ~/Dropbox/root/[]ref/linux"
 alias sp-space="du -hsc *"
 alias sp-root="cd \`~/dotfiles/lib/git_root.sh\`"
 #tmux
@@ -52,5 +51,24 @@ alias sp-gcc="vim ~/Dropbox/root/[]ref/c/gcc.md"
 alias sp-linker="vim ~/Dropbox/root/[]ref/linux/debug/linker-debug.md"
 alias sp-sed="vim ~/Dropbox/root/[]ref/linux/sed.md"
 alias sp-ack="vim ~/Dropbox/root/[]ref/linux/ack.md"
+alias sp-linux="cd ~/Dropbox/root/[]ref/linux"
 # tags
-alias sp-tag="rm .tags;touch .tags;ctags -R *"
+function setup_project(){
+  if [ ! -e .git ];then
+    echo 'project root is required to be git:ed'
+    exit 1
+  fi
+#
+  rm .tags
+  touch .tags
+  ctags -R *
+#
+  # ack-grep -f --cpp > cscope.files
+  # cscope -b -q -k
+#
+  gtags
+#
+  #-c g++ -F ycm -F cc
+ ~/sources/YCM-Generator/config_gen.py -b cmake .
+}
+alias sp-setup='setup_project'

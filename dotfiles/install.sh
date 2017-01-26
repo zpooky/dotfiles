@@ -1,5 +1,5 @@
 #!/bin/bash
-THE_HOME=~
+THE_HOME=$HOME
 DOTFILES_HOME=$THE_HOME/dotfiles
 DOTFILES_LIB=$DOTFILES_HOME/lib
 USER_BIN=$THE_HOME/bin
@@ -869,11 +869,10 @@ if [ ! -e $FEATURE ]; then
 
     if [ $? -eq 0 ];then 
       cd $TMUX
+      sudo make uninstall
       ./autogen.sh
 
       if [ $? -eq 0 ];then 
-        ./configure
-        sudo make uninstall
         ./configure --prefix=/usr
 
         if [ $? -eq 0 ];then 
