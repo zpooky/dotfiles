@@ -67,3 +67,6 @@
 [submodule "sources/YCM-Generator"]
 	path = sources/YCM-Generator
 	url = https://github.com/rdnetto/YCM-Generator.git
+[submodule ".vim/bundle/targets.vim"]
+	path = .vim/bundle/targets.vim
+	url = https://github.com/wellle/targets.vim.git
