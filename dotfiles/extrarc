@@ -51,5 +51,6 @@ alias sp-systemd="vim ~/Dropbox/root/[]ref/linux/systemd.md"
 alias sp-gcc="vim ~/Dropbox/root/[]ref/c/gcc.md"
 alias sp-linker="vim ~/Dropbox/root/[]ref/linux/debug/linker-debug.md"
 alias sp-sed="vim ~/Dropbox/root/[]ref/linux/sed.md"
+alias sp-ack="vim ~/Dropbox/root/[]ref/linux/ack.md"
 # tags
 alias sp-tag="rm .tags;touch .tags;ctags -R *"

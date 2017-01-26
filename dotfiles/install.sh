@@ -98,6 +98,7 @@ FEATURE=$FEATURE_HOME/YouCompleteMe2
 if [ ! -e $FEATURE ]; then
   start_feature "YouCompleteMe"
 
+  # TODO should recompile when vim version changes
   PREV_DIR=`pwd`
 
   cd $THE_HOME/.vim/bundle/YouCompleteMe/
@@ -118,6 +119,7 @@ FEATURE=$FEATURE_HOME/color_coded1
 if [ ! -e $FEATURE ]; then
   start_feature "color_coded1"
 
+  # TODO should recompile when vim version changes
   PREV_DIR=`pwd`
   COLOR_CODED_PATH=~/.vim/bundle/color_coded 
   COLOR_CODED_BUILD_PATH=$COLOR_CODED_PATH/build

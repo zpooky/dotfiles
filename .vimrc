@@ -9,7 +9,17 @@ if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gno
   " let g:solarized_termcolors = 256
 endif
 
-"
+" theme
+syntax enable                     " Highlight the syntax.
+" colorscheme twilighted
+" if has('gui_running')
+"     set background=light
+" let g:solarized_contrast="high"
+" else
+"     set background=dark
+" endif 
+
+" Buffer surfer - a buffer stack of recently used buffers
 let g:BufSurfIgnore = "__TAGBAR__,help.txt,NERD_tree_*"
 map <silent> <A-Left> <esc>:BufSurfBack<cr>
 map <silent> <A-Right> <esc>:BufSurfForward<cr>
@@ -27,25 +37,15 @@ set number                        " both relative and absolute number
 " search
 set incsearch                     " search wile you type
 set smartcase                     " Case insensitive search, except when capital letters are used.
-set ic                            " ignore case when searching
+" set ignorecase                    " ignore case when searching
 set hls                           " highligt search?
 
 " language
-set spelllang=en_gb,sv              " Specify the spell checking language.
+set spelllang=en_gb,sv            " Specify the spell checking language.
 set nospell                       " Disable spell checking by default.
 "
 scriptencoding utf-8
 set encoding=utf-8 nobomb
-
-" theme
-syntax enable                         " Highlight the syntax.
-" colorscheme solarized
-" if has('gui_running')
-"     set background=light
-" let g:solarized_contrast="high"
-" else
-"     set background=dark
-" endif 
 
 "
 set nowrap        " don't wrap lines
