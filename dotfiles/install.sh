@@ -94,7 +94,7 @@ fi
 stop_feature "vim"
 
 # git You Complete Me(YCM)
-FEATURE=$FEATURE_HOME/YouCompleteMe2
+FEATURE=$FEATURE_HOME/YouCompleteMe3
 if [ ! -e $FEATURE ]; then
   start_feature "YouCompleteMe"
 
@@ -115,7 +115,7 @@ if [ ! -e $FEATURE ]; then
 fi
 
 # vim color coded
-FEATURE=$FEATURE_HOME/color_coded1
+FEATURE=$FEATURE_HOME/color_coded2
 if [ ! -e $FEATURE ]; then
   start_feature "color_coded1"
 
@@ -148,7 +148,7 @@ if [ ! -e $FEATURE ]; then
 fi
 
 # command-t(vim)
-FEATURE=$FEATURE_HOME/commandt2
+FEATURE=$FEATURE_HOME/commandt3
 if [ ! -e $FEATURE ]; then
   start_feature "commandt1"
   

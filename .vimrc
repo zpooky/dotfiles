@@ -28,6 +28,11 @@ let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
 
 " general
 set ttyfast                      " Faster redraw
+set wildmode=longest:full,full   " bash like command completion when tab
+set showcmd                      " Show incomplete commands as I type
+set wildmenu                     " Show command completion with tab
+set lazyredraw                   " Draw more judiciously
+
 " set cursorline                    " Higlight current line
 let mapleader = "\<Space>"        " map leader to  <space>
 set relativenumber                " relative line numbers
@@ -44,8 +49,11 @@ set hls                           " highligt search?
 set spelllang=en_gb,sv            " Specify the spell checking language.
 set nospell                       " Disable spell checking by default.
 "
-scriptencoding utf-8
-set encoding=utf-8 nobomb
+if has('vim_starting')
+  set fileencoding=utf-8
+  scriptencoding utf-8
+  set encoding=utf-8 nobomb
+endif
 
 "
 set nowrap        " don't wrap lines
@@ -76,6 +84,15 @@ let g:scala_use_default_keymappings = 0
 
 " active rainbow scope higlight 
 let g:rainbow_active = 1
+
+"\ 'guifgs': ['darkorange3', 'seagreen3', 'deepskyblue', 'darkorchid3', 'forestgreen', 'lightblue', 'hotpink', 'mistyrose1'],
+" \ 'operators': '_[\,\+\*\-\&\^\!\.\<\>\=\|\?]_',
+", 'lightmagenta'
+let g:rainbow_conf = 
+\ {
+\ 'ctermfgs': ['lightblue', 'red', 'cyan', 'darkgreen'],
+\ 'operators': '_[\,\-\<\>\.|]_'
+\ }
 
 " syntastic
 set statusline+=%#warningmsg#
@@ -134,8 +151,16 @@ let g:clang_format#style_options = {
             \ "AllowShortFunctionsOnASingleLine" : "None",
             \ "BasedOnStyle" : "LLVM"}
 " clang format - map to <Leader>cf in C++ code(\cf)
-autocmd FileType c,cpp,objc,javascript,java,typescript nnoremap <buffer><Leader>f :<C-u>ClangFormat<CR>
-autocmd FileType c,cpp,objc,javascript,java,typescript vnoremap <buffer><Leader>f :ClangFormat<CR>
+autocmd FileType c,cpp,objc,javascript,java,typescript nnoremap <buffer><Leader>f <esc>:<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,objc,javascript,java,typescript vnoremap <buffer><Leader>f <esc>:ClangFormat<CR>
+
+" format json
+function! FormatJson()
+  " format json file using 2 space indentation
+  exec "%!python ~/dotfiles/lib/json_format.py 2"
+endfunction!
+command! FormatJson :call FormatJson()
+autocmd FileType json nnoremap <buffer><leader>f <esc>:FormatJson<CR>
 
 " ctags - look in the current directory for 'tags',
 " and work up the tree towards root until one is found
