@@ -184,7 +184,7 @@ noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
 noremap <silent> <leader>. :CommandTTag<cr>
 
 " ignore files in filefinder
-let g:CommandTWildIgnore='*.class,*.cache,*.part,*.exe,*.zip,*.tar,*.tar.gz,*.jar,*.so,*.gif,*.pdf'
+let g:CommandTWildIgnore='*.class,*.cache,*.part,*.exe,*.zip,*.tar,*.tar.gz,*.jar,*.so,*.gif,*.pdf,*.pyc'
 
 " vim-cpp-enhanced-highlight
 let g:cpp_class_scope_highlight = 1 " Highlighting of class scope
@@ -295,8 +295,6 @@ endfunction
 " ack
 " Do not auto open first match
 cnoreabbrev Ack Ack!
-" vim-autotool
-let g:autotagTagsFile=".tags" " the ctag file name
 " a.vim
 " toggle between header and source
 autocmd FileType c,cpp,objc,h map <silent> <F2> :A<CR>
@@ -307,3 +305,23 @@ autocmd FileType c,cpp,objc,h map <silent> <leader><F2> :AV<CR>
 set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
 " Always show statusline
 set laststatus=2
+
+"
+let g:gutentags_modules=['ctags', 'gtags_cscope']
+let g:gutentags_ctags_executable="ctags"
+let g:gutentags_tagfile=".tags"
+let g:gutentags_generate_on_missing=1
+let g:gutentags_background_update=1
+
+" let g:gutentags_ctags_executable_cpp="ctag"
+
+let g:gutentags_project_info=[]
+call add(g:gutentags_project_info, {'type': 'python', 'file': 'setup.py'})
+call add(g:gutentags_project_info, {'type': 'ruby', 'file': 'Gemfile'})
+call add(g:gutentags_project_info, {'type': 'haskell', 'glob': '*.cabal'})
+call add(g:gutentags_project_info, {'type': 'haskell', 'file': 'stack.yaml'})
+
+" gtags
+let g:gutentags_gtags_executable="gtags"
+let g:gutentags_gtags_cscope_executable = 'gtags-cscope'
+let g:gutentags_auto_add_gtags_cscope = 1

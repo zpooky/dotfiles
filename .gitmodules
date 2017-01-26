@@ -34,9 +34,6 @@
 [submodule ".vim/bundle/command-t"]
 	path = .vim/bundle/command-t
 	url = https://github.com/wincent/command-t.git
-[submodule ".vim/bundle/vim-autotag"]
-	path = .vim/bundle/vim-autotag
-	url = https://github.com/craigemery/vim-autotag.git
 [submodule ".vim/bundle/vim-scala"]
 	path = .vim/bundle/vim-scala
 	url = https://github.com/derekwyatt/vim-scala.git
@@ -61,3 +58,9 @@
 [submodule ".vim/bundle/vim-bufsurf"]
 	path = .vim/bundle/vim-bufsurf
 	url = https://github.com/ton/vim-bufsurf.git
+[submodule ".vim/bundle/vim-gutentags"]
+	path = .vim/bundle/vim-gutentags
+	url = https://github.com/ludovicchabant/vim-gutentags.git
+[submodule ".vim/bundle/gtags.vim"]
+	path = .vim/bundle/gtags.vim
+	url = https://github.com/bbchung/gtags.vim.git
