@@ -80,6 +80,8 @@ function setup_project(){
   gtags
 #
   #-c g++ -F ycm -F cc
- ~/sources/YCM-Generator/config_gen.py -b cmake .
+  if [[ -e CMakeLists.txt ]]; then
+    ~/sources/YCM-Generator/config_gen.py . -b cmake --verbose -e --format ycm --format cc
+  fi
 }
 alias sp-setup='setup_project'
