@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 # ~/vim/src/Makefile
@@ -7,10 +8,10 @@
 
 
 echo "you have to manually configure script by editing it"
-exit 1
+#exit 1
 PREV=`pwd`
 VIM_ROOT=$HOME/sources/vim
-TARGET=$HOME
+TARGET=/usr/local
 if [ ! -e $VIM_ROOT ]; then 
   git clone https://github.com/vim/vim.git $VIM_ROOT
   if [ ! $? -eq 0 ];then
@@ -27,7 +28,7 @@ if [ -e $VIM_ROOT ]; then
 
   make || exit 1 # VIMRUNTIMEDIR=/usr/share/vim/vim74
 
-  make install || exit 1
+  sudo make install || exit 1
 
   vim --version | grep python
 
