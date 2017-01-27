@@ -22,9 +22,16 @@ if [ -e $VIM_ROOT ]; then
   cd $VIM_ROOT
   git pull --rebase origin master || exit 1
 
-  make clean || exit 1
+  # development files
+  sudo apt-get -y install ruby-dev
+  sudo apt-get -y install python-dev
+  sudo apt-get -y install libperl-dev
+
   # make uninstall --prefix=/home/`whoami`
-  ./configure --with-features=huge --enable-multibyte --enable-rubyinterp --enable-pythoninterp --enable-luainterp --enable-gui=gtk2 --enable-cscope --prefix=$TARGET || exit 1
+  sudo make uninstall
+
+  make clean || exit 1
+  ./configure --with-features=huge --enable-rubyinterp --enable-multibyte --enable-perlinterp=yes --enable-pythoninterp --enable-luainterp --enable-gui=gtk2 --enable-cscope --prefix=$TARGET || exit 1
 
   make || exit 1 # VIMRUNTIMEDIR=/usr/share/vim/vim74
 
@@ -32,7 +39,6 @@ if [ -e $VIM_ROOT ]; then
 
   vim --version | grep python
 
-  cd $PREV
   echo "OK"
   echo "OK"
   echo "OK"
@@ -41,3 +47,5 @@ else
   echo "FAILED"
   echo "FAILED"
 fi
+
+cd $PREV
