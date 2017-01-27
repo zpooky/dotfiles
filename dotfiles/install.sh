@@ -221,6 +221,7 @@ sudo apt-get  -y  install wget || exit 1
 sudo apt-get  -y  install curl || exit 1
 sudo apt-get  -y  install w3m || exit 1
 sudo apt-get  -y  install w3m-img
+sudo apt-get  -y  install colordiff || exit 1
 sudo apt-get  -y  install feh || exit 1
 sudo apt-get  -y  install antiword || exit 1
 sudo apt-get  -y  install catdoc || exit 1
@@ -378,6 +379,7 @@ if [ ! -e $LBDB_FEATURE ]; then
   start_feature "LBDB"
 	sudo apt-get -y install lbdb
   RET=$?
+  install_cron "1 */24 * * *" "$THE_HOME/.mutt/lib/refreshaddress.sh"
   # TODO build from github https://github.com/tgray/lbdb
   if [ $RET -ne 0 ]; then
     failed_feature "LBDB"
@@ -388,8 +390,9 @@ if [ ! -e $LBDB_FEATURE ]; then
 fi
 
 # offlineimap - offline mail sync
-OFFLINEIMAP_FEATURE=$FEATURE_HOME/offlineimap
-if [ ! -e $OFFLINEIMAP_FEATURE ]; then
+FEATURE=$FEATURE_HOME/offlineimap
+FEATURE_LATEST="${FEATURE}1"
+if [ ! -e $FEATURE_LATEST ]; then
   # 1. create project in https://console.developers.google.com/iam-admin/projects
   # 2. add permissions https://console.developers.google.com/apis/api/
   # - gmail API
@@ -398,11 +401,20 @@ if [ ! -e $OFFLINEIMAP_FEATURE ]; then
   # 3. Credentials > Oath Constant Screen > Product name > Save
   # 4. Crednetials > Create credential > oath client id
   start_feature "offlineimap"
+  PREV_DIR=`pwd`
 
-  sudo apt-get -y install offlineimap
-  install_cron "*/5 * * * *	$THE_HOME/dotfiles/lib/offlineimap_cron.sh"
+  sudo apt-get -y remove offlineimap
+  if [ ! -e $FEATURE ]; then
+    install_cron "*/5 * * * *	$THE_HOME/dotfiles/lib/offlineimap_cron.sh"
+  fi
 
-  touch $OFFLINEIMAP_FEATURE
+  sudo -H pip2 install git+https://github.com/OfflineIMAP/offlineimap.git
+  if [ $? -eq 0 ]; then
+    touch $FEATURE_LATEST
+  fi
+
+  cd $PREV_DIR
+
   stop_feature "offlineimap"
 fi
 

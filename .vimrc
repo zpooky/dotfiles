@@ -220,20 +220,22 @@ let g:cpp_experimental_template_highlight = 1 " Highlighting of template functio
 " Alias
 " set pastetoggle=<F2>
 
+" pastetoggle
+set pastetoggle=<f5>
 " Alternative save
-nnoremap <leader>w :wa<CR>
+nnoremap <silent> <leader>w <esc>:wa<CR>
 " Alternative quit
-nnoremap <leader>q <esc>:q<CR>
+nnoremap <silent> <leader>q <esc>:q<CR>
 " map å to page up
 map <silent> å <PageUp>
 " map ä to page down
 map <silent> ä <PageDown>
 
-map <silent> <leader>, <Esc>:noh<CR>
+map <silent> <leader>, <esc>:noh<CR>
 
 " resize split
-map <silent> <leader>- :vertical resize -5<CR>
-map <silent> <leader>+ :vertical resize +5<CR>
+map <silent> <leader>- <esc>:vertical resize -5<CR>
+map <silent> <leader>+ <esc>:vertical resize +5<CR>
 " navigate between splits
 " pane Left
 map <silent> <leader><Left> <C-W><Left>

@@ -6,6 +6,9 @@ set mailcap_path = ~/.mutt/mailcap # defines how to open different mime types
 auto_view text/html
 auto_view text/calendar
 auto_view image/jpeg
+# diff
+auto_view text/x-diff
+auto_view text/x-patch
 set allow_ansi
 
 ## More settings

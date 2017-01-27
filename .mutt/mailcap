@@ -12,6 +12,9 @@ application/msword; antiword %s; copiousoutput
 application/vnd.ms-excel; xls2csv '%s'; copiousoutput; description="MS Excel sheet";
 application/vnd.ms-powerpoint; catppt '%s'; copiousoutput; description="MS PowerPoint presentation";
 application/pdf; evince %s
+# diff
+text/x-diff;  cat %s | colordiff;copiousoutput
+text/x-patch; cat %s | colordiff;copiousoutput
 
 # Open Office Stuff
 application/vnd.oasis.opendocument.database; soffice -no-oosplash -base '%s'; edit=soffice -no-oosplash -base '%s'; test=test -n "$DISPLAY"; description="OpenDocument Database"; nametemplate=%s.odb

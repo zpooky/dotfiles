@@ -29,7 +29,7 @@ if [ ! -e $TARGET ]; then
   wget "http://www.jedsoft.org/releases/slang/$TAR_NAME" -O $TAR
   if [ $? -eq 0 ];then
     mkdir $TARGET
-    tar -xzf $TAR -C $TARGET --strip-components=1
+    tar -xf $TAR -C $TARGET --strip-components=1
     if [ $? -eq 0 ];then 
       cd $TARGET
       ./configure --prefix=/usr/local --with-readline=gnu
@@ -110,6 +110,63 @@ if [ ! -e $TARGET ]; then
     rm $TAR
   fi
 fi
+# ===================================================
+# ===================================================
+# gpg
+# ===================================================
+# ===================================================
+GPG_PACKAGES=(npth libgpg-error libgcrypt libksba libassuan gnupg)
+GPG_VERSIONS=(1.3  1.26         1.7.6     1.3.5   2.4.3     2.1.18)
+for((n=0; n<6; n++)) 
+{
+  NAME=${GPG_PACKAGES[$n]}
+  VERSION=${GPG_VERSIONS[$n]}
+  NAME_VERSION=$NAME-$VERSION
+  ROOT=$SOURCES_ROOT/$NAME
+  TARGET=$ROOT/$NAME_VERSION
+  LATEST=$ROOT/$NAME-latest
+  if [ ! -e $ROOT ];then
+    mkdir $ROOT
+  fi
+
+  if [ ! -e $TARGET ]; then
+
+    TAR_NAME=$NAME_VERSION.tar.bz2
+    TAR=$ROOT/$TAR_NAME
+
+    wget "https://www.gnupg.org/ftp/gcrypt/$NAME/$TAR_NAME" -O $TAR
+    if [ $? -eq 0 ];then
+      mkdir $TARGET
+      tar -xf $TAR -C $TARGET --strip-components=1
+      if [ $? -eq 0 ];then 
+        cd $TARGET
+        ./configure --prefix=/usr/local
+        if [ $? -eq 0 ]; then
+          make
+          if [ $? -eq 0 ]; then
+            CURRENT=`pwd`
+            if [ -e $LATEST ];then
+              # uninstall previous
+              cd $LATEST
+              sudo make uninstall
+              cd $CURRENT
+              rm -rf $LATEST
+            fi
+            sudo make install
+            if [ $? -eq 0 ];then
+              ln -s $TARGET $LATEST
+              echo "$NAME OK"
+            fi
+          fi
+        fi
+      fi
+      if [ ! $? -eq 0 ];then
+        rm -rf $TARGET
+      fi
+      rm $TAR
+    fi
+  fi
+}
 # ===================================================
 # ===================================================
 # gdbm
