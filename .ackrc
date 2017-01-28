@@ -1,5 +1,6 @@
 --ignore-file=is:.tags
 --ignore-file=is:tags
+--ignore-file=is:cscope.out
 --ignore-file=is:.ensime
 --ignore-file=is:soapui.log
 --ignore-dir=.idea

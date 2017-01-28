@@ -33,6 +33,7 @@ if [[ -e $TMUX_COMPLETION ]]; then
 fi
 
 alias cd-="cd -"
+alias gitst="git st"
 # alias
 alias sp-khal='khal calendar -a red -a work -a personal --format="{red-bold}{start-time}{reset}-{green-bold}{end-time}{reset} {calendar-color}{title}{reset}{yellow}{repeat-symbol}{reset} [{cyan}{location}{reset}][{magenta}{calendar}{reset}]"'
 alias sp-sync='~/dotfiles/lib/keypass_cron.sh; ~/dotfiles/lib/offlineimap_cron.sh; ~/dotfiles/lib/vdirsyncer_cron.sh'
@@ -64,7 +65,11 @@ alias sp-linker="vim ~/Dropbox/root/[]ref/linux/debug/linker-debug.md"
 alias sp-sed="vim ~/Dropbox/root/[]ref/linux/sed.md"
 alias sp-ack="vim ~/Dropbox/root/[]ref/linux/ack.md"
 alias sp-linux="cd ~/Dropbox/root/[]ref/linux"
-# tags
+# ===============================================
+# ===============================================
+# =____________DEVELOPMENT______________________=
+# ===============================================
+# ===============================================
 function setup_project(){
   if [ ! -e .git ];then
     echo 'project root is required to be git:ed'
@@ -86,3 +91,13 @@ function setup_project(){
   fi
 }
 alias sp-setup='setup_project'
+
+function makex() {
+  pathpat="(/[^/]*)+:[0-9]+"
+  ccred=$(echo -e "\033[0;31m")
+  ccyellow=$(echo -e "\033[0;33m")
+  ccend=$(echo -e "\033[0m")
+  /usr/bin/make "$@" 2>&1 | sed -E -e "/[Ee]rror[: ]/ s%$pathpat%$ccred&$ccend%g" -e "/[Ww]arning[: ]/ s%$pathpat%$ccyellow&$ccend%g"
+  return ${PIPESTATUS[0]}
+}
+alias makex="makex | less -RiN -p error"
