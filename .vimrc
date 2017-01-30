@@ -27,12 +27,14 @@ map <silent> <A-Right> <esc>:BufSurfForward<cr>
 " Tagbar
 let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
 
+" command(:)
+set wildmode=longest:full,full   " bash like command(:) completion when tab
+set wildmenu                     " Show command(:) completion with tab
+
 " general
 set ttyfast                      " Faster redraw
-set wildmode=longest:full,full   " bash like command completion when tab
-set showcmd                      " Show incomplete commands as I type
-set wildmenu                     " Show command completion with tab
 set lazyredraw                   " Draw more judiciously
+set showcmd                      " Show incomplete vim motions as I type
 
 " set cursorline                    " Higlight current line
 let mapleader = "\<Space>"        " map leader to  <space>
@@ -49,6 +51,8 @@ set hls                           " highligt search?
 " language
 set spelllang=en_gb,sv            " Specify the spell checking language.
 set nospell                       " Disable spell checking by default.
+au FileType gitcommit,md,txt set spell      " turn on spelling for thease types
+
 "
 if has('vim_starting')
   set fileencoding=utf-8
@@ -56,10 +60,11 @@ if has('vim_starting')
   set encoding=utf-8 nobomb
 endif
 
-set nowrap        " don't wrap lines
-set backspace=indent,eol,start " allow backspacing over everything in insert mode
-set shiftwidth=2  " number of spaces to use for autoindenting
-set smarttab      " insert tabs on the start of a line according to shiftwidth, not tabstop
+set nowrap                        " don't wrap lines
+set backspace=indent,eol,start    " allow backspacing over everything in insert mode
+set shiftwidth=2                  " number of spaces to use for autoindenting
+set smarttab                      " insert tabs on the start of a line according
+                                  " to shiftwidth, not tabstop
 "
 set ruler                         " Display the ruler
 " Tab config
@@ -68,14 +73,14 @@ set shiftwidth=2
 set expandtab
 
 "
-set autoindent    " always set autoindenting on
-set copyindent    " copy the previous indentation on autoindenting
-
-" file type specific indentention support 
-filetype plugin on                " Enable file type plug-ins
-filetype indent plugin on
-filetype on                       " Enable file type detection
+set autoindent                    " always set autoindenting on
+set copyindent                    " copy the previous indentation on autoindenting
 set smartindent                   " smart indentation
+"
+filetype on                       " Enable file type detection
+filetype plugin on                " Enable file type plug-ins
+filetype indent plugin on         " file type specific indentention support 
+
 " vim2hs
 let g:haskell_conceal_wide = 1
 
@@ -134,7 +139,10 @@ let g:syntastic_python_checkers = ['python']
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_confirm_extra_conf = 0                  " disable confirm
-" let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra'
+
+let g:ycm_autoclose_preview_window_after_completion = 0
+let g:ycm_autoclose_preview_window_after_insertion = 1
+" let g:ycm_global_ycm_extra_conf = ''
 
 hi clear SpellBad
 hi SpellBad cterm=underline
@@ -301,10 +309,9 @@ set timeoutlen=1000 ttimeoutlen=0
 " Stop that stupid window from popping up
 map q: :q
 
-"
+" 
 au BufNewFile,BufRead *.md set ft=markdown
 au FileType markdown,python set ts=2 sw=2 expandtab
-au FileType gitcommit,md,txt set spell      " turn of spelling for thease types
 
 " Close all open buffers on entering a window if the only
 " buffer that's left is the NERDTree buffer
@@ -320,7 +327,7 @@ function! s:CloseIfOnlyNerdTreeLeft()
 endfunction
 
 " ack
-" Do not auto open first match
+" Do not auto open first match(Ack! instead of Ack)
 cnoreabbrev Ack Ack!
 " a.vim
 " toggle between header and source
