@@ -47,7 +47,8 @@ source ~/.mutt/keymaps
 
 # Colors
 
-source ~/.mutt/colors
+# source ~/.mutt/colors
+source ~/.mutt/colorscheme
 #source $HOME/.mutt/mutt-colors-solarized/mutt-colors-solarized-dark-256.muttrc
 
 # Status Bar -----------------------------------------

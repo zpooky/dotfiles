@@ -1,0 +1,14 @@
+--num-callers=20
+--callgrind:compress-strings=no
+--callgrind:dump-line=yes
+--callgrind:dump-instr=yes
+--callgrind:compress-pos=no
+--callgrind:separate-threads=no
+--callgrind:collect-jumps=yes
+--callgrind:collect-systime=yes
+--callgrind:collect-bus=yes
+--callgrind:cache-sim=yes
+--callgrind:branch-sim=yes
+--callgrind:I1=32768,8,64
+--callgrind:D1=32768,8,64
+--callgrind:LL=262144,8,64

@@ -94,25 +94,30 @@ fi
 stop_feature "vim"
 
 # git You Complete Me(YCM)
-FEATURE=$FEATURE_HOME/YouCompleteMe3
-if [ ! -e $FEATURE ]; then
-  start_feature "YouCompleteMe"
+YCM_IT=3
+YCM_FORKS=("OblitumYouCompleteMe" "YouCompleteMe")
 
-  # TODO should recompile when vim version changes
-  PREV_DIR=`pwd`
+for YCM in "${YCM_FORKS[@]}"
+do
+  FEATURE="$FEATURE_HOME/${YCM}${YCM_IT}"
+  if [ ! -e $FEATURE ]; then
+    start_feature "$YCM"
 
-  cd $THE_HOME/.vim/bundle/YouCompleteMe/
-  ./install.py --clang-completer
-  RET=$?
+    # TODO should recompile when vim version changes
+    PREV_DIR=`pwd`
 
-  if [ $RET -eq 0 ];then
-    touch $FEATURE
+    cd $THE_HOME/.vim/bundle/$YCM
+    ./install.py --clang-completer
+    RET=$?
+    if [ $RET -eq 0 ];then
+      touch $FEATURE
+    fi
+    
+    cd $PREV_DIR
+
+    stop_feature "$YCM"
   fi
-  
-  cd $PREV_DIR
-
-  stop_feature "YouCompleteMe"
-fi
+done
 
 # vim color coded
 FEATURE=$FEATURE_HOME/color_coded2

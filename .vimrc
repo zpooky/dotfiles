@@ -1,6 +1,11 @@
-set nocompatible                  " Turn off vi compatibility.(should be set first)
+" Turn off vi compatibility.(should be set first)
+set nocompatible
 " pathogen plugin manager
 execute pathogen#infect()
+
+let g:pathogen_disabled = []
+call add(g:pathogen_disabled, 'YouCompleteMe')
+
 execute pathogen#helptags()
 
 "
@@ -11,7 +16,9 @@ endif
 
 " theme
 syntax enable                     " Highlight the syntax.
-" colorscheme obsidian            " works for vimrc atleast
+" autocmd BufEnter * colorscheme default
+autocmd FileType c,cpp  colorscheme railscasts
+" autocmd FileType vim    colorscheme obsidian            " works for vimrc atleast
 " colorscheme twilighted
 " if has('gui_running')
 "     set background=light
@@ -31,6 +38,9 @@ let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
 set wildmode=longest:full,full   " bash like command(:) completion when tab
 set wildmenu                     " Show command(:) completion with tab
 
+" set list                        " show special chars, such as tab: eol: trail: extends: nbsp:
+" set listchars=eol:¬             " chars to show for list
+" autocmd filetype html,xml set listchars-=tab:>·
 " general
 set ttyfast                      " Faster redraw
 set lazyredraw                   " Draw more judiciously
@@ -138,11 +148,11 @@ let g:syntastic_python_checkers = ['python']
 " YouCompleteMe
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_confirm_extra_conf = 0                  " disable confirm
+let g:ycm_confirm_extra_conf = 0                        " disable confirm of project specific ycm conf
 
-let g:ycm_autoclose_preview_window_after_completion = 0
-let g:ycm_autoclose_preview_window_after_insertion = 1
-" let g:ycm_global_ycm_extra_conf = ''
+let g:ycm_autoclose_preview_window_after_completion = 0 " do not directly close prototype window
+let g:ycm_autoclose_preview_window_after_insertion = 1  " close it when I exit insert mode.
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 
 hi clear SpellBad
 hi SpellBad cterm=underline
@@ -177,7 +187,7 @@ set tags=./.tags;/
 map <silent> <F3> <c-]>
 " open tag in vertical split
 map <silent> <leader><F3> <a-]>
-" previous 
+" previous
 " map <silent> <A-Left> <c-t>
 
 " TComment
@@ -299,6 +309,7 @@ set noerrorbells         " don't beep
 "
 set nobackup            " no bak
 set noswapfile          " no swap
+"
 set autoread            " auto reload when changes
 
 " Get rid of nasty lag on ESC (timeout and ttimeout seem useless) sp??
@@ -309,7 +320,7 @@ set timeoutlen=1000 ttimeoutlen=0
 " Stop that stupid window from popping up
 map q: :q
 
-" 
+"
 au BufNewFile,BufRead *.md set ft=markdown
 au FileType markdown,python set ts=2 sw=2 expandtab
 

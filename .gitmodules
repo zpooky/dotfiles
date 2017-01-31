@@ -70,3 +70,12 @@
 [submodule ".vim/bundle/targets.vim"]
 	path = .vim/bundle/targets.vim
 	url = https://github.com/wellle/targets.vim.git
+[submodule ".vim/bundle/OblitumYouCompleteMe"]
+	path = .vim/bundle/OblitumYouCompleteMe
+	url = https://github.com/oblitum/YouCompleteMe.git
+# [submodule ".vim/bundle/ultisnips"]
+# 	path = .vim/bundle/ultisnips
+# 	url = https://github.com/SirVer/ultisnips.git
+# [submodule ".vim/bundle/vim-snippets"]
+# 	path = .vim/bundle/vim-snippets
+# 	url = https://github.com/honza/vim-snippets.git
