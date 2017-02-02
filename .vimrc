@@ -17,7 +17,7 @@ endif
 " theme
 syntax enable                     " Highlight the syntax.
 " autocmd BufEnter * colorscheme default
-autocmd FileType c,cpp  colorscheme railscasts
+autocmd FileType c,cpp,gitconfig colorscheme railscasts
 " autocmd FileType vim    colorscheme obsidian            " works for vimrc atleast
 " colorscheme twilighted
 " if has('gui_running')
@@ -38,15 +38,21 @@ let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
 set wildmode=longest:full,full   " bash like command(:) completion when tab
 set wildmenu                     " Show command(:) completion with tab
 
-" set list                        " show special chars, such as tab: eol: trail: extends: nbsp:
-" set listchars=eol:¬             " chars to show for list
-" autocmd filetype html,xml set listchars-=tab:>·
+" note: debug set with "set list?" ?: means print current value
+set list                              " show special chars, such as tab: eol: trail: extends: nbsp:
+" chars to show for blank characters
+set listchars=tab:·»
+set listchars+=eol:¬
+set listchars+=trail:·
+
 " general
 set ttyfast                      " Faster redraw
-set lazyredraw                   " Draw more judiciously
+" don't bother updating screen during macro playback
+set lazyredraw
 set showcmd                      " Show incomplete vim motions as I type
 
 " set cursorline                    " Higlight current line
+autocmd FileType c,cpp set cursorline
 let mapleader = "\<Space>"        " map leader to  <space>
 set relativenumber                " relative line numbers
 set number                        " both relative and absolute number
@@ -154,6 +160,22 @@ let g:ycm_autoclose_preview_window_after_completion = 0 " do not directly close 
 let g:ycm_autoclose_preview_window_after_insertion = 1  " close it when I exit insert mode.
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 
+" " ycm ultisnip integration
+" " YCM + UltiSnips works like crap
+" " https://www.youtube.com/watch?v=WeppptWfV-0
+" let g:ycm_use_ultisnips_completer = 1
+" let g:ycm_key_list_select_completion=[]
+" let g:ycm_key_list_previous_completion=[]
+" let g:UltiSnipsExpandTrigger = '<Tab>'
+" let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+" let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+"
+" let g:UltiSnipsMappingsToIgnore = ['autocomplete']
+"
+" let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
+" let g:ycm_key_list_accept_completion = ['<C-y>']
+"
 hi clear SpellBad
 hi SpellBad cterm=underline
 
@@ -169,16 +191,24 @@ let g:clang_format#style_options = {
             \ "AllowShortFunctionsOnASingleLine" : "None",
             \ "BasedOnStyle" : "LLVM"}
 " clang format - map to <Leader>cf in C++ code(\cf)
-autocmd FileType c,cpp,objc,javascript,java,typescript nnoremap <buffer><Leader>f <esc>:<C-u>ClangFormat<CR>
-autocmd FileType c,cpp,objc,javascript,java,typescript vnoremap <buffer><Leader>f <esc>:ClangFormat<CR>
+autocmd FileType c,cpp,objc nnoremap <buffer><Leader>f <esc>:<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,objc vnoremap <buffer><Leader>f <esc>:ClangFormat<CR>
 
 " format json
 function! FormatJson()
+  :mark o
   " format json file using 2 space indentation
   exec "%!python ~/dotfiles/lib/json_format.py 2"
+  :normal `o
 endfunction!
 command! FormatJson :call FormatJson()
 autocmd FileType json nnoremap <buffer><leader>f <esc>:FormatJson<CR>
+
+" format python
+let g:formatter_yapf_style = 'chrome'
+
+" vim-autoformat language formatters
+autocmd FileType java,python,html,css,markdown,haskell,xml nnoremap <buffer><leader>f :Autoformat<CR>
 
 " ctags - look in the current directory for 'tags',
 " and work up the tree towards root until one is found
@@ -191,20 +221,20 @@ map <silent> <leader><F3> <a-]>
 " map <silent> <A-Left> <c-t>
 
 " TComment
-nmap <leader>c :TComment<CR>
-nmap <leader>= :TCommentBlock<CR>
+nmap <leader>c <esc>:TComment<CR>
+nmap <leader>= <esc>:TCommentBlock<CR>
 
 " Tcomment visual
 vmap <leader>c :TComment<CR>
 vmap <leader>= :TCommentBlock<CR>
 
 " tagbar
-nmap <silent> <F10> :TagbarToggle<CR>
+nmap <silent> <F10> <esc>:TagbarToggle<CR>
 imap <silent> <F10> <ESC>:TagbarToggle<CR>
 cmap <silent> <F10> <ESC>:TagbarToggle<CR>
 
 " nerdtree
-map <silent> <F8> :NERDTreeToggle<CR>
+map <silent> <F8> <esc>:NERDTreeToggle<CR>
 imap <silent> <F8> <ESC>:NERDTreeToggle<CR>
 cmap <silent> <F8> <ESC>:NERDTreeToggle<CR>
 let NERDTreeIgnore = [
@@ -218,13 +248,13 @@ let NERDTreeIgnore = [
 let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
-let NERDTreeShowHidden=1  " show hidden dotfiles
+let NERDTreeShowHidden = 1  " show hidden dotfiles
 
 " CommandT
 noremap <silent> <leader>r <Esc>:CommandT<CR>
 " noremap <silent> <leader>O <Esc>:CommandTFlush<CR>
 noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
-noremap <silent> <leader>. :CommandTTag<cr>
+noremap <silent> <leader>. <esc>:CommandTTag<cr>
 
 " ignore files in filefinder
 let g:CommandTWildIgnore='*.class,*.cache,*.part,*.exe,*.zip,*.tar,*.tar.gz,*.jar,*.so,*.gif,*.pdf,*.pyc'
@@ -234,9 +264,6 @@ let g:cpp_class_scope_highlight = 1 " Highlighting of class scope
 let g:cpp_experimental_template_highlight = 1 " Highlighting of template functions
 
 ":CommandTMRU
-
-" Alias
-" set pastetoggle=<F2>
 
 " pastetoggle
 set pastetoggle=<f5>
@@ -318,7 +345,7 @@ au InsertLeave * set timeoutlen=1000
 set timeoutlen=1000 ttimeoutlen=0
 
 " Stop that stupid window from popping up
-map q: :q
+map q: <esc>:q
 
 "
 au BufNewFile,BufRead *.md set ft=markdown

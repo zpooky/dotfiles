@@ -32,6 +32,11 @@ if [[ -e $TMUX_COMPLETION ]]; then
   source $TMUX_COMPLETION
 fi
 
+CABAL_BIN=~/.cabal/bin
+if [[ -e $CABAL_BIN ]]; then
+  PATH=$CABAL_BIN:$PATH
+fi
+
 alias cd-="cd -"
 alias gitst="git st"
 # alias
@@ -43,6 +48,7 @@ alias sp-open="~/dotfiles/lib/open_keyring.py"
 alias sp-space="du -hsc *"
 alias sp-root="cd \`~/dotfiles/lib/git_root.sh\`"
 #tmux
+# force the 256 colors compatibility
 alias tmux='tmux -2'
 alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
 # meta alias
@@ -62,6 +68,7 @@ alias sp-todo="cd ~/Dropbox/term_todo/"
 alias sp-systemd="vim ~/Dropbox/root/[]ref/linux/systemd.md"
 alias sp-gcc="vim ~/Dropbox/root/[]ref/c/gcc.md"
 alias sp-linker="vim ~/Dropbox/root/[]ref/linux/debug/linker-debug.md"
+alias sp-cdebug="vim ~/Dropbox/root/[]ref/linux/debug/cpp-debug.md"
 alias sp-sed="vim ~/Dropbox/root/[]ref/linux/sed.md"
 alias sp-ack="vim ~/Dropbox/root/[]ref/linux/ack.md"
 alias sp-linux="cd ~/Dropbox/root/[]ref/linux"

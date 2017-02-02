@@ -8,6 +8,7 @@ GROUP=$USER
 FEATURE_HOME=$DOTFILES_HOME/features
 KERNEL_VERSION="`uname -r`"
 GIT_SOURCES=$THE_HOME/sources
+SOURCES_ROOT=$GIT_SOURCES
 mkdir $GIT_SOURCES
 
 function echoerr() { echo "$@" 1>&2; }
@@ -235,6 +236,9 @@ sudo apt-get  -y  install sqlite3 || exit 1
 sudo apt-get  -y  install sed || exit 1
 sudo apt-get  -y  install autoconf || exit 1
 sudo apt-get  -y  install caca-utils || exit 1
+
+# xterm-256color support
+sudo apt-get  -y  install ncurses-term || exit 1
 # for archives text
 sudo apt-get  -y  install atool || exit 1
 # for syntax highlighting. text ranger
@@ -305,6 +309,26 @@ if [ ! $? -eq 0 ]; then
   cd $PREV_DIR
 fi
 sudo -H pip2 install --upgrade pip || exit 1
+
+#python format
+sudo -H pip2 install git+https://github.com/google/yapf.git
+#python import sort
+# sudo -H pip2 install git+https://github.com/timothycrosley/isort.git
+which npm
+if [ $? -eq 0 ];then
+  # js format
+  sudo npm install -g js-beautify
+  # typescript format
+  sudo npm install -g typescript-formatter
+  # markdown format
+  sudo npm install -g remark
+fi
+
+STYLEISH_HASKELL=stylish-haskell
+which $STYLEISH_HASKELL
+if [ ! $? -eq 0 ];then
+  cabal install $STYLEISH_HASKELL
+fi
 
 # vdirsyncer - sync calendar events to disk
 VDIR_FEATURE=$FEATURE_HOME/vdirsyncer
@@ -1111,6 +1135,64 @@ if [ ! -e $FEATURE ]; then
   cd $PREV_DIR
   stop_feature "global"
 fi
+
+# artistic style(primarly java formatter)
+FEATURE=$FEATURE_HOME/artistic
+if [ ! -e $FEATURE ]; then
+  start_feature "artistic"
+
+  NAME=astyle
+  VERSION="2.06"
+  NAME_VERSION="${NAME}_${VERSION}"
+  ROOT=$SOURCES_ROOT/$NAME
+  TARGET=$ROOT/$NAME_VERSION
+  LATEST=$ROOT/$NAME-latest
+  if [ ! -e $ROOT ];then
+    mkdir $ROOT
+  fi
+
+  if [ ! -e $TARGET ]; then
+
+    TAR_NAME="${NAME_VERSION}_linux.tar.gz"
+    TAR=$ROOT/$TAR_NAME
+    RET=1
+        #https://sourceforge.net/projects/astyle/files/astyle/astyle%202.06/astyle_2.06_linux.tar.gz
+    wget https://sourceforge.net/projects/astyle/files/astyle/astyle%20$VERSION/$TAR_NAME -O $TAR
+    if [ $? -eq 0 ];then
+      mkdir $TARGET
+      tar -xzf $TAR -C $TARGET --strip-components=1
+      if [ $? -eq 0 ];then 
+        cd $TARGET/build/gcc
+        if [ $? -eq 0 ]; then
+          make
+          if [ $? -eq 0 ]; then
+            CURRENT=`pwd`
+            if [ -e $LATEST ];then
+              # uninstall previous
+              cd $LATEST
+              sudo make uninstall
+              cd $CURRENT
+              rm -rf $LATEST
+            fi
+            sudo make install
+            if [ $? -eq 0 ];then
+              RET=0
+              ln -s $TARGET $LATEST
+              echo "$NAME OK"
+              touch $FEATURE
+            fi
+          fi
+        fi
+      fi
+      if [ ! $RET -eq 0 ];then
+        rm -rf $TARGET
+      fi
+      rm $TAR
+    fi
+  fi
+  stop_feature "artistic"
+fi
+
 ## less colors
 # FEATURE=$FEATURE_HOME/lesscolors
 # if [ ! -e $FEATURE ]; then

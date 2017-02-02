@@ -79,3 +79,9 @@
 # [submodule ".vim/bundle/vim-snippets"]
 # 	path = .vim/bundle/vim-snippets
 # 	url = https://github.com/honza/vim-snippets.git
+# [submodule ".vim/bundle/supertab"]
+# 	path = .vim/bundle/supertab
+# 	url = https://github.com/ervandew/supertab.git
+[submodule ".vim/bundle/vim-autoformat"]
+	path = .vim/bundle/vim-autoformat
+	url = https://github.com/Chiel92/vim-autoformat.git
