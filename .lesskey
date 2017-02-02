@@ -7,6 +7,9 @@ h           left-scroll
 ä   forw-screen
 Ä   forw-screen
 
+ö   forw-scroll
+Ö   back-scroll
+
 #env
 LESS = -i -R
 LESSCHARSET = utf-8
