@@ -1,5 +1,13 @@
 " Turn off vi compatibility.(should be set first)
 set nocompatible
+
+"
+if has('vim_starting')
+  set fileencoding=utf-8
+  scriptencoding utf-8
+  set encoding=utf-8 nobomb
+endif
+
 " pathogen plugin manager
 execute pathogen#infect()
 
@@ -44,6 +52,7 @@ set list                              " show special chars, such as tab: eol: tr
 set listchars=tab:·»
 set listchars+=eol:¬
 set listchars+=trail:·
+set showbreak=↪\                    " useful indication of wrapping
 
 " general
 set ttyfast                      " Faster redraw
@@ -56,7 +65,7 @@ autocmd FileType c,cpp set cursorline
 let mapleader = "\<Space>"        " map leader to  <space>
 set relativenumber                " relative line numbers
 set number                        " both relative and absolute number
-" set mouse=a                       " Enables scrolling in the terminal.
+" set mouse=a                       " Enables scrolling terminal.(mouse mode)
 
 " search
 set incsearch                     " search wile you type
@@ -64,17 +73,38 @@ set smartcase                     " Case insensitive search, except when capital
 set ignorecase                    " ignore case when searching
 set hls                           " highligt search?
 
-" language
-set spelllang=en_gb,sv            " Specify the spell checking language.
-set nospell                       " Disable spell checking by default.
-au FileType gitcommit,md,txt set spell      " turn on spelling for thease types
-
+" Spelling
 "
-if has('vim_starting')
-  set fileencoding=utf-8
-  scriptencoding utf-8
-  set encoding=utf-8 nobomb
-endif
+" gq            : reformat visual
+" ctrl-n        : Next word suggestion
+" ctrl-p        : Previous word suggestion
+"
+" z=            : list suggestions
+" 1z=           : auto select 1 with showing suggestions
+" :spellr       : Repeat the replacement done by z=
+"
+" ]s            : next wrongly spelled
+" {s            : previous
+" zg            : add word to dictonary
+
+" bindings
+map <leader>ss :setlocal spell!<CR>
+map <leader>sn ]s
+map <leader>sp [s
+map <leader>sa zg
+map <leader>sq z=
+
+" underline wrongly spelled words
+hi clear SpellBad
+hi SpellBad cterm=underline
+
+set spelllang=en_gb               " Specify the spell checking language.
+set nospell                       " Disable spell checking by default.
+set dictionary+=/usr/share/dict/words
+au FileType gitcommit,md,text,mail set textwidth=80
+au FileType gitcommit,md,text,mail set colorcolumn=-2 " display bar at textwidth
+au FileType gitcommit,md,text,mail set complete+=kspell
+au FileType gitcommit,md,mail set spell             " turn on spelling for thease types
 
 set nowrap                        " don't wrap lines
 set backspace=indent,eol,start    " allow backspacing over everything in insert mode
@@ -86,7 +116,7 @@ set ruler                         " Display the ruler
 " Tab config
 set tabstop=2
 set shiftwidth=2
-set expandtab
+set expandtab                     " when emitting tab convert to space
 
 "
 set autoindent                    " always set autoindenting on
@@ -176,9 +206,6 @@ let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 " let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
 " let g:ycm_key_list_accept_completion = ['<C-y>']
 "
-hi clear SpellBad
-hi SpellBad cterm=underline
-
 " color_coded
 let g:color_coded_enabled = 1
 let g:color_coded_filetypes = ['c', 'cpp', 'objc']
@@ -291,6 +318,12 @@ map <silent> <leader><Up> <C-W><Up>
 " pane Down
 map <silent> <leader><Down> <C-W><Down>
 
+" Alternative Moving around splits with the leader key
+" nmap <silent> <leader>h :wincmd h<CR> " TODO conflict with split horizontal
+nmap <silent> <leader>j :wincmd j<CR>
+nmap <silent> <leader>k :wincmd k<CR>
+nmap <silent> <leader>l :wincmd l<CR>
+
 " Create vertical pane
 nnoremap <leader>s <esc>:vsplit<enter>
 " Create horizontal pane
@@ -337,7 +370,7 @@ set noerrorbells         " don't beep
 set nobackup            " no bak
 set noswapfile          " no swap
 "
-set autoread            " auto reload when changes
+set autoread            " auto reload after outside changes
 
 " Get rid of nasty lag on ESC (timeout and ttimeout seem useless) sp??
 au InsertEnter * set timeoutlen=1

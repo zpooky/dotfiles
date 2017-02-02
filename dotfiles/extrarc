@@ -22,6 +22,7 @@ if [[ -e $HOME/bin ]]; then
 fi
 
 export LD_LIBRARY_PATH=/usr/lib64:/usr/local/lib
+
 SASAL_LIB=/usr/local/lib/sasl2
 if [[ -e $SASAL_LIB ]]; then
   LD_LIBRARY_PATH=$SASAL_LIB:$LD_LIBRARY_PATH
@@ -72,6 +73,9 @@ alias sp-cdebug="vim ~/Dropbox/root/[]ref/linux/debug/cpp-debug.md"
 alias sp-sed="vim ~/Dropbox/root/[]ref/linux/sed.md"
 alias sp-ack="vim ~/Dropbox/root/[]ref/linux/ack.md"
 alias sp-linux="cd ~/Dropbox/root/[]ref/linux"
+alias sp-tar="vim ~/Dropbox/root/[]ref/linux/compression.txt"
+alias sp-package="vim ~/Dropbox/root/[]ref/linux/install.txt"
+alias sp-mutt="vim ~/Dropbox/root/[]ref/linux/mutt.txt"
 # ===============================================
 # ===============================================
 # =____________DEVELOPMENT______________________=

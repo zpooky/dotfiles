@@ -868,7 +868,7 @@ fi
 FEATURE=$FEATURE_HOME/guake1
 if [ ! -e $FEATURE ]; then
   start_feature "guake"
-  
+
   PREV_DIR=`pwd`
 
   GUAKE_ROOT=$GIT_SOURCES/guake
@@ -881,13 +881,13 @@ if [ ! -e $FEATURE ]; then
 
   if [ -e $GUAKE_ROOT ];then
     cd $GUAKE_ROOT
-    
+
     git pull --rebase origin master
-    
-    if [ $? -eq 0 ];then 
+
+    if [ $? -eq 0 ];then
       ./autogen.sh
 
-      if [ $? -eq 0 ];then 
+      if [ $? -eq 0 ];then
         ./configure
 
         if [ $? -eq 0 ];then 
@@ -930,7 +930,7 @@ fi
 FEATURE=$FEATURE_HOME/xclip
 if [ ! -e $FEATURE ]; then
   start_feature "xclip"
-  
+
   PREV_DIR=`pwd`
 
   XCLIP_ROOT=$GIT_SOURCES/xclip
@@ -1193,12 +1193,60 @@ if [ ! -e $FEATURE ]; then
   stop_feature "artistic"
 fi
 
+# tig - git terminal ncurses TUI
+FEATURE=$FEATURE_HOME/tig
+if [ ! -e $FEATURE ]; then
+  start_feature "tig"
+
+  PREV_DIR=`pwd`
+
+  ROOT=$GIT_SOURCES/tig
+  if [ ! -e $ROOT ]; then
+    git clone https://github.com/jonas/tig.git $ROOT
+    if [ ! $? -eq 0 ]; then
+      rm -rf $ROOT
+    fi
+  fi
+
+  if [ -e $ROOT ];then
+    cd $ROOT
+
+    git pull --rebase origin master
+
+    if [ $? -eq 0 ];then
+      ./autogen.sh
+
+      if [ $? -eq 0 ];then
+        ./configure --prefix=/usr/local
+
+        if [ $? -eq 0 ];then
+          make
+
+          if [ $? -eq 0 ];then
+            sudo make uninstall
+            sudo make install
+
+            if [ $? -eq 0 ];then
+              tig --help
+              touch $FEATURE
+            fi
+          fi
+        fi
+      fi
+    fi
+  fi
+
+  cd $PREV_DIR
+
+  stop_feature "tig"
+fi
+
 ## less colors
 # FEATURE=$FEATURE_HOME/lesscolors
 # if [ ! -e $FEATURE ]; then
 #   start_feature "lesscolors"
-# 
-# 
+#
+#
 #   touch $FEATURE
 #   stop_feature "lesscolors"
 # fi
