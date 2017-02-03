@@ -1,0 +1,29 @@
+# Represent a tab as X spaces
+set tab-size = 2
+
+# character set as graphics
+set line-graphics = utf-8
+
+#set main-view = line-number:yes,interval=10 text
+set main-view-date = custom
+set main-view-date-format = "%Y-%m-%d"
+
+# Bindings
+
+bind generic å scroll-page-up
+bind generic Å scroll-page-up
+
+bind generic ä scroll-page-down
+bind generic Ä scroll-page-down
+
+bind generic ö move-half-page-down
+bind generic Ö move-half-page-up
+
+bind generic k previous
+bind generic j next
+
+bind generic h scroll-left
+bind generic l scroll-right
+
+bind generic gg move-first-line
+bind generic G move-last-line

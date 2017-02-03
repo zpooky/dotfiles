@@ -12,3 +12,6 @@ set verbose off
 set print pretty on
 set print array off
 set print array-indexes on
+
+
+source ~/sources/gdb-dashboard/.gdbinit
