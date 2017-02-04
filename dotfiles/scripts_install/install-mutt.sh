@@ -2,7 +2,7 @@
 
 PREV_DIR=`pwd`
 
-SOURCES_ROOT=~/sources
+SOURCES_ROOT=$HOME/sources
 if [ ! -e $SOURCES_ROOT ]; then
   mkdir $SOURCES_ROOT
 fi

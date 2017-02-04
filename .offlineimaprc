@@ -45,8 +45,8 @@ status_backend = sqlite
 type = Maildir
 localfolders = ~/.mail/work
 nametrans = lambda folder: {'inbox': 'INBOX',
-														'Sent Items': 'Sent Items',
-														'Sent_Items': 'Sent Items'
+                            'Sent Items': 'Sent Items',
+                            'Sent_Items': 'Sent Items'
                             }.get(folder, folder)
 
 [Repository work-remote]
@@ -61,7 +61,7 @@ remotepasseval = get_password("work", "password")
 remoteporteval = get_password("work", "port")
 nametrans = lambda folder: {'INBOX': 'inbox',
                             'elx': 'elx',
-														'Sent Items': 'Sent_Items',
+                            'Sent Items': 'Sent_Items',
                         #    'Sent Items': 'Sent Items',
                         #    'errors': 'errors',
                         #    'github': 'github',

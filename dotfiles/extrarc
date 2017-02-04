@@ -45,7 +45,7 @@ alias sp-khal='khal calendar -a red -a work -a personal --format="{red-bold}{sta
 alias sp-sync='~/dotfiles/lib/keypass_cron.sh; ~/dotfiles/lib/offlineimap_cron.sh; ~/dotfiles/lib/vdirsyncer_cron.sh'
 alias port-scan='netstat -alnptu | egrep '\''Proto|LISTEN'\'''
 
-alias sp-open="~/dotfiles/lib/open_keyring.py"
+alias sp-open="~/dotfiles/lib/keypass_cron.sh; ~/dotfiles/lib/open_keyring.py"
 alias sp-space="du -hsc *"
 alias sp-root="cd \`~/dotfiles/lib/git_root.sh\`"
 #tmux

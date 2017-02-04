@@ -139,7 +139,7 @@ if [ ! -e $FEATURE ]; then
   if [ $? -eq 0 ];then 
     make && make install
     RET=$?
-    
+
       # Cleanup afterward; frees several hundred megabytes
       make clean && make clean_clang
 
@@ -147,9 +147,9 @@ if [ ! -e $FEATURE ]; then
       touch $FEATURE
     fi
   fi
-  
+
   cd $PREV_DIR
-  
+
   stop_feature "color_coded1"
 fi
 
@@ -157,7 +157,7 @@ fi
 FEATURE=$FEATURE_HOME/commandt3
 if [ ! -e $FEATURE ]; then
   start_feature "commandt1"
-  
+
   PREV_DIR=`pwd`
 
   cd $THE_HOME/.vim/bundle/command-t/plugin
@@ -316,6 +316,7 @@ sudo -H pip2 install git+https://github.com/google/yapf.git
 # sudo -H pip2 install git+https://github.com/timothycrosley/isort.git
 which npm
 if [ $? -eq 0 ];then
+  sudo npm install -g typescript
   # js format
   sudo npm install -g js-beautify
   # typescript format
@@ -327,22 +328,26 @@ fi
 STYLEISH_HASKELL=stylish-haskell
 which $STYLEISH_HASKELL
 if [ ! $? -eq 0 ];then
+  cabal update
   cabal install $STYLEISH_HASKELL
 fi
 
 # vdirsyncer - sync calendar events to disk
-VDIR_FEATURE=$FEATURE_HOME/vdirsyncer
+VDIR_FEATURE_INITIAL=$FEATURE_HOME/vdirsyncer
+VDIR_FEATURE="${VDIR_FEATURE_INITIAL}1"
 if [ ! -e "$VDIR_FEATURE" ]; then
   start_feature "vdirsyncer" 
 
   sudo -H pip3 install requests requests_oauthlib || exit 1
-  
+
   ## install
   sudo -H pip3 install git+https://github.com/untitaker/vdirsyncer.git || exit 1
-  
-  ## crontab
-  install_cron "*/5 * * * *	$DOTFILES_LIB/vdirsyncer_cron.sh"
-  
+
+  if [ ! -e $VDIR_FEATURE_INITIAL ]; then
+    ## crontab
+    install_cron "*/5 * * * *	$DOTFILES_LIB/vdirsyncer_cron.sh"
+  fi
+
   touch $VDIR_FEATURE
   stop_feature "vdirsyncer" 
 fi
@@ -666,16 +671,8 @@ if [ ! -e $FEATURE ]; then
   stop_feature "cscope"
 fi
 
-# caps to shift
-FEATURE=$FEATURE_HOME/caps_to_shift
-if [ ! -e $FEATURE ]; then
-  start_feature "caps_to_shift"
-
-  xmodmap -e "keycode 66 = Shift_L NoSymbol Shift_L"
-
-  touch $FEATURE
-  stop_feature "caps_to_shift"
-fi
+# caps to escape
+xmodmap -e "keycode 66 = Escape NoSymbol Escape"
 
 #uninstall ctags
 OLD_FEATURE=$FEATURE_HOME/ctags
@@ -1239,6 +1236,18 @@ if [ ! -e $FEATURE ]; then
   cd $PREV_DIR
 
   stop_feature "tig"
+fi
+
+# qutebrowser - browser with vim like binding
+FEATURE=$FEATURE_HOME/qutebrowser
+if [ ! -e $FEATURE ]; then
+  start_feature "qutebrowser"
+
+  sudo apt-get -y install python3-lxml python-tox python3-pyqt5 python3-pyqt5.qtwebkit
+  sudo apt-get -y install python3-pyqt5.qtquick python3-sip python3-jinja2 python3-pygments python3-yaml
+
+  touch $FEATURE
+  stop_feature "qutebrowser"
 fi
 
 ## less colors
