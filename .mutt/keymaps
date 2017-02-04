@@ -1,3 +1,13 @@
+# generic
+bind generic ö    "half-down"         # scroll down 1/2 page
+bind generic Ö    "half-up"           # scroll up 1/2 page
+
+bind generic ä    "next-page"         # move to the next page
+bind generic Ä    "next-page"         # move to the next page
+
+bind generic å    "previous-page"     # move to the previous page
+bind generic Å    "previous-page"     # move to the previous page
+
 # Mailboxes
 bind    index   G  imap-fetch-mail
 macro   index   gi "<change-folder>=INBOX<enter>"       "Go to Inbox"
@@ -5,10 +15,10 @@ macro   index   gs "<change-folder>=$my_sent<enter>"    "Go to Sent"
 macro   index   gd "<change-folder>=$my_drafts<enter>"  "Go to Drafts"
 macro   index   gt "<change-folder>=$my_trash<enter>"   "Go to Trash"
 # search
-macro		generic,index,pager		n		"<esc>/\n" # search backwards for next previously searched
-macro		generic,index,pager		N		"#\n" # search backwards for next previously searched
-bind		generic,index,pager		/		search-reverse
-bind		generic,index,pager		\#		search
+macro  generic,index,pager  n  "<esc>/\n" # search backwards for next previously searched
+macro  generic,index,pager  N  "#\n" # search backwards for next previously searched
+bind  generic,index,pager  /  search-reverse
+bind  generic,index,pager  \#  search
 
 # Index
 bind    index   <up>        previous-entry
@@ -38,4 +48,4 @@ bind    pager   CN          sidebar-next
 bind    pager   CO          sidebar-open
 
 #
-bind		pager		R						group-reply
+bind  pager  R      group-reply

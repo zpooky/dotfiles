@@ -73,6 +73,10 @@ set smartcase                     " Case insensitive search, except when capital
 set ignorecase                    " ignore case when searching
 set hls                           " highligt search?
 
+" Navigation captial H/L goto extreme Right/Left
+noremap H _
+noremap L g_
+
 " Spelling
 "
 " gq            : reformat visual

@@ -1,10 +1,39 @@
 [general]
-accounts = work
+accounts = work,Gmail
 ui = ttyui
 fsync = False
 socktimeout = 60
 pythonfile = ~/dotfiles/lib/keyring-helper.py
 autorefresh = 5
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+#------------------------------------------
+#------------------------------------------
+
+[Account Gmail]
+localrepository = Gmail-Local
+remoterepository = Gmail-Remote
+synclabels = yes
+
+[Repository Gmail-Local]
+type = GmailMaildir
+localfolders = ~/.mail/gmail
+
+[Repository Gmail-Remote]
+type = Gmail
+auth_mechanisms = XOAUTH2
+oauth2_client_ideval = get_password("personal", "client-oauth-id")
+oauth2_client_secret = get_password("personal", "client-oauth-secret")
+# Access tokens have limited lifetimes.
+# If your application needs access beyond the lifetime of a single access token, it can obtain a refresh token.
+oauth2_refresh_torken = get_password("work", "client-oauth-refresh-token")
+realdelete = no
+ssl = yes
+maxconnections = 3
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+#------------------------------------------
+#------------------------------------------
 
 [Account work]
 localrepository = work-local
