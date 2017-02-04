@@ -1,9 +1,9 @@
 [calendars]
-[[work]]
-path = ~/.calendars/work/calendar
-type = calendar
-color = dark blue
-readonly = true
+#[[work]]
+#path = ~/.calendars/work/calendar
+#type = calendar
+#color = dark blue
+#readonly = true
 
 [[personal]]
 path = ~/.calendars/personal
@@ -28,7 +28,7 @@ firstweekday = 0
 
 [default]
 default_command= calendar
-default_calendar= work
+default_calendar= personal
 show_all_days= true
 highlight_event_days= true
 timedelta= 7d

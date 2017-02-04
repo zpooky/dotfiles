@@ -41,41 +41,46 @@ fi
 alias cd-="cd -"
 alias gitst="git st"
 # alias
-alias sp-khal='khal calendar -a red -a work -a personal --format="{red-bold}{start-time}{reset}-{green-bold}{end-time}{reset} {calendar-color}{title}{reset}{yellow}{repeat-symbol}{reset} [{cyan}{location}{reset}][{magenta}{calendar}{reset}]"'
-alias sp-sync='~/dotfiles/lib/keypass_cron.sh; ~/dotfiles/lib/offlineimap_cron.sh; ~/dotfiles/lib/vdirsyncer_cron.sh'
+DOTFILES=$HOME/dotfiles
+DOTFILES_LIB=$DOTFILES/lib
+DROPBOX_LINUX=$HOME/Dropbox/root/[]ref/linux
+alias sp-khal='khal calendar -a red -a personal --format="{red-bold}{start-time}{reset}-{green-bold}{end-time}{reset} {calendar-color}{title}{reset}{yellow}{repeat-symbol}{reset} [{cyan}{location}{reset}][{magenta}{calendar}{reset}]"'
+alias k="sp-khal"
+alias m="mutt"
+alias sp-sync='$DOTFILES_LIB/keypass_cron.sh; $DOTFILES_LIB/offlineimap_cron.sh; $DOTFILES_LIB/vdirsyncer_cron.sh'
 alias port-scan='netstat -alnptu | egrep '\''Proto|LISTEN'\'''
 
-alias sp-open="~/dotfiles/lib/keypass_cron.sh; ~/dotfiles/lib/open_keyring.py"
+alias sp-open="$DOTFILES_LIB/keypass_cron.sh; $DOTFILES_LIB/open_keyring.py"
 alias sp-space="du -hsc *"
-alias sp-root="cd \`~/dotfiles/lib/git_root.sh\`"
+alias sp-root="cd \`$DOTFILES_LIB/git_root.sh\`"
 #tmux
 # force the 256 colors compatibility
 alias tmux='tmux -2'
 alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
 # meta alias
-alias sp-alias="vim ~/dotfiles/extrarc && source ~/dotfiles/extrarc"
+alias sp-alias="vim $DOTFILES/extrarc && source $DOTFILES/extrarc"
 alias sp-vimrc="vim ~/.vimrc"
 # dropbox
-alias sp-tmux="vim ~/Dropbox/root/[]ref/linux/tmux.txt"
-alias sp-vim="vim ~/Dropbox/root/[]ref/linux/vim.txt"
-alias sp-vim-cpp="vim ~/Dropbox/root/[]ref/linux/vim/cpp"
-alias sp-vim-extra="vim ~/Dropbox/root/[]ref/linux/vim/extra"
-alias sp-vim-jump="vim ~/Dropbox/root/[]ref/linux/vim/jump.md"
-alias sp-xclip="vim ~/Dropbox/root/[]ref/linux/xclip.txt"
-alias sp-gdb="vim ~/Dropbox/root/[]ref/linux/debug/gdb.md"
-alias sp-perf="vim ~/Dropbox/root/[]ref/linux/debug/perf.txt"
-alias sp-ref="cd ~/Dropbox/root/[]ref/linux/"
+alias sp-tmux="vim $DROPBOX_LINUX/tmux.txt"
+alias sp-vim="vim $DROPBOX_LINUX/vim.txt"
+alias sp-vim-cpp="vim $DROPBOX_LINUX/vim/cpp"
+alias sp-vim-extra="vim $DROPBOX_LINUX/vim/extra"
+alias sp-vim-jump="vim $DROPBOX_LINUX/vim/jump.md"
+alias sp-xclip="vim $DROPBOX_LINUX/xclip.txt"
+alias sp-gdb="vim $DROPBOX_LINUX/debug/gdb.md"
+alias sp-perf="vim $DROPBOX_LINUX/debug/perf.txt"
+alias sp-ref="cd $DROPBOX_LINUX/"
 alias sp-todo="cd ~/Dropbox/term_todo/"
-alias sp-systemd="vim ~/Dropbox/root/[]ref/linux/systemd.md"
+alias sp-systemd="vim $DROPBOX_LINUX/systemd.md"
 alias sp-gcc="vim ~/Dropbox/root/[]ref/c/gcc.md"
-alias sp-linker="vim ~/Dropbox/root/[]ref/linux/debug/linker-debug.md"
-alias sp-cdebug="vim ~/Dropbox/root/[]ref/linux/debug/cpp-debug.md"
-alias sp-sed="vim ~/Dropbox/root/[]ref/linux/sed.md"
-alias sp-ack="vim ~/Dropbox/root/[]ref/linux/ack.md"
-alias sp-linux="cd ~/Dropbox/root/[]ref/linux"
-alias sp-tar="vim ~/Dropbox/root/[]ref/linux/compression.txt"
-alias sp-package="vim ~/Dropbox/root/[]ref/linux/install.txt"
-alias sp-mutt="vim ~/Dropbox/root/[]ref/linux/mutt.txt"
+alias sp-linker="vim $DROPBOX_LINUX/debug/linker-debug.md"
+alias sp-cdebug="vim $DROPBOX_LINUX/debug/cpp-debug.md"
+alias sp-sed="vim $DROPBOX_LINUX/sed.md"
+alias sp-ack="vim $DROPBOX_LINUX/ack.md"
+alias sp-linux="cd $DROPBOX_LINUX"
+alias sp-tar="vim $DROPBOX_LINUX/compression.txt"
+alias sp-package="vim $DROPBOX_LINUX/install.txt"
+alias sp-mutt="vim $DROPBOX_LINUX/mutt.txt"
 # ===============================================
 # ===============================================
 # =____________DEVELOPMENT______________________=
