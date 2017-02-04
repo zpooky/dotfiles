@@ -4,7 +4,7 @@ OUT=/tmp/sync_offlineimap
 
 
 # sync
-offlineimap > $OUT 
+offlineimap 2>&1 > $OUT 
 
 #
 new_mail_dirs=("$HOME/.mail/*/*/new/")
