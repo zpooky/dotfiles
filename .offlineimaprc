@@ -22,21 +22,13 @@ localfolders = ~/.mail/gmail
 
 [Repository Gmail-Remote]
 type = Gmail
-
-remoteuser = get_password("personal", "email")
-remotepass = get_password("personal", "password")
-
+remoteusereval = get_password("personal", "email")
+remotepasseval = get_password("personal", "password")
 idlefolders = ['INBOX']
 keepalive = 60
 holdconnectionopen = yes
-realdelete = yes# auth_mechanisms = XOAUTH2
-# oauth2_client_ideval = get_password("personal", "client-oauth-id")
-# oauth2_client_secret = get_password("personal", "client-oauth-secret")
-# Access tokens have limited lifetimes.
-# If your application needs access beyond the lifetime of a single access token, it can obtain a refresh token.
-# oauth2_refresh_torken = get_password("work", "client-oauth-refresh-token")
-# realdelete = no
-# ssl = yes
+realdelete = no
+ssl = yes
 # maxconnections = 3
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 

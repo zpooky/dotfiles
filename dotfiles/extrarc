@@ -44,9 +44,12 @@ alias gitst="git st"
 DOTFILES=$HOME/dotfiles
 DOTFILES_LIB=$DOTFILES/lib
 DROPBOX_LINUX=$HOME/Dropbox/root/[]ref/linux
+
 alias sp-khal='khal calendar -a red -a personal --format="{red-bold}{start-time}{reset}-{green-bold}{end-time}{reset} {calendar-color}{title}{reset}{yellow}{repeat-symbol}{reset} [{cyan}{location}{reset}][{magenta}{calendar}{reset}]"'
 alias k="sp-khal"
 alias m="mutt"
+alias duh="du -h -d 0 [^.]*"
+
 alias sp-sync='$DOTFILES_LIB/keypass_cron.sh; $DOTFILES_LIB/offlineimap_cron.sh; $DOTFILES_LIB/vdirsyncer_cron.sh'
 alias port-scan='netstat -alnptu | egrep '\''Proto|LISTEN'\'''
 

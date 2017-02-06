@@ -6,7 +6,7 @@ text/html; w3m -v -F -T text/html %s; edit=vim; compose=vim; nametemplate=%s.htm
 #image/png; feh %s
 #image/gif; feh %s
 #image/tiff; feh %s
-image/jpeg; /local/tools/img2txt/img2txt.py %s --ansi; copiousoutput; needsterminal
+image/jpeg; img2txt %s --ansi; copiousoutput; needsterminal
 image/*; feh %s;
 application/msword; antiword %s; copiousoutput
 application/vnd.ms-excel; xls2csv '%s'; copiousoutput; description="MS Excel sheet";

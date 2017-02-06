@@ -4,7 +4,14 @@ OUT=/tmp/sync_offlineimap
 
 
 # sync
-offlineimap 2>&1 > $OUT 
+echo "offlineimap" > $OUT
+echo "PATH:" >> $OUT
+echo $PATH >> $OUT
+which offlineimap >> $OUT
+
+date >> $OUT
+/usr/local/bin/offlineimap &>> $OUT
+date >> $OUT
 
 #
 new_mail_dirs=("$HOME/.mail/*/*/new/")

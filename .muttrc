@@ -35,7 +35,7 @@ set folder="~/.mail/"
 mailboxes "+work/inbox" \
           +work/Drafts \
           +work/Sent_Items \
-					+work/INBOX.*"
+          +work/INBOX.*"
 
 ## Common
 
