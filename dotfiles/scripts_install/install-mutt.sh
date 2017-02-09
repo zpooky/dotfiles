@@ -119,58 +119,64 @@ fi
 # openssl
 # ===================================================
 # ===================================================
-NAME=openssl
-VERSION="1.0.2j"
-NAME_VERSION=$NAME-$VERSION
-ROOT=$SOURCES_ROOT/$NAME
-TARGET=$ROOT/$NAME_VERSION
-LATEST=$ROOT/$NAME-latest
-if [ ! -e $ROOT ];then
-  mkdir $ROOT
-fi
+# 
 
-if [ ! -e $TARGET ]; then
+# ubuntu has custom patches for openssl
+# and a custom installation will not work properly
+#
 
-  TAR_NAME=$NAME_VERSION.tar.gz
-  TAR=$ROOT/$TAR_NAME
-  RET=1
-  wget "https://openssl.org/source/$TAR_NAME" -O $TAR
-  if [ $? -eq 0 ];then
-    mkdir $TARGET
-    tar -xzf $TAR -C $TARGET --strip-components=1
-    if [ $? -eq 0 ];then 
-      cd $TARGET
-      ./config --prefix=/usr/local --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
-      if [ $? -eq 0 ]; then
-        make depend
-        if [ $? -eq 0 ]; then
-          make
-          if [ $? -eq 0 ]; then
-            CURRENT=`pwd`
-            if [ -e $LATEST ];then
-              make MANDIR=/usr/share/man MANSUFFIX=ssl install && install -dv -m755 /usr/share/doc/openssl-1.0.2j  && cp -vfr doc/*     /usr/share/doc/openssl-1.0.2j
-              # uninstall previous
-              cd $LATEST
-              sudo make uninstall
-              cd $CURRENT
-              rm -rf $LATEST
-            fi
-            sudo make install
-            if [ $? -eq 0 ];then
-              RET=0
-              ln -s $TARGET $LATEST
-              echo "$NAME OK"
-            fi
-          fi
-        fi
-      fi
-    fi
-    if [ ! $RET -eq 0 ];then
-      rm -rf $TARGET
-    fi
-    rm $TAR
-  fi
-fi
+# NAME=openssl
+# VERSION="1.0.2j"
+# NAME_VERSION=$NAME-$VERSION
+# ROOT=$SOURCES_ROOT/$NAME
+# TARGET=$ROOT/$NAME_VERSION
+# LATEST=$ROOT/$NAME-latest
+# if [ ! -e $ROOT ];then
+#   mkdir $ROOT
+# fi
+#
+# if [ ! -e $TARGET ]; then
+#
+#   TAR_NAME=$NAME_VERSION.tar.gz
+#   TAR=$ROOT/$TAR_NAME
+#   RET=1
+#   wget "https://openssl.org/source/$TAR_NAME" -O $TAR
+#   if [ $? -eq 0 ];then
+#     mkdir $TARGET
+#     tar -xzf $TAR -C $TARGET --strip-components=1
+#     if [ $? -eq 0 ];then 
+#       cd $TARGET
+#       ./config --prefix=/usr/local --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
+#       if [ $? -eq 0 ]; then
+#         make depend
+#         if [ $? -eq 0 ]; then
+#           make
+#           if [ $? -eq 0 ]; then
+#             CURRENT=`pwd`
+#             if [ -e $LATEST ];then
+#               make MANDIR=/usr/share/man MANSUFFIX=ssl install && install -dv -m755 /usr/share/doc/openssl-1.0.2j  && cp -vfr doc/*     /usr/share/doc/openssl-1.0.2j
+#               # uninstall previous
+#               cd $LATEST
+#               sudo make uninstall
+#               cd $CURRENT
+#               rm -rf $LATEST
+#             fi
+#             sudo make install
+#             if [ $? -eq 0 ];then
+#               RET=0
+#               ln -s $TARGET $LATEST
+#               echo "$NAME OK"
+#             fi
+#           fi
+#         fi
+#       fi
+#     fi
+#     if [ ! $RET -eq 0 ];then
+#       rm -rf $TARGET
+#     fi
+#     rm $TAR
+#   fi
+# fi
 # ===================================================
 # ===================================================
 # gpg

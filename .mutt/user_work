@@ -3,3 +3,31 @@ set my_username="`~/dotfiles/lib/keyring-helper.py work mail_name`"
 set my_domain="`~/dotfiles/lib/keyring-helper.py work domain`"
 set my_password="`~/dotfiles/lib/keyring-helper.py work password`"
 set my_lang="en_US"
+
+set signature = $HOME/.mutt/signature
+
+# SMTP config
+source "$HOME/.mutt/smtp_office365"
+
+#set spoolfile = "+mail.com/INBOX"
+#set spoolfile = "+work"
+set spoolfile = "+/"
+#where to put send mails
+set record = "$HOME/.mail/work/Sent_Items"
+
+# File storage settings
+
+set mbox_type=maildir
+set my_mail_root="$HOME/.mail/work"
+
+set mbox=$my_mail_root/inbox/
+set spoolfile=$my_mail_root/inbox/
+set folder="$HOME/.mail/"
+
+mailboxes "+work/inbox" \
+          +work/Drafts \
+          +work/Sent_Items \
+          +work/INBOX.*"
+
+
+# vim: set ft=muttrc:

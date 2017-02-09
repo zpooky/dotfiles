@@ -1,0 +1,99 @@
+# -- feeds -------------------------------------------------------------------
+
+# all feeds will be automatically reloaded at start up
+# and then continuously after certain time passed
+auto-reload yes
+
+reload-threads 4
+
+download-retries 5
+download-full-page yes
+
+# -- display -------------------------------------------------------------------
+
+# np = show only feeds with unread articles
+show-read-feeds yes
+
+# no = list only unread articles
+show-read-articles yes
+
+datetime-format "%Y-%m-%d" 
+
+## Feedlist-format
+#d   Feed description
+#i   Feed index
+#l   Feed link
+#L   Feed RSS URL
+#n   "unread" flag field
+#S   download status
+#t   Feed title
+#T   First tag of a feed in the URLs file
+#u   "unread/total" field
+#U   "unread" field
+#c   "total" field 
+
+## Archlist-format
+#a  Article author
+#D  Publication date
+#f  Article flags
+#i  Article index
+#t  Article title
+#T  If the article list displays articles from different feeds, then this identifier contains the title of the feed to which the article belongs.
+#L  Article length 
+
+feedlist-format     "%4i %n %11u %t [%T]"
+articlelist-format  "%4i %f %D   %?T?|%-17T|  ?%t"
+
+# -- navigation ----------------------------------------------------------------
+
+# browser to open
+# browser open
+#browser "open -g -a 'Google Chrome' %u"
+browser "w3m %u"
+# browser firefox -new-tab
+#html-renderer "w3m -dump -T text/html"
+
+
+bind-key     j    down      feedlist
+bind-key     k    up        feedlist
+
+bind-key     j    next      articlelist
+bind-key     k    prev      articlelist
+bind-key     J    next-feed articlelist
+bind-key     K    prev-feed articlelist
+
+bind-key     j    down      article
+bind-key     k    up        article
+
+bind-key     g     home
+bind-key     G     end
+
+bind-key     å    pageup
+bind-key     ä    pagedown
+
+bind-key     b    bookmark
+
+bind-key o open-in-browser-and-mark-read
+bind-key O open-in-browser
+bind-key o open-in-browser article
+
+# b - bookmar article in bookmar.txt
+# :27 - to jump to 27 article
+# N - toggle read/unread
+# -- misc ----------------------------------------------------------------------
+confirm-exit no
+cleanup-on-quit yes
+
+# -- filter ----------------------------------------------------------------------
+# filter m fowler junk
+ignore-article "*" "title =~ \"photostream [0-9]*\""
+ignore-article "*" "title =~ \"Bliki: \""
+ignore-mode display
+
+# -- bookmarks -----------------------------------------------------------------
+
+bookmark-cmd ~/.newsbeuter/bookmark.sh
+bookmark-interactive no
+bookmark-autopilot yes
+
+# vi: foldmarker={,} foldmethod=marker foldlevel=0: tabstop=2:

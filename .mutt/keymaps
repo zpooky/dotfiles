@@ -9,7 +9,7 @@ bind generic å    "previous-page"     # move to the previous page
 bind generic Å    "previous-page"     # move to the previous page
 
 # Mailboxes
-bind    index   G  imap-fetch-mail
+# bind    index   G  imap-fetch-mail
 macro   index   gi "<change-folder>=INBOX<enter>"       "Go to Inbox"
 macro   index   gs "<change-folder>=$my_sent<enter>"    "Go to Sent"
 macro   index   gd "<change-folder>=$my_drafts<enter>"  "Go to Drafts"
@@ -29,6 +29,13 @@ bind    index   C           noop
 bind    index   -           collapse-thread
 bind    index   _           collapse-all
 
+bind    index   gg          first-entry
+bind    index   G           last-entry
+
+
+bind    index   r           reply
+bind    index   a           group-reply
+
 # Pager
 bind    pager   <up>        previous-line
 bind    pager   <down>      next-line
@@ -38,6 +45,9 @@ bind    pager   <delete>    delete-message
 bind    pager   k           previous-line
 bind    pager   j           next-line
 bind    pager   w           previous-page
+
+bind pager gg top
+bind pager G bottom
 
 # Sidebar sp
 bind    index   CP          sidebar-prev

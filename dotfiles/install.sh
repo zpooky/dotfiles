@@ -225,6 +225,7 @@ sudo apt-get  -y  install htop || exit 1
 sudo apt-get  -y  install rake || exit 1
 sudo apt-get  -y  install wget || exit 1
 sudo apt-get  -y  install curl || exit 1
+# text terminal web browser
 sudo apt-get  -y  install w3m || exit 1
 sudo apt-get  -y  install w3m-img
 sudo apt-get  -y  install colordiff || exit 1
@@ -280,6 +281,11 @@ sudo -H pip3 install cpplint || exit 1
 
 stop_feature "apt-get install"
 
+start_feature "standalone"
+sudo apt-get -y install vlc
+sudo apt-get -y install newsbeuter
+stop_feature "standalone"
+
 # keyring
 ## work host <outlook.office365.com>
 ## work port <993>
@@ -287,12 +293,14 @@ stop_feature "apt-get install"
 ## work email <>
 ## work password <>
 ## work domain <> mail_name@*domain*.com
-## work realname <>
+## work realname <> firstname surname
 ## work mail_name *mail_name*@domain.com
 
 ## personal password
 ## personal email
-## personal cal_ical #gmail > settings > ... > copy private cal url
+## personal realname <> firstname surname
+## personal mail_name *mail_name*@domain.com
+#not used: personal cal_ical #gmail > settings > ... > copy private cal url
 
 # pip2 for python2.7
 which pip2
@@ -563,26 +571,25 @@ if [ ! -e $FEATURE ]; then
   start_feature "powerline"
 
   PREV_DIR=`pwd`
-  
+
   sudo -H pip2 install powerline-status
   RET=$?
   if [ $RET -eq 0 ];then
-    
+
     FONTS_DIR=$THE_HOME/.fonts
     if [ ! -e $FONTS_DIR ]; then
       mkdir $FONTS_DIR
     fi
-    
+
     POWERLINE_FONT=$FONTS_DIR/PowerlineSymbols.otf 
     if [ ! -e $POWERLINE_FONT ];then
       cd $FONTS_DIR
-      
+
       wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
       RET=$?
-      
+
       fc-cache -vf $FONTS_DIR
     fi
-    
     if [ $RET -eq 0 ];then
       FONTCONFIG_DIR=$THE_HOME/.config/fontconfig/conf.d
       if [ ! -e $FONTCONFIG_DIR ];then
@@ -596,7 +603,7 @@ if [ ! -e $FEATURE ]; then
         wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf 
         RET=$?
       fi
-      
+
       if [ $RET -eq 0 ]; then
         touch $FEATURE
       fi
@@ -611,7 +618,7 @@ fi
 # install powerline tmux segments
 POWERLINE_SEGMENTS=/usr/local/lib/python2.7/dist-packages/powerline/segments
 if [ ! -e $POWERLINE_SEGMENTS/spooky ]; then
- sudo cp $THE_HOME/.config/powerline/segments/spooky $POWERLINE_SEGMENTS -R 
+ sudo cp $THE_HOME/.config/powerline/segments/spooky $POWERLINE_SEGMENTS -R
 fi
 
 # csope bin. install to /usr/bin
