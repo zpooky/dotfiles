@@ -1,0 +1,15 @@
+set spoolfile = '+INBOX'
+set record = "$my_mail_root/[Gmail].Skickat"
+
+# File storage settings
+
+set mbox_type=maildir
+
+set mbox=$my_mail_root/INBOX
+set spoolfile=$my_mail_root/INBOX
+set folder="$HOME/.mail/"
+
+set postponed ="$my_mail_root/[Gmail].Utkast"
+set trash = "$my_mail_root/[Gmail].Papperskorgen"
+
+# vim: set ft=muttrc:

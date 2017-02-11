@@ -1,0 +1,8 @@
+set realname = $my_realname
+set from = "$my_username@gmail.com"
+set smtp_pass = $my_password
+set smtp_url = 'smtp://$my_username@smtp.gmail.com:587/'
+set ssl_force_tls = yes
+# set smtp_authenticators = "gssapi:login"
+
+# vim: set ft=muttrc:

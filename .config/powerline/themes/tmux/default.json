@@ -8,6 +8,7 @@
         "args": {
           "inboxes": {
             "s": "~/.mail/gmail/INBOX", 
+            "f": "~/.mail/personal2/INBOX", 
             "w": "~/.mail/work/inbox"
           }
         }, 

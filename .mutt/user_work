@@ -30,4 +30,6 @@ mailboxes "+work/inbox" \
           +work/INBOX.*"
 
 
+source "$HOME/.muttrc"
+
 # vim: set ft=muttrc:

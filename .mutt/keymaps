@@ -10,10 +10,10 @@ bind generic Å    "previous-page"     # move to the previous page
 
 # Mailboxes
 # bind    index   G  imap-fetch-mail
-macro   index   gi "<change-folder>=INBOX<enter>"       "Go to Inbox"
-macro   index   gs "<change-folder>=$my_sent<enter>"    "Go to Sent"
-macro   index   gd "<change-folder>=$my_drafts<enter>"  "Go to Drafts"
-macro   index   gt "<change-folder>=$my_trash<enter>"   "Go to Trash"
+# macro   index   gi "<change-folder>=INBOX<enter>"       "Go to Inbox"
+# macro   index   gs "<change-folder>=$my_sent<enter>"    "Go to Sent"
+# macro   index   gd "<change-folder>=$my_drafts<enter>"  "Go to Drafts"
+# macro   index   gt "<change-folder>=$my_trash<enter>"   "Go to Trash"
 # search
 macro  generic,index,pager  n  "<esc>/\n" # search backwards for next previously searched
 macro  generic,index,pager  N  "#\n" # search backwards for next previously searched

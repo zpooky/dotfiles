@@ -283,6 +283,7 @@ stop_feature "apt-get install"
 
 start_feature "standalone"
 sudo apt-get -y install vlc
+#newsbeuter 2.9
 sudo apt-get -y install newsbeuter
 stop_feature "standalone"
 
@@ -1253,8 +1254,17 @@ if [ ! -e $FEATURE ]; then
   sudo apt-get -y install python3-lxml python-tox python3-pyqt5 python3-pyqt5.qtwebkit
   sudo apt-get -y install python3-pyqt5.qtquick python3-sip python3-jinja2 python3-pygments python3-yaml
 
-  touch $FEATURE
+  #TODO install
+
   stop_feature "qutebrowser"
+fi
+
+# mpv video player
+which mpv
+if [ ! $? -eq 0 ];then
+  sudo add-apt-repository -y ppa:mc3man/mpv-tests
+  sudo apt-get update
+  sudo apt-get -y install mpv
 fi
 
 ## less colors

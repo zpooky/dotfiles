@@ -1,0 +1,17 @@
+set my_realname="`~/dotfiles/lib/keyring-helper.py personal realname`"
+set my_username="`~/dotfiles/lib/keyring-helper.py personal mail_name`"
+set my_password="`~/dotfiles/lib/keyring-helper.py personal password`"
+set my_lang="en_US"
+
+set signature = $HOME/.mutt/signature
+
+# SMTP config
+source "$HOME/.mutt/smtp_gmail
+
+set my_mail_root="$HOME/.mail/gmail"
+
+source "$HOME/.mutt/gmail"
+
+source "$HOME/.muttrc"
+
+# vim: set ft=muttrc:

@@ -1,7 +1,7 @@
 ## Basic configuration
 
 set query_command="lbdbq %s"
-source "$HOME/.mutt/user_personal"
+# source "$HOME/.mutt/user2_personal"
 
 # Loading language properties
 

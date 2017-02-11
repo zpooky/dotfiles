@@ -1,5 +1,5 @@
 [general]
-accounts = work,Gmail
+accounts = work,Gmail,personal2
 ui = ttyui
 fsync = False
 socktimeout = 60
@@ -24,6 +24,31 @@ localfolders = ~/.mail/gmail
 type = Gmail
 remoteusereval = get_password("personal", "email")
 remotepasseval = get_password("personal", "password")
+idlefolders = ['INBOX']
+keepalive = 60
+holdconnectionopen = yes
+realdelete = no
+ssl = yes
+# maxconnections = 3
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+#------------------------------------------
+#------------------------------------------
+
+[Account personal2]
+localrepository = personal2-Local
+remoterepository = personal2-Remote
+synclabels = yes
+status_backend = sqlite
+
+[Repository personal2-Local]
+type = Maildir
+localfolders = ~/.mail/personal2
+
+[Repository personal2-Remote]
+type = Gmail
+remoteusereval = get_password("personal2", "email")
+remotepasseval = get_password("personal2", "password")
 idlefolders = ['INBOX']
 keepalive = 60
 holdconnectionopen = yes
