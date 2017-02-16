@@ -1,0 +1,5 @@
+keymap ä NEXT_PAGE
+keymap å PREV_PAGE
+keymap V VIEW_IMAGE
+# quit without prompting
+keymap  q       EXIT

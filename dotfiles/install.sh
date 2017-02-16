@@ -596,11 +596,11 @@ if [ ! -e $FEATURE ]; then
       if [ ! -e $FONTCONFIG_DIR ];then
         mkdir -p $FONTCONFIG_DIR
       fi
-      
+
       POWERLINE_CONF=$FONTCONFIG_DIR/10-powerline-symbols.conf
       if [ ! -e $POWERLINE_CONF ]; then
         cd $FONTCONFIG_DIR
-        
+
         wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf 
         RET=$?
       fi
@@ -1266,6 +1266,8 @@ if [ ! $? -eq 0 ];then
   sudo apt-get update
   sudo apt-get -y install mpv
 fi
+# allows mpv to download and play youtube videos
+sudo apt install youtube-dl
 
 ## less colors
 # FEATURE=$FEATURE_HOME/lesscolors

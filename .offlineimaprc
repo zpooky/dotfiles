@@ -17,7 +17,7 @@ synclabels = yes
 status_backend = sqlite
 
 [Repository Gmail-Local]
-type = Maildir
+type = GmailMaildir
 localfolders = ~/.mail/gmail
 
 [Repository Gmail-Remote]
@@ -42,7 +42,7 @@ synclabels = yes
 status_backend = sqlite
 
 [Repository personal2-Local]
-type = Maildir
+type = GmailMaildir
 localfolders = ~/.mail/personal2
 
 [Repository personal2-Remote]

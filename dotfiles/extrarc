@@ -89,6 +89,7 @@ alias sp-linux="cd $DROPBOX_LINUX"
 alias sp-tar="vim $DROPBOX_LINUX/compression.txt"
 alias sp-package="vim $DROPBOX_LINUX/install.txt"
 alias sp-mutt="vim $DROPBOX_LINUX/mutt.txt"
+alias sp-w3m="vim $DROPBOX_LINUX/w3m.txt"
 # ===============================================
 # ===============================================
 # =____________DEVELOPMENT______________________=
