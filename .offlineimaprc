@@ -1,5 +1,5 @@
 [general]
-accounts = work,Gmail,personal2
+accounts = Gmail,personal2
 ui = ttyui
 fsync = False
 socktimeout = 60
@@ -60,10 +60,10 @@ sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 #------------------------------------------
 #------------------------------------------
 
-[Account work]
-localrepository = work-local
-remoterepository = work-remote
-status_backend = sqlite
+#[Account work]
+#localrepository = work-local
+#remoterepository = work-remote
+#status_backend = sqlite
 #postsynchook = notmuch new
 
 [Repository work-local]
