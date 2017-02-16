@@ -1,0 +1,208 @@
+" Turn off vi compatibility.(should be set first)
+set nocompatible
+
+if has('vim_starting')
+  set fileencoding=utf-8
+  scriptencoding utf-8
+  set encoding=utf-8 nobomb
+endif
+
+if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal"
+  set t_Co=256
+  " let g:solarized_termcolors = 256
+endif
+
+" theme
+syntax enable                     " Highlight the syntax.
+" autocmd BufEnter * colorscheme default
+autocmd FileType c,cpp,gitconfig colorscheme railscasts
+" autocmd FileType vim    colorscheme obsidian            " works for vimrc atleast
+" colorscheme twilighted
+" if has('gui_running')
+"     set background=light
+" let g:solarized_contrast="high"
+" else
+"     set background=dark
+" endif 
+
+" command(:)
+set wildmode=longest:full,full   " bash like command(:) completion when tab
+set wildmenu                     " Show command(:) completion with tab
+
+" note: debug set with "set list?" ?: means print current value
+set list                              " show special chars, such as tab: eol: trail: extends: nbsp:
+" chars to show for blank characters
+set listchars=tab:·»
+set listchars+=eol:¬
+set listchars+=trail:·
+set showbreak=↪\                    " useful indication of wrapping
+
+" general
+set ttyfast                      " Faster redraw
+" don't bother updating screen during macro playback
+set lazyredraw
+set showcmd                      " Show incomplete vim motions as I type
+
+" set cursorline                    " Higlight current line
+autocmd FileType c,cpp set cursorline
+let mapleader = "\<Space>"        " map leader to  <space>
+set relativenumber                " relative line numbers
+set number                        " both relative and absolute number
+" set mouse=a                       " Enables scrolling terminal.(mouse mode)
+
+" search
+set incsearch                     " search wile you type
+set smartcase                     " Case insensitive search, except when capital letters are used.
+set ignorecase                    " ignore case when searching
+set hls                           " highligt search?
+
+" Navigation captial H/L goto extreme Right/Left
+noremap H _
+noremap L g_
+
+" Spelling
+"
+" gq            : reformat visual
+" ctrl-n        : Next word suggestion
+" ctrl-p        : Previous word suggestion
+"
+" z=            : list suggestions
+" 1z=           : auto select 1 with showing suggestions
+" :spellr       : Repeat the replacement done by z=
+"
+" ]s            : next wrongly spelled
+" {s            : previous
+" zg            : add word to dictonary
+
+" bindings
+map <leader>ss :setlocal spell!<CR>
+map <leader>sn ]s
+map <leader>sp [s
+map <leader>sa zg
+map <leader>sq z=
+
+" underline wrongly spelled words
+hi clear SpellBad
+hi SpellBad cterm=underline
+
+set spelllang=en_gb               " Specify the spell checking language.
+set nospell                       " Disable spell checking by default.
+set dictionary+=/usr/share/dict/words
+au FileType gitcommit,md,text,mail set textwidth=80
+au FileType gitcommit,md,text,mail set colorcolumn=-1 " display bar at textwidth
+au FileType gitcommit,md,text,mail set complete+=kspell
+au FileType gitcommit,md,mail set spell             " turn on spelling for thease types
+
+set nowrap                        " don't wrap lines
+set backspace=indent,eol,start    " allow backspacing over everything in insert mode
+set shiftwidth=2                  " number of spaces to use for autoindenting
+set smarttab                      " insert tabs on the start of a line according
+                                  " to shiftwidth, not tabstop
+"
+set ruler                         " Display the ruler
+" Tab config
+set tabstop=2
+set shiftwidth=2
+set expandtab                     " when emitting tab convert to space
+
+"
+set autoindent                    " always set autoindenting on
+set copyindent                    " copy the previous indentation on autoindenting
+set smartindent                   " smart indentation
+"
+filetype on                       " Enable file type detection
+filetype plugin on                " Enable file type plug-ins
+filetype indent plugin on         " file type specific indentention support 
+
+" format json
+function! FormatJson()
+  :mark o
+  " format json file using 2 space indentation
+  exec "%!python ~/dotfiles/lib/json_format.py 2"
+  :normal `o
+endfunction!
+command! FormatJson :call FormatJson()
+autocmd FileType json nnoremap <buffer><leader>f <esc>:FormatJson<CR>
+
+" Alternative save
+nnoremap <silent> <leader>w <esc>:wa<CR>
+" Alternative quit
+nnoremap <silent> <leader>q <esc>:q<CR>
+" map å to page up
+map <silent> å <PageUp>
+" map ä to page down
+map <silent> ä <PageDown>
+
+map <silent> <leader>, <esc>:noh<CR>
+
+" resize split
+map <silent> <leader>- <esc>:vertical resize -5<CR>
+map <silent> <leader>+ <esc>:vertical resize +5<CR>
+" navigate between splits
+" pane Left
+map <silent> <leader><Left> <C-W><Left>
+" pane Right
+map <silent> <leader><Right> <C-W><Right>
+" pane Up
+map <silent> <leader><Up> <C-W><Up>
+" pane Down
+map <silent> <leader><Down> <C-W><Down>
+
+" Alternative Moving around splits with the leader key
+nmap <silent> <leader>h :wincmd h<CR>
+nmap <silent> <leader>j :wincmd j<CR>
+nmap <silent> <leader>k :wincmd k<CR>
+nmap <silent> <leader>l :wincmd l<CR>
+
+" Create vertical pane
+nnoremap <leader>s <esc>:vsplit<enter>
+" Create horizontal pane
+" nnoremap <leader>h <esc>:sp<enter>
+" Create tab
+nnoremap <leader>e <esc>:tabedit<enter>
+
+" new line above and below without entering insert mode
+map <silent> <leader>o o<esc>
+map <silent> <leader>O O<esc>
+
+map <silent> ö <C-D>
+map <silent> Ö <C-U>
+
+" pane navigation
+map <silent> <leader>1 <esc>1gt
+map <silent> <leader>2 <esc>2gt
+map <silent> <leader>3 <esc>3gt
+map <silent> <leader>4 <esc>4gt
+map <silent> <leader>5 <esc>5gt
+map <silent> <leader>6 <esc>6gt
+map <silent> <leader>7 <esc>7gt
+map <silent> <leader>8 <esc>8gt
+map <silent> <leader>9 <esc>9gt
+
+" insert character(space+*char*)
+" nmap <Space> i_<Esc>r " Need to have another than space it is now the leadr
+" nmap <S-Enter> O<Esc>j
+
+set history=1000         " remember more commands and search history
+set undolevels=1000      " use many levels of undo
+set wildignore=*.swp,*.bak,*.pyc,*.class
+set title                " change the terminal's title
+
+"
+set novisualbell         " don't beep
+set noerrorbells         " don't beep
+
+"
+set nobackup            " no bak
+set noswapfile          " no swap
+"
+set autoread            " auto reload after outside changes
+
+" Get rid of nasty lag on ESC (timeout and ttimeout seem useless) sp??
+au InsertEnter * set timeoutlen=1
+au InsertLeave * set timeoutlen=1000
+set timeoutlen=1000 ttimeoutlen=0
+
+" Stop that stupid window from popping up
+map q: <esc>:q
+
