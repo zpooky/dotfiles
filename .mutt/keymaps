@@ -1,12 +1,12 @@
 # generic
-bind generic ö    "half-down"         # scroll down 1/2 page
-bind generic Ö    "half-up"           # scroll up 1/2 page
+bind generic,index,pager ö    "half-down"         # scroll down 1/2 page
+bind generic,index,pager Ö    "half-up"           # scroll up 1/2 page
 
-bind generic ä    "next-page"         # move to the next page
-bind generic Ä    "next-page"         # move to the next page
+bind generic,index,pager ä    "next-page"         # move to the next page
+bind generic,index,pager Ä    "next-page"         # move to the next page
 
-bind generic å    "previous-page"     # move to the previous page
-bind generic Å    "previous-page"     # move to the previous page
+bind generic,index,pager å    "previous-page"     # move to the previous page
+bind generic,index,pager Å    "previous-page"     # move to the previous page
 
 # Mailboxes
 # bind    index   G  imap-fetch-mail
