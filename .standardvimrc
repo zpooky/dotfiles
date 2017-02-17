@@ -208,4 +208,13 @@ set timeoutlen=1000 ttimeoutlen=0
 
 " Stop that stupid window from popping up
 map q: <esc>:q
+"
+" Avoid unintentional switches to Ex mode.
+nnoremap Q <nop>
 
+" behave similar to D
+noremap Y y$
+"
+" Store relative line number jumps in the jumplist if they exceed a threshold.
+nnoremap <expr> k (v:count > 5 ? "m'" . v:count : '') . 'k'
+nnoremap <expr> j (v:count > 5 ? "m'" . v:count : '') . 'j'

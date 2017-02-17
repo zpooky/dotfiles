@@ -33,8 +33,6 @@ Plug 'mileszs/ack.vim',programming
 Plug 'rhysd/vim-clang-format',programming_cpp
 " toggle between src/header
 Plug 'vim-scripts/a.vim',programming_cpp
-" clang backed syntax
-Plug 'jeaye/color_coded',programming_cpp
 " extra color schemes
 Plug 'NigoroJr/color_coded-colorschemes',programming_cpp
 " #########
@@ -63,9 +61,12 @@ Plug 'flazz/vim-colorschemes'
 " hisoric buffer navigation
 Plug 'ton/vim-bufsurf'
 Plug 'wellle/targets.vim'
+Plug 'godlygeek/tabular'
 
 " unmap some a.vim mappings
 Plug '~/.vim/bundle/after',programming_cpp
+" clang backed syntax
+Plug '~/.vim/bundle/color_coded',programming_cpp
 Plug '~/.vim/bundle/OblitumYouCompleteMe',programming_cpp
 Plug '~/.vim/bundle/YouCompleteMe',programming_ncpp
 
