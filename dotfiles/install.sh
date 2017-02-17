@@ -66,7 +66,7 @@ if [ ! -e $GIT_CONFIG_FEATURE ]; then
 
   git config --global alias.st status
   git config --global alias.tree "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
-  
+
   touch $GIT_CONFIG_FEATURE
 
   stop_feature "git config"
@@ -83,15 +83,24 @@ git submodule sync --recursive
 # recursivly pull in all submodule repos
 git submodule update --init --recursive --remote
 git submodule update --init --recursive
+
 VIM_AUTOLOAD=$THE_HOME/.vim/autoload
 if [ ! -e $VIM_AUTOLOAD ]; then
   mkdir $VIM_AUTOLOAD
 fi
+
 PATHOGEN_AUTLOAD=$VIM_AUTOLOAD/pathogen.vim
-if [ ! -e $PATHOGEN_AUTLOAD ]; then
-  PATHOGEN_VIM=$THE_HOME/.pathogen/vim-pathogen/autoload/pathogen.vim
-  ln -s $PATHOGEN_VIM $PATHOGEN_AUTLOAD
+if [ -e $PATHOGEN_AUTLOAD ]; then
+  rm -rf $THE_HOME/.pathogen
+  rm $PATHOGEN_AUTLOAD
 fi
+
+VIM_PLUG=$GIT_SOURCES/vim-plug/plug.vim
+VIM_PLUG_TARGET=$VIM_AUTOLOAD/plug.vim
+if [ ! -e $VIM_PLUG_TARGET ]; then
+  ln -s $VIM_PLUG $VIM_PLUG_TARGET
+fi
+
 stop_feature "vim"
 
 # git You Complete Me(YCM)
@@ -113,7 +122,7 @@ do
     if [ $RET -eq 0 ];then
       touch $FEATURE
     fi
-    
+
     cd $PREV_DIR
 
     stop_feature "$YCM"
@@ -151,23 +160,6 @@ if [ ! -e $FEATURE ]; then
   cd $PREV_DIR
 
   stop_feature "color_coded1"
-fi
-
-# command-t(vim)
-FEATURE=$FEATURE_HOME/commandt3
-if [ ! -e $FEATURE ]; then
-  start_feature "commandt1"
-
-  PREV_DIR=`pwd`
-
-  cd $THE_HOME/.vim/bundle/command-t/plugin
-  rake make
-  if [ $? -eq 0 ]; then 
-    touch $FEATURE
-  fi
-  cd $PREV_DIR
-
-  stop_feature "commandt1"
 fi
 
 # bashrc

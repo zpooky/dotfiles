@@ -1,4 +1,75 @@
-" pathogen plugin manager
+" vim-plug plugin manager
+call plug#begin('~/.vim/plugged')
+" # vim-plug commands
+" :PlugInstall - Install plugins
+" :PlugUpdate  - Install or update plugins
+" :PlugUpgrade - Upgrade vim-plug itself
+" :PlugStatus - Check the status of plugins which are loaded and so on
+" :PlugDiff
+
+" #############
+" #programming#
+" #############
+let programming_ncpp={'for':['scala','java','haskell','python','vim']}
+let programming={'for':['c','cpp','scala','java','haskell','python','vim']}
+let programming_cpp={'for':['c','cpp']}
+let programming_haskell={'for':'haskell'}
+let programming_scala={'for':'scala'}
+Plug 'scrooloose/syntastic',programming
+Plug 'majutsushi/tagbar',programming
+" comment shortcut
+Plug 'tomtom/tcomment_vim',programming
+" ctags, cscope & global generation
+Plug 'ludovicchabant/vim-gutentags',programming
+" gtags support
+Plug 'bbchung/gtags.vim',programming
+" support for different code formatters
+Plug 'Chiel92/vim-autoformat',programming
+" ack backed grepping
+Plug 'mileszs/ack.vim',programming
+" #######
+" # cpp #
+" #######
+Plug 'rhysd/vim-clang-format',programming_cpp
+" toggle between src/header
+Plug 'vim-scripts/a.vim',programming_cpp
+" clang backed syntax
+Plug 'jeaye/color_coded',programming_cpp
+" extra color schemes
+Plug 'NigoroJr/color_coded-colorschemes',programming_cpp
+" #########
+" #haskell#
+" #########
+Plug 'eagletmt/neco-ghc',programming_haskell
+Plug 'dag/vim2hs',programming_haskell
+" #######
+" #scala#
+" #######
+" scala support
+Plug 'derekwyatt/vim-scala',programming_scala
+" #########
+" #general#
+" #########
+" git integration
+Plug 'tpope/vim-fugitive'
+" file explorer
+Plug 'scrooloose/nerdtree',{'on':'NERDTreeToggle'}
+" fuzzy search
+Plug 'wincent/command-t',{'do':'rake make'}
+" colors scope
+Plug 'luochen1990/rainbow'
+" colorschemes
+Plug 'flazz/vim-colorschemes'
+" hisoric buffer navigation
+Plug 'ton/vim-bufsurf'
+Plug 'wellle/targets.vim'
+
+" unmap some a.vim mappings
+Plug '~/.vim/bundle/after',programming_cpp
+Plug '~/.vim/bundle/OblitumYouCompleteMe',programming_cpp
+Plug '~/.vim/bundle/YouCompleteMe',programming_ncpp
+
+call plug#end()
 
 source $HOME/.standardvimrc
 
@@ -7,13 +78,6 @@ if has('win32unix') || has('win64unix')
   " prompt if it should not be in dos mode instead of the default unix
   autocmd BufWritePre * if &ff != 'dos' && expand('%:p') =~ "^\/cygdrive\/" && input('set ff to dos [y]') == 'y' | setlocal ff=dos | endif
 endif
-
-execute pathogen#infect()
-
-let g:pathogen_disabled = []
-call add(g:pathogen_disabled, 'YouCompleteMe')
-
-execute pathogen#helptags()
 
 " pastetoggle
 set pastetoggle=<f5>

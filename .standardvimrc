@@ -14,8 +14,11 @@ endif
 
 " theme
 syntax enable                     " Highlight the syntax.
+
 " autocmd BufEnter * colorscheme default
-autocmd FileType c,cpp,gitconfig colorscheme railscasts
+" autocmd FileType c,cpp,gitconfig,vim colorscheme railscasts
+colorscheme railscasts
+
 " autocmd FileType vim    colorscheme obsidian            " works for vimrc atleast
 " colorscheme twilighted
 " if has('gui_running')
