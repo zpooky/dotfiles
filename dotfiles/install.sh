@@ -671,9 +671,6 @@ if [ ! -e $FEATURE ]; then
   stop_feature "cscope"
 fi
 
-# caps to escape
-xmodmap -e "keycode 66 = Escape NoSymbol Escape"
-
 #uninstall ctags
 OLD_FEATURE=$FEATURE_HOME/ctags
 if [ -e $OLD_FEATURE ]; then

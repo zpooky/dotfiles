@@ -1,3 +1,6 @@
+" Turn off vi compatibility.(should be set first)
+set nocompatible
+
 " vim-plug plugin manager
 call plug#begin('~/.vim/plugged')
 " # vim-plug commands
@@ -10,8 +13,8 @@ call plug#begin('~/.vim/plugged')
 " #############
 " #programming#
 " #############
-let programming_ncpp={'for':['scala','java','haskell','python','vim']}
-let programming={'for':['c','cpp','scala','java','haskell','python','vim']}
+let programming_ncpp={'for':['scala','java','haskell','python','vim','bash']}
+let programming={'for':['c','cpp','scala','java','haskell','python','vim','bash']}
 let programming_cpp={'for':['c','cpp']}
 let programming_haskell={'for':'haskell'}
 let programming_scala={'for':'scala'}

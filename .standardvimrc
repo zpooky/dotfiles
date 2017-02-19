@@ -1,6 +1,3 @@
-" Turn off vi compatibility.(should be set first)
-set nocompatible
-
 if has('vim_starting')
   set fileencoding=utf-8
   scriptencoding utf-8
@@ -214,6 +211,10 @@ nnoremap Q <nop>
 
 " behave similar to D
 noremap Y y$
+
+" make ',' an alias for ':'
+nmap , :
+
 "
 " Store relative line number jumps in the jumplist if they exceed a threshold.
 nnoremap <expr> k (v:count > 5 ? "m'" . v:count : '') . 'k'
