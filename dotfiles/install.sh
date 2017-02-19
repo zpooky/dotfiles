@@ -299,10 +299,10 @@ stop_feature "standalone"
 which pip2
 if [ ! $? -eq 0 ]; then
   PREV_DIR=`pwd`
-  
+
   cd /tmp
   curl -O https://bootstrap.pypa.io/get-pip.py
-  
+
   if [ $? -eq 0 ];then
     sudo -H  python2.7 get-pip.py
   fi
@@ -458,7 +458,7 @@ fi
 STDMAN_FEATURE=$FEATURE_HOME/stdman
 if [ ! -e $STDMAN_FEATURE ]; then
   start_feature "stdman"
-  
+
   PREV_DIR=`pwd`
 
   STDMAN_ROOT=$GIT_SOURCES/stdman
@@ -787,14 +787,14 @@ if [ ! -e $FEATURE ]; then
     cd $LIBEVENT_ROOT
     git pull --rebase origin master
 
-    if [ $? -eq 0 ];then 
+    if [ $? -eq 0 ];then
       sudo make uninstall
       ./configure
-      if [ $? -eq 0 ];then 
+      if [ $? -eq 0 ];then
         make
-        if [ $? -eq 0 ];then 
+        if [ $? -eq 0 ];then
           sudo make install
-          if [ $? -eq 0 ];then 
+          if [ $? -eq 0 ];then
             touch $FEATURE
           fi
         fi

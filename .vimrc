@@ -69,7 +69,8 @@ Plug 'godlygeek/tabular'
 " unmap some a.vim mappings
 Plug '~/.vim/bundle/after',programming_cpp
 " clang backed syntax
-Plug '~/.vim/bundle/color_coded',programming_cpp
+" Plug '~/.vim/bundle/color_coded',programming_cpp
+Plug 'octol/vim-cpp-enhanced-highlight'
 Plug '~/.vim/bundle/OblitumYouCompleteMe',programming_cpp
 Plug '~/.vim/bundle/YouCompleteMe',programming_ncpp
 
@@ -177,6 +178,11 @@ let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:color_coded_enabled = 1
 let g:color_coded_filetypes = ['c', 'cpp', 'objc']
 let g:rehash256 = 1
+
+"
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_experimental_template_highlight = 1
 
 " clang format
 let g:clang_format#style_options = {
