@@ -38,6 +38,11 @@ if [[ -e $CABAL_BIN ]]; then
   PATH=$CABAL_BIN:$PATH
 fi
 
+QUTEBROWSER_BIN=/usr/bin/qutebrowser
+if [[ -e $QUTEBROWSER_BIN ]]; then
+  export BROWSER=$QUTEBROWSER_BIN
+fi
+
 alias cd-="cd -"
 alias gitst="git st"
 # alias
@@ -127,3 +132,5 @@ function makex() {
   return ${PIPESTATUS[0]}
 }
 alias makex="makex | less -RiN -p error"
+
+# vim: set ft=sh:

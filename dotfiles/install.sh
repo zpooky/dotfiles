@@ -279,6 +279,9 @@ sudo apt-get -y install vlc
 sudo apt-get -y install newsbeuter
 stop_feature "standalone"
 
+# mutt url viewer
+sudo -H pip2 install urlscan
+
 # keyring
 ## work host <outlook.office365.com>
 ## work port <993>
