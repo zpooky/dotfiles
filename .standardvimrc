@@ -1,29 +1,20 @@
-if has('vim_starting')
+set nocompatible
+
+" if has('vim_starting')
   set fileencoding=utf-8
   scriptencoding utf-8
   set encoding=utf-8 nobomb
-endif
+" endif
 
 if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal"
   set t_Co=256
-  " let g:solarized_termcolors = 256
 endif
 
 " theme
 syntax enable                     " Highlight the syntax.
 
-" autocmd BufEnter * colorscheme default
-" autocmd FileType c,cpp,gitconfig,vim colorscheme railscasts
-colorscheme railscasts
-
-" autocmd FileType vim    colorscheme obsidian            " works for vimrc atleast
-" colorscheme twilighted
-" if has('gui_running')
-"     set background=light
-" let g:solarized_contrast="high"
-" else
-"     set background=dark
-" endif 
+" gvim hide all gui
+set guioptions=
 
 " command(:)
 set wildmode=longest:full,full   " bash like command(:) completion when tab
@@ -35,7 +26,9 @@ set list                              " show special chars, such as tab: eol: tr
 set listchars=tab:·»
 set listchars+=eol:¬
 set listchars+=trail:·
-set showbreak=↪\                    " useful indication of wrapping
+" set showbreak=↪\                    " useful indication of wrapping
+set showbreak="\u21aa "
+
 
 " general
 set ttyfast                      " Faster redraw
@@ -165,8 +158,12 @@ nnoremap <leader>e <esc>:tabedit<enter>
 map <silent> <leader>o o<esc>
 map <silent> <leader>O O<esc>
 
+" half page down/up
 map <silent> ö <C-D>
 map <silent> Ö <C-U>
+
+" ctrl+- aka _ for line up
+map _ +
 
 " pane navigation
 map <silent> <leader>1 <esc>1gt

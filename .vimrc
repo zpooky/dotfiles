@@ -76,12 +76,25 @@ Plug '~/.vim/bundle/YouCompleteMe',programming_ncpp
 
 call plug#end()
 
+" autocmd BufEnter * colorscheme default
+" autocmd FileType c,cpp,gitconfig,vim colorscheme railscasts
+colorscheme railscasts
+
+" autocmd FileType vim    colorscheme obsidian            " works for vimrc atleast
+" colorscheme twilighted
+" if has('gui_running')
+"     set background=light
+" let g:solarized_contrast="high"
+" else
+"     set background=dark
+" endif 
+
 source $HOME/.standardvimrc
 
 if has('win32unix') || has('win64unix')
   " in cygwin if we save a file not in dos mode outside the 'virtual' linux
   " prompt if it should not be in dos mode instead of the default unix
-  autocmd BufWritePre * if &ff != 'dos' && expand('%:p') =~ "^\/cygdrive\/" && input('set ff to dos [y]') == 'y' | setlocal ff=dos | endif
+  autocmd BufWritePre * if &ff != 'dos' && expand('%:p') =~ "^\/cygdrive\/" && expand('%:p') !~ "\/Dropbox\/" && input('set ff to dos [y]') == 'y' | setlocal ff=dos | endif
 endif
 
 " pastetoggle

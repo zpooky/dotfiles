@@ -142,8 +142,7 @@ if [ ! -e $FEATURE ]; then
   if [ -d $COLOR_CODED_BUILD_PATH ]; then
     rm -rf $COLOR_CODED_BUILD_PATH
   fi
-  mkdir build
-  cd build
+  mkdir build && cd build || exit 1
   cmake ..
   if [ $? -eq 0 ];then 
     make && make install

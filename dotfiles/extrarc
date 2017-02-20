@@ -49,7 +49,8 @@ alias gitst="git st"
 DOTFILES=$HOME/dotfiles
 DOTFILES_LIB=$DOTFILES/lib
 DROPBOX=$HOME/Dropbox/root
-DROPBOX_LINUX=$DROPBOX/[]ref/linux
+REF_DIR=$DROPBOX/[]ref
+DROPBOX_LINUX=$REF_DIR/linux
 
 alias sp-khal='khal calendar -a red -a personal --format="{red-bold}{start-time}{reset}-{green-bold}{end-time}{reset} {calendar-color}{title}{reset}{yellow}{repeat-symbol}{reset} [{cyan}{location}{reset}][{magenta}{calendar}{reset}]"'
 alias k="sp-khal"
@@ -97,6 +98,9 @@ alias sp-package="vim $DROPBOX_LINUX/install.txt"
 alias sp-mutt="vim $DROPBOX_LINUX/mutt.txt"
 alias sp-w3m="vim $DROPBOX_LINUX/w3m.txt"
 alias sp-interview="cd $DROPBOX/interview"
+alias sp-signal="vim $DROPBOX_LINUX/signal.md"
+alias sp-sc="vim $DROPBOX_LINUX/sequential_consistency.md"
+alias sp-win="vim $REF_DIR/win.md"
 # ===============================================
 # ===============================================
 # =____________DEVELOPMENT______________________=
