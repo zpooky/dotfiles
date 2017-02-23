@@ -3,11 +3,11 @@ set nocompatible
 
 " vim-plug plugin manager
 call plug#begin('~/.vim/plugged')
-" # vim-plug commands
+" # vim        - plug commands
 " :PlugInstall - Install plugins
 " :PlugUpdate  - Install or update plugins
-" :PlugUpgrade - Upgrade vim-plug itself
-" :PlugStatus - Check the status of plugins which are loaded and so on
+" :PlugUpgrade - Upgrade vimplug itself
+" :PlugStatus  - Check the status of plugins which are loaded and so on
 " :PlugDiff
 
 " #############
@@ -21,7 +21,7 @@ let programming_scala={'for':'scala'}
 Plug 'scrooloose/syntastic',programming
 Plug 'majutsushi/tagbar',programming
 " comment shortcut
-Plug 'tomtom/tcomment_vim',programming
+Plug 'tomtom/tcomment_vim'
 " ctags, cscope & global generation
 Plug 'ludovicchabant/vim-gutentags',programming
 " gtags support
