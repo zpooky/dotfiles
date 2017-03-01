@@ -1260,6 +1260,14 @@ fi
 # allows mpv to download and play youtube videos
 sudo apt install youtube-dl
 
+GDB_PP=$SOURCES_ROOT/gdb_pp
+if [ ! -e $GDB_PP ]; then
+  svn co svn://gcc.gnu.org/svn/gcc/trunk/libstdc++-v3/python $GDB_PP
+  if [ ! $? -eq 0 ];then
+    rm -rf $GDB_PP
+  fi
+fi
+
 ## less colors
 # FEATURE=$FEATURE_HOME/lesscolors
 # if [ ! -e $FEATURE ]; then

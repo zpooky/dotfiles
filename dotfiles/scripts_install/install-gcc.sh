@@ -17,6 +17,10 @@ if [ -e $GCC_UNTAR ]; then
 fi
 GCC_TAR=$GCC_UNTAR.tar.bz2
 wget ftp://ftp.nluug.nl/mirror/languages/gcc/releases/$GCC_NAME/$GCC_TAR
+if [ ! $? -eq 0 ];then
+  rm $GCC_TAR
+  exit 1
+fi
 
 tar -xf $GCC_TAR || exit 1
 rm $GCC_TAR
