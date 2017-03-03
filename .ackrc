@@ -3,6 +3,7 @@
 --ignore-file=is:cscope.out
 --ignore-file=is:.ensime
 --ignore-file=is:soapui.log
+--ignore-file=match:/G(PATH|RTAGS|TAGS)/
 
 --ignore-file=match:jquery.js
 --ignore-file=match:jquery-ui.js

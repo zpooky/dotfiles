@@ -18,7 +18,10 @@ let programming={'for':['c','cpp','scala','java','haskell','python','vim','bash'
 let programming_cpp={'for':['c','cpp']}
 let programming_haskell={'for':'haskell'}
 let programming_scala={'for':'scala'}
+
+" framework for displaying warnings & errors about source code
 Plug 'scrooloose/syntastic',programming
+" pane displaying "tag" information present in current file
 Plug 'majutsushi/tagbar',programming
 " comment shortcut
 Plug 'tomtom/tcomment_vim'
@@ -30,14 +33,14 @@ Plug 'bbchung/gtags.vim',programming
 Plug 'Chiel92/vim-autoformat',programming
 " ack backed grepping
 Plug 'mileszs/ack.vim',programming
+
 " #######
 " # cpp #
 " #######
 Plug 'rhysd/vim-clang-format',programming_cpp
 " toggle between src/header
 Plug 'vim-scripts/a.vim',programming_cpp
-" extra color schemes
-Plug 'NigoroJr/color_coded-colorschemes',programming_cpp
+
 " #########
 " #haskell#
 " #########
@@ -48,6 +51,11 @@ Plug 'dag/vim2hs',programming_haskell
 " #######
 " scala support
 Plug 'derekwyatt/vim-scala',programming_scala
+" #####
+" #rfc#
+" #####
+" rfc syntax
+Plug 'vim-scripts/rfc-syntax', { 'for': 'rfc' }
 " #########
 " #general#
 " #########
@@ -68,11 +76,21 @@ Plug 'godlygeek/tabular'
 
 " unmap some a.vim mappings
 Plug '~/.vim/bundle/after',programming_cpp
-" clang backed syntax
-" Plug '~/.vim/bundle/color_coded',programming_cpp
+
+" turned off in cygwin since these plugins requires compilation
+if !has('win32unix') && !has('win64unix')
+  " clang backed syntax
+  " Plug '~/.vim/bundle/color_coded',programming_cpp
+  " extra color schemes
+  " Plug 'NigoroJr/color_coded-colorschemes',programming_cpp
+  " forked YCM for better cpp suggestions
+  Plug '~/.vim/bundle/OblitumYouCompleteMe',programming_cpp
+  " vanilla YCM
+  Plug '~/.vim/bundle/YouCompleteMe',programming_ncpp
+else
+endif
+" an alternative to color_coded
 Plug 'octol/vim-cpp-enhanced-highlight'
-Plug '~/.vim/bundle/OblitumYouCompleteMe',programming_cpp
-Plug '~/.vim/bundle/YouCompleteMe',programming_ncpp
 
 call plug#end()
 
@@ -293,9 +311,9 @@ endfunction
 cnoreabbrev Ack Ack!
 " a.vim
 " toggle between header and source
-autocmd FileType c,cpp,objc,h map <silent> <F2> :A<CR>
+autocmd FileType c,cpp,objc map <silent> <F2> :A<CR>
 " open source or header in vertical split
-autocmd FileType c,cpp,objc,h map <silent> <leader><F2> :AV<CR>
+autocmd FileType c,cpp,objc map <silent> <leader><F2> :AV<CR>
 
 " Powerline
 set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/

@@ -6,6 +6,13 @@ set nocompatible
   set encoding=utf-8 nobomb
 " endif
 
+if has('gui_running')
+  " configure font and font size for gvim
+  set guifont=Consolas:h9
+  " a gui pops up allowing you to configure font, size...
+  " set guifont=*
+endif
+
 if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal" || $TERM == "urxvt" || $TERM == "tmux-256color"
   set t_Co=256
 endif
@@ -161,9 +168,6 @@ map <silent> <leader>O O<esc>
 " half page down/up
 map <silent> ö <C-D>
 map <silent> Ö <C-U>
-
-" ctrl+- aka _ for line up
-map _ +
 
 " pane navigation
 map <silent> <leader>1 <esc>1gt

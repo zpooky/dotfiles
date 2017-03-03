@@ -1,0 +1,43 @@
+let mapleader = "\<Space>"        " map leader to  <space>
+
+" search
+set incsearch                     " search wile you type
+set smartcase                     " Case insensitive search, except when capital letters are used.
+set ignorecase                    " ignore case when searching
+set hls                           " highligt search?
+
+" Navigation captial H/L goto extreme Right/Left
+noremap H _
+noremap L g_
+
+" Alternative save
+nnoremap <leader>w <esc>:wa<CR>
+" Alternative quit
+nnoremap <leader>q <esc>:q<CR>
+
+" map å to page up
+map å <PageUp>
+" map ä to page down
+map ä <PageDown>
+" half page down/up
+map ö <C-D>
+map Ö <C-U>
+
+map <leader>, <esc>:noh<CR>
+
+" Alternative Moving around splits with the leader key
+" not working
+nmap <leader>h :vsc Window.PreviousTab<CR>
+nmap <leader>l :vsc Window.NextTab<CR>
+
+nnoremap <leader>s <esc>:vsplit<enter>
+
+" jumplist
+nmap <C-O> :vsc View.NavigateBackward<CR>
+nmap <C-I> :vsc View.NavigateForward<CR>
+
+" behave similar to D
+noremap Y y$
+
+" make ',' an alias for ':'
+nmap , :

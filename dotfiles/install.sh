@@ -125,6 +125,21 @@ if [ ! -e $BASHRC_FEATURE ]; then
   stop_feature "bashrc"
 fi
 
+# .inputrc is the start-up file used by readline, the input related library used by bash and most other shells
+DOTFILES_INPUTRC=$THE_HOME/dotfiles/inputrc
+if [[ $(uname -s) =~ CYGWIN.* ]]; then
+  echo '
+# make ctrl+left/right navigate word by word
+# default is not setup in cygwin
+"\e[1;5C": forward-word   # ctrl + right
+"\e[1;5D": backward-word  # ctrl + left
+
+# shift+insert - paste
+' > $DOTFILES_INPUTRC
+else
+  touch $DOTFILES_INPUTRC
+fi
+
 start_feature "update tmux plugins"
 ~/.tmux/plugins/tpm/bin/install_plugins
 stop_feature "update tmux plugins"
