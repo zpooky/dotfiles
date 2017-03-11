@@ -37,6 +37,23 @@ function stop_feature(){
   echo "------------------------------------"
 }
 
+function is_arch(){
+  if [ -f /etc/arch-release ];then
+    return 0
+  else
+    return 1
+  fi
+}
+
+function install(){
+  is_arch
+  if [ $? -eq 0 ];then
+    echo "sudo pacman -S $@"
+  else
+    echo "sudo apt-get -y install $@"
+  fi
+}
+
 function install_cron(){
   CRON_FILE=/tmp/mycron
   #write out current crontab
@@ -51,6 +68,12 @@ function install_cron(){
 function head_id(){
   git rev-parse HEAD
 }
+is_arch()
+if [ $? -eq 0 ]; then
+  LIB_PYTHON2=/usr/local/lib/pthon2.7
+else
+  LIB_PYTHON2=/usr/lib/python2.7
+fi
 
 # compile less settings from .lesskey into .less
 lesskey -o $THE_HOME/.less $THE_HOME/.lesskey
@@ -78,11 +101,14 @@ if [ ! -e $USER_BIN ]; then
 fi
 
 # submodules
-start_feature "vim"
+start_feature "git submodules"
 git submodule sync --recursive
 # recursivly pull in all submodule repos
 git submodule update --init --recursive --remote
 git submodule update --init --recursive
+
+stop_feature "git submodules"
+start_feature "vim"
 
 VIM_AUTOLOAD=$THE_HOME/.vim/autoload
 if [ ! -e $VIM_AUTOLOAD ]; then
@@ -136,7 +162,7 @@ if [ ! -e $FEATURE ]; then
 
   # TODO should recompile when vim version changes
   PREV_DIR=`pwd`
-  COLOR_CODED_PATH=~/.vim/bundle/color_coded 
+  COLOR_CODED_PATH=$THE_HOME/.vim/bundle/color_coded 
   COLOR_CODED_BUILD_PATH=$COLOR_CODED_PATH/build
   cd $COLOR_CODED_PATH
   if [ -d $COLOR_CODED_BUILD_PATH ]; then
@@ -185,7 +211,7 @@ sudo echo "start" || exit 1
 # update
 start_feature "update pip"
 
-sudo apt-get  -y  install python3.5 || exit 1
+install python3.6 || exit 1
 sudo apt-get  -y  install python3-pip || exit 1
 sudo -H pip3 install --upgrade pip || exit 1
 sudo -H pip3 install keyring || exit 1
@@ -363,7 +389,7 @@ if [ ! -e $KHAL_FEATURE ]; then
   rm $THE_HOME/.local/share/khal/khal.db 
   # install/update
   sudo -H pip3 install git+https://github.com/pimutils/khal
-  
+
   touch $KHAL_FEATURE
   stop_feature "khal"
 fi
@@ -372,7 +398,7 @@ fi
 DAVMAIL_FEATURE=$FEATURE_HOME/davmail
 if [ ! -e $DAVMAIL_FEATURE ];then
   start_feature "davmail"
-  
+
   PREV_DIR=`pwd`
   TEMP_DIR=`mktemp -d`
   cd $TEMP_DIR
@@ -406,7 +432,7 @@ if [ ! -e $DAVMAIL_FEATURE ];then
   else
     failed_feature "davmail remote zip"
   fi
-  
+
   cd $PREV_DIR
 fi
 
@@ -453,6 +479,13 @@ if [ ! -e $FEATURE_LATEST ]; then
   cd $PREV_DIR
 
   stop_feature "offlineimap"
+fi
+
+# should update powerline settings and scripts
+# install powerline tmux segments
+POWERLINE_SEGMENTS=$LIB_PYTHON2/dist-packages/powerline/segments
+if [ ! -e $POWERLINE_SEGMENTS/spooky ]; then
+ sudo cp $THE_HOME/.config/powerline/segments/spooky $POWERLINE_SEGMENTS -R
 fi
 
 # stdman
@@ -558,63 +591,6 @@ if [ ! -e $FEATURE ]; then
   stop_feature "mega"
 fi
 
-# powerline
-FEATURE=$FEATURE_HOME/powerline1
-if [ ! -e $FEATURE ]; then
-  # http://askubuntu.com/questions/283908/how-can-i-install-and-use-powerline-plugin
-  # TODO add system wide font install base on answer above
-  start_feature "powerline"
-
-  PREV_DIR=`pwd`
-
-  sudo -H pip2 install powerline-status
-  RET=$?
-  if [ $RET -eq 0 ];then
-
-    FONTS_DIR=$THE_HOME/.fonts
-    if [ ! -e $FONTS_DIR ]; then
-      mkdir $FONTS_DIR
-    fi
-
-    POWERLINE_FONT=$FONTS_DIR/PowerlineSymbols.otf 
-    if [ ! -e $POWERLINE_FONT ];then
-      cd $FONTS_DIR
-
-      wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
-      RET=$?
-
-      fc-cache -vf $FONTS_DIR
-    fi
-    if [ $RET -eq 0 ];then
-      FONTCONFIG_DIR=$THE_HOME/.config/fontconfig/conf.d
-      if [ ! -e $FONTCONFIG_DIR ];then
-        mkdir -p $FONTCONFIG_DIR
-      fi
-
-      POWERLINE_CONF=$FONTCONFIG_DIR/10-powerline-symbols.conf
-      if [ ! -e $POWERLINE_CONF ]; then
-        cd $FONTCONFIG_DIR
-
-        wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf 
-        RET=$?
-      fi
-
-      if [ $RET -eq 0 ]; then
-        touch $FEATURE
-      fi
-      echo ""
-    fi
-  fi
-
-  cd $PREV_DIR 
-  stop_feature "powerline"
-fi
-
-# install powerline tmux segments
-POWERLINE_SEGMENTS=/usr/local/lib/python2.7/dist-packages/powerline/segments
-if [ ! -e $POWERLINE_SEGMENTS/spooky ]; then
- sudo cp $THE_HOME/.config/powerline/segments/spooky $POWERLINE_SEGMENTS -R
-fi
 
 # csope bin. install to /usr/bin
 FEATURE=$FEATURE_HOME/cscope
@@ -730,7 +706,7 @@ fi
 FEATURE=$FEATURE_HOME/cppcheck1
 if [ ! -e $FEATURE ]; then
   start_feature "cppcheck"
-  
+
   PREV_DIR=`pwd`
 
   sudo apt-get -y remove cppcheck
@@ -768,99 +744,7 @@ if [ ! -e $FEATURE ]; then
   stop_feature "cppcheck"
 fi
 
-# libevent(tmux)
-FEATURE=$FEATURE_HOME/libevent
-if [ ! -e $FEATURE ]; then
-  start_feature "libevent"
-
-  PREV_DIR=`pwd`
-
-  LIBEVENT=libevent
-  LIBEVENT_ROOT=$GIT_SOURCES/$LIBEVENT
-
-  if [ ! -e $LIBEVENT_ROOT ]; then
-    git clone https://github.com/libevent/libevent.git $LIBEVENT_ROOT
-    if [ ! $? -eq 0 ]; then
-      rm -rf $LIBEVENT_ROOT
-    fi
-  fi
-
-  if [ -e $LIBEVENT_ROOT ]; then
-    cd $LIBEVENT_ROOT
-    git pull --rebase origin master
-
-    if [ $? -eq 0 ];then
-      sudo make uninstall
-      ./configure
-      if [ $? -eq 0 ];then
-        make
-        if [ $? -eq 0 ];then
-          sudo make install
-          if [ $? -eq 0 ];then
-            touch $FEATURE
-          fi
-        fi
-      fi
-    fi
-  fi
-
-  cd $PREV_DIR
-
-  stop_feature "libevent"
-fi
-
-# tmux
-FEATURE=$FEATURE_HOME/tmux2
-if [ ! -e $FEATURE ]; then
-  start_feature "tmux1"
-
-  PREV_DIR=`pwd`
-
-  TMUX=tmux
-  TMUX_ROOT=$GIT_SOURCES/$TMUX
-
-  if [ ! -e $TMUX_ROOT ]; then
-    git clone https://github.com/tmux/$TMUX.git $TMUX_ROOT
-    if [ ! $? -eq 0 ]; then
-      rm -rf $TMUX_ROOT
-    fi
-  fi
-
-  if [ -e $TMUX_ROOT ]; then
-    cd $TMUX_ROOT
-    git pull --rebase origin master
-
-    if [ $? -eq 0 ];then 
-      cd $TMUX
-      sudo make uninstall
-      ./autogen.sh
-
-      if [ $? -eq 0 ];then 
-        ./configure --prefix=/usr
-
-        if [ $? -eq 0 ];then 
-          make
-
-          if [ $? -eq 0 ];then 
-            # sudo apt-get -y remove tmux
-            sudo make install
-
-            if [ $? -eq 0 ];then 
-              tmux -V
-              touch $FEATURE
-            fi
-          fi
-        fi
-      fi
-    fi
-  fi
-
-  cd $PREV_DIR
-
-  stop_feature "tmux1"
-fi
-
-# less colors
+# guake
 FEATURE=$FEATURE_HOME/guake1
 if [ ! -e $FEATURE ]; then
   start_feature "guake"
