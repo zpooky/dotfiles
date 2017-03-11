@@ -46,7 +46,7 @@ function is_arch(){
 }
 
 function is_apt_get(){
-  # lets say that everything that is not arch is a apt-get system
+  # lets say that everything that is not arch uses apt-get
   is_arch
   if [ $? -eq 0 ]; then
     return 1
@@ -54,13 +54,19 @@ function is_apt_get(){
     return 0
   fi
 }
+function update_package_list(){
+  is_apt_get
+  if [ $? -eq 0 ];then
+    sudo apt-get update || exit 1
+  fi
+}
 
 function install(){
   is_arch
   if [ $? -eq 0 ];then
-    echo "sudo pacman -S $@"
+    sudo pacman -S $@
   else
-    echo "install $@"
+    sudo apt-get -y install $@
   fi
 }
 
@@ -238,7 +244,7 @@ stop_feature "update pip"
 # apps
 
 start_feature "apt-get update"
-sudo apt-get update || exit 1
+update_package_list
 
 start_feature "apt-get install python"
 
@@ -284,7 +290,7 @@ install libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev || exit 1
 # vim things
 install build-essential libclang-3.9-dev libncurses-dev libz-dev cmake xz-utils libpthread-workqueue-dev
 LUA_VIM_MINOR_VERSION=`vim --version | grep "\-llua" | sed -r "s/.*\-llua5.([0-9]*).*/\1/"`
-sudo apt-get -y   install liblua5.$LUA_VIM_MINOR_VERSION-dev lua5.$LUA_VIM_MINOR_VERSION
+install liblua5.$LUA_VIM_MINOR_VERSION-dev lua5.$LUA_VIM_MINOR_VERSION
 
 start_feature "apt-get install libs"
 install openssl || exit 1
@@ -301,7 +307,7 @@ install cmake || exit 1
 #TODO assert cmake version is greater than 2.8
 
 start_feature "apt-get install perf"
-sudo apt-get -y  install linux-tools-common linux-tools-generic linux-tools-`uname -r` || exit 1
+install linux-tools-common linux-tools-generic linux-tools-`uname -r` || exit 1
 
 start_feature "pip install cpp"
 sudo -H pip3 install cpplint || exit 1
@@ -476,7 +482,6 @@ if [ ! -e $FEATURE_LATEST ]; then
   start_feature "offlineimap"
   PREV_DIR=`pwd`
 
-  sudo apt-get -y remove offlineimap
   if [ ! -e $FEATURE ]; then
     install_cron "*/5 * * * *	$THE_HOME/dotfiles/lib/offlineimap_cron.sh"
   fi
@@ -550,12 +555,17 @@ if [ ! -e $BCC_FEATURE ]; then
   if [ $KERNEL_VERSION != ^3.* ]; then
      start_feature "bcc"
 
-     # https://github.com/iovisor/bcc/blob/master/INSTALL.md
-     echo "deb [trusted=yes] https://repo.iovisor.org/apt/xenial xenial-nightly main" | sudo tee /etc/apt/sources.list.d/iovisor.list
-     sudo apt-get update
+     is_apt_get
+     if [ $? -eq 0 ];then
+       # https://github.com/iovisor/bcc/blob/master/INSTALL.md
+       echo "deb [trusted=yes] https://repo.iovisor.org/apt/xenial xenial-nightly main" | sudo tee /etc/apt/sources.list.d/iovisor.list
+       update_package_list
+     fi
      install bcc-tools
 
-     touch $BCC_FEATURE
+     if [ $? -eq 0 ]; then
+       touch $BCC_FEATURE
+     fi
      stop_feature "bcc"
   fi
 fi
@@ -565,12 +575,16 @@ FEATURE=$FEATURE_HOME/keepass1
 if [ ! -e $FEATURE ]; then
   start_feature "keepass"
 
-  #keepass
-  sudo apt-add-repository -y ppa:jtaylor/keepass
-  sudo apt-get update
+  is_apt_get
+  if [ $? -eq 0 ]; then
+    sudo apt-add-repository -y ppa:jtaylor/keepass
+    sudo apt-get update
+  fi
   install keepass2
 
-  touch $FEATURE
+  if [ $? -eq 0 ]; then
+    touch $FEATURE
+  fi
   stop_feature "keepass"
 fi
 
@@ -719,8 +733,6 @@ if [ ! -e $FEATURE ]; then
 
   PREV_DIR=`pwd`
 
-  sudo apt-get -y remove cppcheck
-
   CPPCHECK=cppcheck
   CPPCHECK_ROOT=$GIT_SOURCES/$CPPCHECK
   if [ ! -e $CPPCHECK_ROOT ]; then
@@ -807,7 +819,6 @@ FEATURE=$FEATURE_HOME/ranger1
 if [ ! -e $FEATURE ]; then
   start_feature "ranger"
 
-  sudo apt-get -y remove ranger
   sudo -H pip2 install git+https://github.com/ranger/ranger.git
   if [ $? -eq 0 ]; then
     touch $FEATURE
@@ -873,20 +884,25 @@ if [ ! -e $FEATURE ]; then
   stop_feature "ensime"
 fi
 
-sudo apt-get -y remove ack-grep
 # grep optimized for code used by vim ack plugin
 which ack-grep
 if [ ! $? -eq 0 ]; then
   start_feature "ack"
 
-  TEMP_DIR=`mktemp -d`
-  ACK_SOURCE=$TEMP_DIR/ack-grep
-  ACK_DESTINATION=/usr/bin/ack-grep
-  curl http://beyondgrep.com/ack-2.14-single-file > $ACK_SOURCE
-  if [ $? -eq 0 ];then
-    chmod 0755 $ACK_SOURCE
-    sudo chown root:root $ACK_SOURCE
-    sudo mv $ACK_SOURCE $ACK_DESTINATION
+  is_apt_get
+  if [ $? -eq 0 ]; then
+    # manually install it because why not
+    TEMP_DIR=`mktemp -d`
+    ACK_SOURCE=$TEMP_DIR/ack-grep
+    ACK_DESTINATION=/usr/bin/ack-grep
+    curl http://beyondgrep.com/ack-2.14-single-file > $ACK_SOURCE
+    if [ $? -eq 0 ];then
+      chmod 0755 $ACK_SOURCE
+      sudo chown root:root $ACK_SOURCE
+      sudo mv $ACK_SOURCE $ACK_DESTINATION
+    fi
+  else
+    install -S ack
   fi
 
   stop_feature "ack"
@@ -897,7 +913,7 @@ if [ ! -e $FEATURE ]; then
   start_feature "clipster"
 
   PREV_DIR=`pwd`
-  
+
   CLIPSTER=clipster
   CLIPSTER_ROOT=$GIT_SOURCES/$CLIPSTER
   if [ ! -e $CLIPSTER_ROOT ]; then
