@@ -45,12 +45,22 @@ function is_arch(){
   fi
 }
 
+function is_apt_get(){
+  # lets say that everything that is not arch is a apt-get system
+  is_arch
+  if [ $? -eq 0 ]; then
+    return 1
+  else
+    return 0
+  fi
+}
+
 function install(){
   is_arch
   if [ $? -eq 0 ];then
     echo "sudo pacman -S $@"
   else
-    echo "sudo apt-get -y install $@"
+    echo "install $@"
   fi
 }
 
@@ -212,17 +222,17 @@ sudo echo "start" || exit 1
 start_feature "update pip"
 
 install python3.6 || exit 1
-sudo apt-get  -y  install python3-pip || exit 1
+install python3-pip || exit 1
 sudo -H pip3 install --upgrade pip || exit 1
 sudo -H pip3 install keyring || exit 1
 
-sudo apt-get install gnome-common gtk-doc-tools libglib2.0-dev libgtk2.0-dev || exit 1
-sudo apt-get install python-gtk2 python-gtk2-dev python-vte glade python-glade2 || exit 1
-sudo apt-get install libgconf2-dev python-appindicator || exit 1
-sudo apt-get install python-vte python-gconf python-keybinder || exit 1
-sudo apt-get install notify-osd || exit 1
-sudo apt-get install libutempter0 || exit 1
-sudo apt-get install python-notify || exit 1
+install gnome-common gtk-doc-tools libglib2.0-dev libgtk2.0-dev || exit 1
+install python-gtk2 python-gtk2-dev python-vte glade python-glade2 || exit 1
+install libgconf2-dev python-appindicator || exit 1
+install python-vte python-gconf python-keybinder || exit 1
+install notify-osd || exit 1
+install libutempter0 || exit 1
+install python-notify || exit 1
 
 stop_feature "update pip"
 # apps
@@ -232,62 +242,62 @@ sudo apt-get update || exit 1
 
 start_feature "apt-get install python"
 
-sudo apt-get  -y  install python-sqlite || exit 1
-sudo apt-get  -y  install python-vobject || exit 1
-sudo apt-get  -y  install python-gnomekeyring || exit 1
-sudo apt-get install python-dev || exit 1
+install python-sqlite || exit 1
+install python-vobject || exit 1
+install python-gnomekeyring || exit 1
+install python-dev || exit 1
 
 start_feature "apt-get install tools"
-sudo apt-get  -y  install htop || exit 1
-sudo apt-get  -y  install rake || exit 1
-sudo apt-get  -y  install wget || exit 1
-sudo apt-get  -y  install curl || exit 1
+install htop || exit 1
+install rake || exit 1
+install wget || exit 1
+install curl || exit 1
 # text terminal web browser
-sudo apt-get  -y  install w3m || exit 1
-sudo apt-get  -y  install w3m-img
-sudo apt-get  -y  install colordiff || exit 1
-sudo apt-get  -y  install feh || exit 1
-sudo apt-get  -y  install antiword || exit 1
-sudo apt-get  -y  install catdoc || exit 1
-sudo apt-get  -y  install ncurses-term || exit 1
-sudo apt-get  -y  install sqlite3 || exit 1
-sudo apt-get  -y  install sed || exit 1
-sudo apt-get  -y  install autoconf || exit 1
-sudo apt-get  -y  install caca-utils || exit 1
+install w3m || exit 1
+install w3m-img
+install colordiff || exit 1
+install feh || exit 1
+install antiword || exit 1
+install catdoc || exit 1
+install ncurses-term || exit 1
+install sqlite3 || exit 1
+install sed || exit 1
+install autoconf || exit 1
+install caca-utils || exit 1
 
 # xterm-256color support
-sudo apt-get  -y  install ncurses-term || exit 1
+install ncurses-term || exit 1
 # for archives text
-sudo apt-get  -y  install atool || exit 1
+install atool || exit 1
 # for syntax highlighting. text ranger
-sudo apt-get  -y  install highlight || exit 1
+install highlight || exit 1
 # for media file information.
-sudo apt-get  -y  install mediainfo || exit 1
+install mediainfo || exit 1
 #  for PDF text
-sudo apt-get  -y  install poppler-utils || exit 1
-sudo apt-get  -y  install transmission-cli || exit 1
+install poppler-utils || exit 1
+install transmission-cli || exit 1
 
 
-sudo apt-get -y install libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev || exit 1
-sudo apt-get -y install libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev || exit 1
+install libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev || exit 1
+install libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev || exit 1
 
 # vim things
-sudo apt-get  -y  install build-essential libclang-3.9-dev libncurses-dev libz-dev cmake xz-utils libpthread-workqueue-dev
+install build-essential libclang-3.9-dev libncurses-dev libz-dev cmake xz-utils libpthread-workqueue-dev
 LUA_VIM_MINOR_VERSION=`vim --version | grep "\-llua" | sed -r "s/.*\-llua5.([0-9]*).*/\1/"`
 sudo apt-get -y   install liblua5.$LUA_VIM_MINOR_VERSION-dev lua5.$LUA_VIM_MINOR_VERSION
 
 start_feature "apt-get install libs"
-sudo apt-get  -y  install openssl || exit 1
+install openssl || exit 1
 
 start_feature "apt-get install gnu stuff"
 # The package libreadline is for running applications using readline command
 # and the package libreadline-dev is for compiling and building readline application.
-sudo apt-get  -y  install libreadline6 libreadline6-dev || exit 1
+install libreadline6 libreadline6-dev || exit 1
 
 start_feature "apt-get install cpp stuff"
 # cpp
-sudo apt-get  -y install clang || exit 1
-sudo apt-get  -y install cmake || exit 1
+install clang || exit 1
+install cmake || exit 1
 #TODO assert cmake version is greater than 2.8
 
 start_feature "apt-get install perf"
@@ -299,9 +309,9 @@ sudo -H pip3 install cpplint || exit 1
 stop_feature "apt-get install"
 
 start_feature "standalone"
-sudo apt-get -y install vlc
+install vlc
 #newsbeuter 2.9
-sudo apt-get -y install newsbeuter
+install newsbeuter
 stop_feature "standalone"
 
 # mutt url viewer
@@ -440,7 +450,7 @@ fi
 LBDB_FEATURE=$FEATURE_HOME/lbdb
 if [ ! -e $LBDB_FEATURE ]; then
   start_feature "LBDB"
-	sudo apt-get -y install lbdb
+	install lbdb
   RET=$?
   install_cron "1 */24 * * *" "$THE_HOME/.mutt/lib/refreshaddress.sh"
   # TODO build from github https://github.com/tgray/lbdb
@@ -543,7 +553,7 @@ if [ ! -e $BCC_FEATURE ]; then
      # https://github.com/iovisor/bcc/blob/master/INSTALL.md
      echo "deb [trusted=yes] https://repo.iovisor.org/apt/xenial xenial-nightly main" | sudo tee /etc/apt/sources.list.d/iovisor.list
      sudo apt-get update
-     sudo apt-get -y install bcc-tools
+     install bcc-tools
 
      touch $BCC_FEATURE
      stop_feature "bcc"
@@ -558,7 +568,7 @@ if [ ! -e $FEATURE ]; then
   #keepass
   sudo apt-add-repository -y ppa:jtaylor/keepass
   sudo apt-get update
-  sudo apt-get -y install keepass2
+  install keepass2
 
   touch $FEATURE
   stop_feature "keepass"
@@ -579,7 +589,7 @@ if [ ! -e $FEATURE ]; then
   wget -O $MEGA_DEB https://mega.nz/linux/MEGAsync/xUbuntu_16.04/amd64/megasync-xUbuntu_16.04_amd64.deb
 
   if [ $? -eq 0 ];then
-    sudo apt-get -y install libcrypto++9
+    install libcrypto++9
     if [ $? -eq 0 ];then
       sudo dpkg -y -i $MEGA_DEB
         if [ $? -eq 0 ];then
@@ -824,7 +834,7 @@ if [ ! -e $FEATURE ]; then
   if [ -e $XCLIP_ROOT ];then
     cd $XCLIP_ROOT
     git pull --rebase origin master
-    sudo apt-get install libxcb-util-dev
+    install libxcb-util-dev
     autoreconf
     if [ $? -eq 0 ];then 
       ./configure
@@ -1126,8 +1136,8 @@ FEATURE=$FEATURE_HOME/qutebrowser
 if [ ! -e $FEATURE ]; then
   start_feature "qutebrowser"
 
-  sudo apt-get -y install python3-lxml python-tox python3-pyqt5 python3-pyqt5.qtwebkit
-  sudo apt-get -y install python3-pyqt5.qtquick python3-sip python3-jinja2 python3-pygments python3-yaml
+  install python3-lxml python-tox python3-pyqt5 python3-pyqt5.qtwebkit
+  install python3-pyqt5.qtquick python3-sip python3-jinja2 python3-pygments python3-yaml
 
   #TODO install
 
@@ -1137,9 +1147,12 @@ fi
 # mpv video player
 which mpv
 if [ ! $? -eq 0 ];then
-  sudo add-apt-repository -y ppa:mc3man/mpv-tests
-  sudo apt-get update
-  sudo apt-get -y install mpv
+  is_apt_get
+  if [ $? -eq 0 ];then
+    sudo add-apt-repository -y ppa:mc3man/mpv-tests
+    sudo apt-get update
+  fi
+  install mpv
 fi
 # allows mpv to download and play youtube videos
 sudo apt install youtube-dl
