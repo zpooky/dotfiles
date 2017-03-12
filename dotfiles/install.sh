@@ -552,37 +552,42 @@ FEATURE=$FEATURE_HOME/cppcheck1
 if [ ! -e $FEATURE ]; then
   start_feature "cppcheck"
 
-  PREV_DIR=`pwd`
+  is_arch
+  if [ $? -eq 0 ]; then
+    install cppcheck
+  else
+    PREV_DIR=`pwd`
 
-  CPPCHECK=cppcheck
-  CPPCHECK_ROOT=$GIT_SOURCES/$CPPCHECK
-  if [ ! -e $CPPCHECK_ROOT ]; then
-    git clone https://github.com/danmar/$CPPCHECK.git $CPPCHECK_ROOT
-    if [ ! $? -eq 0 ]; then
-      rm -rf $CPPCHECK_ROOT
+    CPPCHECK=cppcheck
+    CPPCHECK_ROOT=$GIT_SOURCES/$CPPCHECK
+    if [ ! -e $CPPCHECK_ROOT ]; then
+      git clone https://github.com/danmar/$CPPCHECK.git $CPPCHECK_ROOT
+      if [ ! $? -eq 0 ]; then
+        rm -rf $CPPCHECK_ROOT
+      fi
     fi
-  fi
 
-  if [ -e $CPPCHECK_ROOT ];then
-    cd $CPPCHECK_ROOT
-    git pull --rebase origin master
-    if [ $? -eq 0 ];then 
-      cd $CPPCHECK
+    if [ -e $CPPCHECK_ROOT ];then
+      cd $CPPCHECK_ROOT
+      git pull --rebase origin master
       if [ $? -eq 0 ];then 
-          sudo make uninstall
-          make
+        cd $CPPCHECK
         if [ $? -eq 0 ];then 
-          sudo make install
+            sudo make uninstall
+            make
           if [ $? -eq 0 ];then 
-            cppcheck --version
-            touch $FEATURE
+            sudo make install
+            if [ $? -eq 0 ];then 
+              cppcheck --version
+              touch $FEATURE
+            fi
           fi
         fi
       fi
     fi
-  fi
 
-  cd $PREV_DIR
+    cd $PREV_DIR
+  fi
 
   stop_feature "cppcheck"
 fi
@@ -592,45 +597,50 @@ FEATURE=$FEATURE_HOME/guake1
 if [ ! -e $FEATURE ]; then
   start_feature "guake"
 
-  PREV_DIR=`pwd`
+  is_arch
+  if [ $? -eq 0 ];then
+    install guake
+  else
+    PREV_DIR=`pwd`
 
-  GUAKE_ROOT=$GIT_SOURCES/guake
-  if [ ! -e $GUAKE_ROOT ]; then
-    git clone https://github.com/Guake/guake.git $GUAKE_ROOT
-    if [ ! $? -eq 0 ]; then
-      rm -rf $GUAKE_ROOT
+    GUAKE_ROOT=$GIT_SOURCES/guake
+    if [ ! -e $GUAKE_ROOT ]; then
+      git clone https://github.com/Guake/guake.git $GUAKE_ROOT
+      if [ ! $? -eq 0 ]; then
+        rm -rf $GUAKE_ROOT
+      fi
     fi
-  fi
 
-  if [ -e $GUAKE_ROOT ];then
-    cd $GUAKE_ROOT
+    if [ -e $GUAKE_ROOT ];then
+      cd $GUAKE_ROOT
 
-    git pull --rebase origin master
-
-    if [ $? -eq 0 ];then
-      ./autogen.sh
+      git pull --rebase origin master
 
       if [ $? -eq 0 ];then
-        ./configure
+        ./autogen.sh
 
         if [ $? -eq 0 ];then
-          sudo make uninstall
-          make
+          ./configure
 
           if [ $? -eq 0 ];then
-            sudo make install
+            sudo make uninstall
+            make
 
             if [ $? -eq 0 ];then
-              guake --help
-              touch $FEATURE
+              sudo make install
+
+              if [ $? -eq 0 ];then
+                guake --help
+                touch $FEATURE
+              fi
             fi
           fi
         fi
       fi
     fi
-  fi
 
-  cd $PREV_DIR
+    cd $PREV_DIR
+  fi
 
   stop_feature "guake"
 fi
@@ -653,43 +663,46 @@ FEATURE=$FEATURE_HOME/xclip
 if [ ! -e $FEATURE ]; then
   start_feature "xclip"
 
-  PREV_DIR=`pwd`
+  is_arch
+  if [ $? -eq 0 ]; then
+    install xclip
+  else
+    PREV_DIR=`pwd`
 
-  XCLIP_ROOT=$GIT_SOURCES/xclip
-  if [ ! -e $XCLIP_ROOT ]; then 
-    git clone https://github.com/astrand/xclip.git $XCLIP_ROOT
-    if [ ! $? -eq 0 ]; then
-      rm -rf $XCLIP_ROOT
+    XCLIP_ROOT=$GIT_SOURCES/xclip
+    if [ ! -e $XCLIP_ROOT ]; then 
+      git clone https://github.com/astrand/xclip.git $XCLIP_ROOT
+      if [ ! $? -eq 0 ]; then
+        rm -rf $XCLIP_ROOT
+      fi
     fi
-  fi
 
-  if [ -e $XCLIP_ROOT ];then
-    cd $XCLIP_ROOT
-    git pull --rebase origin master
-    install libxcb-util-dev
-    autoreconf
-    if [ $? -eq 0 ];then
-      ./configure
-
+    if [ -e $XCLIP_ROOT ];then
+      cd $XCLIP_ROOT
+      git pull --rebase origin master
+      install libxcb-util-dev
+      autoreconf
       if [ $? -eq 0 ];then
-        sudo make uninstall
-        make
+        ./configure
 
         if [ $? -eq 0 ];then
-          sudo make install.man
-          sudo make install
+          sudo make uninstall
+          make
 
           if [ $? -eq 0 ];then
-            xclip -h
-            touch $FEATURE
+            sudo make install.man
+            sudo make install
+
+            if [ $? -eq 0 ];then
+              xclip -h
+              touch $FEATURE
+            fi
           fi
         fi
       fi
     fi
+    cd $PREV_DIR
   fi
-
-  cd $PREV_DIR
-
   stop_feature "xclip"
 fi
 
@@ -926,45 +939,49 @@ FEATURE=$FEATURE_HOME/tig
 if [ ! -e $FEATURE ]; then
   start_feature "tig"
 
-  PREV_DIR=`pwd`
+  is_arch
+  if [ $? -eq 0 ]; then
+    install tig
+  else
+    PREV_DIR=`pwd`
 
-  ROOT=$GIT_SOURCES/tig
-  if [ ! -e $ROOT ]; then
-    git clone https://github.com/jonas/tig.git $ROOT
-    if [ ! $? -eq 0 ]; then
-      rm -rf $ROOT
+    ROOT=$GIT_SOURCES/tig
+    if [ ! -e $ROOT ]; then
+      git clone https://github.com/jonas/tig.git $ROOT
+      if [ ! $? -eq 0 ]; then
+        rm -rf $ROOT
+      fi
     fi
-  fi
 
-  if [ -e $ROOT ];then
-    cd $ROOT
+    if [ -e $ROOT ];then
+      cd $ROOT
 
-    git pull --rebase origin master
-
-    if [ $? -eq 0 ];then
-      ./autogen.sh
+      git pull --rebase origin master
 
       if [ $? -eq 0 ];then
-        ./configure --prefix=/usr/local
+        ./autogen.sh
 
         if [ $? -eq 0 ];then
-          make
+          ./configure --prefix=/usr/local
 
           if [ $? -eq 0 ];then
-            sudo make uninstall
-            sudo make install
+            make
 
             if [ $? -eq 0 ];then
-              tig --help
-              touch $FEATURE
+              sudo make uninstall
+              sudo make install
+
+              if [ $? -eq 0 ];then
+                tig --help
+                touch $FEATURE
+              fi
             fi
           fi
         fi
       fi
     fi
+    cd $PREV_DIR
   fi
-
-  cd $PREV_DIR
 
   stop_feature "tig"
 fi
@@ -974,11 +991,16 @@ FEATURE=$FEATURE_HOME/qutebrowser
 if [ ! -e $FEATURE ]; then
   start_feature "qutebrowser"
 
-  install python3-lxml python-tox python3-pyqt5 python3-pyqt5.qtwebkit
-  install python3-pyqt5.qtquick python3-sip python3-jinja2 python3-pygments python3-yaml
+  is_arch
+  if [ $? -eq 0 ];then
+    pacman -S qutebrowser
+    touch $FEATURE
+  else
+    install python3-lxml python-tox python3-pyqt5 python3-pyqt5.qtwebkit
+    install python3-pyqt5.qtquick python3-sip python3-jinja2 python3-pygments python3-yaml
 
-  #TODO install
-
+    #TODO install
+  fi
   stop_feature "qutebrowser"
 fi
 
@@ -988,12 +1010,12 @@ if [ ! $? -eq 0 ];then
   is_apt_get
   if [ $? -eq 0 ];then
     sudo add-apt-repository -y ppa:mc3man/mpv-tests
-    sudo apt-get update
+    update_package_list
   fi
   install mpv
 fi
 # allows mpv to download and play youtube videos
-sudo apt install youtube-dl
+install youtube-dl
 
 GDB_PP=$SOURCES_ROOT/gdb_pp
 if [ ! -e $GDB_PP ]; then
