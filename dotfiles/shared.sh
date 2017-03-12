@@ -77,7 +77,7 @@ function pip2_install(){
 
 function pip3_install(){
   is_arch
-  if [ $? -eq 0; ]; then
+  if [ $? -eq 0 ]; then
     sudo -H pip install $@
   else
     sudo -H pip3 install $@

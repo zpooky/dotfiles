@@ -97,14 +97,14 @@ if [ ! -e $FEATURE ]; then
   fi
   mkdir build && cd build || exit 1
   cmake ..
-  if [ $? -eq 0 ];then 
+  if [ $? -eq 0 ];then
     make && make install
     RET=$?
 
       # Cleanup afterward; frees several hundred megabytes
       make clean && make clean_clang
 
-    if [ $RET -eq 0 ];then 
+    if [ $RET -eq 0 ];then
       touch $FEATURE
     fi
   fi
@@ -145,13 +145,23 @@ install python-pip || exit 1
 pip3_install --upgrade pip || exit 1
 pip3_install keyring || exit 1
 
-install gnome-common gtk-doc-tools libglib2.0-dev libgtk2.0-dev || exit 1
-install python-gtk2 python-gtk2-dev python-vte glade python-glade2 || exit 1
-install libgconf2-dev python-appindicator || exit 1
-install python-vte python-gconf python-keybinder || exit 1
-install notify-osd || exit 1
-install libutempter0 || exit 1
-install python-notify || exit 1
+install gnome-common
+install gtk-doc-tool
+install libglib2.0-de
+install libgtk2.0-dev
+install python-gtk
+install python-gtk2-de
+install python-vt
+install glad
+install python-glade2
+install libgconf2-de
+install python-appindicator
+install python-vt
+install python-gcon
+install python-keybinder
+install notify-osd
+install libutempter0
+install python-notify
 
 stop_feature "update pip"
 # apps
@@ -197,13 +207,28 @@ install poppler-utils || exit 1
 install transmission-cli || exit 1
 
 
-install libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev || exit 1
-install libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev || exit 1
+install libncurses5-de
+install libgnome2-de
+install libgnomeui-de
+install libgtk2.0-de
+install libatk1.0-de
+install libbonoboui2-dev
+install libcairo2-de
+install libx11-de
+install libxpm-de
+install libxt-de
+install python-dev
 
 # vim things
-install build-essential libclang-3.9-dev libncurses-dev libz-dev cmake xz-utils libpthread-workqueue-dev
+install build-essential
+install libclang-3.9-dev
+install libncurses-dev
+install libz-dev
+install xz-utils
+install libpthread-workqueue-dev
 LUA_VIM_MINOR_VERSION=`vim --version | grep "\-llua" | sed -r "s/.*\-llua5.([0-9]*).*/\1/"`
-install liblua5.$LUA_VIM_MINOR_VERSION-dev lua5.$LUA_VIM_MINOR_VERSION
+install liblua5.$LUA_VIM_MINOR_VERSION-dev
+install lua5.$LUA_VIM_MINOR_VERSION
 
 start_feature "apt-get install libs"
 install openssl || exit 1
@@ -211,7 +236,8 @@ install openssl || exit 1
 start_feature "apt-get install gnu stuff"
 # The package libreadline is for running applications using readline command
 # and the package libreadline-dev is for compiling and building readline application.
-install libreadline6 libreadline6-dev || exit 1
+install libreadline
+install libreadline6-dev || exit 1
 
 start_feature "apt-get install cpp stuff"
 # cpp
@@ -220,7 +246,9 @@ install cmake || exit 1
 #TODO assert cmake version is greater than 2.8
 
 start_feature "apt-get install perf"
-install linux-tools-common linux-tools-generic linux-tools-`uname -r` || exit 1
+install linux-tools-commo
+install linux-tools-generi
+install linux-tools-`uname -r` || exit 1
 
 start_feature "pip install cpp"
 pip3_install cpplint || exit 1
