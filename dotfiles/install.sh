@@ -1,95 +1,6 @@
 #!/bin/bash
-THE_HOME=$HOME
-DOTFILES_HOME=$THE_HOME/dotfiles
-DOTFILES_LIB=$DOTFILES_HOME/lib
-USER_BIN=$THE_HOME/bin
-USER=`whoami`
-GROUP=$USER
-FEATURE_HOME=$DOTFILES_HOME/features
-KERNEL_VERSION="`uname -r`"
-GIT_SOURCES=$THE_HOME/sources
-SOURCES_ROOT=$GIT_SOURCES
-mkdir $GIT_SOURCES
 
-function echoerr() { echo "$@" 1>&2; }
-
-function failed_feature(){
-  echoerr "FAILED"
-  echoerr "FAILED"
-  echoerr "FAILED $1"
-  echoerr "------------------------------------"
-  echoerr "------------------------------------"
-}
-
-function start_feature(){
-  echo ""
-  echo ""
-  echo "START $1"
-  echo "------------------------------------"
-  echo "------------------------------------"
-}
-
-function stop_feature(){
-  echo ""
-  echo ""
-  echo "STOP $1"
-  echo "------------------------------------"
-  echo "------------------------------------"
-}
-
-function is_arch(){
-  if [ -f /etc/arch-release ];then
-    return 0
-  else
-    return 1
-  fi
-}
-
-function is_apt_get(){
-  # lets say that everything that is not arch uses apt-get
-  is_arch
-  if [ $? -eq 0 ]; then
-    return 1
-  else
-    return 0
-  fi
-}
-function update_package_list(){
-  is_apt_get
-  if [ $? -eq 0 ];then
-    sudo apt-get update || exit 1
-  fi
-}
-
-function install(){
-  is_arch
-  if [ $? -eq 0 ];then
-    sudo pacman -S $@
-  else
-    sudo apt-get -y install $@
-  fi
-}
-
-function install_cron(){
-  CRON_FILE=/tmp/mycron
-  #write out current crontab
-  crontab -l > $CRON_FILE
-  #echo new cron into cron file
-  echo "$1" >> $CRON_FILE
-  #install new cron file
-  crontab $CRON_FILE
-  rm $CRON_FILE
-}
-
-function head_id(){
-  git rev-parse HEAD
-}
-is_arch()
-if [ $? -eq 0 ]; then
-  LIB_PYTHON2=/usr/local/lib/pthon2.7
-else
-  LIB_PYTHON2=/usr/lib/python2.7
-fi
+source $HOME/dotfiles/shared.sh
 
 # compile less settings from .lesskey into .less
 lesskey -o $THE_HOME/.less $THE_HOME/.lesskey
@@ -227,10 +138,12 @@ sudo echo "start" || exit 1
 # update
 start_feature "update pip"
 
-install python3.6 || exit 1
-install python3-pip || exit 1
-sudo -H pip3 install --upgrade pip || exit 1
-sudo -H pip3 install keyring || exit 1
+#python3
+install python || exit 1
+install python-pip || exit 1
+
+pip3_install --upgrade pip || exit 1
+pip3_install keyring || exit 1
 
 install gnome-common gtk-doc-tools libglib2.0-dev libgtk2.0-dev || exit 1
 install python-gtk2 python-gtk2-dev python-vte glade python-glade2 || exit 1
@@ -310,7 +223,7 @@ start_feature "apt-get install perf"
 install linux-tools-common linux-tools-generic linux-tools-`uname -r` || exit 1
 
 start_feature "pip install cpp"
-sudo -H pip3 install cpplint || exit 1
+pip3_install cpplint || exit 1
 
 stop_feature "apt-get install"
 
@@ -319,9 +232,6 @@ install vlc
 #newsbeuter 2.9
 install newsbeuter
 stop_feature "standalone"
-
-# mutt url viewer
-sudo -H pip2 install urlscan
 
 # keyring
 ## work host <outlook.office365.com>
@@ -342,23 +252,33 @@ sudo -H pip2 install urlscan
 # pip2 for python2.7
 which pip2
 if [ ! $? -eq 0 ]; then
-  PREV_DIR=`pwd`
-
-  cd /tmp
-  curl -O https://bootstrap.pypa.io/get-pip.py
-
+  is_arch
   if [ $? -eq 0 ];then
-    sudo -H  python2.7 get-pip.py
+    install python2-pip
+  else
+    # python2 -m pip uninstall pip setuptools
+    PREV_DIR=`pwd`
+
+    cd /tmp
+    curl -O https://bootstrap.pypa.io/get-pip.py
+
+    if [ $? -eq 0 ];then
+      sudo -H  python2.7 get-pip.py
+    fi
+
+    cd $PREV_DIR
   fi
-  
-  cd $PREV_DIR
 fi
-sudo -H pip2 install --upgrade pip || exit 1
+pip2_install --upgrade pip || exit 1
+
+# mutt url viewer
+pip2_install urlscan
+
 
 #python format
-sudo -H pip2 install git+https://github.com/google/yapf.git
+pip2_install git+https://github.com/google/yapf.git
 #python import sort
-# sudo -H pip2 install git+https://github.com/timothycrosley/isort.git
+# pip2_install git+https://github.com/timothycrosley/isort.git
 which npm
 if [ $? -eq 0 ];then
   sudo npm install -g typescript
@@ -375,125 +295,6 @@ which $STYLEISH_HASKELL
 if [ ! $? -eq 0 ];then
   cabal update
   cabal install $STYLEISH_HASKELL
-fi
-
-# vdirsyncer - sync calendar events to disk
-VDIR_FEATURE_INITIAL=$FEATURE_HOME/vdirsyncer
-VDIR_FEATURE="${VDIR_FEATURE_INITIAL}1"
-if [ ! -e "$VDIR_FEATURE" ]; then
-  start_feature "vdirsyncer" 
-
-  sudo -H pip3 install requests requests_oauthlib || exit 1
-
-  ## install
-  sudo -H pip3 install git+https://github.com/untitaker/vdirsyncer.git || exit 1
-
-  if [ ! -e $VDIR_FEATURE_INITIAL ]; then
-    ## crontab
-    install_cron "*/5 * * * *	$DOTFILES_LIB/vdirsyncer_cron.sh"
-  fi
-
-  touch $VDIR_FEATURE
-  stop_feature "vdirsyncer" 
-fi
-
-# khal - interface to display calendar
-KHAL_FEATURE=$FEATURE_HOME/khal1
-if [ ! -e $KHAL_FEATURE ]; then
-  start_feature "khal"
-  # clear buggy cache
-  rm $THE_HOME/.local/share/khal/khal.db 
-  # install/update
-  sudo -H pip3 install git+https://github.com/pimutils/khal
-
-  touch $KHAL_FEATURE
-  stop_feature "khal"
-fi
-
-# davmail - translates protocol used by vdirsyncer for calendar
-DAVMAIL_FEATURE=$FEATURE_HOME/davmail
-if [ ! -e $DAVMAIL_FEATURE ];then
-  start_feature "davmail"
-
-  PREV_DIR=`pwd`
-  TEMP_DIR=`mktemp -d`
-  cd $TEMP_DIR
-  TARGET=/opt/davmail
-  if [ -e $TARGET ];then
-    sudo mkdir $TARGET || exit 1
-  fi
-
-  TAR=$TEMP_DIR/davmail.tar.gz
-  DAVMAIL_VERSION=4.7.3
-  wget -O $TAR https://sourceforge.net/projects/davmail/files/davmail/$DAVMAIL_VERSION/davmail-linux-x86_64-$DAVMAIL_VERSION-2438.tgz
-
-  if [ $? -eq 0 ];then
-    sudo tar -xzvf $TAR -C $TARGET --strip-components=1
-    if [ $? -eq 0 ];then
-
-      DAVMAIL_SOURCE_ROOT=$THE_HOME/dotfiles/davmail
-      sudo cp $DAVMAIL_SOURCE_ROOT/davmail.properties $TARGET || exit 1
-      sudo cp $DAVMAIL_SOURCE_ROOT/start.sh $TARGET || exit 1
-      SYSTEMD_ROOT=/usr/local/lib/systemd/system
-      sudo mkdir -p $SYSTEMD_ROOT || exit 1
-      sudo cp $DAVMAIL_SOURCE_ROOT/davmail.service $SYSTEMD_ROOT || exit 1
-      sudo systemctl enable davmail.service
-      sudo systemctl start davmail.service
-
-      touch $DAVMAIL_FEATURE
-    else
-      sudo rm -rf $TARGET
-    fi 
-    stop_feature "davmail"
-  else
-    failed_feature "davmail remote zip"
-  fi
-
-  cd $PREV_DIR
-fi
-
-# lbdb - contact list for mutt
-LBDB_FEATURE=$FEATURE_HOME/lbdb
-if [ ! -e $LBDB_FEATURE ]; then
-  start_feature "LBDB"
-	install lbdb
-  RET=$?
-  install_cron "1 */24 * * *" "$THE_HOME/.mutt/lib/refreshaddress.sh"
-  # TODO build from github https://github.com/tgray/lbdb
-  if [ $RET -ne 0 ]; then
-    failed_feature "LBDB"
-  else
-    stop_feature "LBDB"
-  fi
-  touch $LBDB_FEATURE
-fi
-
-# offlineimap - offline mail sync
-FEATURE=$FEATURE_HOME/offlineimap
-FEATURE_LATEST="${FEATURE}1"
-if [ ! -e $FEATURE_LATEST ]; then
-  # 1. create project in https://console.developers.google.com/iam-admin/projects
-  # 2. add permissions https://console.developers.google.com/apis/api/
-  # - gmail API
-  # - Calendar API
-  # - CalDAV API?
-  # 3. Credentials > Oath Constant Screen > Product name > Save
-  # 4. Crednetials > Create credential > oath client id
-  start_feature "offlineimap"
-  PREV_DIR=`pwd`
-
-  if [ ! -e $FEATURE ]; then
-    install_cron "*/5 * * * *	$THE_HOME/dotfiles/lib/offlineimap_cron.sh"
-  fi
-
-  sudo -H pip2 install git+https://github.com/OfflineIMAP/offlineimap.git
-  if [ $? -eq 0 ]; then
-    touch $FEATURE_LATEST
-  fi
-
-  cd $PREV_DIR
-
-  stop_feature "offlineimap"
 fi
 
 # should update powerline settings and scripts
@@ -673,14 +474,6 @@ if [ ! -e $FEATURE ]; then
   stop_feature "cscope"
 fi
 
-#uninstall ctags
-OLD_FEATURE=$FEATURE_HOME/ctags
-if [ -e $OLD_FEATURE ]; then
-  sudo apt-get -y remove ctags
-  sudo apt-get -y autoremove
-  rm $OLD_FEATURE
-fi
-
 # ctags
 FEATURE=$FEATURE_HOME/ctags_universal2
 if [ ! -e $FEATURE ]; then
@@ -792,14 +585,14 @@ if [ ! -e $FEATURE ]; then
       if [ $? -eq 0 ];then
         ./configure
 
-        if [ $? -eq 0 ];then 
+        if [ $? -eq 0 ];then
           sudo make uninstall
           make
 
-          if [ $? -eq 0 ];then 
+          if [ $? -eq 0 ];then
             sudo make install
 
-            if [ $? -eq 0 ];then 
+            if [ $? -eq 0 ];then
               guake --help
               touch $FEATURE
             fi
@@ -819,7 +612,7 @@ FEATURE=$FEATURE_HOME/ranger1
 if [ ! -e $FEATURE ]; then
   start_feature "ranger"
 
-  sudo -H pip2 install git+https://github.com/ranger/ranger.git
+  pip2_install git+https://github.com/ranger/ranger.git
   if [ $? -eq 0 ]; then
     touch $FEATURE
   fi
@@ -847,18 +640,18 @@ if [ ! -e $FEATURE ]; then
     git pull --rebase origin master
     install libxcb-util-dev
     autoreconf
-    if [ $? -eq 0 ];then 
+    if [ $? -eq 0 ];then
       ./configure
 
-      if [ $? -eq 0 ];then 
+      if [ $? -eq 0 ];then
         sudo make uninstall
         make
 
-        if [ $? -eq 0 ];then 
+        if [ $? -eq 0 ];then
           sudo make install.man
           sudo make install
 
-          if [ $? -eq 0 ];then 
+          if [ $? -eq 0 ];then
             xclip -h
             touch $FEATURE
           fi
@@ -877,10 +670,11 @@ FEATURE=$FEATURE_HOME/ensime
 if [ ! -e $FEATURE ]; then
   start_feature "ensime"
 
-  sudo -H pip2 install websocket-client sexpdata 
+  pip2_install websocket-client sexpdata 
+  if [ $? -eq 0 ]; then
+    touch $FEATURE
+  fi
 
-
-  touch $FEATURE
   stop_feature "ensime"
 fi
 

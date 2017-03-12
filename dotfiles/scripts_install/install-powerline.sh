@@ -1,14 +1,6 @@
 #!/bin/bash
 
-THE_HOME=$HOME
-DOTFILES_HOME=$THE_HOME/dotfiles
-DOTFILES_LIB=$DOTFILES_HOME/lib
-USER_BIN=$THE_HOME/bin
-USER=`whoami`
-GROUP=$USER
-FEATURE_HOME=$DOTFILES_HOME/features
-GIT_SOURCES=$THE_HOME/sources
-SOURCES_ROOT=$GIT_SOURCES
+source $HOME/dotfiles/shared.sh
 
 # powerline
 FEATURE=$FEATURE_HOME/powerline1
@@ -18,7 +10,7 @@ if [ ! -e $FEATURE ]; then
 
   PREV_DIR=`pwd`
 
-  sudo -H pip2 install powerline-status
+  pip2_install powerline-status
   RET=$?
   if [ $RET -eq 0 ];then
 
