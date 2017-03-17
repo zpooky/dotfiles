@@ -10,7 +10,9 @@ FEATURE_HOME=$DOTFILES_HOME/features
 KERNEL_VERSION="`uname -r`"
 GIT_SOURCES=$THE_HOME/sources
 SOURCES_ROOT=$GIT_SOURCES
-mkdir $GIT_SOURCES
+if [ ! -e $SOURCES_ROOT ]; then
+  mkdir $GIT_SOURCES
+fi
 
 function echoerr() { echo "$@" 1>&2; }
 

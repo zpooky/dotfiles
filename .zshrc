@@ -18,3 +18,5 @@ export LANG=en_US.UTF-8
 
 # prints announcements
 alias pacman="pacmatic"
+
+source $HOME/dotfiles/extrarc

@@ -570,14 +570,14 @@ if [ ! -e $FEATURE ]; then
     if [ -e $CPPCHECK_ROOT ];then
       cd $CPPCHECK_ROOT
       git pull --rebase origin master
-      if [ $? -eq 0 ];then 
+      if [ $? -eq 0 ];then
         cd $CPPCHECK
-        if [ $? -eq 0 ];then 
+        if [ $? -eq 0 ];then
             sudo make uninstall
             make
-          if [ $? -eq 0 ];then 
+          if [ $? -eq 0 ];then
             sudo make install
-            if [ $? -eq 0 ];then 
+            if [ $? -eq 0 ];then
               cppcheck --version
               touch $FEATURE
             fi
@@ -902,7 +902,7 @@ if [ ! -e $FEATURE ]; then
     if [ $? -eq 0 ];then
       mkdir $TARGET
       tar -xzf $TAR -C $TARGET --strip-components=1
-      if [ $? -eq 0 ];then 
+      if [ $? -eq 0 ];then
         cd $TARGET/build/gcc
         if [ $? -eq 0 ]; then
           make
