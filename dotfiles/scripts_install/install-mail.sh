@@ -38,7 +38,6 @@ if [ ! -e $DAVMAIL_FEATURE ];then
 
       DAVMAIL_SOURCE_ROOT="${THE_HOME}/.davmail"
       sudo cp $DAVMAIL_SOURCE_ROOT/davmail.properties $TARGET || exit 1
-      # sudo cp $DAVMAIL_SOURCE_ROOT/start.sh $TARGET || exit 1
 
       SYSTEMD_ROOT=/usr/local/lib/systemd/system
       sudo mkdir -p $SYSTEMD_ROOT || exit 1
@@ -51,7 +50,6 @@ if [ ! -e $DAVMAIL_FEATURE ];then
       sudo rm -rf $TARGET
     fi 
   else
-    sudo rm $TAR
     failed_feature "davmail remote zip"
   fi
 

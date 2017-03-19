@@ -27,8 +27,8 @@ localectl status
 KEYMAP=sv-latin1'
 
 `cat /etc/locale.conf
-LANG=en_UK.UTF-8
-LANGUAGE=en_UK.UTF-8`
+LANG=en_GB.UTF-8
+LANGUAGE=en_GB.UTF-8`
 
 # list available keymaps
 localectl list-keymaps
@@ -59,10 +59,9 @@ sudo pacman -S dmenu i3
 # is a user interface displayed at  the end of the boot process in place of the default shell.
 
 # backlight
-sudo pacman -S xorg-xbacklight
-xbacklight -set 50 # brightness to 50%
-xbacklight -inc 10 # increment %
 ll /sys/class/backlight
+sudo pacman -S help2man
+https://aur.archlinux.org/packages/light
 ## daemon to watch for acpi event like backligt power up/down
 sudo pacman -S acpid
 sudo systemctl enable acpid
@@ -120,3 +119,7 @@ systemctl start cronie.service
 #keyring
 sudo pacman -S gnome-keyring
 sudo pacman -S seahorse
+sudo pacman -S python2-gnomekeyring
+
+#
+https://aur.archlinux.org/packages/dropbox/

@@ -3,21 +3,18 @@
 source $HOME/dotfiles/shared.sh
 
 # vdirsyncer - sync calendar events to disk
-VDIR_FEATURE_INITIAL=$FEATURE_HOME/vdirsyncer
-VDIR_FEATURE="${VDIR_FEATURE_INITIAL}1"
+VDIR_FEATURE=="${FEATURE_HOME}/vdirsyncer"
 if [ ! -e "$VDIR_FEATURE" ]; then
 
-  pip3_install requests requests_oauthlib || exit 1
+  pip3_install requests requests_oauthlib
+  if [ $? -eq 0 ]; then
 
-  ## install
-  pip3_install git+https://github.com/untitaker/vdirsyncer.git || exit 1
-
-  if [ ! -e $VDIR_FEATURE_INITIAL ]; then
-    ## crontab
-    install_cron "*/5 * * * *	$DOTFILES_LIB/vdirsyncer_cron.sh"
+    pip3_install git+https://github.com/untitaker/vdirsyncer.git
+    if [ $? -eq 0 ]; then
+      install_cron "*/5 * * * *	$DOTFILES_LIB/vdirsyncer_cron.sh"
+      touch $VDIR_FEATURE
+    fi
   fi
-
-  touch $VDIR_FEATURE
 fi
 
 # khal - interface to display calendar
