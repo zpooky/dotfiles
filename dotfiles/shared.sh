@@ -102,7 +102,9 @@ function head_id(){
 }
 is_arch()
 if [ $? -eq 0 ]; then
-  LIB_PYTHON2=/usr/local/lib/pthon2.7
-else
   LIB_PYTHON2=/usr/lib/python2.7
+  LIB_PYTHON3=/usr/lib/python3.6
+else
+  LIB_PYTHON2=/usr/local/lib/pthon2.7
+  LIB_PYTHON3=/usr/local/lib/pthon3.6
 fi

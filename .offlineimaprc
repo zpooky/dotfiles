@@ -60,11 +60,11 @@ sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 #------------------------------------------
 #------------------------------------------
 
-#[Account work]
-#localrepository = work-local
-#remoterepository = work-remote
-#status_backend = sqlite
-#postsynchook = notmuch new
+[Account work]
+localrepository = work-local
+remoterepository = work-remote
+status_backend = sqlite
+postsynchook = notmuch new
 
 [Repository work-local]
 type = Maildir

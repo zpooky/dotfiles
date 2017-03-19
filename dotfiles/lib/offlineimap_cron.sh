@@ -10,7 +10,7 @@ echo $PATH >> $OUT
 which offlineimap >> $OUT
 
 date >> $OUT
-/usr/local/bin/offlineimap &>> $OUT
+offlineimap 2>&1>> $OUT
 date >> $OUT
 
 #

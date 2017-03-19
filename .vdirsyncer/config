@@ -2,12 +2,12 @@
 # A folder where vdirsyncer can store some metadata about each pair.
 status_path = "~/.vdirsyncer/status/"
 
-# [pair work]
-# a = "work_local"
-# b = "work_remote"
-# collections = ["from a", "from b"]
-# metadata = ["color", "displayname"]
-##conflict_resolution = b wins
+[pair work]
+a = "work_local"
+b = "work_remote"
+collections = ["from a", "from b"]
+metadata = ["color", "displayname"]
+#conflict_resolution = b wins
 
 
 [storage work_local]

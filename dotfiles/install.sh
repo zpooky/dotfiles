@@ -182,17 +182,11 @@ install rake || exit 1
 install wget || exit 1
 install curl || exit 1
 # text terminal web browser
-install w3m || exit 1
-install w3m-img
 install colordiff || exit 1
-install feh || exit 1
-install antiword || exit 1
-install catdoc || exit 1
 install ncurses-term || exit 1
 install sqlite3 || exit 1
 install sed || exit 1
 install autoconf || exit 1
-install caca-utils || exit 1
 
 # xterm-256color support
 install ncurses-term || exit 1
@@ -202,8 +196,6 @@ install atool || exit 1
 install highlight || exit 1
 # for media file information.
 install mediainfo || exit 1
-#  for PDF text
-install poppler-utils || exit 1
 install transmission-cli || exit 1
 
 

@@ -63,6 +63,13 @@ sudo pacman -S xorg-xbacklight
 xbacklight -set 50 # brightness to 50%
 xbacklight -inc 10 # increment %
 ll /sys/class/backlight
+## daemon to watch for acpi event like backligt power up/down
+sudo pacman -S acpid
+sudo systemctl enable acpid
+sudo systemctl start acpid
+sudo systemctl status acpid
+### debug
+acpi_listen # press on keyboard baclkigt power up/down
 
 # install aur
 # PKGBUILD
@@ -78,6 +85,8 @@ fc-match monospace
 ll /etc/fonts/conf.avail
 # installed a monospace font
 sudo pacman -S ttf-dejavu
+# how it works
+vim /etc/fonts/conf.d/README
 
 #audio (ALSA-kernel component providing device drivers and lowest-level support for audio hardware)
 sudo pacman -S alsa-utils
@@ -95,3 +104,19 @@ sudo pacman -S bluez-utils
 sudo pacman -S bluez-firmware
 systemctl status bluetooth.service
 systemctl start bluetooth.service
+
+#
+sudo pacman -S pulseaudio-equalizer
+sudo pacman -S pavucontrol
+#Load equalizer module and dbus control
+
+pactl load-module module-equalizer-sink
+#TODO
+
+# cron
+sudo pacman -S cronie
+systemctl enable cronie.service
+systemctl start cronie.service
+#keyring
+sudo pacman -S gnome-keyring
+sudo pacman -S seahorse

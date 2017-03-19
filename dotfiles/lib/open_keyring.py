@@ -1,10 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 
 # open the keyrings
 #
 
 import gnomekeyring
-import getpass  
+import getpass
 
 pw = getpass.getpass("password: ");
 gnomekeyring.unlock_sync("work", pw);
