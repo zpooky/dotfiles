@@ -14,10 +14,13 @@ def file(pl, inboxes = {}):
     folder = inboxes[key]
     normalized = folder.replace("~", os.environ['HOME'], 1)
     new_folder = normalized + '/new'
-    current = len(os.listdir(new_folder))
-    if current > 0:
-      result[key] = str(current)
-    total += current
+    try:
+      current = len(os.listdir(new_folder))
+      if current > 0:
+        result[key] = str(current)
+      total += current
+    except:
+      pass
 
   ret = []
   if total > 0:

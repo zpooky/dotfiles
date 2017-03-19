@@ -62,20 +62,22 @@ sudo pacman -S dmenu i3
 ll /sys/class/backlight
 sudo pacman -S help2man
 https://aur.archlinux.org/packages/light
-## daemon to watch for acpi event like backligt power up/down
+echo 25 > /sys/class/backlight/intel_backlight/brightness
+
+# daemon to watch for acpi event like backligt power up/down
 sudo pacman -S acpid
 sudo systemctl enable acpid
 sudo systemctl start acpid
 sudo systemctl status acpid
-### debug
+## debug
 acpi_listen # press on keyboard baclkigt power up/down
 
 # install aur
 # PKGBUILD
 makepkg -Acs
 sudo pacman -U clipster-git-0.211.dfa75b5-1-any.pkg.tar.xz
-su root
-echo 25 > /sys/class/backlight/intel_backlight/brightness
+yaourt -Syu --aur 
+#
 
 # font
 # "Monospace" is an alias for another font.  To see what font will be used when an application calls for the "Monospace" font, try
@@ -121,5 +123,8 @@ sudo pacman -S gnome-keyring
 sudo pacman -S seahorse
 sudo pacman -S python2-gnomekeyring
 
-#
+# dropbox AUR
 https://aur.archlinux.org/packages/dropbox/
+sudo systemctl enable dropbox@spooky.service
+# spotify
+https://aur.archlinux.org/packages/spotify/

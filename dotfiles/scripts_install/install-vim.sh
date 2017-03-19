@@ -6,6 +6,7 @@
 
 # TODO 2 add ~/bin to path
 
+source $HOME/dotfiles/shared.sh
 
 echo "you have to manually configure script by editing it"
 #exit 1
@@ -18,26 +19,40 @@ if [ ! -e $VIM_ROOT ]; then
     rm -rf $VIM_ROOT
   fi
 fi
+
 if [ -e $VIM_ROOT ]; then 
   cd $VIM_ROOT
-  git pull --rebase origin master || exit 1
+  git pull --rebase origin master
 
-  # development files
-  sudo apt-get -y install ruby-dev
-  sudo apt-get -y install python-dev
-  sudo apt-get -y install libperl-dev
+  if [ $? -eq 0 ]; then
 
-  # make uninstall --prefix=/home/`whoami`
-  sudo make uninstall
+    # development files
+    install lua || exit 1
+    install ruby-dev
+    install ruby
+    install python-dev
+    install libperl-dev
 
-  make clean || exit 1
-  ./configure --with-features=huge --enable-rubyinterp --enable-multibyte --enable-perlinterp=yes --enable-pythoninterp --enable-luainterp --enable-gui=gtk2 --enable-cscope --prefix=$TARGET || exit 1
+    # make uninstall --prefix=/home/`whoami`
+    sudo make uninstall
 
-  make || exit 1 # VIMRUNTIMEDIR=/usr/share/vim/vim74
+    make clean || exit 1
+    ./configure --with-features=huge --enable-rubyinterp --enable-multibyte --enable-perlinterp=yes --enable-pythoninterp --enable-luainterp --enable-gui=gtk2 --enable-cscope --prefix=$TARGET || exit 1
 
-  sudo make install || exit 1
+    make || exit 1 # VIMRUNTIMEDIR=/usr/share/vim/vim74
 
-  vim --version | grep python
+    sudo make install || exit 1
+
+    echo "python:"
+    vim --version | grep python
+    echo "ruby:"
+    vim --version | grep ruby
+    echo "perl:"
+    vim --version | grep perl
+    echo "clipboard:"
+    vim --version | grep clipboard
+
+  fi
 
   echo "OK"
   echo "OK"

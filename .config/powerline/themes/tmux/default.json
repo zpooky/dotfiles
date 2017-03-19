@@ -2,9 +2,6 @@
   "segments": {
     "right": [
       {
-        "function": "powerline.segments.common.sys.cpu_load_percent"
-      }, 
-      {
         "args": {
           "inboxes": {
             "s": "~/.mail/gmail/INBOX", 
