@@ -1,3 +1,4 @@
+nnoremap <space> <NOP>
 let mapleader = "\<Space>"        " map leader to  <space>
 
 " search
@@ -23,21 +24,53 @@ map ä <PageDown>
 map ö <C-D>
 map Ö <C-U>
 
+" new lines without entering insert mode
+" map <leader+o> o<esc>
+" map <leader+O> O<esc>
+
+" stop highligting search result
 map <leader>, <esc>:noh<CR>
 
 " Alternative Moving around splits with the leader key
 " not working
-nmap <leader>h :vsc Window.PreviousTab<CR>
-nmap <leader>l :vsc Window.NextTab<CR>
+" nmap <leader>h :vsc Window.PreviousTab<CR>
+" nmap <leader>l :vsc Window.NextTab<CR>
 
-nnoremap <leader>s <esc>:vsplit<enter>
+nnoremap <leader>s <esc>:vsplit<CR>
 
 " jumplist
 nmap <C-O> :vsc View.NavigateBackward<CR>
 nmap <C-I> :vsc View.NavigateForward<CR>
 
-" behave similar to D
+" toggle comment(Toggle Comment plugin)
+map <leader>c :vsc Edit.ToggleComment<CR>
+
+" does not work - requires on argument
+" map gd :vsc Edit.GoToDefinition<CR>
+
+" format code
+nmap <leader>f :vsc Edit.FormatDocument<CR>
+xmap <leader>f :vsc Edit.FormatSelection<CR>
+
+" toggle between header and source file
+nmap <f2> :vsc EditorContextMenus.CodeWindow.ToggleHeaderCodeFile<CR>
+vmap <f2> :vsc EditorContextMenus.CodeWindow.ToggleHeaderCodeFile<CR>
+
+" not working
+nmap <leader>e :vcs View.NextError<CR>
+nmap <leader>E :vcs View.PreviousError<CR>
+
+" behave similar to <D>
 noremap Y y$
 
 " make ',' an alias for ':'
 nmap , :
+
+" # mappings
+" :nmap - Display normal mode maps
+" :imap - Display insert mode maps
+" :vmap - Display visual and select mode maps
+" :smap - Display select mode maps
+" :xmap - Display visual mode maps
+" :cmap - Display command-line mode maps
+" :omap - Display operator pending mode maps

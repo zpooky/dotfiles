@@ -7,3 +7,7 @@ ComposeKey=ctrl
 Scrollbar=none
 Language=en
 CursorType=block
+WindowShortcuts=no
+SwitchShortcuts=no
+ZoomShortcuts=no
+AltFnShortcuts=no

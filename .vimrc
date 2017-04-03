@@ -112,6 +112,7 @@ source $HOME/.standardvimrc
 if has('win32unix') || has('win64unix')
   " in cygwin if we save a file not in dos mode outside the 'virtual' linux
   " prompt if it should not be in dos mode instead of the default unix
+  " TODO should ignore special buffers like vim msg
   autocmd BufWritePre * if &ff != 'dos' && expand('%:p') =~ "^\/cygdrive\/" && expand('%:p') !~ "\/Dropbox\/" && input('set ff to dos [y]') == 'y' | setlocal ff=dos | endif
 endif
 
@@ -144,10 +145,12 @@ let g:rainbow_conf =
 \ 'operators': '_[\,\-\<\>\.|]_'
 \ }
 
-" syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+if !has('win32unix') && !has('win64unix')
+  " syntastic
+  set statusline+=%#warningmsg#
+  set statusline+=%{SyntasticStatuslineFlag()}
+  set statusline+=%*
+endif
 
 " syntastic conf
 let g:syntastic_always_populate_loc_list = 1

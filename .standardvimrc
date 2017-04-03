@@ -155,11 +155,11 @@ nmap <silent> <leader>k :wincmd k<CR>
 nmap <silent> <leader>l :wincmd l<CR>
 
 " Create vertical pane
-nnoremap <leader>s <esc>:vsplit<enter>
+nnoremap <leader>s <esc>:vsplit<CR>
 " Create horizontal pane
-" nnoremap <leader>h <esc>:sp<enter>
+" nnoremap <leader>h <esc>:sp<CR>
 " Create tab
-nnoremap <leader>e <esc>:tabedit<enter>
+nnoremap <leader>e <esc>:tabedit<CR>
 
 " new line above and below without entering insert mode
 map <silent> <leader>o o<esc>

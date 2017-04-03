@@ -109,6 +109,7 @@ alias sp-i3wm="vim $REF_DIR/i3wm.md"
 alias sp-openssl="vim $REF_DIR/sec/openssl.mk"
 alias sp-openwrt="vim $REF_DIR/openwrt.md"
 alias sp-network="vim $DROPBOX_NETWORK/linux.md"
+alias sp-visual="vim $REF_DIR/visual-studio.md"
 # ===============================================
 # ===============================================
 # =____________DEVELOPMENT______________________=
