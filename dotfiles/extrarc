@@ -105,6 +105,8 @@ alias sp-signal="vim $DROPBOX_LINUX/signal.md"
 alias sp-sc="vim $DROPBOX_LINUX/sequential_consistency.md"
 alias sp-win="vim $REF_DIR/win.md"
 alias sp-i3wm="vim $REF_DIR/i3wm.md"
+alias sp-openssl="vim $REF_DIR/sec/openssl.mk"
+alias sp-openwrt="vim $REF_DIR/openwrt.md"
 # ===============================================
 # ===============================================
 # =____________DEVELOPMENT______________________=

@@ -1,3 +1,5 @@
+#list hardware
+lspci
 # eth interfaces
 ip address
 dhcpd *inteface*
@@ -128,3 +130,17 @@ https://aur.archlinux.org/packages/dropbox/
 sudo systemctl enable dropbox@spooky.service
 # spotify
 https://aur.archlinux.org/packages/spotify/
+# yaourt
+https://aur.archlinux.org/packages/yaourt/
+sudo pacman -S ntp
+systemctl enable ntpd.service
+timedatectl
+#wireless
+dmesg | grep ath10k
+ll /lib/firmware/ath10k/QCA6174/hw3.0
+#wireless-config
+netctl
+sudo wifi-menu
+pacman -S linux-firmware
+iw dev #list wireless interfaces
+iw dev wlp62s0 link # status of interface

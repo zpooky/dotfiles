@@ -318,11 +318,15 @@ if [ ! $? -eq 0 ];then
 fi
 
 # should update powerline settings and scripts
-# install powerline tmux segments
-POWERLINE_SEGMENTS=$LIB_PYTHON2/dist-packages/powerline/segments
-if [ ! -e $POWERLINE_SEGMENTS/spooky ]; then
- sudo cp $THE_HOME/.config/powerline/segments/spooky $POWERLINE_SEGMENTS -R
-fi
+PYTHON_PACKAGES=("${LIB_PYTHON2_PACKAGES}" "${LIB_PYTHON3_PACKAGES}")
+for PACKAGES in "${PYTHON_PACKAGES[@]}"
+do
+  # install powerline tmux segments
+  POWERLINE_SEGMENTS="${PACKAGES}/powerline/segments"
+  if [ -e "${POWERLINE_SEGMENTS}" ]; then
+   sudo cp "${THE_HOME}/.config/powerline/segments/spooky" "${POWERLINE_SEGMENTS}" -R
+  fi
+done
 
 # stdman
 # example man std::vector
@@ -650,53 +654,6 @@ if [ ! -e $FEATURE ]; then
   stop_feature "ranger"
 fi
 
-# less colors
-FEATURE=$FEATURE_HOME/xclip
-if [ ! -e $FEATURE ]; then
-  start_feature "xclip"
-
-  is_arch
-  if [ $? -eq 0 ]; then
-    install xclip
-  else
-    PREV_DIR=`pwd`
-
-    XCLIP_ROOT=$GIT_SOURCES/xclip
-    if [ ! -e $XCLIP_ROOT ]; then 
-      git clone https://github.com/astrand/xclip.git $XCLIP_ROOT
-      if [ ! $? -eq 0 ]; then
-        rm -rf $XCLIP_ROOT
-      fi
-    fi
-
-    if [ -e $XCLIP_ROOT ];then
-      cd $XCLIP_ROOT
-      git pull --rebase origin master
-      install libxcb-util-dev
-      autoreconf
-      if [ $? -eq 0 ];then
-        ./configure
-
-        if [ $? -eq 0 ];then
-          sudo make uninstall
-          make
-
-          if [ $? -eq 0 ];then
-            sudo make install.man
-            sudo make install
-
-            if [ $? -eq 0 ];then
-              xclip -h
-              touch $FEATURE
-            fi
-          fi
-        fi
-      fi
-    fi
-    cd $PREV_DIR
-  fi
-  stop_feature "xclip"
-fi
 
 # ensime scala vim support
 FEATURE=$FEATURE_HOME/ensime
@@ -733,38 +690,6 @@ if [ ! $? -eq 0 ]; then
   fi
 
   stop_feature "ack"
-fi
-# clipster cliboard manager
-FEATURE=$FEATURE_HOME/clipster1
-if [ ! -e $FEATURE ]; then
-  start_feature "clipster"
-
-  PREV_DIR=`pwd`
-
-  CLIPSTER=clipster
-  CLIPSTER_ROOT=$GIT_SOURCES/$CLIPSTER
-  if [ ! -e $CLIPSTER_ROOT ]; then
-    git clone https://github.com/mrichar1/clipster.git $CLIPSTER_ROOT || exit 1
-    if [ ! $? -eq 0 ]; then
-      rm -rf $CLIPSTER_ROOT
-    fi
-  fi
-
-  if [ -e $CLIPSTER_ROOT ]; then
-    cd $CLIPSTER_ROOT
-    git pull --rebase origin master
-    if [ $? -eq 0 ];then
-      CLIPSTER_BIN=$USER_BIN/$CLIPSTER
-      if [ ! -e $CLIPSTER_BIN ]; then
-        ln -s $CLIPSTER_ROOT/$CLIPSTER $CLIPSTER_BIN
-      fi
-      systemctl enable --user clipster.service
-      touch $FEATURE
-    fi
-  fi
-  cd $PREV_DIR
-
-  stop_feature "clipster"
 fi
 
 # jsonlint used by syntastic to check json

@@ -104,7 +104,11 @@ is_arch()
 if [ $? -eq 0 ]; then
   LIB_PYTHON2=/usr/lib/python2.7
   LIB_PYTHON3=/usr/lib/python3.6
+  LIB_PYTHON2_PACKAGES="${LIB_PYTHON2}/site-packages"
+  LIB_PYTHON3_PACKAGES="${LIB_PYTHON3}/site-packages"
 else
   LIB_PYTHON2=/usr/local/lib/pthon2.7
   LIB_PYTHON3=/usr/local/lib/pthon3.6
+  LIB_PYTHON2_PACKAGES="${LIB_PYTHON2}/dist-packages"
+  LIB_PYTHON3_PACKAGES="${LIB_PYTHON3}/dist-packages"
 fi
