@@ -31,14 +31,14 @@ if [ ! -e $FEATURE ]; then
     cd $LIBEVENT_ROOT
     git pull --rebase origin master
 
-    if [ $? -eq 0 ];then
+    if [ $? -eq 0 ]; then
       sudo make uninstall
       ./configure
-      if [ $? -eq 0 ];then
+      if [ $? -eq 0 ]; then
         make
-        if [ $? -eq 0 ];then
+        if [ $? -eq 0 ]; then
           sudo make install
-          if [ $? -eq 0 ];then
+          if [ $? -eq 0 ]; then
             touch $FEATURE
           fi
         fi
@@ -68,22 +68,22 @@ if [ ! -e $FEATURE ]; then
     cd $TMUX_ROOT
     git pull --rebase origin master
 
-    if [ $? -eq 0 ];then 
+    if [ $? -eq 0 ]; then 
       cd $TMUX
       sudo make uninstall
       ./autogen.sh
 
-      if [ $? -eq 0 ];then 
+      if [ $? -eq 0 ]; then 
         ./configure --prefix=/usr
 
-        if [ $? -eq 0 ];then 
+        if [ $? -eq 0 ]; then 
           make
 
-          if [ $? -eq 0 ];then 
+          if [ $? -eq 0 ]; then 
             # sudo apt-get -y remove tmux
             sudo make install
 
-            if [ $? -eq 0 ];then 
+            if [ $? -eq 0 ]; then 
               tmux -V
               touch $FEATURE
             fi

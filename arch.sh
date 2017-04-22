@@ -144,3 +144,5 @@ sudo wifi-menu
 pacman -S linux-firmware
 iw dev #list wireless interfaces
 iw dev wlp62s0 link # status of interface
+#
+pacman -S automake

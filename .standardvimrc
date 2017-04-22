@@ -6,7 +6,7 @@ set nocompatible
   set encoding=utf-8 nobomb
 " endif
 
-if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal"
+if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal" || $TERM == "urxvt" || $TERM == "tmux-256color"
   set t_Co=256
 endif
 

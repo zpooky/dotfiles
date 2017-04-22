@@ -54,6 +54,7 @@ DOTFILES_LIB=$DOTFILES/lib
 DROPBOX=$HOME/Dropbox/root
 REF_DIR="$DROPBOX/\[\]ref"
 DROPBOX_LINUX=$REF_DIR/linux
+DROPBOX_NETWORK=$REF_DIR/network
 
 alias sp-khal='khal calendar -a red -a personal --format="{red-bold}{start-time}{reset}-{green-bold}{end-time}{reset} {calendar-color}{title}{reset}{yellow}{repeat-symbol}{reset} [{cyan}{location}{reset}][{magenta}{calendar}{reset}]"'
 alias k="sp-khal"
@@ -107,6 +108,7 @@ alias sp-win="vim $REF_DIR/win.md"
 alias sp-i3wm="vim $REF_DIR/i3wm.md"
 alias sp-openssl="vim $REF_DIR/sec/openssl.mk"
 alias sp-openwrt="vim $REF_DIR/openwrt.md"
+alias sp-network="vim $DROPBOX_NETWORK/linux.md"
 # ===============================================
 # ===============================================
 # =____________DEVELOPMENT______________________=
