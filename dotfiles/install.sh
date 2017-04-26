@@ -162,6 +162,11 @@ install python-pip || exit 1
 pip3_install --upgrade pip || exit 1
 pip3_install keyring || exit 1
 
+# pdftotext
+install poppler
+install poppler-util
+install colordiff
+
 install gnome-common
 install gtk-doc-tool
 install libglib2.0-de
@@ -199,7 +204,6 @@ install rake || exit 1
 install wget || exit 1
 install curl || exit 1
 # text terminal web browser
-install colordiff || exit 1
 install ncurses-term || exit 1
 install sqlite3 || exit 1
 install sed || exit 1

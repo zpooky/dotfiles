@@ -329,14 +329,15 @@ autocmd FileType c,cpp,objc map <silent> <F2> :A<CR>
 autocmd FileType c,cpp,objc map <silent> <leader><F2> :AV<CR>
 
 " Powerline
-set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
+" set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
+set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim
 " Always show statusline
 set laststatus=2
 
 "
 let g:gutentags_modules=['ctags', 'gtags_cscope']
 let g:gutentags_ctags_executable="ctags"
-let g:gutentags_tagfile=".tags"
+let g:gutentags_ctags_tagfile=".tags"
 let g:gutentags_generate_on_missing=1
 let g:gutentags_background_update=1
 

@@ -7,10 +7,13 @@ text/html; w3m -v -F -T text/html %s; edit=vim; compose=vim; nametemplate=%s.htm
 #image/tiff; feh %s
 image/jpeg; img2txt %s --ansi; copiousoutput; needsterminal
 image/*; feh %s;
+
 application/msword; antiword %s; copiousoutput
 application/vnd.ms-excel; xls2csv '%s'; copiousoutput; description="MS Excel sheet";
 application/vnd.ms-powerpoint; catppt '%s'; copiousoutput; description="MS PowerPoint presentation";
-application/pdf; evince %s
+
+application/pdf; pdftotext -layout %s -; copiousoutput;
+application/acrobat; pdftotext -layout %s -; copiousoutput;
 # diff
 text/x-diff;  cat %s | colordiff;copiousoutput
 text/x-patch; cat %s | colordiff;copiousoutput
@@ -22,6 +25,3 @@ text/csv; less '%s'; needsterminal
 text/x-csv; less '%s'; needsterminal
 
 text/calendar; ~/.mutt/lib/ical.py %s; copiousoutput
-
-application/pdf; pdftohtml -q -stdout %s | w3m -T text/html; copiousoutput
-application/acrobat; pdftohtml -q -stdout %s | w3m -T text/html; copiousoutput

@@ -112,6 +112,7 @@ alias sp-openwrt="vim $REF_DIR/openwrt.md"
 alias sp-network="vim $DROPBOX_NETWORK/linux.md"
 alias sp-visual="vim $REF_DIR/visual-studio.md"
 alias sp-proj="cd $DROPBOX/project"
+alias sp-printf="vim $REF_DIR/c/printf.md"
 # ===============================================
 # ===============================================
 # =____________DEVELOPMENT______________________=

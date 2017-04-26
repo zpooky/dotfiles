@@ -7,6 +7,7 @@ set mailcap_path = $HOME/.mutt/mailcap # defines how to open different mime type
 auto_view text/html
 auto_view text/calendar
 auto_view image/jpeg
+auto_view image/pdf
 # diff
 auto_view text/x-diff
 auto_view text/x-patch
@@ -26,7 +27,6 @@ set pager_stop="yes"
 set smart_wrap="yes"
 # prefer to display html over text
 alternative_order text/html text/plain
-auto_view text/html
 set reverse_name=yes
 set reverse_realname=yes
 
