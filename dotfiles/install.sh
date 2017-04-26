@@ -72,7 +72,7 @@ do
     cd $THE_HOME/.vim/bundle/$YCM
     ./install.py --clang-completer
     RET=$?
-    if [ $RET -eq 0 ];then
+    if [ $RET -eq 0 ]; then
       touch $FEATURE
     fi
 
@@ -97,14 +97,14 @@ if [ ! -e $FEATURE ]; then
   fi
   mkdir build && cd build || exit 1
   cmake ..
-  if [ $? -eq 0 ];then
+  if [ $? -eq 0 ]; then 
     make && make install
     RET=$?
 
       # Cleanup afterward; frees several hundred megabytes
       make clean && make clean_clang
 
-    if [ $RET -eq 0 ];then
+    if [ $RET -eq 0 ]; then 
       touch $FEATURE
     fi
   fi
@@ -131,8 +131,10 @@ if [[ $(uname -s) =~ CYGWIN.* ]]; then
   echo '
 # make ctrl+left/right navigate word by word
 # default is not setup in cygwin
-"\e[1;5C": forward-word   # ctrl + right
-"\e[1;5D": backward-word  # ctrl + left
+# ctrl + right
+"\e[1;5C": forward-word
+# ctrl + left
+"\e[1;5D": backward-word
 
 # shift+insert - paste
 ' > $DOTFILES_INPUTRC
@@ -315,7 +317,7 @@ pip2_install git+https://github.com/google/yapf.git
 #python import sort
 # pip2_install git+https://github.com/timothycrosley/isort.git
 which npm
-if [ $? -eq 0 ];then
+if [ $? -eq 0 ]; then
   sudo npm install -g typescript
   # js format
   sudo npm install -g js-beautify
@@ -327,7 +329,7 @@ fi
 
 STYLEISH_HASKELL=stylish-haskell
 which $STYLEISH_HASKELL
-if [ ! $? -eq 0 ];then
+if [ ! $? -eq 0 ]; then
   cabal update
   cabal install $STYLEISH_HASKELL
 fi
@@ -360,7 +362,7 @@ if [ ! -e $STDMAN_FEATURE ]; then
     fi
   fi
 
-  if [ -e $STDMAN_ROOT ];then
+  if [ -e $STDMAN_ROOT ]; then
     cd $STDMAN_ROOT
     git pull --rebase origin master
 
@@ -369,13 +371,13 @@ if [ ! -e $STDMAN_FEATURE ]; then
       sudo make uninstall
       ./configure
 
-      if [ $? -eq 0 ];then
+      if [ $? -eq 0 ]; then
         make
-        if [ $? -eq 0 ];then
+        if [ $? -eq 0 ]; then
           sudo make install
-          if [ $? -eq 0 ];then
+          if [ $? -eq 0 ]; then
             sudo mandb
-            if [ $? -eq 0 ];then
+            if [ $? -eq 0 ]; then
               touch $STDMAN_FEATURE
             fi
           fi
@@ -446,7 +448,7 @@ if [ ! -e $FEATURE ]; then
     install libcrypto++9
     if [ $? -eq 0 ];then
       sudo dpkg -y -i $MEGA_DEB
-        if [ $? -eq 0 ];then
+        if [ $? -eq 0 ]; then
           touch $FEATURE
         fi
     fi
@@ -454,7 +456,6 @@ if [ ! -e $FEATURE ]; then
 
   stop_feature "mega"
 fi
-
 
 # csope bin. install to /usr/bin
 FEATURE=$FEATURE_HOME/cscope
@@ -475,17 +476,17 @@ if [ ! -e $FEATURE ]; then
 
   if [ ! -e $TARGET ]; then
     wget -O $CSCOPE_TAR_PATH https://sourceforge.net/projects/cscope/files/$CSOPE/$CSOPE_VERSION/$CSOPE-$CSOPE_VERSION.tar.gz
-    if [ $? -eq 0 ];then
+    if [ $? -eq 0 ]; then
       mkdir $TARGET
       tar -xzvf $CSCOPE_TAR_PATH -C $TARGET --strip-components=1
-      if [ $? -eq 0 ];then
+      if [ $? -eq 0 ]; then
         cd $TARGET
         ./configure --prefix=/usr
-        if [ $? -eq 0 ];then
+        if [ $? -eq 0 ]; then
           make
-          if [ $? -eq 0 ];then
+          if [ $? -eq 0 ]; then
             CURRENT=`pwd`
-            if [ -e $CSOPE_LATEST ];then
+            if [ -e $CSOPE_LATEST ]; then
               # uninstall previous
               cd $CSOPE_LATEST
               sudo make uninstall
@@ -493,7 +494,7 @@ if [ ! -e $FEATURE ]; then
               rm -rf $CSOPE_LATEST
             fi
             sudo make install
-            if [ $? -eq 0 ];then
+            if [ $? -eq 0 ]; then
               ln -s $TARGET $CSOPE_LATEST
               cscope --version
               touch $FEATURE
@@ -532,18 +533,18 @@ if [ ! -e $FEATURE ]; then
     cd $CTAGS_ROOT
     git pull --rebase origin master
 
-    if [ $? -eq 0 ];then
+    if [ $? -eq 0 ]; then
       sudo make uninstall
       ./autogen.sh
 
-      if [ $? -eq 0 ];then
+      if [ $? -eq 0 ]; then
         ./configure --prefix=/usr/local
 
-        if [ $? -eq 0 ];then
+        if [ $? -eq 0 ]; then
           make
-          if [ $? -eq 0 ];then
+          if [ $? -eq 0 ]; then
             sudo make install
-            if [ $? -eq 0 ];then
+            if [ $? -eq 0 ]; then
               ctags --version
               touch $FEATURE
             fi
@@ -669,7 +670,6 @@ if [ ! -e $FEATURE ]; then
   stop_feature "ranger"
 fi
 
-
 # ensime scala vim support
 FEATURE=$FEATURE_HOME/ensime
 if [ ! -e $FEATURE ]; then
@@ -714,14 +714,14 @@ if [ ! -e $FEATURE ]; then
 
   JSONLINT=jsonlint
   NODE_LATEST=/opt/node-latest
-  if [ -e $NODE_LATEST ];then
+  if [ -e $NODE_LATEST ]; then
     sudo npm -g install $JSONLINT
-    if [ $? -eq 0 ];then
+    if [ $? -eq 0 ]; then
       JSONLINT_BIN=$NODE_LATEST/bin/$JSONLINT
       JSONLINT_LINK=/opt/$JSONLINT
       sudo ln -s $JSONLINT_BIN $JSONLINT_LINK
       sudo update-alternatives --install /usr/bin/$JSONLINT $JSONLINT $JSONLINT_LINK 100
-      if [ $? -eq 0 ];then
+      if [ $? -eq 0 ]; then
         touch $FEATURE
       fi
     fi
@@ -780,9 +780,9 @@ if [ ! -e $FEATURE ]; then
       if [ $? -eq 0 ]; then
         cd $TARGET
         ./configure
-        if [ $? -eq 0 ];then
+        if [ $? -eq 0 ]; then
           make
-          if [ $? -eq 0 ];then
+          if [ $? -eq 0 ]; then
             CURRENT=`pwd`
             if [ -e $GLOBAL_LATEST ]; then
               # uninstall previous
@@ -820,7 +820,7 @@ if [ ! -e $FEATURE ]; then
   ROOT=$SOURCES_ROOT/$NAME
   TARGET=$ROOT/$NAME_VERSION
   LATEST=$ROOT/$NAME-latest
-  if [ ! -e $ROOT ];then
+  if [ ! -e $ROOT ]; then
     mkdir $ROOT
   fi
 
@@ -831,16 +831,16 @@ if [ ! -e $FEATURE ]; then
     RET=1
         #https://sourceforge.net/projects/astyle/files/astyle/astyle%202.06/astyle_2.06_linux.tar.gz
     wget https://sourceforge.net/projects/astyle/files/astyle/astyle%20$VERSION/$TAR_NAME -O $TAR
-    if [ $? -eq 0 ];then
+    if [ $? -eq 0 ]; then
       mkdir $TARGET
       tar -xzf $TAR -C $TARGET --strip-components=1
-      if [ $? -eq 0 ];then
+      if [ $? -eq 0 ]; then 
         cd $TARGET/build/gcc
         if [ $? -eq 0 ]; then
           make
           if [ $? -eq 0 ]; then
             CURRENT=`pwd`
-            if [ -e $LATEST ];then
+            if [ -e $LATEST ]; then
               # uninstall previous
               cd $LATEST
               sudo make uninstall
@@ -848,7 +848,7 @@ if [ ! -e $FEATURE ]; then
               rm -rf $LATEST
             fi
             sudo make install
-            if [ $? -eq 0 ];then
+            if [ $? -eq 0 ]; then
               RET=0
               ln -s $TARGET $LATEST
               echo "$NAME OK"
@@ -857,7 +857,7 @@ if [ ! -e $FEATURE ]; then
           fi
         fi
       fi
-      if [ ! $RET -eq 0 ];then
+      if [ ! $RET -eq 0 ]; then
         rm -rf $TARGET
       fi
       rm $TAR
@@ -952,7 +952,7 @@ install youtube-dl
 GDB_PP=$SOURCES_ROOT/gdb_pp
 if [ ! -e $GDB_PP ]; then
   svn co svn://gcc.gnu.org/svn/gcc/trunk/libstdc++-v3/python $GDB_PP
-  if [ ! $? -eq 0 ];then
+  if [ ! $? -eq 0 ]; then
     rm -rf $GDB_PP
   fi
 fi

@@ -19,11 +19,21 @@
 --ignore-dir=coverage
 --ignore-dir=.ensime_cache
 
+--ignore-file=ext:pdb
+--ignore-file=ext:idb
+--ignore-file=ext:exe
+--ignore-file=ext:obj
 --ignore-file=ext:bak
 --ignore-file=ext:htc
 --ignore-file=ext:pdf
 --ignore-file=ext:sql
 --ignore-file=ext:md
+--ignore-file=ext:log
+--ignore-file=ext:vcxproj
+--ignore-file=ext:filters
+--ignore-file=ext:xml
+--ignore-file=ext:isl
+--ignore-file=ext:html
 
 --ignore-file=match:/[._].*\.swp$/
 

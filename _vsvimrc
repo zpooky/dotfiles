@@ -25,8 +25,8 @@ map ö <C-D>
 map Ö <C-U>
 
 " new lines without entering insert mode
-" map <leader+o> o<esc>
-" map <leader+O> O<esc>
+map <leader>o o<esc>
+map <leader>O O<esc>
 
 " stop highligting search result
 map <leader>, <esc>:noh<CR>
@@ -60,11 +60,20 @@ vmap <f2> :vsc EditorContextMenus.CodeWindow.ToggleHeaderCodeFile<CR>
 nmap <leader>e :vcs View.NextError<CR>
 nmap <leader>E :vcs View.PreviousError<CR>
 
-" behave similar to <D>
+" find function in current file
+nmap <leader>p :vsc Window.MovetoNavigationBar<CR>
+" tab,tab,*function*,enter,esc
+" can not automate <TAB><TAB>
+
+" behave similar semantics as <D>
 noremap Y y$
 
-" make ',' an alias for ':'
-nmap , :
+" tab navigation is currently broken in vs2017 tmp fix
+nnoremap gt <NOP>
+nnoremap gT <NOP>
+nmap gt :vsc Window.NextTab<CR>
+nmap gT :vsc Window.PreviousTab<CR>
+
 
 " # mappings
 " :nmap - Display normal mode maps

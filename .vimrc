@@ -10,11 +10,11 @@ call plug#begin('~/.vim/plugged')
 " :PlugStatus  - Check the status of plugins which are loaded and so on
 " :PlugDiff
 
-" #############
-" #programming#
-" #############
-let programming_ncpp={'for':['scala','java','haskell','python','vim','bash','sh','','markdown','conf','text','zsh']}
-let programming={'for':['c','cpp','scala','java','haskell','python','vim','bash','sh']}
+" ###############
+" # programming #
+" ###############
+let programming_ncpp={'for':['scala','java','haskell','python','vim','bash','sh','xml','markdown','conf','text','zsh']}
+let programming={'for':['c','cpp','scala','java','haskell','python','vim','bash','sh','xml','markdown']}
 let programming_cpp={'for':['c','cpp']}
 let programming_haskell={'for':'haskell'}
 let programming_scala={'for':'scala'}
@@ -40,25 +40,36 @@ Plug 'mileszs/ack.vim',programming
 Plug 'rhysd/vim-clang-format',programming_cpp
 " toggle between src/header
 Plug 'vim-scripts/a.vim',programming_cpp
+" an alternative to color_coded
+Plug 'octol/vim-cpp-enhanced-highlight',programming_cpp
 
-" #########
-" #haskell#
-" #########
+" ###########
+" # haskell #
+" ###########
 Plug 'eagletmt/neco-ghc',programming_haskell
 Plug 'dag/vim2hs',programming_haskell
-" #######
-" #scala#
-" #######
+
+" #########
+" # scala #
+" #########
 " scala support
 Plug 'derekwyatt/vim-scala',programming_scala
-" #####
-" #rfc#
-" #####
+
+" #######
+" # rfc #
+" #######
 " rfc syntax
 Plug 'vim-scripts/rfc-syntax', { 'for': 'rfc' }
-" #########
-" #general#
-" #########
+
+" ########
+" # tmux #
+" ########
+" integrate split navigation with tmux
+Plug 'christoomey/vim-tmux-navigator'
+
+" ###########
+" # general #
+" ###########
 " git integration
 Plug 'tpope/vim-fugitive'
 " file explorer
@@ -89,8 +100,6 @@ if !has('win32unix') && !has('win64unix')
   Plug '~/.vim/bundle/YouCompleteMe',programming_ncpp
 else
 endif
-" an alternative to color_coded
-Plug 'octol/vim-cpp-enhanced-highlight'
 
 call plug#end()
 
@@ -232,6 +241,7 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>f <esc>:ClangFormat<CR>
 let g:formatter_yapf_style = 'chrome'
 
 " vim-autoformat language formatters
+" - tidy for HTML, XHTML and XML(apt-get)
 autocmd FileType java,python,html,css,markdown,haskell,xml nnoremap <buffer><leader>f :Autoformat<CR>
 
 " ctags - look in the current directory for 'tags',

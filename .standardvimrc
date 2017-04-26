@@ -38,7 +38,10 @@ set showbreak="\u21aa "
 
 
 " general
-set ttyfast                      " Faster redraw
+if !has('win32unix') && !has('win64unix')
+  " does not work in cygwin
+  set ttyfast                      " Faster redraw
+endif
 " don't bother updating screen during macro playback
 set lazyredraw
 set showcmd                      " Show incomplete vim motions as I type
@@ -138,6 +141,7 @@ map <silent> <leader>, <esc>:noh<CR>
 " resize split
 map <silent> <leader>- <esc>:vertical resize -5<CR>
 map <silent> <leader>+ <esc>:vertical resize +5<CR>
+
 " navigate between splits
 " pane Left
 map <silent> <leader><Left> <C-W><Left>
@@ -148,7 +152,7 @@ map <silent> <leader><Up> <C-W><Up>
 " pane Down
 map <silent> <leader><Down> <C-W><Down>
 
-" Alternative Moving around splits with the leader key
+" " Alternative Moving around splits with the leader key
 nmap <silent> <leader>h :wincmd h<CR>
 nmap <silent> <leader>j :wincmd j<CR>
 nmap <silent> <leader>k :wincmd k<CR>
@@ -213,10 +217,21 @@ nnoremap Q <nop>
 " behave similar to D
 noremap Y y$
 
-" make ',' an alias for ':'
-nmap , :
-
 "
 " Store relative line number jumps in the jumplist if they exceed a threshold.
-nnoremap <expr> k (v:count > 5 ? "m'" . v:count : '') . 'k'
-nnoremap <expr> j (v:count > 5 ? "m'" . v:count : '') . 'j'
+nnoremap <expr> k (v:count > 3 ? "m'" . v:count : '') . 'k'
+nnoremap <expr> j (v:count > 3 ? "m'" . v:count : '') . 'j'
+
+nnoremap <expr> + (v:count > 3 ? "m'" . v:count : '') . '+'
+nnoremap <expr> - (v:count > 3 ? "m'" . v:count : '') . '-'
+
+" " Arrow keys
+" nnoremap <left> <nop>
+" nnoremap <right> <nop>
+" nnoremap <up> <nop>
+" nnoremap <down> <nop>
+"
+" inoremap <left> <nop>
+" inoremap <right> <nop>
+" inoremap <up> <nop>
+" inoremap <down> <nop>
