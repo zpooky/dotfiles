@@ -46,7 +46,7 @@ fi
 export EDITOR='vim'
 export VISUAL='vim'
 
-alias cd-="cd -"
+alias "cd-"="cd -"
 alias gitst="git st"
 alias gitadd="git add"
 # alias
@@ -66,6 +66,9 @@ alias mw="mutt -F $HOME/.mutt/user_work"
 
 alias n="newsbeuter"
 alias duh="du -h -d 0 [^.]*"
+
+#force ssh to use xterm when ssh instead of tmux-colour256
+alias ssh='TERM=xterm ssh'
 
 alias sp-sync='$DOTFILES_LIB/keypass_cron.sh; $DOTFILES_LIB/offlineimap_cron.sh; $DOTFILES_LIB/vdirsyncer_cron.sh'
 alias port-scan='netstat -alnptu | egrep '\''Proto|LISTEN'\'''
@@ -115,6 +118,17 @@ alias sp-visual="vim $REF_DIR/visual-studio.md"
 alias sp-proj="cd $DROPBOX/project"
 alias sp-printf="vim $REF_DIR/c/printf.md"
 alias sp-make="vim $REF_DIR/c/Makefile"
+alias sp-carray="vim $REF_DIR/c/carray.md"
+alias sp-books="vim $DROPBOX/books.md"
+alias sp-debug="cd $REF_DIR/linux/debug"
+alias sp-dropbox="cd $REF_DIR"
+alias sp-mount="vim $REF_DIR/linux/mount.txt"
+alias sp-backus-naur-form="vim $REF_DIR/bnf.md"
+alias sp-util="vim $REF_DIR/util.md"
+alias sp-tunnel="vim $REF_DIR/ssh_tunnel.md"
+alias sp-mkdir="vim $REF_DIR/mkdir.md"
+alias sp-overclock="vim $REF_DIR/overclock.mkd"
+alias sp-tls="vim $REF_DIR/tls2.md"
 # ===============================================
 # ===============================================
 # =____________DEVELOPMENT______________________=

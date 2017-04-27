@@ -74,6 +74,11 @@ nnoremap gT <NOP>
 nmap gt :vsc Window.NextTab<CR>
 nmap gT :vsc Window.PreviousTab<CR>
 
+" ctrl hjkl pane navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
 " # mappings
 " :nmap - Display normal mode maps

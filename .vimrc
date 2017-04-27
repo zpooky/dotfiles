@@ -125,7 +125,7 @@ if has('win32unix') || has('win64unix')
   " in cygwin if we save a file not in dos mode outside the 'virtual' linux
   " prompt if it should not be in dos mode instead of the default unix
   " TODO should ignore special buffers like vim msg
-  autocmd BufWritePre * if &ff != 'dos' && expand('%:p') =~ "^\/cygdrive\/" && expand('%:p') !~ "\/Dropbox\/" && input('set ff to dos [y]') == 'y' | setlocal ff=dos | endif
+  autocmd BufWritePre * if &ff != 'dos' && expand('%:p') =~ "^\/cygdrive\/d\/Worksapce\/" && expand('%:p') !~ "\/Dropbox\/" && input('set ff to dos [y]') == 'y' | setlocal ff=dos | endif
 endif
 
 " pastetoggle

@@ -66,7 +66,9 @@ if [ ! -e $FEATURE ]; then
 
   if [ -e $TMUX_ROOT ]; then
     cd $TMUX_ROOT
+    git checkout master
     git pull --rebase origin master
+    git checkout 2.3
 
     if [ $? -eq 0 ]; then 
       cd $TMUX
