@@ -294,7 +294,7 @@ stop_feature "standalone"
 which pip2
 if [ ! $? -eq 0 ]; then
   is_arch
-  if [ $? -eq 0 ];then
+  if [ $? -eq 0 ]; then
     install python2-pip
   else
     # python2 -m pip uninstall pip setuptools
@@ -303,7 +303,7 @@ if [ ! $? -eq 0 ]; then
     cd /tmp
     curl -O https://bootstrap.pypa.io/get-pip.py
 
-    if [ $? -eq 0 ];then
+    if [ $? -eq 0 ]; then
       sudo -H  python2.7 get-pip.py
     fi
 
@@ -402,7 +402,7 @@ if [ ! -e $BCC_FEATURE ]; then
      start_feature "bcc"
 
      is_apt_get
-     if [ $? -eq 0 ];then
+     if [ $? -eq 0 ]; then
        # https://github.com/iovisor/bcc/blob/master/INSTALL.md
        echo "deb [trusted=yes] https://repo.iovisor.org/apt/xenial xenial-nightly main" | sudo tee /etc/apt/sources.list.d/iovisor.list
        update_package_list
@@ -448,9 +448,9 @@ if [ ! -e $FEATURE ]; then
   # TODO automatic fetch ubuntu version and use it in the wget
   wget -O $MEGA_DEB https://mega.nz/linux/MEGAsync/xUbuntu_16.04/amd64/megasync-xUbuntu_16.04_amd64.deb
 
-  if [ $? -eq 0 ];then
+  if [ $? -eq 0 ]; then
     install libcrypto++9
-    if [ $? -eq 0 ];then
+    if [ $? -eq 0 ]; then
       sudo dpkg -y -i $MEGA_DEB
         if [ $? -eq 0 ]; then
           touch $FEATURE
@@ -583,17 +583,17 @@ if [ ! -e $FEATURE ]; then
       fi
     fi
 
-    if [ -e $CPPCHECK_ROOT ];then
+    if [ -e $CPPCHECK_ROOT ]; then
       cd $CPPCHECK_ROOT
       git pull --rebase origin master
-      if [ $? -eq 0 ];then
+      if [ $? -eq 0 ]; then
         cd $CPPCHECK
-        if [ $? -eq 0 ];then
+        if [ $? -eq 0 ]; then
             sudo make uninstall
             make
-          if [ $? -eq 0 ];then
+          if [ $? -eq 0 ]; then
             sudo make install
-            if [ $? -eq 0 ];then
+            if [ $? -eq 0 ]; then
               cppcheck --version
               touch $FEATURE
             fi
@@ -614,7 +614,7 @@ if [ ! -e $FEATURE ]; then
   start_feature "guake"
 
   is_arch
-  if [ $? -eq 0 ];then
+  if [ $? -eq 0 ]; then
     install guake
   else
     PREV_DIR=`pwd`
@@ -627,25 +627,25 @@ if [ ! -e $FEATURE ]; then
       fi
     fi
 
-    if [ -e $GUAKE_ROOT ];then
+    if [ -e $GUAKE_ROOT ]; then
       cd $GUAKE_ROOT
 
       git pull --rebase origin master
 
-      if [ $? -eq 0 ];then
+      if [ $? -eq 0 ]; then
         ./autogen.sh
 
-        if [ $? -eq 0 ];then
+        if [ $? -eq 0 ]; then
           ./configure
 
-          if [ $? -eq 0 ];then
+          if [ $? -eq 0 ]; then
             sudo make uninstall
             make
 
-            if [ $? -eq 0 ];then
+            if [ $? -eq 0 ]; then
               sudo make install
 
-              if [ $? -eq 0 ];then
+              if [ $? -eq 0 ]; then
                 guake --help
                 touch $FEATURE
               fi
@@ -699,7 +699,7 @@ if [ ! $? -eq 0 ]; then
     ACK_SOURCE=$TEMP_DIR/ack-grep
     ACK_DESTINATION=/usr/bin/ack-grep
     curl http://beyondgrep.com/ack-2.14-single-file > $ACK_SOURCE
-    if [ $? -eq 0 ];then
+    if [ $? -eq 0 ]; then
       chmod 0755 $ACK_SOURCE
       sudo chown root:root $ACK_SOURCE
       sudo mv $ACK_SOURCE $ACK_DESTINATION
@@ -889,25 +889,25 @@ if [ ! -e $FEATURE ]; then
       fi
     fi
 
-    if [ -e $ROOT ];then
+    if [ -e $ROOT ]; then
       cd $ROOT
 
       git pull --rebase origin master
 
-      if [ $? -eq 0 ];then
+      if [ $? -eq 0 ]; then
         ./autogen.sh
 
-        if [ $? -eq 0 ];then
+        if [ $? -eq 0 ]; then
           ./configure --prefix=/usr/local
 
-          if [ $? -eq 0 ];then
+          if [ $? -eq 0 ]; then
             make
 
-            if [ $? -eq 0 ];then
+            if [ $? -eq 0 ]; then
               sudo make uninstall
               sudo make install
 
-              if [ $? -eq 0 ];then
+              if [ $? -eq 0 ]; then
                 tig --help
                 touch $FEATURE
               fi
@@ -928,7 +928,7 @@ if [ ! -e $FEATURE ]; then
   start_feature "qutebrowser"
 
   is_arch
-  if [ $? -eq 0 ];then
+  if [ $? -eq 0 ]; then
     pacman -S qutebrowser
     touch $FEATURE
   else
@@ -942,9 +942,9 @@ fi
 
 # mpv video player
 which mpv
-if [ ! $? -eq 0 ];then
+if [ ! $? -eq 0 ]; then
   is_apt_get
-  if [ $? -eq 0 ];then
+  if [ $? -eq 0 ]; then
     sudo add-apt-repository -y ppa:mc3man/mpv-tests
     update_package_list
   fi

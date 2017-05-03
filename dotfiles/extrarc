@@ -113,6 +113,7 @@ alias sp-network="vim $DROPBOX_NETWORK/linux.md"
 alias sp-visual="vim $REF_DIR/visual-studio.md"
 alias sp-proj="cd $DROPBOX/project"
 alias sp-printf="vim $REF_DIR/c/printf.md"
+alias sp-make="vim $REF_DIR/c/Makefile"
 # ===============================================
 # ===============================================
 # =____________DEVELOPMENT______________________=
@@ -141,6 +142,10 @@ function setup_project(){
   if [[ -e CMakeLists.txt ]]; then
     ~/sources/YCM-Generator/config_gen.py . -b cmake --verbose -e --format ycm
     ~/sources/YCM-Generator/config_gen.py . -b cmake --verbose -e --format cc
+  fi
+  if [[ -e Makefile ]]; then
+    ~/sources/YCM-Generator/config_gen.py . -b make --verbose -e --format ycm
+    ~/sources/YCM-Generator/config_gen.py . -b make --verbose -e --format cc
   fi
 }
 alias sp-setup='setup_project'

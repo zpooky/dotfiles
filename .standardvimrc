@@ -235,3 +235,8 @@ nnoremap <expr> - (v:count > 3 ? "m'" . v:count : '') . '-'
 " inoremap <right> <nop>
 " inoremap <up> <nop>
 " inoremap <down> <nop>
+
+"disable f1
+inoremap <F1> <nop>
+nnoremap <F1> <nop>
+vnoremap <F1> <nop>

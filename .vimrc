@@ -85,6 +85,9 @@ Plug 'ton/vim-bufsurf'
 Plug 'wellle/targets.vim'
 Plug 'godlygeek/tabular'
 
+" # center search result
+Plug 'wincent/loupe'
+
 " unmap some a.vim mappings
 Plug '~/.vim/bundle/after',programming_cpp
 
