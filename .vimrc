@@ -82,9 +82,9 @@ Plug 'luochen1990/rainbow'
 Plug 'flazz/vim-colorschemes'
 " hisoric buffer navigation
 Plug 'ton/vim-bufsurf'
+" additional *in* support like ci, to change between two ,
 Plug 'wellle/targets.vim'
 Plug 'godlygeek/tabular'
-
 " # center search result
 Plug 'wincent/loupe'
 
