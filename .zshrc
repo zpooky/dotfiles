@@ -31,4 +31,4 @@ RED="\e[0;31m"
 NO_COLOR="\e[0m"
 NEWLINE=$'\n'
 autoload -U colors && colors
-PROMPT="%B${NEWLINE}%d%{$fg[yellow]%}:%{$reset_color%}${NEWLINE}%{$fg[red]%}>%{$reset_color%} %b"
+PROMPT="%B${NEWLINE}%d%{$fg[yellow]%}:%{$reset_color%}${NEWLINE}%{$fg[red]%}%B>%{$reset_color%} %b"

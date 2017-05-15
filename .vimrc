@@ -74,7 +74,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
 " file explorer
 Plug 'scrooloose/nerdtree',{'on':'NERDTreeToggle'}
-" fuzzy search
+" fuzzy search (do step does not work)
 Plug 'wincent/command-t',{'do':'rake make'}
 " colors scope
 Plug 'luochen1990/rainbow'

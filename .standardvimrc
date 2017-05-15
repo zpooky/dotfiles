@@ -26,6 +26,8 @@ set guioptions=
 " command(:)
 set wildmode=longest:full,full   " bash like command(:) completion when tab
 set wildmenu                     " Show command(:) completion with tab
+" ignore thease files when :edit <tab>
+set wildignore=*.swp,*.bak,*.pyc,*.class,*.o
 
 " note: debug set with "set list?" ?: means print current value
 set list                              " show special chars, such as tab: eol: trail: extends: nbsp:
@@ -190,7 +192,6 @@ map <silent> <leader>9 <esc>9gt
 
 set history=1000         " remember more commands and search history
 set undolevels=1000      " use many levels of undo
-set wildignore=*.swp,*.bak,*.pyc,*.class
 set title                " change the terminal's title
 
 "
