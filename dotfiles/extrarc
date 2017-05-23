@@ -49,6 +49,7 @@ export VISUAL='vim'
 alias "cd-"="cd -"
 alias gitst="git st"
 alias gitadd="git add"
+alias gitcommit="git commit"
 # alias
 DOTFILES=$HOME/dotfiles
 DOTFILES_LIB=$DOTFILES/lib
