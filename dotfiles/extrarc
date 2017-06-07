@@ -46,10 +46,6 @@ fi
 export EDITOR='vim'
 export VISUAL='vim'
 
-alias "cd-"="cd -"
-alias gitst="git st"
-alias gitadd="git add"
-alias gitcommit="git commit"
 # alias
 DOTFILES=$HOME/dotfiles
 DOTFILES_LIB=$DOTFILES/lib
@@ -58,33 +54,6 @@ REF_DIR="$DROPBOX/\[\]ref"
 DROPBOX_LINUX=$REF_DIR/linux
 DROPBOX_NETWORK=$REF_DIR/network
 
-alias sp-khal='khal calendar -a red -a personal --format="{red-bold}{start-time}{reset}-{green-bold}{end-time}{reset} {calendar-color}{title}{reset}{yellow}{repeat-symbol}{reset} [{cyan}{location}{reset}][{magenta}{calendar}{reset}]"'
-alias k="sp-khal"
-alias m="ms"
-alias ms="mutt -F $HOME/.mutt/user_personal"
-alias mf="mutt -F $HOME/.mutt/user2_personal"
-alias mw="mutt -F $HOME/.mutt/user_work"
-
-alias n="newsbeuter"
-alias duh="du -h -d 0 [^.]*"
-
-#force ssh to use xterm when ssh instead of tmux-colour256
-alias ssh='TERM=xterm ssh'
-
-alias sp-sync='$DOTFILES_LIB/keypass_cron.sh; $DOTFILES_LIB/offlineimap_cron.sh; $DOTFILES_LIB/vdirsyncer_cron.sh'
-alias port-scan='netstat -alnptu | egrep '\''Proto|LISTEN'\'''
-
-alias sp-open="$DOTFILES_LIB/keypass_cron.sh; $DOTFILES_LIB/open_keyring.py"
-alias sp-space="du -hsc *"
-alias sp-root="cd \`$DOTFILES_LIB/git_root.sh\`"
-#tmux
-# force the 256 colors compatibility
-alias tmux='tmux -2'
-alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
-# meta alias
-alias sp-alias="vim $DOTFILES/extrarc && source $DOTFILES/extrarc"
-alias sp-vimrc="vim ~/.vimrc"
-# dropbox
 alias sp-tmux="vim $DROPBOX_LINUX/tmux.txt"
 alias sp-vim="vim $DROPBOX_LINUX/vim.txt"
 alias sp-vim-cpp="vim $DROPBOX_LINUX/vim/cpp"
@@ -130,15 +99,62 @@ alias sp-tunnel="vim $REF_DIR/ssh_tunnel.md"
 alias sp-mkdir="vim $REF_DIR/mkdir.md"
 alias sp-overclock="vim $REF_DIR/overclock.mkd"
 alias sp-tls="vim $REF_DIR/tls2.md"
+alias sp-dd="vim $REF_DIR/dd.md"
+alias sp-pipe="vim $REF_DIR/linux/pipe.txt"
+alias cpp-debug="vim $REF_DIR/linux/debug/cpp-debug.md"
+alias sp-tcpdump="vim $REF_DIR/linux/debug/tcpdump.txt"
+# ===============================================
+# ===============================================
+# =_______________COMMANDS______________________=
+# ===============================================
+#git
+alias gitcommit="git commit"
+alias "cd-"="cd -"
+alias gitst="git st"
+alias gitadd="git add"
+
+#khal
+alias sp-khal='khal calendar -a red -a personal --format="{red-bold}{start-time}{reset}-{green-bold}{end-time}{reset} {calendar-color}{title}{reset}{yellow}{repeat-symbol}{reset} [{cyan}{location}{reset}][{magenta}{calendar}{reset}]"'
+alias k="sp-khal"
+alias m="ms"
+
+#mutt
+alias ms="mutt -F $HOME/.mutt/user_personal"
+alias mf="mutt -F $HOME/.mutt/user2_personal"
+alias mw="mutt -F $HOME/.mutt/user_work"
+
+alias n="newsbeuter"
+alias duh="du -h -d 0 [^.]*"
+
+#force ssh to use xterm when ssh instead of tmux-colour256
+alias ssh='TERM=xterm ssh'
+
+alias sp-sync='$DOTFILES_LIB/keypass_cron.sh; $DOTFILES_LIB/offlineimap_cron.sh; $DOTFILES_LIB/vdirsyncer_cron.sh'
+alias port-scan='netstat -alnptu | egrep '\''Proto|LISTEN'\'''
+
+alias sp-open="$DOTFILES_LIB/keypass_cron.sh; $DOTFILES_LIB/open_keyring.py"
+alias sp-space="du -hsc *"
+alias sp-root="cd \`$DOTFILES_LIB/git_root.sh\`"
+#tmux
+# force the 256 colors compatibility
+alias tmux='tmux -2'
+alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
+# meta alias
+alias sp-alias="vim $DOTFILES/extrarc && source $DOTFILES/extrarc"
+alias sp-vimrc="vim ~/.vimrc"
+
+#repeats $1
+alias sp_repeat="~/dotfiles/lib/repeat.sh"
+
 # ===============================================
 # ===============================================
 # =____________DEVELOPMENT______________________=
-# ===============================================
 # ===============================================
 alias cpp-extends="$HOME/dotfiles/lib/cpp_extends.sh"
 alias cpp-grep="$HOME/dotfiles/lib/cpp_grep.sh"
 alias cpp-funcall="$HOME/dotfiles/lib/cpp_function_call.sh"
 alias cpp-fundeclare="$HOME/dotfiles/lib/cpp_function_declare.sh"
+alias cpp-conscall="$HOME/dotfiles/lib/cpp_constructor_call.sh"
 function setup_project(){
   if [ ! -e .git ];then
     echo 'project root is required to be git:ed'
