@@ -155,6 +155,7 @@ alias cpp-grep="$HOME/dotfiles/lib/cpp_grep.sh"
 alias cpp-funcall="$HOME/dotfiles/lib/cpp_function_call.sh"
 alias cpp-fundeclare="$HOME/dotfiles/lib/cpp_function_declare.sh"
 alias cpp-conscall="$HOME/dotfiles/lib/cpp_constructor_call.sh"
+alias cpp-gdb="$HOME/dotfiles/lib/tmux-gdb.sh"
 function setup_project(){
   if [ ! -e .git ];then
     echo 'project root is required to be git:ed'

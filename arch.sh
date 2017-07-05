@@ -144,5 +144,11 @@ sudo wifi-menu
 pacman -S linux-firmware
 iw dev #list wireless interfaces
 iw dev wlp62s0 link # status of interface
+ll /etc/netctl/ # db of connection data
+sudo ip link set eth0 down # turn of interface
+#network
+ethtool enp61s0 # status
 #
 pacman -S automake
+#debug
+!!TODO journalctl -xe

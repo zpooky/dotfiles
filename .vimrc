@@ -13,8 +13,8 @@ call plug#begin('~/.vim/plugged')
 " ###############
 " # programming #
 " ###############
-let programming_ncpp={'for':['scala','java','haskell','python','vim','bash','sh','xml','markdown','conf','text','zsh']}
-let programming={'for':['c','cpp','scala','java','haskell','python','vim','bash','sh','xml','markdown']}
+let programming_ncpp={'for':['scala','java','haskell','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb']}
+let programming={'for':['c','cpp','scala','java','haskell','python','vim','bash','sh','xml','markdown','gdb']}
 let programming_cpp={'for':['c','cpp']}
 let programming_haskell={'for':'haskell'}
 let programming_scala={'for':'scala'}

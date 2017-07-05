@@ -21,6 +21,10 @@ alias pacman="pacmatic"
 
 source $HOME/dotfiles/extrarc
 
+#
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+
 #PS
 # %d    - current directory
 # $'\n' - newline

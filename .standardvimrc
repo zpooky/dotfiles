@@ -160,12 +160,14 @@ nmap <silent> <leader>j :wincmd j<CR>
 nmap <silent> <leader>k :wincmd k<CR>
 nmap <silent> <leader>l :wincmd l<CR>
 
+" open new pane to the right 
+set splitright
 " Create vertical pane
-nnoremap <leader>s <esc>:vsplit<CR>
+nnoremap <leader>s <esc>:vnew<CR>
 " Create horizontal pane
 " nnoremap <leader>h <esc>:sp<CR>
 " Create tab
-nnoremap <leader>e <esc>:tabedit<CR>
+nnoremap <silent><leader>e <esc>:tabedit<CR>
 
 " new line above and below without entering insert mode
 map <silent> <leader>o o<esc>
@@ -241,3 +243,6 @@ nnoremap <expr> - (v:count > 3 ? "m'" . v:count : '') . '-'
 inoremap <F1> <nop>
 nnoremap <F1> <nop>
 vnoremap <F1> <nop>
+
+"disable man
+map <S-k> <Nop>
