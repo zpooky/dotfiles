@@ -148,7 +148,18 @@ map <silent> <A-Right> <esc>:BufSurfForward<cr>
 let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
 
 " vim2hs
+" {
 let g:haskell_conceal_wide = 1
+" 0 = disable all conceals, including the simple ones like
+" lambda and composition
+" let g:haskell_conceal              = 1
+
+" 0 = disable concealing of "enumerations": commatized lists like
+" deriving clauses and LANGUAGE pragmas,
+" otherwise collapsed into a single ellipsis
+" let g:haskell_conceal_enumerations = 1
+
+" }
 
 " vim-scala
 let g:scala_use_default_keymappings = 0

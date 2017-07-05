@@ -21,7 +21,25 @@ if [[ -e $HOME/bin ]]; then
   PATH=$HOME/bin/:$PATH
 fi
 
-export LD_LIBRARY_PATH=/usr/lib64:/usr/local/lib
+CABAL_PACKAGE_BIN=$HOME/.cabal/bin
+if [[ -e $CABAL_PACKAGE_BIN ]]; then
+  PATH=$CABAL_PACKAGE_BIN:$PATH
+fi
+
+if [ -z "$LD_LIBRARY_PATH" ]; then
+  export LD_LIBRARY_PATH
+fi
+LD_LIBRARY_PATH=/usr/lib64:/usr/local/lib:$LD_LIBRARY_PATH
+
+# CABAL_LIBS=~/.cabal/lib/x86_64-linux-ghc-8.0.2
+# if [ -e $CABAL_LIBS ]; then
+#   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CABAL_LIBS
+# fi
+
+if [ -z "$LIBRARY_PATH" ]; then
+  export LIBRARY_PATH
+fi
+# LIBRARY_PATH=$CABAL_LIBS:$LIBRARY_PATH
 
 SASAL_LIB=/usr/local/lib/sasl2
 if [[ -e $SASAL_LIB ]]; then
@@ -87,6 +105,7 @@ alias sp-network="vim $DROPBOX_NETWORK/linux.md"
 alias sp-visual="vim $REF_DIR/visual-studio.md"
 alias sp-proj="cd $DROPBOX/project"
 alias sp-printf="vim $REF_DIR/c/printf.md"
+alias sp-alignment="vim $REF_DIR/c/alignment.md"
 alias sp-make="vim $REF_DIR/c/Makefile"
 alias sp-carray="vim $REF_DIR/c/carray.md"
 alias sp-books="vim $DROPBOX/books.md"
@@ -103,6 +122,8 @@ alias sp-dd="vim $REF_DIR/dd.md"
 alias sp-pipe="vim $REF_DIR/linux/pipe.txt"
 alias cpp-debug="vim $REF_DIR/linux/debug/cpp-debug.md"
 alias sp-tcpdump="vim $REF_DIR/linux/debug/tcpdump.txt"
+
+alias sp-compuverdeutil="vim $REF_DIR/util.md"
 # ===============================================
 # ===============================================
 # =_______________COMMANDS______________________=

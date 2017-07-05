@@ -1,12 +1,25 @@
+#pacman update
+sudo pacman -Syuw # download packages
+sudo pacman -Su # install packages
+
+#stuff
+sudo pacman -Syyu # update package database
+pacman -Ss python2 # search
+
+
+yaourt -Syu --aur # aur upgrade
+
+#video player
+pacman -S mpv
+
+#keepass
+pacman -S keepassxc
+
 #list hardware
 lspci
 # eth interfaces
 ip address
 dhcpd *inteface*
-
-#stuff
-sudo pacman -Syyu # update package database
-pacman -Ss python2 # search
 
 # to make install work
 pacman -S sudo
@@ -78,7 +91,6 @@ acpi_listen # press on keyboard baclkigt power up/down
 # PKGBUILD
 makepkg -Acs
 sudo pacman -U clipster-git-0.211.dfa75b5-1-any.pkg.tar.xz
-yaourt -Syu --aur 
 #
 
 # font
@@ -106,6 +118,7 @@ sudo pacman -S bluez-libs
 sudo pacman -S bluez-utils
 sudo pacman -S bluez-firmware
 systemctl status bluetooth.service
+systemctl enable bluetooth.service
 systemctl start bluetooth.service
 
 #
@@ -152,3 +165,16 @@ ethtool enp61s0 # status
 pacman -S automake
 #debug
 !!TODO journalctl -xe
+
+#battery
+pacman -S acpi 
+acpi
+
+nvidia-xconfig --query-gpu-info
+pacman -Q | grep pacakge # search
+pacman -Qe | less #installed packages
+dmesg -H
+systemctl --type=service
+sudo pacman -S ghc-static
+sudo pacman -S ghc
+sudo pacman -S cabal

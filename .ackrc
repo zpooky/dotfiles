@@ -16,8 +16,13 @@
 --ignore-dir=log
 --ignore-dir=tmp
 --ignore-dir=doc
---ignore-dir=coverage
 --ignore-dir=.ensime_cache
+--ignore-dir=build
+--ignore-dir=.cmake
+--ignore-dir=.doxygen
+--ignore-dir=.git
+--ignore-dir=.svn
+--ignore-dir=coverage
 
 --ignore-file=ext:pdb
 --ignore-file=ext:idb

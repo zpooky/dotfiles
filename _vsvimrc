@@ -1,3 +1,5 @@
+" ctrl+f7 | compile
+" ctrl+f5 | run
 nnoremap <space> <NOP>
 let mapleader = "\<Space>"        " map leader to  <space>
 
@@ -50,7 +52,7 @@ map <leader>c :vsc Edit.ToggleComment<CR>
 
 " format code
 nmap <leader>f :vsc Edit.FormatDocument<CR>
-xmap <leader>f :vsc Edit.FormatSelection<CR>
+xmap <leader>f :vsc Edit.FormatSelection<CR><esc>
 
 " toggle between header and source file
 nmap <f2> :vsc EditorContextMenus.CodeWindow.ToggleHeaderCodeFile<CR>
@@ -69,10 +71,10 @@ nmap <leader>p :vsc Window.MovetoNavigationBar<CR>
 noremap Y y$
 
 " tab navigation is currently broken in vs2017 tmp fix
-nnoremap gt <NOP>
-nnoremap gT <NOP>
-nmap gt :vsc Window.NextTab<CR>
-nmap gT :vsc Window.PreviousTab<CR>
+" nnoremap gt <NOP>
+" nnoremap gT <NOP>
+" nmap gt :vsc Window.NextTab<CR>
+" nmap gT :vsc Window.PreviousTab<CR>
 
 " ctrl hjkl pane navigation
 nnoremap <C-h> <C-w>h

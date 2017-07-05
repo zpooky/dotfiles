@@ -158,7 +158,7 @@ bar {
 # custom
 # autorun
 ## keyboard layout
-exec "setxbkmap -layout sv"
+exec "setxkbmap -layout se"
 
 ## Special keyboard support
 #TODO not working

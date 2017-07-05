@@ -1,6 +1,9 @@
 setxkbmap -option caps:escape
 #setxkbmap -v sv -variant qwerty
-setxkbmap -layout sv -variant qwerty
+setxkbmap -layout se -variant qwerty
+
+# xrandr --setprovideroutputsource modesetting NVIDIA-0
+# xrandr --auto
 
 # start gnome keyring
 # seahorse gui
@@ -13,4 +16,5 @@ export SSH_AUTH_SOCK
 # TODO not working
 export EDITOR='vim'
 
-exec i3
+exec i3 -V >> ~/i3log-$(date +"%F-%k-%M-%S") 2>&1
+# exec chromium -V >> ~/chrome-$(date + '%F-%k-%M-%S') 2>&1

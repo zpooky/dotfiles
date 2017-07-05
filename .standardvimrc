@@ -20,6 +20,12 @@ endif
 " theme
 syntax enable                     " Highlight the syntax.
 
+" folding
+" zi      : toggle global folding on/off
+" za      : toggle fold on current line
+set nofoldenable    " disable folding
+
+
 " gvim hide all gui
 set guioptions=
 
@@ -47,13 +53,19 @@ endif
 " don't bother updating screen during macro playback
 set lazyredraw
 set showcmd                      " Show incomplete vim motions as I type
-
-" set cursorline                    " Higlight current line
-autocmd FileType c,cpp set cursorline
 let mapleader = "\<Space>"        " map leader to  <space>
 set relativenumber                " relative line numbers
 set number                        " both relative and absolute number
 " set mouse=a                       " Enables scrolling terminal.(mouse mode)
+
+" Higlight current line
+" Enable cursorline only on the active buffer
+augroup CursorLine
+    "https://stackoverflow.com/a/12018552
+    au!
+    au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+    au WinLeave * setlocal nocursorline
+augroup END
 
 " search
 set incsearch                     " search wile you type
