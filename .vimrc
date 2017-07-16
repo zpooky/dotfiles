@@ -1,6 +1,14 @@
 " Turn off vi compatibility.(should be set first)
 set nocompatible
 
+" TODO
+" look at:
+" https://github.com/lyuts/vim-rtags
+" https://github.com/Andersbakken/rtags/
+" https://skebanga.github.io/rtags-with-cmake-in-spacemacs/
+"
+" https://github.com/rprichard/sourceweb
+
 " vim-plug plugin manager
 call plug#begin('~/.vim/plugged')
 " # vim        - plug commands
@@ -250,8 +258,13 @@ autocmd FileType java,python,html,css,markdown,haskell,xml nnoremap <buffer><lea
 " ctags - look in the current directory for 'tags',
 " and work up the tree towards root until one is found
 set tags=./.tags;/
+
+" using Ycm to navigate
+" https://github.com/Valloric/YouCompleteMe#goto-commands
+map <silent> <F3> <esc>:YcmCompleter GoTo<CR>
+
 " open tag
-map <silent> <F3> <c-]>
+" map <silent> <F3> <c-]>
 " open tag in vertical split
 map <silent> <leader><F3> <a-]>
 " previous
