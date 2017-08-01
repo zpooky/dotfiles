@@ -40,6 +40,14 @@ function stop_feature(){
   echo "------------------------------------"
 }
 
+function is_cygwin(){
+  if [[ $(uname -s) =~ CYGWIN.* ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 function is_arch(){
   if [ -f /etc/arch-release ];then
     return 0

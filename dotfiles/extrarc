@@ -122,12 +122,29 @@ alias sp-dd="vim $REF_DIR/dd.md"
 alias sp-pipe="vim $REF_DIR/linux/pipe.txt"
 alias cpp-debug="vim $REF_DIR/linux/debug/cpp-debug.md"
 alias sp-tcpdump="vim $REF_DIR/linux/debug/tcpdump.txt"
+alias sp-markdown="vim $REF_DIR/linux/markdown.md"
+alias sp-date="vim $REF_DIR/linux/date.md"
+alias sp-bash="vim $REF_DIR/linux/bash.md"
+alias sp-bitcoin="vim $REF_DIR/bitcoin.md"
 
 alias sp-compuverdeutil="vim $REF_DIR/util.md"
 # ===============================================
 # ===============================================
 # =_______________COMMANDS______________________=
 # ===============================================
+
+#cygwin
+which sudo > /dev/null 2>&1
+WHICH_SUDO=$?
+hash sudo > /dev/null 2>&1
+HASH_SUDO=$?
+
+if [ $WHICH_SUDO -eq $HASH_SUDO ]; then
+  if [ ! $WHICH_SUDO -eq 0 ]; then
+    alias sudo=$HOME/dotfiles/sudo
+  fi
+fi
+
 #git
 alias gitcommit="git commit"
 alias "cd-"="cd -"
@@ -177,6 +194,9 @@ alias cpp-funcall="$HOME/dotfiles/lib/cpp_function_call.sh"
 alias cpp-fundeclare="$HOME/dotfiles/lib/cpp_function_declare.sh"
 alias cpp-conscall="$HOME/dotfiles/lib/cpp_constructor_call.sh"
 alias cpp-gdb="$HOME/dotfiles/lib/tmux-gdb.sh"
+
+alias sp_gdb="$HOME/dotfiles/lib/gdb_tmux_dashboard.sh"
+
 function setup_project(){
   if [ ! -e .git ];then
     echo 'project root is required to be git:ed'

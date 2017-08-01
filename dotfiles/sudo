@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "warning dummy sudo"
+
+eval "${@}"
+
+exit $?

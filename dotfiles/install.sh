@@ -5,7 +5,7 @@ source $HOME/dotfiles/shared.sh
 # compile less settings from .lesskey into .less
 lesskey -o $THE_HOME/.less $THE_HOME/.lesskey
 
-GIT_CONFIG_FEATURE=$FEATURE_HOME/gitconfig1
+GIT_CONFIG_FEATURE=$FEATURE_HOME/gitconfig4
 if [ ! -e $GIT_CONFIG_FEATURE ]; then
   start_feature "git config"
 
@@ -14,7 +14,7 @@ if [ ! -e $GIT_CONFIG_FEATURE ]; then
   git config --global user.email "spooky.bender@gmail.com"
   git config --global core.editor vim
 
-  git config --global alias.st status
+  git config --global alias.st "status --ignore-submodules=dirty"
   git config --global alias.tree "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 
   touch $GIT_CONFIG_FEATURE
