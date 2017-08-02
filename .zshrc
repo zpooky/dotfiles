@@ -14,6 +14,14 @@ alias nas540="sshfs admin@192.168.1.12:/i-data/ $HOME/mount/nas540"
   export TERM="xterm-256color"
 # fi
 
+# Emacs mode
+bindkey -e
+
+# Vi mode
+# bindkey -v
+## reduce command/insert mode toogle to 0.1seconds
+# export KEYTIMEOUT=1
+
 export LANG=en_US.UTF-8
 
 # prints announcements
