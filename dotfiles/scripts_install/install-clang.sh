@@ -9,6 +9,7 @@ fi
 
 NAME=llvm
 ROOT=$SOURCES_ROOT/$NAME
+CLANG_PREFIX=$HOME
 
 CLANG_NAME=clang
 TOOLS_ROOT=$ROOT/tools
@@ -31,7 +32,7 @@ fi
 if [ -e $ROOT ]; then
   cd $TOOLS_ROOT
 
-  if [ ! -e $CLANG_ROOT ];then
+  if [ ! -e $CLANG_ROOT ]; then
     svn co http://llvm.org/svn/llvm-project/cfe/trunk $CLANG_ROOT
     if [ ! $? -eq 0 ]; then
       rm -rf $CLANG_ROOT
@@ -58,7 +59,7 @@ if [ -e $ROOT ]; then
     cd $BUILD_ROOT
 
     # CC=gcc CXX=g++                              \
-    cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_TARGETS_TO_BUILD="host" -Wno-dev ..
+    cmake -DCMAKE_INSTALL_PREFIX=$CLANG_PREFIX -DCMAKE_BUILD_TYPE=Release -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_TARGETS_TO_BUILD="host" -Wno-dev ..
     if [ $? -eq 0 ];then
       make -j 4
       if [ $? -eq 0 ];then

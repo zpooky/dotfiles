@@ -220,28 +220,28 @@ install mediainfo || exit 1
 install transmission-cli || exit 1
 
 
-install libncurses5-de
-install libgnome2-de
-install libgnomeui-de
-install libgtk2.0-de
-install libatk1.0-de
-install libbonoboui2-dev
-install libcairo2-de
-install libx11-de
-install libxpm-de
-install libxt-de
-install python-dev
+install libncurses5-dev || exit 1
+install libgnome2-dev || exit 1
+install libgnomeui-dev || exit 1
+install libgtk2.0-dev || exit 1
+install libatk1.0-dev || exit 1
+install libbonoboui2-dev || exit 1
+install libcairo2-dev || exit 1
+install libx11-dev || exit 1
+install libxpm-dev || exit 1
+install libxt-dev || exit 1
+install python-dev || exit 1
 
 # vim things
-install build-essential
-install libclang-3.9-dev
-install libncurses-dev
-install libz-dev
-install xz-utils
-install libpthread-workqueue-dev
+install build-essential || exit 1
+install libclang-3.9-dev || exit 1
+install libncurses-dev || exit 1
+install libz-dev || exit 1
+install xz-utils || exit 1
+install libpthread-workqueue-dev || exit 1
 LUA_VIM_MINOR_VERSION=`vim --version | grep "\-llua" | sed -r "s/.*\-llua5.([0-9]*).*/\1/"`
-install liblua5.$LUA_VIM_MINOR_VERSION-dev
-install lua5.$LUA_VIM_MINOR_VERSION
+install liblua5.$LUA_VIM_MINOR_VERSION-dev || exit 1
+install lua5.$LUA_VIM_MINOR_VERSION || exit 1
 
 start_feature "apt-get install libs"
 install openssl || exit 1
@@ -249,7 +249,7 @@ install openssl || exit 1
 start_feature "apt-get install gnu stuff"
 # The package libreadline is for running applications using readline command
 # and the package libreadline-dev is for compiling and building readline application.
-install libreadline
+install libreadline6 || exit 1
 install libreadline6-dev || exit 1
 
 start_feature "apt-get install cpp stuff"
@@ -259,8 +259,8 @@ install cmake || exit 1
 #TODO assert cmake version is greater than 2.8
 
 start_feature "apt-get install perf"
-install linux-tools-commo
-install linux-tools-generi
+install linux-tools-common || exit 1
+install linux-tools-generic || exit 1
 install linux-tools-`uname -r` || exit 1
 
 start_feature "pip install cpp"

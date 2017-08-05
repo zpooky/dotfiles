@@ -176,17 +176,18 @@ let g:rainbow_conf =
 \ 'operators': '_[\,\-\<\>\.|]_'
 \ }
 
-if !has('win32unix') && !has('win64unix')
+if has('win32unix') || has('win64unix') || has('win32') || has('win32unix')
+else
   " syntastic
-  set statusline+=%#warningmsg#
-  set statusline+=%{SyntasticStatuslineFlag()}
-  set statusline+=%*
+  " set statusline+=%#warningmsg#
+  " set statusline+=%{SyntasticStatuslineFlag()}
+  " set statusline+=%*
 endif
 
 " syntastic conf
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_loc_list_height=5 " height of error split
 

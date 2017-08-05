@@ -42,7 +42,7 @@ if [ ! -e $FEATURE ]; then
 
     if [ $? -eq 0 ]; then
       sudo make uninstall
-      ./autogen
+      ./autogen.sh
       if [ $? -eq 0 ]; then
         ./configure
         if [ $? -eq 0 ]; then
