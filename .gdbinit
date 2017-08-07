@@ -23,12 +23,13 @@ set demangle-style gnu-v3
 set print array off
 set print array-indexes on
 
-#disable
+#
+set disassembly-flavor intel
 
-
-
+#gdb-dashboard
 source ~/sources/gdb-dashboard/.gdbinit
 
+#gcc pretty printers
 python
 import sys
 sys.path.insert(0, os.environ['HOME']+'/sources/gdb_pp')

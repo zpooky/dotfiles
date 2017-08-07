@@ -60,3 +60,5 @@ bind    pager   CO          sidebar-open
 
 #
 bind  pager  R      group-reply
+
+# vim: set ft=muttrc:

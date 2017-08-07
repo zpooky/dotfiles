@@ -70,7 +70,7 @@ tmux send-keys "dashboard expression -output $EXPRESSION_TTY" C-m
 tmux send-keys "dashboard source -style context 21" C-m
 tmux send-keys "dashboard assembly -style context 6" C-m
 tmux send-keys "dashboard stack -style locals True" C-m
-tmux send-keys "dashboard stack -style limit 5" C-m
+tmux send-keys "dashboard stack -style limit 1" C-m
 tmux send-keys "dashboard -style syntax_highlighting \"monokai\"" C-m
 # dashboard -style syntax_highlighting "paraiso-dark"
 

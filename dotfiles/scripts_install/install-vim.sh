@@ -25,6 +25,15 @@ if [ -e $VIM_ROOT ]; then
   git pull --rebase origin master
 
   if [ $? -eq 0 ]; then
+    # vim things
+    install libclang-3.9-dev || exit 1
+    install libncurses-dev || exit 1
+    install libz-dev || exit 1
+    install xz-utils || exit 1
+    install libpthread-workqueue-dev || exit 1
+    LUA_VIM_MINOR_VERSION=`vim --version | grep "\-llua" | sed -r "s/.*\-llua5.([0-9]*).*/\1/"`
+    install liblua5.$LUA_VIM_MINOR_VERSION-dev || exit 1
+    install lua5.$LUA_VIM_MINOR_VERSION || exit 1
 
     # development files
     sudo apt-get install lua5.2 || exit 1

@@ -61,6 +61,7 @@ if [[ -e $QUTEBROWSER_BIN ]]; then
   export BROWSER=$QUTEBROWSER_BIN
 fi
 
+# Enable aliases to be used when sudoing
 alias sudo='sudo '
 
 export EDITOR='vim'
@@ -75,19 +76,18 @@ DROPBOX_LINUX=$REF_DIR/linux
 DROPBOX_NETWORK=$REF_DIR/network
 
 alias sp-tmux="vim $DROPBOX_LINUX/tmux.txt"
-alias sp-vim="vim $DROPBOX_LINUX/vim.txt"
-alias sp-vim-cpp="vim $DROPBOX_LINUX/vim/cpp"
-alias sp-vim-extra="vim $DROPBOX_LINUX/vim/extra"
+alias sp-vim="vim $DROPBOX_LINUX/vim/vim.md"
+alias sp-vim-cpp="vim $DROPBOX_LINUX/vim/cpp.md"
+alias sp-vim-extra="vim $DROPBOX_LINUX/vim/extra.md"
 alias sp-vim-jump="vim $DROPBOX_LINUX/vim/jump.md"
 alias sp-xclip="vim $DROPBOX_LINUX/xclip.txt"
 alias sp-gdb="vim $DROPBOX_LINUX/debug/gdb.md"
-alias sp-perf="vim $DROPBOX_LINUX/debug/perf.txt"
+alias sp-perf="vim $DROPBOX_LINUX/debug/perf.md"
 alias sp-ref="cd $DROPBOX_LINUX/"
 alias sp-todo="cd ~/Dropbox/term_todo/"
 alias sp-systemd="vim $DROPBOX_LINUX/systemd.md"
 alias sp-gcc="vim ~/Dropbox/root/[]ref/c/gcc.md"
 alias sp-linker="vim $DROPBOX_LINUX/debug/linker-debug.md"
-alias sp-cdebug="vim $DROPBOX_LINUX/debug/cpp-debug.md"
 alias sp-sed="vim $DROPBOX_LINUX/sed.md"
 alias sp-ack="vim $DROPBOX_LINUX/ack.md"
 alias sp-linux="cd $DROPBOX_LINUX"
@@ -114,22 +114,38 @@ alias sp-books="vim $DROPBOX/books.md"
 alias sp-debug="cd $REF_DIR/linux/debug"
 alias sp-dropbox="cd $REF_DIR"
 alias sp-mount="vim $REF_DIR/linux/mount.txt"
-alias sp-backus-naur-form="vim $REF_DIR/bnf.md"
+alias sp-bnf="vim $REF_DIR/bnf.md"
 alias sp-util="vim $REF_DIR/util.md"
 alias sp-tunnel="vim $REF_DIR/ssh_tunnel.md"
 alias sp-mkdir="vim $REF_DIR/mkdir.md"
 alias sp-overclock="vim $REF_DIR/overclock.mkd"
 alias sp-tls="vim $REF_DIR/tls2.md"
-alias sp-dd="vim $REF_DIR/dd.md"
+alias sp-dd="vim $DROPBOX_LINUX/dd.md"
 alias sp-pipe="vim $REF_DIR/linux/pipe.txt"
-alias cpp-debug="vim $REF_DIR/linux/debug/cpp-debug.md"
+alias sp-strace="vim $REF_DIR/linux/debug/strace.md"
 alias sp-tcpdump="vim $REF_DIR/linux/debug/tcpdump.txt"
 alias sp-markdown="vim $REF_DIR/linux/markdown.md"
 alias sp-date="vim $REF_DIR/linux/date.md"
 alias sp-bash="vim $REF_DIR/linux/bash.md"
 alias sp-bitcoin="vim $REF_DIR/bitcoin.md"
+alias sp-directory-structure="vim $DROPBOX_LINUX/directory-structure.md"
+alias sp-elf="vim $DROPBOX_LINUX/elf.md"
+alias sp-load-average="vim $DROPBOX_LINUX/load-average.md"
+
+alias sp-limits="vim $DROPBOX_LINUX/debug/limits.md"
+alias sp-debug="vim $DROPBOX_LINUX/debug/cpp-debug.md"
+alias cpp-pimpl="vim $DROPBOX_LINUX/pimpl.md"
+alias sp-context-switch="vim $DROPBOX_LINUX/context-switch.md"
+alias sp-mutex="vim $DROPBOX_LINUX/mutex.md"
+alias sp-simd="vim $DROPBOX_LINUX/simd.md"
+alias sp-numa="vim $DROPBOX_LINUX/numa.md"
 
 alias sp-compuverdeutil="vim $REF_DIR/util.md"
+
+# linux syscall
+alias sp-syscal-readv-writev="vim $DROPBOX_LINUX/syscall/readv_writev.txt"
+alias sp-syscal-mlock="vim $DROPBOX_LINUX/syscall/mlock.md"
+
 # ===============================================
 # ===============================================
 # =_______________COMMANDS______________________=
@@ -181,7 +197,7 @@ alias tmux='tmux -2'
 alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
 # meta alias
 alias sp-alias="vim $DOTFILES/extrarc && source $DOTFILES/extrarc"
-alias sp-vimrc="vim ~/.vimrc"
+alias sp-vimrc="vim -p $HOME/.vimrc $HOME/.standardvimrc"
 
 #repeats $1
 alias sp_repeat="~/dotfiles/lib/repeat.sh"
@@ -190,38 +206,38 @@ alias sp_repeat="~/dotfiles/lib/repeat.sh"
 # ===============================================
 # =____________DEVELOPMENT______________________=
 # ===============================================
-alias cpp-extends="$HOME/dotfiles/lib/cpp_extends.sh"
-alias cpp-grep="$HOME/dotfiles/lib/cpp_grep.sh"
-alias cpp-funcall="$HOME/dotfiles/lib/cpp_function_call.sh"
-alias cpp-fundeclare="$HOME/dotfiles/lib/cpp_function_declare.sh"
-alias cpp-conscall="$HOME/dotfiles/lib/cpp_constructor_call.sh"
-alias cpp-gdb="$HOME/dotfiles/lib/tmux-gdb.sh"
+alias cpp_extends="$HOME/dotfiles/lib/cpp_extends.sh"
+alias cpp_grep="$HOME/dotfiles/lib/cpp_grep.sh"
+alias cpp_funcall="$HOME/dotfiles/lib/cpp_function_call.sh"
+alias cpp_fundeclare="$HOME/dotfiles/lib/cpp_function_declare.sh"
+alias cpp_conscall="$HOME/dotfiles/lib/cpp_constructor_call.sh"
+alias cpp_gdb="$HOME/dotfiles/lib/tmux-gdb.sh"
 
 alias sp_gdb="$HOME/dotfiles/lib/gdb_tmux_dashboard.sh"
 
 function setup_project(){
   if [ ! -e .git ];then
     echo 'project root is required to be git:ed'
-    exit 1
-  fi
-#
-  rm .tags
-  touch .tags
-  ctags -R *
-#
-  # ack-grep -f --cpp > cscope.files
-  # cscope -b -q -k
-#
-  gtags
-#
-  #-c g++ -F ycm -F cc
-  if [[ -e CMakeLists.txt ]]; then
-    ~/sources/YCM-Generator/config_gen.py . -b cmake --verbose -e --format ycm
-    ~/sources/YCM-Generator/config_gen.py . -b cmake --verbose -e --format cc
-  fi
-  if [[ -e Makefile ]]; then
-    ~/sources/YCM-Generator/config_gen.py . -b make --verbose -e --format ycm
-    ~/sources/YCM-Generator/config_gen.py . -b make --verbose -e --format cc
+  else
+    #
+    rm .tags
+    touch .tags
+    ctags -R *
+    #
+    # ack-grep -f --cpp > cscope.files
+    # cscope -b -q -k
+    #
+    gtags
+    #
+    #-c g++ -F ycm -F cc
+    if [[ -e CMakeLists.txt ]]; then
+      ~/sources/YCM-Generator/config_gen.py . -b cmake --verbose -e --format ycm
+      ~/sources/YCM-Generator/config_gen.py . -b cmake --verbose -e --format cc
+    fi
+    if [[ -e Makefile ]]; then
+      ~/sources/YCM-Generator/config_gen.py . -b make --verbose -e --format ycm
+      ~/sources/YCM-Generator/config_gen.py . -b make --verbose -e --format cc
+    fi
   fi
 }
 alias sp-setup='setup_project'

@@ -20,20 +20,20 @@ endif
 " theme
 syntax enable                     " Highlight the syntax.
 
-" folding
-" zi      : toggle global folding on/off
-" za      : toggle fold on current line
 set nofoldenable    " disable folding
 
 
 " gvim hide all gui
 set guioptions=
 
+" pastetoggle - vim will not perform any formatting when toggled on
+set pastetoggle=<f5>
+
 " command(:)
 set wildmode=longest:full,full   " bash like command(:) completion when tab
 set wildmenu                     " Show command(:) completion with tab
-" ignore thease files when :edit <tab>
-set wildignore=*.swp,*.bak,*.pyc,*.class,*.o
+" ignore these files when :edit <tab>
+set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.exe,*.dat,*.bin,*.jar,*.png,*.out,*.pdf
 
 " note: debug set with "set list?" ?: means print current value
 set list                              " show special chars, such as tab: eol: trail: extends: nbsp:
@@ -58,7 +58,7 @@ set relativenumber                " relative line numbers
 set number                        " both relative and absolute number
 " set mouse=a                       " Enables scrolling terminal.(mouse mode)
 
-" Higlight current line
+" Highlight current line
 " Enable cursorline only on the active buffer
 augroup CursorLine
     "https://stackoverflow.com/a/12018552
@@ -67,35 +67,30 @@ augroup CursorLine
     au WinLeave * setlocal nocursorline
 augroup END
 
-" search
+"
+au BufNewFile,BufRead *.md set ft=markdown
+au BufNewFile,BufRead *.nasm set ft=nasm
+au FileType markdown,python set ts=2 sw=2 expandtab
+
+
+" Search
+" {{{
 set incsearch                     " search wile you type
 set smartcase                     " Case insensitive search, except when capital letters are used.
 set ignorecase                    " ignore case when searching
 set hls                           " highligt search?
+" }}}
 
 " Navigation captial H/L goto extreme Right/Left
 noremap H _
 noremap L g_
 
-" Spelling
-"
-" gq            : reformat visual
-" ctrl-n        : Next word suggestion
-" ctrl-p        : Previous word suggestion
-"
-" z=            : list suggestions
-" 1z=           : auto select 1 with showing suggestions
-" :spellr       : Repeat the replacement done by z=
-"
-" ]s            : next wrongly spelled
-" {s            : previous
-" zg            : add word to dictonary
-
-" bindings
+" Spell
+" {{{
 map <leader>ss :setlocal spell!<CR>
 map <leader>sn ]s
 map <leader>sp [s
-map <leader>sa zg
+" map <leader>sa zg
 map <leader>sq z=
 
 " underline wrongly spelled words
@@ -108,7 +103,13 @@ set dictionary+=/usr/share/dict/words
 au FileType gitcommit,md,text,mail set textwidth=80
 au FileType gitcommit,md,text,mail set colorcolumn=-1 " display bar at textwidth
 au FileType gitcommit,md,text,mail set complete+=kspell
-au FileType gitcommit,md,mail set spell             " turn on spelling for thease types
+au FileType gitcommit,md,mail set spell             " enable spelling for these types
+
+abbreviate teh the
+abbreviate fro for
+abbreviate utillity utility
+
+" }}}
 
 set nowrap                        " don't wrap lines
 set backspace=indent,eol,start    " allow backspacing over everything in insert mode
@@ -129,7 +130,7 @@ set smartindent                   " smart indentation
 "
 filetype on                       " Enable file type detection
 filetype plugin on                " Enable file type plug-ins
-filetype indent plugin on         " file type specific indentention support 
+filetype indent plugin on         " file type specific indentation support 
 
 " format json
 function! FormatJson()
@@ -223,12 +224,6 @@ au InsertEnter * set timeoutlen=1
 au InsertLeave * set timeoutlen=1000
 set timeoutlen=1000 ttimeoutlen=0
 
-" Stop that stupid window from popping up
-map q: <esc>:q
-"
-" Avoid unintentional switches to Ex mode.
-nnoremap Q <nop>
-
 " behave similar to D
 noremap Y y$
 
@@ -240,6 +235,8 @@ nnoremap <expr> j (v:count > 3 ? "m'" . v:count : '') . 'j'
 nnoremap <expr> + (v:count > 3 ? "m'" . v:count : '') . '+'
 nnoremap <expr> - (v:count > 3 ? "m'" . v:count : '') . '-'
 
+" Disable Mappings
+" {{{
 " " Arrow keys
 " nnoremap <left> <nop>
 " nnoremap <right> <nop>
@@ -258,3 +255,35 @@ vnoremap <F1> <nop>
 
 "disable man
 map <S-k> <Nop>
+
+" Avoid unintentional switches to Ex mode.
+nnoremap Q <nop>
+
+" Stop that stupid window from popping up
+map q: <esc>:q
+
+" }}}
+
+" from :h hex-editing
+" xxd is a utility to convert to/from hex
+" when opening a bin file vim will open it for hex editing
+" {{{
+augroup Binary
+  au!
+  au BufReadPre  *.bin let &bin=1
+  au BufReadPost *.bin if &bin | %!xxd
+  au BufReadPost *.bin set ft=xxd | endif
+  au BufWritePre *.bin if &bin | %!xxd -r
+  au BufWritePre *.bin endif
+  au BufWritePost *.bin if &bin | %!xxd
+  au BufWritePost *.bin set nomod | endif
+augroup END
+" }}}
+
+" Smooth Scrolling
+" from :h scroll-smooth
+" {{{
+map <C-U> <C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y>
+map <C-D> <C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E>
+
+" }}}

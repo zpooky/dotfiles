@@ -3,6 +3,7 @@ set charset = "utf-8"
 set sidebar_visible
 # defaults for how to open attachments
 set mailcap_path = $HOME/.mutt/mailcap # defines how to open different mime types
+
 # to automatically view content of this mime type in the "pager"
 auto_view text/html
 auto_view text/calendar
@@ -11,6 +12,7 @@ auto_view image/pdf
 # diff
 auto_view text/x-diff
 auto_view text/x-patch
+
 set allow_ansi
 
 ## More settings
@@ -19,8 +21,14 @@ set allow_ansi
 
 set message_cachedir="$HOME/.mutt/message_cache"
 set header_cache="$HOME/.mutt/header_cache"
+
 set tmpdir="$HOME/.mutt/tmp"
+
 set certificate_file = $HOME/.mutt/certificates  # where to store certs
+
+#performance improvements
+set read_inc=0                        #Disable progress bar
+set maildir_header_cache_verify="no"  #Disable header cache verification
 
 # Text view first
 set pager_stop="yes"

@@ -1,3 +1,8 @@
+# List all Ruby files in the tree
+# ack -f --ruby
+
+--type-set=cpp:ext:c,cpp,cc,cxx,m,hpp,hh,h,hxx
+
 --ignore-file=is:.tags
 --ignore-file=is:tags
 --ignore-file=is:cscope.out

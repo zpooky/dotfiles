@@ -1,3 +1,8 @@
+# we are in non interactive mode wehn for example in vim when :!ls
+# if [[ ! -o interactive ]]; then
+#   return 0
+# fi
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 

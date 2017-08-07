@@ -40,6 +40,23 @@ function stop_feature(){
   echo "------------------------------------"
 }
 
+function has_feature(){
+  which $1 > /dev/null 2>&1
+  WHICH_FEATURE=$?
+  hash $1 > /dev/null 2>&1
+  HASH_FEATURE=$?
+  if [ $WHICH_FEATURE -eq $HASH_FEATURE ]; then
+    if [ $WHICH_FEATURE -eq 0 ]; then
+      return 0
+    fi
+  fi
+  return 1
+}
+
+function install_aur() {
+  echo ""
+}
+
 function is_cygwin(){
   if [[ $(uname -s) =~ CYGWIN.* ]]; then
     return 0
@@ -49,7 +66,8 @@ function is_cygwin(){
 }
 
 function is_arch(){
-  if [ -f /etc/arch-release ];then
+  has_feature pacman
+  if [ $? -eq 0 ]; then
     return 0
   else
     return 1
@@ -58,11 +76,11 @@ function is_arch(){
 
 function is_apt_get(){
   # lets say that everything that is not arch uses apt-get
-  is_arch
+  has_feature "apt-get"
   if [ $? -eq 0 ]; then
-    return 1
-  else
     return 0
+  else
+    return 1
   fi
 }
 function update_package_list(){
@@ -108,6 +126,7 @@ function install_cron(){
 function head_id(){
   git rev-parse HEAD
 }
+
 is_arch()
 if [ $? -eq 0 ]; then
   LIB_PYTHON2=/usr/lib/python2.7

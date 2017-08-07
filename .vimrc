@@ -9,6 +9,45 @@ set nocompatible
 "
 " https://github.com/rprichard/sourceweb
 
+" # Help
+" :h tips
+
+" # Depth Navigation
+" gf        | goto file under cursor
+" gd        | goto local declaration
+" gD        | goto global declaration
+
+" # Page Navigation
+" C+D       | cursor half page DOWN
+" C+U       | cursor half page UP
+
+" # View Navigation
+" C+e       | view line DOWN
+" C+y       | view line UP
+
+" # Historic position navigation
+" C+O       | OLDER position
+" C+I       | NEWER position
+
+" # Folding
+" zi        | toggle global folding on/off
+" za        | toggle fold on current line
+
+" # Spelling
+" leader+ss     : toggle spell checking TODO: it interferes with split(leader+s)
+" gq            : reformat visual
+" ctrl-n        : Next word suggestion
+" ctrl-p        : Previous word suggestion
+"
+" z=            : list suggestions for word under cursor
+" 1z=           : auto select 1 with showing suggestions
+" :spellr       : Repeat the replacement done by z=
+"
+" ]s            : next wrongly spelled
+" {s            : previous
+" zg            : add word to dictonary
+
+
 " vim-plug plugin manager
 call plug#begin('~/.vim/plugged')
 " # vim        - plug commands
@@ -21,10 +60,10 @@ call plug#begin('~/.vim/plugged')
 " ###############
 " # programming #
 " ###############
-let programming_ncpp=         {'for':[          'haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb']}
-let programming_ncpp_nhaskell={'for':[                    'scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb']}
-let programming=              {'for':['c','cpp','haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb']}
-let programming_nhaskell=     {'for':['c','cpp',          'scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb']}
+let programming_ncpp=         {'for':[          'haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html']}
+let programming_ncpp_nhaskell={'for':[                    'scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html']}
+let programming=              {'for':['c','cpp','haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html']}
+let programming_nhaskell=     {'for':['c','cpp',          'scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html']}
 let programming_cpp=          {'for':['c','cpp']}
 let programming_haskell=      {'for':'haskell'}
 let programming_scala=        {'for':'scala'}
@@ -116,18 +155,8 @@ endif
 
 call plug#end()
 
-" autocmd BufEnter * colorscheme default
-" autocmd FileType c,cpp,gitconfig,vim colorscheme railscasts
+" colourcheme
 colorscheme railscasts
-
-" autocmd FileType vim    colorscheme obsidian            " works for vimrc atleast
-" colorscheme twilighted
-" if has('gui_running')
-"     set background=light
-" let g:solarized_contrast="high"
-" else
-"     set background=dark
-" endif 
 
 source $HOME/.standardvimrc
 
@@ -138,10 +167,6 @@ if has('win32unix') || has('win64unix')
   autocmd BufWritePre * if &ff != 'dos' && expand('%:p') =~ "^\/cygdrive\/d\/Worksapce\/" && expand('%:p') !~ "\/Dropbox\/" && input('set ff to dos [y]') == 'y' | setlocal ff=dos | endif
 endif
 
-" pastetoggle
-set pastetoggle=<f5>
-
-"
 " Buffer surfer - a buffer stack of recently used buffers
 let g:BufSurfIgnore = "__TAGBAR__,help.txt,NERD_tree_*"
 map <silent> <A-Left> <esc>:BufSurfBack<cr>
@@ -164,8 +189,12 @@ let g:haskell_conceal_wide = 1
 " }
 
 " vim-scala
+" {
 let g:scala_use_default_keymappings = 0
+" }
 
+" rainbow scope
+" {
 " active rainbow scope higlight 
 let g:rainbow_active = 1
 
@@ -178,6 +207,10 @@ let g:rainbow_conf =
 \ 'operators': '_[\,\-\<\>\.|]_'
 \ }
 
+" }
+
+" syntastic
+" {
 if has('win32unix') || has('win64unix') || has('win32') || has('win32unix')
 else
   " syntastic
@@ -186,7 +219,6 @@ else
   " set statusline+=%*
 endif
 
-" syntastic conf
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
@@ -217,7 +249,13 @@ let g:syntastic_cppcheck_config_file="~/.syntastic_cppcheck_config"
 let g:syntastic_java_checkers=['']
 let g:syntastic_json_checkers=['jsonlint']
 let g:syntastic_python_checkers = ['python']
+" }
+
 " YouCompleteMe
+" {
+" YouCompleteMe - Install
+" cd ~/.vim/bundle/YouCompleteMe;./install.sh --clang-completer
+
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_confirm_extra_conf = 0                        " disable confirm of project specific ycm conf
@@ -241,101 +279,11 @@ let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 " let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
 " let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
 " let g:ycm_key_list_accept_completion = ['<C-y>']
-"
-" color_coded
-let g:color_coded_enabled = 1
-let g:color_coded_filetypes = ['c', 'cpp', 'objc']
-let g:rehash256 = 1
-
-"
-let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_experimental_template_highlight = 1
-
-" clang format
-let g:clang_format#style_options = {
-            \ "AlwaysBreakTemplateDeclarations" : "true",
-            \ "Standard" : "Cpp11",
-            \ "AllowShortFunctionsOnASingleLine" : "None",
-            \ "BasedOnStyle" : "LLVM"}
-" clang format - map to <Leader>cf in C++ code(\cf)
-autocmd FileType c,cpp,objc nnoremap <buffer><Leader>f <esc>:<C-u>ClangFormat<CR>
-autocmd FileType c,cpp,objc vnoremap <buffer><Leader>f <esc>:ClangFormat<CR>
-
-" format python
-let g:formatter_yapf_style = 'chrome'
-
-" vim-autoformat language formatters
-" - tidy for HTML, XHTML and XML(apt-get)
-autocmd FileType java,python,html,css,markdown,haskell,xml nnoremap <buffer><leader>f :Autoformat<CR>
-
-" ctags - look in the current directory for 'tags',
-" and work up the tree towards root until one is found
-set tags=./.tags;/
 
 " using Ycm to navigate
 " https://github.com/Valloric/YouCompleteMe#goto-commands
 map <silent> <F3> <esc>:YcmCompleter GoTo<CR>
-
-" open tag
-" map <silent> <F3> <c-]>
-" open tag in vertical split
-map <silent> <leader><F3> <a-]>
-" previous
-" map <silent> <A-Left> <c-t>
-
-" TComment
-nmap <leader>c <esc>:TComment<CR>
-nmap <leader>= <esc>:TCommentBlock<CR>
-
-" Tcomment visual
-vmap <leader>c :TComment<CR>
-vmap <leader>= :TCommentBlock<CR>
-
-" tagbar
-nmap <silent> <F10> <esc>:TagbarToggle<CR>
-imap <silent> <F10> <ESC>:TagbarToggle<CR>
-cmap <silent> <F10> <ESC>:TagbarToggle<CR>
-
-" nerdtree
-map <silent> <F8> <esc>:NERDTreeToggle<CR>
-imap <silent> <F8> <ESC>:NERDTreeToggle<CR>
-cmap <silent> <F8> <ESC>:NERDTreeToggle<CR>
-let NERDTreeIgnore = [
-    \ '\.pyc$',
-    \ '\.class$',
-    \ '\.cm\(x\(a\)\?\|i\|t\)$',
-    \ '\.sp\(o\|i\)t$',
-    \ '\.o\(\(pt\|mc\)\)\=$',
-\ '\.annot$'] " Ignores
-
-let NERDTreeAutoDeleteBuffer = 1
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let NERDTreeShowHidden = 1  " show hidden dotfiles
-
-" CommandT
-noremap <silent> <leader>r <Esc>:CommandT<CR>
-" noremap <silent> <leader>O <Esc>:CommandTFlush<CR>
-noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
-noremap <silent> <leader>. <esc>:CommandTTag<cr>
-
-" ignore files in filefinder
-let g:CommandTWildIgnore='*.class,*.cache,*.part,*.exe,*.zip,*.tar,*.tar.gz,*.jar,*.so,*.gif,*.pdf,*.pyc'
-
-" vim-cpp-enhanced-highlight
-let g:cpp_class_scope_highlight = 1 " Highlighting of class scope
-let g:cpp_experimental_template_highlight = 1 " Highlighting of template functions
-
-":CommandTMRU
-
-" YouCompleteMe - Install
-" cd ~/.vim/bundle/YouCompleteMe;./install.sh --clang-completer
-
 "
-au BufNewFile,BufRead *.md set ft=markdown
-au FileType markdown,python set ts=2 sw=2 expandtab
-
 " Close all open buffers on entering a window if the only
 " buffer that's left is the NERDTree buffer
 autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
@@ -349,22 +297,141 @@ function! s:CloseIfOnlyNerdTreeLeft()
   endif
 endfunction
 
+" }
+
+" color_coded
+" {
+let g:color_coded_enabled = 1
+let g:color_coded_filetypes = ['c', 'cpp', 'objc']
+let g:rehash256 = 1
+
+"
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_experimental_template_highlight = 1
+
+" }
+
+
+" vim-cpp-enhanced-highlight
+" {
+let g:cpp_class_scope_highlight = 1 " Highlighting of class scope
+let g:cpp_experimental_template_highlight = 1 " Highlighting of template functions
+" }
+
+" clang format
+" {
+let g:clang_format#style_options = {
+            \ "AlwaysBreakTemplateDeclarations" : "true",
+            \ "Standard" : "Cpp11",
+            \ "AllowShortFunctionsOnASingleLine" : "None",
+            \ "BasedOnStyle" : "LLVM"}
+" clang format - map to <Leader>cf in C++ code(\cf)
+autocmd FileType c,cpp,objc nnoremap <buffer><Leader>f <esc>:<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,objc vnoremap <buffer><Leader>f <esc>:ClangFormat<CR>
+
+" }
+
+" yapf
+" {
+
+" format python
+let g:formatter_yapf_style = 'chrome'
+
+" vim-autoformat language formatters
+" - tidy for HTML, XHTML and XML(apt-get)
+autocmd FileType java,python,html,css,markdown,haskell,xml nnoremap <buffer><leader>f :Autoformat<CR>
+" }
+
+" ctags
+" {
+" ctags - look in the current directory for 'tags',
+" and work up the tree towards root until one is found
+set tags=./.tags;/
+
+" open tag
+" map <silent> <F3> <c-]>
+" open tag in vertical split
+map <silent> <leader><F3> <a-]>
+" previous
+" map <silent> <A-Left> <c-t>
+" }
+
+" TComment
+" {
+nmap <leader>c <esc>:TComment<CR>
+nmap <leader>= <esc>:TCommentBlock<CR>
+
+" Tcomment visual
+vmap <leader>c :TComment<CR>
+vmap <leader>= :TCommentBlock<CR>
+" }
+
+" tagbar
+" {
+nmap <silent> <F10> <esc>:TagbarToggle<CR>
+imap <silent> <F10> <ESC>:TagbarToggle<CR>
+cmap <silent> <F10> <ESC>:TagbarToggle<CR>
+" }
+
+" nerdtree
+" {
+map <silent> <F8> <esc>:NERDTreeToggle<CR>
+imap <silent> <F8> <ESC>:NERDTreeToggle<CR>
+cmap <silent> <F8> <ESC>:NERDTreeToggle<CR>
+
+let NERDTreeIgnore = [
+    \ '\.pyc$',
+    \ '\.class$',
+    \ '\.cm\(x\(a\)\?\|i\|t\)$',
+    \ '\.sp\(o\|i\)t$',
+    \ '\.o\(\(pt\|mc\)\)\=$',
+\ '\.annot$'] " Ignores
+
+let NERDTreeAutoDeleteBuffer = 1
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+let NERDTreeShowHidden = 1  " show hidden dotfiles
+
+" }
+
+" CommandT
+" {
+noremap <silent> <leader>r <Esc>:CommandT<CR>
+" noremap <silent> <leader>O <Esc>:CommandTFlush<CR>
+noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
+noremap <silent> <leader>. <esc>:CommandTTag<cr>
+
+" ignore files in filefinder
+let g:CommandTWildIgnore='*.class,*.cache,*.part,*.exe,*.zip,*.tar,*.tar.gz,*.jar,*.so,*.gif,*.pdf,*.pyc'
+
+" }
+
 " ack
+" {
 " Do not auto open first match(Ack! instead of Ack)
-cnoreabbrev Ack Ack!
+" cnoreabbrev Ack Ack!
+" }
+
+
 " a.vim
+" {
 " toggle between header and source
 autocmd FileType c,cpp,objc map <silent> <F2> :A<CR>
 " open source or header in vertical split
 autocmd FileType c,cpp,objc map <silent> <leader><F2> :AV<CR>
+" }
 
 " Powerline
+" {
 " set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
 set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim
 " Always show statusline
 set laststatus=2
+" }
 
-"
+" gutentags
+" {
 let g:gutentags_modules=['ctags', 'gtags_cscope']
 let g:gutentags_ctags_executable="ctags"
 let g:gutentags_ctags_tagfile=".tags"
@@ -383,3 +450,5 @@ call add(g:gutentags_project_info, {'type': 'haskell', 'file': 'stack.yaml'})
 let g:gutentags_gtags_executable="gtags"
 let g:gutentags_gtags_cscope_executable = 'gtags-cscope'
 let g:gutentags_auto_add_gtags_cscope = 1
+
+" }
