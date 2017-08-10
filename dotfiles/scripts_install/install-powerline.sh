@@ -17,7 +17,7 @@ if [ ! -e $FEATURE ]; then
 
     pip2_install powerline-status
     RET=$?
-    if [ $RET -eq 0 ];then
+    if [ $RET -eq 0 ]; then
 
       FONTS_DIR=$THE_HOME/.fonts
       if [ ! -e $FONTS_DIR ]; then
@@ -25,7 +25,7 @@ if [ ! -e $FEATURE ]; then
       fi
 
       POWERLINE_FONT=$FONTS_DIR/PowerlineSymbols.otf
-      if [ ! -e $POWERLINE_FONT ];then
+      if [ ! -e $POWERLINE_FONT ]; then
         cd $FONTS_DIR
 
         wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
@@ -33,7 +33,7 @@ if [ ! -e $FEATURE ]; then
 
         fc-cache -vf $FONTS_DIR || exit 1
       fi
-      if [ $RET -eq 0 ];then
+      if [ $RET -eq 0 ]; then
         FONTCONFIG_DIR=$THE_HOME/.config/fontconfig/conf.d
         if [ ! -e $FONTCONFIG_DIR ];then
           mkdir -p $FONTCONFIG_DIR

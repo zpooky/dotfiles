@@ -61,6 +61,8 @@ if [[ -e $QUTEBROWSER_BIN ]]; then
   export BROWSER=$QUTEBROWSER_BIN
 fi
 
+alias sudo='sudo '
+
 export EDITOR='vim'
 export VISUAL='vim'
 
@@ -134,16 +136,16 @@ alias sp-compuverdeutil="vim $REF_DIR/util.md"
 # ===============================================
 
 #cygwin
-which sudo > /dev/null 2>&1
-WHICH_SUDO=$?
-hash sudo > /dev/null 2>&1
-HASH_SUDO=$?
-
-if [ $WHICH_SUDO -eq $HASH_SUDO ]; then
-  if [ ! $WHICH_SUDO -eq 0 ]; then
-    alias sudo=$HOME/dotfiles/sudo
-  fi
-fi
+# which sudo > /dev/null 2>&1
+# WHICH_SUDO=$?
+# hash sudo > /dev/null 2>&1
+# HASH_SUDO=$?
+#
+# if [ $WHICH_SUDO -eq $HASH_SUDO ]; then
+#   if [ ! $WHICH_SUDO -eq 0 ]; then
+#     alias sudo=$HOME/dotfiles/sudo
+#   fi
+# fi
 
 #git
 alias gitcommit="git commit"

@@ -9,9 +9,6 @@ pacman -Ss python2 # search
 
 yaourt -Syu --aur # aur upgrade
 
-#video player
-pacman -S mpv
-
 #keepass
 pacman -S keepassxc
 
@@ -21,16 +18,7 @@ lspci
 ip address
 dhcpd *inteface*
 
-# to make install work
-pacman -S sudo
-pacman -S python2
-pacman -S cmake
-pacman -S clang
-pacman -S python
-pacman -S make
-pacman -S lua52
-pacman -S htop
-
+#
 # language
 #TODO /etc/locale.conf LC_ALL
 edit /etc/locale.gen # en_GB, sv_SE
@@ -61,21 +49,13 @@ printenv
 
 #nvidia driver
 lspci -k | grep -A 2 -E '(VGA|3D)'
-pacman -S nvidia nvidia-settings nvidia-libgl
-
-# X display server
-sudo pacman -S xorg-server
-sudo pacman -S xorg-xinit
-
-# window manager
-sudo pacman -S dmenu i3
+# pacman -S nvidia nvidia-settings nvidia-libgl
 
 # Display manager aka login manager
 # is a user interface displayed at  the end of the boot process in place of the default shell.
 
 # backlight
 ll /sys/class/backlight
-sudo pacman -S help2man
 https://aur.archlinux.org/packages/light
 echo 25 > /sys/class/backlight/intel_backlight/brightness
 
@@ -128,16 +108,6 @@ sudo pacman -S pavucontrol
 
 pactl load-module module-equalizer-sink
 #TODO
-
-# cron
-sudo pacman -S cronie
-systemctl enable cronie.service
-systemctl start cronie.service
-#keyring
-sudo pacman -S gnome-keyring
-sudo pacman -S seahorse
-sudo pacman -S python2-gnomekeyring
-
 # dropbox AUR
 https://aur.archlinux.org/packages/dropbox/
 sudo systemctl enable dropbox@spooky.service
@@ -145,9 +115,6 @@ sudo systemctl enable dropbox@spooky.service
 https://aur.archlinux.org/packages/spotify/
 # yaourt
 https://aur.archlinux.org/packages/yaourt/
-sudo pacman -S ntp
-systemctl enable ntpd.service
-timedatectl
 #wireless
 dmesg | grep ath10k
 ll /lib/firmware/ath10k/QCA6174/hw3.0
@@ -158,37 +125,31 @@ pacman -S linux-firmware
 iw dev #list wireless interfaces
 iw dev wlp62s0 link # status of interface
 ll /etc/netctl/ # db of connection data
-sudo ip link set eth0 down # turn of interface
+# turn of interface
+sudo ip link set eth0 down
 #network
 ethtool enp61s0 # status
 systemctl enable dhcpd@enp61s0
 systemctl start dhcpd@enp61s0
 
-#
-pacman -S automake
 #debug
 !!TODO journalctl -xe
 
 #battery
-pacman -S acpi 
 acpi
 
-nvidia-xconfig --query-gpu-info
-pacman -Q | grep pacakge # search
-pacman -Qe | less #installed packages
-dmesg -H
-systemctl --type=service
+#x debug
+# nvidia-xconfig --query-gpu-info
+# pacman -Q | grep pacakge # search
+# pacman -Qe | less #installed packages
+# dmesg -H
+# systemctl --type=service
 
 #status of services
 systemctl
 
-#haskell
-sudo pacman -S ghc-static
-sudo pacman -S ghc
-sudo pacman -S cabal
-
 #blacklist
-/etc/modprobe.d/nouveau.conf
+# /etc/modprobe.d/nouveau.conf
 
 #grub
 ##update
@@ -198,6 +159,7 @@ grub-mkconfig -o /boot/grub/groub.cfg
 boot
 
 #user
+pacman -S sudo
 adduser spooky
 passwd spooky
 groupadd sudo

@@ -13,14 +13,14 @@ install poppler-utils
 
 # davmail - translates protocol used by vdirsyncer for calendar
 DAVMAIL_FEATURE=$FEATURE_HOME/davmail
-if [ ! -e $DAVMAIL_FEATURE ];then
+if [ ! -e $DAVMAIL_FEATURE ]; then
 
   PREV_DIR=`pwd`
   TEMP_DIR=`mktemp -d`
   cd $TEMP_DIR
 
   TARGET="/opt/davmail"
-  if [ ! -e $TARGET ];then
+  if [ ! -e $TARGET ]; then
     sudo mkdir $TARGET || exit 1
   fi
 
@@ -31,10 +31,10 @@ if [ ! -e $DAVMAIL_FEATURE ];then
   echo $URL
   wget -O $TAR $URL
 
-  if [ $? -eq 0 ];then
+  if [ $? -eq 0 ]; then
     echo "sudo tar -xzvf $TAR -C $TARGET --strip-components=1"
     sudo tar -xzvf $TAR -C $TARGET --strip-components=1
-    if [ $? -eq 0 ];then
+    if [ $? -eq 0 ]; then
 
       DAVMAIL_SOURCE_ROOT="${THE_HOME}/.davmail"
       sudo cp $DAVMAIL_SOURCE_ROOT/davmail.properties $TARGET || exit 1

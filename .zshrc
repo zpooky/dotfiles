@@ -44,3 +44,13 @@ NO_COLOR="\e[0m"
 NEWLINE=$'\n'
 autoload -U colors && colors
 PROMPT="%B${NEWLINE}%d%{$fg[yellow]%}:%{$reset_color%}${NEWLINE}%{$fg[red]%}%B>%{$reset_color%} %b"
+
+export SHELL=zsh
+
+#history
+HISTFILE="$HOME/.zhistory"
+HISTSIZE=10000000
+SAVEHIST=10000000
+
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
+setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.

@@ -269,7 +269,7 @@ pip3_install cpplint || exit 1
 stop_feature "apt-get install"
 
 start_feature "standalone"
-install vlc
+# install vlc
 #newsbeuter 2.9
 install newsbeuter
 stop_feature "standalone"
