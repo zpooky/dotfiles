@@ -6,7 +6,7 @@
 
 # TODO 2 add ~/bin to path
 
-source $HOME/dotfiles/shared.sh
+$HOME/dotfiles/shared.sh
 
 echo "you have to manually configure script by editing it"
 PREV=`pwd`
@@ -33,11 +33,17 @@ if [ -e $VIM_ROOT ]; then
     sudo apt-get install python-dev
     sudo apt-get install libperl-dev
 
+    # X support for clipboard
+    sudo apt-get install libx11-dev
+    sudo apt-get install libxtst-dev
+
+
     # make uninstall --prefix=/home/`whoami`
     make uninstall
 
     make clean || exit 1
-    ./configure --with-features=huge --enable-rubyinterp --enable-multibyte --enable-perlinterp=yes --enable-pythoninterp --enable-luainterp --enable-gui=gtk2 --enable-cscope --prefix=$TARGET || exit 1
+    make distclean
+    ./configure --with-features=huge --enable-rubyinterp --enable-multibyte --enable-perlinterp=yes --enable-pythoninterp --enable-luainterp --enable-gui=gtk2 --enable-cscope --prefix=$TARGET --with-x || exit 1
 
     make || exit 1 # VIMRUNTIMEDIR=/usr/share/vim/vim74
 

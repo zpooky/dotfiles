@@ -21,26 +21,28 @@ call plug#begin('~/.vim/plugged')
 " ###############
 " # programming #
 " ###############
-let programming_ncpp={'for':['scala','java','haskell','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb']}
-let programming={'for':['c','cpp','scala','java','haskell','python','vim','bash','sh','xml','markdown','gdb']}
-let programming_cpp={'for':['c','cpp']}
-let programming_haskell={'for':'haskell'}
-let programming_scala={'for':'scala'}
+let programming_ncpp=         {'for':[          'haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb']}
+let programming_ncpp_nhaskell={'for':[                    'scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb']}
+let programming=              {'for':['c','cpp','haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb']}
+let programming_nhaskell=     {'for':['c','cpp',          'scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb']}
+let programming_cpp=          {'for':['c','cpp']}
+let programming_haskell=      {'for':'haskell'}
+let programming_scala=        {'for':'scala'}
 
 " framework for displaying warnings & errors about source code
 Plug 'scrooloose/syntastic',programming
 " pane displaying "tag" information present in current file
-Plug 'majutsushi/tagbar',programming
+Plug 'majutsushi/tagbar',programming_nhaskell
 " comment shortcut
 Plug 'tomtom/tcomment_vim'
 " ctags, cscope & global generation
-Plug 'ludovicchabant/vim-gutentags',programming
+Plug 'ludovicchabant/vim-gutentags',programming_nhaskell
 " gtags support
-Plug 'bbchung/gtags.vim',programming
+Plug 'bbchung/gtags.vim',programming_nhaskell
 " support for different code formatters
 Plug 'Chiel92/vim-autoformat',programming
 " ack backed grepping
-Plug 'mileszs/ack.vim',programming
+" Plug 'mileszs/ack.vim',programming
 
 " #######
 " # cpp #
@@ -108,7 +110,7 @@ if !has('win32unix') && !has('win64unix')
   " forked YCM for better cpp suggestions
   Plug '~/.vim/bundle/OblitumYouCompleteMe',programming_cpp
   " vanilla YCM
-  Plug '~/.vim/bundle/YouCompleteMe',programming_ncpp
+  Plug '~/.vim/bundle/YouCompleteMe',programming_ncpp_nhaskell
 else
 endif
 
