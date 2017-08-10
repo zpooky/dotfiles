@@ -161,6 +161,9 @@ ll /etc/netctl/ # db of connection data
 sudo ip link set eth0 down # turn of interface
 #network
 ethtool enp61s0 # status
+systemctl enable dhcpd@enp61s0
+systemctl start dhcpd@enp61s0
+
 #
 pacman -S automake
 #debug
@@ -175,6 +178,28 @@ pacman -Q | grep pacakge # search
 pacman -Qe | less #installed packages
 dmesg -H
 systemctl --type=service
+
+#status of services
+systemctl
+
+#haskell
 sudo pacman -S ghc-static
 sudo pacman -S ghc
 sudo pacman -S cabal
+
+#blacklist
+/etc/modprobe.d/nouveau.conf
+
+#grub
+##update
+grub-mkconfig -o /boot/grub/groub.cfg
+
+# bootloader
+boot
+
+#user
+adduser spooky
+passwd spooky
+groupadd sudo
+usermod-a -G sudo spooky
+visudo -f /etc/sudoers # uncomment sudo group access
