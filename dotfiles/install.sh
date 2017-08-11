@@ -101,8 +101,8 @@ if [ ! -e $FEATURE ]; then
     make && make install
     RET=$?
 
-      # Cleanup afterward; frees several hundred megabytes
-      make clean && make clean_clang
+    # Cleanup afterward; frees several hundred megabytes
+    make clean && make clean_clang
 
     if [ $RET -eq 0 ]; then 
       touch $FEATURE
@@ -143,6 +143,11 @@ if [ ! -e $DOTFILES_INPUTRC ]; then
   else
     touch $DOTFILES_INPUTRC
   fi
+fi
+
+is_arch
+if [ $? -eq 0 ]; then
+  ./$HOME/dotfiles/arch_install.sh
 fi
 
 start_feature "update tmux plugins"
@@ -258,7 +263,7 @@ fi
 
 has_feature atool
 if [[ $? -eq 1 ]]; then
-# for archives text
+  # for archives text
   install atool || exit 1
 fi
 
@@ -304,36 +309,36 @@ if [ $? -eq 0 ]; then
   install linux-tools-generic || exit 1
   install linux-tools-`uname -r` || exit 1
 
-# The package libreadline is for running applications using readline command
-# and the package libreadline-dev is for compiling and building readline application.
-install libreadline6 || exit 1
-install libreadline6-dev || exit 1
+  # The package libreadline is for running applications using readline command
+  # and the package libreadline-dev is for compiling and building readline application.
+  install libreadline6 || exit 1
+  install libreadline6-dev || exit 1
 
-start_feature "junk"
-install gnome-common
-install gtk-doc-tool
-install libglib2.0-de
-install libgtk2.0-dev
-install python-gtk
-install python-gtk2-de
-install python-vt
-install glad
-install python-glade2
-install libgconf2-de
-install python-appindicator
-install python-vt
-install python-gcon
-install python-keybinder
-install notify-osd
-install libutempter0
-install python-notify
+  start_feature "junk"
+  install gnome-common
+  install gtk-doc-tool
+  install libglib2.0-de
+  install libgtk2.0-dev
+  install python-gtk
+  install python-gtk2-de
+  install python-vt
+  install glad
+  install python-glade2
+  install libgconf2-de
+  install python-appindicator
+  install python-vt
+  install python-gcon
+  install python-keybinder
+  install notify-osd
+  install libutempter0
+  install python-notify
 
-start_feature "apt-get install python"
+  start_feature "apt-get install python"
 
-install python-sqlite || exit 1
-install python-vobject || exit 1
-install python-gnomekeyring || exit 1
-install python-dev || exit 1
+  install python-sqlite || exit 1
+  install python-vobject || exit 1
+  install python-gnomekeyring || exit 1
+  install python-dev || exit 1
 
 fi
 

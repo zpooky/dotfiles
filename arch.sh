@@ -59,11 +59,7 @@ ll /sys/class/backlight
 https://aur.archlinux.org/packages/light
 echo 25 > /sys/class/backlight/intel_backlight/brightness
 
-# daemon to watch for acpi event like backligt power up/down
-sudo pacman -S acpid
-sudo systemctl enable acpid
-sudo systemctl start acpid
-sudo systemctl status acpid
+# acpid daemon to watch for acpi event like backligt power up/down
 ## debug
 acpi_listen # press on keyboard baclkigt power up/down
 
