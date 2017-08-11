@@ -172,7 +172,7 @@ if [[ $? -eq 1 ]]; then
   install python || exit 1
 fi
 
-has_feature python-pip
+has_feature pip
 if [[ $? -eq 1 ]]; then
   install python-pip || exit 1
 fi
@@ -185,15 +185,17 @@ start_feature "update package database"
 update_package_list
 
 
-# pdftotext
-has_feature poppler
+# pdftotext pdf lib + utils
+has_feature pdftohtml
 if [[ $? -eq 1 ]]; then
   install poppler || exit 1
 fi
-
 has_feature poppler-util
 if [[ $? -eq 1 ]]; then
-  install poppler-util || exit 1
+  is_apt_get
+  if [ $? -eq 0 ]; then
+    install poppler-util
+  fi
 fi
 
 has_feature colordiff
@@ -230,9 +232,13 @@ if [[ $? -eq 1 ]]; then
 fi
 # text terminal web browser
 
+# xterm-256color support
 has_feature ncurses-term
 if [[ $? -eq 1 ]]; then
-  install ncurses-term || exit 1
+  is_apt_get
+  if [ $? -eq 0 ]; then
+    install ncurses-term || exit 1
+  fi
 fi
 
 has_feature sqlite3
@@ -248,12 +254,6 @@ fi
 has_feature autoconf
 if [[ $? -eq 1 ]]; then
   install autoconf || exit 1
-fi
-
-# xterm-256color support
-has_feature ncurses-term
-if [[ $? -eq 1 ]]; then
-  install ncurses-term || exit 1
 fi
 
 has_feature atool
@@ -285,22 +285,24 @@ if [[ $? -eq 1 ]]; then
 fi
 
 start_feature "libraries"
-install libncurses5-dev || exit 1
-install libgnome2-dev || exit 1
-install libgnomeui-dev || exit 1
-install libgtk2.0-dev || exit 1
-install libatk1.0-dev || exit 1
-install libbonoboui2-dev || exit 1
-install libcairo2-dev || exit 1
-install libx11-dev || exit 1
-install libxpm-dev || exit 1
-install libxt-dev || exit 1
-install python-dev || exit 1
+is_apt_get
+if [ $? -eq 0 ]; then
+  install libncurses5-dev || exit 1
+  install libgnome2-dev || exit 1
+  install libgnomeui-dev || exit 1
+  install libgtk2.0-dev || exit 1
+  install libatk1.0-dev || exit 1
+  install libbonoboui2-dev || exit 1
+  install libcairo2-dev || exit 1
+  install libx11-dev || exit 1
+  install libxpm-dev || exit 1
+  install libxt-dev || exit 1
+  install python-dev || exit 1
 
-#
-install linux-tools-common || exit 1
-install linux-tools-generic || exit 1
-install linux-tools-`uname -r` || exit 1
+  #
+  install linux-tools-common || exit 1
+  install linux-tools-generic || exit 1
+  install linux-tools-`uname -r` || exit 1
 
 # The package libreadline is for running applications using readline command
 # and the package libreadline-dev is for compiling and building readline application.
@@ -333,11 +335,16 @@ install python-vobject || exit 1
 install python-gnomekeyring || exit 1
 install python-dev || exit 1
 
+fi
+
 
 start_feature "development"
 has_feature build-essential
 if [[ $? -eq 1 ]]; then
-  install build-essential || exit 1
+  is_apt_get
+  if [ $? -eq 0 ]; then
+    install build-essential || exit 1
+  fi
 fi
 
 has_feature clang

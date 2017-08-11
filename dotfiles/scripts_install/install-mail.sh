@@ -2,14 +2,36 @@
 
 source $HOME/dotfiles/shared.sh
 
-install antiword || exit 1
-install caca-utils
-install feh || exit 1
-install catdoc || exit 1
-install w3m || exit 1
-install w3m-img
-#  for PDF text
-install poppler-utils
+has_feautre antiword
+if [ $? -eq 1 ]; then
+  install antiword || exit 1
+fi
+
+has_feature caca-utils
+if [ $? -eq 1 ]; then
+  install caca-utils || exit 1
+fi
+
+has_feature feh
+if [ $? -eq 1 ]; then
+  install feh || exit 1
+fi
+
+has_feature catdoc
+if [ $? -eq 1 ]; then
+  install catdoc || exit 1
+fi
+
+has_feature w3m
+if [ $? -eq 1 ]; then
+  install w3m || exit 1
+fi
+
+has_feature w3m-img
+if [ $? -eq 1 ]; then
+  install w3m-img || exit 1
+fi
+
 
 # davmail - translates protocol used by vdirsyncer for calendar
 DAVMAIL_FEATURE=$FEATURE_HOME/davmail

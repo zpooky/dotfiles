@@ -93,8 +93,10 @@ function update_package_list(){
 function install(){
   is_arch
   if [ $? -eq 0 ];then
+    echo "sudo pacman -S $@"
     sudo pacman -S $@
   else
+    echo "sudo apt-get -y install $@"
     sudo apt-get -y install $@
   fi
 }

@@ -16,13 +16,13 @@ if [ ! -e $FEATURE ]; then
 
   is_arch
   if [ $? -eq 0 ]; then
-    has_feature tig
+    has_feature "tig"
     if [[ $? -eq 1 ]]; then
       install tig || exit 1
     fi
 
     if [ $? -eq 0 ]; then
-      tig --help
+      # tig --help
       touch $FEATURE
     fi
   else
@@ -135,7 +135,8 @@ if [ ! -e $FEATURE ]; then
   if [ $? -eq 0 ]; then
     has_feature global
     if [[ $? -eq 1 ]]; then
-      install global || exit 1
+      # install global || exit 1
+      echo ""
     fi
   else
     PREV_DIR=`pwd`
@@ -447,54 +448,59 @@ FEATURE=$FEATURE_HOME/cscope
 if [ ! -e $FEATURE ]; then
   start_feature "cscope"
 
-  PREV_DIR=`pwd`
+  is_arch
+  if [ $? -eq 0 ]; then
+    echo ""
+  else
+    PREV_DIR=`pwd`
 
-  CSOPE=csope
-  CSOPE_VERSION=15.8b
-  CSOPE_ROOT=$GIT_SOURCES/$CSOPE
-  CSCOPE_TAR_PATH=$CSOPE_ROOT/$CSOPE.tar.gz
-  TARGET=$CSOPE_ROOT/$CSOPE-$CSOPE_VERSION
-  CSOPE_LATEST=$CSOPE_ROOT/$CSOPE-latest
-  if [ -e ! $CSOPE_ROOT ]; then
-    mkdir $CSOPE_ROOT
-  fi
+    CSOPE=csope
+    CSOPE_VERSION=15.8b
+    CSOPE_ROOT=$GIT_SOURCES/$CSOPE
+    CSCOPE_TAR_PATH=$CSOPE_ROOT/$CSOPE.tar.gz
+    TARGET=$CSOPE_ROOT/$CSOPE-$CSOPE_VERSION
+    CSOPE_LATEST=$CSOPE_ROOT/$CSOPE-latest
+    if [ -e ! $CSOPE_ROOT ]; then
+      mkdir $CSOPE_ROOT
+    fi
 
-  if [ ! -e $TARGET ]; then
-    wget -O $CSCOPE_TAR_PATH https://sourceforge.net/projects/cscope/files/$CSOPE/$CSOPE_VERSION/$CSOPE-$CSOPE_VERSION.tar.gz
-    if [ $? -eq 0 ]; then
-      mkdir $TARGET
-      tar -xzvf $CSCOPE_TAR_PATH -C $TARGET --strip-components=1
+    if [ ! -e $TARGET ]; then
+      wget -O $CSCOPE_TAR_PATH https://sourceforge.net/projects/cscope/files/$CSOPE/$CSOPE_VERSION/$CSOPE-$CSOPE_VERSION.tar.gz
       if [ $? -eq 0 ]; then
-        cd $TARGET
-        ./configure --prefix=/usr
+        mkdir $TARGET
+        tar -xzvf $CSCOPE_TAR_PATH -C $TARGET --strip-components=1
         if [ $? -eq 0 ]; then
-          make
+          cd $TARGET
+          ./configure --prefix=/usr
           if [ $? -eq 0 ]; then
-            CURRENT=`pwd`
-            if [ -e $CSOPE_LATEST ]; then
-              # uninstall previous
-              cd $CSOPE_LATEST
-              sudo make uninstall
-              cd $CURRENT
-              rm -rf $CSOPE_LATEST
-            fi
-            sudo make install
+            make
             if [ $? -eq 0 ]; then
-              ln -s $TARGET $CSOPE_LATEST
-              cscope --version
-              touch $FEATURE
+              CURRENT=`pwd`
+              if [ -e $CSOPE_LATEST ]; then
+                # uninstall previous
+                cd $CSOPE_LATEST
+                sudo make uninstall
+                cd $CURRENT
+                rm -rf $CSOPE_LATEST
+              fi
+              sudo make install
+              if [ $? -eq 0 ]; then
+                ln -s $TARGET $CSOPE_LATEST
+                cscope --version
+                touch $FEATURE
+              fi
             fi
           fi
         fi
       fi
+      if [ ! $? -eq 0 ]; then
+        rm -rf $TARGET
+      fi
+      rm $CSCOPE_TAR_PATH
     fi
-    if [ ! $? -eq 0 ]; then
-      rm -rf $TARGET
-    fi
-    rm $CSCOPE_TAR_PATH
-  fi
 
-  cd $PREV_DIR
+    cd $PREV_DIR
+  fi
 
   stop_feature "cscope"
 fi
@@ -504,42 +510,47 @@ FEATURE=$FEATURE_HOME/ctags_universal2
 if [ ! -e $FEATURE ]; then
   start_feature "ctags"
 
-  PREV_DIR=`pwd`
+  is_arch
+  if [ $? -eq 0 ]; then
+    echo ""
+  else
+    PREV_DIR=`pwd`
 
-  CTAGS=ctags
-  CTAGS_ROOT=$GIT_SOURCES/$CTAGS
-  if [ ! -e $CTAGS_ROOT ]; then
-    git clone https://github.com/universal-ctags/$CTAGS.git $CTAGS_ROOT
-    if [ ! $? -eq 0 ]; then
-      rm -rf $CTAGS_ROOT
+    CTAGS=ctags
+    CTAGS_ROOT=$GIT_SOURCES/$CTAGS
+    if [ ! -e $CTAGS_ROOT ]; then
+      git clone https://github.com/universal-ctags/$CTAGS.git $CTAGS_ROOT
+      if [ ! $? -eq 0 ]; then
+        rm -rf $CTAGS_ROOT
+      fi
     fi
-  fi
-  if [ -e $CTAGS_ROOT ]; then
-    cd $CTAGS_ROOT
-    git pull --rebase origin master
-
-    if [ $? -eq 0 ]; then
-      sudo make uninstall
-      ./autogen.sh
+    if [ -e $CTAGS_ROOT ]; then
+      cd $CTAGS_ROOT
+      git pull --rebase origin master
 
       if [ $? -eq 0 ]; then
-        ./configure --prefix=/usr/local
+        sudo make uninstall
+        ./autogen.sh
 
         if [ $? -eq 0 ]; then
-          make
+          ./configure --prefix=/usr/local
+
           if [ $? -eq 0 ]; then
-            sudo make install
+            make
             if [ $? -eq 0 ]; then
-              ctags --version
-              touch $FEATURE
+              sudo make install
+              if [ $? -eq 0 ]; then
+                ctags --version
+                touch $FEATURE
+              fi
             fi
           fi
         fi
       fi
     fi
-  fi
 
-  cd $PREV_DIR
+    cd $PREV_DIR
+  fi
 
   stop_feature "ctags"
 fi
@@ -551,7 +562,10 @@ if [ ! -e $FEATURE ]; then
 
   is_arch
   if [ $? -eq 0 ]; then
-    install cppcheck
+    has_feature cppcheck
+    if [[ $? -eq 1 ]]; then
+      install cppcheck
+    fi
   else
     PREV_DIR=`pwd`
 
@@ -622,19 +636,24 @@ FEATURE=$FEATURE_HOME/haskell8
 if [ ! -e $FEATURE ]; then
   start_feature "haskell8"
 
-  PREV_DIR=`pwd`
-  TEMP_DIR=`mktemp -d`
-  cd $TEMP_DIR
-
-  HASKELL_VERSION=8.0.1
-  TAR=$TEMP_DIR/haskell-$HASKELL_VERSION.tar.gz
-  wget -O $TAR https://haskell.org/platform/download/$HASKELL_VERSION/haskell-platform-$HASKELL_VERSION-unknown-posix--minimal-x86_64.tar.gz
+  is_arch
   if [ $? -eq 0 ]; then
-    tar xf $TAR
+    echo ""
+  else
+    PREV_DIR=`pwd`
+    TEMP_DIR=`mktemp -d`
+    cd $TEMP_DIR
+
+    HASKELL_VERSION=8.0.1
+    TAR=$TEMP_DIR/haskell-$HASKELL_VERSION.tar.gz
+    wget -O $TAR https://haskell.org/platform/download/$HASKELL_VERSION/haskell-platform-$HASKELL_VERSION-unknown-posix--minimal-x86_64.tar.gz
     if [ $? -eq 0 ]; then
-      sudo ./install-haskell-platform.sh
+      tar xf $TAR
       if [ $? -eq 0 ]; then
-        touch $FEATURE
+        sudo ./install-haskell-platform.sh
+        if [ $? -eq 0 ]; then
+          touch $FEATURE
+        fi
       fi
     fi
   fi
