@@ -104,11 +104,13 @@ Plug 'dag/vim2hs',programming_haskell
 " scala support
 Plug 'derekwyatt/vim-scala',programming_scala
 
-" #######
-" # rfc #
-" #######
+" ##########
+" # syntax #
+" ##########
 " rfc syntax
 Plug 'vim-scripts/rfc-syntax', { 'for': 'rfc' }
+" systemd syntax
+Plug 'Matt-Deacalion/vim-systemd-syntax'
 
 " ########
 " # tmux #

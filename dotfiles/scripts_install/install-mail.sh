@@ -2,14 +2,14 @@
 
 source $HOME/dotfiles/shared.sh
 
-has_feautre antiword
+has_feature antiword
 if [ $? -eq 1 ]; then
   install antiword || exit 1
 fi
 
 has_feature caca-utils
 if [ $? -eq 1 ]; then
-  install caca-utils || exit 1
+  install caca-utils #|| exit 1
 fi
 
 has_feature feh
@@ -109,8 +109,8 @@ if [ ! -e $FEATURE ]; then
   # - CalDAV API?
   # 3. Credentials > Oath Constant Screen > Product name > Save
   # 4. Crednetials > Create credential > oath client id
-  is_arch
   RET=1
+  is_arch
   if [ $? -eq 0 ]; then
     has_feature offlineimap
     if [ $? -eq 1 ]; then

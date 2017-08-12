@@ -16,5 +16,6 @@ export SSH_AUTH_SOCK
 # TODO not working
 export EDITOR='vim'
 
-exec i3 -V >> ~/i3log-$(date +"%F-%k-%M-%S") 2>&1
+exec i3
+# exec i3 -V >> ~/i3log-$(date +"%F-%k-%M-%S") 2>&1
 # exec chromium -V >> ~/chrome-$(date + '%F-%k-%M-%S') 2>&1

@@ -54,7 +54,44 @@ function has_feature(){
 }
 
 function install_aur() {
-  echo ""
+  echo "================================"
+URL="$@"
+
+TEMP_DIR=`mktemp -d`
+TAR=$TEMP_DIR/aur_package.tar.gz
+TARGET=$TEMP_DIR/target
+
+wget $URL -O $TAR
+if [ $? -eq 0 ]; then
+  ls -alh $TAR
+
+  mkdir $TARGET
+  tar -xzf $TAR -C $TARGET --strip-components=1
+  if [ $? -eq 0 ]; then 
+    cd $TARGET
+    if [ $? -eq 0 ]; then
+      makepkg -Acs
+      if [ $? -ne 0 ]; then
+        return 3
+      fi
+      INSTALLS=( $TARGET/*x86_64.pkg.tar.xz )
+      # echo "matching: ${INSTALLS[@]}"
+      ls -alh
+
+      if [ ${#INSTALLS[@]} -eq 0 ]; then
+        return 1
+      fi
+
+      if [ ${#INSTALLS[@]} -gt 1 ]; then
+        return 2
+      fi
+
+      echo "sudo pacman -U ${INSTALLS[0]}"
+      sudo pacman -U "${INSTALLS[0]}"
+    fi
+  fi
+fi
+
 }
 
 function is_cygwin(){
@@ -85,7 +122,7 @@ function is_apt_get(){
 }
 function update_package_list(){
   is_apt_get
-  if [ $? -eq 0 ];then
+  if [ $? -eq 0 ]; then
     sudo apt-get update || exit 1
   fi
 }
