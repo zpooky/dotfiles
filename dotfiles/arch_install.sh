@@ -204,3 +204,8 @@ if [ $? -eq 1 ]; then
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/megasync.tar.gz"
 fi
 
+has_feature ctags
+if [ $? -eq 1 ]; then
+  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/universal-ctags-git.tar.gz"
+fi
+

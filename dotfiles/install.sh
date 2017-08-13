@@ -147,7 +147,7 @@ fi
 
 is_arch
 if [ $? -eq 0 ]; then
-  ./$HOME/dotfiles/arch_install.sh
+  $HOME/dotfiles/arch_install.sh
 fi
 
 start_feature "update tmux plugins"

@@ -8,7 +8,10 @@ if [ ! -e $FEATURE ]; then
   is_arch
   if [ $? -eq 0 ]; then
     install python2-powerline
+    install python-powerline
     install powerline-fonts
+    install powerline
+    install powerline-common
   else
     # http://askubuntu.com/questions/283908/how-can-i-install-and-use-powerline-plugin
     # TODO add system wide font install base on answer above

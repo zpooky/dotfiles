@@ -188,7 +188,7 @@ if [ ! -e $FEATURE ]; then
 fi
 
 # grep optimized for code used by vim ack plugin
-which ack-grep
+has_feature ack-grep
 if [ ! $? -eq 0 ]; then
   start_feature "ack"
 
@@ -318,14 +318,23 @@ if [ $? -eq 1 ]; then
 fi
 
 # should update powerline settings and scripts
-PYTHON_PACKAGES=("${LIB_PYTHON2_PACKAGES}" "${LIB_PYTHON3_PACKAGES}")
-for PACKAGES in "${PYTHON_PACKAGES[@]}"
+LIB_ROOTS=("/lib" "/usr/lib" "/usr/local/lib")
+for LIB_ROOT in "${LIB_ROOTS[@]}"
 do
-  # install powerline tmux segments
-  POWERLINE_SEGMENTS="${PACKAGES}/powerline/segments"
-  if [ -e "${POWERLINE_SEGMENTS}" ]; then
-   sudo cp "${THE_HOME}/.config/powerline/segments/spooky" "${POWERLINE_SEGMENTS}" -R
-  fi
+  PYTHON_VERSION=("python2.7" "python2.8" "python2.9" "python3.6" "python3.7" "python3.8")
+  for PYTHON in "${PYTHON_VERSION[@]}"
+  do
+    PACKAGES=("dist-packages" "site-packages")
+    for PACKAGE in "${PACKAGES[@]}"
+    do
+      # install powerline tmux segments
+      POWERLINE_SEGMENTS="${LIB_ROOT}/${PYTHON}/${PACKAGE}/powerline/segments"
+
+      if [ -e "${POWERLINE_SEGMENTS}" ]; then
+        sudo cp "${THE_HOME}/.config/powerline/segments/spooky" "${POWERLINE_SEGMENTS}" -R
+      fi
+    done
+  done
 done
 
 # stdman
@@ -378,20 +387,20 @@ fi
 BCC_FEATURE=$FEATURE_HOME/bcc
 if [ ! -e $BCC_FEATURE ]; then
   if [[ $KERNEL_VERSION != ^3.* ]]; then
-     start_feature "bcc"
+    start_feature "bcc"
 
-     is_apt_get
-     if [ $? -eq 0 ]; then
-       # https://github.com/iovisor/bcc/blob/master/INSTALL.md
-       echo "deb [trusted=yes] https://repo.iovisor.org/apt/xenial xenial-nightly main" | sudo tee /etc/apt/sources.list.d/iovisor.list
-       update_package_list
-     fi
-     install bcc-tools
+    is_apt_get
+    if [ $? -eq 0 ]; then
+      # https://github.com/iovisor/bcc/blob/master/INSTALL.md
+      echo "deb [trusted=yes] https://repo.iovisor.org/apt/xenial xenial-nightly main" | sudo tee /etc/apt/sources.list.d/iovisor.list
+      update_package_list
+    fi
+    install bcc-tools
 
-     if [ $? -eq 0 ]; then
-       touch $BCC_FEATURE
-     fi
-     stop_feature "bcc"
+    if [ $? -eq 0 ]; then
+      touch $BCC_FEATURE
+    fi
+    stop_feature "bcc"
   fi
 fi
 
@@ -584,8 +593,8 @@ if [ ! -e $FEATURE ]; then
       if [ $? -eq 0 ]; then
         cd $CPPCHECK
         if [ $? -eq 0 ]; then
-            sudo make uninstall
-            make
+          sudo make uninstall
+          make
           if [ $? -eq 0 ]; then
             sudo make install
             if [ $? -eq 0 ]; then

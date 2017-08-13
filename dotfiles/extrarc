@@ -76,76 +76,139 @@ REF_DIR="$DROPBOX/\[\]ref"
 DROPBOX_LINUX=$REF_DIR/linux
 DROPBOX_NETWORK=$REF_DIR/network
 
-alias sp-tmux="vim $DROPBOX_LINUX/tmux.txt"
+# device
+alias sp-openwrt="vim $REF_DIR/openwrt.md"
+
+# notes
+alias sp-proj="cd $DROPBOX/project"
+alias sp-books="vim $DROPBOX/books.md"
+alias sp-todo="cd ~/Dropbox/term_todo/"
+alias sp-interview="cd $DROPBOX/interview"
+
+# misc
+alias sp-dropbox="cd $REF_DIR"
+alias sp-ref="cd $DROPBOX_LINUX/"
+alias sp-win="vim $REF_DIR/win.md"
+alias sp-bnf="vim $REF_DIR/bnf.md"
+alias sp-overclock="vim $REF_DIR/overclock.mkd"
+alias sp-big-o="vim $REF_DIR/big-o.md"      #TODO
+
+# editor
 alias sp-vim="vim $DROPBOX_LINUX/vim/vim.md"
+alias sp-visual="vim $REF_DIR/visual-studio.md"
 alias sp-vim-cpp="vim $DROPBOX_LINUX/vim/cpp.md"
-alias sp-vim-extra="vim $DROPBOX_LINUX/vim/extra.md"
 alias sp-vim-jump="vim $DROPBOX_LINUX/vim/jump.md"
-alias sp-xclip="vim $DROPBOX_LINUX/xclip.txt"
+alias sp-vim-extra="vim $DROPBOX_LINUX/vim/extra.md"
+alias sp-eclipse="vim $REF_DIR/eclipse.txt"
+
+# lang
+alias sp-bash="vim $REF_DIR/linux/bash.md"
+alias sp-asm="vim $REF_DIR/linux/asm.md" #TODO
+
+# programming
+alias sp-static-dynamic-typing="vim $REF_DIR/static-dynamic-typing.md" #TODO
+alias sp-floating-point="vim $REF_DIR/floating-point.txt" #TODO
+alias sp-monad="vim $REF_DIR/monad.txt" #TODO
+
+# general
+alias sp-tls="vim $REF_DIR/tls2.md"
+alias sp-bitcoin="vim $REF_DIR/bitcoin.md"    #TODO
+alias sp-markdown="vim $REF_DIR/linux/markdown.md"
+alias sp-character="vim -p $REF_DIR/character/*.txt"
+
+# cpp
+alias cpp-gcc="vim $REF_DIR/c/gcc.md"
+alias cpp-make="vim $REF_DIR/c/Makefile"
+alias cpp-elf="vim $DROPBOX_LINUX/elf.md"
+alias cpp-printf="vim $REF_DIR/c/printf.md"
+alias sp-simd="vim $DROPBOX_LINUX/simd.md"    #TODO
+alias cpp-carray="vim $REF_DIR/c/carray.md"
+alias cpp-pimpl="vim $DROPBOX_LINUX/pimpl.md"
+alias cpp-alignment="vim $REF_DIR/c/alignment.md"
+alias cpp-pkg-config="vim $DROPBOX_LINUX/c/pkg-config.md"   #TODO
+alias cpp-linker="vim $DROPBOX_LINUX/debug/linker-debug.md"
+
+# debug
+alias sp-debug-root="cd $REF_DIR/linux/debug"
 alias sp-gdb="vim $DROPBOX_LINUX/debug/gdb.md"
 alias sp-perf="vim $DROPBOX_LINUX/debug/perf.md"
-alias sp-ref="cd $DROPBOX_LINUX/"
-alias sp-todo="cd ~/Dropbox/term_todo/"
-alias sp-systemd="vim $DROPBOX_LINUX/systemd.md"
-alias sp-gcc="vim ~/Dropbox/root/[]ref/c/gcc.md"
-alias sp-linker="vim $DROPBOX_LINUX/debug/linker-debug.md"
+alias sp-strace="vim $REF_DIR/linux/debug/strace.md"
+alias sp-debug="vim $DROPBOX_LINUX/debug/cpp-debug.md"
+alias sp-tcpdump="vim $REF_DIR/linux/debug/tcpdump.txt"
+
+# Linux utils
+alias sp-dd="vim $DROPBOX_LINUX/dd.md"
+alias sp-mkdir="vim $REF_DIR/mkdir.md"
 alias sp-sed="vim $DROPBOX_LINUX/sed.md"
 alias sp-ack="vim $DROPBOX_LINUX/ack.md"
-alias sp-linux="cd $DROPBOX_LINUX"
-alias sp-tar="vim $DROPBOX_LINUX/compression.txt"
-alias sp-package="vim $DROPBOX_LINUX/install.txt"
-alias sp-mutt="vim $DROPBOX_LINUX/mutt.txt"
 alias sp-w3m="vim $DROPBOX_LINUX/w3m.txt"
-alias sp-interview="cd $DROPBOX/interview"
 alias sp-grep="vim $DROPBOX_LINUX/grep.md"
-alias sp-signal="vim $DROPBOX_LINUX/signal.md"
-alias sp-sc="vim $DROPBOX_LINUX/sequential_consistency.md"
-alias sp-win="vim $REF_DIR/win.md"
-alias sp-i3wm="vim $REF_DIR/i3wm.md"
-alias sp-openssl="vim $REF_DIR/sec/openssl.mk"
-alias sp-openwrt="vim $REF_DIR/openwrt.md"
-alias sp-network="vim $DROPBOX_NETWORK/linux.md"
-alias sp-visual="vim $REF_DIR/visual-studio.md"
-alias sp-proj="cd $DROPBOX/project"
-alias sp-printf="vim $REF_DIR/c/printf.md"
-alias sp-alignment="vim $REF_DIR/c/alignment.md"
-alias sp-make="vim $REF_DIR/c/Makefile"
-alias sp-carray="vim $REF_DIR/c/carray.md"
-alias sp-books="vim $DROPBOX/books.md"
-alias sp-debug="cd $REF_DIR/linux/debug"
-alias sp-dropbox="cd $REF_DIR"
-alias sp-mount="vim $REF_DIR/linux/mount.txt"
-alias sp-bnf="vim $REF_DIR/bnf.md"
-alias sp-util="vim $REF_DIR/util.md"
-alias sp-tunnel="vim $REF_DIR/ssh_tunnel.md"
-alias sp-mkdir="vim $REF_DIR/mkdir.md"
-alias sp-overclock="vim $REF_DIR/overclock.mkd"
-alias sp-tls="vim $REF_DIR/tls2.md"
-alias sp-dd="vim $DROPBOX_LINUX/dd.md"
-alias sp-pipe="vim $REF_DIR/linux/pipe.txt"
-alias sp-strace="vim $REF_DIR/linux/debug/strace.md"
-alias sp-tcpdump="vim $REF_DIR/linux/debug/tcpdump.txt"
-alias sp-markdown="vim $REF_DIR/linux/markdown.md"
 alias sp-date="vim $REF_DIR/linux/date.md"
-alias sp-bash="vim $REF_DIR/linux/bash.md"
-alias sp-bitcoin="vim $REF_DIR/bitcoin.md"
-alias sp-directory-structure="vim $DROPBOX_LINUX/directory-structure.md"
-alias sp-elf="vim $DROPBOX_LINUX/elf.md"
-alias sp-load-average="vim $DROPBOX_LINUX/load-average.md"
-
+alias sp-mutt="vim $DROPBOX_LINUX/mutt.txt"
+alias sp-pipe="vim $REF_DIR/linux/pipe.txt"
+alias sp-tmux="vim $DROPBOX_LINUX/tmux.txt"
+alias sp-tunnel="vim $REF_DIR/ssh_tunnel.md"
+alias sp-mount="vim $REF_DIR/linux/mount.txt"
+alias sp-xclip="vim $DROPBOX_LINUX/xclip.txt"
+alias sp-openssl="vim $REF_DIR/sec/openssl.mk"
+alias sp-package="vim $DROPBOX_LINUX/install.txt"
+alias sp-tar="vim $DROPBOX_LINUX/compression.txt"
 alias sp-limits="vim $DROPBOX_LINUX/debug/limits.md"
-alias sp-debug="vim $DROPBOX_LINUX/debug/cpp-debug.md"
-alias cpp-pimpl="vim $DROPBOX_LINUX/pimpl.md"
-alias sp-context-switch="vim $DROPBOX_LINUX/context-switch.md"
-alias sp-mutex="vim $DROPBOX_LINUX/mutex.md"
-alias sp-simd="vim $DROPBOX_LINUX/simd.md"
-alias sp-numa="vim $DROPBOX_LINUX/numa.md"
 
-alias sp-compuverdeutil="vim $REF_DIR/util.md"
+# linux
+alias sp-linux="cd $DROPBOX_LINUX"
+alias sp-i3wm="vim $REF_DIR/i3wm.md"
+alias sp-cgroups="vim $REF_DIR/cgroups.md"      #TODO
+alias sp-mutex="vim $DROPBOX_LINUX/mutex.md"    #TODO
+alias sp-signal="vim $DROPBOX_LINUX/signal.md"
+alias sp-systemd="vim $DROPBOX_LINUX/systemd.md"
+alias sp-load-average="vim $DROPBOX_LINUX/load-average.md"    #TODO
+alias sp-context-switch="vim $DROPBOX_LINUX/context-switch.md"    #TODO
+alias sp-directory-structure="vim $DROPBOX_LINUX/directory-structure.md"
 
 # linux syscall
+alias sp-syscal-mlock="vim $DROPBOX_LINUX/syscall/mlock.md"   #TODO
 alias sp-syscal-readv-writev="vim $DROPBOX_LINUX/syscall/readv_writev.txt"
-alias sp-syscal-mlock="vim $DROPBOX_LINUX/syscall/mlock.md"
+
+# networking
+alias sp-network="vim $DROPBOX_NETWORK/linux.md"
+
+#audio
+alias sp-audio="vim $REF_DIR/audio.txt"       #TODO
+
+#concurrency
+alias sp-numa="vim $DROPBOX_LINUX/numa.md"    #TODO
+alias sp-sc="vim $DROPBOX_LINUX/sequential_consistency.md"
+alias sp-oOo="vim $REF_DIR/1out-of-order.md"
+alias sp-concurreny-jvm="vim $REF_DIR/concurrency-jvm.txt"
+alias sp-concurrent-design="vim $REF_DIR/concurrent-design.txt"
+alias sp-dma="vim $REF_DIR/dma.md"    #TODO
+alias sp-cpu="vim $REF_DIR/cpu.txt"    #TODO
+alias sp-MESI="vim $REF_DIR/MESI.txt"    #TODO
+
+# memory
+alias sp-memory="vim -p $REF_DIR/memory/*"   #TODO
+
+# type-theory
+alias sp-type-theory="vim -p $REF_DIR/*type*.txt $REF_DIR/variance.txt"   #TODO
+
+# tree
+alias sp-tree-btree="vim $REF_DIR/tree-btree.md"   #TODO
+alias sp-tree-merkle-tree="vim $REF_DIR/tree-merkle-tree.md"   #TODO
+
+# distributed
+alias sp-acid="vim $REF_DIR/acid.md"   #TODO
+alias sp-cap="vim $REF_DIR/cap.md"    #TODO
+alias sp-paxos="vim $REF_DIR/paxos-consensus.md"    #TODO
+alias sp-raft="vim $REF_DIR/raft-consensus.md"    #TODO
+alias sp-dht="vim $REF_DIR/dht.md" #TODO
+
+alias sp-neural-network="vim $REF_DIR/neural-network.md"  #TODO
+alias sp-machine-learning="vim $REF_DIR/machine-learing.md" #TODO
+
+# Work
+alias sp-util="vim $REF_DIR/util.md"
+alias sp-compuverdeutil="vim $REF_DIR/util.md"
 
 # ===============================================
 # ===============================================
