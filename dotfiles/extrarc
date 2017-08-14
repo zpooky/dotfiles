@@ -89,26 +89,26 @@ alias sp-interview="cd $DROPBOX/interview"
 alias sp-dropbox="cd $REF_DIR"
 alias sp-ref="cd $DROPBOX_LINUX/"
 alias sp-win="vim $REF_DIR/win.md"
-alias sp-bnf="vim $REF_DIR/bnf.md"
 alias sp-overclock="vim $REF_DIR/overclock.mkd"
+
+# computer science
 alias sp-big-o="vim $REF_DIR/big-o.md"      #TODO
+alias sp-np-problem="vim $REF_DIR/np-problem.md"      #TODO
+alias sp-bnf="vim $REF_DIR/bnf.md"
+alias sp-floating-point="vim $REF_DIR/floating-point.txt" #TODO
+alias sp-static-dynamic-typing="vim $REF_DIR/static-dynamic-typing.md" #TODO
 
 # editor
+alias sp-eclipse="vim $REF_DIR/eclipse.txt"
 alias sp-vim="vim $DROPBOX_LINUX/vim/vim.md"
 alias sp-visual="vim $REF_DIR/visual-studio.md"
 alias sp-vim-cpp="vim $DROPBOX_LINUX/vim/cpp.md"
 alias sp-vim-jump="vim $DROPBOX_LINUX/vim/jump.md"
 alias sp-vim-extra="vim $DROPBOX_LINUX/vim/extra.md"
-alias sp-eclipse="vim $REF_DIR/eclipse.txt"
 
 # lang
-alias sp-bash="vim $REF_DIR/linux/bash.md"
 alias sp-asm="vim $REF_DIR/linux/asm.md" #TODO
-
-# programming
-alias sp-static-dynamic-typing="vim $REF_DIR/static-dynamic-typing.md" #TODO
-alias sp-floating-point="vim $REF_DIR/floating-point.txt" #TODO
-alias sp-monad="vim $REF_DIR/monad.txt" #TODO
+alias sp-bash="vim $REF_DIR/linux/bash.md"
 
 # general
 alias sp-tls="vim $REF_DIR/tls2.md"
@@ -120,8 +120,8 @@ alias sp-character="vim -p $REF_DIR/character/*.txt"
 alias cpp-gcc="vim $REF_DIR/c/gcc.md"
 alias cpp-make="vim $REF_DIR/c/Makefile"
 alias cpp-elf="vim $DROPBOX_LINUX/elf.md"
-alias cpp-printf="vim $REF_DIR/c/printf.md"
 alias sp-simd="vim $DROPBOX_LINUX/simd.md"    #TODO
+alias cpp-printf="vim $REF_DIR/c/printf.md"
 alias cpp-carray="vim $REF_DIR/c/carray.md"
 alias cpp-pimpl="vim $DROPBOX_LINUX/pimpl.md"
 alias cpp-alignment="vim $REF_DIR/c/alignment.md"
@@ -165,6 +165,7 @@ alias sp-systemd="vim $DROPBOX_LINUX/systemd.md"
 alias sp-load-average="vim $DROPBOX_LINUX/load-average.md"    #TODO
 alias sp-context-switch="vim $DROPBOX_LINUX/context-switch.md"    #TODO
 alias sp-directory-structure="vim $DROPBOX_LINUX/directory-structure.md"
+alias sp-rcu="vim $DROPBOX_LINUX/rcu.md"    #TODO
 
 # linux syscall
 alias sp-syscal-mlock="vim $DROPBOX_LINUX/syscall/mlock.md"   #TODO
@@ -196,6 +197,10 @@ alias sp-type-theory="vim -p $REF_DIR/*type*.txt $REF_DIR/variance.txt"   #TODO
 alias sp-tree-btree="vim $REF_DIR/tree-btree.md"   #TODO
 alias sp-tree-merkle-tree="vim $REF_DIR/tree-merkle-tree.md"   #TODO
 
+# datat structures
+alias sp-bloom-filter="vim $REF_DIR/bloom-filter.md" #TODO
+alias sp-monad="vim $REF_DIR/monad.txt" #TODO
+
 # distributed
 alias sp-acid="vim $REF_DIR/acid.md"   #TODO
 alias sp-cap="vim $REF_DIR/cap.md"    #TODO
@@ -203,6 +208,7 @@ alias sp-paxos="vim $REF_DIR/paxos-consensus.md"    #TODO
 alias sp-raft="vim $REF_DIR/raft-consensus.md"    #TODO
 alias sp-dht="vim $REF_DIR/dht.md" #TODO
 
+#
 alias sp-neural-network="vim $REF_DIR/neural-network.md"  #TODO
 alias sp-machine-learning="vim $REF_DIR/machine-learing.md" #TODO
 

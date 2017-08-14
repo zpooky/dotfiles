@@ -2,12 +2,15 @@
 set nocompatible
 
 " TODO
-" look at:
+" # tag
 " https://github.com/lyuts/vim-rtags
 " https://github.com/Andersbakken/rtags/
 " https://skebanga.github.io/rtags-with-cmake-in-spacemacs/
 "
 " https://github.com/rprichard/sourceweb
+" # java dev
+" http://eclim.org/
+" http://www.lucianofiandesio.com/vim-configuration-for-happy-java-coding
 
 " # Help
 " :h tips
@@ -60,16 +63,17 @@ call plug#begin('~/.vim/plugged')
 " ###############
 " # programming #
 " ###############
-let programming_ncpp=         {'for':[          'haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html']}
-let programming_ncpp_nhaskell={'for':[                    'scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html']}
-let programming=              {'for':['c','cpp','haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html']}
-let programming_nhaskell=     {'for':['c','cpp',          'scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html']}
+let programming_ncpp=         {'for':[          'haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake']}
+let programming_ncpp_nhaskell={'for':[                    'scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake']}
+let programming=              {'for':['c','cpp','haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake']}
+let programming_nhaskell=     {'for':['c','cpp',          'scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake']}
 let programming_cpp=          {'for':['c','cpp']}
 let programming_haskell=      {'for':'haskell'}
 let programming_scala=        {'for':'scala'}
 
 " framework for displaying warnings & errors about source code
-Plug 'scrooloose/syntastic',programming
+" Plug 'scrooloose/syntastic',programming
+Plug 'w0rp/ale',programming
 " pane displaying "tag" information present in current file
 Plug 'majutsushi/tagbar',programming_nhaskell
 " comment shortcut
@@ -80,8 +84,9 @@ Plug 'ludovicchabant/vim-gutentags',programming_nhaskell
 Plug 'bbchung/gtags.vim',programming_nhaskell
 " support for different code formatters
 Plug 'Chiel92/vim-autoformat',programming
-" ack backed grepping
-" Plug 'mileszs/ack.vim',programming
+" exapnds () {} "" '' []
+Plug 'Raimondi/delimitMate',programming_nhaskell
+let delimitMate_expand_cr = 1
 
 " #######
 " # cpp #
@@ -208,6 +213,17 @@ let g:rainbow_conf =
 \ 'ctermfgs': ['lightblue', 'red', 'cyan', 'darkgreen'],
 \ 'operators': '_[\,\-\<\>\.|]_'
 \ }
+
+" }
+
+" ALE
+" {
+" :ALEInfo - current settings
+
+"'clang', 'clangcheck', 'cpplint','cppcheck', 'clangtidy'
+let g:ale_linters = {
+\   'cpp': ['g++'],
+\}
 
 " }
 
@@ -408,13 +424,6 @@ noremap <silent> <leader>. <esc>:CommandTTag<cr>
 let g:CommandTWildIgnore='*.class,*.cache,*.part,*.exe,*.zip,*.tar,*.tar.gz,*.jar,*.so,*.gif,*.pdf,*.pyc'
 
 " }
-
-" ack
-" {
-" Do not auto open first match(Ack! instead of Ack)
-" cnoreabbrev Ack Ack!
-" }
-
 
 " a.vim
 " {

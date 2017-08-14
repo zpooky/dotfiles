@@ -265,8 +265,8 @@ map q: <esc>:q
 " }}}
 
 " from :h hex-editing
-" xxd is a utility to convert to/from hex
-" when opening a bin file vim will open it for hex editing
+" xxd is a utility to convert to/from hex - used when opening and closing the
+" bin files. when opening a bin file vim will open it for hex editing
 " {{{
 augroup Binary
   au!
