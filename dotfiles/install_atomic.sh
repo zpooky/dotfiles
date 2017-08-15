@@ -7,6 +7,7 @@ INSTALL_PREFIX=$HOME/.local
 if [ ! -e $INSTALL_PREFIX ]; then
   mkdir $INSTALL_PREFIX || exit 1
 fi
+STDMAN_PREFIX=/usr/local
 
 # tig - git terminal ncurses TUI
 PACKAGE_NAME=tig
@@ -339,7 +340,7 @@ done
 
 # stdman
 # example man std::vector
-STDMAN_FEATURE=$FEATURE_HOME/stdman
+STDMAN_FEATURE=$FEATURE_HOME/stdman1
 if [ ! -e $STDMAN_FEATURE ]; then
   start_feature "stdman"
 
@@ -361,7 +362,7 @@ if [ ! -e $STDMAN_FEATURE ]; then
     if [ -e $STDMAN_ROOT ]; then
 
       sudo make uninstall
-      ./configure --prefix=$INSTALL_PREFIX
+      ./configure --prefix=$STDMAN_PREFIX
 
       if [ $? -eq 0 ]; then
         make

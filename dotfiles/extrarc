@@ -126,7 +126,7 @@ alias cpp-printf="vim $REF_DIR/c/printf.md"
 alias cpp-carray="vim $REF_DIR/c/carray.md"
 alias cpp-pimpl="vim $DROPBOX_LINUX/pimpl.md"
 alias cpp-alignment="vim $REF_DIR/c/alignment.md"
-alias cpp-pkg-config="vim $DROPBOX_LINUX/c/pkg-config.md"   #TODO
+alias cpp-pkg-config="vim $REF_DIR/c/pkg-config.md"   #TODO
 alias cpp-linker="vim $DROPBOX_LINUX/debug/linker-debug.md"
 
 # debug
@@ -326,5 +326,8 @@ function makex() {
   return ${PIPESTATUS[0]}
 }
 alias makex="makex | less -RiN -p error"
+# watch files system forchangess and reload
+alias make_loop="ack --cpp -f | entr make"
+alias test_loop="ack --cpp -f | entr make test"
 
 # vim: set ft=sh:

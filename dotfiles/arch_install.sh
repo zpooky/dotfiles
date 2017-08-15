@@ -162,6 +162,11 @@ if [ $? -eq 1 ]; then
   install pkg-config
 fi
 
+has_feature keepassxc
+if [ $? -eq 1 ]; then
+  install keepassxc
+fi
+
 has_feature package-query
 if [ $? -eq 1 ]; then
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz"
@@ -209,3 +214,8 @@ if [ $? -eq 1 ]; then
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/universal-ctags-git.tar.gz"
 fi
 
+# watch directory for file changes
+has_feature entr
+if [ $? -eq 1 ]; then
+  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/entr.tar.gz"
+fi

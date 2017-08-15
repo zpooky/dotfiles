@@ -90,6 +90,9 @@ au BufNewFile,BufFilePre,BufRead *.md set ft=markdown
 au BufNewFile,BufRead *.nasm set ft=nasm
 au FileType markdown,python set ts=2 sw=2 expandtab
 
+" c++
+autocmd BufRead,BufNewFile /usr/include/c++/* set syntax=cpp
+
 " Search
 " {{{
 set incsearch                     " search wile you type

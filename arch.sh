@@ -9,9 +9,6 @@ pacman -Ss python2 # search
 
 yaourt -Syu --aur # aur upgrade
 
-#keepass
-pacman -S keepassxc
-
 #list hardware
 lspci
 # eth interfaces
