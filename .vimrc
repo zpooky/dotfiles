@@ -8,6 +8,7 @@ set nocompatible
 " https://skebanga.github.io/rtags-with-cmake-in-spacemacs/
 "
 " https://github.com/rprichard/sourceweb
+
 " # java dev
 " http://eclim.org/
 " http://www.lucianofiandesio.com/vim-configuration-for-happy-java-coding
@@ -27,6 +28,12 @@ set nocompatible
 " # View Navigation
 " C+e       | view line DOWN
 " C+y       | view line UP
+
+" # Text Navigation
+" (         | backward sentence
+" )         | forward sentence
+" {         | backward paragraph
+" }         | forward paragraph
 
 " # Historic position navigation
 " C+O       | OLDER position
@@ -71,12 +78,11 @@ let programming_cpp=          {'for':['c','cpp']}
 let programming_haskell=      {'for':'haskell'}
 let programming_scala=        {'for':'scala'}
 
-" framework for displaying warnings & errors about source code
-" Plug 'scrooloose/syntastic',programming
+" framework for displaying warnings & errors in source code
 Plug 'w0rp/ale',programming
-" pane displaying "tag" information present in current file
+" pane displaying tag information present in current file
 Plug 'majutsushi/tagbar',programming_nhaskell
-" comment shortcut
+" comment toggle shortcut
 Plug 'tomtom/tcomment_vim'
 " ctags, cscope & global generation
 Plug 'ludovicchabant/vim-gutentags',programming_nhaskell
@@ -86,7 +92,6 @@ Plug 'bbchung/gtags.vim',programming_nhaskell
 Plug 'Chiel92/vim-autoformat',programming
 " exapnds () {} "" '' []
 Plug 'Raimondi/delimitMate',programming_nhaskell
-let delimitMate_expand_cr = 1
 
 " #######
 " # cpp #
@@ -98,8 +103,9 @@ Plug 'vim-scripts/a.vim',programming_cpp
 Plug 'octol/vim-cpp-enhanced-highlight',programming_cpp
 
 " ###########
-" # haskell #
+" # Haskell #
 " ###########
+" Haskell code completion
 Plug 'eagletmt/neco-ghc',programming_haskell
 Plug 'dag/vim2hs',programming_haskell
 
@@ -116,11 +122,20 @@ Plug 'derekwyatt/vim-scala',programming_scala
 Plug 'vim-scripts/rfc-syntax', { 'for': 'rfc' }
 " systemd syntax
 Plug 'Matt-Deacalion/vim-systemd-syntax'
+" markdown syntax
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+
+" ##########
+" # text   #
+" ##########
+Plug 'reedes/vim-pencil', { 'for': 'markdown' }
+Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+map <F11> :Goyo <bar> :TogglePencil <CR>
 
 " ########
 " # tmux #
 " ########
-" integrate split navigation with tmux
+" Integrate split navigation with tmux
 Plug 'christoomey/vim-tmux-navigator'
 
 " ###########
@@ -134,14 +149,13 @@ Plug 'scrooloose/nerdtree',{'on':'NERDTreeToggle'}
 Plug 'wincent/command-t',{'do':'rake make'}
 " colors scope
 Plug 'luochen1990/rainbow'
-" colorschemes
+" Colorschemes
 Plug 'flazz/vim-colorschemes'
-" hisoric buffer navigation
+" historic buffer navigation
 Plug 'ton/vim-bufsurf'
 " additional *in* support like ci, to change between two ,
 Plug 'wellle/targets.vim'
-Plug 'godlygeek/tabular'
-" # center search result
+" Centre search result
 Plug 'wincent/loupe'
 
 " unmap some a.vim mappings
@@ -149,10 +163,6 @@ Plug '~/.vim/bundle/after',programming_cpp
 
 " turned off in cygwin since these plugins requires compilation
 if !has('win32unix') && !has('win64unix')
-  " clang backed syntax
-  " Plug '~/.vim/bundle/color_coded',programming_cpp
-  " extra color schemes
-  " Plug 'NigoroJr/color_coded-colorschemes',programming_cpp
   " forked YCM for better cpp suggestions
   Plug '~/.vim/bundle/OblitumYouCompleteMe',programming_cpp
   " vanilla YCM
@@ -162,7 +172,7 @@ endif
 
 call plug#end()
 
-" colourcheme
+" colorscheme
 colorscheme railscasts
 
 source $HOME/.standardvimrc
@@ -174,12 +184,10 @@ if has('win32unix') || has('win64unix')
   autocmd BufWritePre * if &ff != 'dos' && expand('%:p') =~ "^\/cygdrive\/d\/Worksapce\/" && expand('%:p') !~ "\/Dropbox\/" && input('set ff to dos [y]') == 'y' | setlocal ff=dos | endif
 endif
 
-" Buffer surfer - a buffer stack of recently used buffers
-let g:BufSurfIgnore = "__TAGBAR__,help.txt,NERD_tree_*"
-map <silent> <A-Left> <esc>:BufSurfBack<cr>
-map <silent> <A-Right> <esc>:BufSurfForward<cr>
 " Tagbar
+" {
 let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
+" }
 
 " vim2hs
 " {
@@ -216,6 +224,11 @@ let g:rainbow_conf =
 
 " }
 
+" DelimitMate
+" {
+let delimitMate_expand_cr = 1
+" }
+
 " ALE
 " {
 " :ALEInfo - current settings
@@ -225,48 +238,6 @@ let g:ale_linters = {
 \   'cpp': ['g++'],
 \}
 
-" }
-
-" syntastic
-" {
-if has('win32unix') || has('win64unix') || has('win32') || has('win32unix')
-else
-  " syntastic
-  " set statusline+=%#warningmsg#
-  " set statusline+=%{SyntasticStatuslineFlag()}
-  " set statusline+=%*
-endif
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let g:syntastic_loc_list_height=5 " height of error split
-
-"
-" let g:syntastic_error_symbol = '❌'
-" let g:syntastic_style_error_symbol = '⁉️'
-" let g:syntastic_warning_symbol = '⚠️'
-" let g:syntastic_style_warning_symbol = '💩'
-
-highlight link SyntasticErrorSign SignColumn
-highlight link SyntasticWarningSign SignColumn
-highlight link SyntasticStyleErrorSign SignColumn
-highlight link SyntasticStyleWarningSign SignColumn
-
-"syntastic c++
-let g:syntastic_cpp_compiler = 'gcc'
-" let g:syntastic_cpp_compiler = 'clang++'
-let g:syntastic_cpp_compiler_options = "-std=c++14 -Wall -Wextra -Wpedantic"
-" let g:syntastic_cpp_compiler_options = ' -std=c++14 -stdlib=libc++'
-let g:syntastic_cpp_check_header = 1
-"let g:syntastic_cpp_checkers=["clang_check","g++","cpp_check"]
-let g:syntastic_cpp_checkers=["gcc","cppcheck","cpplint"]
-let g:syntastic_cppcheck_config_file="~/.syntastic_cppcheck_config"
-" java remove because it runs mvn wich is realy slow
-let g:syntastic_java_checkers=['']
-let g:syntastic_json_checkers=['jsonlint']
-let g:syntastic_python_checkers = ['python']
 " }
 
 " YouCompleteMe
@@ -317,23 +288,9 @@ endfunction
 
 " }
 
-" color_coded
-" {
-let g:color_coded_enabled = 1
-let g:color_coded_filetypes = ['c', 'cpp', 'objc']
-let g:rehash256 = 1
-
-"
-let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_experimental_template_highlight = 1
-
-" }
-
-
 " vim-cpp-enhanced-highlight
 " {
-let g:cpp_class_scope_highlight = 1 " Highlighting of class scope
+let g:cpp_class_scope_highlight = 0 " Highlighting of class scope
 let g:cpp_experimental_template_highlight = 1 " Highlighting of template functions
 " }
 
@@ -350,7 +307,19 @@ autocmd FileType c,cpp,objc vnoremap <buffer><Leader>f <esc>:ClangFormat<CR>
 
 " }
 
-" yapf
+" format json
+" {
+function! FormatJson()
+  :mark o
+  " format json file using 2 space indentation
+  exec "%!python ~/dotfiles/lib/json_format.py 2"
+  :normal `o
+endfunction!
+command! FormatJson :call FormatJson()
+autocmd FileType json nnoremap <buffer><leader>f <esc>:FormatJson<CR>
+" }
+
+" yapf - framework for code formatters
 " {
 
 " format python

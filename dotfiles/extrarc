@@ -115,6 +115,7 @@ alias sp-tls="vim $REF_DIR/tls2.md"
 alias sp-bitcoin="vim $REF_DIR/bitcoin.md"    #TODO
 alias sp-markdown="vim $REF_DIR/linux/markdown.md"
 alias sp-character="vim -p $REF_DIR/character/*.txt"
+alias sp-utf="vim $REF_DIR/character/utf.md" #TODO
 
 # cpp
 alias cpp-gcc="vim $REF_DIR/c/gcc.md"
@@ -215,6 +216,10 @@ alias sp-machine-learning="vim $REF_DIR/machine-learing.md" #TODO
 # Work
 alias sp-util="vim $REF_DIR/util.md"
 alias sp-compuverdeutil="vim $REF_DIR/util.md"
+
+# Project
+alias sp-project-malloc="vim $DROPBOX/project/malloc.md"
+
 
 # ===============================================
 # ===============================================

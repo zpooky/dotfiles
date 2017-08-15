@@ -20,14 +20,20 @@ endif
 " theme
 syntax enable                     " Highlight the syntax.
 
+" folding
+" {
 set nofoldenable    " disable folding
+" }
 
-
-" gvim hide all gui
+" gvim - hide all gui
+" {
 set guioptions=
+" }
 
 " pastetoggle - vim will not perform any formatting when toggled on
+" {
 set pastetoggle=<f5>
+" }
 
 " command(:)
 set wildmode=longest:full,full   " bash like command(:) completion when tab
@@ -35,7 +41,10 @@ set wildmenu                     " Show command(:) completion with tab
 " ignore these files when :edit <tab>
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.exe,*.dat,*.bin,*.jar,*.png,*.out,*.pdf
 
-" note: debug set with "set list?" ?: means print current value
+" Blank charcters
+" {
+" note: 
+" debug set with "set list?" ?: means print current value
 set list                              " show special chars, such as tab: eol: trail: extends: nbsp:
 " chars to show for blank characters
 set listchars=tab:·»
@@ -43,9 +52,17 @@ set listchars+=eol:¬
 set listchars+=trail:·
 " set showbreak=↪\                    " useful indication of wrapping
 set showbreak="\u21aa "
+" }
 
+" Undo
+" {
+set undolevels=1000      " Use many levels of undo
+set undofile             " Persisten undo
+set undodir=$TEMP        " Undo file in tmp directory
+" }
 
-" general
+" General
+" {
 if !has('win32unix') && !has('win64unix')
   " does not work in cygwin
   set ttyfast                      " Faster redraw
@@ -57,6 +74,7 @@ let mapleader = "\<Space>"        " map leader to  <space>
 set relativenumber                " relative line numbers
 set number                        " both relative and absolute number
 " set mouse=a                       " Enables scrolling terminal.(mouse mode)
+" }
 
 " Highlight current line
 " Enable cursorline only on the active buffer
@@ -68,10 +86,9 @@ augroup CursorLine
 augroup END
 
 "
-au BufNewFile,BufRead *.md set ft=markdown
+au BufNewFile,BufFilePre,BufRead *.md set ft=markdown
 au BufNewFile,BufRead *.nasm set ft=nasm
 au FileType markdown,python set ts=2 sw=2 expandtab
-
 
 " Search
 " {{{
@@ -80,10 +97,6 @@ set smartcase                     " Case insensitive search, except when capital
 set ignorecase                    " ignore case when searching
 set hls                           " highligt search?
 " }}}
-
-" Navigation captial H/L goto extreme Right/Left
-noremap H _
-noremap L g_
 
 " Spell
 " {{{
@@ -100,14 +113,17 @@ hi SpellBad cterm=underline
 set spelllang=en_gb               " Specify the spell checking language.
 set nospell                       " Disable spell checking by default.
 set dictionary+=/usr/share/dict/words
-au FileType gitcommit,md,text,mail set textwidth=80
-au FileType gitcommit,md,text,mail set colorcolumn=-1 " display bar at textwidth
-au FileType gitcommit,md,text,mail set complete+=kspell
-au FileType gitcommit,md,mail set spell             " enable spelling for these types
+au FileType gitcommit,markdown,text,mail set textwidth=80
+au FileType gitcommit,markdown,text,mail set colorcolumn=-1 " display bar at textwidth
+au FileType gitcommit,markdown,text,mail set complete+=kspell
+au FileType gitcommit,mail set spell             " enable spelling for these types
 
 abbreviate teh the
 abbreviate fro for
 abbreviate utillity utility
+"
+" open new pane to the right 
+set splitright
 
 " }}}
 
@@ -123,24 +139,19 @@ set tabstop=2
 set shiftwidth=2
 set expandtab                     " when emitting tab convert to space
 
-"
+" Indentation
+" {
 set autoindent                    " always set autoindenting on
 set copyindent                    " copy the previous indentation on autoindenting
 set smartindent                   " smart indentation
-"
+" }
+
 filetype on                       " Enable file type detection
 filetype plugin on                " Enable file type plug-ins
 filetype indent plugin on         " file type specific indentation support 
 
-" format json
-function! FormatJson()
-  :mark o
-  " format json file using 2 space indentation
-  exec "%!python ~/dotfiles/lib/json_format.py 2"
-  :normal `o
-endfunction!
-command! FormatJson :call FormatJson()
-autocmd FileType json nnoremap <buffer><leader>f <esc>:FormatJson<CR>
+" Mappings
+" {
 
 " Alternative save
 nnoremap <silent> <leader>w <esc>:wa<CR>
@@ -173,8 +184,6 @@ nmap <silent> <leader>j :wincmd j<CR>
 nmap <silent> <leader>k :wincmd k<CR>
 nmap <silent> <leader>l :wincmd l<CR>
 
-" open new pane to the right 
-set splitright
 " Create vertical pane
 nnoremap <leader>s <esc>:vnew<CR>
 " Create horizontal pane
@@ -201,12 +210,19 @@ map <silent> <leader>7 <esc>7gt
 map <silent> <leader>8 <esc>8gt
 map <silent> <leader>9 <esc>9gt
 
+" behave similar to D
+noremap Y y$
+"
+" Navigation captial H/L goto extreme Right/Left
+noremap H _
+noremap L g_
+" }
+
 " insert character(space+*char*)
 " nmap <Space> i_<Esc>r " Need to have another than space it is now the leadr
 " nmap <S-Enter> O<Esc>j
 
 set history=1000         " remember more commands and search history
-set undolevels=1000      " use many levels of undo
 set title                " change the terminal's title
 
 "
@@ -224,25 +240,25 @@ au InsertEnter * set timeoutlen=1
 au InsertLeave * set timeoutlen=1000
 set timeoutlen=1000 ttimeoutlen=0
 
-" behave similar to D
-noremap Y y$
-
-"
+" jumplist
+" {
 " Store relative line number jumps in the jumplist if they exceed a threshold.
 nnoremap <expr> k (v:count > 3 ? "m'" . v:count : '') . 'k'
 nnoremap <expr> j (v:count > 3 ? "m'" . v:count : '') . 'j'
 
 nnoremap <expr> + (v:count > 3 ? "m'" . v:count : '') . '+'
 nnoremap <expr> - (v:count > 3 ? "m'" . v:count : '') . '-'
+" }
 
 " Disable Mappings
 " {{{
-" " Arrow keys
+"
+" Arrow keys
 " nnoremap <left> <nop>
 " nnoremap <right> <nop>
 " nnoremap <up> <nop>
 " nnoremap <down> <nop>
-"
+
 " inoremap <left> <nop>
 " inoremap <right> <nop>
 " inoremap <up> <nop>

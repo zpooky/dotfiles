@@ -2,6 +2,7 @@
 # ack -f --ruby
 
 --type-set=cpp:ext:c,cpp,cc,cxx,m,hpp,hh,h,hxx
+--type-set=md:ext:md,mkd
 
 --ignore-file=is:.tags
 --ignore-file=is:tags
@@ -37,7 +38,6 @@
 --ignore-file=ext:htc
 --ignore-file=ext:pdf
 --ignore-file=ext:sql
---ignore-file=ext:md
 --ignore-file=ext:log
 --ignore-file=ext:vcxproj
 --ignore-file=ext:filters
