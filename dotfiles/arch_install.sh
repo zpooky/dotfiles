@@ -167,6 +167,11 @@ if [ $? -eq 1 ]; then
   install keepassxc
 fi
 
+has_feature cscope
+if [ $? -eq 1 ]; then
+  install cscope
+fi
+
 has_feature package-query
 if [ $? -eq 1 ]; then
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz"
@@ -218,4 +223,9 @@ fi
 has_feature entr
 if [ $? -eq 1 ]; then
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/entr.tar.gz"
+fi
+
+has_feature global
+if [ $? -eq 1 ]; then
+  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/global.tar.gz"
 fi
