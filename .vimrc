@@ -238,6 +238,8 @@ let g:ale_linters = {
 \   'cpp': ['g++'],
 \}
 
+let g:ale_cpp_gcc_options="-std=c++14 -Wall -Wextra -Wpedantic -Iexternal"
+
 " }
 
 " YouCompleteMe
@@ -388,9 +390,6 @@ noremap <silent> <leader>r <Esc>:CommandT<CR>
 " noremap <silent> <leader>O <Esc>:CommandTFlush<CR>
 noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
 noremap <silent> <leader>. <esc>:CommandTTag<cr>
-
-" ignore files in filefinder
-let g:CommandTWildIgnore='*.class,*.cache,*.part,*.exe,*.zip,*.tar,*.tar.gz,*.jar,*.so,*.gif,*.pdf,*.pyc'
 
 " }
 

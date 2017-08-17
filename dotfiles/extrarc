@@ -80,7 +80,6 @@ DROPBOX_NETWORK=$REF_DIR/network
 alias sp-openwrt="vim $REF_DIR/openwrt.md"
 
 # notes
-alias sp-proj="cd $DROPBOX/project"
 alias sp-books="vim $DROPBOX/books.md"
 alias sp-todo="cd ~/Dropbox/term_todo/"
 alias sp-interview="cd $DROPBOX/interview"
@@ -90,6 +89,7 @@ alias sp-dropbox="cd $REF_DIR"
 alias sp-ref="cd $DROPBOX_LINUX/"
 alias sp-win="vim $REF_DIR/win.md"
 alias sp-overclock="vim $REF_DIR/overclock.mkd"
+alias sp-cygwin="vim $REF_DIR/cygwin.md"
 
 # computer science
 alias sp-big-o="vim $REF_DIR/big-o.md"      #TODO
@@ -97,6 +97,7 @@ alias sp-np-problem="vim $REF_DIR/np-problem.md"      #TODO
 alias sp-bnf="vim $REF_DIR/bnf.md"
 alias sp-floating-point="vim $REF_DIR/floating-point.txt" #TODO
 alias sp-static-dynamic-typing="vim $REF_DIR/static-dynamic-typing.md" #TODO
+alias sp-formal-verification="vim $REF_DIR/formal-verification.md"
 
 # editor
 alias sp-eclipse="vim $REF_DIR/eclipse.txt"
@@ -118,24 +119,34 @@ alias sp-character="vim -p $REF_DIR/character/*.txt"
 alias sp-utf="vim $REF_DIR/character/utf.md" #TODO
 
 # cpp
-alias cpp-gcc="vim $REF_DIR/c/gcc.md"
-alias cpp-make="vim $REF_DIR/c/Makefile"
-alias cpp-elf="vim $DROPBOX_LINUX/elf.md"
-alias sp-simd="vim $DROPBOX_LINUX/simd.md"    #TODO
-alias cpp-printf="vim $REF_DIR/c/printf.md"
-alias cpp-carray="vim $REF_DIR/c/carray.md"
-alias cpp-pimpl="vim $DROPBOX_LINUX/pimpl.md"
-alias cpp-alignment="vim $REF_DIR/c/alignment.md"
-alias cpp-pkg-config="vim $REF_DIR/c/pkg-config.md"   #TODO
-alias cpp-linker="vim $DROPBOX_LINUX/debug/linker-debug.md"
+CPP_ROOT="$DROPBOX/c"
+CPP_EXAMPLE_MAKEFILE=$CPP_ROOT/Makefile
+CPP_EXAMPLE_TEST_MAKEFILE=$CPP_ROOT/Makefile_test
+
+alias cpp-gcc="vim $CPP_ROOT/gcc.md"
+alias cpp-make="vim $CPP_EXAMPLE_MAKEFILE"
+alias cpp-make-test="vim $CPP_EXAMPLE_TEST_MAKEFILE"
+alias cpp-elf="vim $CPP_ROOT/elf.md"
+alias sp-simd="vim $CPP_ROOT/simd.md"    #TODO
+alias cpp-printf="vim $CPP_ROOT/printf.md"
+alias cpp-carray="vim $CPP_ROOT/carray.md"
+alias cpp-pimpl="vim $CPP_ROOT/pimpl.md"
+alias cpp-alignment="vim $CPP_ROOT/alignment.md"
+alias cpp-pkg-config="vim $CPP_ROOT/pkg-config.md"   #TODO
+alias cpp-linker="vim $CPP_ROOT/linker-debug.md"
 
 # debug
-alias sp-debug-root="cd $REF_DIR/linux/debug"
+alias sp-debug="cd $REF_DIR/linux/debug"
 alias sp-gdb="vim $DROPBOX_LINUX/debug/gdb.md"
 alias sp-perf="vim $DROPBOX_LINUX/debug/perf.md"
 alias sp-strace="vim $REF_DIR/linux/debug/strace.md"
-alias sp-debug="vim $DROPBOX_LINUX/debug/cpp-debug.md"
-alias sp-tcpdump="vim $REF_DIR/linux/debug/tcpdump.txt"
+alias sp-cdebug="vim $DROPBOX_LINUX/debug/cpp-debug.md"
+alias sp-tcpdump="vim $REF_DIR/linux/debug/tcpdump.md"
+alias sp-debug-cache="vim $DROPBOX_LINUX/debug/cache.md"
+alias sp-debug-hardware="vim $DROPBOX_LINUX/debug/hardware.md"
+alias sp-debug-io="vim $DROPBOX_LINUX/debug/io.md"
+alias sp-debug-cpu="vim $DROPBOX_LINUX/debug/cpu.md"
+alias sp-debug-network="vim $DROPBOX_LINUX/debug/network.md"
 
 # Linux utils
 alias sp-dd="vim $DROPBOX_LINUX/dd.md"
@@ -174,6 +185,9 @@ alias sp-syscal-readv-writev="vim $DROPBOX_LINUX/syscall/readv_writev.txt"
 
 # networking
 alias sp-network="vim $DROPBOX_NETWORK/linux.md"
+alias sp-openvpn="vim $DROPBOX_NETWORK/openvpn.md"
+alias sp-dns="vim $DROPBOX_NETWORK/dns.md"    #TODO
+alias sp-iptables="vim $DROPBOX_NETWORK/iptables.md"    #TODO
 
 #audio
 alias sp-audio="vim $REF_DIR/audio.txt"       #TODO
@@ -218,7 +232,8 @@ alias sp-util="vim $REF_DIR/util.md"
 alias sp-compuverdeutil="vim $REF_DIR/util.md"
 
 # Project
-alias sp-project-malloc="vim $DROPBOX/project/malloc.md"
+alias sp-proj="cd $DROPBOX/project"
+alias sp-proj-malloc="vim $DROPBOX/project/malloc.md"
 
 
 # ===============================================
@@ -291,20 +306,40 @@ alias cpp_gdb="$HOME/dotfiles/lib/tmux-gdb.sh"
 alias sp_gdb="$HOME/dotfiles/lib/gdb_tmux_dashboard.sh"
 
 function setup_project(){
-  if [ ! -e .git ];then
+  # if clean slate
+  if [ ! "$(ls -A ${PWD})" ]; then
+    git init
+
+    TEST_DIRECTORY="test"
+    DIRECTORIES=($TEST_DIRECTORY "external")
+    for DIR in "${DIRECTORIES[@]}"
+    do
+      mkdir $DIR
+      touch $DIR/README.md
+    done
+
+    cp $CPP_EXAMPLE_MAKEFILE .
+    cp $CPP_EXAMPLE_TEST_MAKEFILE $TEST_DIRECTORY
+    # TODO create main stub
+    # TODO create test stub
+    # TODO integrate gtest
+  fi
+
+  if [ ! -e .git ]; then
     echo 'project root is required to be git:ed'
   else
     #
-    rm .tags
+    if [ -e .tags ]; then
+      rm .tags
+    fi
     touch .tags
     ctags -R *
-    #
+
     # ack-grep -f --cpp > cscope.files
     # cscope -b -q -k
-    #
+
     gtags
-    #
-    #-c g++ -F ycm -F cc
+
     if [[ -e CMakeLists.txt ]]; then
       ~/sources/YCM-Generator/config_gen.py . -b cmake --verbose -e --format ycm
       ~/sources/YCM-Generator/config_gen.py . -b cmake --verbose -e --format cc
@@ -315,19 +350,21 @@ function setup_project(){
     fi
   fi
 }
-alias sp-setup='setup_project'
+alias sp_setup_make_project='setup_project'
 
 function makex() {
   pathpat="(/[^/]*)+:[0-9]+"
   ccred=$(echo -e "\033[0;31m")
   ccyellow=$(echo -e "\033[0;33m")
   ccend=$(echo -e "\033[0m")
-  /usr/bin/make "$@" 2>&1 | sed -E -e "/[Ee]rror[: ]/ s%$pathpat%$ccred&$ccend%g" -e "/[Ww]arning[: ]/ s%$pathpat%$ccyellow&$ccend%g"
+
+  make "$@" 2>&1 | sed -E -e "/[Ee]rror[: ]/ s%$pathpat%$ccred&$ccend%g" -e "/[Ww]arning[: ]/ s%$pathpat%$ccyellow&$ccend%g"
+
   return ${PIPESTATUS[0]}
 }
 alias makex="makex | less -RiN -p error"
 # watch files system forchangess and reload
-alias make_loop="ack --cpp -f | entr make"
+alias make_loop="ack --cpp -f | entr $HOME/dotfiles/lib/entr_make.sh"
 alias test_loop="ack --cpp -f | entr make test"
 
 # vim: set ft=sh:

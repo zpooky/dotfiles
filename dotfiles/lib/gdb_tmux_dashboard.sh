@@ -5,9 +5,12 @@
 
 # help
 # >>> dashboard expressions watch *expression*
+TEMP_DIR=$TMP/`mktemp tmp.XXXXXXXXXXXXXX`
+mkdir $TEMP_DIR || exit 1
+TEMP_FILE=$TEMP_DIR/fifo
+echo $TEMP_FILE
 
-TEMP_FILE=`mktemp`
-touch $TEMP_FILE
+mkfifo $TEMP_FILE || exit 1
 
 # (prefix+q) print "-t" id
 # (prefix+&) close window
@@ -18,51 +21,55 @@ tmux set-option window-active-style 'fg=colour250,bg=black'
 
 # [memory][threads,expression]
 tmux split-window -v -p 15
-tmux send-keys "echo \"MEMORY_TTY=\\\"\`tty\`\\\"\" >> $TEMP_FILE" C-m
+tmux send-keys "echo \"MEMORY_TTY=\\\"\`tty\`\\\"\" > $TEMP_FILE" C-m
 
 # [source][assembly]
 tmux select-pane -t 1
 tmux split-window -h -p 55
-tmux send-keys "echo \"SOURCE_TTY=\\\"\`tty\`\\\"\" >> $TEMP_FILE" C-m
+tmux send-keys "echo \"SOURCE_TTY=\\\"\`tty\`\\\"\" > $TEMP_FILE" C-m
 
 # [registers]
 tmux split-window -h -p 20
-tmux send-keys "echo \"REGISTERS_TTY=\\\"\`tty\`\\\"\" >> $TEMP_FILE" C-m
+tmux send-keys "echo \"REGISTERS_TTY=\\\"\`tty\`\\\"\" > $TEMP_FILE" C-m
 
 # [assembly]
 tmux split-window -v -p 25 -t 2
-tmux send-keys "echo \"ASSEMBLY_TTY=\\\"\`tty\`\\\"\" >> $TEMP_FILE" C-m
+tmux send-keys "echo \"ASSEMBLY_TTY=\\\"\`tty\`\\\"\" > $TEMP_FILE" C-m
 
 # tmux select-pane -t 7
 #'echo "s+h"' # [stack,history]
 tmux split-window -v -t 1
-tmux send-keys "echo \"HISTORY_TTY=\\\"\`tty\`\\\"\" >> $TEMP_FILE" C-m
-tmux send-keys "echo \"STACK_TTY=\\\"\`tty\`\\\"\" >> $TEMP_FILE" C-m
+tmux send-keys "echo \"HISTORY_TTY=\\\"\`tty\`\\\"\" > $TEMP_FILE" C-m
+tmux send-keys "echo \"STACK_TTY=\\\"\`tty\`\\\"\" > $TEMP_FILE" C-m
 
 #'echo "s+h"' # [threads,expression]
 tmux split-window -h -t 6
-tmux send-keys "echo \"THREADS_TTY=\\\"\`tty\`\\\"\" >> $TEMP_FILE" C-m
-tmux send-keys "echo \"EXPRESSION_TTY=\\\"\`tty\`\\\"\" >> $TEMP_FILE" C-m
+tmux send-keys "echo \"THREADS_TTY=\\\"\`tty\`\\\"\" > $TEMP_FILE" C-m
+tmux send-keys "echo \"EXPRESSION_TTY=\\\"\`tty\`\\\"\" > $TEMP_FILE" C-m
 #---------------------
 
 tmux select-pane -t 1 || exit 1
 # tmux send-keys "cat $TEMP_FILE" C-m
 
 #race condition
-sleep 2
-source $TEMP_FILE
+# sleep 2
+IT=0
+while [ $IT -lt 8 ];do
+  eval `cat $TEMP_FILE`
+  let IT=IT+1
+done
 
 # tmux send-keys "echo \$TTY_1" C-m
 
 tmux send-keys "gdb $@" C-m
-tmux send-keys "dashboard assembly -output $ASSEMBLY_TTY" C-m
-tmux send-keys "dashboard history -output $HISTORY_TTY" C-m
-tmux send-keys "dashboard memory -output $MEMORY_TTY" C-m
-tmux send-keys "dashboard registers -output $REGISTERS_TTY" C-m
-tmux send-keys "dashboard source -output $SOURCE_TTY" C-m
-tmux send-keys "dashboard stack -output $STACK_TTY" C-m
-tmux send-keys "dashboard threads -output $THREADS_TTY" C-m
-tmux send-keys "dashboard expression -output $EXPRESSION_TTY" C-m
+tmux send-keys "dashboard assembly    -output $ASSEMBLY_TTY" C-m
+tmux send-keys "dashboard history     -output $HISTORY_TTY" C-m
+tmux send-keys "dashboard memory      -output $MEMORY_TTY" C-m
+tmux send-keys "dashboard registers   -output $REGISTERS_TTY" C-m
+tmux send-keys "dashboard source      -output $SOURCE_TTY" C-m
+tmux send-keys "dashboard stack       -output $STACK_TTY" C-m
+tmux send-keys "dashboard threads     -output $THREADS_TTY" C-m
+tmux send-keys "dashboard expression  -output $EXPRESSION_TTY" C-m
 
 
 #---configure-dashboard------------------

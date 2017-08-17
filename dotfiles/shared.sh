@@ -133,8 +133,17 @@ function install(){
     echo "sudo pacman -S $@"
     sudo pacman -S $@
   else
-    echo "sudo apt-get -y install $@"
-    sudo apt-get -y install $@
+    is_apt_get
+    if [ $? -eq 0 ]; then
+      echo "sudo apt-get -y install $@"
+      sudo apt-get -y install $@
+    else
+      is_cygwin
+      if [ $? -eq 0 ]; then
+        apt-cyg -y install $@
+      fi
+    fi
+
   fi
 }
 

@@ -17,7 +17,12 @@ if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gno
   set t_Co=256
 endif
 
-" theme
+"
+filetype on                       " Enable file type detection
+filetype plugin on                " Enable file type plug-ins
+filetype indent plugin on         " file type specific indentation support
+
+" syntax
 syntax enable                     " Highlight the syntax.
 
 " folding
@@ -39,7 +44,7 @@ set pastetoggle=<f5>
 set wildmode=longest:full,full   " bash like command(:) completion when tab
 set wildmenu                     " Show command(:) completion with tab
 " ignore these files when :edit <tab>
-set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.exe,*.dat,*.bin,*.jar,*.png,*.out,*.pdf
+set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.exe,*.dat,*.bin,*.jar,*.png,*.out,*.pdf,*.cache,*.part,*.zip,*.tar,*.tar.gz,*.so,*.gif
 
 " Blank charcters
 " {
@@ -148,10 +153,6 @@ set autoindent                    " always set autoindenting on
 set copyindent                    " copy the previous indentation on autoindenting
 set smartindent                   " smart indentation
 " }
-
-filetype on                       " Enable file type detection
-filetype plugin on                " Enable file type plug-ins
-filetype indent plugin on         " file type specific indentation support 
 
 " Mappings
 " {
