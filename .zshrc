@@ -52,9 +52,16 @@ alias pacman="pacmatic"
 
 source $HOME/dotfiles/extrarc
 
-#
+# keybindings
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
+
+sp-backward-kill-word(){
+  local WORDCHARS=${WORDCHARS/\//}
+  zle backward-delete-word
+}
+zle -N sp-backward-kill-word
+bindkey '^W' sp-backward-kill-word
 
 #PS
 # %d    - current directory

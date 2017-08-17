@@ -1,5 +1,7 @@
 source $HOME/dotfiles/shared.sh
 
+screenfetch
+
 #video player
 has_feature mpv
 if [ $? -eq 1 ]; then

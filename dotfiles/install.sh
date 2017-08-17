@@ -289,6 +289,11 @@ if [[ $? -eq 1 ]]; then
   install openssl
 fi
 
+has_feature screenfetch
+if [[ $? -eq 1 ]]; then
+  install screenfetch
+fi
+
 start_feature "libraries"
 is_apt_get
 if [ $? -eq 0 ]; then
