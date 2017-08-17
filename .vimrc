@@ -238,7 +238,7 @@ let g:ale_linters = {
 \   'cpp': ['g++'],
 \}
 
-let g:ale_cpp_gcc_options="-std=c++14 -Wall -Wextra -Wpedantic -Iexternal"
+let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Wpedantic -Iexternal"
 
 " }
 

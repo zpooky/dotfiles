@@ -98,6 +98,7 @@ alias sp-bnf="vim $REF_DIR/bnf.md"
 alias sp-floating-point="vim $REF_DIR/floating-point.txt" #TODO
 alias sp-static-dynamic-typing="vim $REF_DIR/static-dynamic-typing.md" #TODO
 alias sp-formal-verification="vim $REF_DIR/formal-verification.md"
+alias sp-crdt="vim $REF_DIR/formal-verification.md"       #TODO
 
 # editor
 alias sp-eclipse="vim $REF_DIR/eclipse.txt"
@@ -201,6 +202,7 @@ alias sp-concurrent-design="vim $REF_DIR/concurrent-design.txt"
 alias sp-dma="vim $REF_DIR/dma.md"    #TODO
 alias sp-cpu="vim $REF_DIR/cpu.txt"    #TODO
 alias sp-MESI="vim $REF_DIR/MESI.txt"    #TODO
+alias sp-serializability-linearizability="vim $REF_DIR/concurrency/serializability-linearizability.md" #TODO
 
 # memory
 alias sp-memory="vim -p $REF_DIR/memory/*"   #TODO
