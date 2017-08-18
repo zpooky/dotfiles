@@ -1,9 +1,9 @@
 set nocompatible
 
 " if has('vim_starting')
-  set fileencoding=utf-8
+  set encoding=utf-8      " The encoding displayed
+  set fileencoding=utf-8  " The encoding of the resulting output file
   scriptencoding utf-8
-  set encoding=utf-8 nobomb
 " endif
 
 if has('gui_running')
@@ -44,7 +44,7 @@ set pastetoggle=<f5>
 set wildmode=longest:full,full   " bash like command(:) completion when tab
 set wildmenu                     " Show command(:) completion with tab
 " ignore these files when :edit <tab>
-set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.exe,*.dat,*.bin,*.jar,*.png,*.out,*.pdf,*.cache,*.part,*.zip,*.tar,*.tar.gz,*.so,*.gif
+set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.exe,*.dat,*.bin,*.jar,*.png,*.out,*.pdf,*.cache,*.part,*.zip,*.tar,*.tar.gz,*.so,*.gif,*.a
 
 " Blank charcters
 " {

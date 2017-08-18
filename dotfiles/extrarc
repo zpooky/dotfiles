@@ -121,6 +121,7 @@ alias sp-utf="vim $REF_DIR/character/utf.md" #TODO
 
 # cpp
 CPP_ROOT="$DROPBOX/c"
+CPP_STUB="$CPP_ROOT/stub"
 CPP_EXAMPLE_MAKEFILE=$CPP_ROOT/Makefile
 CPP_EXAMPLE_TEST_MAKEFILE=$CPP_ROOT/Makefile_test
 
@@ -181,8 +182,9 @@ alias sp-directory-structure="vim $DROPBOX_LINUX/directory-structure.md"
 alias sp-rcu="vim $DROPBOX_LINUX/rcu.md"    #TODO
 
 # linux syscall
-alias sp-syscal-mlock="vim $DROPBOX_LINUX/syscall/mlock.md"   #TODO
-alias sp-syscal-readv-writev="vim $DROPBOX_LINUX/syscall/readv_writev.txt"
+LINUX_SYSCALL_ROOT=$DROPBOX_LINUX/syscall
+alias sp-syscall-mlock="vim $LINUX_SYSCALL_ROOT/mlock.md"   #TODO
+alias sp-syscall-readv-writev="vim $LINUX_SYSCALL_ROOT/readv_writev.txt"
 
 # networking
 alias sp-network="vim $DROPBOX_NETWORK/linux.md"
@@ -211,12 +213,13 @@ alias sp-memory="vim -p $REF_DIR/memory/*"   #TODO
 alias sp-type-theory="vim -p $REF_DIR/*type*.txt $REF_DIR/variance.txt"   #TODO
 
 # tree
-alias sp-tree-btree="vim $REF_DIR/tree-btree.md"   #TODO
-alias sp-tree-merkle-tree="vim $REF_DIR/tree-merkle-tree.md"   #TODO
+DATA_STRUCTURE_ROOT=$REF_DIR/data-structure
+alias sp-tree-btree="vim $DATA_STRUCTURE_ROOT/tree-btree.md"   #TODO
+alias sp-tree-merkle-tree="vim $DATA_STRUCTURE_ROOT/tree-merkle-tree.md"   #TODO
 
-# datat structures
-alias sp-bloom-filter="vim $REF_DIR/bloom-filter.md" #TODO
-alias sp-monad="vim $REF_DIR/monad.txt" #TODO
+# data structures
+alias sp-bloom-filter="vim $DATA_STRUCTURE_ROOT/bloom-filter.md" #TODO
+alias sp-monad="vim $DATA_STRUCTURE_ROOT/monad.txt" #TODO
 
 # distributed
 alias sp-acid="vim $REF_DIR/acid.md"   #TODO
@@ -307,26 +310,7 @@ alias cpp_gdb="$HOME/dotfiles/lib/tmux-gdb.sh"
 
 alias sp_gdb="$HOME/dotfiles/lib/gdb_tmux_dashboard.sh"
 
-function setup_project(){
-  # if clean slate
-  if [ ! "$(ls -A ${PWD})" ]; then
-    git init
-
-    TEST_DIRECTORY="test"
-    DIRECTORIES=($TEST_DIRECTORY "external")
-    for DIR in "${DIRECTORIES[@]}"
-    do
-      mkdir $DIR
-      touch $DIR/README.md
-    done
-
-    cp $CPP_EXAMPLE_MAKEFILE .
-    cp $CPP_EXAMPLE_TEST_MAKEFILE $TEST_DIRECTORY
-    # TODO create main stub
-    # TODO create test stub
-    # TODO integrate gtest
-  fi
-
+function setup_meta(){
   if [ ! -e .git ]; then
     echo 'project root is required to be git:ed'
   else
@@ -351,6 +335,39 @@ function setup_project(){
       ~/sources/YCM-Generator/config_gen.py . -b make --verbose -e --format cc
     fi
   fi
+}
+
+function setup_project(){
+  # if clean slate
+  if [ ! "$(ls -A ${PWD})" ]; then
+    git init
+
+    TEST_DIRECTORY="test"
+    EXTERNAL_DIRECTORY="external"
+    DIRECTORIES=($TEST_DIRECTORY $EXTERNAL_DIRECTORY ".")
+    for DIR in "${DIRECTORIES[@]}"
+    do
+      if [ ! -e $DIR ];then
+        mkdir $DIR
+      fi
+      touch $DIR/README.md
+    done
+
+    cp $CPP_EXAMPLE_MAKEFILE .
+    cp $CPP_EXAMPLE_TEST_MAKEFILE $TEST_DIRECTORY/Makefile
+    cp "$CPP_STUB/.gitignore" .
+    cp "$CPP_STUB/main.cpp" .
+    cp "$CPP_STUB/MainTest.cpp" $TEST_DIRECTORY
+
+    cd $EXTERNAL_DIRECTORY
+    git submodule add https://github.com/google/googletest.git
+    cd -
+    # TODO integrate gtest
+
+    git add .
+    git commit -m "Initial Commit"
+  fi
+  setup_meta
 }
 alias sp_setup_make_project='setup_project'
 
