@@ -5,12 +5,24 @@ pavucontrol??
 - built in kernel module
 - Sound device drivers.
 - api and library for userspace applications to acces sound devices
+
+###Application
+- alsamixer
+
+###mute/unmute/toggle
+amixer sset Master unmute
+amixer sset Master mute
+amixer set Master toggle
+
 ###config
 system:/etc/asound.conf
 user:~/.asoundrc
 
+###test audio
+speaker-test -c 2 # test 2.0
+
 ## Pulseaudio
-PulseAudio serves as a proxy to sound applications using existing _kernel_ sound components: ALSA(not libalsa).
+PulseAudio serves as a proxy to sound applications using existing _kernel_ sound module: ALSA(not libalsa).
 
 ##keyboard shortcuts
 ##mixer

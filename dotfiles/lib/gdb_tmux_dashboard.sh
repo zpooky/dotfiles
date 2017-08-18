@@ -5,7 +5,7 @@
 
 # help
 # >>> dashboard expressions watch *expression*
-TEMP_DIR=$TMP/`mktemp tmp.XXXXXXXXXXXXXX`
+TEMP_DIR=/tmp/`mktemp tmp.XXXXXXXXXXXXXX`
 mkdir $TEMP_DIR || exit 1
 TEMP_FILE=$TEMP_DIR/fifo
 echo $TEMP_FILE
