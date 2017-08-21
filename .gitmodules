@@ -34,5 +34,5 @@
 	path = .vim/bundle/color_coded
 	url = https://github.com/jeaye/color_coded.git
 [submodule "/home/spooky/.oh-my-zsh"]
-	path = /home/spooky/.oh-my-zsh
+	path = .oh-my-zsh
 	url = git://github.com/robbyrussell/oh-my-zsh.git

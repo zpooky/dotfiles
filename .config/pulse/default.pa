@@ -1,3 +1,0 @@
-# Load the integrated PulseAudio equalizer and D-Bus module
-load-module module-equalizer-sink
-load-module module-dbus-protocol

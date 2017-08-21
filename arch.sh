@@ -17,12 +17,16 @@ dhcpd *inteface*
 
 #
 # language
+# https://wiki.archlinux.org/index.php/locale
 #TODO /etc/locale.conf LC_ALL
-edit /etc/locale.gen # en_GB, sv_SE
+vim /etc/locale.gen # en_US.UTF-8 UTF-8
 #use sudo !!
 sudo locale-gen
 # current configuration
 localectl status
+localectl set-x11-keymap se
+localectl set-locale LANG=en_US.UTF-8
+
 'cat /etc/vconsole.conf
 KEYMAP=sv-latin1'
 
@@ -40,6 +44,7 @@ KEYMAP=sv-latin1`
 localectl set-keymap se
 localectl set-x11-keymap se
 
+# special keybindings
 xmodmap -pke | less
 
 printenv
@@ -52,8 +57,8 @@ lspci -k | grep -A 2 -E '(VGA|3D)'
 # is a user interface displayed at  the end of the boot process in place of the default shell.
 
 # backlight
+# light
 ll /sys/class/backlight
-https://aur.archlinux.org/packages/light
 echo 25 > /sys/class/backlight/intel_backlight/brightness
 
 # acpid daemon to watch for acpi event like backligt power up/down
@@ -76,38 +81,6 @@ sudo pacman -S ttf-dejavu
 # how it works
 vim /etc/fonts/conf.d/README
 
-#audio (ALSA-kernel component providing device drivers and lowest-level support for audio hardware)
-sudo pacman -S alsa-utils
-## sudo alsamixer
-M - toggle mute
-+/- volume up/down
-
-# bluetooth audio
-sudo pacman -S pulseaudio
-sudo pacman -S pulseaudio-alsa
-sudo pacman -S pulseaudio-bluetooth
-sudo pacman -S bluez
-sudo pacman -S bluez-libs
-sudo pacman -S bluez-utils
-sudo pacman -S bluez-firmware
-systemctl status bluetooth.service
-systemctl enable bluetooth.service
-systemctl start bluetooth.service
-
-#
-sudo pacman -S pulseaudio-equalizer
-sudo pacman -S pavucontrol
-#Load equalizer module and dbus control
-
-pactl load-module module-equalizer-sink
-#TODO
-# dropbox AUR
-https://aur.archlinux.org/packages/dropbox/
-sudo systemctl enable dropbox@spooky.service
-# spotify
-https://aur.archlinux.org/packages/spotify/
-# yaourt
-https://aur.archlinux.org/packages/yaourt/
 #wireless
 dmesg | grep ath10k
 ll /lib/firmware/ath10k/QCA6174/hw3.0
@@ -126,7 +99,8 @@ systemctl enable dhcpd@enp61s0
 systemctl start dhcpd@enp61s0
 
 #debug
-!!TODO journalctl -xe
+journalctl -xe
+dmesg
 
 #battery
 acpi
@@ -142,6 +116,11 @@ acpi
 systemctl
 
 #blacklist
+example:
+In` /boot/grub/grub.cfg` to blacklist nouveau
+```cfg
+linux	/vmlinuz-linux root=UUID=80b01856-8521-4ced-990f-0ec9e56fc92b rw  modprobe.blacklist=nouveau
+```
 # /etc/modprobe.d/nouveau.conf
 
 #grub

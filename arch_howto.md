@@ -6,6 +6,9 @@ pavucontrol??
 - Sound device drivers.
 - api and library for userspace applications to acces sound devices
 
+###Installation
+sudo pacman -S alsa-utils
+
 ###Application
 - alsamixer
 
@@ -24,17 +27,38 @@ speaker-test -c 2 # test 2.0
 ## Pulseaudio
 PulseAudio serves as a proxy to sound applications using existing _kernel_ sound module: ALSA(not libalsa).
 
+###Installation
+sudo pacman -S pulseaudio pavucontrol pulseaudio-alsa pulseaudio-equalizer
+--bluetooth headset
+sudo pacman -S pulseaudio-bluetooth bluez bluez-lib bluez-utils
+
+###Debug
+pulseaudio -vvv
+http://www.pclinuxos.com/forum/index.php?topic=135912.30
+
+###Application
+- pavucontrol
+- pactl
+- pacmd     #configure a server during runtime
+
 ##keyboard shortcuts
 ##mixer
-##3.5mm
+- pavucontrol
 ##external sound card
+- pavucontrol
 ##bluetooth sound card
+TODO
+##restart default mute
+TODO
+## lower application sound level
+TODO
+## heaphones disable speakers
+TODO
 
 #backlight
 - shortcut: fn(windows)+page up/down
 - application: light
 - keymapping configured with i3
-
 
 #networking
 ##networking service

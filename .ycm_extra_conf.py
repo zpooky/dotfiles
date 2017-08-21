@@ -42,19 +42,19 @@ flags = [
     '-Iinclude',
     '-I/usr/include',
     '-I/usr/local/include',
-    '-I/usr/include/x86_64-linux-gnu',
-    '-I/usr/lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0',
-    '-I/usr/lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/x86_64-pc-linux-gnu',
-    '-I/usr/lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/backward',
-    '-I/usr/lib/gcc/x86_64-pc-linux-gnu/6.2.0/include',
-    '-I/usr/lib/gcc/x86_64-pc-linux-gnu/6.2.0/include-fixed',
     '-I', '../include'
     '-Wall',
     '-Wextra',
     '-Werror',
-    '-std=c++14',
-]
+    '-std=c++17',
+    ]
 
+for x in ['7.1.1','6.2.0']:
+  flags.append('-I/usr/lib/gcc/x86_64-pc-linux-gnu/'+x+'/../../../../include/c++/'+x)
+  flags.append('-I/usr/lib/gcc/x86_64-pc-linux-gnu/'+x+'/../../../../include/c++/'+x)
+  flags.append('-I/usr/lib/gcc/x86_64-pc-linux-gnu/'+x+'/../../../../include/c++/'+x)
+  flags.append('-I/usr/lib/gcc/x86_64-pc-linux-gnu/'+x+'/include')
+  flags.append('-I/usr/lib/gcc/x86_64-pc-linux-gnu/'+x+'/include-fixed')
 
 # Set this to the absolute path to the folder (NOT the file!) containing the
 # compile_commands.json file to use that instead of 'flags'. See here for
@@ -124,7 +124,7 @@ def GetCompilationInfoForFile( filename ):
       replacement_file = basename + extension
       if os.path.exists( replacement_file ):
         compilation_info = database.GetCompilationInfoForFile(
-          replacement_file )
+            replacement_file )
         if compilation_info.compiler_flags_:
           return compilation_info
     return None
@@ -140,15 +140,15 @@ def FlagsForFile( filename, **kwargs ):
       return None
 
     final_flags = MakeRelativePathsInFlagsAbsolute(
-      compilation_info.compiler_flags_,
-      compilation_info.compiler_working_dir_ )
+        compilation_info.compiler_flags_,
+        compilation_info.compiler_working_dir_ )
 
   else:
     relative_to = DirectoryOfThisScript()
     final_flags = MakeRelativePathsInFlagsAbsolute( flags, relative_to )
 
   return {
-    'flags': final_flags,
-    'do_cache': True
-  }
+      'flags': final_flags,
+      'do_cache': True
+      }
 

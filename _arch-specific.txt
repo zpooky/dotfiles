@@ -1,3 +1,0 @@
-#pulseaudio
-~/.config/pulse/default.pa
-.xinitrc
