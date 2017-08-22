@@ -136,14 +136,16 @@ alias cpp-pimpl="vim $CPP_ROOT/pimpl.md"
 alias cpp-alignment="vim $CPP_ROOT/alignment.md"
 alias cpp-pkg-config="vim $CPP_ROOT/pkg-config.md"   #TODO
 alias cpp-linker="vim $CPP_ROOT/linker-debug.md"
+alias cpp-lambda="vim $CPP_ROOT/lambda.md"
+alias cpp-aliasing="vim $CPP_ROOT/aliasing.md" #TODO
 
 # debug
 alias sp-debug="cd $REF_DIR/linux/debug"
 alias sp-gdb="vim $DROPBOX_LINUX/debug/gdb.md"
 alias sp-perf="vim $DROPBOX_LINUX/debug/perf.md"
 alias sp-strace="vim $REF_DIR/linux/debug/strace.md"
-alias sp-cdebug="vim $DROPBOX_LINUX/debug/cpp-debug.md"
 alias sp-tcpdump="vim $REF_DIR/linux/debug/tcpdump.md"
+alias sp-debug-c="vim $DROPBOX_LINUX/debug/cpp-debug.md"
 alias sp-debug-cache="vim $DROPBOX_LINUX/debug/cache.md"
 alias sp-debug-hardware="vim $DROPBOX_LINUX/debug/hardware.md"
 alias sp-debug-io="vim $DROPBOX_LINUX/debug/io.md"

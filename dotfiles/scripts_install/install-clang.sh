@@ -60,11 +60,11 @@ if [ -e $ROOT ]; then
 
     # CC=gcc CXX=g++                              \
     cmake -DCMAKE_INSTALL_PREFIX=$CLANG_PREFIX -DCMAKE_BUILD_TYPE=Release -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_TARGETS_TO_BUILD="host" -Wno-dev ..
-    if [ $? -eq 0 ];then
+    if [ $? -eq 0 ]; then
       make -j 4
-      if [ $? -eq 0 ];then
-        make install
-        if [ $? -eq 0 ];then
+      if [ $? -eq 0 ]; then
+        # make install
+        if [ $? -eq 0 ]; then
           clang --version
         fi
       fi

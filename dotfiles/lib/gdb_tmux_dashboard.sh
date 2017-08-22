@@ -5,71 +5,84 @@
 
 # help
 # >>> dashboard expressions watch *expression*
+
+# TODO
+# breakpoint list
+# cheatsheet
+
+if [ ! -e "${1}" ]; then
+  echo "'$1' does not exist"
+  exit 1
+fi
+#---------------------------------------
 TEMP_DIR=/tmp/`mktemp tmp.XXXXXXXXXXXXXX`
 mkdir $TEMP_DIR || exit 1
-TEMP_FILE=$TEMP_DIR/fifo
-echo $TEMP_FILE
+FIFO_PIPE=$TEMP_DIR/fifo
+# echo $FIFO_PIPE
 
-mkfifo $TEMP_FILE || exit 1
+mkfifo $FIFO_PIPE || exit 1
 
 # (prefix+q) print "-t" id
 # (prefix+&) close window
 
+# do not grey out inactive window
 tmux new-window -n "gdb"
 tmux set-option window-style 'fg=colour250,bg=black'
 tmux set-option window-active-style 'fg=colour250,bg=black'
 
 # [memory][threads,expression]
 tmux split-window -v -p 15
-tmux send-keys "echo \"MEMORY_TTY=\\\"\`tty\`\\\"\" > $TEMP_FILE" C-m
+tmux send-keys "echo \"memory_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
 
 # [source][assembly]
 tmux select-pane -t 1
 tmux split-window -h -p 55
-tmux send-keys "echo \"SOURCE_TTY=\\\"\`tty\`\\\"\" > $TEMP_FILE" C-m
+tmux send-keys "echo \"source_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
 
 # [registers]
 tmux split-window -h -p 20
-tmux send-keys "echo \"REGISTERS_TTY=\\\"\`tty\`\\\"\" > $TEMP_FILE" C-m
+tmux send-keys "echo \"registers_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
+tmux send-keys "echo \"breakpoints_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
 
 # [assembly]
 tmux split-window -v -p 25 -t 2
-tmux send-keys "echo \"ASSEMBLY_TTY=\\\"\`tty\`\\\"\" > $TEMP_FILE" C-m
+tmux send-keys "echo \"assembly_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
 
 # tmux select-pane -t 7
 #'echo "s+h"' # [stack,history]
 tmux split-window -v -t 1
-tmux send-keys "echo \"HISTORY_TTY=\\\"\`tty\`\\\"\" > $TEMP_FILE" C-m
-tmux send-keys "echo \"STACK_TTY=\\\"\`tty\`\\\"\" > $TEMP_FILE" C-m
+tmux send-keys "echo \"history_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
+tmux send-keys "echo \"stack_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
 
 #'echo "s+h"' # [threads,expression]
 tmux split-window -h -t 6
-tmux send-keys "echo \"THREADS_TTY=\\\"\`tty\`\\\"\" > $TEMP_FILE" C-m
-tmux send-keys "echo \"EXPRESSION_TTY=\\\"\`tty\`\\\"\" > $TEMP_FILE" C-m
+tmux send-keys "echo \"threads_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
+tmux send-keys "echo \"expression_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
 #---------------------
 
 tmux select-pane -t 1 || exit 1
-# tmux send-keys "cat $TEMP_FILE" C-m
+# tmux send-keys "cat $FIFO_PIPE" C-m
 
-#race condition
-# sleep 2
-IT=0
-while [ $IT -lt 8 ];do
-  eval `cat $TEMP_FILE`
-  let IT=IT+1
+REGIONS=("assembly" "history" "memory" "registers" "source" "stack" "threads" "expression" "breakpoints")
+
+CONT=1
+while [ $CONT -eq 1 ]; do
+  let CONT=0
+  eval `cat $FIFO_PIPE`
+  for REGION in "${REGIONS[@]}"; do
+    if [ ! -v "${REGION}_TTY" ]; then
+      CONT=1
+    fi
+  done
 done
 
 # tmux send-keys "echo \$TTY_1" C-m
 
 tmux send-keys "gdb $@" C-m
-tmux send-keys "dashboard assembly    -output $ASSEMBLY_TTY" C-m
-tmux send-keys "dashboard history     -output $HISTORY_TTY" C-m
-tmux send-keys "dashboard memory      -output $MEMORY_TTY" C-m
-tmux send-keys "dashboard registers   -output $REGISTERS_TTY" C-m
-tmux send-keys "dashboard source      -output $SOURCE_TTY" C-m
-tmux send-keys "dashboard stack       -output $STACK_TTY" C-m
-tmux send-keys "dashboard threads     -output $THREADS_TTY" C-m
-tmux send-keys "dashboard expression  -output $EXPRESSION_TTY" C-m
+for REGION in "${REGIONS[@]}"; do
+  eval "REGION_TTY=\$${REGION}_TTY"
+  tmux send-keys "dashboard ${REGION}    -output $REGION_TTY" C-m
+done
 
 
 #---configure-dashboard------------------
