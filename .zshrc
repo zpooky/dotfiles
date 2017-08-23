@@ -84,3 +84,6 @@ SAVEHIST=10000000
 
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
+
+# to make `cd ..<tab>` work
+zstyle ':completion:*' special-dirs true

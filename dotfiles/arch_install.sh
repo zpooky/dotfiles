@@ -231,3 +231,8 @@ has_feature global
 if [ $? -eq 1 ]; then
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/global.tar.gz"
 fi
+
+has_feature bear
+if [ $? -eq 1 ]; then
+  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/bear.tar.gz"
+fi
