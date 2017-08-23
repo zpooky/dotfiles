@@ -9,6 +9,22 @@ if [ ! -e $INSTALL_PREFIX ]; then
 fi
 STDMAN_PREFIX=/usr/local
 
+if [ -z $ZSH_CUSTOM ]; then
+  ZSH_CUSTOM=$HOME/.oh-my-zsh/custom
+fi
+
+ZSH_AUTOSUGGEST=$ZSH_CUSTOM/plugins/zsh-autosuggestions
+if [ ! -e $ZSH_AUTOSUGGEST ]; then
+  git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_AUTOSUGGEST
+  if [ ! $? -eq 0 ]; then
+    rm -rf $ZSH_AUTOSUGGEST
+  fi
+fi
+PREV_DIR=`pwd`
+cd $ZSH_AUTOSUGGEST
+git pull --rebase origin master
+cd $PREV_DIR
+
 # tig - git terminal ncurses TUI
 PACKAGE_NAME=tig
 FEATURE=$FEATURE_HOME/$PACKAGE_NAME
