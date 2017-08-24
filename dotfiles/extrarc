@@ -151,6 +151,7 @@ alias sp-debug-hardware="vim $DROPBOX_LINUX/debug/hardware.md"
 alias sp-debug-io="vim $DROPBOX_LINUX/debug/io.md"
 alias sp-debug-cpu="vim $DROPBOX_LINUX/debug/cpu.md"
 alias sp-debug-network="vim $DROPBOX_LINUX/debug/network.md"
+alias sp-limits="vim $DROPBOX_LINUX/debug/limits.md"
 
 # Linux utils
 alias sp-dd="vim $DROPBOX_LINUX/dd.md"
@@ -169,7 +170,7 @@ alias sp-xclip="vim $DROPBOX_LINUX/xclip.txt"
 alias sp-openssl="vim $REF_DIR/sec/openssl.mk"
 alias sp-package="vim $DROPBOX_LINUX/install.txt"
 alias sp-tar="vim $DROPBOX_LINUX/compression.txt"
-alias sp-limits="vim $DROPBOX_LINUX/debug/limits.md"
+alias sp-nice="vim $DROPBOX_LINUX/nice.md"
 
 # linux
 alias sp-linux="cd $DROPBOX_LINUX"
@@ -181,6 +182,7 @@ alias sp-systemd="vim $DROPBOX_LINUX/systemd.md"
 alias sp-load-average="vim $DROPBOX_LINUX/load-average.md"    #TODO
 alias sp-context-switch="vim $DROPBOX_LINUX/context-switch.md"    #TODO
 alias sp-directory-structure="vim $DROPBOX_LINUX/directory-structure.md"
+alias sp-random="vim $DROPBOX_LINUX/random.md"
 alias sp-rcu="vim $DROPBOX_LINUX/rcu.md"    #TODO
 
 # linux syscall
@@ -288,16 +290,27 @@ alias port-scan='netstat -alnptu | egrep '\''Proto|LISTEN'\'''
 alias sp-open="$DOTFILES_LIB/keypass_cron.sh; $DOTFILES_LIB/open_keyring.py"
 alias sp-space="du -hsc *"
 alias sp-root="cd \`$DOTFILES_LIB/git_root.sh\`"
+
 #tmux
 # force the 256 colors compatibility
 alias tmux='tmux -2'
 alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
+
 # meta alias
 alias sp-alias="vim $DOTFILES/extrarc && source $DOTFILES/extrarc"
 alias sp-vimrc="vim -p $HOME/.vimrc $HOME/.standardvimrc"
 
 #repeats $1
 alias sp_repeat="~/dotfiles/lib/repeat.sh"
+
+function mkdir_cd(){
+  if [ ! -e $1 ]; then
+    mkdir -p $1
+  fi
+  cd $1
+}
+
+alias mcd="mkdir_cd"
 
 # ===============================================
 # ===============================================

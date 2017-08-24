@@ -20,66 +20,30 @@ endif
 "
 filetype on                       " Enable file type detection
 filetype plugin on                " Enable file type plug-ins
-filetype indent plugin on         " file type specific indentation support
+filetype indent plugin on         " file type specific indentation support + loading language indentation specific files
 
-" syntax
-syntax enable                     " Highlight the syntax.
+" General {{{
+let mapleader = "\<Space>"        " map leader to  <space>
+" set mouse=a                     " Enables scrolling terminal.(mouse mode)
+set pastetoggle=<f5>              " vim will not perform any formatting when toggled on
+" }}}
 
-" folding
-" {
-set nofoldenable    " disable folding
-" }
+" UI {{{
+set ruler                         " Display the ruler
+set showcmd                       " Show incomplete vim motions as I type
+set relativenumber                " Relative line numbers
+set number                        " Relative + Absolute number
+set lazyredraw                    " don't bother updating screen during macro playback
+set showmatch                     " highlight matching [{()}]
+set title                         " change the terminal's title
 
-" gvim - hide all gui
-" {
-set guioptions=
-" }
+set novisualbell                  " don't beep
+set noerrorbells                  " don't beep
 
-" pastetoggle - vim will not perform any formatting when toggled on
-" {
-set pastetoggle=<f5>
-" }
-
-" command(:)
-set wildmode=longest:full,full   " bash like command(:) completion when tab
-set wildmenu                     " Show command(:) completion with tab
-" ignore these files when :edit <tab>
-set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.exe,*.dat,*.bin,*.jar,*.png,*.out,*.pdf,*.cache,*.part,*.zip,*.tar,*.tar.gz,*.so,*.gif,*.a
-
-" Blank charcters
-" {
-" note: 
-" debug set with "set list?" ?: means print current value
-set list                              " show special chars, such as tab: eol: trail: extends: nbsp:
-" chars to show for blank characters
-set listchars=tab:·»
-set listchars+=eol:¬
-set listchars+=trail:·
-" set showbreak=↪\                    " useful indication of wrapping
-set showbreak="\u21aa "
-" }
-
-" Undo
-" {
-set undolevels=1000      " Use many levels of undo
-set undofile             " Persisten undo
-set undodir=$TEMP        " Undo file in tmp directory
-" }
-
-" General
-" {
 if !has('win32unix') && !has('win64unix')
   " does not work in cygwin
-  set ttyfast                      " Faster redraw
+  set ttyfast                     " Faster redraw
 endif
-" don't bother updating screen during macro playback
-set lazyredraw
-set showcmd                      " Show incomplete vim motions as I type
-let mapleader = "\<Space>"        " map leader to  <space>
-set relativenumber                " relative line numbers
-set number                        " both relative and absolute number
-" set mouse=a                       " Enables scrolling terminal.(mouse mode)
-" }
 
 " Highlight current line
 " Enable cursorline only on the active buffer
@@ -89,25 +53,85 @@ augroup CursorLine
     au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
     au WinLeave * setlocal nocursorline
 augroup END
+" }}}
 
-"
-au BufNewFile,BufFilePre,BufRead *.md set ft=markdown
-au BufNewFile,BufRead *.nasm set ft=nasm
-au FileType markdown,python set ts=2 sw=2 expandtab
+" syntax {{{
+syntax enable                     " Highlight the syntax.
+" }}}
 
-" c++
-autocmd BufRead,BufNewFile /usr/include/c++/* set syntax=cpp
+" folding {{{
+set nofoldenable    " disable folding
+" }}}
 
-" Search
+" gvim {{{
+" hide all gui
+set guioptions=
+" }}}
+
+" command(:) {{{
+set history=1000                 " remember more commands and search history
+set wildmode=longest:full,full   " bash like command(:) completion when tab
+set wildmenu                     " Show command(:) completion with tab
+" ignore these files when :edit <tab>
+set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.exe,*.dat,*.bin,*.jar,*.png,*.out,*.pdf,*.cache,*.part,*.zip,*.tar,*.tar.gz,*.so,*.gif,*.a
+" }}}
+
+" Blank charcters {{{
+" debug set with "set list?" ?: means print current value
+set list                              " show special chars, such as tab: eol: trail: extends: nbsp:
+" chars to show for blank characters
+set listchars=tab:·»
+set listchars+=eol:¬
+set listchars+=trail:·
+" set showbreak=↪\                    " useful indication of wrapping
+set showbreak="\u21aa "
+" }}}
+
+" Undo {{{
+set undolevels=1000      " Use many levels of undo
+set undofile             " Persisten undo
+set undodir=$TEMP        " Store undo file in tmp directory
+" }}}
+
 " {{{
+augroup FileSpecific
+  au!
+  " manually set ft based on ext
+  au BufNewFile,BufFilePre,BufRead *.md set ft=markdown
+  au BufNewFile,BufRead *.nasm set ft=nasm
+  " type specific settings
+  au FileType markdown,python set ts=2 sw=2 expandtab
+  au FileType gitcommit,markdown,text,mail set textwidth=80
+  au FileType gitcommit,markdown,text,mail set colorcolumn=-1   " display bar at textwidth
+  au FileType gitcommit,markdown,text,mail set complete+=kspell
+  au FileType gitcommit,mail set spell                          " enable spelling for these types
+
+  " set file type for files without ext to c++
+  autocmd BufRead,BufNewFile /usr/include/c++/* set syntax=cpp
+
+augroup END
+" }}}
+
+" Get rid of nasty lag on ESC (timeout and ttimeout seem useless) sp??
+" au InsertEnter * set timeoutlen=1
+" au InsertLeave * set timeoutlen=1000
+" set timeoutlen=1000 ttimeoutlen=0
+set esckeys " A <esc> is always a <esc> not part a escape sequence(used by older terminals?)
+
+" Search {{{
 set incsearch                     " search wile you type
 set smartcase                     " Case insensitive search, except when capital letters are used.
 set ignorecase                    " ignore case when searching
-set hls                           " highligt search?
+set hlsearch                      " highlight search result
 " }}}
 
-" Spell
-" {{{
+" Visual mode {{{
+" move vertically by visual line, will treat wrapped lines as real lines
+nnoremap j gj
+nnoremap k gk
+" }}}
+
+" Spell {{{
 map <leader>ss :setlocal spell!<CR>
 map <leader>sn ]s
 map <leader>sp [s
@@ -121,42 +145,49 @@ hi SpellBad cterm=underline
 set spelllang=en_gb               " Specify the spell checking language.
 set nospell                       " Disable spell checking by default.
 set dictionary+=/usr/share/dict/words
-au FileType gitcommit,markdown,text,mail set textwidth=80
-au FileType gitcommit,markdown,text,mail set colorcolumn=-1 " display bar at textwidth
-au FileType gitcommit,markdown,text,mail set complete+=kspell
-au FileType gitcommit,mail set spell             " enable spelling for these types
 
 abbreviate teh the
 abbreviate fro for
 abbreviate utillity utility
-"
+abbreviate allways always
+abbreviate highligt highlight
+
 " open new pane to the right 
 set splitright
 
 " }}}
 
-set nowrap                        " don't wrap lines
+set nowrap                        " do not wrap long lines
 set backspace=indent,eol,start    " allow backspacing over everything in insert mode
 set shiftwidth=2                  " number of spaces to use for autoindenting
 set smarttab                      " insert tabs on the start of a line according
                                   " to shiftwidth, not tabstop
-"
-set ruler                         " Display the ruler
-" Tab config
-set tabstop=2
-set shiftwidth=2
-set expandtab                     " when emitting tab convert to space
 
-" Indentation
-" {
+" Tab {{{
+set tabstop=2                     " Number of spaces to represent a <TAB> character from file
+set shiftwidth=2
+set expandtab                     " when emitting tab convert to spaces
+" }}}
+
+" Indentation {{{
 set autoindent                    " always set autoindenting on
 set copyindent                    " copy the previous indentation on autoindenting
 set smartindent                   " smart indentation
-" }
+" }}}
 
-" Mappings
-" {
+" Backup {{{
+set nobackup            " no bak
+set noswapfile          " no swap
+set autoread            " auto reload after outside changes
 
+" set backup
+" set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+" set backupskip=/tmp/*,/private/tmp/*
+" set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+" set writebackup
+" }}}
+
+" Custom mappings {{{
 " Alternative save
 nnoremap <silent> <leader>w <esc>:wa<CR>
 " Alternative quit
@@ -182,7 +213,7 @@ map <silent> <leader><Up> <C-W><Up>
 " pane Down
 map <silent> <leader><Down> <C-W><Down>
 
-" " Alternative Moving around splits with the leader key
+" Alternative Moving around splits with the leader key
 nmap <silent> <leader>h :wincmd h<CR>
 nmap <silent> <leader>j :wincmd j<CR>
 nmap <silent> <leader>k :wincmd k<CR>
@@ -220,43 +251,26 @@ noremap Y y$
 " Navigation captial H/L goto extreme Right/Left
 noremap H _
 noremap L g_
-" }
+
+nnoremap <ENTER> :
+vnoremap <ENTER> :
+" }}}
 
 " insert character(space+*char*)
-" nmap <Space> i_<Esc>r " Need to have another than space it is now the leadr
+" nmap <Space> i_<Esc>r " Need to have another than space it is now the leader
 " nmap <S-Enter> O<Esc>j
 
-set history=1000         " remember more commands and search history
-set title                " change the terminal's title
-
-"
-set novisualbell         " don't beep
-set noerrorbells         " don't beep
-
-"
-set nobackup            " no bak
-set noswapfile          " no swap
-"
-set autoread            " auto reload after outside changes
-
-" Get rid of nasty lag on ESC (timeout and ttimeout seem useless) sp??
-au InsertEnter * set timeoutlen=1
-au InsertLeave * set timeoutlen=1000
-set timeoutlen=1000 ttimeoutlen=0
-
-" jumplist
-" {
+" jumplist {{{
 " Store relative line number jumps in the jumplist if they exceed a threshold.
 nnoremap <expr> k (v:count > 3 ? "m'" . v:count : '') . 'k'
 nnoremap <expr> j (v:count > 3 ? "m'" . v:count : '') . 'j'
 
 nnoremap <expr> + (v:count > 3 ? "m'" . v:count : '') . '+'
 nnoremap <expr> - (v:count > 3 ? "m'" . v:count : '') . '-'
-" }
+" }}}
 
-" Disable Mappings
-" {{{
-"
+" Disable Mappings {{{
+
 " Arrow keys
 " nnoremap <left> <nop>
 " nnoremap <right> <nop>
@@ -284,11 +298,11 @@ map q: <esc>:q
 
 " }}}
 
+" hexedit {{{
 " from :h hex-editing
 " xxd is a utility to convert to/from hex - used when opening and closing the
 " bin files. when opening a bin file vim will open it for hex editing
-" {{{
-augroup Binary
+augroup BinaryHexEdit
   au!
   au BufReadPre  *.bin let &bin=1
   au BufReadPost *.bin if &bin | %!xxd
@@ -300,10 +314,14 @@ augroup Binary
 augroup END
 " }}}
 
-" Smooth Scrolling
+" Smooth Scrolling {{{
 " from :h scroll-smooth
-" {{{
 map <C-U> <C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y>
 map <C-D> <C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E>
-
+" }}}
+"
+" modeline {{{
+set modelines=1   " turn on vim settings that will be read from the last line
+" example:
+" vim:foldmethod=marker:foldlevel=0
 " }}}

@@ -57,8 +57,15 @@ set nocompatible
 " {s            : previous
 " zg            : add word to dictonary
 
+" #
+" augroup   - ensures the autocmds are only applied once
+" autocmd!  - directive clears all the autocmd's for the current group.
+"             useful to avoid duplicated autocmd when file is sourced twice
 
-" vim-plug plugin manager
+" fold markers are {{{ and }}}
+" set foldmethod=marker
+
+" vim-plug {{{
 call plug#begin('~/.vim/plugged')
 " # vim        - plug commands
 " :PlugInstall - Install plugins
@@ -130,7 +137,7 @@ Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 " ##########
 Plug 'reedes/vim-pencil', { 'for': 'markdown' }
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
-map <F11> :Goyo <bar> :TogglePencil <CR>
+autocmd FileType markdown map <F11> :Goyo <bar> :TogglePencil <CR>
 
 " ########
 " # tmux #
@@ -171,6 +178,7 @@ else
 endif
 
 call plug#end()
+" }}}
 
 " colorscheme
 colorscheme railscasts
@@ -184,13 +192,11 @@ if has('win32unix') || has('win64unix')
   autocmd BufWritePre * if &ff != 'dos' && expand('%:p') =~ "^\/cygdrive\/d\/Worksapce\/" && expand('%:p') !~ "\/Dropbox\/" && input('set ff to dos [y]') == 'y' | setlocal ff=dos | endif
 endif
 
-" Tagbar
-" {
+" Tagbar {{{
 let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
-" }
+" }}}
 
-" vim2hs
-" {
+" vim2hs {{{
 let g:haskell_conceal_wide = 1
 " 0 = disable all conceals, including the simple ones like
 " lambda and composition
@@ -201,15 +207,13 @@ let g:haskell_conceal_wide = 1
 " otherwise collapsed into a single ellipsis
 " let g:haskell_conceal_enumerations = 1
 
-" }
+" }}}
 
-" vim-scala
-" {
+" vim-scala {{{
 let g:scala_use_default_keymappings = 0
-" }
+" }}}
 
-" rainbow scope
-" {
+" rainbow scope {{{
 " active rainbow scope higlight 
 let g:rainbow_active = 1
 
@@ -222,15 +226,13 @@ let g:rainbow_conf =
 \ 'operators': '_[\,\-\<\>\.|]_'
 \ }
 
-" }
+" }}}
 
-" DelimitMate
-" {
+" DelimitMate {{{
 let delimitMate_expand_cr = 1
-" }
+" }}}
 
-" ALE
-" {
+" ALE {{{
 " :ALEInfo - current settings
 
 "'clang', 'clangcheck', 'cpplint','cppcheck', 'clangtidy'
@@ -240,10 +242,9 @@ let g:ale_linters = {
 
 let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Wpedantic -Iexternal"
 
-" }
+" }}}
 
-" YouCompleteMe
-" {
+" YouCompleteMe {{{
 " YouCompleteMe - Install
 " cd ~/.vim/bundle/YouCompleteMe;./install.sh --clang-completer
 
@@ -288,16 +289,14 @@ function! s:CloseIfOnlyNerdTreeLeft()
   endif
 endfunction
 
-" }
+" }}}
 
-" vim-cpp-enhanced-highlight
-" {
+" vim-cpp-enhanced-highlight {{{
 let g:cpp_class_scope_highlight = 0 " Highlighting of class scope
 let g:cpp_experimental_template_highlight = 1 " Highlighting of template functions
-" }
+" }}}
 
-" clang format
-" {
+" clang format {{{
 let g:clang_format#style_options = {
             \ "AlwaysBreakTemplateDeclarations" : "true",
             \ "Standard" : "Cpp11",
@@ -306,11 +305,9 @@ let g:clang_format#style_options = {
 " clang format - map to <Leader>cf in C++ code(\cf)
 autocmd FileType c,cpp,objc nnoremap <buffer><Leader>f <esc>:<C-u>ClangFormat<CR>
 autocmd FileType c,cpp,objc vnoremap <buffer><Leader>f <esc>:ClangFormat<CR>
+" }}}
 
-" }
-
-" format json
-" {
+" format json {{{
 function! FormatJson()
   :mark o
   " format json file using 2 space indentation
@@ -319,10 +316,10 @@ function! FormatJson()
 endfunction!
 command! FormatJson :call FormatJson()
 autocmd FileType json nnoremap <buffer><leader>f <esc>:FormatJson<CR>
-" }
+" }}}
 
-" yapf - framework for code formatters
-" {
+" yapf {{{
+" framework for code formatters
 
 " format python
 let g:formatter_yapf_style = 'chrome'
@@ -330,10 +327,9 @@ let g:formatter_yapf_style = 'chrome'
 " vim-autoformat language formatters
 " - tidy for HTML, XHTML and XML(apt-get)
 autocmd FileType java,python,html,css,markdown,haskell,xml nnoremap <buffer><leader>f :Autoformat<CR>
-" }
+" }}}
 
-" ctags
-" {
+" ctags {{{
 " ctags - look in the current directory for 'tags',
 " and work up the tree towards root until one is found
 set tags=./.tags;/
@@ -344,27 +340,24 @@ set tags=./.tags;/
 map <silent> <leader><F3> <a-]>
 " previous
 " map <silent> <A-Left> <c-t>
-" }
+" }}}
 
-" TComment
-" {
+" TComment {{{
 nmap <leader>c <esc>:TComment<CR>
 nmap <leader>= <esc>:TCommentBlock<CR>
 
 " Tcomment visual
 vmap <leader>c :TComment<CR>
 vmap <leader>= :TCommentBlock<CR>
-" }
+" }}}
 
-" tagbar
-" {
+" tagbar {{{
 nmap <silent> <F10> <esc>:TagbarToggle<CR>
 imap <silent> <F10> <ESC>:TagbarToggle<CR>
 cmap <silent> <F10> <ESC>:TagbarToggle<CR>
-" }
+" }}}
 
-" nerdtree
-" {
+" nerdtree {{{
 map <silent> <F8> <esc>:NERDTreeToggle<CR>
 imap <silent> <F8> <ESC>:NERDTreeToggle<CR>
 cmap <silent> <F8> <ESC>:NERDTreeToggle<CR>
@@ -382,35 +375,31 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeShowHidden = 1  " show hidden dotfiles
 
-" }
+" }}}
 
-" CommandT
-" {
+" CommandT {{{
 noremap <silent> <leader>r <Esc>:CommandT<CR>
 " noremap <silent> <leader>O <Esc>:CommandTFlush<CR>
 noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
 noremap <silent> <leader>. <esc>:CommandTTag<cr>
 
-" }
+" }}}
 
-" a.vim
-" {
+" a.vim {{{
 " toggle between header and source
 autocmd FileType c,cpp,objc map <silent> <F2> :A<CR>
 " open source or header in vertical split
 autocmd FileType c,cpp,objc map <silent> <leader><F2> :AV<CR>
-" }
+" }}}
 
-" Powerline
-" {
+" Powerline {{{
 " set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
 set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim
 " Always show statusline
 set laststatus=2
-" }
+" }}}
 
-" gutentags
-" {
+" gutentags {{{
 let g:gutentags_modules=['ctags', 'gtags_cscope']
 let g:gutentags_ctags_executable="ctags"
 let g:gutentags_ctags_tagfile=".tags"
@@ -430,4 +419,4 @@ let g:gutentags_gtags_executable="gtags"
 let g:gutentags_gtags_cscope_executable = 'gtags-cscope'
 let g:gutentags_auto_add_gtags_cscope = 1
 
-" }
+" }}}

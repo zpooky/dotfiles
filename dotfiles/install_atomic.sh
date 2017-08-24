@@ -231,6 +231,18 @@ if [ ! $? -eq 0 ]; then
   stop_feature "ack"
 fi
 
+# ag(the silver surfer) faster than ack
+
+has_feature ag
+if [[ $? -eq 1 ]]; then
+  is_arch
+  if [ $? -eq 0 ]; then
+    install the_silver_searcher
+  else
+    install silversearcher-ag
+  fi
+fi
+
 # jsonlint used by syntastic to check json
 # TODO
 # FEATURE=$FEATURE_HOME/jsonlint
