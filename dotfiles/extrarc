@@ -9,12 +9,6 @@ case "$TERM" in
   xterm)TERM=xterm-256color;;
 esac
 
-# git ps line
-if [[ -e ~/.git-prompt.sh ]]; then
-  source ~/.git-prompt.sh
-fi
-
-#
 [[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
 
 if [[ -e $HOME/bin ]]; then
@@ -244,6 +238,10 @@ alias sp-compuverdeutil="vim $REF_DIR/util.md"
 alias sp-proj="cd $DROPBOX/project"
 alias sp-proj-malloc="vim $DROPBOX/project/malloc.md"
 
+# nas540
+alias nas540="sshfs admin@192.168.1.12:/i-data/ $HOME/mount/nas540"
+alias nas540_dl="cd $HOME/mount/nas540/0da29454/admin/download/Transmission/download"
+
 
 # ===============================================
 # ===============================================
@@ -362,7 +360,7 @@ function setup_project(){
     DIRECTORIES=($TEST_DIRECTORY $EXTERNAL_DIRECTORY ".")
     for DIR in "${DIRECTORIES[@]}"
     do
-      if [ ! -e $DIR ];then
+      if [ ! -e $DIR ]; then
         mkdir $DIR
       fi
       touch $DIR/README.md
@@ -377,7 +375,6 @@ function setup_project(){
     cd $EXTERNAL_DIRECTORY
     git submodule add https://github.com/google/googletest.git
     cd -
-    # TODO integrate gtest
 
     git add .
     git commit -m "Initial Commit"

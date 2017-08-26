@@ -1,0 +1,4 @@
+[options]
+font = Monospace 10
+foreground  = #FFFFFF
+background  = #000000

@@ -51,6 +51,10 @@ has_feature htop
 if [ $? -eq 1 ]; then
   install htop || exit 1
 fi
+has_feature sshfs
+if [ $? -eq 1 ]; then
+  install sshfs || exit 1
+fi
 
 # X display server
 has_feature X
@@ -146,6 +150,11 @@ fi
 has_feature zsh
 if [ $? -eq 1 ]; then
   install zsh || exit 1
+fi
+
+has_feature termite
+if [ $? -eq 1 ]; then
+  install termite || exit 1
 fi
 
 #xclip
