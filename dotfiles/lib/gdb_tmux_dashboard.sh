@@ -7,16 +7,20 @@
 # >>> dashboard expressions watch *expression*
 
 # TODO
-# breakpoint list
 # cheatsheet
 
 if [ ! -e "${1}" ]; then
   echo "'$1' does not exist"
   exit 1
 fi
+
+pgrep gdb
+if [ $? -eq 0 ]; then
+  echo "gdb is allready running"
+  exit 1
+fi
 #---------------------------------------
-TEMP_DIR=/tmp/`mktemp tmp.XXXXXXXXXXXXXX`
-mkdir $TEMP_DIR || exit 1
+TEMP_DIR=`mktemp -d /tmp/tmp.XXXXXXXXXXXXXX`
 FIFO_PIPE=$TEMP_DIR/fifo
 # echo $FIFO_PIPE
 
@@ -63,6 +67,21 @@ tmux send-keys "echo \"expression_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
 tmux select-pane -t 1 || exit 1
 # tmux send-keys "cat $FIFO_PIPE" C-m
 
+# gdb!!
+tmux send-keys "gdb $@" C-m
+
+#---configure-dashboard------------------
+# source lines
+tmux send-keys "dashboard source -style context 21" C-m
+tmux send-keys "dashboard assembly -style context 6" C-m
+tmux send-keys "dashboard stack -style locals True" C-m
+tmux send-keys "dashboard stack -style limit 1" C-m
+tmux send-keys "dashboard -style syntax_highlighting \"monokai\"" C-m
+# dashboard -style syntax_highlighting "paraiso-dark"
+
+tmux send-keys "b main" C-m
+
+#---
 REGIONS=("assembly" "history" "memory" "registers" "source" "stack" "threads" "expression" "breakpoints")
 
 CONT=1
@@ -78,21 +97,10 @@ done
 
 # tmux send-keys "echo \$TTY_1" C-m
 
-tmux send-keys "gdb $@" C-m
 for REGION in "${REGIONS[@]}"; do
   eval "REGION_TTY=\$${REGION}_TTY"
   tmux send-keys "dashboard ${REGION}    -output $REGION_TTY" C-m
 done
 
-
-#---configure-dashboard------------------
-# source lines
-tmux send-keys "dashboard source -style context 21" C-m
-tmux send-keys "dashboard assembly -style context 6" C-m
-tmux send-keys "dashboard stack -style locals True" C-m
-tmux send-keys "dashboard stack -style limit 1" C-m
-tmux send-keys "dashboard -style syntax_highlighting \"monokai\"" C-m
-# dashboard -style syntax_highlighting "paraiso-dark"
-
-tmux send-keys "b main" C-m
+# gdb run!
 tmux send-keys "r" C-m

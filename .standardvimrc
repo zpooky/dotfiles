@@ -60,7 +60,7 @@ syntax enable                     " Highlight the syntax.
 " }}}
 
 " folding {{{
-set nofoldenable    " disable folding
+set nofoldenable                  " disable folding
 " }}}
 
 " gvim {{{
@@ -151,6 +151,7 @@ abbreviate fro for
 abbreviate utillity utility
 abbreviate allways always
 abbreviate highligt highlight
+abbreviate allready already
 
 " open new pane to the right 
 set splitright
@@ -159,14 +160,13 @@ set splitright
 
 set nowrap                        " do not wrap long lines
 set backspace=indent,eol,start    " allow backspacing over everything in insert mode
-set shiftwidth=2                  " number of spaces to use for autoindenting
-set smarttab                      " insert tabs on the start of a line according
-                                  " to shiftwidth, not tabstop
 
 " Tab {{{
 set tabstop=2                     " Number of spaces to represent a <TAB> character from file
-set shiftwidth=2
-set expandtab                     " when emitting tab convert to spaces
+set expandtab                     " <tab> is converted to spaces
+set shiftwidth=2                  " number of spaces to use for autoindenting
+set smarttab                      " insert tabs on the start of a line according
+                                  " to shiftwidth, not tabstop
 " }}}
 
 " Indentation {{{
