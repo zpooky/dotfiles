@@ -81,6 +81,15 @@ tmux send-keys "dashboard -style syntax_highlighting \"monokai\"" C-m
 
 tmux send-keys "b main" C-m
 
+# save breakpoints to file
+# >>> save breakpoints .gdb_breakpoints
+# load breakpoints from file
+# >>> source .gdb_breakpoints
+BREAKPOINT_FILE='.gdb_breakpoints'
+if [ -e $BREAKPOINT_FILE ]; then
+  tmux send-keys "source $BREAKPOINT_FILE" C-m
+fi
+
 #---
 REGIONS=("assembly" "history" "memory" "registers" "source" "stack" "threads" "expression" "breakpoints")
 

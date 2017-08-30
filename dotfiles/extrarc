@@ -327,6 +327,19 @@ alias cpp_conscall="$HOME/dotfiles/lib/cpp_constructor_call.sh"
 
 alias sp_gdb="$HOME/dotfiles/lib/gdb_tmux_dashboard.sh"
 
+function setup_ycm(){
+  if [[ -e CMakeLists.txt ]]; then
+    $HOME/sources/YCM-Generator/config_gen.py . -b cmake --verbose -e --format ycm
+    $HOME/sources/YCM-Generator/config_gen.py . -b cmake --verbose -e --format cc
+  fi
+  if [[ -e Makefile ]]; then
+    $HOME/sources/YCM-Generator/config_gen.py . -b make --verbose -e --format ycm
+    $HOME/sources/YCM-Generator/config_gen.py . -b make --verbose -e --format cc
+  fi
+  # since it looks like they are time same file?
+  cp .color_coded .clang_complete
+}
+
 function setup_meta(){
   if [ ! -e .git ]; then
     echo 'project root is required to be git:ed'
@@ -343,14 +356,15 @@ function setup_meta(){
 
     gtags
 
-    if [[ -e CMakeLists.txt ]]; then
-      ~/sources/YCM-Generator/config_gen.py . -b cmake --verbose -e --format ycm
-      ~/sources/YCM-Generator/config_gen.py . -b cmake --verbose -e --format cc
-    fi
-    if [[ -e Makefile ]]; then
-      ~/sources/YCM-Generator/config_gen.py . -b make --verbose -e --format ycm
-      ~/sources/YCM-Generator/config_gen.py . -b make --verbose -e --format cc
-    fi
+    setup_ycm
+    DIRS=( "test" )
+    for current in "${DIRS[@]}"; do
+      if [ -e $current ]; then
+        cd $current
+        setup_ycm
+        cd -
+      fi
+    done
   fi
 }
 
