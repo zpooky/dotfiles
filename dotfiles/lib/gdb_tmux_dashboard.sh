@@ -17,7 +17,7 @@ fi
 pgrep gdb
 if [ $? -eq 0 ]; then
   echo "gdb is allready running"
-  exit 1
+  # exit 1
 fi
 #---------------------------------------
 TEMP_DIR=`mktemp -d /tmp/tmp.XXXXXXXXXXXXXX`

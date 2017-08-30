@@ -55,6 +55,10 @@ has_feature sshfs
 if [ $? -eq 1 ]; then
   install sshfs || exit 1
 fi
+has_feature perf
+if [ $? -eq 1 ]; then
+  install perf || exit 1
+fi
 
 # X display server
 has_feature X

@@ -411,9 +411,16 @@ function makex() {
 
   return ${PIPESTATUS[0]}
 }
+
+function spperf(){
+  perf record -F 990 $1
+  perf report -n --stdio
+}
+
 alias makex="makex | less -RiN -p error"
 # watch files system forchangess and reload
 alias make_loop="ack --cpp -f | entr $HOME/dotfiles/lib/entr_make.sh"
 alias test_loop="ack --cpp -f | entr make test"
+alias sp_perf="spperf"
 
 # vim: set ft=sh:

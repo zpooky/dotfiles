@@ -248,7 +248,7 @@ let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Wpedantic -Iexternal"
 " }}}
 
 " YouCompleteMe {{{
-if exists( "g:loaded_youcompleteme" )
+" if exists( "g:loaded_youcompleteme" )
   " YouCompleteMe - Install
   " cd ~/.vim/bundle/YouCompleteMe;./install.sh --clang-completer
 
@@ -293,7 +293,7 @@ if exists( "g:loaded_youcompleteme" )
     endif
   endfunction
 
-endif
+" endif
 " }}}
 
 " vim-cpp-enhanced-highlight {{{

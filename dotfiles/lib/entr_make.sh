@@ -2,3 +2,5 @@
 
 clear
 make
+
+eval $@
