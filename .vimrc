@@ -296,6 +296,28 @@ let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Wpedantic -Iexternal"
 " endif
 " }}}
 
+" gdb {{{
+" function! JobCallback(self, data) abort
+"   echom string([a:self, a:data])
+" endfunction
+function! GDBBreak()
+  let l:command1 = "echo 'break \"" . bufname("%") . ":" .line(".") . "\"' >> .gdb_breakpoints"
+  let l:command2 = "cat .gdb_breakpoints | sort | uniq > .gdb_breakpoints"
+
+  if v:version < 800
+      silent execute "!" . l:command1
+      silent execute "!" . l:command2
+      execute ':redraw!'
+    return
+  endif
+  let l:shell_command = [&shell, &shellcmdflag, l:command1 . "&&" . l:command2]
+  let j = job_start(l:shell_command) ", {'out_cb': 'JobCallback', 'exit_cb': 'JobCallback'}
+endfunction
+
+command! GDBBreak :call GDBBreak()
+autocmd FileType c,cpp,objc nnoremap <silent> <leader>j <esc>:GDBBreak<CR>
+" }}}
+
 " vim-cpp-enhanced-highlight {{{
 let g:cpp_class_scope_highlight = 0 " Highlighting of class scope
 let g:cpp_experimental_template_highlight = 1 " Highlighting of template functions
@@ -397,7 +419,8 @@ autocmd FileType c,cpp,objc map <silent> <F2> :A<CR>
 autocmd FileType c,cpp,objc map <silent> <leader><F2> :AV<CR>
 " }}}
 
-" Powerline {{{
+" Statusline {{{
+" Powerline
 " set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
 set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim
 " Always show statusline

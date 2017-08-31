@@ -82,6 +82,10 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+" j & k treats wrapped lines as usual lines
+noremap j gj
+noremap k gk
+
 " # mappings
 " :nmap - Display normal mode maps
 " :imap - Display insert mode maps

@@ -89,7 +89,7 @@ set showbreak="\u21aa "
 
 " Undo {{{
 set undolevels=1000      " Use many levels of undo
-set undofile             " Persisten undo
+set undofile             " File Persistent undo
 set undodir=$TEMP        " Store undo file in tmp directory
 " }}}
 
@@ -113,10 +113,10 @@ augroup END
 " }}}
 
 " Get rid of nasty lag on ESC (timeout and ttimeout seem useless) sp??
-" au InsertEnter * set timeoutlen=1
-" au InsertLeave * set timeoutlen=1000
-" set timeoutlen=1000 ttimeoutlen=0
-set esckeys " A <esc> is always a <esc> not part a escape sequence(used by older terminals?)
+au InsertEnter * set timeoutlen=1
+au InsertLeave * set timeoutlen=1000
+set timeoutlen=1000 ttimeoutlen=0
+" set esckeys " A <esc> is always a <esc> not part a escape sequence(used by older terminals?)
 
 " Search {{{
 set incsearch                     " search wile you type
@@ -152,6 +152,7 @@ abbreviate utillity utility
 abbreviate allways always
 abbreviate highligt highlight
 abbreviate allready already
+abbreviate exclusve exclusive
 
 " open new pane to the right 
 set splitright
