@@ -123,6 +123,7 @@ fi
 
 install_pkg xterm
 install_pkg zsh
+install_pkg zsh-completions
 install_pkg termite
 
 #xclip

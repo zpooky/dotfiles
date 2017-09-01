@@ -73,7 +73,7 @@ set history=1000                 " remember more commands and search history
 set wildmode=longest:full,full   " bash like command(:) completion when tab
 set wildmenu                     " Show command(:) completion with tab
 " ignore these files when :edit <tab>
-set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.exe,*.dat,*.bin,*.jar,*.png,*.out,*.pdf,*.cache,*.part,*.zip,*.tar,*.tar.gz,*.so,*.gif,*.a
+set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.exe,*.dat,*.bin,*.jar,*.png,*.out,*.pdf,*.cache,*.part,*.zip,*.tar,*.tar.gz,*.so,*.gif,*.a,*.stackdump
 " }}}
 
 " Blank charcters {{{
@@ -147,12 +147,19 @@ set nospell                       " Disable spell checking by default.
 set dictionary+=/usr/share/dict/words
 
 abbreviate teh the
+abbreviate wehn when
 abbreviate fro for
 abbreviate utillity utility
 abbreviate allways always
 abbreviate highligt highlight
 abbreviate allready already
 abbreviate exclusve exclusive
+abbreviate exclusve exclusive
+abbreviate beahviour behaviour
+abbreviate autocompleteion autocompletion
+abbreviate completeion completion
+abbreviate abreviate abbreviate
+abbreviate aquire acquire
 
 " open new pane to the right 
 set splitright

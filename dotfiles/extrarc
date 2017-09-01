@@ -95,7 +95,7 @@ alias sp-bnf="vim $REF_DIR/bnf.md"
 alias sp-floating-point="vim $REF_DIR/floating-point.txt" #TODO
 alias sp-static-dynamic-typing="vim $REF_DIR/static-dynamic-typing.md" #TODO
 alias sp-formal-verification="vim $REF_DIR/formal-verification.md"
-alias sp-crdt="vim $REF_DIR/formal-verification.md"       #TODO
+alias sp-crdt="vim $REF_DIR/crdt.md"       #TODO
 
 # editor
 alias sp-eclipse="vim $REF_DIR/eclipse.txt"
@@ -184,6 +184,8 @@ alias sp-context-switch="vim $DROPBOX_LINUX/context-switch.md"    #TODO
 alias sp-directory-structure="vim $DROPBOX_LINUX/directory-structure.md"
 alias sp-random="vim $DROPBOX_LINUX/random.md"
 alias sp-rcu="vim $DROPBOX_LINUX/rcu.md"    #TODO
+alias sp-tty="vim $DROPBOX_LINUX/tty.md"
+alias sp-write-to-file="vim $DROPBOX_LINUX/write-to-file.md"
 
 # linux syscall
 LINUX_SYSCALL_ROOT=$DROPBOX_LINUX/syscall

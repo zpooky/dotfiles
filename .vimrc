@@ -168,6 +168,8 @@ Plug 'wellle/targets.vim'
 " Centre search result
 Plug 'wincent/loupe'
 
+" TODO https://github.com/junegunn/vim-easy-align
+
 " unmap some a.vim mappings
 Plug '~/.vim/bundle/after',programming_cpp
 
@@ -194,6 +196,12 @@ if has('win32unix') || has('win64unix')
   " TODO should ignore special buffers like vim msg
   autocmd BufWritePre * if &ff != 'dos' && expand('%:p') =~ "^\/cygdrive\/d\/Worksapce\/" && expand('%:p') !~ "\/Dropbox\/" && input('set ff to dos [y]') == 'y' | setlocal ff=dos | endif
 endif
+
+" Pencil {{{
+" TODO
+" let g:pencil#wrapModeDefault = 'soft'   " default is 'hard'
+let g:languagetool_jar  = '/opt/languagetool/languagetool-commandline.jar'
+" }}}
 
 " Tagbar {{{
 let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
