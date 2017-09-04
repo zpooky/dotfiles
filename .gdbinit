@@ -36,3 +36,39 @@ sys.path.insert(0, os.environ['HOME']+'/sources/gdb_pp')
 from libstdcxx.v6.printers import register_libstdcxx_printers
 register_libstdcxx_printers (None)
 end
+
+# refresh dashboard [gdb hooks]
+# define - a new hook
+# hookpost - means post execution of command
+# -*command* - the command to hook for
+# dashboard - refreshes the gdb-dashboard
+
+# refresh on moving up a stack frame
+define hookpost-up
+dashboard
+end
+
+# refresh on moving down a stack frame
+define hookpost-down
+dashboard
+end
+
+# refresh on change stack frame
+define hookpost-frame
+dashboard
+end
+
+# refresh on new breakpoint
+define hookpost-break
+dashboard
+end
+
+# refresh active breakpoints
+define hookpost-clear
+dashboard
+end
+
+# save active breakpoints on gdb quit
+define hook-quit
+save breakpoints .gdb_breakpoints
+end
