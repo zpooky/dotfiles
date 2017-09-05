@@ -12,6 +12,11 @@ set nocompatible
 " # java dev
 " http://eclim.org/
 " http://www.lucianofiandesio.com/vim-configuration-for-happy-java-coding
+"
+" # other
+" https://github.com/tpope/vim-surround
+" https://github.com/junegunn/vim-easy-align
+
 
 " # Help
 " :h tips
@@ -44,7 +49,8 @@ set nocompatible
 " za        | toggle fold on current line
 
 " # Spelling
-" leader+ss     : toggle spell checking TODO: it interferes with split(leader+s)
+" <f6>          : toggle spell checking
+" <leader>z     : word auto suggestions
 " gq            : reformat visual
 " ctrl-n        : Next word suggestion
 " ctrl-p        : Previous word suggestion
@@ -67,6 +73,23 @@ set nocompatible
 
 " # c
 " % jump between {} () []
+
+" # Key Mapping
+" prefix:
+" (empty):  Normal, Visual+Select, Operator-Pending
+" n: Normal only
+" v: Visual+Select
+" o: Operator-Pending
+" x: Visual only
+" s: Select only
+" i: Insert
+" c: Command-line
+
+" *prefix*map     - Define Recursive key mapping
+" *prefix*noremap - Define None recursive key mapping
+" *prefix*unmap   - Undefine key mapping
+
+" :*prefix*map - list keymappings
 
 " vim-plug {{{
 call plug#begin('~/.vim/plugged')
@@ -95,9 +118,9 @@ Plug 'majutsushi/tagbar',programming_nhaskell
 " comment toggle shortcut
 Plug 'tomtom/tcomment_vim'
 " ctags, cscope & global generation
-Plug 'ludovicchabant/vim-gutentags',programming_nhaskell
+" Plug 'ludovicchabant/vim-gutentags',programming_nhaskell
 " gtags support
-Plug 'bbchung/gtags.vim',programming_nhaskell
+" Plug 'bbchung/gtags.vim',programming_nhaskell
 " support for different code formatters
 Plug 'Chiel92/vim-autoformat',programming
 " exapnds () {} "" '' []
@@ -132,15 +155,15 @@ Plug 'derekwyatt/vim-scala',programming_scala
 Plug 'vim-scripts/rfc-syntax', { 'for': 'rfc' }
 " systemd syntax
 Plug 'Matt-Deacalion/vim-systemd-syntax'
-" markdown syntax
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 
 " ##########
 " # text   #
 " ##########
 Plug 'reedes/vim-pencil', { 'for': 'markdown' }
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
-autocmd FileType markdown map <F11> :Goyo <bar> :TogglePencil <CR>
+" markdown syntax
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+Plug 'reedes/vim-colors-pencil'
 
 " ########
 " # tmux #
@@ -157,7 +180,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree',{'on':'NERDTreeToggle'}
 " fuzzy search (do step does not work)
 Plug 'wincent/command-t',{'do':'rake make'}
-" colors scope
+" colors scope () {}
 Plug 'luochen1990/rainbow'
 " Colorschemes
 Plug 'flazz/vim-colorschemes'
@@ -168,7 +191,9 @@ Plug 'wellle/targets.vim'
 " Centre search result
 Plug 'wincent/loupe'
 
-" TODO https://github.com/junegunn/vim-easy-align
+if has('win32unix') || has('win64unix')
+  Plug 'vim-airline/vim-airline'
+endif
 
 " unmap some a.vim mappings
 Plug '~/.vim/bundle/after',programming_cpp
@@ -185,8 +210,15 @@ endif
 call plug#end()
 " }}}
 
-" colorscheme
+" colorscheme {{{
 colorscheme railscasts
+" colorscheme base16
+" colorscheme molokai
+" colorscheme jellybeans      " !
+" colorscheme pencil
+
+set background=dark
+" }}}
 
 source $HOME/.standardvimrc
 
@@ -194,13 +226,34 @@ if has('win32unix') || has('win64unix')
   " in cygwin if we save a file not in dos mode outside the 'virtual' linux
   " prompt if it should not be in dos mode instead of the default unix
   " TODO should ignore special buffers like vim msg
+augroup AutogroupCygwin
+  autocmd!
   autocmd BufWritePre * if &ff != 'dos' && expand('%:p') =~ "^\/cygdrive\/d\/Worksapce\/" && expand('%:p') !~ "\/Dropbox\/" && input('set ff to dos [y]') == 'y' | setlocal ff=dos | endif
+augroup END
 endif
 
+" Goyo {{{
+augroup AutogroupGoyo
+  autocmd!
+  autocmd FileType markdown,mail,text,gitcommit map <silent> <F11> <Esc> :Goyo <Bar> :TogglePencil <CR>
+augroup END
+" }}}
+
+" Generic Writing {{{
+" let g:languagetool_jar  = '/opt/languagetool/languagetool-commandline.jar'
+" }}}
+
 " Pencil {{{
+" hardwrap - vim adds newlines character when line is to long
+" softwrap - vim presents long lines wrapped over multiple lines
 " TODO
-" let g:pencil#wrapModeDefault = 'soft'   " default is 'hard'
-let g:languagetool_jar  = '/opt/languagetool/languagetool-commandline.jar'
+" let g:pencil#wrapModeDefault = 'hard'
+" augroup AutogroupPencil
+"   autocmd!
+"   autocmd FileType markdown,mkd call pencil#init()
+"   autocmd FileType text         call pencil#init({'wrap': 'hard'})
+"   autocmd FileType gitcommit         call pencil#init({'wrap': 'hard'})
+" augroup END
 " }}}
 
 " Tagbar {{{
@@ -225,7 +278,7 @@ let g:scala_use_default_keymappings = 0
 " }}}
 
 " rainbow scope {{{
-" active rainbow scope higlight 
+" active rainbow scope higlight
 let g:rainbow_active = 1
 
 "\ 'guifgs': ['darkorange3', 'seagreen3', 'deepskyblue', 'darkorchid3', 'forestgreen', 'lightblue', 'hotpink', 'mistyrose1'],
@@ -249,9 +302,10 @@ let delimitMate_expand_cr = 1
 "'clang', 'clangcheck', 'cpplint','cppcheck', 'clangtidy'
 let g:ale_linters = {
 \   'cpp': ['g++','cppcheck'],
+\   'c': ['gcc','cppcheck'],
 \}
 
-let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Wpedantic -Iexternal"
+let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Wpedantic -Iexternal -I../external -I../external/googletest/googletest -Iexternal/googletest/googletest"
 
 " }}}
 
@@ -290,7 +344,11 @@ let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Wpedantic -Iexternal"
   "
   " Close all open buffers on entering a window if the only
   " buffer that's left is the NERDTree buffer
+augroup AutogroupNerdTree
+  autocmd!
   autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
+augroup END
+
   function! s:CloseIfOnlyNerdTreeLeft()
     if exists("t:NERDTreeBufName")
       if bufwinnr(t:NERDTreeBufName) != -1
@@ -323,12 +381,16 @@ function! GDBBreak()
 endfunction
 
 command! GDBBreak :call GDBBreak()
-autocmd FileType c,cpp,objc nnoremap <silent> <leader>j <esc>:GDBBreak<CR>
+augroup AutogroupGDB
+  autocmd!
+  autocmd FileType c,cpp,objc nnoremap <leader>j <esc>:GDBBreak<CR>
+augroup END
 " }}}
 
 " vim-cpp-enhanced-highlight {{{
-let g:cpp_class_scope_highlight = 0 " Highlighting of class scope
+let g:cpp_class_scope_highlight = 0           " Highlighting of class scope
 let g:cpp_experimental_template_highlight = 1 " Highlighting of template functions
+" let g:cpp_member_variable_highlight = 1
 " }}}
 
 " clang format {{{
@@ -337,9 +399,12 @@ let g:clang_format#style_options = {
             \ "Standard" : "Cpp11",
             \ "AllowShortFunctionsOnASingleLine" : "None",
             \ "BasedOnStyle" : "LLVM"}
-" clang format - map to <Leader>cf in C++ code(\cf)
-autocmd FileType c,cpp,objc nnoremap <buffer><Leader>f <esc>:<C-u>ClangFormat<CR>
-autocmd FileType c,cpp,objc vnoremap <buffer><Leader>f <esc>:ClangFormat<CR>
+
+augroup AutogroupClangFormat
+  autocmd!
+  autocmd FileType c,cpp,objc nnoremap <buffer><Leader>f <esc>:<C-u>ClangFormat<CR>
+  autocmd FileType c,cpp,objc vnoremap <buffer><Leader>f <esc>:ClangFormat<CR>
+augroup END
 " }}}
 
 " format json {{{
@@ -350,7 +415,11 @@ function! FormatJson()
   :normal `o
 endfunction!
 command! FormatJson :call FormatJson()
-autocmd FileType json nnoremap <buffer><leader>f <esc>:FormatJson<CR>
+
+augroup AutogroupFormatJson
+  autocmd!
+  autocmd FileType json nnoremap <buffer><leader>f <esc>:FormatJson<CR>
+augroup END
 " }}}
 
 " yapf {{{
@@ -361,7 +430,11 @@ let g:formatter_yapf_style = 'chrome'
 
 " vim-autoformat language formatters
 " - tidy for HTML, XHTML and XML(apt-get)
-autocmd FileType java,python,html,css,markdown,haskell,xml nnoremap <buffer><leader>f :Autoformat<CR>
+"
+augroup AutogroupYAPF
+  autocmd!
+  autocmd FileType java,python,html,css,markdown,haskell,xml nnoremap <buffer><leader>f :Autoformat<CR>
+augroup END
 " }}}
 
 " ctags {{{
@@ -421,16 +494,21 @@ noremap <silent> <leader>. <esc>:CommandTTag<cr>
 " }}}
 
 " a.vim {{{
-" toggle between header and source
-autocmd FileType c,cpp,objc map <silent> <F2> :A<CR>
-" open source or header in vertical split
-autocmd FileType c,cpp,objc map <silent> <leader><F2> :AV<CR>
+augroup AugroupAVIM
+  autocmd!
+  " toggle between header and source
+  autocmd FileType c,cpp,objc map <silent> <F2> :A<CR>
+  " open source or header in vertical split
+  autocmd FileType c,cpp,objc map <silent> <leader><F2> :AV<CR>
+
+augroup END
 " }}}
 
 " Statusline {{{
 " Powerline
 " set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
 set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim
+"
 " Always show statusline
 set laststatus=2
 " }}}

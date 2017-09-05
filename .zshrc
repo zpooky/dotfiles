@@ -70,7 +70,7 @@ NEWLINE=$'\n'
 autoload -U colors && colors
 PROMPT="%B${NEWLINE}%d%{$fg[yellow]%}:%{$reset_color%}${NEWLINE}%{$fg[red]%}%B>%{$reset_color%} %b"
 #this is displayed on the far right side
-# RPROMPT='[%F{yellow}%?%f]'
+RPROMPT='[%F{yellow}%?%f]'
 
 export SHELL=zsh
 

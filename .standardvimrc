@@ -40,6 +40,8 @@ set title                         " change the terminal's title
 set novisualbell                  " don't beep
 set noerrorbells                  " don't beep
 
+set splitright                    " open new pane to the right
+
 if !has('win32unix') && !has('win64unix')
   " does not work in cygwin
   set ttyfast                     " Faster redraw
@@ -47,11 +49,11 @@ endif
 
 " Highlight current line
 " Enable cursorline only on the active buffer
-augroup CursorLine
+augroup AutogroupCursorLine
     "https://stackoverflow.com/a/12018552
-    au!
-    au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-    au WinLeave * setlocal nocursorline
+    autocmd!
+    autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+    autocmd WinLeave * setlocal nocursorline
 augroup END
 " }}}
 
@@ -72,6 +74,7 @@ set guioptions=
 set history=1000                 " remember more commands and search history
 set wildmode=longest:full,full   " bash like command(:) completion when tab
 set wildmenu                     " Show command(:) completion with tab
+
 " ignore these files when :edit <tab>
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.exe,*.dat,*.bin,*.jar,*.png,*.out,*.pdf,*.cache,*.part,*.zip,*.tar,*.tar.gz,*.so,*.gif,*.a,*.stackdump
 " }}}
@@ -79,10 +82,12 @@ set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.exe,*.dat,*.bin,*.jar,*.png,*.out
 " Blank charcters {{{
 " debug set with "set list?" ?: means print current value
 set list                              " show special chars, such as tab: eol: trail: extends: nbsp:
+
 " chars to show for blank characters
 set listchars=tab:·»
 set listchars+=eol:¬
 set listchars+=trail:·
+
 " set showbreak=↪\                    " useful indication of wrapping
 set showbreak="\u21aa "
 " }}}
@@ -94,27 +99,32 @@ set undodir=$TEMP        " Store undo file in tmp directory
 " }}}
 
 " {{{
-augroup FileSpecific
-  au!
-  " manually set ft based on ext
-  au BufNewFile,BufFilePre,BufRead *.md set ft=markdown
-  au BufNewFile,BufRead *.nasm set ft=nasm
-  " type specific settings
-  au FileType markdown,python set ts=2 sw=2 expandtab
-  au FileType gitcommit,markdown,text,mail set textwidth=80
-  au FileType gitcommit,markdown,text,mail set colorcolumn=-1   " display bar at textwidth
-  au FileType gitcommit,markdown,text,mail set complete+=kspell
-  au FileType gitcommit,mail set spell                          " enable spelling for these types
+augroup AutogroupFileSpecific
+  autocmd!
 
-  " set file type for files without ext to c++
+  " manually set ft based on ext
+  autocmd BufNewFile,BufFilePre,BufRead *.md set ft=markdown
+  autocmd BufNewFile,BufRead *.nasm set ft=nasm
+
+  " type specific settings
+  autocmd FileType markdown,python set ts=2 sw=2 expandtab
+  autocmd FileType gitcommit,markdown,text,mail set textwidth=80
+  autocmd FileType gitcommit,markdown,text,mail set colorcolumn=-1   " display bar at textwidth
+  autocmd FileType gitcommit,markdown,text,mail set complete+=kspell
+  autocmd FileType gitcommit,mail set spell                          " enable spelling for these types
+
+  " set file type for files without extension like <atomic>
   autocmd BufRead,BufNewFile /usr/include/c++/* set syntax=cpp
 
 augroup END
 " }}}
 
 " Get rid of nasty lag on ESC (timeout and ttimeout seem useless) sp??
-au InsertEnter * set timeoutlen=1
-au InsertLeave * set timeoutlen=1000
+augroup AutogroupEscapeLag
+  autocmd!
+  au InsertEnter * set timeoutlen=1
+  au InsertLeave * set timeoutlen=1000
+augroup END
 set timeoutlen=1000 ttimeoutlen=0
 " set esckeys " A <esc> is always a <esc> not part a escape sequence(used by older terminals?)
 
@@ -126,17 +136,19 @@ set hlsearch                      " highlight search result
 " }}}
 
 " Visual mode {{{
-" move vertically by visual line, will treat wrapped lines as real lines
+" move up/down by visual line, will treat wrapped lines as real lines
 nnoremap j gj
 nnoremap k gk
 " }}}
 
 " Spell {{{
-map <leader>ss :setlocal spell!<CR>
+map <f6> <esc>:setlocal spell!<CR>
 map <leader>sn ]s
 map <leader>sp [s
 " map <leader>sa zg
-map <leader>sq z=
+" map <leader>sq z=
+" Drop down menu with spell corrections
+nnoremap <leader>z ea<C-X><C-S>
 
 " underline wrongly spelled words
 hi clear SpellBad
@@ -160,9 +172,11 @@ abbreviate autocompleteion autocompletion
 abbreviate completeion completion
 abbreviate abreviate abbreviate
 abbreviate aquire acquire
-
-" open new pane to the right 
-set splitright
+abbreviate coaless coalesce
+abbreviate coalessed coalesced
+abbreviate noxcept noexcept
+abbreviate probobly probably
+abbreviate charactor character
 
 " }}}
 
@@ -260,8 +274,8 @@ noremap Y y$
 noremap H _
 noremap L g_
 
-nnoremap <ENTER> :
-vnoremap <ENTER> :
+nnoremap <CR> :
+vnoremap <CR> :
 " }}}
 
 " insert character(space+*char*)

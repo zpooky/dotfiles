@@ -110,12 +110,14 @@ alias sp-asm="vim $REF_DIR/linux/asm.md" #TODO
 alias sp-bash="vim $REF_DIR/linux/bash.md"
 alias sp-vimscript="vim $REF_DIR/vimscript.md"
 
-# general
+# other
 alias sp-tls="vim $REF_DIR/tls2.md"
 alias sp-bitcoin="vim $REF_DIR/bitcoin.md"    #TODO
 alias sp-markdown="vim $REF_DIR/linux/markdown.md"
 alias sp-character="vim -p $REF_DIR/character/*.txt"
 alias sp-utf="vim $REF_DIR/character/utf.md" #TODO
+alias sp-firefox="vim $REF_DIR/firefox.md"
+alias sp-chrome="vim $REF_DIR/chrome.md"
 
 # cpp
 CPP_ROOT="$DROPBOX/c"
@@ -123,6 +125,8 @@ CPP_STUB="$CPP_ROOT/stub"
 CPP_EXAMPLE_MAKEFILE=$CPP_ROOT/Makefile
 CPP_EXAMPLE_TEST_MAKEFILE=$CPP_ROOT/Makefile_test
 
+alias sp-cinclude="vim $CPP_ROOT/cinclude.md"
+alias sp-c="vim $CPP_ROOT/c.md"
 alias cpp-gcc="vim $CPP_ROOT/gcc.md"
 alias cpp-make="vim $CPP_EXAMPLE_MAKEFILE"
 alias cpp-make-test="vim $CPP_EXAMPLE_TEST_MAKEFILE"
@@ -156,6 +160,8 @@ alias sp-limits="vim $DROPBOX_LINUX/debug/limits.md"
 alias sp-dd="vim $DROPBOX_LINUX/dd.md"
 alias sp-mkdir="vim $REF_DIR/mkdir.md"
 alias sp-sed="vim $DROPBOX_LINUX/sed.md"
+alias sp-xargs="vim $DROPBOX_LINUX/xargs.md"
+alias sp-tr="vim $DROPBOX_LINUX/tr.md"
 alias sp-ack="vim $DROPBOX_LINUX/ack.md"
 alias sp-w3m="vim $DROPBOX_LINUX/w3m.txt"
 alias sp-grep="vim $DROPBOX_LINUX/grep.md"
@@ -308,6 +314,7 @@ alias sp-vimrc="vim -p $HOME/.vimrc $HOME/.standardvimrc"
 
 #repeats $1
 alias sp_repeat="~/dotfiles/lib/repeat.sh"
+# alias sp_repeat_i="~/dotfiles/lib/repeati.sh"
 
 function mkdir_cd(){
   if [ ! -e $1 ]; then
