@@ -76,7 +76,8 @@ tmux select-pane -t 1 || exit 1
 # tmux send-keys "cat $FIFO_PIPE" C-m
 
 # gdb!!
-tmux send-keys "gdb $@" C-m
+echo "gdb --args $@"
+tmux send-keys "gdb --args '$1' '$2' '$3' '$4' '$5' '$6' '$7' '$8' '$9' '${10}'" C-m
 
 #---configure-dashboard------------------
 # source lines
