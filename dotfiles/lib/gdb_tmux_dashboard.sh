@@ -87,13 +87,16 @@ tmux send-keys "dashboard stack -style limit 1" C-m
 tmux send-keys "dashboard -style syntax_highlighting \"monokai\"" C-m
 # dashboard -style syntax_highlighting "paraiso-dark"
 
-tmux send-keys "b main" C-m
+BREAKPOINT_FILE='.gdb_breakpoints'
+grep "^break main$" "$BREAKPOINT_FILE"
+if [ ! $? -eq 0 ]; then
+  tmux send-keys "b main" C-m
+fi
 
 # save breakpoints to file
 # >>> save breakpoints .gdb_breakpoints
 # load breakpoints from file
 # >>> source .gdb_breakpoints
-BREAKPOINT_FILE='.gdb_breakpoints'
 if [ -e $BREAKPOINT_FILE ]; then
   tmux send-keys "source $BREAKPOINT_FILE" C-m
 fi

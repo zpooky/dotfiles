@@ -14,8 +14,10 @@ set nocompatible
 " http://www.lucianofiandesio.com/vim-configuration-for-happy-java-coding
 "
 " # other
-" https://github.com/tpope/vim-surround
+" https://github.com/tpope/vim-surround & https://github.com/machakann/vim-sandwich
 " https://github.com/junegunn/vim-easy-align
+" vim-easymotion(like navigation like quitebrowser) http://sherifsoliman.com/2016/05/30/favorite-vim-plugins/#vim-easymotion
+" for python http://sherifsoliman.com/2016/05/30/favorite-vim-plugins/#vim-indent-guides
 
 
 " # Help
@@ -163,7 +165,7 @@ Plug 'reedes/vim-pencil', { 'for': 'markdown' }
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 " markdown syntax
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-Plug 'reedes/vim-colors-pencil'
+Plug 'reedes/vim-colors-pencil'   " http://sherifsoliman.com/2016/05/30/favorite-vim-plugins/#vim-colors-pencil
 
 " ########
 " # tmux #
@@ -214,8 +216,9 @@ call plug#end()
 colorscheme railscasts
 " colorscheme base16
 " colorscheme molokai
-" colorscheme jellybeans      " !
+" colorscheme jellybeans      " ! https://github.com/nanotech/jellybeans.vim
 " colorscheme pencil
+" badwolf
 
 set background=dark
 " }}}
@@ -254,6 +257,23 @@ augroup END
 "   autocmd FileType text         call pencil#init({'wrap': 'hard'})
 "   autocmd FileType gitcommit         call pencil#init({'wrap': 'hard'})
 " augroup END
+
+" affects HardPencil only - blacklist formatting for text with tagged by these syntax
+" highlight group
+let g:pencil#autoformat_config = {
+      \   'markdown': {
+      \     'black': [
+      \       'htmlH[0-9]',
+      \       'markdown(Code|H[0-9]|Url|IdDeclaration|Link|Rule|Highlight[A-Za-z0-9]+)',
+      \       'markdown(FencedCodeBlock|InlineCode)',
+      \       'mkd(Code|Rule|Delimiter|Link|ListItem|IndentCode)',
+      \       'mmdTable[A-Za-z0-9]*',
+      \     ],
+      \     'white': [
+      \      'markdown(Code|Link)',
+      \     ],
+      \   },
+      \ }
 " }}}
 
 " Tagbar {{{
@@ -305,7 +325,7 @@ let g:ale_linters = {
 \   'c': ['gcc','cppcheck'],
 \}
 
-let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Wpedantic -Iexternal -I../external -I../external/googletest/googletest -Iexternal/googletest/googletest"
+let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Wpedantic -Iexternal -I../external -I../external/googletest/googletest -Iexternal/googletest/googletest -Werror-pointer-arith"
 
 " }}}
 
