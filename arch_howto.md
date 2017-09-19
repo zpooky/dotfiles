@@ -83,6 +83,9 @@ TODO
 - exit app: prefix+shift+q
 - change app focus: prefix+left/right
 - fullscreen toogle: prefix+f
+## window
+- prefix+*number* - goto workspace
+- ctrl+prefix+*number* - send current active program to *number*
 
 ##status bar(i3)
 /etc/i3status.conf
