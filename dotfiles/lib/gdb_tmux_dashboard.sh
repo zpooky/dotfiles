@@ -38,38 +38,40 @@ mkfifo $FIFO_PIPE || exit 1
 # (prefix+&) close window
 
 # do not grey out inactive window
+# TODO split window without creating a shell
 tmux new-window -n "gdb"
 tmux set-option window-style 'fg=colour250,bg=black'
 tmux set-option window-active-style 'fg=colour250,bg=black'
 
-# [memory][threads,expression]
+# echo "m+te" # [memory][threads,expression]
 tmux split-window -v -p 15
-tmux send-keys "echo \"memory_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
+tmux send-keys "echo \"memory_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
 
-# [source][assembly]
+# echo "s" # [source][assembly
 tmux select-pane -t 1
 tmux split-window -h -p 55
-tmux send-keys "echo \"source_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
+tmux send-keys "echo \"source_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
 
-# [registers]
+# echo "r+b" # [registers]
 tmux split-window -h -p 20
-tmux send-keys "echo \"registers_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
-tmux send-keys "echo \"breakpoints_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
+tmux send-keys "echo \"registers_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
+tmux send-keys "echo \"breakpoints_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
 
-# [assembly]
+# echo "a" # [assembly]
 tmux split-window -v -p 25 -t 2
-tmux send-keys "echo \"assembly_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
+echo "asplit"
+tmux send-keys "echo \"assembly_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
 
 # tmux select-pane -t 7
-#'echo "s+h"' # [stack,history]
+# echo "s+h" # [stack,history]
 tmux split-window -v -t 1
-tmux send-keys "echo \"history_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
-tmux send-keys "echo \"stack_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
+tmux send-keys "echo \"history_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
+tmux send-keys "echo \"stack_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
 
-#'echo "s+h"' # [threads,expression]
+# echo "t+e" # [threads,expression]
 tmux split-window -h -t 6
-tmux send-keys "echo \"threads_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
-tmux send-keys "echo \"expression_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE" C-m
+tmux send-keys "echo \"threads_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
+tmux send-keys "echo \"expression_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
 #---------------------
 
 tmux select-pane -t 1 || exit 1

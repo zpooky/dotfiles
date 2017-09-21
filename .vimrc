@@ -119,10 +119,12 @@ Plug 'w0rp/ale',programming
 Plug 'majutsushi/tagbar',programming_nhaskell
 " comment toggle shortcut
 Plug 'tomtom/tcomment_vim'
-" ctags, cscope & global generation
-" Plug 'ludovicchabant/vim-gutentags',programming_nhaskell
-" gtags support
-" Plug 'bbchung/gtags.vim',programming_nhaskell
+if !has('win32unix') && !has('win64unix')
+  " ctags, cscope & global generation
+  Plug 'ludovicchabant/vim-gutentags',programming_nhaskell
+  " gtags support
+  Plug 'bbchung/gtags.vim',programming_nhaskell
+endif
 " support for different code formatters
 Plug 'Chiel92/vim-autoformat',programming
 " exapnds () {} "" '' []
@@ -176,6 +178,8 @@ Plug 'christoomey/vim-tmux-navigator'
 " ###########
 " # general #
 " ###########
+" colorscheme: railscasts
+Plug 'jpo/vim-railscasts-theme'
 " git integration
 Plug 'tpope/vim-fugitive'
 " file explorer
@@ -184,8 +188,6 @@ Plug 'scrooloose/nerdtree',{'on':'NERDTreeToggle'}
 Plug 'wincent/command-t',{'do':'rake make'}
 " colors scope () {}
 Plug 'luochen1990/rainbow'
-" Colorschemes
-Plug 'flazz/vim-colorschemes'
 " historic buffer navigation
 Plug 'ton/vim-bufsurf'
 " additional *in* support like ci, to change between two ,
