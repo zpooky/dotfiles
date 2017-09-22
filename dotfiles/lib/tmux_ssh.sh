@@ -5,16 +5,18 @@ HOST_ADDRS=( "172.16.1.113" "172.16.1.114" "172.16.1.115" "172.16.1.116" )
 
 PAWD="`cat passwd`"
 
+LOG_DIR="/opt/compuverde/logs"
+
 # cp scripts
 for CURRENT in "${HOST_ADDRS[@]}"; do
   SCRIPT_ROOT="$HOME/work/log_cleanup"
   if [ -e $SCRIPT_ROOT ]; then
     SCRIPTS=( "hourly.sh" "log_cleanup.sh" )
-    SCRIPT_DEST="/opt/compuverde/logs"
+    SCRIPT_DEST=$LOG_DIR
 
     for CS in "${SCRIPTS[@]}"; do
       # echo "sshpass -p $PAWD scp $SCRIPT_ROOT/$CS $HOST_USER@$CURRENT:$SCRIPT_DEST || exit $?"
-      sshpass -p "$PAWD" scp "$SCRIPT_ROOT/$CS" "$HOST_USER@$CURRENT:$SCRIPT_DEST" || exit $?
+      sshpass -p "$PAWD" scp "$SCRIPT_ROOT/$CS" "$HOST_USER@$CURRENT:$SCRIPT_DEST" & #|| exit $?
     done
   fi
 done

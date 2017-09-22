@@ -42,6 +42,8 @@ set noerrorbells                  " don't beep
 
 set splitright                    " open new pane to the right
 
+set scrolloff=5                   " keep at least 5 lines above/below
+
 if !has('win32unix') && !has('win64unix')
   " does not work in cygwin
   set ttyfast                     " Faster redraw
@@ -76,7 +78,8 @@ set wildmode=longest:full,full   " bash like command(:) completion when tab
 set wildmenu                     " Show command(:) completion with tab
 
 " ignore these files when :edit <tab>
-set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.exe,*.dat,*.bin,*.jar,*.png,*.out,*.pdf,*.cache,*.part,*.zip,*.tar,*.tar.gz,*.so,*.gif,*.a,*.stackdump
+set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.exe,*.dat,*.bin,*.jar,*.out,*.pdf,*.cache,*.part,*.zip,*.tar,*.tar.gz,*.so,*.a,*.stackdump,*.bmp,*.gif,*.ico,*.jpg,*.png
+set wildignore+=*~,*.swp,*.tmp
 " }}}
 
 " Blank charcters {{{
@@ -93,6 +96,7 @@ set showbreak="\u21aa "
 " }}}
 
 " Undo {{{
+" https://advancedweb.hu/2017/09/12/vim-using-undo-branches
 set undolevels=1000      " Use many levels of undo
 set undofile             " File Persistent undo
 set undodir=$TEMP        " Store undo file in tmp directory
@@ -102,7 +106,7 @@ set undodir=$TEMP        " Store undo file in tmp directory
 augroup AutogroupFileSpecific
   autocmd!
 
-  " manually set ft based on ext
+  " manually set filetype based on ext
   autocmd BufNewFile,BufFilePre,BufRead *.md set ft=markdown
   autocmd BufNewFile,BufRead *.nasm set ft=nasm
 
@@ -142,9 +146,9 @@ nnoremap k gk
 " }}}
 
 " Spell {{{
-map <f6> <esc>:setlocal spell!<CR>
-map <leader>sn ]s
-map <leader>sp [s
+map <silent><f6> <esc>:setlocal spell!<CR>
+map zn ]s
+map zp [s
 " map <leader>sa zg
 " map <leader>sq z=
 " Drop down menu with spell corrections
@@ -214,26 +218,12 @@ set autoread            " auto reload after outside changes
 nnoremap <silent> <leader>w <esc>:wa<CR>
 " Alternative quit
 nnoremap <silent> <leader>q <esc>:q<CR>
-" map å to page up
-map <silent> å <PageUp>
-" map ä to page down
-map <silent> ä <PageDown>
 
 map <silent> <leader>, <esc>:noh<CR>
 
 " resize split
 map <silent> <leader>- <esc>:vertical resize -5<CR>
 map <silent> <leader>+ <esc>:vertical resize +5<CR>
-
-" navigate between splits
-" pane Left
-map <silent> <leader><Left> <C-W><Left>
-" pane Right
-map <silent> <leader><Right> <C-W><Right>
-" pane Up
-map <silent> <leader><Up> <C-W><Up>
-" pane Down
-map <silent> <leader><Down> <C-W><Down>
 
 " Alternative Moving around splits with the leader key
 nmap <silent> <leader>h :wincmd h<CR>
@@ -255,6 +245,10 @@ map <silent> <leader>O O<esc>
 " half page down/up
 map <silent> ö <C-D>
 map <silent> Ö <C-U>
+"
+" page up/down
+map <silent> å <PageUp>
+map <silent> ä <PageDown>
 
 " pane navigation
 map <silent> <leader>1 <esc>1gt
@@ -276,6 +270,10 @@ noremap L g_
 
 nnoremap <CR> :
 vnoremap <CR> :
+
+" Replay macro
+noremap Q @q
+
 " }}}
 
 " insert character(space+*char*)
@@ -304,12 +302,12 @@ nnoremap <expr> - (v:count > 3 ? "m'" . v:count : '') . '-'
 " inoremap <up> <nop>
 " inoremap <down> <nop>
 
-"disable f1
+" disable f1 help
 inoremap <F1> <nop>
 nnoremap <F1> <nop>
 vnoremap <F1> <nop>
 
-"disable man
+" disable man
 map <S-k> <Nop>
 
 " Avoid unintentional switches to Ex mode.

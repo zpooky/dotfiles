@@ -2,11 +2,11 @@
 set nocompatible
 
 " TODO
-" # tag
+" # rtag
 " https://github.com/lyuts/vim-rtags
 " https://github.com/Andersbakken/rtags/
 " https://skebanga.github.io/rtags-with-cmake-in-spacemacs/
-"
+
 " https://github.com/rprichard/sourceweb
 
 " # java dev
@@ -18,7 +18,6 @@ set nocompatible
 " https://github.com/junegunn/vim-easy-align
 " vim-easymotion(like navigation like quitebrowser) http://sherifsoliman.com/2016/05/30/favorite-vim-plugins/#vim-easymotion
 " for python http://sherifsoliman.com/2016/05/30/favorite-vim-plugins/#vim-indent-guides
-
 
 " # Help
 " :h tips
@@ -53,16 +52,14 @@ set nocompatible
 " # Spelling
 " <f6>          : toggle spell checking
 " <leader>z     : word auto suggestions
+" zn            : next wrongly spelled
+" zp            : previous wrongly spelled
 " gq            : reformat visual
-" ctrl-n        : Next word suggestion
-" ctrl-p        : Previous word suggestion
-"
+
 " z=            : list suggestions for word under cursor
 " 1z=           : auto select 1 with showing suggestions
 " :spellr       : Repeat the replacement done by z=
 "
-" ]s            : next wrongly spelled
-" {s            : previous
 " zg            : add word to dictonary
 
 " #
@@ -105,10 +102,10 @@ call plug#begin('~/.vim/plugged')
 " ###############
 " # programming #
 " ###############
-let programming_ncpp=         {'for':[          'haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake']}
-let programming_ncpp_nhaskell={'for':[                    'scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake']}
-let programming=              {'for':['c','cpp','haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake']}
-let programming_nhaskell=     {'for':['c','cpp',          'scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake']}
+let programming_ncpp=         {'for':[          'haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake','javascript','ocaml']}
+let programming_ncpp_nhaskell={'for':[                    'scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake','javascript','ocaml']}
+let programming=              {'for':['c','cpp','haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake','javascript','ocaml']}
+let programming_nhaskell=     {'for':['c','cpp',          'scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake','javascript','ocaml']}
 let programming_cpp=          {'for':['c','cpp']}
 let programming_haskell=      {'for':'haskell'}
 let programming_scala=        {'for':'scala'}
@@ -129,6 +126,11 @@ endif
 Plug 'Chiel92/vim-autoformat',programming
 " exapnds () {} "" '' []
 Plug 'Raimondi/delimitMate',programming_nhaskell
+" repl based on content from current file
+Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
+" # vim             command
+" Codi [filetype] - activates Codi
+" Codi!           - deactivates Codi
 
 " #######
 " # cpp #
