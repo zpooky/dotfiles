@@ -196,6 +196,8 @@ Plug 'ton/vim-bufsurf'
 Plug 'wellle/targets.vim'
 " Centre search result
 Plug 'wincent/loupe'
+" Visual select * support
+Plug 'bronson/vim-visual-star-search'
 
 if has('win32unix') || has('win64unix')
   Plug 'vim-airline/vim-airline'
@@ -334,56 +336,54 @@ let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Wpedantic -Iexternal -I../e
 " }}}
 
 " YouCompleteMe {{{
-" if exists( "g:loaded_youcompleteme" )
-  " YouCompleteMe - Install
-  " cd ~/.vim/bundle/YouCompleteMe;./install.sh --clang-completer
+" YouCompleteMe - Install
+" cd ~/.vim/bundle/YouCompleteMe;./install.sh --clang-completer
 
-  let g:ycm_show_diagnostics_ui = 0
-  let g:ycm_collect_identifiers_from_tags_files = 1
-  let g:ycm_confirm_extra_conf = 0                        " disable confirm of project specific ycm conf
+let g:ycm_show_diagnostics_ui = 0
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_confirm_extra_conf = 0                        " disable confirm of project specific ycm conf
 
-  let g:ycm_autoclose_preview_window_after_completion = 0 " do not directly close prototype window
-  let g:ycm_autoclose_preview_window_after_insertion = 1  " close it when I exit insert mode.
-  let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+let g:ycm_autoclose_preview_window_after_completion = 0 " do not directly close prototype window
+let g:ycm_autoclose_preview_window_after_insertion = 1  " close it when I exit insert mode.
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 
-  " " ycm ultisnip integration
-  " " YCM + UltiSnips works like crap
-  " " https://www.youtube.com/watch?v=WeppptWfV-0
-  " let g:ycm_use_ultisnips_completer = 1
-  " let g:ycm_key_list_select_completion=[]
-  " let g:ycm_key_list_previous_completion=[]
-  " let g:UltiSnipsExpandTrigger = '<Tab>'
-  " let g:UltiSnipsJumpForwardTrigger = '<Tab>'
-  " let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
-  "
-  " let g:UltiSnipsMappingsToIgnore = ['autocomplete']
-  "
-  " let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
-  " let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
-  " let g:ycm_key_list_accept_completion = ['<C-y>']
+" " ycm ultisnip integration
+" " YCM + UltiSnips works like crap
+" " https://www.youtube.com/watch?v=WeppptWfV-0
+" let g:ycm_use_ultisnips_completer = 1
+" let g:ycm_key_list_select_completion=[]
+" let g:ycm_key_list_previous_completion=[]
+" let g:UltiSnipsExpandTrigger = '<Tab>'
+" let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+" let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+"
+" let g:UltiSnipsMappingsToIgnore = ['autocomplete']
+"
+" let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
+" let g:ycm_key_list_accept_completion = ['<C-y>']
 
-  " using Ycm to navigate
-  " https://github.com/Valloric/YouCompleteMe#goto-commands
-  map <silent> <F3> <esc>:YcmCompleter GoTo<CR>
-  "
-  " Close all open buffers on entering a window if the only
-  " buffer that's left is the NERDTree buffer
+" using Ycm to navigate
+" https://github.com/Valloric/YouCompleteMe#goto-commands
+map <silent> <F3> <esc>:YcmCompleter GoTo<CR>
+"
+" Close all open buffers on entering a window if the only
+" buffer that's left is the NERDTree buffer
 augroup AutogroupNerdTree
   autocmd!
   autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
 augroup END
 
-  function! s:CloseIfOnlyNerdTreeLeft()
-    if exists("t:NERDTreeBufName")
-      if bufwinnr(t:NERDTreeBufName) != -1
-        if winnr("$") == 1
-          q
-        endif
+function! s:CloseIfOnlyNerdTreeLeft()
+  if exists("t:NERDTreeBufName")
+    if bufwinnr(t:NERDTreeBufName) != -1
+      if winnr("$") == 1
+        q
       endif
     endif
-  endfunction
+  endif
+endfunction
 
-" endif
 " }}}
 
 " gdb {{{

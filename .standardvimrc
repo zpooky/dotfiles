@@ -314,7 +314,10 @@ map <S-k> <Nop>
 nnoremap Q <nop>
 
 " Stop that stupid window from popping up
-map q: <esc>:q
+nmap q: <esc>:q
+
+nnoremap ' `
+nnoremap ` '
 
 " }}}
 

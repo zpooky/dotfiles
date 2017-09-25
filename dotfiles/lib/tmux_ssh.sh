@@ -22,14 +22,23 @@ for CURRENT in "${HOST_ADDRS[@]}"; do
 done
 
 # run scripts
-# ps aux | grep "\./hourly\.sh \./clean_log\.sh$"
 
 # tmux display-message -p "#{pane_id}"
+# tmux send-keys -t '%204' "ls" C-M
 
 # start dashboard
 tmux new-window -n "CV" || exit $?
 for CURRENT in "${HOST_ADDRS[@]}"; do
-  tmux split-window "sshpass -p "$PAWD" ssh $HOST_USER@$CURRENT" || exit $?
+  # tmux split-window "sshpass -p "$PAWD" ssh $HOST_USER@$CURRENT" || exit $?
+
+  sshpass -p "$PAWD" ssh "$HOST_USER@$CURRENT" <<'ENDSSH'
+ps aux | grep "\./hourly\.sh \./log_cleanup\.sh$"
+if [ ! $? -eq 0 ]; then
+  cd /opt/compuverde/logs
+  nohup ./hourly.sh ./log_cleanup.sh &
+fi
+ENDSSH
+
 done
 
 tmux select-layout tiled
