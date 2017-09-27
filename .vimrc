@@ -1,3 +1,7 @@
+"     k
+" h     l
+"   j
+
 " Turn off vi compatibility.(should be set first)
 set nocompatible
 
@@ -86,7 +90,7 @@ set nocompatible
 
 " *prefix*map     - Define Recursive key mapping
 " *prefix*noremap - Define None recursive key mapping
-" *prefix*unmap   - Undefine key mapping
+" *prefix*unmap   - Undefine key mapping?
 
 " :*prefix*map - list keymappings
 
@@ -313,7 +317,7 @@ let g:rainbow_active = 1
 let g:rainbow_conf =
 \ {
 \ 'ctermfgs': ['lightblue', 'red', 'cyan', 'darkgreen'],
-\ 'operators': '_[\,\-\<\>\.|]_'
+\ 'operators': '_[\,\-\<\>\.|\*]_'
 \ }
 
 " }}}
@@ -558,3 +562,4 @@ let g:gutentags_gtags_cscope_executable = 'gtags-cscope'
 let g:gutentags_auto_add_gtags_cscope = 1
 
 " }}}
+

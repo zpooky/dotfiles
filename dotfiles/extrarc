@@ -177,6 +177,7 @@ alias sp-package="vim $DROPBOX_LINUX/install.txt"
 alias sp-tar="vim $DROPBOX_LINUX/compression.txt"
 alias sp-nice="vim $DROPBOX_LINUX/nice.md"
 alias sp-ar="vim $DROPBOX_LINUX/ar.md"
+alias sp-gnu-parallel="vim $DROPBOX_LINUX/gnu-parallel.md"
 
 # linux
 alias sp-linux="cd $DROPBOX_LINUX"

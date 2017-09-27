@@ -28,7 +28,7 @@ compinit
 
 alias ll="ls -alh"
 
-if [[ $TERM = "" || -z $TERM ]];then
+if [[ $TERM = "" || -z $TERM ]]; then
   export TERM="xterm-256color"
 fi
 

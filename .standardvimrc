@@ -181,6 +181,9 @@ abbreviate coalessed coalesced
 abbreviate noxcept noexcept
 abbreviate probobly probably
 abbreviate charactor character
+abbreviate paralell parallel
+abbreviate itterations iterations
+abbreviate itteration iteration
 
 " }}}
 
@@ -276,10 +279,6 @@ noremap Q @q
 
 " }}}
 
-" insert character(space+*char*)
-" nmap <Space> i_<Esc>r " Need to have another than space it is now the leader
-" nmap <S-Enter> O<Esc>j
-
 " jumplist {{{
 " Store relative line number jumps in the jumplist if they exceed a threshold.
 nnoremap <expr> k (v:count > 3 ? "m'" . v:count : '') . 'k'
@@ -318,6 +317,10 @@ nmap q: <esc>:q
 
 nnoremap ' `
 nnoremap ` '
+
+"
+map + <nop>
+map - <nop>
 
 " }}}
 
