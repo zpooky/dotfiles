@@ -177,6 +177,7 @@ abbreviate completeion completion
 abbreviate abreviate abbreviate
 abbreviate aquire acquire
 abbreviate coaless coalesce
+abbreviate coalesse coalesce
 abbreviate coalessed coalesced
 abbreviate noxcept noexcept
 abbreviate probobly probably
@@ -184,6 +185,10 @@ abbreviate charactor character
 abbreviate paralell parallel
 abbreviate itterations iterations
 abbreviate itteration iteration
+abbreviate refrences references
+abbreviate dequeing dequeuing
+abbreviate fullfill fulfil
+abbreviate increse increase
 
 " }}}
 

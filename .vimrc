@@ -16,8 +16,8 @@ set nocompatible
 " # java dev
 " http://eclim.org/
 " http://www.lucianofiandesio.com/vim-configuration-for-happy-java-coding
-"
-" # other
+
+" # other plugins
 " https://github.com/tpope/vim-surround & https://github.com/machakann/vim-sandwich
 " https://github.com/junegunn/vim-easy-align
 " vim-easymotion(like navigation like quitebrowser) http://sherifsoliman.com/2016/05/30/favorite-vim-plugins/#vim-easymotion
@@ -127,7 +127,7 @@ if !has('win32unix') && !has('win64unix')
   Plug 'bbchung/gtags.vim',programming_nhaskell
 endif
 " support for different code formatters
-Plug 'Chiel92/vim-autoformat',programming
+Plug 'sbdchd/neoformat'
 " exapnds () {} "" '' []
 Plug 'Raimondi/delimitMate',programming_nhaskell
 " repl based on content from current file
@@ -139,7 +139,6 @@ Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
 " #######
 " # cpp #
 " #######
-Plug 'rhysd/vim-clang-format',programming_cpp
 " toggle between src/header
 Plug 'vim-scripts/a.vim',programming_cpp
 " an alternative to color_coded
@@ -195,7 +194,7 @@ Plug 'wincent/command-t',{'do':'rake make'}
 " colors scope () {}
 Plug 'luochen1990/rainbow'
 " historic buffer navigation
-Plug 'ton/vim-bufsurf'
+Plug 'ton/vim-bufsurf'  "?
 " additional *in* support like ci, to change between two ,
 Plug 'wellle/targets.vim'
 " Centre search result
@@ -417,21 +416,18 @@ augroup END
 
 " vim-cpp-enhanced-highlight {{{
 let g:cpp_class_scope_highlight = 0           " Highlighting of class scope
-let g:cpp_experimental_template_highlight = 1 " Highlighting of template functions
+let g:cpp_experimental_template_highlight = 0 " Highlighting of template functions
 " let g:cpp_member_variable_highlight = 1
 " }}}
 
-" clang format {{{
-let g:clang_format#style_options = {
-            \ "AlwaysBreakTemplateDeclarations" : "true",
-            \ "Standard" : "Cpp11",
-            \ "AllowShortFunctionsOnASingleLine" : "None",
-            \ "BasedOnStyle" : "LLVM"}
 
-augroup AutogroupClangFormat
+" neoformat {{{
+let g:neoformat_enabled_cpp = ['clangformat']
+
+augroup AutogroupNeoformat
   autocmd!
-  autocmd FileType c,cpp,objc nnoremap <buffer><Leader>f <esc>:<C-u>ClangFormat<CR>
-  autocmd FileType c,cpp,objc vnoremap <buffer><Leader>f <esc>:ClangFormat<CR>
+  autocmd FileType c,cpp nnoremap <buffer><leader>f <esc>:Neoformat<CR>
+  autocmd FileType c,cpp vnoremap <buffer><leader>f <esc>:Neoformat<CR>
 augroup END
 " }}}
 
@@ -450,19 +446,16 @@ augroup AutogroupFormatJson
 augroup END
 " }}}
 
-" yapf {{{
-" framework for code formatters
+" debug syntax {{{
+function! SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
 
-" format python
-let g:formatter_yapf_style = 'chrome'
-
-" vim-autoformat language formatters
-" - tidy for HTML, XHTML and XML(apt-get)
-"
-augroup AutogroupYAPF
-  autocmd!
-  autocmd FileType java,python,html,css,markdown,haskell,xml nnoremap <buffer><leader>f :Autoformat<CR>
-augroup END
+command! SynStack :call SynStack()
+map <F7> :SynStack<CR>
 " }}}
 
 " ctags {{{
