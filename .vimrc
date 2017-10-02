@@ -71,6 +71,12 @@ set nocompatible
 " autocmd!  - directive clears all the autocmd's for the current group.
 "             useful to avoid duplicated autocmd when file is sourced twice
 
+" # vim-surround
+" ds(   - delete surrounding '()'
+" cs([  - change surrounding '()' to '[]'
+" ysiw] - surround 'iw' with '[]'
+" S(    - in Visual mode sorrund selected with '()'
+
 " fold markers are {{{ and }}}
 " set foldmethod=marker
 
@@ -187,6 +193,10 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'jpo/vim-railscasts-theme'
 " git integration
 Plug 'tpope/vim-fugitive'
+" adds commands to surround: XwordX
+Plug 'tpope/vim-surround'
+" to make repeat(.) work with vim-surround
+Plug 'tpope/vim-repeat'
 " file explorer
 Plug 'scrooloose/nerdtree',{'on':'NERDTreeToggle'}
 " fuzzy search (do step does not work)
@@ -282,6 +292,14 @@ let g:pencil#autoformat_config = {
       \      'markdown(Code|Link)',
       \     ],
       \   },
+      \ }
+" }}}
+
+" Codi {{{
+let g:codi#interpreters = {
+      \ 'python': {
+      \ 'bin': 'python3',
+      \ },
       \ }
 " }}}
 

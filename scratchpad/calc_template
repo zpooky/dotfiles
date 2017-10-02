@@ -1,0 +1,9 @@
+##=Raw================
+#hex:    0xDEADBEEF
+#to hex: hex(number)
+
+#binary: 0b1011_1111
+#to bin: bin(number)
+
+#octet:  0100
+# ===================

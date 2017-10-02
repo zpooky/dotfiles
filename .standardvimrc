@@ -34,7 +34,7 @@ set showcmd                       " Show incomplete vim motions as I type
 set relativenumber                " Relative line numbers
 set number                        " Relative + Absolute number
 set lazyredraw                    " don't bother updating screen during macro playback
-set showmatch                     " highlight matching [{()}]
+" set showmatch                     " blink matching [{()}] on insert
 set title                         " change the terminal's title
 
 set novisualbell                  " don't beep
@@ -42,7 +42,7 @@ set noerrorbells                  " don't beep
 
 set splitright                    " open new pane to the right
 
-set scrolloff=5                   " keep at least 5 lines above/below
+set scrolloff=5                   " keep at least 5 lines above/below when scrolling
 
 if !has('win32unix') && !has('win64unix')
   " does not work in cygwin
