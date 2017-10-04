@@ -185,7 +185,9 @@ abbreviate charactor character
 abbreviate paralell parallel
 abbreviate itterations iterations
 abbreviate itteration iteration
+abbreviate itterating iterating
 abbreviate refrences references
+abbreviate refrence reference
 abbreviate dequeing dequeuing
 abbreviate fullfill fulfil
 abbreviate increse increase
@@ -195,6 +197,10 @@ abbreviate deque dequeue
 abbreviate continuasly continuously
 abbreviate controll control
 abbreviate haveing having
+abbreviate atomicly atomically
+abbreviate considure consider
+abbreviate recycked recycled
+abbreviate apend append
 
 " }}}
 

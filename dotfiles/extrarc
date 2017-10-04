@@ -382,6 +382,7 @@ function setup_meta(){
     # cscope -b -q -k
 
     gtags
+    make bear
 
     setup_ycm
     DIRS=( "test" )
@@ -414,8 +415,10 @@ function setup_project(){
     cp $CPP_EXAMPLE_MAKEFILE .
     cp $CPP_EXAMPLE_TEST_MAKEFILE $TEST_DIRECTORY/Makefile
     cp "$CPP_STUB/.gitignore" .
+    cp "$CPP_STUB/app.h" .
+    cp "$CPP_STUB/app.cpp" .
     cp "$CPP_STUB/main.cpp" .
-    cp "$CPP_STUB/MainTest.cpp" $TEST_DIRECTORY
+    cp "$CPP_STUB/AppTest.cpp" $TEST_DIRECTORY
 
     cd $EXTERNAL_DIRECTORY
     git submodule add https://github.com/google/googletest.git
@@ -439,15 +442,21 @@ function makex() {
   return ${PIPESTATUS[0]}
 }
 
+function spperf_report(){
+  perf report -n --stdio
+}
+
 function spperf(){
   perf record -F 990 $@
-  perf report -n --stdio
+  spperf_report
 }
 
 alias makex="makex | less -RiN -p error"
 # watch files system forchangess and reload
 alias make_loop="ack --cpp -f | entr $HOME/dotfiles/lib/entr_make.sh"
 alias test_loop="ack --cpp -f | entr $HOME/dotfiles/lib/entr_make_test.sh"
+
 alias sp_perf="spperf $@"
+alias sp_perf_report="spperf_report"
 
 # vim: set ft=sh:
