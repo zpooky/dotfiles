@@ -204,7 +204,7 @@ Plug 'wincent/command-t',{'do':'rake make'}
 " colors scope () {}
 Plug 'luochen1990/rainbow'
 " historic buffer navigation
-Plug 'ton/vim-bufsurf'  "?
+Plug 'ton/vim-bufsurf'  " TODO ?
 " additional *in* support like ci, to change between two ,
 Plug 'wellle/targets.vim'
 " Centre search result

@@ -61,6 +61,11 @@ if [ $? -eq 1 ]; then
   install xorg-xinit || exit 1
 fi
 
+has_feature nslookup
+if [ $? -eq 1 ]; then
+  install dnsutils
+fi
+
 # window manager
 install_pkg dmenu
 has_feature i3
@@ -201,3 +206,8 @@ has_feature bear
 if [ $? -eq 1 ]; then
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/bear.tar.gz"
 fi
+
+# has_feature alacritty
+# if [ $? -eq 1 ]; then
+#   install_aur "https://aur.archlinux.org/alacritty-git.git"
+# fi
