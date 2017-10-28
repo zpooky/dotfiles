@@ -207,6 +207,11 @@ if [ $? -eq 1 ]; then
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/bear.tar.gz"
 fi
 
+has_feature tixati
+if [ $? -eq 1 ]; then
+  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/tixati.tar.gz"
+fi
+
 # has_feature alacritty
 # if [ $? -eq 1 ]; then
 #   install_aur "https://aur.archlinux.org/alacritty-git.git"

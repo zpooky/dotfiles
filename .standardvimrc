@@ -77,10 +77,23 @@ set history=1000                 " remember more commands and search history
 set wildmode=longest:full,full   " bash like command(:) completion when tab
 set wildmenu                     " Show command(:) completion with tab
 
+" Suffixes that get lower priority when doing tab completion for filenames.
+" These are files we are not likely to want to edit or read.
+set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.png,.jpg
+
 " ignore these files when :edit <tab>
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.exe,*.dat,*.bin,*.jar,*.out,*.pdf,*.cache,*.part,*.zip,*.tar,*.tar.gz,*.so,*.a,*.stackdump,*.bmp,*.gif,*.ico,*.jpg,*.png
 set wildignore+=*~,*.swp,*.tmp
 " }}}
+
+
+augroup AutogroupRememberFilePosition
+  autocmd!
+  autocmd BufReadPost *
+        \ if line("'\"") > 1 && line("'\"") <= line("$") |
+        \   exe "normal! g`\"" |
+        \ endif
+augroup END
 
 " Blank charcters {{{
 " debug set with "set list?" ?: means print current value
@@ -96,10 +109,16 @@ set showbreak="\u21aa "
 " }}}
 
 " Undo {{{
+if !isdirectory("/tmp/.vim")
+    call mkdir("/tmp/.vim", "", 0770)
+endif
+if !isdirectory("/tmp/.vim/undo-dir")
+    call mkdir("/tmp/.vim/undo-dir", "", 0700)
+endif
 " https://advancedweb.hu/2017/09/12/vim-using-undo-branches
 set undolevels=1000      " Use many levels of undo
 set undofile             " File Persistent undo
-set undodir=$TEMP        " Store undo file in tmp directory
+set undodir=/tmp/.vim/undo-dir        " Store undo file in tmp directory
 " }}}
 
 " {{{
@@ -170,7 +189,7 @@ abbreviate allways always
 abbreviate highligt highlight
 abbreviate allready already
 abbreviate exclusve exclusive
-abbreviate exclusve exclusive
+abbreviate Exclusve Exclusive
 abbreviate beahviour behaviour
 abbreviate autocompleteion autocompletion
 abbreviate completeion completion
@@ -203,6 +222,7 @@ abbreviate recycked recycled
 abbreviate apend append
 abbreviate keept kept
 abbreviate atleast "at least"
+abbreviate defein define
 
 " }}}
 
