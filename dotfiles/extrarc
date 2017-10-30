@@ -154,6 +154,7 @@ alias sp-debug-hardware="vim $DROPBOX_LINUX/debug/hardware.md"
 alias sp-debug-io="vim $DROPBOX_LINUX/debug/io.md"
 alias sp-debug-cpu="vim $DROPBOX_LINUX/debug/cpu.md"
 alias sp-debug-network="vim $DROPBOX_LINUX/debug/network.md"
+alias sp-debug-power="vim $DROPBOX_LINUX/debug/power.md"
 alias sp-limits="vim $DROPBOX_LINUX/debug/limits.md"
 
 # Linux utils
@@ -163,8 +164,11 @@ alias sp-sed="vim $DROPBOX_LINUX/sed.md"
 alias sp-xargs="vim $DROPBOX_LINUX/xargs.md"
 alias sp-tr="vim $DROPBOX_LINUX/tr.md"
 alias sp-ack="vim $DROPBOX_LINUX/ack.md"
+alias sp-ag="vim $DROPBOX_LINUX/ag.md"
 alias sp-w3m="vim $DROPBOX_LINUX/w3m.txt"
 alias sp-grep="vim $DROPBOX_LINUX/grep.md"
+alias sp-awk="vim $DROPBOX_LINUX/awk.md"
+alias sp-chmod="vim $DROPBOX_LINUX/chmod.md"
 alias sp-date="vim $REF_DIR/linux/date.md"
 alias sp-mutt="vim $DROPBOX_LINUX/mutt.txt"
 alias sp-pipe="vim $REF_DIR/linux/pipe.txt"
@@ -177,6 +181,7 @@ alias sp-package="vim $DROPBOX_LINUX/install.txt"
 alias sp-tar="vim $DROPBOX_LINUX/compression.txt"
 alias sp-nice="vim $DROPBOX_LINUX/nice.md"
 alias sp-ar="vim $DROPBOX_LINUX/ar.md"
+alias sp-ip="vim $DROPBOX_LINUX/ip.md"
 alias sp-gnu-parallel="vim $DROPBOX_LINUX/gnu-parallel.md"
 
 # linux
@@ -218,6 +223,7 @@ alias sp-dma="vim $REF_DIR/dma.md"    #TODO
 alias sp-cpu="vim $REF_DIR/cpu.txt"    #TODO
 alias sp-MESI="vim $REF_DIR/MESI.txt"    #TODO
 alias sp-serializability-linearizability="vim $REF_DIR/concurrency/serializability-linearizability.md" #TODO
+alias sp-linearizability-serializability="sp-serializability-linearizability"
 
 # memory
 alias sp-memory="vim -p $REF_DIR/memory/*"   #TODO
@@ -304,7 +310,7 @@ alias n="sp_newsbeuter"
 alias duh="du -h -d 0 [^.]*"
 
 #force ssh to use xterm when ssh instead of tmux-colour256
-alias ssh='TERM=xterm ssh'
+alias ssh='TERM=xterm ssh '
 
 alias sp-sync="$DOTFILES_LIB/mail_sync.sh"
 
@@ -345,8 +351,8 @@ function mkdir_cd(){
 
 alias mcd="mkdir_cd"
 
+SCRATCHPAD_ROOT=$HOME/scratchpad
 function codi(){
-  local SCRATCHPAD_ROOT=$HOME/scratchpad
   local CODI_FILE="$SCRATCHPAD_ROOT/calc_`date +'%Y_%m_%d'`.py"
   if [ ! -e $CODI_FILE ]; then
     cp $SCRATCHPAD_ROOT/calc_template $CODI_FILE
@@ -359,6 +365,7 @@ function codi(){
     Codi python $@"
 }
 
+alias sp-calc="cd $SCRATCHPAD_ROOT"
 alias sp_calc="codi"
 
 # ===============================================

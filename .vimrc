@@ -208,7 +208,9 @@ Plug 'ton/vim-bufsurf'  " TODO ?
 " additional *in* support like ci, to change between two ,
 Plug 'wellle/targets.vim'
 " Centre search result
-Plug 'wincent/loupe'
+" Plug 'wincent/loupe'
+noremap n nzz
+noremap N Nzz
 " Visual select * support
 Plug 'bronson/vim-visual-star-search'
 
@@ -226,6 +228,9 @@ if !has('win32unix') && !has('win64unix')
   " vanilla YCM
   Plug '~/.vim/bundle/YouCompleteMe',programming_ncpp_nhaskell
 else
+  Plug 'Rip-Rip/clang_complete',{'do':'make install','for':['cpp','c']}
+  let g:clang_close_preview = 1
+  set completeopt-=preview
 endif
 
 call plug#end()

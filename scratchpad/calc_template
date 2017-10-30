@@ -6,4 +6,7 @@
 #to bin: bin(number)
 
 #octet:  0100
+
+#char -> raw: ord('a')
+#raw -> char: chr(97)
 # ===================

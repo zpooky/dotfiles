@@ -13,6 +13,12 @@ if has('gui_running')
   " set guifont=*
 endif
 
+if $TERM == "xterm-256color"
+  if has('nvim') || has('termguicolors')
+    set termguicolors
+  endif
+endif
+
 if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal" || $TERM == "urxvt" || $TERM == "tmux-256color"
   set t_Co=256
 endif
@@ -109,11 +115,14 @@ set showbreak="\u21aa "
 " }}}
 
 " Undo {{{
-if !isdirectory("/tmp/.vim")
+if has("win32")
+else
+  if !isdirectory("/tmp/.vim")
     call mkdir("/tmp/.vim", "", 0770)
-endif
-if !isdirectory("/tmp/.vim/undo-dir")
+  endif
+  if !isdirectory("/tmp/.vim/undo-dir")
     call mkdir("/tmp/.vim/undo-dir", "", 0700)
+  endif
 endif
 " https://advancedweb.hu/2017/09/12/vim-using-undo-branches
 set undolevels=1000      " Use many levels of undo
@@ -190,6 +199,8 @@ abbreviate highligt highlight
 abbreviate allready already
 abbreviate exclusve exclusive
 abbreviate Exclusve Exclusive
+abbreviate Exlcusive Exclusive
+abbreviate exclusve exclusive
 abbreviate beahviour behaviour
 abbreviate autocompleteion autocompletion
 abbreviate completeion completion
@@ -198,6 +209,8 @@ abbreviate aquire acquire
 abbreviate coaless coalesce
 abbreviate coalesse coalesce
 abbreviate coalessed coalesced
+abbreviate coalessce coalesce
+abbreviate coalecse coalesce
 abbreviate noxcept noexcept
 abbreviate probobly probably
 abbreviate charactor character
@@ -212,7 +225,10 @@ abbreviate fullfill fulfil
 abbreviate increse increase
 abbreviate nessesary necessary
 abbreviate enque enqueue
+abbreviate enqued enqueued
+abbreviate enquing enqueuing
 abbreviate deque dequeue
+abbreviate dequed dequeued
 abbreviate continuasly continuously
 abbreviate controll control
 abbreviate haveing having
@@ -221,8 +237,22 @@ abbreviate considure consider
 abbreviate recycked recycled
 abbreviate apend append
 abbreviate keept kept
-abbreviate atleast "at least"
+abbreviate atleast at least
 abbreviate defein define
+abbreviate asssert assert
+abbreviate entrie entry
+abbreviate everyting everything
+abbreviate invoce invoke
+abbreviate invoces invokes
+abbreviate lengh length
+abbreviate renmae rename
+abbreviate routign routing
+abbreviate closenes closeness
+abbreviate adjasent adjacent
+abbreviate sufficent sufficient
+abbreviate nessessary necessary
+abbreviate refered referred
+abbreviate refrenced referenced
 
 " }}}
 
@@ -360,6 +390,10 @@ nnoremap ` '
 "
 map + <nop>
 map - <nop>
+
+" Select blocks after indenting
+xnoremap < <gv
+xnoremap > >gv|
 
 " }}}
 
