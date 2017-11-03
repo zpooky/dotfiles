@@ -74,19 +74,7 @@ TODO
 ##intel
 ##nvidia
 
-#i3 window manager
-- fn key is rebound to windows and vice versa
-#keymappings
-- prefix: win(fn)
-- reload i3status bar: prefix+shift+r
-- worskapce: prefix(win(fn))+[0-9]
-- exit app: prefix+shift+q
-- change app focus: prefix+left/right
-- fullscreen toogle: prefix+f
-## window
-- prefix+*number* - goto workspace
-- ctrl+prefix+*number* - send current active program to *number*
-
+#i3
 ##status bar(i3)
 /etc/i3status.conf
 ##keyboard mapping

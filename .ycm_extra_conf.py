@@ -46,7 +46,8 @@ flags = [
     '-Wall',
     '-Wextra',
     '-Werror',
-    '-std=c++17',
+    '-std=c++14',
+    '-I/usr/include',  # linux system headers
     ]
 
 for arch in ['x86_64-pc-cygwin','x86_64-pc-linux-gnu']:
