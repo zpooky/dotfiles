@@ -61,8 +61,11 @@ TODO
 - keymapping configured with i3
 
 #networking
+#eth
+systemctl status dhcpcd@enp61s0.service                                                                          [0]
 ##networking service
 ##wifi
+sudo wifi-menu
 ###turn on/off
 ###indicate if wifi is on
 

@@ -75,7 +75,7 @@ if [ $? -eq 0 ]; then
         return 3
       fi
       INSTALLS=( $TARGET/*x86_64.pkg.tar.xz )
-      # echo "matching: ${INSTALLS[@]}"
+      echo "matching: ${INSTALLS[@]}"
       ls -alh
 
       if [ ${#INSTALLS[@]} -eq 0 ]; then

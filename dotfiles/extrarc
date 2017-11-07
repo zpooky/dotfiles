@@ -291,13 +291,22 @@ alias ms="mutt -F $HOME/.mutt/user_personal"
 alias mf="mutt -F $HOME/.mutt/user2_personal"
 alias mw="mutt -F $HOME/.mutt/user_work"
 
-alias n="newsbeuter"
+function sp_newsbeuter() {
+  which newsbeuter 2>&1 > /dev/null
+  if [ $? -eq 0 ]; then
+    newsbeuter
+  else
+    newsboat
+  fi
+
+}
+alias n="sp_newsbeuter"
 alias duh="du -h -d 0 [^.]*"
 
 #force ssh to use xterm when ssh instead of tmux-colour256
 alias ssh='TERM=xterm ssh'
 
-alias sp-sync='$DOTFILES_LIB/keypass_cron.sh; $DOTFILES_LIB/offlineimap_cron.sh; $DOTFILES_LIB/vdirsyncer_cron.sh'
+alias sp-sync="$DOTFILES_LIB/mail_sync.sh"
 
 function sp_port_scan() {
 

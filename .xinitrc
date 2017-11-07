@@ -1,5 +1,4 @@
 setxkbmap -option caps:escape
-#setxkbmap -v sv -variant qwerty
 setxkbmap -layout se -variant qwerty
 
 # xrandr --setprovideroutputsource modesetting NVIDIA-0

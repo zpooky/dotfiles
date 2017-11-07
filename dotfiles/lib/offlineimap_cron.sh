@@ -10,7 +10,7 @@ echo $PATH >> $OUT
 which offlineimap >> $OUT
 
 date >> $OUT
-offlineimap 2>&1>> $OUT
+offlineimap 2>&1 >> $OUT
 date >> $OUT
 
 #
@@ -23,14 +23,14 @@ for dir in ${new_mail_dirs[@]}; do
   if [[ new_mails -gt 0 ]]; then
     box=`echo $dir | sed -re "s/^.*\/(.*)\/new.*/\1/"`
     MSG="${MSG}$box($new_mails)"
-    if [[ $ANY_NEW = true ]];then
+    if [[ $ANY_NEW = true ]]; then
       MSG="${MSG}/"
     fi
     ANY_NEW=true
   fi
 done
 
-if [[ $ANY_NEW = true ]];then
+if [[ $ANY_NEW = true ]]; then
   #--hint=STRING:body:11 --hint=STRING:body:"$MSG"
   if [[ ! -e ~/.nonotify ]]; then
     notify-send --urgency=critical "$MSG" --expire-time=10

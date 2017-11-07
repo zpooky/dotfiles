@@ -51,6 +51,13 @@ install_pkg htop
 install_pkg sshfs
 install_pkg perf
 
+#for wifi-menu
+install_pkg dialog
+install_pkg wpa_supplicant
+
+#actively maintaned fork for newsbeuter
+install_pkg newsboat                                                                                                                                                                                                                  [0]
+
 # X display server
 has_feature X
 if [ $? -eq 1 ]; then
@@ -127,8 +134,11 @@ if [ $? -eq 1 ]; then
 fi
 
 install_pkg xterm
-install_pkg zsh
-install_pkg zsh-completions
+has_feature zsh
+if [ $? -eq 1 ]; then
+  install_pkg zsh
+  install_pkg zsh-completions
+fi
 install_pkg termite
 
 #xclip
@@ -212,6 +222,23 @@ if [ $? -eq 1 ]; then
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/tixati.tar.gz"
 fi
 
+has_feature khal
+if [ $? -eq 1 ]; then
+  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-tzlocal.tar.gz" || exit 1
+  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-icalendar.tar.gz" || exit 1
+
+  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/khal.tar.gz"
+fi
+
+# vdirsyncer
+has_feature vdirsyncer
+if [ $? -eq 1 ]; then
+  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-atomicwrites.tar.gz"|| exit 1
+  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-click-threading.tar.gz"|| exit 1
+  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-click-log.tar.gz" || exit 1
+
+  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/vdirsyncer.tar.gz"
+fi
 # has_feature alacritty
 # if [ $? -eq 1 ]; then
 #   install_aur "https://aur.archlinux.org/alacritty-git.git"

@@ -57,7 +57,7 @@ fi
 stop_feature "vim"
 
 # git You Complete Me(YCM)
-YCM_IT=4
+YCM_IT=5
 YCM_FORKS=("OblitumYouCompleteMe" "YouCompleteMe")
 
 for YCM in "${YCM_FORKS[@]}"
