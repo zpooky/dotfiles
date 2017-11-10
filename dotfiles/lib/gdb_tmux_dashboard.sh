@@ -24,8 +24,10 @@ fi
 
 pgrep gdb
 if [ $? -eq 0 ]; then
-  echo "gdb is allready running"
-  # exit 1
+  if [[ $(uname -s) =~ CYGWIN.* ]]; then
+    echo "gdb is allready running"
+    exit 1
+  fi
 fi
 #---------------------------------------
 TEMP_DIR=`mktemp -d /tmp/tmp.XXXXXXXXXXXXXX`
@@ -39,46 +41,51 @@ mkfifo $FIFO_PIPE || exit 1
 
 # do not grey out inactive window
 # TODO split window without creating a shell
+
+BASH_NO_HIST="unset HISTFILE"
+ZSH_NO_HIST="${BASH_NO_HIST}"
+NO_HIST="if [[ \${SHELL} =~ bash$ ]]; then ${BASH_NO_HIST}; else ${ZSH_NO_HIST}; fi"
+
 tmux new-window -n "gdb"
 tmux set-option window-style 'fg=colour250,bg=black'
 tmux set-option window-active-style 'fg=colour250,bg=black'
 
 # echo "m+te" # [memory][threads,expression]
 tmux split-window -v -p 15
-tmux send-keys "echo \"memory_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
+tmux send-keys "${NO_HIST}; echo \"memory_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
 
 # echo "s" # [source][assembly
 tmux select-pane -t 1
 tmux split-window -h -p 55
-tmux send-keys "echo \"source_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
+tmux send-keys "${NO_HIST}; echo \"source_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
 
 # echo "r+b" # [registers]
 tmux split-window -h -p 20
-tmux send-keys "echo \"registers_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
-tmux send-keys "echo \"breakpoints_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
+tmux send-keys "${NO_HIST}; echo \"registers_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
+tmux send-keys "${NO_HIST}; echo \"breakpoints_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
 
 # echo "a" # [assembly]
 tmux split-window -v -p 25 -t 2
 echo "asplit"
-tmux send-keys "echo \"assembly_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
+tmux send-keys "${NO_HIST}; echo \"assembly_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
 
 # tmux select-pane -t 7
 # echo "s+h" # [stack,history]
 tmux split-window -v -t 1
-tmux send-keys "echo \"history_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
-tmux send-keys "echo \"stack_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
+tmux send-keys "${NO_HIST}; echo \"history_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
+tmux send-keys "${NO_HIST}; echo \"stack_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
 
 # echo "t+e" # [threads,expression]
 tmux split-window -h -t 6
-tmux send-keys "echo \"threads_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
-tmux send-keys "echo \"expression_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
+tmux send-keys "${NO_HIST}; echo \"threads_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
+tmux send-keys "${NO_HIST}; echo \"expression_TTY=\\\"\`tty\`\\\"\" > $FIFO_PIPE &" C-m
 #---------------------
 
 tmux select-pane -t 1 || exit 1
 # tmux send-keys "cat $FIFO_PIPE" C-m
 
 # gdb!!
-tmux send-keys "gdb --args '$1' '$2' '$3' '$4' '$5' '$6' '$7' '$8' '$9' '${10}'" C-m
+tmux send-keys "${NO_HIST}; gdb --args '$1' '$2' '$3' '$4' '$5' '$6' '$7' '$8' '$9' '${10}'" C-m
 
 #---configure-dashboard------------------
 # source lines

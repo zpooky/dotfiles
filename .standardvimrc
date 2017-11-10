@@ -114,22 +114,6 @@ set listchars+=trail:·
 set showbreak="\u21aa "
 " }}}
 
-" Undo {{{
-if has("win32")
-else
-  if !isdirectory("/tmp/.vim")
-    call mkdir("/tmp/.vim", "", 0770)
-  endif
-  if !isdirectory("/tmp/.vim/undo-dir")
-    call mkdir("/tmp/.vim/undo-dir", "", 0700)
-  endif
-endif
-" https://advancedweb.hu/2017/09/12/vim-using-undo-branches
-set undolevels=1000      " Use many levels of undo
-set undofile             " File Persistent undo
-set undodir=/tmp/.vim/undo-dir        " Store undo file in tmp directory
-" }}}
-
 " {{{
 augroup AutogroupFileSpecific
   autocmd!
@@ -260,11 +244,28 @@ abbreviate exapndable expandable
 abbreviate nessesarly necessarily
 abbreviate meaining meaning
 abbreviate arbritrary arbitrary
+abbreviate afer after
+abbreviate reclmataion reclamation
+abbreviate subsicently subsequently
+abbreviate privous previous
+abbreviate referecnes references
+abbreviate rebalanceing rebalancing
+abbreviate thresshold threshold
+abbreviate staticts statistics
+abbreviate aggreeing agreeing
+abbreviate prefere prefer
+abbreviate bootstraping bootstrapping
+abbreviate malicous malicious
+abbreviate wich which
+abbreviate alot allot
+abbreviate interfereing interfering
+abbreviate changeing changing
 
 " }}}
 
 set nowrap                        " do not wrap long lines
 set backspace=indent,eol,start    " allow backspacing over everything in insert mode
+set autoread                      " auto reload after outside changes
 
 " Tab {{{
 set tabstop=2                     " Number of spaces to represent a <TAB> character from file
@@ -280,16 +281,48 @@ set copyindent                    " copy the previous indentation on autoindenti
 set smartindent                   " smart indentation
 " }}}
 
+" tmp directories {{{
+if has("win32")
+else
+  if !isdirectory("/tmp/.vim")
+    call mkdir("/tmp/.vim", "", 0770)
+  endif
+  if !isdirectory("/tmp/.vim/undo")
+    call mkdir("/tmp/.vim/undo", "", 0700)
+  endif
+  if !isdirectory("/tmp/.vim/swap")
+    call mkdir("/tmp/.vim/swap", "", 0700)
+  endif
+  if !isdirectory("/tmp/.vim/backup")
+    call mkdir("/tmp/.vim/backup", "", 0700)
+  endif
+endif
+" }}}
+
 " Backup {{{
 set nobackup            " no bak
-set noswapfile          " no swap
-set autoread            " auto reload after outside changes
-
 " set backup
-" set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-" set backupskip=/tmp/*,/private/tmp/*
-" set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+" pointles to backup to /tmp?
+" set backupdir=/tmp/.vim/backup//
+" set backupskip=/tmp/*,~/tmp
 " set writebackup
+" }}}
+
+" Swap lock files {{{
+if has("win32")
+  set noswapfile          " no swap
+else
+  set swapfile
+  " two slashes means that vim will create unique swap file names per file
+  set directory=/tmp/.vim/swap//
+endif
+" }}}
+
+" Undo {{{
+" https://advancedweb.hu/2017/09/12/vim-using-undo-branches
+set undolevels=1000               " Use many levels of undo
+set undofile                      " File Persistent undo
+set undodir=/tmp/.vim/undo//      " Store undo file in tmp directory
 " }}}
 
 " Custom mappings {{{

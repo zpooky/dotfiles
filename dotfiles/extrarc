@@ -96,6 +96,7 @@ alias sp-floating-point="vim $REF_DIR/floating-point.txt" #TODO
 alias sp-static-dynamic-typing="vim $REF_DIR/static-dynamic-typing.md" #TODO
 alias sp-formal-verification="vim $REF_DIR/formal-verification.md"
 alias sp-crdt="vim $REF_DIR/crdt.md"       #TODO
+alias sp-turing-complete="vim $REF_DIR/turing-complete.md"       #TODO
 
 # editor
 alias sp-eclipse="vim $REF_DIR/eclipse.txt"
@@ -118,6 +119,13 @@ alias sp-character="vim -p $REF_DIR/character/*.txt"
 alias sp-utf="vim $REF_DIR/character/utf.md" #TODO
 alias sp-firefox="vim $REF_DIR/firefox.md"
 alias sp-chrome="vim $REF_DIR/chrome.md"
+alias sp-zero-sum-game="vim $REF_DIR/zero-sum-game.md" #TODO
+alias sp-game-theory="vim $REF_DIR/game-theory.md" #TODO
+alias sp-pidgeon-hole="vim $REF_DIR/pidgeon-hole.md" #TODO
+alias sp-min-max="vim $REF_DIR/min-max.md" #TODO
+alias sp-utc-time="vim $REF_DIR/utc-time.md"
+alias sp-sybil-attack="vim $REF_DIR/sybil-attack.md" #TODO
+alias sp-byzantine-generals-problem="vim $REF_DIR/byzantine-generals-problem.md" #TODO
 
 # cpp
 CPP_ROOT="$DROPBOX/c"
@@ -141,6 +149,7 @@ alias cpp-linker="vim $CPP_ROOT/linker-debug.md"
 alias cpp-lambda="vim $CPP_ROOT/lambda.md"
 alias cpp-aliasing="vim $CPP_ROOT/aliasing.md" #TODO
 alias cpp-timer="vim $CPP_ROOT/cpp-timer.md"
+alias cpp-odr="vim $CPP_ROOT/cpp-odr.md" #TODO
 
 # debug
 alias sp-debug="cd $REF_DIR/linux/debug"

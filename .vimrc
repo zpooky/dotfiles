@@ -233,6 +233,9 @@ else
   set completeopt-=preview
 endif
 
+" makes in tmux switching to a vim pane trigger an on-focus event
+Plug 'tmux-plugins/vim-tmux-focus-events'
+
 call plug#end()
 " }}}
 
