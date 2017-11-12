@@ -2,11 +2,11 @@
 - drivers
 
 #daemon
-- dropbox
+- dropbox(requires manual start)
 - mega
 
 #tmux
-- copy
+- copy(TODO vim copy+ tmux paste)
 - move up/down
 
 #3.5mm jack

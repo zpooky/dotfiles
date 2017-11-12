@@ -50,6 +50,7 @@ install_pkg make
 install_pkg htop
 install_pkg sshfs
 install_pkg perf
+install_pkg patch
 
 #for wifi-menu
 install_pkg dialog
@@ -79,6 +80,7 @@ has_feature i3
 if [ $? -eq 1 ]; then
   install i3-wm || exit 1
 fi
+install_pkg i3lock
 
 #
 install_pkg help2man
@@ -222,8 +224,16 @@ if [ $? -eq 1 ]; then
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/tixati.tar.gz"
 fi
 
+# screensaver
+install_pkg xscreensaver
+has_feature electricsheep
+if [ $? -eq 1 ]; then
+  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/electricsheep-svn.tar.gz"
+fi
+
 has_feature khal
 if [ $? -eq 1 ]; then
+  #TODO multiarch
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-tzlocal.tar.gz" || exit 1
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-icalendar.tar.gz" || exit 1
 
@@ -233,12 +243,14 @@ fi
 # vdirsyncer
 has_feature vdirsyncer
 if [ $? -eq 1 ]; then
+  #TODO multiarch
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-atomicwrites.tar.gz"|| exit 1
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-click-threading.tar.gz"|| exit 1
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-click-log.tar.gz" || exit 1
 
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/vdirsyncer.tar.gz"
 fi
+
 # has_feature alacritty
 # if [ $? -eq 1 ]; then
 #   install_aur "https://aur.archlinux.org/alacritty-git.git"

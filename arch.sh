@@ -140,3 +140,4 @@ visudo -f /etc/sudoers # uncomment sudo group access
 
 #nfs
 sudo mount 192.168.1.12:/i-data/0da29454/nfs/video /home/spooky/mount/video
+

@@ -253,7 +253,7 @@ abbreviate sufficent sufficient
 abbreviate nessessary necessary
 abbreviate refered referred
 abbreviate refrenced referenced
-
+abbreviate immediatly immediately
 " }}}
 
 set nowrap                        " do not wrap long lines
