@@ -51,12 +51,13 @@ flags = [
     ]
 
 for arch in ['x86_64-pc-cygwin','x86_64-pc-linux-gnu']:
-  for x in ['7.1.1','6.2.0','6.3.0']:
-    flags.append('-I/usr/lib/gcc/'+arch+'/'+x+'/../../../../include/c++/'+x)
-    flags.append('-I/usr/lib/gcc/'+arch+'/'+x+'/../../../../include/c++/'+x)
-    flags.append('-I/usr/lib/gcc/'+arch+'/'+x+'/../../../../include/c++/'+x)
-    flags.append('-I/usr/lib/gcc/'+arch+'/'+x+'/include')
-    flags.append('-I/usr/lib/gcc/'+arch+'/'+x+'/include-fixed')
+  for x in ['7.1.1','6.2.0','6.3.0','7.2.0']:
+    p = '-I/usr/lib/gcc/'+arch+'/'+x
+    flags.append(p+'/../../../../include/c++/'+x)
+    flags.append(p+'/../../../../include/c++/'+x)
+    flags.append(p+'/../../../../include/c++/'+x)
+    flags.append(p+'/include')
+    flags.append(p+'/include-fixed')
 
 # Set this to the absolute path to the folder (NOT the file!) containing the
 # compile_commands.json file to use that instead of 'flags'. See here for

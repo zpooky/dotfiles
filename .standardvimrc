@@ -254,6 +254,13 @@ abbreviate nessessary necessary
 abbreviate refered referred
 abbreviate refrenced referenced
 abbreviate immediatly immediately
+abbreviate timedout timed out
+abbreviate desiding deciding
+abbreviate exapndable expandable
+abbreviate nessesarly necessarily
+abbreviate meaining meaning
+abbreviate arbritrary arbitrary
+
 " }}}
 
 set nowrap                        " do not wrap long lines

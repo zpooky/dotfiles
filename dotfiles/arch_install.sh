@@ -251,6 +251,8 @@ if [ $? -eq 1 ]; then
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/vdirsyncer.tar.gz"
 fi
 
+install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/libtinfo5.tar.gz"
+
 # has_feature alacritty
 # if [ $? -eq 1 ]; then
 #   install_aur "https://aur.archlinux.org/alacritty-git.git"

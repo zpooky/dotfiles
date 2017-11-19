@@ -10,20 +10,6 @@
 [submodule "sources/YCM-Generator"]
 	path = sources/YCM-Generator
 	url = https://github.com/rdnetto/YCM-Generator.git
-
-#
-# [submodule ".vim/bundle/ultisnips"]
-# 	path = .vim/bundle/ultisnips
-# 	url = https://github.com/SirVer/ultisnips.git
-#
-# [submodule ".vim/bundle/vim-snippets"]
-# 	path = .vim/bundle/vim-snippets
-# 	url = https://github.com/honza/vim-snippets.git
-#
-# [submodule ".vim/bundle/supertab"]
-# 	path = .vim/bundle/supertab
-# 	url = https://github.com/ervandew/supertab.git
-
 [submodule "sources/gdb-dashboard"]
 	path = sources/gdb-dashboard
 	url = https://github.com/cyrus-and/gdb-dashboard.git
