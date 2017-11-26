@@ -117,6 +117,7 @@ systemctl
 
 #blacklist
 example:
+bootloader command arguments
 In` /boot/grub/grub.cfg` to blacklist nouveau
 ```cfg
 linux	/vmlinuz-linux root=UUID=80b01856-8521-4ced-990f-0ec9e56fc92b rw  modprobe.blacklist=nouveau
