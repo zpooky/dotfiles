@@ -13,14 +13,19 @@ if has('gui_running')
   " set guifont=*
 endif
 
-if $TERM == "xterm-256color"
-  if has('nvim') || has('termguicolors')
-    set termguicolors
-  endif
-endif
+" if $TERM == "xterm-256color"
+" endif
 
 if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal" || $TERM == "urxvt" || $TERM == "tmux-256color"
   set t_Co=256
+  if has('nvim') || has('termguicolors')
+    " :h xterm-true-color
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    " :h termguicolors
+    " guibg and guifg are defined also in terminal Vim used by colorscheme
+    set termguicolors
+  endif
 endif
 
 "
@@ -101,6 +106,29 @@ augroup AutogroupRememberFilePosition
         \ endif
 augroup END
 
+if has('win32unix') || has('win64unix')
+  " https://github.com/mintty/mintty/wiki/Tips
+  let &t_ti.="\e[1 q"
+  let &t_SI.="\e[5 q"
+  let &t_EI.="\e[1 q"
+  let &t_te.="\e[0 q"
+
+  let &t_ti.="\e[?7727h"
+  let &t_te.="\e[?7727l"
+  " noremap <Esc>O[ <Esc>
+  " noremap! <Esc>O[ <C-c>
+
+endif
+
+" Get rid of nasty lag on ESC (timeout and ttimeout seem useless) sp??
+augroup AutogroupEscapeLag
+  autocmd!
+  au InsertEnter * set timeoutlen=1
+  au InsertLeave * set timeoutlen=1000
+augroup END
+set timeoutlen=1000 ttimeoutlen=0
+" set esckeys " A <esc> is always a <esc> not part a escape sequence(used by older terminals?)
+
 " Blank charcters {{{
 " debug set with "set list?" ?: means print current value
 set list                              " show special chars, such as tab: eol: trail: extends: nbsp:
@@ -135,14 +163,6 @@ augroup AutogroupFileSpecific
 augroup END
 " }}}
 
-" Get rid of nasty lag on ESC (timeout and ttimeout seem useless) sp??
-augroup AutogroupEscapeLag
-  autocmd!
-  au InsertEnter * set timeoutlen=1
-  au InsertLeave * set timeoutlen=1000
-augroup END
-set timeoutlen=1000 ttimeoutlen=0
-" set esckeys " A <esc> is always a <esc> not part a escape sequence(used by older terminals?)
 
 " Search {{{
 set incsearch                     " search wile you type
@@ -260,6 +280,10 @@ abbreviate wich which
 abbreviate alot allot
 abbreviate interfereing interfering
 abbreviate changeing changing
+abbreviate anounce announce
+abbreviate recurivly recursively
+abbreviate recursivly recursively
+abbreviate uppwards upwards
 
 " }}}
 

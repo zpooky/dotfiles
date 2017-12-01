@@ -58,13 +58,16 @@ set nocompatible
 " <leader>z     : word auto suggestions
 " zn            : next wrongly spelled
 " zp            : previous wrongly spelled
-" gq            : reformat visual
 
 " z=            : list suggestions for word under cursor
 " 1z=           : auto select 1 with showing suggestions
 " :spellr       : Repeat the replacement done by z=
 "
 " zg            : add word to dictonary
+
+" # Formatting
+" gq            : reformat visual according to textwidth rules
+" =             : reformat visual according to indentation
 
 " #
 " augroup   - ensures the autocmds are only applied once
@@ -191,6 +194,9 @@ Plug 'christoomey/vim-tmux-navigator'
 " ###########
 " colorscheme: railscasts
 Plug 'jpo/vim-railscasts-theme'
+if has('win32unix') || has('win64unix')
+  Plug 'tomasiser/vim-code-dark'
+endif
 " git integration
 Plug 'tpope/vim-fugitive'
 " adds commands to surround: XwordX
@@ -211,6 +217,7 @@ Plug 'wellle/targets.vim'
 " Plug 'wincent/loupe'
 noremap n nzz
 noremap N Nzz
+
 " Visual select * support
 Plug 'bronson/vim-visual-star-search'
 
@@ -239,8 +246,42 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 call plug#end()
 " }}}
 
-" colorscheme {{{
+source $HOME/.standardvimrc
+
 colorscheme railscasts
+
+" colorscheme {{{
+if has('win32unix') || has('win64unix')
+  " wrk {{{
+  augroup AutogroupCygwinCppVisual
+    autocmd!
+    autocmd FileType c,cpp colorscheme codedark
+    autocmd FileType cpp map <silent> <F11> <Esc> :set laststatus=0 <Bar> :AirlineToggle<CR>
+  augroup END
+
+  " viasfora rainbow brace 1...N
+  " #ff9900   | orange
+  " #ff1493   | pink
+  " #9acd32   | green
+  " #9400d3   | magenta
+  " #696969   | grey
+  " #4169e1   | dark blue
+  " #dc143c   | red
+  " #00ced1   | baby blue
+  " #008000   | dark green
+
+  " #ff4500 |viasfora orange(return,if...)
+  " cterm[bg/fg] - colors used by terminal [background/foregorund]
+  " gui[bg/fg]   - color used by gvim or terminal in true-color mode
+    " return
+    highlight cStatement guifg=#ff4500
+    " if else
+    highlight cConditional guifg=#ff4500
+    " for while
+    highlight cRepeat guifg=#ff4500
+  "  }}}
+endif
+
 " colorscheme base16
 " colorscheme molokai
 " colorscheme jellybeans      " ! https://github.com/nanotech/jellybeans.vim
@@ -250,16 +291,14 @@ colorscheme railscasts
 set background=dark
 " }}}
 
-source $HOME/.standardvimrc
-
 if has('win32unix') || has('win64unix')
   " in cygwin if we save a file not in dos mode outside the 'virtual' linux
   " prompt if it should not be in dos mode instead of the default unix
   " TODO should ignore special buffers like vim msg
-augroup AutogroupCygwin
-  autocmd!
-  autocmd BufWritePre * if &ff != 'dos' && expand('%:p') =~ "^\/cygdrive\/d\/Worksapce\/" && expand('%:p') !~ "\/Dropbox\/" && input('set ff to dos [y]') == 'y' | setlocal ff=dos | endif
-augroup END
+  augroup AutogroupCygwin
+    autocmd!
+    autocmd BufWritePre * if &ff != 'dos' && expand('%:p') =~ "^\/cygdrive\/d\/Worksapce\/" && expand('%:p') !~ "\/Dropbox\/" && input('set ff to dos [y]') == 'y' | setlocal ff=dos | endif
+  augroup END
 endif
 
 " Goyo {{{
@@ -268,6 +307,7 @@ augroup AutogroupGoyo
   autocmd FileType markdown,mail,text,gitcommit map <silent> <F11> <Esc> :Goyo <Bar> :TogglePencil <CR>
 augroup END
 " }}}
+"
 
 " Generic Writing {{{
 " let g:languagetool_jar  = '/opt/languagetool/languagetool-commandline.jar'
@@ -395,7 +435,7 @@ let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 " using Ycm to navigate
 " https://github.com/Valloric/YouCompleteMe#goto-commands
 map <silent> <F3> <esc>:YcmCompleter GoTo<CR>
-"
+
 " Close all open buffers on entering a window if the only
 " buffer that's left is the NERDTree buffer
 augroup AutogroupNerdTree

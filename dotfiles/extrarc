@@ -218,6 +218,7 @@ alias sp-network="vim $DROPBOX_NETWORK/linux.md"
 alias sp-openvpn="vim $DROPBOX_NETWORK/openvpn.md"
 alias sp-dns="vim $DROPBOX_NETWORK/dns.md"    #TODO
 alias sp-iptables="vim $DROPBOX_NETWORK/iptables.md"    #TODO
+alias sp-hole-punch="vim $DROPBOX_NETWORK/hole-punch.md"    #TODO
 
 #audio
 alias sp-audio="vim $REF_DIR/audio.txt"       #TODO
