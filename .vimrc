@@ -242,6 +242,10 @@ endif
 
 " makes in tmux switching to a vim pane trigger an on-focus event
 Plug 'tmux-plugins/vim-tmux-focus-events'
+" 
+Plug 'chrisbra/Colorizer', { 'for': 'vim' }
+" let g:colorizer_auto_filetype='vim'
+let g:colorizer_colornames_disable = 1
 
 call plug#end()
 " }}}
@@ -274,11 +278,11 @@ if has('win32unix') || has('win64unix')
   " cterm[bg/fg] - colors used by terminal [background/foregorund]
   " gui[bg/fg]   - color used by gvim or terminal in true-color mode
     " return
-    highlight cStatement guifg=#ff4500
+    " highlight cStatement guifg=#ff4500
     " if else
-    highlight cConditional guifg=#ff4500
+    " highlight cConditional guifg=#ff4500
     " for while
-    highlight cRepeat guifg=#ff4500
+    " highlight cRepeat guifg=#ff4500
   "  }}}
 endif
 
@@ -373,15 +377,25 @@ let g:scala_use_default_keymappings = 0
 " }}}
 
 " rainbow scope {{{
-" active rainbow scope higlight
+" activate rainbow scope higlight
 let g:rainbow_active = 1
 
 "\ 'guifgs': ['darkorange3', 'seagreen3', 'deepskyblue', 'darkorchid3', 'forestgreen', 'lightblue', 'hotpink', 'mistyrose1'],
 " \ 'operators': '_[\,\+\*\-\&\^\!\.\<\>\=\|\?]_',
 ", 'lightmagenta'
+  " #ff9900   | orange
+  " #ff1493   | pink
+  " #9acd32   | green
+  " #9400d3   | magenta
+  " #696969   | grey
+  " #4169e1   | dark blue
+  " #dc143c   | red
+  " #00ced1   | baby blue
+  " #008000   | dark green
 let g:rainbow_conf =
 \ {
 \ 'ctermfgs': ['lightblue', 'red', 'cyan', 'darkgreen'],
+\ 'guifgs': ['#ff9900','#ff1493','#9acd32'],
 \ 'operators': '_[\,\-\<\>\.|\*]_'
 \ }
 

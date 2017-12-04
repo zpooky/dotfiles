@@ -284,6 +284,7 @@ abbreviate anounce announce
 abbreviate recurivly recursively
 abbreviate recursivly recursively
 abbreviate uppwards upwards
+abbreviate prinf printf
 
 " }}}
 
