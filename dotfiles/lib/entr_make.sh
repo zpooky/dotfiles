@@ -9,8 +9,10 @@ header
 make 1>/dev/null
 if [ $? -eq 0 ]; then
   good "SUCCESS"
+
+  eval $@
+
 else
+
   bad "Compilation FAILED"
 fi
-
-eval $@

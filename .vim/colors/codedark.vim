@@ -1,5 +1,3 @@
-" vim:ColorHighlight
-"
 " Vim Code Dark (color scheme)
 " https://github.com/tomasiser/vim-code-dark
 

@@ -194,9 +194,9 @@ Plug 'christoomey/vim-tmux-navigator'
 " ###########
 " colorscheme: railscasts
 Plug 'jpo/vim-railscasts-theme'
-if has('win32unix') || has('win64unix')
-  Plug 'tomasiser/vim-code-dark'
-endif
+" if has('win32unix') || has('win64unix')
+  " Plug 'tomasiser/vim-code-dark'
+" endif
 " git integration
 Plug 'tpope/vim-fugitive'
 " adds commands to surround: XwordX
@@ -242,8 +242,10 @@ endif
 
 " makes in tmux switching to a vim pane trigger an on-focus event
 Plug 'tmux-plugins/vim-tmux-focus-events'
-" 
+ 
 Plug 'chrisbra/Colorizer', { 'for': 'vim' }
+" :ColorHighlight
+"
 " let g:colorizer_auto_filetype='vim'
 let g:colorizer_colornames_disable = 1
 
@@ -255,7 +257,7 @@ source $HOME/.standardvimrc
 colorscheme railscasts
 
 " colorscheme {{{
-if has('win32unix') || has('win64unix')
+" if has('win32unix') || has('win64unix')
   " wrk {{{
   augroup AutogroupCygwinCppVisual
     autocmd!
@@ -284,7 +286,7 @@ if has('win32unix') || has('win64unix')
     " for while
     " highlight cRepeat guifg=#ff4500
   "  }}}
-endif
+" endif
 
 " colorscheme base16
 " colorscheme molokai
