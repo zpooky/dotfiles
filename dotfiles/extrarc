@@ -346,7 +346,7 @@ alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
 
 # meta alias
 alias sp-alias="vim $DOTFILES/extrarc && source $DOTFILES/extrarc"
-alias sp-vimrc="vim -p $HOME/.vimrc $HOME/.standardvimrc"
+alias sp-vimrc="vim -p $HOME/.vimrc $HOME/.standardvimrc $HOME/.vim/colors/*"
 
 #repeats $1
 alias sp_repeat="~/dotfiles/lib/repeat.sh"

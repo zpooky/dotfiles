@@ -254,16 +254,22 @@ call plug#end()
 
 source $HOME/.standardvimrc
 
-colorscheme railscasts
+colorscheme codedark
 
 " colorscheme {{{
 " if has('win32unix') || has('win64unix')
   " wrk {{{
+  augroup AutogroupCppVisual
+    autocmd!
+    " autocmd FileType c,cpp colorscheme codedark
+  augroup END
+
+if has('win32unix') || has('win64unix')
   augroup AutogroupCygwinCppVisual
     autocmd!
-    autocmd FileType c,cpp colorscheme codedark
     autocmd FileType cpp map <silent> <F11> <Esc> :set laststatus=0 <Bar> :AirlineToggle<CR>
   augroup END
+endif
 
   " viasfora rainbow brace 1...N
   " #ff9900   | orange
