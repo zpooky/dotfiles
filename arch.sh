@@ -1,3 +1,12 @@
+#
+efi boot type 'ef'
+mkfs.fat -F32 /dev/sdb1
+
+swap space '82'
+mkswap
+
+mkfs.ext4
+
 #pacman update
 sudo pacman -Syuw # download packages
 sudo pacman -Su # install packages
