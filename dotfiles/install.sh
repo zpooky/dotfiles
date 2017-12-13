@@ -7,19 +7,23 @@ lesskey -o $THE_HOME/.less $THE_HOME/.lesskey
 
 GIT_CONFIG_FEATURE=$FEATURE_HOME/gitconfig4
 if [ ! -e $GIT_CONFIG_FEATURE ]; then
-  start_feature "git config"
+  has_feature git
+  if [[ $? -eq 0 ]]; then
+    start_feature "git config"
 
-  # TODO fetch from keychain
-  git config --global user.name "Fredrik Olsson"
-  git config --global user.email "spooky.bender@gmail.com"
-  git config --global core.editor vim
 
-  git config --global alias.st "status --ignore-submodules=dirty"
-  git config --global alias.tree "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+    # TODO fetch from keychain
+    git config --global user.name "Fredrik Olsson"
+    git config --global user.email "spooky.bender@gmail.com"
+    git config --global core.editor vim
 
-  touch $GIT_CONFIG_FEATURE
+    git config --global alias.st "status --ignore-submodules=dirty"
+    git config --global alias.tree "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 
-  stop_feature "git config"
+    touch $GIT_CONFIG_FEATURE
+
+    stop_feature "git config"
+  fi
 fi
 
 # setup directory structure
