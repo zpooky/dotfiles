@@ -1,6 +1,5 @@
 source $HOME/dotfiles/shared.sh
 
-screenfetch
 
 p() {
     printf '%b\n' "$1" >&2
@@ -20,7 +19,7 @@ function install_pkg(){
     install $1
     RET=$?
 
-    if [$RET -eq 1 ]; then
+    if [ $RET -eq 1 ]; then
       bad $1 " was not installed"
       exit 1
     else
@@ -31,9 +30,12 @@ function install_pkg(){
   fi
 }
 
+install_pkg screenfetch
+
+screenfetch
+
 #video player
 install_pkg mpv
-
 install_pkg fakeroot
 
 #
@@ -41,6 +43,8 @@ install_pkg guake
 install_pkg chromium
 
 # to make install work
+install_pkg firefox
+install_pkg wget
 install_pkg sudo
 install_pkg python2
 install_pkg cmake
@@ -48,6 +52,7 @@ install_pkg clang
 install_pkg python
 install_pkg make
 install_pkg htop
+install_pkg autoconf
 install_pkg sshfs
 install_pkg perf
 install_pkg patch
@@ -63,6 +68,7 @@ install_pkg newsboat                                                            
 has_feature X
 if [ $? -eq 1 ]; then
   install xorg-server || exit 1
+  install xorg-xrandr || exit 1
 fi
 has_feature xinit
 if [ $? -eq 1 ]; then
@@ -252,6 +258,9 @@ if [ $? -eq 1 ]; then
 fi
 
 install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/libtinfo5.tar.gz"
+
+#any arch
+install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/libeatmydata.tar.gz"
 
 # has_feature alacritty
 # if [ $? -eq 1 ]; then
