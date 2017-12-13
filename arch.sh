@@ -147,6 +147,7 @@ passwd spooky
 groupadd sudo
 usermod-a -G sudo spooky
 visudo -f /etc/sudoers # uncomment sudo group access
+chsh -s /usr/bin/zsh
 
 #nfs
 sudo mount 192.168.1.12:/i-data/0da29454/nfs/video /home/spooky/mount/video
