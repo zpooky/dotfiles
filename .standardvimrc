@@ -311,8 +311,9 @@ set smartindent                   " smart indentation
 if has("win32")
 else
   if !isdirectory("/tmp/.vim")
-    call mkdir("/tmp/.vim", "", 0770)
+    call mkdir("/tmp/.vim", "", 0777)
   endif
+
   if !isdirectory("/tmp/.vim/undo")
     call mkdir("/tmp/.vim/undo", "", 0700)
   endif

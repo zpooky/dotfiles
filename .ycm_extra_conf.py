@@ -32,6 +32,8 @@
 
 import os
 import ycm_core
+import os.path
+import glob
 
 flags = [
     # -x option specifies the
@@ -51,13 +53,16 @@ flags = [
     ]
 
 for arch in ['x86_64-pc-cygwin','x86_64-pc-linux-gnu']:
-  for x in ['7.1.1','6.2.0','6.3.0','7.2.0']:
-    p = '-I/usr/lib/gcc/'+arch+'/'+x
-    flags.append(p+'/../../../../include/c++/'+x)
-    flags.append(p+'/../../../../include/c++/'+x)
-    flags.append(p+'/../../../../include/c++/'+x)
-    flags.append(p+'/include')
-    flags.append(p+'/include-fixed')
+  p = '/usr/lib/gcc/'+arch
+  if os.path.exists(p):
+    for d in glob.glob(p+'/*'):
+      extra = d+'/../../../../include/c++'
+      for x in glob.glob(extra+'/*'):
+        flags.append(x)
+        flags.append(x)
+        flags.append(x)
+      flags.append(d+'/include')
+      flags.append(d+'/include-fixed')
 
 # Set this to the absolute path to the folder (NOT the file!) containing the
 # compile_commands.json file to use that instead of 'flags'. See here for
