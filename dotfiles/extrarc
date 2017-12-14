@@ -179,6 +179,7 @@ alias sp-grep="vim $DROPBOX_LINUX/grep.md"
 alias sp-awk="vim $DROPBOX_LINUX/awk.md"
 alias sp-chmod="vim $DROPBOX_LINUX/chmod.md"
 alias sp-date="vim $REF_DIR/linux/date.md"
+alias sp-locale="vim $REF_DIR/linux/locale.md"
 alias sp-mutt="vim $DROPBOX_LINUX/mutt.txt"
 alias sp-pipe="vim $REF_DIR/linux/pipe.txt"
 alias sp-tmux="vim $DROPBOX_LINUX/tmux.txt"
@@ -245,6 +246,7 @@ alias sp-type-theory="vim -p $REF_DIR/*type*.txt $REF_DIR/variance.txt"   #TODO
 DATA_STRUCTURE_ROOT=$REF_DIR/data-structure
 alias sp-tree-btree="vim $DATA_STRUCTURE_ROOT/tree-btree.md"   #TODO
 alias sp-tree-merkle-tree="vim $DATA_STRUCTURE_ROOT/tree-merkle-tree.md"   #TODO
+alias sp-tree-avl="vim $DATA_STRUCTURE_ROOT/tree-avl.md"   #TODO
 
 # data structures
 alias sp-bloom-filter="vim $DATA_STRUCTURE_ROOT/bloom-filter.md" #TODO

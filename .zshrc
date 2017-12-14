@@ -6,7 +6,24 @@ export ZSH=$HOME/.oh-my-zsh
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions cabal gradle pip python sbt)
+plugins=(git zsh-autosuggestions cabal pip python)
+
+function preexec() {
+  sp_zsh_timer_start=${sp_zsh_timer_start:-$SECONDS}
+  # timer=$(($(date +%s%N)/1000000))
+}
+
+function precmd() {
+  if [ $sp_zsh_timer_start ]; then
+    # TODO ms
+    # now=$(($(date +%s%N)/1000000))
+    # elapsed=$(($now-$timer))
+
+    sp_zsh_timer_show=$(($SECONDS - $sp_zsh_timer_start))
+    sp_zsh_timer_show=$(printf '%.*fs' 1 $sp_zsh_timer_show)
+    unset sp_zsh_timer_start
+  fi
+}
 
 ## zsh-users/zsh-autosuggestions
 # bindkey '^ ' autosuggest-accept #bind (ctrl+space) to accept autosuggestion
@@ -43,7 +60,7 @@ bindkey -e
 export LANG=en_US.UTF-8
 
 # prints announcements
-alias pacman="pacmatic"
+alias pacman="pacmatic "
 
 source $HOME/dotfiles/extrarc
 
@@ -70,7 +87,7 @@ NEWLINE=$'\n'
 autoload -U colors && colors
 PROMPT="%B${NEWLINE}%d%{$fg[yellow]%}:%{$reset_color%}${NEWLINE}%{$fg[red]%}%B>%{$reset_color%} %b"
 #this is displayed on the far right side
-RPROMPT='[%F{yellow}%?%f]'
+RPROMPT='[%F{yellow}%?%f][%F{green}$sp_zsh_timer_show%f]'
 
 export SHELL=zsh
 

@@ -111,7 +111,8 @@ if [ -e $BREAKPOINT_FILE ]; then
 fi
 
 #---
-REGIONS=("assembly" "history" "memory" "registers" "source" "stack" "threads" "expression" "breakpoints")
+# "history" 
+REGIONS=("assembly" "memory" "registers" "source" "stack" "threads" "expression" "breakpoints")
 
 CONT=1
 while [ $CONT -eq 1 ]; do
@@ -125,6 +126,9 @@ while [ $CONT -eq 1 ]; do
 done
 
 # tmux send-keys "echo \$TTY_1" C-m
+
+#disable print history
+tmux send-keys "dashboard history -output /dev/null" C-m
 
 for REGION in "${REGIONS[@]}"; do
   eval "REGION_TTY=\$${REGION}_TTY"

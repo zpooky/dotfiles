@@ -286,6 +286,12 @@ abbreviate recursivly recursively
 abbreviate uppwards upwards
 abbreviate prinf printf
 abbreviate compatability compatibility
+abbreviate sizoef sizeof
+abbreviate explict explicit
+abbreviate recurisvly recursively
+abbreviate hegiher higher
+abbreviate heigher higher
+abbreviate rebalnce rebalance
 
 " }}}
 
