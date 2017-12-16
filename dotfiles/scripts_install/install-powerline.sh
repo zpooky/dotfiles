@@ -38,7 +38,7 @@ if [ ! -e $FEATURE ]; then
       fi
       if [ $RET -eq 0 ]; then
         FONTCONFIG_DIR=$THE_HOME/.config/fontconfig/conf.d
-        if [ ! -e $FONTCONFIG_DIR ];then
+        if [ ! -e $FONTCONFIG_DIR ]; then
           mkdir -p $FONTCONFIG_DIR
         fi
 
