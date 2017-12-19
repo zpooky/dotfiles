@@ -292,6 +292,9 @@ abbreviate recurisvly recursively
 abbreviate hegiher higher
 abbreviate heigher higher
 abbreviate rebalnce rebalance
+abbreviate namesapce namespace
+abbreviate algoithm algorithm
+abbreviate recuirsive recursive
 
 " }}}
 
