@@ -193,6 +193,8 @@ alias sp-nice="vim $DROPBOX_LINUX/nice.md"
 alias sp-ar="vim $DROPBOX_LINUX/ar.md"
 alias sp-ip="vim $DROPBOX_LINUX/ip.md"
 alias sp-gnu-parallel="vim $DROPBOX_LINUX/gnu-parallel.md"
+alias sp-netcat="vim $DROPBOX_LINUX/netcat.md"
+alias sp-term="vim $DROPBOX_LINUX/term.md"
 
 # linux
 alias sp-linux="cd $DROPBOX_LINUX"
@@ -332,7 +334,7 @@ function sp_port_scan() {
   if [ $? -eq 0 ]; then
     netstat -alnptu | grep -Ei 'Proto|LISTEN'
   else
-    ss --all --listen --processes --tcp --udp --raw | grep -Ei 'Proto|LISTEN'
+    ss --all --listen --processes --tcp --udp --raw # | grep -Ei 'Proto|LISTEN'
   fi
 }
 alias port-scan='sp_port_scan'

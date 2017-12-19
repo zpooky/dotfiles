@@ -43,7 +43,7 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-alias ll="ls -alh"
+alias ll="ls -alh --color=tty"
 
 if [[ $TERM = "" || -z $TERM ]]; then
   export TERM="xterm-256color"
