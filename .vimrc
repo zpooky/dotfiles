@@ -19,9 +19,17 @@ set nocompatible
 
 " # other plugins
 " https://github.com/tpope/vim-surround & https://github.com/machakann/vim-sandwich
+"
 " https://github.com/junegunn/vim-easy-align
-" vim-easymotion(like navigation like quitebrowser) http://sherifsoliman.com/2016/05/30/favorite-vim-plugins/#vim-easymotion
-" for python http://sherifsoliman.com/2016/05/30/favorite-vim-plugins/#vim-indent-guides
+"
+" # vim-easymotion(like navigation like quitebrowser)
+" http://sherifsoliman.com/2016/05/30/favorite-vim-plugins/#vim-easymotion
+"
+" # for python
+" http://sherifsoliman.com/2016/05/30/favorite-vim-plugins/#vim-indent-guides
+"
+" # better terminal integration
+" https://github.com/wincent/terminus
 
 " # Help
 " :h tips

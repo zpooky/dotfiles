@@ -28,6 +28,11 @@ if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gno
   endif
 endif
 
+if v:version > 703 || v:version == 703 && has('patch541')
+  " Fixes joining comment lines
+  set formatoptions+=j
+endif
+
 "
 filetype on                       " Enable file type detection
 filetype plugin on                " Enable file type plug-ins
@@ -467,7 +472,7 @@ nnoremap ` '
 map + <nop>
 map - <nop>
 
-" Select blocks after indenting
+" Keep visual selection during indenting
 xnoremap < <gv
 xnoremap > >gv|
 
