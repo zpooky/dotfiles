@@ -8,12 +8,11 @@ mkswap
 mkfs.ext4
 
 #pacman update
-sudo pacman -Syuw # download packages
-sudo pacman -Su # install packages
+sudo pacman -Syuv # update official packages
+yaourt -Syua # update aur packages
 
-#stuff
-sudo pacman -Syyu # update package database
-pacman -Ss python2 # search
+# search
+pacman -Ss python2
 
 
 yaourt -Syu --aur # aur upgrade
@@ -156,3 +155,5 @@ sudo mount 192.168.1.12:/i-data/0da29454/nfs/video /home/spooky/mount/video
 #monitor refresh rate change
 xrandr -r 60
 
+#bluetoth
+rfkill - tool for enabling and disabling wireless devices

@@ -279,6 +279,14 @@ alias sp-proj-malloc="vim $DROPBOX/project/malloc.md"
 # nas540
 alias nas540="sshfs admin@192.168.1.12:/i-data/ $HOME/mount/nas540"
 alias nas540_dl="cd $HOME/mount/nas540/0da29454/admin/download/Transmission/download"
+alias extdisk="cd $HOME/mount/exdisk"
+
+function fun_sp_mount_fat() {
+  local DEV="$1"
+  local MP="$2"
+  sudo mount "$DEV" "$MP" -o user,rw,umask=111,dmask=000
+}
+alias sp_mount_fat="fun_sp_mount_fat"
 
 
 # ===============================================

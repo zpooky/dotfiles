@@ -157,7 +157,7 @@ Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
 " # cpp #
 " #######
 " toggle between src/header
-Plug 'vim-scripts/a.vim',programming_cpp
+Plug 'micbou/a.vim',programming_cpp
 " an alternative to color_coded
 Plug 'octol/vim-cpp-enhanced-highlight',programming_cpp
 

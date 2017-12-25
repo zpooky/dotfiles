@@ -98,8 +98,13 @@ set wildmenu                     " Show command(:) completion with tab
 set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.png,.jpg
 
 " ignore these files when :edit <tab>
-set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.exe,*.dat,*.bin,*.jar,*.out,*.pdf,*.cache,*.part,*.zip,*.tar,*.tar.gz,*.so,*.a,*.stackdump,*.bmp,*.gif,*.ico,*.jpg,*.png
+set wildignore=*.swp,*.bak,*.pyc,*.exe,*.dat,*.bin,*.out,*.pdf,*.cache,*.part
 set wildignore+=*~,*.swp,*.tmp
+set wildignore+=*.d,main,*.o,*.a,*.stackdump,*.so
+set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
+set wildignore+=*.class,*.jar
+set wildignore+=*.zip,*.tar,*.tar.gz
+" set wildignore+=
 " }}}
 
 
@@ -300,6 +305,7 @@ abbreviate rebalnce rebalance
 abbreviate namesapce namespace
 abbreviate algoithm algorithm
 abbreviate recuirsive recursive
+abbreviate ranomize randomize
 
 " }}}
 
