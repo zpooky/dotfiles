@@ -14,7 +14,7 @@ sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 localrepository = Gmail-Local
 remoterepository = Gmail-Remote
 synclabels = yes
-status_backend = sqlite
+# status_backend = sqlite
 
 [Repository Gmail-Local]
 type = GmailMaildir
@@ -39,7 +39,7 @@ sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 localrepository = personal2-Local
 remoterepository = personal2-Remote
 synclabels = yes
-status_backend = sqlite
+# status_backend = sqlite
 
 [Repository personal2-Local]
 type = GmailMaildir
@@ -63,7 +63,7 @@ sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 [Account work]
 localrepository = work-local
 remoterepository = work-remote
-status_backend = sqlite
+# status_backend = sqlite
 postsynchook = notmuch new
 
 [Repository work-local]

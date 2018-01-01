@@ -340,7 +340,6 @@ alias ssh='TERM=xterm ssh '
 alias sp-sync="$DOTFILES_LIB/mail_sync.sh"
 
 function sp_port_scan() {
-
   which netstat 2>&1 > /dev/null
   if [ $? -eq 0 ]; then
     netstat -alnptu | grep -Ei 'Proto|LISTEN'
@@ -506,6 +505,12 @@ alias makex="makex | less -RiN -p error"
 # watch files system forchangess and reload
 alias make_loop="ack --cpp -f | entr $HOME/dotfiles/lib/entr_make.sh"
 alias test_loop="ack --cpp -f | entr $HOME/dotfiles/lib/entr_make_test.sh"
+
+function spooky_ag_grep() {
+  ag "$1" --cpp --ignore "external"
+}
+
+alias sp_ag="spooky_ag_grep"
 
 alias sp_perf="spperf $@"
 alias sp_perf_report="spperf_report"

@@ -12,6 +12,12 @@
 
 # Math functions
 # math.log(x)
+
+# hex encoded -> utf8 string
+# bytearray.fromhex(hex).decode('utf-8')
+# hex encoded -> raw
+# binascii.unhexlify(hex)
 # ===================
 
 import math
+import binascii

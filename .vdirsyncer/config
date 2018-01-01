@@ -2,27 +2,27 @@
 # A folder where vdirsyncer can store some metadata about each pair.
 status_path = "~/.vdirsyncer/status/"
 
-[pair work]
-a = "work_local"
-b = "work_remote"
-collections = ["from a", "from b"]
-metadata = ["color", "displayname"]
-#conflict_resolution = b wins
-
-
-[storage work_local]
-type = "filesystem"
-path = "~/.calendars/work/"
-fileext = ".ics"
-
-[storage work_remote]
-type = "caldav"
-read_only = true
-url.fetch = ["command", "~/dotfiles/lib/davmail-url.sh", "work", "email"]
-username.fetch = ["command", "~/dotfiles/lib/keyring-helper.py", "work", "email"]
-password.fetch = ["command", "~/dotfiles/lib/keyring-helper.py", "work", "password"]
-#password =	"ss" 
-#password.fetch = ["prompt", "Password for CalDAV"]
+# [pair work]
+# a = "work_local"
+# b = "work_remote"
+# collections = ["from a", "from b"]
+# metadata = ["color", "displayname"]
+# #conflict_resolution = b wins
+#
+#
+# [storage work_local]
+# type = "filesystem"
+# path = "~/.calendars/work/"
+# fileext = ".ics"
+#
+# [storage work_remote]
+# type = "caldav"
+# read_only = true
+# url.fetch = ["command", "~/dotfiles/lib/davmail-url.sh", "work", "email"]
+# username.fetch = ["command", "~/dotfiles/lib/keyring-helper.py", "work", "email"]
+# password.fetch = ["command", "~/dotfiles/lib/keyring-helper.py", "work", "password"]
+# #password =	"ss" 
+# #password.fetch = ["prompt", "Password for CalDAV"]
 
 #--------------
 [pair google_red_calendar]

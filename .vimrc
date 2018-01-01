@@ -196,6 +196,8 @@ Plug 'reedes/vim-colors-pencil'   " http://sherifsoliman.com/2016/05/30/favorite
 " ########
 " Integrate split navigation with tmux
 Plug 'christoomey/vim-tmux-navigator'
+" makes in tmux switching to a vim pane trigger an on-focus event
+Plug 'tmux-plugins/vim-tmux-focus-events'
 
 " ###########
 " # general #
@@ -213,7 +215,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 " file explorer
 Plug 'scrooloose/nerdtree',{'on':'NERDTreeToggle'}
-" fuzzy search (do step does not work)
+" fuzzy search (TODO do step does not work)
 Plug 'wincent/command-t',{'do':'rake make'}
 " colors scope () {}
 Plug 'luochen1990/rainbow'
@@ -226,12 +228,30 @@ Plug 'wellle/targets.vim'
 noremap n nzz
 noremap N Nzz
 
+" hint what char should used with f
+Plug 'unblevable/quick-scope'
+" display only when these keys has been presed
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
 " Visual select * support
 Plug 'bronson/vim-visual-star-search'
 
-if has('win32unix') || has('win64unix')
+" Statusline {{{
+if has('win32unix') || has('win64unix') || $TERM == "linux" 
   Plug 'vim-airline/vim-airline'
+else
+  " Powerline
+  " set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
+  " set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim
+
+  " Maybe wrap with try catch and fall back to python2
+  python3 from powerline.vim import setup as powerline_setup
+  python3 powerline_setup()
+  python3 del powerline_setup
 endif
+" Always show statusline
+set laststatus=2
+" }}}
 
 " unmap some a.vim mappings
 Plug '~/.vim/bundle/after',programming_cpp
@@ -248,9 +268,6 @@ else
   set completeopt-=preview
 endif
 
-" makes in tmux switching to a vim pane trigger an on-focus event
-Plug 'tmux-plugins/vim-tmux-focus-events'
- 
 Plug 'chrisbra/Colorizer', { 'for': 'vim' }
 " :ColorHighlight
 "
@@ -619,15 +636,6 @@ augroup AugroupAVIM
   autocmd FileType c,cpp,objc map <silent> <leader><F2> :AV<CR>
 
 augroup END
-" }}}
-
-" Statusline {{{
-" Powerline
-" set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
-set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim
-"
-" Always show statusline
-set laststatus=2
 " }}}
 
 " gutentags {{{

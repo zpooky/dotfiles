@@ -2,9 +2,13 @@
 source $HOME/.Xdbus 
 OUT=/tmp/sync_vdirsyncer
 
+echo "==============================="
+echo "==============================="
+echo "==vdirsyncer============================"
+echo "==============================="
 echo "vdirsyncer" > $OUT
-vdirsyncer discover >> $OUT 2>&1
-vdirsyncer sync >> $OUT 2>&1
+vdirsyncer discover 2>&1 | tee $OUT 
+vdirsyncer sync 2>&1 | tee $OUT
 echo "--PATH--" >> $OUT
 echo $PATH >> $OUT
 

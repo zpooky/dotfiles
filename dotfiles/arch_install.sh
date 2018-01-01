@@ -239,30 +239,48 @@ fi
 
 has_feature khal
 if [ $? -eq 1 ]; then
-  #TODO multiarch
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-tzlocal.tar.gz" || exit 1
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-icalendar.tar.gz" || exit 1
-
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/khal.tar.gz"
+#   #TODO multiarch
+#   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-tzlocal.tar.gz" || exit 1
+#   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-icalendar.tar.gz" || exit 1
+#
+#   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/khal.tar.gz"
+  sudo pip3.6 install khal
 fi
 
-# vdirsyncer
+# # vdirsyncer
 has_feature vdirsyncer
 if [ $? -eq 1 ]; then
-  #TODO multiarch
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-atomicwrites.tar.gz"|| exit 1
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-click-threading.tar.gz"|| exit 1
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-click-log.tar.gz" || exit 1
+#   #TODO multiarch
+#   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-atomicwrites.tar.gz"|| exit 1
+#   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-click-threading.tar.gz"|| exit 1
+#   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-click-log.tar.gz" || exit 1
+#
+#   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/vdirsyncer.tar.gz"
 
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/vdirsyncer.tar.gz"
+  sudo pip3.6 install vdirsyncer
 fi
 
-install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/libtinfo5.tar.gz"
+# install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/libtinfo5.tar.gz"
+yaourt -s libtinfo5
 
-#any arch
-install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/libeatmydata.tar.gz"
 
-# has_feature alacritty
-# if [ $? -eq 1 ]; then
+has_feature eatmydata
+if [ $? -eq 1 ]; then
+  yaourt -S libeatmydata
+  # #any arch
+  # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/libeatmydata.tar.gz"
+fi
+
+# install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/fbterm-git.tar.gz"
+
+
+has_feature rtv
+if [ $? -eq 1 ]; then
+  sudo pip3.6 install rtv
+fi
+
+has_feature alacritty
+if [ $? -eq 1 ]; then
+  sudo yaourt -s alacritty-git
 #   install_aur "https://aur.archlinux.org/alacritty-git.git"
-# fi
+fi
