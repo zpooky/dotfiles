@@ -17,16 +17,16 @@ class Breakpoints(Dashboard.Module):
     lines = []
 
     breakpoints = gdb.breakpoints()
-    for br in breakpoints:
-      path = br.location
-      paths = path.split('/')
+    if breakpoints is not None:
+      for br in breakpoints:
+        path = br.location
+        paths = path.split('/')
 
-      file_and_line = paths[-1].split(':')
-      file = file_and_line[0]
-      line = None
-      if len(file_and_line) > 1:
-        line = file_and_line[1]
-
-      lines.append(Breakpoints.format(term_width,br.number,file,line,br.enabled,br.hit_count))
+        file_and_line = paths[-1].split(':')
+        file = file_and_line[0]
+        line = None
+        if len(file_and_line) > 1:
+          line = file_and_line[1]
+        lines.append(Breakpoints.format(term_width,br.number,file,line,br.enabled,br.hit_count))
 
     return lines

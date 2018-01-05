@@ -66,6 +66,7 @@ set nocompatible
 " <leader>z     : word auto suggestions
 " zn            : next wrongly spelled
 " zp            : previous wrongly spelled
+" zg            : to add word to own spellfile
 
 " z=            : list suggestions for word under cursor
 " 1z=           : auto select 1 with showing suggestions
@@ -134,7 +135,7 @@ let programming_scala=        {'for':'scala'}
 " framework for displaying warnings & errors in source code
 Plug 'w0rp/ale',programming
 " pane displaying tag information present in current file
-Plug 'majutsushi/tagbar',programming_nhaskell
+" Plug 'majutsushi/tagbar',programming_nhaskell
 " comment toggle shortcut
 Plug 'tomtom/tcomment_vim'
 if !has('win32unix') && !has('win64unix')
@@ -199,6 +200,12 @@ Plug 'christoomey/vim-tmux-navigator'
 " makes in tmux switching to a vim pane trigger an on-focus event
 Plug 'tmux-plugins/vim-tmux-focus-events'
 
+" ########
+" # git  #
+" ########
+" better git commmit interface
+Plug 'rhysd/committia.vim'
+
 " ###########
 " # general #
 " ###########
@@ -214,7 +221,7 @@ Plug 'tpope/vim-surround'
 " to make repeat(.) work with vim-surround
 Plug 'tpope/vim-repeat'
 " file explorer
-Plug 'scrooloose/nerdtree',{'on':'NERDTreeToggle'}
+" Plug 'scrooloose/nerdtree',{'on':'NERDTreeToggle'}
 " fuzzy search (TODO do step does not work)
 Plug 'wincent/command-t',{'do':'rake make'}
 " colors scope () {}
@@ -516,7 +523,8 @@ function! GDBBreak()
       execute ':redraw!'
     return
   endif
-  let l:shell_command = [&shell, &shellcmdflag, l:command1 . "&&" . l:command2]
+  " let l:shell_command = [&shell, &shellcmdflag, l:command1 . "&&" . l:command2]
+  let l:shell_command = [&shell, &shellcmdflag, l:command1]
   let j = job_start(l:shell_command) ", {'out_cb': 'JobCallback', 'exit_cb': 'JobCallback'}
 endfunction
 

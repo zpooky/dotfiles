@@ -294,6 +294,21 @@ alias sp_mount_fat="fun_sp_mount_fat"
 # =_______________COMMANDS______________________=
 # ===============================================
 
+function sp_has_feature() {
+  FEATURE="$1"
+
+  which $FEATURE > /dev/null 2>&1
+  WHICH_FEATURE=$?
+  hash $FEATURE > /dev/null 2>&1
+  HASH_FEATURE=$?
+
+  if [ $WHICH_FEATURE -eq $HASH_FEATURE ]; then
+    if [ $WHICH_FEATURE -eq 0 ]; then
+      return 0
+    fi
+  fi
+  return 1
+}
 #cygwin
 # which sudo > /dev/null 2>&1
 # WHICH_SUDO=$?
@@ -360,7 +375,7 @@ alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
 
 # meta alias
 alias sp-alias="vim $DOTFILES/extrarc && source $DOTFILES/extrarc"
-alias sp-vimrc="vim -p $HOME/.vimrc $HOME/.standardvimrc $HOME/.vim/colors/*"
+alias sp-vimrc="vim -p $HOME/.vimrc $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim"
 
 #repeats $1
 alias sp_repeat="~/dotfiles/lib/repeat.sh"
@@ -502,9 +517,20 @@ function spperf(){
 }
 
 alias makex="makex | less -RiN -p error"
+
+function sp_make_on_change_entr_or_vanilla() {
+  BODY="$1"
+
+  sp_has_feature entr
+  if [ $? -eq 0 ]; then
+    ack --cpp -f | entr $BODY
+  else
+    ack --cpp -f | $HOME/dotfiles/lib/timestamp_make.sh $BODY
+  fi
+}
 # watch files system forchangess and reload
-alias make_loop="ack --cpp -f | entr $HOME/dotfiles/lib/entr_make.sh"
-alias test_loop="ack --cpp -f | entr $HOME/dotfiles/lib/entr_make_test.sh"
+alias make_loop="sp_make_on_change_entr_or_vanilla $HOME/dotfiles/lib/entr_make.sh"
+alias test_loop="sp_make_on_change_entr_or_vanilla $HOME/dotfiles/lib/entr_make_test.sh"
 
 function spooky_ag_grep() {
   ag "$1" --cpp --ignore "external"

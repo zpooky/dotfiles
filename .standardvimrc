@@ -148,8 +148,8 @@ set listchars=tab:·»
 set listchars+=eol:¬
 set listchars+=trail:·
 
-" set showbreak=↪\                    " useful indication of wrapping
-set showbreak="\u21aa "
+" set showbreak=↪\
+set showbreak="\u21aa"
 " }}}
 
 " {{{
@@ -161,11 +161,12 @@ augroup AutogroupFileSpecific
   autocmd BufNewFile,BufRead *.nasm set ft=nasm
 
   " type specific settings
-  autocmd FileType markdown,python set ts=2 sw=2 expandtab
-  autocmd FileType gitcommit,markdown,text,mail set textwidth=80
-  autocmd FileType gitcommit,markdown,text,mail set colorcolumn=-1   " display bar at textwidth
-  autocmd FileType gitcommit,markdown,text,mail set complete+=kspell
-  autocmd FileType gitcommit,mail set spell                          " enable spelling for these types
+  " autocmd FileType markdown,python setlocal ts=2 sw=2 expandtab
+  autocmd FileType gitcommit,markdown,text,mail setlocal textwidth=80
+  autocmd FileType gitcommit,markdown,text,mail setlocal colorcolumn=-1   " display bar at textwidth
+  autocmd FileType gitcommit,markdown,text,mail setlocal complete+=kspell
+" enable spelling for these types
+  autocmd FileType gitcommit,mail setlocal spell
 
   " set file type for files without extension like <atomic>
   autocmd BufRead,BufNewFile /usr/include/c++/* set syntax=cpp
@@ -203,6 +204,8 @@ hi SpellBad cterm=underline
 set spelllang=en_gb               " Specify the spell checking language.
 set nospell                       " Disable spell checking by default.
 set dictionary+=/usr/share/dict/words
+" Own spell db
+set spellfile=~/.vim/spell/en.utf-8.add
 
 abbreviate teh the
 abbreviate wehn when
@@ -306,6 +309,29 @@ abbreviate namesapce namespace
 abbreviate algoithm algorithm
 abbreviate recuirsive recursive
 abbreviate ranomize randomize
+abbreviate algorihm algorithm
+abbreviate corresponing corresponding
+abbreviate initialy initially
+abbreviate indecies indices
+abbreviate possitive positive
+abbreviate possitve positive
+abbreviate possitves positives
+abbreviate wheter whether
+abbreviate flase false
+abbreviate fasle false
+abbreviate compareing comparing
+abbreviate absoloutly absolutely
+abbreviate surten certain
+abbreviate beacuse because
+abbreviate therefor therefore
+abbreviate realy really
+abbreviate tradeoff trade-off
+abbreviate biset bitset
+abbreviate Advandatges Advantages
+abbreviate advandatges advantages
+abbreviate infront in front
+abbreviate artices articles
+
 
 " }}}
 

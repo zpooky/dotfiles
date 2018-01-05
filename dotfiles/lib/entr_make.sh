@@ -11,8 +11,6 @@ if [ $? -eq 0 ]; then
   good "SUCCESS"
 
   eval $@
-
 else
-
   bad "Compilation FAILED"
 fi

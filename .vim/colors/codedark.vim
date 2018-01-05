@@ -163,6 +163,20 @@ call <sid>hi('cRepeat', s:cdViasfora, {}, 'none', {})
 call <sid>hi('cType', s:cdVSType, {}, 'none', {})
 call <sid>hi('cppType', s:cdVSType, {}, 'none', {})
 
+" #Markdown
+" ##List item prefix(-)
+" TODO bold
+call <sid>hi('mkdListItem', s:cdViasfora, {}, 'none', {})
+" ##URL
+call <sid>hi('mkdInlineURL', s:cdYellow, {}, 'none', {})
+
+" Diff:
+call <sid>hi('diffRemoved', s:cdRed, {}, 'none', {})
+call <sid>hi('DiffDelete', {}, s:cdRed, 'none', {})
+call <sid>hi('diffAdded', s:cdGreen, {}, 'none', {})
+call <sid>hi('DiffAdd', {}, s:cdGreen, 'none', {})
+call <sid>hi('DiffChange', {}, s:cdDiffRedDark, 'none', {})
+call <sid>hi('DiffText', {}, s:cdDiffRedLight, 'none', {})
 
 " Vim editor colors
 "    <sid>hi(GROUP, FOREGROUND, BACKGROUND, ATTRIBUTE, SPECIAL)
@@ -171,10 +185,6 @@ call <sid>hi('ColorColumn', {}, s:cdCursorDarkDark, 'none', {})
 call <sid>hi('Cursor', s:cdCursorDark, s:cdCursorLight, 'none', {})
 call <sid>hi('CursorLine', {}, s:cdCursorDarkDark, 'none', {})
 call <sid>hi('Directory', s:cdBlue, s:cdBack, 'none', {})
-call <sid>hi('DiffAdd', {}, s:cdDiffGreenDark, 'none', {})
-call <sid>hi('DiffChange', {}, s:cdDiffRedDark, 'none', {})
-call <sid>hi('DiffDelete', {}, s:cdDiffRedLight, 'none', {})
-call <sid>hi('DiffText', {}, s:cdDiffRedLight, 'none', {})
 call <sid>hi('EndOfBuffer', s:cdLineNumber, s:cdBack, 'none', {})
 call <sid>hi('ErrorMsg', s:cdRed, s:cdBack, 'none', {})
 call <sid>hi('VertSplit', s:cdSplitDark, s:cdBack, 'none', {})
