@@ -118,10 +118,10 @@ augroup END
 
 if has('win32unix') || has('win64unix')
   " https://github.com/mintty/mintty/wiki/Tips
-  let &t_ti.="\e[1 q"
-  let &t_SI.="\e[5 q"
-  let &t_EI.="\e[1 q"
-  let &t_te.="\e[0 q"
+  let &t_ti.="\e[1 q"           " put terminal in termcap mode
+  let &t_SI.="\e[5 q"           " Start insert mode
+  let &t_EI.="\e[1 q"           " End insert or replace mode
+  let &t_te.="\e[0 q"           " out of termcap mode
 
   let &t_ti.="\e[?7727h"
   let &t_te.="\e[?7727l"

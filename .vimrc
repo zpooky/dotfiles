@@ -112,6 +112,9 @@ set nocompatible
 
 " :*prefix*map - list keymappings
 
+" # Terminal Options
+" :h termina-options
+
 " vim-plug {{{
 call plug#begin('~/.vim/plugged')
 " # vim        - plug commands
@@ -544,6 +547,7 @@ let g:cpp_experimental_template_highlight = 0 " Highlighting of template functio
 
 " neoformat {{{
 let g:neoformat_enabled_cpp = ['clangformat']
+let g:neoformat_only_msg_on_error = 1
 
 augroup AutogroupNeoformat
   autocmd!

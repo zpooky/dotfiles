@@ -130,6 +130,22 @@ if g:codedark_conservative | let s:cdYellow = s:cdFront | endif
 let s:cdPink = {'gui': '#C586C0', 'cterm': s:cterm0E, 'cterm256': '176'}
 if g:codedark_conservative | let s:cdPink = s:cdBlue | endif
 
+" :h attr-lis
+" term = terminal
+" cterm = color terminal
+
+" cterm=
+" - bold
+" - underline
+" - undercurl         |not always available
+" - strikethrough     |not always available
+" - reverse
+" - inverse           |same as reverse
+" - italic
+" - standout
+" - nocombine         |override attributes instead of combining them
+" - NONE              |no attributes used (used to reset it)
+
 " # vim-cpp-enhanced-highlight
 " static_assert
 " call <sid>hi('cOperator', s:cdViasfora, {}, 'none', {})
@@ -178,6 +194,11 @@ call <sid>hi('DiffAdd', {}, s:cdGreen, 'none', {})
 call <sid>hi('DiffChange', {}, s:cdDiffRedDark, 'none', {})
 call <sid>hi('DiffText', {}, s:cdDiffRedLight, 'none', {})
 
+" Spell:
+call <sid>hi('SpellBad', s:cdNone, s:cdNone, 'undercurl', {})
+call <sid>hi('SpellCap', s:cdNone, s:cdNone, 'undercurl', {})
+call <sid>hi('SpellLocal', s:cdNone, s:cdNone, 'undercurl', {})
+
 " Vim editor colors
 "    <sid>hi(GROUP, FOREGROUND, BACKGROUND, ATTRIBUTE, SPECIAL)
 call <sid>hi('Normal', s:cdFront, s:cdBack, 'none', {})
@@ -205,9 +226,6 @@ call <sid>hi('PmenuThumb', {}, s:cdPopupFront, 'none', {})
 call <sid>hi('Question', s:cdBlue, s:cdBack, 'none', {})
 call <sid>hi('Search', s:cdNone, s:cdSearch, 'none', {})
 call <sid>hi('SpecialKey', s:cdBlue, s:cdNone, 'none', {})
-call <sid>hi('SpellBad', s:cdNone, s:cdNone, 'undercurl', {})
-call <sid>hi('SpellCap', s:cdNone, s:cdNone, 'undercurl', {})
-call <sid>hi('SpellLocal', s:cdNone, s:cdNone, 'undercurl', {})
 call <sid>hi('StatusLine', s:cdFront, s:cdLeftMid, 'none', {})
 call <sid>hi('StatusLineNC', s:cdFront, s:cdLeftDark, 'none', {})
 call <sid>hi('TabLine', s:cdFront, s:cdTabOther, 'none', {})

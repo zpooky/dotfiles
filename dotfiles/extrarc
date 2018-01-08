@@ -467,8 +467,9 @@ function setup_project(){
     git init
 
     TEST_DIRECTORY="test"
+    SRC_DIRECTORY="src"
     EXTERNAL_DIRECTORY="external"
-    DIRECTORIES=($TEST_DIRECTORY $EXTERNAL_DIRECTORY ".")
+    DIRECTORIES=($TEST_DIRECTORY $EXTERNAL_DIRECTORY $SRC_DIRECTORY ".")
     for DIR in "${DIRECTORIES[@]}"
     do
       if [ ! -e $DIR ]; then
@@ -480,9 +481,9 @@ function setup_project(){
     cp $CPP_EXAMPLE_MAKEFILE .
     cp $CPP_EXAMPLE_TEST_MAKEFILE $TEST_DIRECTORY/Makefile
     cp "$CPP_STUB/.gitignore" .
-    cp "$CPP_STUB/app.h" .
-    cp "$CPP_STUB/app.cpp" .
-    cp "$CPP_STUB/main.cpp" .
+    cp "$CPP_STUB/app.h" $SRC_DIRECTORY
+    cp "$CPP_STUB/app.cpp" $SRC_DIRECTORY
+    cp "$CPP_STUB/main.cpp" $SRC_DIRECTORY
     cp "$CPP_STUB/AppTest.cpp" $TEST_DIRECTORY
 
     cd $EXTERNAL_DIRECTORY
