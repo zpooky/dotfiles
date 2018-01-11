@@ -9,6 +9,7 @@ set nocompatible
 if has('gui_running')
   " configure font and font size for gvim
   set guifont=Consolas:h9
+
   " a gui pops up allowing you to configure font, size...
   " set guifont=*
 endif
@@ -16,7 +17,7 @@ endif
 " if $TERM == "xterm-256color"
 " endif
 
-if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal" || $TERM == "urxvt" || $TERM == "tmux-256color"
+if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal" || $TERM == "urxvt" || $TERM == "tmux-256color" || has('nvim')
   set t_Co=256
   if has('nvim') || has('termguicolors')
     " :h xterm-true-color
@@ -28,7 +29,7 @@ if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gno
   endif
 endif
 
-if v:version > 703 || v:version == 703 && has('patch541')
+if v:version > 703 || v:version == 703 && has('patch541') || has('nvim')
   " Fixes joining comment lines
   set formatoptions+=j
 endif
@@ -192,6 +193,7 @@ nnoremap k gk
 map <silent><f6> <esc>:setlocal spell!<CR>
 map zn ]s
 map zp [s
+map zN [s
 " map <leader>sa zg
 " map <leader>sq z=
 " Drop down menu with spell corrections
@@ -311,6 +313,7 @@ abbreviate recuirsive recursive
 abbreviate ranomize randomize
 abbreviate algorihm algorithm
 abbreviate corresponing corresponding
+abbreviate coresponding corresponding
 abbreviate initialy initially
 abbreviate indecies indices
 abbreviate possitive positive
@@ -331,7 +334,11 @@ abbreviate Advandatges Advantages
 abbreviate advandatges advantages
 abbreviate infront in front
 abbreviate artices articles
-
+abbreviate ovrrides overrides 
+abbreviate ovrride override 
+abbreviate externaly externally
+abbreviate inbetwen in-between
+abbreviate conuccrency concurrency
 
 " }}}
 
@@ -537,3 +544,17 @@ set modelines=1   " turn on vim settings that will be read from the last line
 " example:
 " vim:foldmethod=marker:foldlevel=0
 " }}}
+
+" ctags {{{
+" ctags - look in the current directory for 'tags',
+" and work up the tree towards root until one is found
+set tags=./.tags;/
+
+" open tag
+" map <silent> <F3> <c-]>
+" open tag in vertical split
+map <silent> <leader><F3> <a-]>
+" previous
+" map <silent> <A-Left> <c-t>
+" }}}
+

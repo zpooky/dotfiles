@@ -5,6 +5,15 @@
 " Turn off vi compatibility.(should be set first)
 set nocompatible
 
+if has('win32') || has('win64')
+  source D:\cygwin64\home\fredrik\.standardvimrc
+
+  let g:python_host_prog = "C:\\Python27\\python.exe"
+  let g:python3_host_prog = "C:\\Python36\\python.exe"
+else
+  source $HOME/.standardvimrc
+endif
+
 " TODO
 " # rtag
 " https://github.com/lyuts/vim-rtags
@@ -117,16 +126,7 @@ set nocompatible
 
 " vim-plug {{{
 call plug#begin('~/.vim/plugged')
-" # vim        - plug commands
-" :PlugInstall - Install plugins
-" :PlugUpdate  - Install or update plugins
-" :PlugUpgrade - Upgrade vimplug itself
-" :PlugStatus  - Check the status of plugins which are loaded and so on
-" :PlugDiff
 
-" ###############
-" # programming #
-" ###############
 let programming_ncpp=         {'for':[          'haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake','javascript','ocaml']}
 let programming_ncpp_nhaskell={'for':[                    'scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake','javascript','ocaml']}
 let programming=              {'for':['c','cpp','haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake','javascript','ocaml']}
@@ -135,49 +135,243 @@ let programming_cpp=          {'for':['c','cpp']}
 let programming_haskell=      {'for':'haskell'}
 let programming_scala=        {'for':'scala'}
 
+let neovim_update_remote={ 'do': ':UpdateRemotePlugins' }
+
+if has('nvim')
+  " Deoplete {{{
+  Plug 'Shougo/deoplete.nvim',neovim_update_remote
+  let g:deoplete#enable_at_startup = 1
+  " }}}
+
+  " Deoplete-clang {{{
+  Plug 'zchee/deoplete-clang'
+  let g:deoplete#sources#clang#libclang_path=""
+  let g:deoplete#sources#clang#clang_header=""
+  " }}}
+else
+  " turned off in cygwin since these plugins requires compilation
+  if !has('win32unix') && !has('win64unix')
+    " YouCompleteMe {{{
+    " forked YCM for better cpp suggestions
+    Plug '~/.vim/bundle/OblitumYouCompleteMe',programming_cpp
+    " vanilla YCM
+    Plug '~/.vim/bundle/YouCompleteMe',programming_ncpp_nhaskell
+
+    " YouCompleteMe - Install
+    " cd ~/.vim/bundle/YouCompleteMe;./install.sh --clang-completer
+
+    let g:ycm_show_diagnostics_ui = 0
+    let g:ycm_collect_identifiers_from_tags_files = 1
+    let g:ycm_confirm_extra_conf = 0                        " disable confirm of project specific ycm conf
+
+    let g:ycm_autoclose_preview_window_after_completion = 0 " do not directly close prototype window
+    let g:ycm_autoclose_preview_window_after_insertion = 1  " close it when I exit insert mode.
+    let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+
+    " " ycm ultisnip integration
+    " " YCM + UltiSnips works like crap
+    " " https://www.youtube.com/watch?v=WeppptWfV-0
+    " let g:ycm_use_ultisnips_completer = 1
+    " let g:ycm_key_list_select_completion=[]
+    " let g:ycm_key_list_previous_completion=[]
+    " let g:UltiSnipsExpandTrigger = '<Tab>'
+    " let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+    " let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+    "
+    " let g:UltiSnipsMappingsToIgnore = ['autocomplete']
+    "
+    " let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
+    " let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
+    " let g:ycm_key_list_accept_completion = ['<C-y>']
+
+    " using Ycm to navigate
+    " https://github.com/Valloric/YouCompleteMe#goto-commands
+    map <silent> <F3> <esc>:YcmCompleter GoTo<CR>
+
+    " }}}
+  else
+    Plug 'Rip-Rip/clang_complete',{'do':'make install','for':['cpp','c']}
+    let g:clang_close_preview = 1
+    set completeopt-=preview
+  endif
+endif
+
+" ALE {{{
 " framework for displaying warnings & errors in source code
 Plug 'w0rp/ale',programming
+
+" :ALEInfo - current settings
+
+"'clang', 'clangcheck', 'cpplint','cppcheck', 'clangtidy'
+let g:ale_linters = {
+\   'cpp': ['g++','cppcheck'],
+\   'c': ['gcc','cppcheck'],
+\}
+
+let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Wpedantic -Iexternal -I../external -I../external/googletest/googletest -Iexternal/googletest/googletest -Werror-pointer-arith"
+" }}}
+
+" DelimitMate {{{
+" exapnds () {} "" '' []
+Plug 'Raimondi/delimitMate',programming_nhaskell
+
+let delimitMate_expand_cr = 1
+" }}}
+
+" Tagbar {{{
 " pane displaying tag information present in current file
 " Plug 'majutsushi/tagbar',programming_nhaskell
+
+let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
+
+" }}}
+
+" TComment {{{
 " comment toggle shortcut
 Plug 'tomtom/tcomment_vim'
+nmap <leader>c <esc>:TComment<CR>
+nmap <leader>= <esc>:TCommentBlock<CR>
+
+" Tcomment visual
+vmap <leader>c :TComment<CR>
+vmap <leader>= :TCommentBlock<CR>
+" }}}
+
+" {{{
 if !has('win32unix') && !has('win64unix')
+  " gutentags {{{
   " ctags, cscope & global generation
   Plug 'ludovicchabant/vim-gutentags',programming_nhaskell
+
+  let g:gutentags_modules=['ctags', 'gtags_cscope']
+  let g:gutentags_ctags_executable="ctags"
+  let g:gutentags_ctags_tagfile=".tags"
+  let g:gutentags_generate_on_missing=1
+  let g:gutentags_background_update=1
+
+  " let g:gutentags_ctags_executable_cpp="ctag"
+
+  let g:gutentags_project_info=[]
+  call add(g:gutentags_project_info, {'type': 'python', 'file': 'setup.py'})
+  call add(g:gutentags_project_info, {'type': 'ruby', 'file': 'Gemfile'})
+  call add(g:gutentags_project_info, {'type': 'haskell', 'glob': '*.cabal'})
+  call add(g:gutentags_project_info, {'type': 'haskell', 'file': 'stack.yaml'})
+
+  " gtags
+  let g:gutentags_gtags_executable="gtags"
+  let g:gutentags_gtags_cscope_executable = 'gtags-cscope'
+  let g:gutentags_auto_add_gtags_cscope = 1
+
+  " }}}
+
   " gtags support
   Plug 'bbchung/gtags.vim',programming_nhaskell
 endif
+" }}}
+
+" neoformat {{{
 " support for different code formatters
 Plug 'sbdchd/neoformat'
-" exapnds () {} "" '' []
-Plug 'Raimondi/delimitMate',programming_nhaskell
+
+let g:neoformat_enabled_cpp = ['clangformat']
+let g:neoformat_only_msg_on_error = 1
+
+augroup AutogroupNeoformat
+  autocmd!
+  autocmd FileType c,cpp nnoremap <buffer><leader>f <esc>:Neoformat<CR>
+  autocmd FileType c,cpp vnoremap <buffer><leader>f <esc>:Neoformat<CR>
+augroup END
+" }}}
+
+" Codi {{{
 " repl based on content from current file
 Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
+
+let g:codi#interpreters = {
+      \ 'python': {
+      \ 'bin': 'python3',
+      \ },
+      \ }
 " # vim             command
 " Codi [filetype] - activates Codi
 " Codi!           - deactivates Codi
+" }}}
 
+" {{{
 " #######
 " # cpp #
 " #######
+" a.vim {{{
 " toggle between src/header
 Plug 'micbou/a.vim',programming_cpp
-" an alternative to color_coded
-Plug 'octol/vim-cpp-enhanced-highlight',programming_cpp
+augroup AugroupAVIM
+  autocmd!
+  " toggle between header and source
+  autocmd FileType c,cpp,objc map <silent> <F2> :A<CR>
+  " open source or header in vertical split
+  autocmd FileType c,cpp,objc map <silent> <leader><F2> :AV<CR>
 
+augroup END
+" }}}
+
+" unmap some a.vim mappings
+Plug '~/.vim/bundle/after',programming_cpp
+" }}}
+
+" {{{
+if has('nvim')
+  " Chromatica {{{
+  Plug 'arakashic/chromatica.nvim',programming_cpp,neovim_update_remote
+  let g:chromatica#enable_at_startup=1
+  let g:chromatica#responsive_mode = 1
+  if has('win32') || has('win64')
+    let g:chromatica#libclang_path="D:\\Program Files\\LLVM\\lib\\libclang.lib"
+  endif
+  " }}}
+else
+  " {{{
+  " an alternative to color_coded
+  Plug 'octol/vim-cpp-enhanced-highlight',programming_cpp
+  " }}}
+endif
+
+" {{{
 " ###########
 " # Haskell #
 " ###########
 " Haskell code completion
 Plug 'eagletmt/neco-ghc',programming_haskell
+
+" vim2hs {{{
 Plug 'dag/vim2hs',programming_haskell
 
+let g:haskell_conceal_wide = 1
+" 0 = disable all conceals, including the simple ones like
+" lambda and composition
+" let g:haskell_conceal              = 1
+
+" 0 = disable concealing of "enumerations": commatized lists like
+" deriving clauses and LANGUAGE pragmas,
+" otherwise collapsed into a single ellipsis
+" let g:haskell_conceal_enumerations = 1
+
+" }}}
+
+" }}}
+
+" {{{
 " #########
 " # scala #
 " #########
+" vim-scala {{{
 " scala support
 Plug 'derekwyatt/vim-scala',programming_scala
 
+let g:scala_use_default_keymappings = 0
+" }}}
+" }}}
+
+" {{{
 " ##########
 " # syntax #
 " ##########
@@ -185,165 +379,19 @@ Plug 'derekwyatt/vim-scala',programming_scala
 Plug 'vim-scripts/rfc-syntax', { 'for': 'rfc' }
 " systemd syntax
 Plug 'Matt-Deacalion/vim-systemd-syntax'
+" }}}
 
+" {{{
 " ##########
 " # text   #
 " ##########
-Plug 'reedes/vim-pencil', { 'for': 'markdown' }
-Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
-" markdown syntax
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-Plug 'reedes/vim-colors-pencil'   " http://sherifsoliman.com/2016/05/30/favorite-vim-plugins/#vim-colors-pencil
-
-" ########
-" # tmux #
-" ########
-" Integrate split navigation with tmux
-Plug 'christoomey/vim-tmux-navigator'
-" makes in tmux switching to a vim pane trigger an on-focus event
-Plug 'tmux-plugins/vim-tmux-focus-events'
-
-" ########
-" # git  #
-" ########
-" better git commmit interface
-Plug 'rhysd/committia.vim'
-" git integration
-Plug 'tpope/vim-fugitive'
-
-" ###########
-" # general #
-" ###########
-" colorscheme: railscasts
-Plug 'jpo/vim-railscasts-theme'
-" if has('win32unix') || has('win64unix')
-  " Plug 'tomasiser/vim-code-dark'
-" endif
-" adds commands to surround: XwordX
-Plug 'tpope/vim-surround'
-" to make repeat(.) work with vim-surround
-Plug 'tpope/vim-repeat'
-" file explorer
-" Plug 'scrooloose/nerdtree',{'on':'NERDTreeToggle'}
-" fuzzy search (TODO do step does not work)
-Plug 'wincent/command-t',{'do':'rake make'}
-" colors scope () {}
-Plug 'luochen1990/rainbow'
-" historic buffer navigation
-Plug 'ton/vim-bufsurf'  " TODO ?
-" additional *in* support like ci, to change between two ,
-Plug 'wellle/targets.vim'
-" Centre search result
-" Plug 'wincent/loupe'
-noremap n nzz
-noremap N Nzz
-
-" hint what char should used with f
-Plug 'unblevable/quick-scope'
-" display only when these keys has been presed
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-
-" Visual select * support
-Plug 'bronson/vim-visual-star-search'
-
-" Statusline {{{
-if has('win32unix') || has('win64unix') || $TERM == "linux"
-  Plug 'vim-airline/vim-airline'
-else
-  " Powerline
-  " set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
-  " set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim
-
-  " Maybe wrap with try catch and fall back to python2
-  python3 from powerline.vim import setup as powerline_setup
-  python3 powerline_setup()
-  python3 del powerline_setup
-endif
-" Always show statusline
-set laststatus=2
-" }}}
-
-" unmap some a.vim mappings
-Plug '~/.vim/bundle/after',programming_cpp
-
-" turned off in cygwin since these plugins requires compilation
-if !has('win32unix') && !has('win64unix')
-  " forked YCM for better cpp suggestions
-  Plug '~/.vim/bundle/OblitumYouCompleteMe',programming_cpp
-  " vanilla YCM
-  Plug '~/.vim/bundle/YouCompleteMe',programming_ncpp_nhaskell
-else
-  Plug 'Rip-Rip/clang_complete',{'do':'make install','for':['cpp','c']}
-  let g:clang_close_preview = 1
-  set completeopt-=preview
-endif
-
-Plug 'chrisbra/Colorizer', { 'for': 'vim' }
-" :ColorHighlight
-"
-" let g:colorizer_auto_filetype='vim'
-let g:colorizer_colornames_disable = 1
-
-call plug#end()
-" }}}
-
-" =======================================================================
-
-source $HOME/.standardvimrc
-
-" =======================================================================
-
-colorscheme codedark
-
-" colorscheme {{{
-" if has('win32unix') || has('win64unix')
-  " wrk {{{
-  augroup AutogroupCppVisual
-    autocmd!
-    " autocmd FileType c,cpp colorscheme codedark
-  augroup END
-
-if has('win32unix') || has('win64unix')
-  augroup AutogroupCygwinCppVisual
-    autocmd!
-    autocmd FileType cpp map <silent> <F11> <Esc> :set laststatus=0 <Bar> :AirlineToggle<CR>
-  augroup END
-endif
-
-" colorscheme base16
-" colorscheme molokai
-" colorscheme jellybeans      " ! https://github.com/nanotech/jellybeans.vim
-" colorscheme pencil
-" badwolf
-
-set background=dark
-" }}}
-
-if has('win32unix') || has('win64unix')
-  " in cygwin if we save a file not in dos mode outside the 'virtual' linux
-  " prompt if it should not be in dos mode instead of the default unix
-  " TODO should ignore special buffers like vim msg
-  augroup AutogroupCygwin
-    autocmd!
-    autocmd BufWritePre * if &ff != 'dos' && expand('%:p') =~ "^\/cygdrive\/d\/Worksapce\/" && expand('%:p') !~ "\/Dropbox\/" && input('set ff to dos [y]') == 'y' | setlocal ff=dos | endif
-  augroup END
-endif
-
-" Goyo {{{
-augroup AutogroupGoyo
-  autocmd!
-  autocmd FileType markdown,mail,text,gitcommit map <silent> <F11> <Esc> :Goyo <Bar> :TogglePencil <CR>
-augroup END
-" }}}
-"
-
-" Generic Writing {{{
-" let g:languagetool_jar  = '/opt/languagetool/languagetool-commandline.jar'
-" }}}
 
 " Pencil {{{
+Plug 'reedes/vim-pencil', { 'for': 'markdown' }
+
 " hardwrap - vim adds newlines character when line is to long
 " softwrap - vim presents long lines wrapped over multiple lines
+
 " TODO
 " let g:pencil#wrapModeDefault = 'hard'
 " augroup AutogroupPencil
@@ -371,108 +419,86 @@ let g:pencil#autoformat_config = {
       \ }
 " }}}
 
-" Codi {{{
-let g:codi#interpreters = {
-      \ 'python': {
-      \ 'bin': 'python3',
-      \ },
-      \ }
+" Goyo {{{
+Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+
+augroup AutogroupGoyo
+  autocmd!
+  autocmd FileType markdown,mail,text,gitcommit map <silent> <F11> <Esc> :Goyo <Bar> :TogglePencil <CR>
+augroup END
 " }}}
 
-" Tagbar {{{
-let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
+" markdown syntax
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+Plug 'reedes/vim-colors-pencil'   " http://sherifsoliman.com/2016/05/30/favorite-vim-plugins/#vim-colors-pencil
 " }}}
 
-" vim2hs {{{
-let g:haskell_conceal_wide = 1
-" 0 = disable all conceals, including the simple ones like
-" lambda and composition
-" let g:haskell_conceal              = 1
-
-" 0 = disable concealing of "enumerations": commatized lists like
-" deriving clauses and LANGUAGE pragmas,
-" otherwise collapsed into a single ellipsis
-" let g:haskell_conceal_enumerations = 1
-
+" {{{
+" ########
+" # tmux #
+" ########
+" Integrate split navigation with tmux
+Plug 'christoomey/vim-tmux-navigator'
+" makes in tmux switching to a vim pane trigger an on-focus event
+Plug 'tmux-plugins/vim-tmux-focus-events'
 " }}}
 
-" vim-scala {{{
-let g:scala_use_default_keymappings = 0
+" {{{
+" ########
+" # git  #
+" ########
+" better git commmit interface
+Plug 'rhysd/committia.vim'
+Plug 'tpope/vim-fugitive'
 " }}}
 
-" rainbow scope {{{
-" activate rainbow scope higlight
-let g:rainbow_active = 1
 
-"\ 'guifgs': ['darkorange3', 'seagreen3', 'deepskyblue', 'darkorchid3', 'forestgreen', 'lightblue', 'hotpink', 'mistyrose1'],
-" \ 'operators': '_[\,\+\*\-\&\^\!\.\<\>\=\|\?]_',
-", 'lightmagenta'
-  " #ff9900   | orange
-  " #ff1493   | pink
-  " #9acd32   | green
-  " #9400d3   | magenta
-  " #696969   | grey
-  " #4169e1   | dark blue
-  " #dc143c   | red
-  " #00ced1   | baby blue
-  " #008000   | dark green
-let g:rainbow_conf =
-\ {
-\ 'ctermfgs': ['lightblue', 'red', 'cyan', 'darkgreen'],
-\ 'guifgs': ['#ff9900','#ff1493','#9acd32'],
-\ 'operators': '_[\,\-\<\>\.|\*]_'
-\ }
-
+" {{{
+" adds commands to surround: XwordX
+Plug 'tpope/vim-surround'
+" to make repeat(.) work with vim-surround
+Plug 'tpope/vim-repeat'
 " }}}
 
-" DelimitMate {{{
-let delimitMate_expand_cr = 1
+" CommandT {{{
+" fuzzy search (TODO do step does not work)
+Plug 'wincent/command-t',{'do':'rake make'}
+
+noremap <silent> <leader>r <Esc>:CommandT<CR>
+" noremap <silent> <leader>O <Esc>:CommandTFlush<CR>
+noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
+noremap <silent> <leader>. <esc>:CommandTTag<cr>
 " }}}
 
-" ALE {{{
-" :ALEInfo - current settings
+" tagbar {{{
+" pane displaying tag information present in current file
+" Plug 'majutsushi/tagbar',programming_nhaskell
 
-"'clang', 'clangcheck', 'cpplint','cppcheck', 'clangtidy'
-let g:ale_linters = {
-\   'cpp': ['g++','cppcheck'],
-\   'c': ['gcc','cppcheck'],
-\}
-
-let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Wpedantic -Iexternal -I../external -I../external/googletest/googletest -Iexternal/googletest/googletest -Werror-pointer-arith"
-
+nmap <silent> <F10> <esc>:TagbarToggle<CR>
+imap <silent> <F10> <ESC>:TagbarToggle<CR>
+cmap <silent> <F10> <ESC>:TagbarToggle<CR>
 " }}}
 
-" YouCompleteMe {{{
-" YouCompleteMe - Install
-" cd ~/.vim/bundle/YouCompleteMe;./install.sh --clang-completer
+" nerdtree {{{
+" file explorer
+" Plug 'scrooloose/nerdtree',{'on':'NERDTreeToggle'}
 
-let g:ycm_show_diagnostics_ui = 0
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_confirm_extra_conf = 0                        " disable confirm of project specific ycm conf
+map <silent> <F8> <esc>:NERDTreeToggle<CR>
+imap <silent> <F8> <ESC>:NERDTreeToggle<CR>
+cmap <silent> <F8> <ESC>:NERDTreeToggle<CR>
 
-let g:ycm_autoclose_preview_window_after_completion = 0 " do not directly close prototype window
-let g:ycm_autoclose_preview_window_after_insertion = 1  " close it when I exit insert mode.
-let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+let NERDTreeIgnore = [
+    \ '\.pyc$',
+    \ '\.class$',
+    \ '\.cm\(x\(a\)\?\|i\|t\)$',
+    \ '\.sp\(o\|i\)t$',
+    \ '\.o\(\(pt\|mc\)\)\=$',
+\ '\.annot$'] " Ignores
 
-" " ycm ultisnip integration
-" " YCM + UltiSnips works like crap
-" " https://www.youtube.com/watch?v=WeppptWfV-0
-" let g:ycm_use_ultisnips_completer = 1
-" let g:ycm_key_list_select_completion=[]
-" let g:ycm_key_list_previous_completion=[]
-" let g:UltiSnipsExpandTrigger = '<Tab>'
-" let g:UltiSnipsJumpForwardTrigger = '<Tab>'
-" let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
-"
-" let g:UltiSnipsMappingsToIgnore = ['autocomplete']
-"
-" let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
-" let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
-" let g:ycm_key_list_accept_completion = ['<C-y>']
-
-" using Ycm to navigate
-" https://github.com/Valloric/YouCompleteMe#goto-commands
-map <silent> <F3> <esc>:YcmCompleter GoTo<CR>
+let NERDTreeAutoDeleteBuffer = 1
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+let NERDTreeShowHidden = 1  " show hidden dotfiles
 
 " Close all open buffers on entering a window if the only
 " buffer that's left is the NERDTree buffer
@@ -490,7 +516,131 @@ function! s:CloseIfOnlyNerdTreeLeft()
     endif
   endif
 endfunction
+" }}}
 
+" rainbow scope {{{
+" colors scope () {}
+Plug 'luochen1990/rainbow'
+
+" activate rainbow scope higlight
+let g:rainbow_active = 1
+
+"\ 'guifgs': ['darkorange3', 'seagreen3', 'deepskyblue', 'darkorchid3', 'forestgreen', 'lightblue', 'hotpink', 'mistyrose1'],
+" \ 'operators': '_[\,\+\*\-\&\^\!\.\<\>\=\|\?]_',
+", 'lightmagenta'
+" #ff9900   | orange
+" #ff1493   | pink
+" #9acd32   | green
+" #9400d3   | magenta
+" #696969   | grey
+" #4169e1   | dark blue
+" #dc143c   | red
+" #00ced1   | baby blue
+" #008000   | dark green
+let g:rainbow_conf =
+      \ {
+      \ 'ctermfgs': ['lightblue', 'red', 'cyan', 'darkgreen'],
+      \ 'guifgs': ['#ff9900','#ff1493','#9acd32'],
+      \ 'operators': '_[\,\-\<\>\.|\*]_'
+      \ }
+" }}}
+
+" {{{
+" historic buffer navigation
+Plug 'ton/vim-bufsurf'  " TODO ?
+" }}}
+"
+" {{{
+" additional *in* support like ci, to change between two ,
+Plug 'wellle/targets.vim'
+" }}}
+
+" {{{
+" Centre search result
+" Plug 'wincent/loupe'
+noremap n nzz
+noremap N Nzz
+" }}}
+
+" {{{
+" hint what char should used with f
+Plug 'unblevable/quick-scope'
+" display only when these keys has been presed
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+" }}}
+
+
+" {{{
+" Visual select * support
+Plug 'bronson/vim-visual-star-search'
+
+" Statusline {{{
+if has('win32unix') || has('win64unix') || $TERM == "linux" || has('nvim')
+  Plug 'vim-airline/vim-airline'
+else
+  python3 from powerline.vim import setup as powerline_setup
+  python3 powerline_setup()
+  python3 del powerline_setup
+endif
+set laststatus=2
+" }}}
+
+
+" {{{
+Plug 'chrisbra/Colorizer', { 'for': 'vim' }
+" :ColorHighlight
+"
+" let g:colorizer_auto_filetype='vim'
+let g:colorizer_colornames_disable = 1
+" }}}
+
+call plug#end()
+" }}}
+
+" enable language providers
+" let g:loaded_python_provider = 0
+" let g:loaded_python3_provider = 0
+
+colorscheme codedark
+
+" colorscheme {{{
+" if has('win32unix') || has('win64unix')
+  " wrk {{{
+  " augroup AutogroupCppVisual
+  "   autocmd!
+    " autocmd FileType c,cpp colorscheme codedark
+  " augroup END
+
+if has('win32unix') || has('win64unix') || has('win32') || has('win64')
+  " augroup AutogroupCygwinCppVisual
+  "   autocmd!
+    " autocmd FileType cpp map <silent> <F11> <Esc> :set laststatus=0 <Bar> :AirlineToggle<CR>
+  " augroup END
+    map <silent> <F11> <Esc> :set laststatus=0 <Bar> :AirlineToggle<CR>
+endif
+
+" colorscheme base16
+" colorscheme molokai
+" colorscheme jellybeans      " ! https://github.com/nanotech/jellybeans.vim
+" colorscheme pencil
+" badwolf
+
+set background=dark
+" }}}
+
+if has('win32unix') || has('win64unix')
+  " in cygwin if we save a file not in dos mode outside the 'virtual' linux
+  " prompt if it should not be in dos mode instead of the default unix
+  " TODO should ignore special buffers like vim msg
+  augroup AutogroupCygwin
+    autocmd!
+    autocmd BufWritePre * if &ff != 'dos' && expand('%:p') =~ "^\/cygdrive\/d\/Worksapce\/" && expand('%:p') !~ "\/Dropbox\/" && input('set ff to dos [y]') == 'y' | setlocal ff=dos | endif
+  augroup END
+endif
+
+
+" Generic Writing {{{
+" let g:languagetool_jar  = '/opt/languagetool/languagetool-commandline.jar'
 " }}}
 
 " gdb {{{
@@ -525,18 +675,6 @@ let g:cpp_experimental_template_highlight = 0 " Highlighting of template functio
 " let g:cpp_member_variable_highlight = 1
 " }}}
 
-
-" neoformat {{{
-let g:neoformat_enabled_cpp = ['clangformat']
-let g:neoformat_only_msg_on_error = 1
-
-augroup AutogroupNeoformat
-  autocmd!
-  autocmd FileType c,cpp nnoremap <buffer><leader>f <esc>:Neoformat<CR>
-  autocmd FileType c,cpp vnoremap <buffer><leader>f <esc>:Neoformat<CR>
-augroup END
-" }}}
-
 " format json {{{
 function! FormatJson()
   :mark o
@@ -563,80 +701,3 @@ endfunc
 command! SynStack :call SynStack()
 map <F7> :SynStack<CR>
 " }}}
-
-" TComment {{{
-nmap <leader>c <esc>:TComment<CR>
-nmap <leader>= <esc>:TCommentBlock<CR>
-
-" Tcomment visual
-vmap <leader>c :TComment<CR>
-vmap <leader>= :TCommentBlock<CR>
-" }}}
-
-" tagbar {{{
-nmap <silent> <F10> <esc>:TagbarToggle<CR>
-imap <silent> <F10> <ESC>:TagbarToggle<CR>
-cmap <silent> <F10> <ESC>:TagbarToggle<CR>
-" }}}
-
-" nerdtree {{{
-map <silent> <F8> <esc>:NERDTreeToggle<CR>
-imap <silent> <F8> <ESC>:NERDTreeToggle<CR>
-cmap <silent> <F8> <ESC>:NERDTreeToggle<CR>
-
-let NERDTreeIgnore = [
-    \ '\.pyc$',
-    \ '\.class$',
-    \ '\.cm\(x\(a\)\?\|i\|t\)$',
-    \ '\.sp\(o\|i\)t$',
-    \ '\.o\(\(pt\|mc\)\)\=$',
-\ '\.annot$'] " Ignores
-
-let NERDTreeAutoDeleteBuffer = 1
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let NERDTreeShowHidden = 1  " show hidden dotfiles
-
-" }}}
-
-" CommandT {{{
-noremap <silent> <leader>r <Esc>:CommandT<CR>
-" noremap <silent> <leader>O <Esc>:CommandTFlush<CR>
-noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
-noremap <silent> <leader>. <esc>:CommandTTag<cr>
-
-" }}}
-
-" a.vim {{{
-augroup AugroupAVIM
-  autocmd!
-  " toggle between header and source
-  autocmd FileType c,cpp,objc map <silent> <F2> :A<CR>
-  " open source or header in vertical split
-  autocmd FileType c,cpp,objc map <silent> <leader><F2> :AV<CR>
-
-augroup END
-" }}}
-
-" gutentags {{{
-let g:gutentags_modules=['ctags', 'gtags_cscope']
-let g:gutentags_ctags_executable="ctags"
-let g:gutentags_ctags_tagfile=".tags"
-let g:gutentags_generate_on_missing=1
-let g:gutentags_background_update=1
-
-" let g:gutentags_ctags_executable_cpp="ctag"
-
-let g:gutentags_project_info=[]
-call add(g:gutentags_project_info, {'type': 'python', 'file': 'setup.py'})
-call add(g:gutentags_project_info, {'type': 'ruby', 'file': 'Gemfile'})
-call add(g:gutentags_project_info, {'type': 'haskell', 'glob': '*.cabal'})
-call add(g:gutentags_project_info, {'type': 'haskell', 'file': 'stack.yaml'})
-
-" gtags
-let g:gutentags_gtags_executable="gtags"
-let g:gutentags_gtags_cscope_executable = 'gtags-cscope'
-let g:gutentags_auto_add_gtags_cscope = 1
-
-" }}}
-

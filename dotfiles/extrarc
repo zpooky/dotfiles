@@ -92,7 +92,7 @@ alias sp-cygwin="vim $REF_DIR/cygwin.md"
 alias sp-big-o="vim $REF_DIR/big-o.md"      #TODO
 alias sp-np-problem="vim $REF_DIR/np-problem.md"      #TODO
 alias sp-bnf="vim $REF_DIR/bnf.md"
-alias sp-floating-point="vim $REF_DIR/floating-point.txt" #TODO
+alias sp-floating-point="vim $REF_DIR/floating-point.md" #TODO
 alias sp-static-dynamic-typing="vim $REF_DIR/static-dynamic-typing.md" #TODO
 alias sp-formal-verification="vim $REF_DIR/formal-verification.md"
 alias sp-crdt="vim $REF_DIR/crdt.md"       #TODO
@@ -133,6 +133,8 @@ CPP_STUB="$CPP_ROOT/stub"
 CPP_EXAMPLE_MAKEFILE=$CPP_ROOT/Makefile
 CPP_EXAMPLE_TEST_MAKEFILE=$CPP_ROOT/Makefile_test
 
+
+alias sp-make="vim $CPP_ROOT/make.md"
 alias sp-cinclude="vim $CPP_ROOT/cinclude.md"
 alias sp-c="vim $CPP_ROOT/c.md"
 alias cpp-gcc="vim $CPP_ROOT/gcc.md"
@@ -163,6 +165,7 @@ alias sp-debug-hardware="vim $DROPBOX_LINUX/debug/hardware.md"
 alias sp-debug-io="vim $DROPBOX_LINUX/debug/io.md"
 alias sp-debug-cpu="vim $DROPBOX_LINUX/debug/cpu.md"
 alias sp-debug-network="vim $DROPBOX_LINUX/debug/network.md"
+alias sp-debug-network-filter="vim $DROPBOX_LINUX/debug/network-filter.md"
 alias sp-debug-power="vim $DROPBOX_LINUX/debug/power.md"
 alias sp-limits="vim $DROPBOX_LINUX/debug/limits.md"
 
@@ -195,6 +198,7 @@ alias sp-ip="vim $DROPBOX_LINUX/ip.md"
 alias sp-gnu-parallel="vim $DROPBOX_LINUX/gnu-parallel.md"
 alias sp-netcat="vim $DROPBOX_LINUX/netcat.md"
 alias sp-term="vim $DROPBOX_LINUX/term.md"
+alias sp-cp="vim $DROPBOX_LINUX/cp.md"
 
 # linux
 alias sp-linux="cd $DROPBOX_LINUX"
@@ -205,7 +209,7 @@ alias sp-signal="vim $DROPBOX_LINUX/signal.md"
 alias sp-systemd="vim $DROPBOX_LINUX/systemd.md"
 alias sp-load-average="vim $DROPBOX_LINUX/load-average.md"    #TODO
 alias sp-context-switch="vim $DROPBOX_LINUX/context-switch.md"    #TODO
-alias sp-directory-structure="vim $DROPBOX_LINUX/directory-structure.md"
+alias sp-linux-directory-structure="vim $DROPBOX_LINUX/directory-structure.md"
 alias sp-random="vim $DROPBOX_LINUX/random.md"
 alias sp-rcu="vim $DROPBOX_LINUX/rcu.md"    #TODO
 alias sp-tty="vim $DROPBOX_LINUX/tty.md"
@@ -252,6 +256,9 @@ DATA_STRUCTURE_ROOT=$REF_DIR/data-structure
 alias sp-tree-btree="vim $DATA_STRUCTURE_ROOT/tree-btree.md"   #TODO
 alias sp-tree-merkle-tree="vim $DATA_STRUCTURE_ROOT/tree-merkle-tree.md"   #TODO
 alias sp-tree-avl="vim $DATA_STRUCTURE_ROOT/tree-avl.md"   #TODO
+
+# heap
+alias sp-heap="vim $DATA_STRUCTURE_ROOT/heap.md"
 
 # data structures
 alias sp-bloom-filter="vim $DATA_STRUCTURE_ROOT/bloom-filter.md" #TODO
@@ -375,7 +382,7 @@ alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
 
 # meta alias
 alias sp-alias="vim $DOTFILES/extrarc && source $DOTFILES/extrarc"
-alias sp-vimrc="vim -p $HOME/.vimrc $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim"
+alias sp-vimrc="vim -p $HOME/.vimrc $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.config/nvim/init.vim"
 
 #repeats $1
 alias sp_repeat="~/dotfiles/lib/repeat.sh"

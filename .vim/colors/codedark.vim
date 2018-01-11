@@ -146,6 +146,29 @@ if g:codedark_conservative | let s:cdPink = s:cdBlue | endif
 " - nocombine         |override attributes instead of combining them
 " - NONE              |no attributes used (used to reset it)
 
+" viasfora rainbow brace 1...N
+" #ff9900   | orange
+" #ff1493   | pink
+" #9acd32   | green
+" #9400d3   | magenta
+" #696969   | grey
+" #4169e1   | dark blue
+" #dc143c   | red
+" #00ced1   | baby blue
+" #008000   | dark green
+
+" #ff4500 |viasfora orange(return,if...)
+" cterm[bg/fg] - colors used by terminal [background/foregorund]
+" gui[bg/fg]   - color used by gvim or terminal in true-color mode
+" return
+" highlight cStatement guifg=#ff4500
+" if else
+" highlight cConditional guifg=#ff4500
+" for while
+" highlight cRepeat guifg=#ff4500
+"  }}}
+" endif
+
 " # vim-cpp-enhanced-highlight
 " static_assert
 " call <sid>hi('cOperator', s:cdViasfora, {}, 'none', {})

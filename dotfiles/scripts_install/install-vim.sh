@@ -12,7 +12,7 @@ echo "you have to manually configure script by editing it"
 PREV=`pwd`
 VIM_ROOT=$HOME/sources/vim
 TARGET=$HOME
-if [ ! -e $VIM_ROOT ]; then 
+if [ ! -e $VIM_ROOT ]; then
   git clone https://github.com/vim/vim.git $VIM_ROOT
   if [ ! $? -eq 0 ]; then
     rm -rf $VIM_ROOT
