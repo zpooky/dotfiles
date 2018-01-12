@@ -190,11 +190,19 @@ else
 
     " }}}
   else
+    " {{{
     Plug 'Rip-Rip/clang_complete',{'do':'make install','for':['cpp','c']}
     let g:clang_close_preview = 1
     set completeopt-=preview
+    " }}}
   endif
+
 endif
+
+" {{{
+" :NR
+Plug 'chrisbra/NrrwRgn',programming
+" }}}
 
 " ALE {{{
 " framework for displaying warnings & errors in source code
@@ -547,7 +555,8 @@ let g:rainbow_conf =
 
 " {{{
 " historic buffer navigation
-Plug 'ton/vim-bufsurf'  " TODO ?
+" TODO
+" Plug 'ton/vim-bufsurf'
 " }}}
 "
 " {{{
@@ -564,42 +573,55 @@ noremap N Nzz
 
 " {{{
 " hint what char should used with f
-Plug 'unblevable/quick-scope'
+" Plug 'unblevable/quick-scope'
+Plug 'bradford-smith94/quick-scope'
+
 " display only when these keys has been presed
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 " }}}
 
 
 " {{{
-" Visual select * support
+" Visual select + * will search the selected
 Plug 'bronson/vim-visual-star-search'
 
 " Statusline {{{
-if has('win32unix') || has('win64unix') || $TERM == "linux" || has('nvim')
+if has('win32unix') || has('win64unix') || $TERM == "linux" || has('nvim') || has('win32') || has('win64')
   Plug 'vim-airline/vim-airline'
+
+  if has('win32unix') || has('win64unix') || has('win32') || has('win64')
+    " augroup AutogroupCygwinCppVisual
+    "   autocmd!
+    " autocmd FileType cpp map <silent> <F11> <Esc> :set laststatus=0 <Bar> :AirlineToggle<CR>
+    " augroup END
+    map <silent> <F11> <Esc> :set laststatus=0 <Bar> :AirlineToggle<CR>
+  endif
 else
   python3 from powerline.vim import setup as powerline_setup
   python3 powerline_setup()
   python3 del powerline_setup
 endif
-set laststatus=2
+  set laststatus=2
 " }}}
 
 
 " {{{
+" translate colorc codes inline into colors
 Plug 'chrisbra/Colorizer', { 'for': 'vim' }
+
 " :ColorHighlight
-"
+
 " let g:colorizer_auto_filetype='vim'
 let g:colorizer_colornames_disable = 1
 " }}}
 
-call plug#end()
+" {{{
+Plug 'zpooky/tabline.vim'
+
 " }}}
 
-" enable language providers
-" let g:loaded_python_provider = 0
-" let g:loaded_python3_provider = 0
+call plug#end()
+" }}}
 
 colorscheme codedark
 
@@ -610,14 +632,6 @@ colorscheme codedark
   "   autocmd!
     " autocmd FileType c,cpp colorscheme codedark
   " augroup END
-
-if has('win32unix') || has('win64unix') || has('win32') || has('win64')
-  " augroup AutogroupCygwinCppVisual
-  "   autocmd!
-    " autocmd FileType cpp map <silent> <F11> <Esc> :set laststatus=0 <Bar> :AirlineToggle<CR>
-  " augroup END
-    map <silent> <F11> <Esc> :set laststatus=0 <Bar> :AirlineToggle<CR>
-endif
 
 " colorscheme base16
 " colorscheme molokai

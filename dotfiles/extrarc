@@ -382,7 +382,7 @@ alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
 
 # meta alias
 alias sp-alias="vim $DOTFILES/extrarc && source $DOTFILES/extrarc"
-alias sp-vimrc="vim -p $HOME/.vimrc $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.config/nvim/init.vim"
+alias sp-vimrc="vim -p  $HOME/.config/nvim/init.vim  $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc"
 
 #repeats $1
 alias sp_repeat="~/dotfiles/lib/repeat.sh"
@@ -492,6 +492,7 @@ function setup_project(){
     cp "$CPP_STUB/app.cpp" $SRC_DIRECTORY
     cp "$CPP_STUB/main.cpp" $SRC_DIRECTORY
     cp "$CPP_STUB/AppTest.cpp" $TEST_DIRECTORY
+    cp $HOME/.clang-format $SRC_DIRECTORY
 
     cd $EXTERNAL_DIRECTORY
     git submodule add https://github.com/google/googletest.git

@@ -148,8 +148,10 @@ set list                              " show special chars, such as tab: eol: tr
 set listchars=tab:·»
 set listchars+=eol:¬
 set listchars+=trail:·
+set listchars+=nbsp:+
 
 " set showbreak=↪\
+" char to display when softwrapping
 set showbreak="\u21aa"
 " }}}
 
@@ -334,8 +336,8 @@ abbreviate Advandatges Advantages
 abbreviate advandatges advantages
 abbreviate infront in front
 abbreviate artices articles
-abbreviate ovrrides overrides 
-abbreviate ovrride override 
+abbreviate ovrrides overrides
+abbreviate ovrride override
 abbreviate externaly externally
 abbreviate inbetwen in-between
 abbreviate conuccrency concurrency

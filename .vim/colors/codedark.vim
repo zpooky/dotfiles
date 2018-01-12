@@ -169,6 +169,26 @@ if g:codedark_conservative | let s:cdPink = s:cdBlue | endif
 "  }}}
 " endif
 
+" tabline {{{
+" hi TabLine      ctermfg=Black  ctermbg=Green     cterm=NONE
+" hi TabLineFill  ctermfg=Black  ctermbg=Green     cterm=NONE
+" hi TabLineSel   ctermfg=White  ctermbg=DarkBlue  cterm=NONE
+let s:cdTmuxDarkRed = {'gui': '#ac4142', 'cterm': s:cterm08, 'cterm256': '52'}
+call <sid>hi('TabLine', s:cdFront, s:cdTabOther, 'none', {})
+call <sid>hi('TabLineFill', s:cdFront, s:cdTabOutside, 'none', {})
+call <sid>hi('TabLineSel', s:cdFront, s:cdTmuxDarkRed, 'none', {})
+"  }}}
+
+" quickscope {{{
+"         hi(group, fg, bg, attr, sp)
+" let s:cdQuickScopePrimary = s:cdSelection
+" let s:cdQuickScopeSecondary = {'gui': '#008000', 'cterm': s:cterm0A, 'cterm256': '239'}
+"
+call <sid>hi('QuickScopePrimary',{},{}, 'underline', {})
+call <sid>hi('QuickScopeSecondary',{},{}, 'underline', {})
+"  }}}
+
+" viual studio + viasfora like {{{
 " # vim-cpp-enhanced-highlight
 " static_assert
 " call <sid>hi('cOperator', s:cdViasfora, {}, 'none', {})
@@ -194,33 +214,36 @@ if g:codedark_conservative | let s:cdPink = s:cdBlue | endif
 " call <sid>hi('cInclude', s:cdRed, {}, 'none', {})
 " call <sid>hi('cIncluded', s:cdRed, {}, 'none', {})
 
-" ## visual stuidio viasfora like syntax
 call <sid>hi('cStatement', s:cdViasfora, {}, 'none', {})
 call <sid>hi('cConditional', s:cdViasfora, {}, 'none', {})
 call <sid>hi('cRepeat', s:cdViasfora, {}, 'none', {})
 " ## visual studio
 call <sid>hi('cType', s:cdVSType, {}, 'none', {})
 call <sid>hi('cppType', s:cdVSType, {}, 'none', {})
+" }}}
 
-" #Markdown
-" ##List item prefix(-)
-" TODO bold
+" Markdown {{{
+" #List item prefix(-)
 call <sid>hi('mkdListItem', s:cdViasfora, {}, 'none', {})
 " ##URL
 call <sid>hi('mkdInlineURL', s:cdYellow, {}, 'none', {})
+" }}}
 
-" Diff:
+" Diff {{{
 call <sid>hi('diffRemoved', s:cdRed, {}, 'none', {})
 call <sid>hi('DiffDelete', {}, s:cdRed, 'none', {})
 call <sid>hi('diffAdded', s:cdGreen, {}, 'none', {})
 call <sid>hi('DiffAdd', {}, s:cdGreen, 'none', {})
 call <sid>hi('DiffChange', {}, s:cdDiffRedDark, 'none', {})
 call <sid>hi('DiffText', {}, s:cdDiffRedLight, 'none', {})
+" }}}
 
-" Spell:
+" Spell {{{
+" TODO
 call <sid>hi('SpellBad', s:cdNone, s:cdNone, 'undercurl', {})
 call <sid>hi('SpellCap', s:cdNone, s:cdNone, 'undercurl', {})
 call <sid>hi('SpellLocal', s:cdNone, s:cdNone, 'undercurl', {})
+" }}}
 
 " Vim editor colors
 "    <sid>hi(GROUP, FOREGROUND, BACKGROUND, ATTRIBUTE, SPECIAL)
@@ -251,9 +274,6 @@ call <sid>hi('Search', s:cdNone, s:cdSearch, 'none', {})
 call <sid>hi('SpecialKey', s:cdBlue, s:cdNone, 'none', {})
 call <sid>hi('StatusLine', s:cdFront, s:cdLeftMid, 'none', {})
 call <sid>hi('StatusLineNC', s:cdFront, s:cdLeftDark, 'none', {})
-call <sid>hi('TabLine', s:cdFront, s:cdTabOther, 'none', {})
-call <sid>hi('TabLineFill', s:cdFront, s:cdTabOutside, 'none', {})
-call <sid>hi('TabLineSel', s:cdFront, s:cdTabCurrent, 'none', {})
 call <sid>hi('Title', s:cdNone, s:cdNone, 'bold', {})
 call <sid>hi('Visual', s:cdNone, s:cdSelection, 'none', {})
 call <sid>hi('VisualNOS', s:cdNone, s:cdSelection, 'none', {})
