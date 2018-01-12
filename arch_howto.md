@@ -1,5 +1,5 @@
 #sound
-pavucontrol??
+pavucontrol
 
 ##ALSA
 - built in kernel module

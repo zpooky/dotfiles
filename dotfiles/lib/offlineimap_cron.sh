@@ -9,8 +9,13 @@ echo "PATH:" >> $OUT
 echo $PATH >> $OUT
 which offlineimap >> $OUT
 
+echo "start" >> $OUT
 date >> $OUT
+echo "offlineimap" >> $OUT
 offlineimap 2>&1 >> $OUT
+RET=$?
+echo "ret: ${RET}" >> $OUT
+echo "done" >> $OUT
 date >> $OUT
 
 #

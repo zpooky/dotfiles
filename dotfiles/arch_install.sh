@@ -34,6 +34,21 @@ install_pkg screenfetch
 
 screenfetch
 
+install_pkg vim
+
+#nvim
+has_feature nvim
+if [ $? -eq 1 ]; then
+  install_pkg neovim
+fi
+install_pkg ruby
+install_pkg npm
+
+gem install neovim
+npm install -g neovim
+pip2 install --user neovim
+pip3 install --user neovim
+
 #video player
 install_pkg mpv
 install_pkg fakeroot
