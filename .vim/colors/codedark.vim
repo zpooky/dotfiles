@@ -224,7 +224,7 @@ call <sid>hi('cppType', s:cdVSType, {}, 'none', {})
 
 " Markdown {{{
 " #List item prefix(-)
-call <sid>hi('mkdListItem', s:cdViasfora, {}, 'none', {})
+call <sid>hi('mkdListItem', s:cdViasfora, {}, 'bold', {})
 " ##URL
 call <sid>hi('mkdInlineURL', s:cdYellow, {}, 'none', {})
 " }}}

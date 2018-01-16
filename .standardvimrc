@@ -1,10 +1,10 @@
 set nocompatible
 
-" if has('vim_starting')
-  set encoding=utf-8      " The encoding displayed
-  set fileencoding=utf-8  " The encoding of the resulting output file
-  scriptencoding utf-8
-" endif
+" encoding {{{
+set encoding=utf-8      " The encoding used
+set fileencoding=utf-8  " The encoding of the resulting output file
+scriptencoding utf-8
+" }}}
 
 if has('gui_running')
   " configure font and font size for gvim
@@ -44,7 +44,7 @@ let mapleader = "\<Space>"        " map leader to  <space>
 " set mouse=a                     " Enables scrolling terminal.(mouse mode)
 set pastetoggle=<f5>              " vim will not perform any formatting when toggled on
 " }}}
-
+set matchpairs+=<:>               " Characters that form pairs
 " UI {{{
 set ruler                         " Display the ruler
 set showcmd                       " Show incomplete vim motions as I type
@@ -59,12 +59,12 @@ set noerrorbells                  " don't beep
 
 set splitright                    " open new pane to the right
 
-set scrolloff=5                   " keep at least 5 lines above/below when scrolling
+set scrolloff=2                   " keep at least N lines above/below when scrolling
 
-if !has('win32unix') && !has('win64unix')
+" if !has('win32unix') && !has('win64unix')
   " does not work in cygwin
   set ttyfast                     " Faster redraw
-endif
+" endif
 
 " Highlight current line
 " Enable cursorline only on the active buffer
@@ -341,12 +341,14 @@ abbreviate ovrride override
 abbreviate externaly externally
 abbreviate inbetwen in-between
 abbreviate conuccrency concurrency
+abbreviate aswell as well
+abbreviate rebalace rebalance
 
 " }}}
 
-set nowrap                        " do not wrap long lines
+set nowrap                        " do not soft wrap long lines
 set backspace=indent,eol,start    " allow backspacing over everything in insert mode
-set autoread                      " auto reload after outside changes
+set autoread                      " auto reload after outside changes(tmux sends a event on focus)
 
 " Tab {{{
 set tabstop=2                     " Number of spaces to represent a <TAB> character from file
@@ -357,9 +359,9 @@ set smarttab                      " insert tabs on the start of a line according
 " }}}
 
 " Indentation {{{
-set autoindent                    " always set autoindenting on
-set copyindent                    " copy the previous indentation on autoindenting
-set smartindent                   " smart indentation
+set autoindent                    " use the same indent from current line when starting a new line
+set copyindent                    " use the same character(tabs,spaces...) for indentation as the previous line
+set smartindent                   " support auto indentation when for example the previous line end with { used for (c/c++)
 " }}}
 
 " tmp directories {{{

@@ -135,7 +135,7 @@ CPP_EXAMPLE_TEST_MAKEFILE=$CPP_ROOT/Makefile_test
 
 
 alias sp-make="vim $CPP_ROOT/make.md"
-alias sp-cinclude="vim $CPP_ROOT/cinclude.md"
+alias cpp-include="vim $CPP_ROOT/cinclude.md"
 alias sp-c="vim $CPP_ROOT/c.md"
 alias cpp-gcc="vim $CPP_ROOT/gcc.md"
 alias cpp-make="vim $CPP_EXAMPLE_MAKEFILE"
@@ -257,6 +257,7 @@ DATA_STRUCTURE_ROOT=$REF_DIR/data-structure
 alias sp-tree-btree="vim $DATA_STRUCTURE_ROOT/tree-btree.md"   #TODO
 alias sp-tree-merkle-tree="vim $DATA_STRUCTURE_ROOT/tree-merkle-tree.md"   #TODO
 alias sp-tree-avl="vim $DATA_STRUCTURE_ROOT/tree-avl.md"   #TODO
+alias sp-tree-rb="vim $DATA_STRUCTURE_ROOT/tree-rb.md"
 
 # heap
 alias sp-heap="vim $DATA_STRUCTURE_ROOT/heap.md"
@@ -551,4 +552,40 @@ alias sp_ag="spooky_ag_grep"
 alias sp_perf="spperf $@"
 alias sp_perf_report="spperf_report"
 
-# vim: set ft=sh:
+function sp_cryptocurrency(){
+  local COIN="$1"
+  local HOURS="$2"
+  local HEADER="$3"
+
+  local CLIENT="bitcoin-chart-cli"
+  sp_has_feature $CLIENT
+  if [ ! $? -eq 0 ]; then
+    echo "error missing: $CLIENT"
+    echo "npm install $CLIENT -g"
+    return 1
+  fi
+  local SP_TEMP="`mktemp /tmp/tmp-XXXXX`"
+
+  local COLLECT="$CLIENT --coin $COIN --hours $HOURS --width 127 --height 32 > $SP_TEMP "
+  local PRESENT="echo $COIN && cat $SP_TEMP"
+  local COMMAND="$COLLECT && clear && $PRESENT && sleep 25"
+  # echo $COMMAND
+
+  sp_repeat $COMMAND
+
+# $ bitcoin-chart-cli --coin BTC --hours 16 --height 65 --width 250
+}
+
+function sp_bitcoin(){
+  sp_cryptocurrency "BTC" "12"
+}
+
+function sp_eth(){
+  sp_cryptocurrency "ETH" "12"
+}
+
+function sp_ltc(){
+  sp_cryptocurrency "LTC" "12"
+}
+
+# vim: set ft=zsh:

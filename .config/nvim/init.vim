@@ -327,7 +327,12 @@ Plug '~/.vim/bundle/after',programming_cpp
 " }}}
 
 " {{{
-if has('nvim')
+if has('win32unix') || has('win64unix') || has('win32') || has('win64') || !has('nvim')
+  " {{{
+  " better c++ syntax
+  Plug 'octol/vim-cpp-enhanced-highlight',programming_cpp
+  " }}}
+else
   " Chromatica {{{
   Plug 'arakashic/chromatica.nvim',programming_cpp,neovim_update_remote
   let g:chromatica#enable_at_startup=1
@@ -336,12 +341,8 @@ if has('nvim')
     let g:chromatica#libclang_path="D:\\Program Files\\LLVM\\lib\\libclang.lib"
   endif
   " }}}
-else
-  " {{{
-  " an alternative to color_coded
-  Plug 'octol/vim-cpp-enhanced-highlight',programming_cpp
-  " }}}
 endif
+" }}}
 
 " {{{
 " ###########

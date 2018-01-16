@@ -81,13 +81,26 @@ bindkey '^W' sp-backward-kill-word
 # %#    - promptchar
 # %B    - bold
 # %b    - bold end
+# %?    - return status of last command
+# %~    - cwd
 RED="\e[0;31m"
 NO_COLOR="\e[0m"
 NEWLINE=$'\n'
 autoload -U colors && colors
-PROMPT="%B${NEWLINE}%d%{$fg[yellow]%}:%{$reset_color%}${NEWLINE}%{$fg[red]%}%B>%{$reset_color%} %b"
-#this is displayed on the far right side
-RPROMPT='[%F{yellow}%?%f][%F{green}$sp_zsh_timer_show%f]'
+
+if [[ $EUID -eq 0 ]]; then
+  local SUFFIX='#'
+else
+  # local SUFFIX='>'
+  local SUFFIX='»'
+fi
+
+local INTTERNAL_NBSP=$'\u00A0'
+PROMPT="%B${NEWLINE}%~%{$fg[yellow]%}:%{$reset_color%}${NEWLINE}%{$fg[red]%}%B$SUFFIX%{$reset_color%}%b${INTTERNAL_NBSP}"
+
+# turnery styled %(1j.true.false)
+# this is displayed on the far right side
+RPROMPT='[%F{yellow}%?%f][%F{green}$sp_zsh_timer_show%f][%F{red}%(1j.⌘%j.)%f]'
 
 export SHELL=zsh
 
