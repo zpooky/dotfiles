@@ -176,7 +176,7 @@ if g:codedark_conservative | let s:cdPink = s:cdBlue | endif
 let s:cdTmuxDarkRed = {'gui': '#ac4142', 'cterm': s:cterm08, 'cterm256': '52'}
 call <sid>hi('TabLine', s:cdFront, s:cdTabOther, 'none', {})
 call <sid>hi('TabLineFill', s:cdFront, s:cdTabOutside, 'none', {})
-call <sid>hi('TabLineSel', s:cdFront, s:cdTmuxDarkRed, 'none', {})
+call <sid>hi('TabLineSel', s:cdFront, s:cdTmuxDarkRed, 'bold', {})
 "  }}}
 
 " quickscope {{{

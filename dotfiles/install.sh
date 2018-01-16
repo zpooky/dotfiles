@@ -74,7 +74,7 @@ do
     PREV_DIR=`pwd`
 
     cd $THE_HOME/.vim/bundle/$YCM
-    ./install.py --clang-completer
+    ./install.py --clang-completer # --go-completer --rust-completer --js-completer
     RET=$?
     if [ $RET -eq 0 ]; then
       touch $FEATURE

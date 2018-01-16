@@ -2,9 +2,6 @@
 " h     l
 "   j
 
-" Turn off vi compatibility.(should be set first)
-set nocompatible
-
 if has('win32') || has('win64')
   source D:\cygwin64\home\fredrik\.standardvimrc
 
@@ -125,7 +122,11 @@ endif
 " :h termina-options
 
 " vim-plug {{{
-call plug#begin('~/.vim/plugged')
+if has('nvim')
+  call plug#begin('~/.config/nvim/plugged')
+else
+  call plug#begin('~/.vim/plugged')
+endif
 
 let programming_ncpp=         {'for':[          'haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake','javascript','ocaml']}
 let programming_ncpp_nhaskell={'for':[                    'scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake','javascript','ocaml']}
@@ -135,8 +136,11 @@ let programming_cpp=          {'for':['c','cpp']}
 let programming_haskell=      {'for':'haskell'}
 let programming_scala=        {'for':'scala'}
 
+let spooky_libclang="/usr/lib/libclang.so"
+
 let neovim_update_remote={ 'do': ':UpdateRemotePlugins' }
 
+set completeopt-=preview
 if has('nvim')
   " Deoplete {{{
   Plug 'Shougo/deoplete.nvim',neovim_update_remote
@@ -144,9 +148,11 @@ if has('nvim')
   " }}}
 
   " Deoplete-clang {{{
-  Plug 'zchee/deoplete-clang'
-  let g:deoplete#sources#clang#libclang_path=""
-  let g:deoplete#sources#clang#clang_header=""
+  Plug 'zchee/deoplete-clang',programming
+  let g:deoplete#sources#clang#libclang_path=spooky_libclang
+  let g:deoplete#sources#clang#clang_header="/usr/lib/clang"
+  let g:deoplete#sources#clang#std#cpp = 'c++14'
+  let g:deoplete#sources#clang#sort_algo = 'priority'
   " }}}
 else
   " turned off in cygwin since these plugins requires compilation
@@ -193,7 +199,6 @@ else
     " {{{
     Plug 'Rip-Rip/clang_complete',{'do':'make install','for':['cpp','c']}
     let g:clang_close_preview = 1
-    set completeopt-=preview
     " }}}
   endif
 
@@ -334,11 +339,14 @@ if has('win32unix') || has('win64unix') || has('win32') || has('win64') || !has(
   " }}}
 else
   " Chromatica {{{
-  Plug 'arakashic/chromatica.nvim',programming_cpp,neovim_update_remote
+  Plug 'arakashic/chromatica.nvim',{'for':['c','cpp'], 'do': ':UpdateRemotePlugins' }
   let g:chromatica#enable_at_startup=1
   let g:chromatica#responsive_mode = 1
+
   if has('win32') || has('win64')
     let g:chromatica#libclang_path="D:\\Program Files\\LLVM\\lib\\libclang.lib"
+  else
+    let g:chromatica#libclang_path=spooky_libclang
   endif
   " }}}
 endif

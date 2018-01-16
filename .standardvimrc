@@ -1,3 +1,4 @@
+" Turn off vi compatibility.(should be set first)
 set nocompatible
 
 " encoding {{{
@@ -343,6 +344,7 @@ abbreviate inbetwen in-between
 abbreviate conuccrency concurrency
 abbreviate aswell as well
 abbreviate rebalace rebalance
+abbreviate publlic public
 
 " }}}
 
