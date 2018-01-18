@@ -26,7 +26,7 @@ pgrep gdb
 if [ $? -eq 0 ]; then
   if [[ $(uname -s) =~ CYGWIN.* ]]; then
     echo "gdb is allready running"
-    exit 1
+    # exit 1
   fi
 fi
 #---------------------------------------

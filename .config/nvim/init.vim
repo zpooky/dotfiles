@@ -336,6 +336,13 @@ if has('win32unix') || has('win64unix') || has('win32') || has('win64') || !has(
   " {{{
   " better c++ syntax
   Plug 'octol/vim-cpp-enhanced-highlight',programming_cpp
+  syntax keyword cppSTLenum memory_order_acquire
+  syntax keyword cppSTLenum memory_order_release
+  syntax keyword cppSTLnamespace debug
+  syntax keyword cppSTLnamespace local
+  syntax keyword cppSTLnamespace header
+  syntax keyword cppSTLnamespace sp
+  syntax keyword cppSTLnamespace util
   " }}}
 else
   " Chromatica {{{

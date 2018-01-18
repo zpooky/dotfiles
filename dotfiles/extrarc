@@ -189,7 +189,7 @@ alias sp-tmux="vim $DROPBOX_LINUX/tmux.txt"
 alias sp-tunnel="vim $REF_DIR/ssh_tunnel.md"
 alias sp-mount="vim $REF_DIR/linux/mount.txt"
 alias sp-xclip="vim $DROPBOX_LINUX/xclip.txt"
-alias sp-openssl="vim $REF_DIR/sec/openssl.mk"
+alias sp-openssl="vim $REF_DIR/sec/openssl.md"
 alias sp-package="vim $DROPBOX_LINUX/install.txt"
 alias sp-tar="vim $DROPBOX_LINUX/compression.txt"
 alias sp-nice="vim $DROPBOX_LINUX/nice.md"
@@ -211,10 +211,14 @@ alias sp-load-average="vim $DROPBOX_LINUX/load-average.md"    #TODO
 alias sp-context-switch="vim $DROPBOX_LINUX/context-switch.md"    #TODO
 alias sp-linux-directory-structure="vim $DROPBOX_LINUX/directory-structure.md"
 alias sp-random="vim $DROPBOX_LINUX/random.md"
-alias sp-rcu="vim $DROPBOX_LINUX/rcu.md"    #TODO
 alias sp-tty="vim $DROPBOX_LINUX/tty.md"
 alias sp-write-to-file="vim $DROPBOX_LINUX/write-to-file.md"
 alias sp-pacman="vim $DROPBOX_LINUX/pacman.md"
+
+alias sp-linux-sys-mlock="vim $DROPBOX_LINUX/syscall/mlock.md"
+alias sp-linux-sys-readv_writev="vim $DROPBOX_LINUX/syscall/readv_writev.md"
+alias sp-linux-sys-rcu="vim $DROPBOX_LINUX/syscall/rcu.md"    #TODO
+alias sp-linux-sys-membarrier="vim $DROPBOX_LINUX/syscall/membarrier.md"
 
 #fs
 alias sp-ssd="vim $REF_DIR/fs/ssd.md"
@@ -258,6 +262,8 @@ alias sp-tree-btree="vim $DATA_STRUCTURE_ROOT/tree-btree.md"   #TODO
 alias sp-tree-merkle-tree="vim $DATA_STRUCTURE_ROOT/tree-merkle-tree.md"   #TODO
 alias sp-tree-avl="vim $DATA_STRUCTURE_ROOT/tree-avl.md"   #TODO
 alias sp-tree-rb="vim $DATA_STRUCTURE_ROOT/tree-rb.md"
+alias sp-tree-bheap="vim $DATA_STRUCTURE_ROOT/tree-bheap.md"
+alias sp-tree-bst="vim $DATA_STRUCTURE_ROOT/tree-bst.md"
 
 # heap
 alias sp-heap="vim $DATA_STRUCTURE_ROOT/heap.md"
@@ -385,6 +391,7 @@ alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
 # meta alias
 alias sp-alias="vim $DOTFILES/extrarc && source $DOTFILES/extrarc"
 alias sp-vimrc="vim -p  $HOME/.config/nvim/init.vim  $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc"
+alias vimsession="vim -S Session.vim"
 
 #repeats $1
 alias sp_repeat="~/dotfiles/lib/repeat.sh"
@@ -530,13 +537,14 @@ function spperf(){
 alias makex="makex | less -RiN -p error"
 
 function sp_make_on_change_entr_or_vanilla() {
-  BODY="$1"
+  local BODY="$1"
+  local ARG=${@:2:99}
 
   sp_has_feature entr
   if [ $? -eq 0 ]; then
-    ack --cpp -f | entr $BODY
+    ack --cpp -f | entr $BODY $ARG
   else
-    ack --cpp -f | $HOME/dotfiles/lib/timestamp_make.sh $BODY
+    ack --cpp -f | $HOME/dotfiles/lib/timestamp_make.sh $BODY $ARG
   fi
 }
 # watch files system forchangess and reload
@@ -573,7 +581,7 @@ function sp_cryptocurrency(){
 
   sp_repeat $COMMAND
 
-# $ bitcoin-chart-cli --coin BTC --hours 16 --height 65 --width 250
+# bitcoin-chart-cli --coin BTC --hours 16 --height 65 --width 250
 }
 
 function sp_bitcoin(){
@@ -587,5 +595,7 @@ function sp_eth(){
 function sp_ltc(){
   sp_cryptocurrency "LTC" "12"
 }
+
+alias sp_bitcoin_table="coinmon"
 
 # vim: set ft=zsh:

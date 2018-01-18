@@ -2,6 +2,8 @@
 
 SOURCE_FILES=()
 EXECUTER_FILE="$1"
+ARG=${@:2:99}
+
 if [ ! -e "$EXECUTER_FILE" ]; then
   echo "missing executor '${EXECUTER_FILE}'"
   exit 1
@@ -73,7 +75,7 @@ while [ true ]; do
   if [ $REBUILD = true ]; then
     echo "should rebuild"
     # echo "-----------------"
-    $EXECUTER_FILE
+    $EXECUTER_FILE $ARG
     SLEEP_SEC=1
     REBUILD=false
   else
