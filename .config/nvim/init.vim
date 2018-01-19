@@ -211,17 +211,21 @@ Plug 'chrisbra/NrrwRgn',programming
 
 " ALE {{{
 " framework for displaying warnings & errors in source code
-Plug 'w0rp/ale',programming
+if !has('win32unix') && !has('win64unix')
+  Plug 'w0rp/ale',programming
 
-" :ALEInfo - current settings
+  let g:ale_lint_on_enter = 0
 
-"'clang', 'clangcheck', 'cpplint','cppcheck', 'clangtidy'
-let g:ale_linters = {
-\   'cpp': ['g++','cppcheck'],
-\   'c': ['gcc','cppcheck'],
-\}
+  " :ALEInfo - current settings
 
-let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Wpedantic -Iexternal -I../external -I../external/googletest/googletest -Iexternal/googletest/googletest -Werror-pointer-arith"
+  "'clang', 'clangcheck', 'cpplint','cppcheck', 'clangtidy'
+  let g:ale_linters = {
+        \   'cpp': ['g++','cppcheck'],
+        \   'c': ['gcc','cppcheck'],
+        \}
+
+  let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Wpedantic -Iexternal -I../external -I../external/googletest/googletest -Iexternal/googletest/googletest -Werror-pointer-arith"
+endif
 " }}}
 
 " DelimitMate {{{
@@ -229,6 +233,9 @@ let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Wpedantic -Iexternal -I../e
 Plug 'Raimondi/delimitMate',programming_nhaskell
 
 let delimitMate_expand_cr = 1
+let delimitMate_smart_matchpairs = 1
+let delimitMate_balance_matchpairs = 1
+let delimitMate_matchpairs = "(:),[:],{:}"
 " }}}
 
 " Tagbar {{{

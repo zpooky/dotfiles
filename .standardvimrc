@@ -45,7 +45,6 @@ let mapleader = "\<Space>"        " map leader to  <space>
 " set mouse=a                     " Enables scrolling terminal.(mouse mode)
 set pastetoggle=<f5>              " vim will not perform any formatting when toggled on
 " }}}
-set matchpairs+=<:>               " Characters that form pairs
 " UI {{{
 set ruler                         " Display the ruler
 set showcmd                       " Show incomplete vim motions as I type
@@ -295,6 +294,7 @@ abbreviate itteration iteration
 abbreviate itterations iterations
 abbreviate keept kept
 abbreviate lengh length
+abbreviate lengt length
 abbreviate malicous malicious
 abbreviate meaining meaning
 abbreviate namesapce namespace
