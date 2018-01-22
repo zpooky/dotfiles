@@ -258,12 +258,14 @@ alias sp-type-theory="vim -p $REF_DIR/*type*.txt $REF_DIR/variance.txt"   #TODO
 
 # tree
 DATA_STRUCTURE_ROOT=$REF_DIR/data-structure
-alias sp-tree-btree="vim $DATA_STRUCTURE_ROOT/tree-btree.md"   #TODO
 alias sp-tree-merkle-tree="vim $DATA_STRUCTURE_ROOT/tree-merkle-tree.md"   #TODO
 alias sp-tree-avl="vim $DATA_STRUCTURE_ROOT/tree-avl.md"   #TODO
 alias sp-tree-rb="vim $DATA_STRUCTURE_ROOT/tree-rb.md"
 alias sp-tree-bheap="vim $DATA_STRUCTURE_ROOT/tree-bheap.md"
 alias sp-tree-bst="vim $DATA_STRUCTURE_ROOT/tree-bst.md"
+alias sp-tree-skip-list="vim $DATA_STRUCTURE_ROOT/tree-skip-list.md"
+alias sp-tree-btree="vim $DATA_STRUCTURE_ROOT/tree-btree.md"   #TODO
+alias sp-tree-lsm="vim $DATA_STRUCTURE_ROOT/tree-lsm.md"
 
 # heap
 alias sp-heap="vim $DATA_STRUCTURE_ROOT/heap.md"
@@ -271,6 +273,9 @@ alias sp-heap="vim $DATA_STRUCTURE_ROOT/heap.md"
 # data structures
 alias sp-bloom-filter="vim $DATA_STRUCTURE_ROOT/bloom-filter.md" #TODO
 alias sp-monad="vim $DATA_STRUCTURE_ROOT/monad.txt" #TODO
+
+# notes
+alias sp-cs-nots="vim $REF_DIR/cs-notes.md"
 
 # distributed
 alias sp-acid="vim $REF_DIR/acid.md"   #TODO

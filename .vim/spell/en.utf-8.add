@@ -10,3 +10,5 @@ constexpr
 BST
 RCU
 membarrier
+tmux
+xterm

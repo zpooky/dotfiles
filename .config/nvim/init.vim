@@ -24,7 +24,7 @@ endif
 " http://www.lucianofiandesio.com/vim-configuration-for-happy-java-coding
 
 " # other plugins
-" https://github.com/tpope/vim-surround & https://github.com/machakann/vim-sandwich
+" https://github.com/machakann/vim-sandwich
 "
 " https://github.com/junegunn/vim-easy-align
 "
@@ -88,12 +88,6 @@ endif
 " augroup   - ensures the autocmds are only applied once
 " autocmd!  - directive clears all the autocmd's for the current group.
 "             useful to avoid duplicated autocmd when file is sourced twice
-
-" # vim-surround
-" ds(   - delete surrounding '()'
-" cs([  - change surrounding '()' to '[]'
-" ysiw] - surround 'iw' with '[]'
-" S(    - in Visual mode sorrund selected with '()'
 
 " fold markers are {{{ and }}}
 " set foldmethod=marker
@@ -228,8 +222,19 @@ if !has('win32unix') && !has('win64unix')
 endif
 " }}}
 
+" vim-operator-flashy {{{
+" indicate what region of text has been copied by emmiting a brief flash
+Plug 'kana/vim-operator-user'
+Plug 'haya14busa/vim-operator-flashy'
+" TODO change highlight colour
+" :h operator-flashy-variables
+
+map y <Plug>(operator-flashy)
+nmap Y <Plug>(operator-flashy)$
+" }}}
+
 " DelimitMate {{{
-" exapnds () {} "" '' []
+" Exapnds () {} "" '' []
 Plug 'Raimondi/delimitMate',programming_nhaskell
 
 let delimitMate_expand_cr = 1
@@ -247,10 +252,20 @@ let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
 " }}}
 
 " TComment {{{
-" comment toggle shortcut
+" Toggle comments
+" gc         | visual select what to comment
+" <leader>+c | // comment
+" <leader>+= | /* multiline
+" TODO make <leader>+c behave as gc in visual mode
 Plug 'tomtom/tcomment_vim'
 nmap <leader>c <esc>:TComment<CR>
 nmap <leader>= <esc>:TCommentBlock<CR>
+
+" disable all default mappings
+" let g:tcommentMaps = 0
+let g:tcommentMapLeaderUncommentAnyway = ''
+let g:tcommentMapLeaderCommentAnyway = ''
+let g:tcommentMapLeaderOp1 = 'gc'
 
 " Tcomment visual
 vmap <leader>c :TComment<CR>
@@ -485,10 +500,34 @@ Plug 'tpope/vim-fugitive'
 
 
 " {{{
-" adds commands to surround: XwordX
+" # vim-surround
+" adds commands to surround: _word_
+
+" ds(   - delete surrounding '()'
+" cs([  - change surrounding '()' to '[]'
+" ysiw] - surround 'iw' with '[]'
+" S)    - in Visual mode insert selected with '()'
 Plug 'tpope/vim-surround'
+
 " to make repeat(.) work with vim-surround
 Plug 'tpope/vim-repeat'
+" }}}
+
+" {{{
+" Plug 'machakann/vim-swap'
+" omap i, <Plug>(swap-textobject-i)
+" xmap i, <Plug>(swap-textobject-i)
+" omap a, <Plug>(swap-textobject-a)
+" xmap a, <Plug>(swap-textobject-a)
+
+" gl    | shift argument right
+" gh    | shift argument left
+Plug 'AndrewRadev/sideways.vim'
+nmap gl <Esc>:SidewaysRight<CR>
+nmap gh <Esc>:SidewaysLeft<CR>
+" TODO make swap work on argument & type level: (Type<one,two>, another)
+" TODO support delete & yank & highlight & argument
+
 " }}}
 
 " CommandT {{{
