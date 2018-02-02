@@ -266,6 +266,9 @@ alias sp-tree-bst="vim $DATA_STRUCTURE_ROOT/tree-bst.md"
 alias sp-tree-skip-list="vim $DATA_STRUCTURE_ROOT/tree-skip-list.md"
 alias sp-tree-btree="vim $DATA_STRUCTURE_ROOT/tree-btree.md"   #TODO
 alias sp-tree-lsm="vim $DATA_STRUCTURE_ROOT/tree-lsm.md"
+alias sp-tree-trie="vim $DATA_STRUCTURE_ROOT/tree-trie.md"
+alias sp-tree-radix-tree="vim $DATA_STRUCTURE_ROOT/tree-trie.md"
+alias sp-tree-hat-trie="vim $DATA_STRUCTURE_ROOT/tree-hat-trie.md"
 
 # heap
 alias sp-heap="vim $DATA_STRUCTURE_ROOT/heap.md"
@@ -295,6 +298,7 @@ alias sp-compuverdeutil="vim $REF_DIR/util.md"
 # Project
 alias sp-proj="cd $DROPBOX/project"
 alias sp-proj-malloc="vim $DROPBOX/project/malloc.md"
+alias sp-proj-datastructure="vim $DROPBOX/project/datastructure.md"
 
 # nas540
 alias nas540="sshfs admin@192.168.1.12:/i-data/ $HOME/mount/nas540"

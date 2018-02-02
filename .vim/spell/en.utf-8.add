@@ -12,3 +12,5 @@ RCU
 membarrier
 tmux
 xterm
+BSTs
+Trie

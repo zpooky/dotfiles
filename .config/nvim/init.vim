@@ -26,7 +26,9 @@ endif
 " # other plugins
 " https://github.com/machakann/vim-sandwich
 "
+" # alignment
 " https://github.com/junegunn/vim-easy-align
+" vim-lion plugin is used to align text around a chosen character.
 "
 " # vim-easymotion(like navigation like quitebrowser)
 " http://sherifsoliman.com/2016/05/30/favorite-vim-plugins/#vim-easymotion
@@ -526,6 +528,7 @@ Plug 'AndrewRadev/sideways.vim'
 nmap gl <Esc>:SidewaysRight<CR>
 nmap gh <Esc>:SidewaysLeft<CR>
 " TODO make swap work on argument & type level: (Type<one,two>, another)
+" TODO support shifting space separated arguments
 " TODO support delete & yank & highlight & argument
 
 " }}}

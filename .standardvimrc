@@ -298,6 +298,7 @@ abbreviate invoces invokes
 abbreviate itterating iterating
 abbreviate itteration iteration
 abbreviate itterations iterations
+abbreviate itterated iterated
 abbreviate keept kept
 abbreviate lengh length
 abbreviate lengt length
@@ -340,8 +341,6 @@ abbreviate refrences references
 abbreviate renmae rename
 abbreviate represnetation representation
 abbreviate routign routing
-abbreviate sizoef sizeof
-abbreviate szie_t size_t
 abbreviate staticts statistics
 abbreviate subsicently subsequently
 abbreviate sufficent sufficient
@@ -356,6 +355,30 @@ abbreviate utillity utility
 abbreviate wehn when
 abbreviate wheter whether
 abbreviate wich which
+
+abbreviate predessessor predecessor
+abbreviate predeccsessor predecessor
+abbreviate beacause because
+abbreviate chanse chance
+abbreviate beinning beginning
+abbreviate begining beginning
+abbreviate verticly vertically
+abbreviate succesfull successful
+abbreviate inorder in order
+abbreviate remvoe remove
+abbreviate allignment alignment
+
+" TODO maybe limit to ft=cpp
+abbreviate sizoef sizeof
+abbreviate szie_t size_t
+abbreviate stati static
+abbreviate uint8 uint8_t
+abbreviate uint16 uint16_t
+abbreviate uint32 uint32_t
+abbreviate uint64 uint64_t
+abbreviate nullpt nullptr
+abbreviate nullp nullptr
+abbreviate null nullptr
 
 " }}}
 
@@ -521,6 +544,7 @@ nnoremap Q <nop>
 " Stop that stupid window from popping up
 nmap q: <esc>:q
 
+" remember both line and column with '
 nnoremap ' `
 nnoremap ` '
 

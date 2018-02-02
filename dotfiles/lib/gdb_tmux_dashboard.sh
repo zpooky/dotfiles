@@ -46,6 +46,8 @@ BASH_NO_HIST="unset HISTFILE"
 ZSH_NO_HIST="${BASH_NO_HIST}"
 NO_HIST="if [[ \${SHELL} =~ bash$ ]]; then ${BASH_NO_HIST}; else ${ZSH_NO_HIST}; fi"
 
+echo "${NO_HIST}"
+
 tmux new-window -n "gdb"
 # tmux set-option window-style 'fg=colour250,bg=black'
 # tmux set-option window-active-style 'fg=colour250,bg=black'
