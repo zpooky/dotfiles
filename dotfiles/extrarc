@@ -136,6 +136,7 @@ CPP_EXAMPLE_TEST_MAKEFILE=$CPP_ROOT/Makefile_test
 
 alias sp-make="vim $CPP_ROOT/make.md"
 alias cpp-include="vim $CPP_ROOT/cinclude.md"
+alias cpp-volatile="vim $CPP_ROOT/volatile.md"
 alias sp-c="vim $CPP_ROOT/c.md"
 alias cpp-gcc="vim $CPP_ROOT/gcc.md"
 alias cpp-make="vim $CPP_EXAMPLE_MAKEFILE"
@@ -215,18 +216,16 @@ alias sp-tty="vim $DROPBOX_LINUX/tty.md"
 alias sp-write-to-file="vim $DROPBOX_LINUX/write-to-file.md"
 alias sp-pacman="vim $DROPBOX_LINUX/pacman.md"
 
-alias sp-linux-sys-mlock="vim $DROPBOX_LINUX/syscall/mlock.md"
-alias sp-linux-sys-readv_writev="vim $DROPBOX_LINUX/syscall/readv_writev.md"
-alias sp-linux-sys-rcu="vim $DROPBOX_LINUX/syscall/rcu.md"    #TODO
-alias sp-linux-sys-membarrier="vim $DROPBOX_LINUX/syscall/membarrier.md"
-
 #fs
 alias sp-ssd="vim $REF_DIR/fs/ssd.md"
 
 # linux syscall
 LINUX_SYSCALL_ROOT=$DROPBOX_LINUX/syscall
 alias sp-syscall-mlock="vim $LINUX_SYSCALL_ROOT/mlock.md"   #TODO
-alias sp-syscall-readv-writev="vim $LINUX_SYSCALL_ROOT/readv_writev.txt"
+alias sp-syscall-readv_writev="vim $LINUX_SYSCALL_ROOT/readv_writev.md"
+alias sp-syscall-rcu="vim $LINUX_SYSCALL_ROOT/rcu.md"    #TODO
+alias sp-syscall-membarrier="vim $LINUX_SYSCALL_ROOT/membarrier.md"
+alias sp-syscall-futex="vim $LINUX_SYSCALL_ROOT/futex.md"
 
 # networking
 alias sp-network="vim $DROPBOX_NETWORK/linux.md"
@@ -242,7 +241,8 @@ alias sp-audio="vim $REF_DIR/audio.txt"       #TODO
 alias sp-numa="vim $DROPBOX_LINUX/numa.md"    #TODO
 alias sp-sc="vim $DROPBOX_LINUX/sequential_consistency.md"
 alias sp-oOo="vim $REF_DIR/1out-of-order.md"
-alias sp-concurreny-jvm="vim $REF_DIR/concurrency-jvm.txt"
+alias sp-concurrency-jvm="vim $REF_DIR/concurrency-jvm.txt"
+alias sp-concurrency="vim $DROPBOX/parallelism/general.md"
 alias sp-concurrent-design="vim $REF_DIR/concurrent-design.txt"
 alias sp-dma="vim $REF_DIR/dma.md"    #TODO
 alias sp-cpu="vim $REF_DIR/cpu.txt"    #TODO
@@ -286,6 +286,14 @@ alias sp-cap="vim $REF_DIR/cap.md"    #TODO
 alias sp-paxos="vim $REF_DIR/paxos-consensus.md"    #TODO
 alias sp-raft="vim $REF_DIR/raft-consensus.md"    #TODO
 alias sp-dht="vim $REF_DIR/dht.md" #TODO
+
+# new web
+alias sp-tor="vim $DROPBOX/new-web/tor.md"
+alias sp-ipfs="vim $DROPBOX/new-web/ipfs.md"
+alias sp-dat="vim $DROPBOX/new-web/dat.md"
+alias sp-zeronet="vim $DROPBOX/new-web/zeronet.md"
+alias sp-cjdns="vim $DROPBOX/new-web/cjdns.md"
+alias sp-freenet="vim $DROPBOX/new-web/freenet.md"
 
 #
 alias sp-neural-network="vim $REF_DIR/neural-network.md"  #TODO

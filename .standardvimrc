@@ -367,6 +367,9 @@ abbreviate succesfull successful
 abbreviate inorder in order
 abbreviate remvoe remove
 abbreviate allignment alignment
+abbreviate theorum theorem
+abbreviate theorum theorem
+abbreviate statefull stateful
 
 " TODO maybe limit to ft=cpp
 abbreviate sizoef sizeof
