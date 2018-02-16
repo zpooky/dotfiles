@@ -299,6 +299,7 @@ abbreviate itterating iterating
 abbreviate itteration iteration
 abbreviate itterations iterations
 abbreviate itterated iterated
+abbreviate itterates iterates
 abbreviate keept kept
 abbreviate lengh length
 abbreviate lengt length
@@ -370,9 +371,27 @@ abbreviate allignment alignment
 abbreviate theorum theorem
 abbreviate theorum theorem
 abbreviate statefull stateful
+abbreviate otherwsie otherwise
+abbreviate commited committed
+abbreviate indivudal individual
+abbreviate persistant persistent
+abbreviate coalecced coalesced
+abbreviate mutiple multiple
+abbreviate acure occur
+abbreviate occures occurs
+abbreviate transction transaction
+abbreviate trsanction transaction
+abbreviate durabilty durability
+abbreviate alteres alterers
+abbreviate othwise otherwise
+abbreviate othrwise otherwise
+abbreviate lenght length
+abbreviate halvf half
 
 " TODO maybe limit to ft=cpp
 abbreviate sizoef sizeof
+abbreviate deinfe define
+abbreviate memst memset
 abbreviate szie_t size_t
 abbreviate stati static
 abbreviate uint8 uint8_t
@@ -383,6 +402,8 @@ abbreviate nullpt nullptr
 abbreviate nullp nullptr
 abbreviate null nullptr
 
+syntax keyword cppType size_t
+syntax keyword cppType ssize_t
 " }}}
 
 set nowrap                        " do not soft wrap long lines

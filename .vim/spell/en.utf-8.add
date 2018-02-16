@@ -14,3 +14,7 @@ tmux
 xterm
 BSTs
 Trie
+TX
+uint16
+uint8
+PRNG
