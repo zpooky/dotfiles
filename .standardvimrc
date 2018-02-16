@@ -105,6 +105,33 @@ set wildignore+=*.d,main,*.o,*.a,*.stackdump,*.so
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
 set wildignore+=*.class,*.jar
 set wildignore+=*.zip,*.tar,*.tar.gz
+
+set wildignore+=external/googletest/*
+set wildignore+=*external/googletest/*
+set wildignore+=*/external/googletest/*
+
+set wildignore+=external/googletest*
+set wildignore+=*external/googletest*
+set wildignore+=*/external/googletest*
+
+set wildignore+=external/googletest
+set wildignore+=*external/googletest
+set wildignore+=*/external/googletest
+
+set wildignore+=external/googletest/
+set wildignore+=*external/googletest/
+set wildignore+=*/external/googletest/
+
+set wildignore+=external/googletest/**
+set wildignore+=*external/googletest/**
+set wildignore+=*/external/googletest/**
+
+set wildignore+=external/googletest**
+set wildignore+=*external/googletest**
+set wildignore+=*/external/googletest**
+"","build/**","build_test/**"
+" let g:CommandTWildIgnore=&wildignore . ",external/googletest/**"
+
 " set wildignore+=
 " }}}
 
@@ -387,6 +414,9 @@ abbreviate othwise otherwise
 abbreviate othrwise otherwise
 abbreviate lenght length
 abbreviate halvf half
+abbreviate namepsace namespace
+abbreviate reutrn return
+abbreviate sucessor successor
 
 " TODO maybe limit to ft=cpp
 abbreviate sizoef sizeof

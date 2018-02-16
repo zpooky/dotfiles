@@ -163,12 +163,12 @@ else
     " cd ~/.vim/bundle/YouCompleteMe;./install.sh --clang-completer
 
     let g:ycm_show_diagnostics_ui = 0
-    let g:ycm_collect_identifiers_from_tags_files = 1
+    let g:ycm_collect_identifiers_from_tags_files = 0
     let g:ycm_confirm_extra_conf = 0                        " disable confirm of project specific ycm conf
 
     let g:ycm_autoclose_preview_window_after_completion = 0 " do not directly close prototype window
     let g:ycm_autoclose_preview_window_after_insertion = 1  " close it when I exit insert mode.
-    let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+    let g:ycm_global_ycm_extra_conf = "~/.ycm_extra_conf.py"
 
     " " ycm ultisnip integration
     " " YCM + UltiSnips works like crap
@@ -195,12 +195,15 @@ else
     " {{{
     Plug 'Rip-Rip/clang_complete',{'do':'make install','for':['cpp','c']}
     let g:clang_close_preview = 1
+
+    " Plug 'xaizek/vim-inccomplete',{'for':['cpp','c']}
     " }}}
   endif
 
 endif
 
 " {{{
+" Create split focusing only on the selected
 " :NR
 Plug 'chrisbra/NrrwRgn',programming
 " }}}
@@ -534,22 +537,24 @@ nmap gh <Esc>:SidewaysLeft<CR>
 " }}}
 
 " CommandT {{{
-" fuzzy search (TODO do step does not work)
-Plug 'wincent/command-t',{'do':'rake make'}
+if !has('win32') && !has('win64')
+  " fuzzy search (TODO do step does not work)
+  Plug 'wincent/command-t',{'do':'rake make'}
 
-noremap <silent> <leader>r <Esc>:CommandT<CR>
-" noremap <silent> <leader>O <Esc>:CommandTFlush<CR>
-noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
-noremap <silent> <leader>. <esc>:CommandTTag<cr>
-" }}}
+  noremap <silent> <leader>r <Esc>:CommandT<CR>
+  " noremap <silent> <leader>O <Esc>:CommandTFlush<CR>
+  noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
+  noremap <silent> <leader>. <esc>:CommandTTag<cr>
+  " }}}
 
-" tagbar {{{
-" pane displaying tag information present in current file
-" Plug 'majutsushi/tagbar',programming_nhaskell
+  " tagbar {{{
+  " pane displaying tag information present in current file
+  " Plug 'majutsushi/tagbar',programming_nhaskell
 
-nmap <silent> <F10> <esc>:TagbarToggle<CR>
-imap <silent> <F10> <ESC>:TagbarToggle<CR>
-cmap <silent> <F10> <ESC>:TagbarToggle<CR>
+  nmap <silent> <F10> <esc>:TagbarToggle<CR>
+  imap <silent> <F10> <ESC>:TagbarToggle<CR>
+  cmap <silent> <F10> <ESC>:TagbarToggle<CR>
+endif
 " }}}
 
 " nerdtree {{{
