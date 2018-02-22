@@ -141,6 +141,7 @@ if has('nvim')
   " Deoplete {{{
   Plug 'Shougo/deoplete.nvim',neovim_update_remote
   let g:deoplete#enable_at_startup = 1
+
   " }}}
 
   " Deoplete-clang {{{
@@ -355,7 +356,7 @@ augroup END
 " }}}
 
 " unmap some a.vim mappings
-Plug '~/.vim/bundle/after',programming_cpp
+" Plug '~/.vim/bundle/after',programming_cpp
 " }}}
 
 " {{{
