@@ -79,6 +79,7 @@ alias sp-openwrt="vim $REF_DIR/openwrt.md"
 # notes
 alias sp-books="vim $DROPBOX/books.md"
 alias sp-todo="cd ~/Dropbox/term_todo/"
+alias sp-todo-dev="vim ~/Dropbox/term_todo/dev.md"
 alias sp-interview="cd $DROPBOX/interview"
 
 # misc

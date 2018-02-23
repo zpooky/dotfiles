@@ -204,6 +204,11 @@ else
 endif
 
 " {{{
+" rtags
+" Plug 'lyuts/vim-rtags',programming_cpp
+" }}}
+
+" {{{
 " Create split focusing only on the selected
 " :NR
 Plug 'chrisbra/NrrwRgn',programming
@@ -431,6 +436,7 @@ let g:scala_use_default_keymappings = 0
 Plug 'vim-scripts/rfc-syntax', { 'for': 'rfc' }
 " systemd syntax
 Plug 'Matt-Deacalion/vim-systemd-syntax'
+Plug 'nickhutchinson/vim-cmake-syntax'
 " }}}
 
 " {{{

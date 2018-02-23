@@ -418,6 +418,7 @@ abbreviate namepsace namespace
 abbreviate reutrn return
 abbreviate sucessor successor
 
+
 " TODO maybe limit to ft=cpp
 abbreviate sizoef sizeof
 abbreviate deinfe define
