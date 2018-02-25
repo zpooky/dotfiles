@@ -154,6 +154,8 @@ if has('nvim')
 else
   " turned off in cygwin since these plugins requires compilation
   if !has('win32unix') && !has('win64unix')
+    " //TODO make work like deoplete
+
     " YouCompleteMe {{{
     " forked YCM for better cpp suggestions
     Plug '~/.vim/bundle/OblitumYouCompleteMe',programming_cpp
@@ -170,6 +172,8 @@ else
     let g:ycm_autoclose_preview_window_after_completion = 0 " do not directly close prototype window
     let g:ycm_autoclose_preview_window_after_insertion = 1  " close it when I exit insert mode.
     let g:ycm_global_ycm_extra_conf = "~/.ycm_extra_conf.py"
+
+    let g:ycm_semantic_triggers = {'haskell' : ['.']}
 
     " " ycm ultisnip integration
     " " YCM + UltiSnips works like crap
@@ -189,7 +193,7 @@ else
 
     " using Ycm to navigate
     " https://github.com/Valloric/YouCompleteMe#goto-commands
-    map <silent> <F3> <esc>:YcmCompleter GoTo<CR>
+    " map <silent> <F3> <esc>:YcmCompleter GoTo<CR>
 
     " }}}
   else
@@ -203,9 +207,67 @@ else
 
 endif
 
-" {{{
-" rtags
-" Plug 'lyuts/vim-rtags',programming_cpp
+" rtags {{{
+Plug 'lyuts/vim-rtags',programming_cpp
+" disable default mappings
+let g:rtagsUseDefaultMappings = 0
+
+let g:rtagsJumpStackMaxSize = 1000
+let g:rtagsUseLocationList = 1
+
+" TODO file type specific
+" map <silent> <F1> <esc>:call rtags#SymbolInfo()<CR>
+" RENAME
+map <silent> <F1> <esc>:call rtags#RenameSymbolUnderCursor()<CR>
+" JUMP TO
+map <silent> <F3> <esc>:call rtags#JumpTo(g:SAME_WINDOW)<CR>
+map <silent> <leader><F3> <esc>:call rtags#JumpTo(g:NEW_TAB)<CR>
+"
+map <silent> <F4> <esc>:call rtags#FindRefs()<CR>
+map <silent> <F5> <esc>:call rtags#FindRefsCallTree()<CR>
+
+
+" if g:rtagsUseDefaultMappings == 1
+"     noremap <Leader>ri :call rtags#SymbolInfo()<CR>
+"     noremap <Leader>rj :call rtags#JumpTo(g:SAME_WINDOW)<CR>
+"     noremap <Leader>rJ :call rtags#JumpTo(g:SAME_WINDOW, { '--declaration-only' : '' })<CR>
+"     noremap <Leader>rS :call rtags#JumpTo(g:H_SPLIT)<CR>
+"     noremap <Leader>rV :call rtags#JumpTo(g:V_SPLIT)<CR>
+"     noremap <Leader>rT :call rtags#JumpTo(g:NEW_TAB)<CR>
+"     noremap <Leader>rp :call rtags#JumpToParent()<CR>
+"     noremap <Leader>rf :call rtags#FindRefs()<CR>
+"     noremap <Leader>rF :call rtags#FindRefsCallTree()<CR>
+"     noremap <Leader>rn :call rtags#FindRefsByName(input("Pattern? ", "", "customlist,rtags#CompleteSymbols"))<CR>
+"     noremap <Leader>rs :call rtags#FindSymbols(input("Pattern? ", "", "customlist,rtags#CompleteSymbols"))<CR>
+"     noremap <Leader>rr :call rtags#ReindexFile()<CR>
+"     noremap <Leader>rl :call rtags#ProjectList()<CR>
+"     noremap <Leader>rw :call rtags#RenameSymbolUnderCursor()<CR>
+"     noremap <Leader>rv :call rtags#FindVirtuals()<CR>
+"     noremap <Leader>rb :call rtags#JumpBack()<CR>
+"     noremap <Leader>rC :call rtags#FindSuperClasses()<CR>
+"     noremap <Leader>rc :call rtags#FindSubClasses()<CR>
+"     noremap <Leader>rd :call rtags#Diagnostics()<CR>
+" endif
+" }}}
+
+" python {{{
+Plug 'davidhalter/jedi-vim',{'for': ['python']}
+" Disable default binding
+let g:jedi#completions_enabled = 0
+let g:jedi#goto_command = "<f3>"
+" autocmd FileType python setlocal completeopt-=preview
+
+" TODO let g:jedi#rename_command = "<leader>r"
+if has('nvim')
+  let g:jedi#completions_enabled = 0
+  Plug 'neovim/python-client'
+  Plug 'zchee/deoplete-jedi'
+endif
+
+" redundant?
+" sort imports
+" Plug 'tweekmonster/impsort.vim'
+" autocmd BufWritePre *.py ImpSort!
 " }}}
 
 " {{{
@@ -226,6 +288,7 @@ if !has('win32unix') && !has('win64unix')
   "'clang', 'clangcheck', 'cpplint','cppcheck', 'clangtidy'
   let g:ale_linters = {
         \   'cpp': ['g++','cppcheck'],
+        \   'python': ['flake8'],
         \   'c': ['gcc','cppcheck'],
         \}
 
@@ -320,12 +383,19 @@ endif
 Plug 'sbdchd/neoformat'
 
 let g:neoformat_enabled_cpp = ['clangformat']
+let g:neoformat_python_spyapf = {
+      \ 'args': ['--style="$HOME/style.py"'],
+      \ 'exe': 'yapf',
+      \ 'stdin': 1
+      \ }
+let g:neoformat_enabled_python = ['spyapf']
+let g:neoformat_enabled_sh = ['shfmt']
 let g:neoformat_only_msg_on_error = 1
 
 augroup AutogroupNeoformat
   autocmd!
-  autocmd FileType c,cpp nnoremap <buffer><leader>f <esc>:Neoformat<CR>
-  autocmd FileType c,cpp vnoremap <buffer><leader>f <esc>:Neoformat<CR>
+  autocmd FileType c,cpp,python,sh,zsh nnoremap <buffer><leader>f <esc>:Neoformat<CR>
+  autocmd FileType c,cpp,python,sh,zsh vnoremap <buffer><leader>f <esc>:Neoformat<CR>
 augroup END
 " }}}
 

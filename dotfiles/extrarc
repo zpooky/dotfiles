@@ -50,9 +50,19 @@ if [[ -e $CABAL_BIN ]]; then
   PATH=$CABAL_BIN:$PATH
 fi
 
+GEM_BIN=$HOME/.gem/ruby/2.5.0/bin
+if [[ -e $GEM_BIN ]]; then
+  PATH=$GEM_BIN:$PATH
+fi
+
 QUTEBROWSER_BIN=/usr/bin/qutebrowser
 if [[ -e $QUTEBROWSER_BIN ]]; then
   export BROWSER=$QUTEBROWSER_BIN
+fi
+
+SP_PIP_BIN=$HOME/.local/bin
+if [[ -e $SP_PIP_BIN ]]; then
+  PATH=$SP_PIP_BIN:$PATH
 fi
 
 # Enable aliases to be used when sudoing
@@ -106,6 +116,7 @@ alias sp-visual="vim $REF_DIR/visual-studio.md"
 alias sp-vim-cpp="vim $DROPBOX_LINUX/vim/cpp.md"
 alias sp-vim-jump="vim $DROPBOX_LINUX/vim/jump.md"
 alias sp-vim-extra="vim $DROPBOX_LINUX/vim/extra.md"
+alias sp-rtag="vim $DROPBOX_LINUX/vim/rtag.md"
 
 # lang
 alias sp-asm="vim $REF_DIR/linux/asm.md" #TODO
@@ -140,8 +151,7 @@ alias cpp-include="vim $CPP_ROOT/cinclude.md"
 alias cpp-volatile="vim $CPP_ROOT/volatile.md"
 alias sp-c="vim $CPP_ROOT/c.md"
 alias cpp-gcc="vim $CPP_ROOT/gcc.md"
-alias cpp-make="vim $CPP_EXAMPLE_MAKEFILE"
-alias cpp-make-test="vim $CPP_EXAMPLE_TEST_MAKEFILE"
+alias cpp-make="vim -p $CPP_EXAMPLE_MAKEFILE $CPP_EXAMPLE_TEST_MAKEFILE"
 alias cpp-elf="vim $CPP_ROOT/elf.md"
 alias sp-simd="vim $CPP_ROOT/simd.md"    #TODO
 alias cpp-printf="vim $CPP_ROOT/printf.md"
@@ -454,6 +464,7 @@ alias cpp_fundeclare="$HOME/dotfiles/lib/cpp_function_declare.sh"
 alias cpp_conscall="$HOME/dotfiles/lib/cpp_constructor_call.sh"
 
 alias sp_gdb="$HOME/dotfiles/lib/gdb_tmux_dashboard.sh"
+alias sp_cmake_compile_db="cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
 
 function setup_ycm(){
   if [[ -e CMakeLists.txt ]]; then
@@ -497,7 +508,7 @@ function setup_meta(){
   fi
 }
 
-function setup_project(){
+function sp_setup_make_project(){
   # if clean slate
   if [ ! "$(ls -A ${PWD})" ]; then
     git init
@@ -532,7 +543,6 @@ function setup_project(){
   fi
   setup_meta
 }
-alias sp_setup_make_project='setup_project'
 
 function makex() {
   pathpat="(/[^/]*)+:[0-9]+"

@@ -11,7 +11,6 @@ if [ ! -e $GIT_CONFIG_FEATURE ]; then
   if [[ $? -eq 0 ]]; then
     start_feature "git config"
 
-
     # TODO fetch from keychain
     git config --global user.name "Fredrik Olsson"
     git config --global user.email "spooky.bender@gmail.com"
@@ -64,17 +63,16 @@ stop_feature "vim"
 YCM_IT=5
 YCM_FORKS=("OblitumYouCompleteMe" "YouCompleteMe")
 
-for YCM in "${YCM_FORKS[@]}"
-do
+for YCM in "${YCM_FORKS[@]}"; do
   FEATURE="$FEATURE_HOME/${YCM}${YCM_IT}"
   if [ ! -e $FEATURE ]; then
     start_feature "$YCM"
 
     # TODO should recompile when vim version changes
-    PREV_DIR=`pwd`
+    PREV_DIR=$(pwd)
 
     cd $THE_HOME/.vim/bundle/$YCM
-    ./install.py --clang-completer # --go-completer --rust-completer --js-completer
+    ./install.py --clang-completer --system-libclang # --go-completer --rust-completer --js-completer
     RET=$?
     if [ $RET -eq 0 ]; then
       touch $FEATURE
@@ -92,8 +90,8 @@ if [ ! -e $FEATURE ]; then
   start_feature "color_coded1"
 
   # TODO should recompile when vim version changes
-  PREV_DIR=`pwd`
-  COLOR_CODED_PATH=$THE_HOME/.vim/bundle/color_coded 
+  PREV_DIR=$(pwd)
+  COLOR_CODED_PATH=$THE_HOME/.vim/bundle/color_coded
   COLOR_CODED_BUILD_PATH=$COLOR_CODED_PATH/build
   cd $COLOR_CODED_PATH
   if [ -d $COLOR_CODED_BUILD_PATH ]; then
@@ -101,14 +99,14 @@ if [ ! -e $FEATURE ]; then
   fi
   mkdir build && cd build || exit 1
   cmake ..
-  if [ $? -eq 0 ]; then 
+  if [ $? -eq 0 ]; then
     make && make install
     RET=$?
 
     # Cleanup afterward; frees several hundred megabytes
     make clean && make clean_clang
 
-    if [ $RET -eq 0 ]; then 
+    if [ $RET -eq 0 ]; then
       touch $FEATURE
     fi
   fi
@@ -192,7 +190,6 @@ pip3_install keyring || exit 1
 
 start_feature "update package database"
 update_package_list
-
 
 # pdftotext pdf lib + utils
 has_feature pdftohtml
@@ -351,7 +348,6 @@ if [ $? -eq 0 ]; then
 
 fi
 
-
 start_feature "development"
 has_feature build-essential
 if [[ $? -eq 1 ]]; then
@@ -421,13 +417,13 @@ if [ ! $? -eq 0 ]; then
     install python2-pip
   else
     # python2 -m pip uninstall pip setuptools
-    PREV_DIR=`pwd`
+    PREV_DIR=$(pwd)
 
     cd /tmp
     curl -O https://bootstrap.pypa.io/get-pip.py
 
     if [ $? -eq 0 ]; then
-      sudo -H  python2.7 get-pip.py
+      sudo -H python2.7 get-pip.py
     fi
 
     cd $PREV_DIR

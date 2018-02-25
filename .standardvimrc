@@ -1,4 +1,4 @@
-" Turn off vi compatibility.(should be set first)
+" Turn off vi compatibility.(sould be set first)
 set nocompatible
 
 " encoding {{{
@@ -102,9 +102,12 @@ set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.i
 set wildignore=*.swp,*.bak,*.pyc,*.exe,*.dat,*.bin,*.out,*.pdf,*.cache,*.part
 set wildignore+=*~,*.swp,*.tmp
 set wildignore+=*.d,main,*.o,*.a,*.stackdump,*.so
-set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
+set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.mkv,*.mp4
 set wildignore+=*.class,*.jar
 set wildignore+=*.zip,*.tar,*.tar.gz
+
+set wildignore+=*/.git,*/.hg,*/.svn
+set wildignore+=tags,*.tags
 
 set wildignore+=external/googletest/*
 set wildignore+=*external/googletest/*
@@ -158,6 +161,8 @@ if has('win32unix') || has('win64unix')
 
 endif
 
+" ttimout ==keycode timeout
+" timout == mapping timeout
 " Get rid of nasty lag on ESC (timeout and ttimeout seem useless) sp??
 augroup AutogroupEscapeLag
   autocmd!

@@ -642,7 +642,7 @@ if [ ! -e $FEATURE ]; then
 fi
 
 #python format
-pip2_install git+https://github.com/google/yapf.git
+# pip2_install git+https://github.com/google/yapf.git
 
 # code formatters
 which npm

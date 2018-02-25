@@ -1,19 +1,18 @@
 source $HOME/dotfiles/shared.sh
 
-
 p() {
-    printf '%b\n' "$1" >&2
+  printf '%b\n' "$1" >&2
 }
 
-bad(){
-    p "\e[31m[✘]\e[0m ${1}${2}"
+bad() {
+  p "\e[31m[✘]\e[0m ${1}${2}"
 }
 
 good() {
   p "\e[32m[✔]\e[0m ${1}${2}"
 }
 
-function install_pkg(){
+function install_pkg() {
   has_feature $1
   if [ $? -eq 1 ]; then
     install $1
@@ -26,7 +25,7 @@ function install_pkg(){
       good $1 " was installed"
     fi
   else
-      good $1 " is already installed"
+    good $1 " is already installed"
   fi
 }
 
@@ -42,7 +41,7 @@ if [ $? -eq 1 ]; then
   install_pkg neovim
 fi
 install_pkg ruby
-install_pkg npm
+# install_pkg npm
 
 gem install neovim
 npm install -g neovim
@@ -57,7 +56,7 @@ install_pkg fakeroot
 install_pkg guake
 install_pkg chromium
 
-# to make install work
+# 
 install_pkg firefox
 install_pkg wget
 install_pkg sudo
@@ -72,12 +71,21 @@ install_pkg sshfs
 install_pkg perf
 install_pkg patch
 
+# compdb adds header to compile db
+pip install --user git+https://github.com/Sarcasm/compdb.git#egg=compdb
+
+#python formatter
+install_pkg yapf
+
+#tor-browser
+yaourt -S tor-browser
+
 #for wifi-menu
 install_pkg dialog
 install_pkg wpa_supplicant
 
 #actively maintaned fork for newsbeuter
-install_pkg newsboat                                                                                                                                                                                                                  [0]
+install_pkg newsboat [0]
 
 # X display server
 has_feature X
@@ -177,6 +185,11 @@ install_pkg pkg-config
 install_pkg keepassxc
 install_pkg cscope
 
+has_feature ipfs
+if [ $? -eq 1 ]; then
+  yaourt -S go-ipfs
+fi
+
 has_feature package-query
 if [ $? -eq 1 ]; then
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz"
@@ -201,12 +214,12 @@ fi
 
 has_feature yaourt
 if [ $? -eq 1 ]; then
-  install_aur  "https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz"
+  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz"
 fi
 
 has_feature lbdb-fetchaddr
 if [ $? -eq 1 ]; then
-  install_aur  "https://aur.archlinux.org/cgit/aur.git/snapshot/lbdb.tar.gz"
+  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/lbdb.tar.gz"
 fi
 
 has_feature davmail
@@ -254,30 +267,29 @@ fi
 
 has_feature khal
 if [ $? -eq 1 ]; then
-#   #TODO multiarch
-#   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-tzlocal.tar.gz" || exit 1
-#   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-icalendar.tar.gz" || exit 1
-#
-#   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/khal.tar.gz"
+  #   #TODO multiarch
+  #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-tzlocal.tar.gz" || exit 1
+  #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-icalendar.tar.gz" || exit 1
+  #
+  #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/khal.tar.gz"
   sudo pip3.6 install khal
 fi
 
 # # vdirsyncer
 has_feature vdirsyncer
 if [ $? -eq 1 ]; then
-#   #TODO multiarch
-#   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-atomicwrites.tar.gz"|| exit 1
-#   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-click-threading.tar.gz"|| exit 1
-#   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-click-log.tar.gz" || exit 1
-#
-#   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/vdirsyncer.tar.gz"
+  #   #TODO multiarch
+  #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-atomicwrites.tar.gz"|| exit 1
+  #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-click-threading.tar.gz"|| exit 1
+  #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-click-log.tar.gz" || exit 1
+  #
+  #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/vdirsyncer.tar.gz"
 
   sudo pip3.6 install vdirsyncer
 fi
 
 # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/libtinfo5.tar.gz"
-yaourt -s libtinfo5
-
+yaourt -S libtinfo5
 
 has_feature eatmydata
 if [ $? -eq 1 ]; then
@@ -288,7 +300,6 @@ fi
 
 # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/fbterm-git.tar.gz"
 
-
 has_feature rtv
 if [ $? -eq 1 ]; then
   sudo pip3.6 install rtv
@@ -296,6 +307,22 @@ fi
 
 has_feature alacritty
 if [ $? -eq 1 ]; then
-  sudo yaourt -s alacritty-git
-#   install_aur "https://aur.archlinux.org/alacritty-git.git"
+  sudo yaourt -S alacritty-git
+  #   install_aur "https://aur.archlinux.org/alacritty-git.git"
+fi
+
+#rtags
+has_feature rdm
+if [ $? -eq 1 ]; then
+  yaourt -S rtags
+  systemctl --user enable rdm.socket
+  systemctl --user start rdm.socket
+
+  systemctl --user enable rdm
+  systemctl --user start rdm
+fi
+
+has_feature shfmt
+if [ $? -eq 1 ]; then
+  yaourt -S shfmt
 fi
