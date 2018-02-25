@@ -531,8 +531,8 @@ nnoremap <leader>s <esc>:vnew<CR>
 nnoremap <silent><leader>e <esc>:tabedit<CR>
 
 " new line above and below without entering insert mode
-map <silent> <leader>o o<esc>
-map <silent> <leader>O O<esc>
+map <silent> <leader>o o<C-U><esc>
+map <silent> <leader>O O<C-U><esc>
 
 " half page down/up
 map <silent> ö <C-D>
