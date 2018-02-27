@@ -153,14 +153,14 @@ if has('nvim')
   " }}}
 else
   " turned off in cygwin since these plugins requires compilation
-  if !has('win32unix') && !has('win64unix')
+  " if !has('win32unix') && !has('win64unix')
     " //TODO make work like deoplete
 
     " YouCompleteMe {{{
     " forked YCM for better cpp suggestions
     Plug '~/.vim/bundle/OblitumYouCompleteMe',programming_cpp
     " vanilla YCM
-    Plug '~/.vim/bundle/YouCompleteMe',programming_ncpp_nhaskell
+    " Plug '~/.vim/bundle/YouCompleteMe',programming_ncpp_nhaskell
 
     " YouCompleteMe - Install
     " cd ~/.vim/bundle/YouCompleteMe;./install.sh --clang-completer
@@ -196,14 +196,14 @@ else
     " map <silent> <F3> <esc>:YcmCompleter GoTo<CR>
 
     " }}}
-  else
-    " {{{
-    Plug 'Rip-Rip/clang_complete',{'do':'make install','for':['cpp','c']}
-    let g:clang_close_preview = 1
-
-    " Plug 'xaizek/vim-inccomplete',{'for':['cpp','c']}
-    " }}}
-  endif
+  " else
+  "   " {{{
+  "   Plug 'Rip-Rip/clang_complete',{'do':'make install','for':['cpp','c']}
+  "   let g:clang_close_preview = 1
+  "
+  "   " Plug 'xaizek/vim-inccomplete',{'for':['cpp','c']}
+  "   " }}}
+  " endif
 
 endif
 
@@ -411,6 +411,12 @@ let g:codi#interpreters = {
 " # vim             command
 " Codi [filetype] - activates Codi
 " Codi!           - deactivates Codi
+" }}}
+
+" vimux {{{
+Plug 'benmills/vimux'
+let g:VimuxOrientation = "h"
+noremap <silent> <leader>t <esc>::call VimuxRunCommand("sp_test \"" . expand("%:p") . "\" " . line("."))<CR>
 " }}}
 
 " {{{

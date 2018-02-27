@@ -7,8 +7,7 @@ while [[ "$path" != "/" ]];
 do
     GIT_PATH="$path/.git" 
     ls $GIT_PATH > /dev/null 2>&1
-    RET=$?
-    if [ $RET -eq 0 ];then
+    if [ $? -eq 0 ]; then
       echo "$path"
       exit 0
     fi

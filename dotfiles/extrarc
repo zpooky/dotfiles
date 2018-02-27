@@ -464,6 +464,7 @@ alias cpp_fundeclare="$HOME/dotfiles/lib/cpp_function_declare.sh"
 alias cpp_conscall="$HOME/dotfiles/lib/cpp_constructor_call.sh"
 
 alias sp_gdb="$HOME/dotfiles/lib/gdb_tmux_dashboard.sh"
+alias sp_test="$HOME/dotfiles/lib/smart_test.sh"
 alias sp_cmake_compile_db="cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
 
 function setup_ycm(){
