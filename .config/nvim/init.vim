@@ -420,8 +420,13 @@ let g:codi#interpreters = {
 " vimux {{{
 Plug 'benmills/vimux'
 let g:VimuxOrientation = "h"
-let g:VimuxHeight = "25"
-noremap <silent> <leader>t <esc>::call VimuxRunCommand("sp_test \"" . expand("%:p") . "\" " . line("."))<CR>
+let g:VimuxHeight = "26"
+
+function! VimuxTest()
+  call VimuxSendKeys("C-c")       " abort already running test
+  call VimuxRunCommand("sp_test \"" . expand("%:p") . "\" " . line("."))
+endfunction
+noremap <silent> <leader>t <esc>:call VimuxTest()<CR>
 " }}}
 
 " {{{
@@ -450,19 +455,22 @@ if has('win32unix') || has('win64unix') || has('win32') || has('win64') || !has(
   " {{{
   " better c++ syntax
   Plug 'octol/vim-cpp-enhanced-highlight',programming_cpp
-  syntax keyword cppSTLenum memory_order_acquire
-  syntax keyword cppSTLenum memory_order_release
-  syntax keyword cppSTLnamespace debug
-  syntax keyword cppSTLnamespace local
-  syntax keyword cppSTLnamespace header
-  syntax keyword cppSTLnamespace sp
-  syntax keyword cppSTLnamespace util
+  " syntax keyword cppSTLenum memory_order_acquire
+  " syntax keyword cppSTLenum memory_order_release
+  " syntax keyword cppSTLnamespace debug
+  " syntax keyword cppSTLnamespace local
+  " syntax keyword cppSTLnamespace header
+  " syntax keyword cppSTLnamespace sp
+  " syntax keyword cppSTLnamespace util
   " }}}
 else
   " Chromatica {{{
-  Plug 'arakashic/chromatica.nvim',{'for':['c','cpp'], 'do': ':UpdateRemotePlugins' }
+  Plug 'arakashic/chromatica.nvim'  ",{'for':['c','cpp'], 'do': ':UpdateRemotePlugins' }
   let g:chromatica#enable_at_startup=1
   let g:chromatica#responsive_mode = 1
+
+  " let g:chromatica#debug_log = 1
+  " let g:chromatica#debug_profiling = 1
 
   if has('win32') || has('win64')
     let g:chromatica#libclang_path="D:\\Program Files\\LLVM\\lib\\libclang.lib"

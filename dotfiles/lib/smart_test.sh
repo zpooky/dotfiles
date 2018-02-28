@@ -102,7 +102,7 @@ if [ true ]; then
 
   clear
   echo "$command_arg"
-  # TODO eval "$HOME/dotfiles/lib/entr_cpp.sh $command_arg"
-  eval "$command_arg"
+  eval "$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/make_test_body.sh test $command_arg"
+  # eval "$command_arg"
 
 fi

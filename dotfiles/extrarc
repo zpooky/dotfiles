@@ -420,7 +420,7 @@ alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
 
 # meta alias
 alias sp-alias="vim $DOTFILES/extrarc && source $DOTFILES/extrarc"
-alias sp-vimrc="vim -p  $HOME/.config/nvim/init.vim  $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc"
+alias sp-vimrc="vim -p  $HOME/.config/nvim/init.vim  $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc /home/spooky/.config/nvim/plugged/chromatica.nvim/syntax/*"
 alias vimsession="vim -S Session.vim"
 
 #repeats $1
@@ -571,8 +571,8 @@ function sp_perf(){
 alias makex="makex | less -RiN -p error"
 
 # watch files system for changes and reload
-alias make_loop="$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/entr_make.sh"
-alias test_loop="$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/entr_make_test.sh test"
+alias make_loop="$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/make_body.sh"
+alias test_loop="$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/make_test_body.sh test ./test/thetest"
 # alias cpp_change_loop="$HOME/dotfiles/lib/entr_cpp.sh "
 
 function spooky_ag_grep() {

@@ -217,6 +217,11 @@ call <sid>hi('QuickScopeSecondary',{},{}, 'underline', {})
 call <sid>hi('cStatement', s:cdViasfora, {}, 'none', {})
 call <sid>hi('cConditional', s:cdViasfora, {}, 'none', {})
 call <sid>hi('cRepeat', s:cdViasfora, {}, 'none', {})
+
+call <sid>hi('chromaticaStatement', s:cdViasfora, {}, 'none', {})
+call <sid>hi('chromaticaIf', s:cdViasfora, {}, 'none', {})
+call <sid>hi('chromaticaStatement', s:cdViasfora, {}, 'none', {})
+
 " ## visual studio
 call <sid>hi('cType', s:cdVSType, {}, 'none', {})
 call <sid>hi('cppType', s:cdVSType, {}, 'none', {})

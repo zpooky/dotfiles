@@ -8,11 +8,17 @@ source $HOME/dotfiles/lib/entr_shared.sh
 cls
 header
 
+make_FILE="$1"
+ARG=${@:2:99}
+
 # make -C test
-make -C test -j $(echo $NUMBER_OF_PROCESSORS)
+make -C $make_FILE -j $(echo $NUMBER_OF_PROCESSORS)
 
 if [ $? -eq 0 ]; then
-  ./test/thetest $@
+  cls
+  # echo "./test/thetest $@"
+
+  eval ${ARG[@]}
   if [ $? -eq 0 ]; then
     good "SUCCESS"
   else
@@ -22,7 +28,9 @@ if [ $? -eq 0 ]; then
       # TODO goto first failed test if in focus?
     fi
   fi
+
 else
+
   bad "Compilation FAILED"
   if [ -v "TMUX" ]; then
     echo ""
