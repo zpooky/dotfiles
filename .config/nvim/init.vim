@@ -215,16 +215,20 @@ let g:rtagsUseDefaultMappings = 0
 let g:rtagsJumpStackMaxSize = 1000
 let g:rtagsUseLocationList = 1
 
-" TODO file type specific
+augroup AutogroupRTags
+  autocmd!
+  " RENAME
+  autocmd FileType c,cpp map <silent> <F1> <esc>:call rtags#RenameSymbolUnderCursor()<CR>
+  "
 " map <silent> <F1> <esc>:call rtags#SymbolInfo()<CR>
-" RENAME
-map <silent> <F1> <esc>:call rtags#RenameSymbolUnderCursor()<CR>
-" JUMP TO
-map <silent> <F3> <esc>:call rtags#JumpTo(g:SAME_WINDOW)<CR>
-map <silent> <leader><F3> <esc>:call rtags#JumpTo(g:NEW_TAB)<CR>
-"
-map <silent> <F4> <esc>:call rtags#FindRefs()<CR>
-map <silent> <F5> <esc>:call rtags#FindRefsCallTree()<CR>
+
+  " JUMP TO
+  autocmd FileType c,cpp map <silent> <F3> <esc>:call rtags#JumpTo(g:SAME_WINDOW)<CR>
+  autocmd FileType c,cpp map <silent> <leader><F3> <esc>:call rtags#JumpTo(g:NEW_TAB)<CR>
+
+  autocmd FileType c,cpp map <silent> <F4> <esc>:call rtags#FindRefs()<CR>
+  autocmd FileType c,cpp map <silent> <F5> <esc>:call rtags#FindRefsCallTree()<CR>
+augroup END
 
 
 " if g:rtagsUseDefaultMappings == 1
@@ -416,6 +420,7 @@ let g:codi#interpreters = {
 " vimux {{{
 Plug 'benmills/vimux'
 let g:VimuxOrientation = "h"
+let g:VimuxHeight = "25"
 noremap <silent> <leader>t <esc>::call VimuxRunCommand("sp_test \"" . expand("%:p") . "\" " . line("."))<CR>
 " }}}
 
@@ -628,55 +633,57 @@ if !has('win32') && !has('win64')
   " noremap <silent> <leader>O <Esc>:CommandTFlush<CR>
   noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
   noremap <silent> <leader>. <esc>:CommandTTag<cr>
+
+  let g:CommandTWildIgnore=&wildignore . ",*.log"
   " }}}
-
-  " tagbar {{{
-  " pane displaying tag information present in current file
-  " Plug 'majutsushi/tagbar',programming_nhaskell
-
-  nmap <silent> <F10> <esc>:TagbarToggle<CR>
-  imap <silent> <F10> <ESC>:TagbarToggle<CR>
-  cmap <silent> <F10> <ESC>:TagbarToggle<CR>
 endif
+
+" tagbar {{{
+" pane displaying tag information present in current file
+" Plug 'majutsushi/tagbar',programming_nhaskell
+
+" nmap <silent> <F10> <esc>:TagbarToggle<CR>
+" imap <silent> <F10> <ESC>:TagbarToggle<CR>
+" cmap <silent> <F10> <ESC>:TagbarToggle<CR>
 " }}}
 
 " nerdtree {{{
 " file explorer
 " Plug 'scrooloose/nerdtree',{'on':'NERDTreeToggle'}
 
-map <silent> <F8> <esc>:NERDTreeToggle<CR>
-imap <silent> <F8> <ESC>:NERDTreeToggle<CR>
-cmap <silent> <F8> <ESC>:NERDTreeToggle<CR>
-
-let NERDTreeIgnore = [
-    \ '\.pyc$',
-    \ '\.class$',
-    \ '\.cm\(x\(a\)\?\|i\|t\)$',
-    \ '\.sp\(o\|i\)t$',
-    \ '\.o\(\(pt\|mc\)\)\=$',
-\ '\.annot$'] " Ignores
-
-let NERDTreeAutoDeleteBuffer = 1
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let NERDTreeShowHidden = 1  " show hidden dotfiles
-
-" Close all open buffers on entering a window if the only
-" buffer that's left is the NERDTree buffer
-augroup AutogroupNerdTree
-  autocmd!
-  autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
-augroup END
-
-function! s:CloseIfOnlyNerdTreeLeft()
-  if exists("t:NERDTreeBufName")
-    if bufwinnr(t:NERDTreeBufName) != -1
-      if winnr("$") == 1
-        q
-      endif
-    endif
-  endif
-endfunction
+" map <silent> <F8> <esc>:NERDTreeToggle<CR>
+" imap <silent> <F8> <ESC>:NERDTreeToggle<CR>
+" cmap <silent> <F8> <ESC>:NERDTreeToggle<CR>
+"
+" let NERDTreeIgnore = [
+"     \ '\.pyc$',
+"     \ '\.class$',
+"     \ '\.cm\(x\(a\)\?\|i\|t\)$',
+"     \ '\.sp\(o\|i\)t$',
+"     \ '\.o\(\(pt\|mc\)\)\=$',
+" \ '\.annot$'] " Ignores
+"
+" let NERDTreeAutoDeleteBuffer = 1
+" let NERDTreeMinimalUI = 1
+" let NERDTreeDirArrows = 1
+" let NERDTreeShowHidden = 1  " show hidden dotfiles
+"
+" " Close all open buffers on entering a window if the only
+" " buffer that's left is the NERDTree buffer
+" augroup AutogroupNerdTree
+"   autocmd!
+"   autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
+" augroup END
+"
+" function! s:CloseIfOnlyNerdTreeLeft()
+"   if exists("t:NERDTreeBufName")
+"     if bufwinnr(t:NERDTreeBufName) != -1
+"       if winnr("$") == 1
+"         q
+"       endif
+"     endif
+"   endif
+" endfunction
 " }}}
 
 " rainbow scope {{{

@@ -5,6 +5,9 @@
 # TODO support running only the main executable+gdb
 #TODO should after test run first tome we should watch for file chages and rerun the same precondition if new vimux command is issued recurse
 
+# TODO should be in entr_loop -> vimux send interupt and pass new command
+# TODO build lock
+
 TEST_EXECUTABLE_NAME="thetest"
 
 # if test file
@@ -13,7 +16,7 @@ if [ true ]; then
     local file=$1
   }
 
-  function line_is_test() {
+  function line_is_gtest() {
     local line="$1"
 
     local regEx_TEST_F='^[ \t]*TEST_F\((.+)[ \t]*, (.+)\)'
@@ -42,8 +45,8 @@ if [ true ]; then
 
       path="$(readlink -f $path/..)"
     done
-    #TODO
-    echo "thetest executable was not find"
+
+    echo "thetest executable was not found"
     exit 1
   }
 
@@ -56,7 +59,7 @@ if [ true ]; then
   while IFS='' read -r line || [[ -n "$line" ]]; do
     # TODO count nested levels{} to figure out if we are in root(meaning all tests should run) or that the cursor are inside a test function(meaning only that test should be run(the last in the arrray))
 
-    line_is_test "$line"
+    line_is_gtest "$line"
     if [ $? -eq 0 ]; then
       # echo "./test/thetest --gtest_filter=\"*${BASH_REMATCH[1]}.${BASH_REMATCH[2]}*\""
       # echo "$line_cnt: $line"
@@ -99,6 +102,7 @@ if [ true ]; then
 
   clear
   echo "$command_arg"
+  # TODO eval "$HOME/dotfiles/lib/entr_cpp.sh $command_arg"
   eval "$command_arg"
 
 fi

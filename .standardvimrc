@@ -422,6 +422,7 @@ abbreviate halvf half
 abbreviate namepsace namespace
 abbreviate reutrn return
 abbreviate sucessor successor
+abbreviate changess changes
 
 
 " TODO maybe limit to ft=cpp

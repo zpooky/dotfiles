@@ -8,7 +8,9 @@ source $HOME/dotfiles/lib/entr_shared.sh
 cls
 header
 
-make -C test
+# make -C test
+make -C test -j $(echo $NUMBER_OF_PROCESSORS)
+
 if [ $? -eq 0 ]; then
   ./test/thetest $@
   if [ $? -eq 0 ]; then

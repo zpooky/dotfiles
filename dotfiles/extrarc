@@ -543,6 +543,9 @@ function sp_setup_make_project(){
     git commit -m "Initial Commit"
   fi
   setup_meta
+
+  make
+  make test
 }
 
 function makex() {
@@ -556,40 +559,27 @@ function makex() {
   return ${PIPESTATUS[0]}
 }
 
-function spperf_report(){
+function sp_perf_report(){
   perf report -n --stdio
 }
 
-function spperf(){
+function sp_perf(){
   perf record -F 990 $@
   spperf_report
 }
 
 alias makex="makex | less -RiN -p error"
 
-function sp_make_on_change_entr_or_vanilla() {
-  local BODY="$1"
-  local ARG=${@:2:99}
-
-  sp_has_feature entr
-  if [ $? -eq 0 ]; then
-    ack --cpp -f | entr $BODY $ARG
-  else
-    ack --cpp -f | $HOME/dotfiles/lib/timestamp_make.sh $BODY $ARG
-  fi
-}
-# watch files system forchangess and reload
-alias make_loop="sp_make_on_change_entr_or_vanilla $HOME/dotfiles/lib/entr_make.sh"
-alias test_loop="sp_make_on_change_entr_or_vanilla $HOME/dotfiles/lib/entr_make_test.sh"
+# watch files system for changes and reload
+alias make_loop="$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/entr_make.sh"
+alias test_loop="$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/entr_make_test.sh test"
+# alias cpp_change_loop="$HOME/dotfiles/lib/entr_cpp.sh "
 
 function spooky_ag_grep() {
   ag "$1" --cpp --ignore "external"
 }
 
 alias sp_ag="spooky_ag_grep"
-
-alias sp_perf="spperf $@"
-alias sp_perf_report="spperf_report"
 
 function sp_cryptocurrency(){
   local COIN="$1"
