@@ -56,7 +56,7 @@ install_pkg fakeroot
 install_pkg guake
 install_pkg chromium
 
-# 
+#
 install_pkg firefox
 install_pkg wget
 install_pkg sudo
@@ -72,7 +72,11 @@ install_pkg perf
 install_pkg patch
 
 # compdb adds header to compile db
-pip install --user git+https://github.com/Sarcasm/compdb.git#egg=compdb
+pip2 install --user git+https://github.com/Sarcasm/compdb.git#egg=compdb
+
+#
+pip2 install jedi
+pip3 install jedi
 
 #python formatter
 install_pkg yapf

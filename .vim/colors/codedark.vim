@@ -227,6 +227,14 @@ call <sid>hi('cType', s:cdVSType, {}, 'none', {})
 call <sid>hi('cppType', s:cdVSType, {}, 'none', {})
 " }}}
 
+" java {{{
+call <sid>hi('javaStatement', s:cdViasfora, {}, 'none', {})
+call <sid>hi('javaConditional', s:cdViasfora, {}, 'none', {})
+call <sid>hi('javaRepeat', s:cdViasfora, {}, 'none', {})
+
+call <sid>hi('javaType', s:cdVSType, {}, 'none', {})
+" }}}
+
 " Markdown {{{
 " #List item prefix(-)
 call <sid>hi('mkdListItem', s:cdViasfora, {}, 'bold', {})

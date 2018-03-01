@@ -425,6 +425,10 @@ abbreviate sucessor successor
 abbreviate changess changes
 abbreviate gatter gather
 abbreviate scather scatter
+abbreviate Completly Completely
+abbreviate completly completely
+abbreviate pidgeons pigeons
+abbreviate occopies occupies
 
 " TODO maybe limit to ft=cpp
 abbreviate sizoef sizeof
@@ -436,12 +440,9 @@ abbreviate uint8 uint8_t
 abbreviate uint16 uint16_t
 abbreviate uint32 uint32_t
 abbreviate uint64 uint64_t
-abbreviate nullpt nullptr
-abbreviate nullp nullptr
-abbreviate null nullptr
-
-syntax keyword cppType size_t
-syntax keyword cppType ssize_t
+" abbreviate nullpt nullptr
+" abbreviate nullp nullptr
+" abbreviate null nullptr
 " }}}
 
 set nowrap                        " do not soft wrap long lines

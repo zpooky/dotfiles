@@ -155,6 +155,7 @@ alias sp-min-max="vim $REF_DIR/min-max.md" #TODO
 alias sp-utc-time="vim $REF_DIR/utc-time.md"
 alias sp-sybil-attack="vim $REF_DIR/sybil-attack.md" #TODO
 alias sp-byzantine-generals-problem="vim $REF_DIR/byzantine-generals-problem.md" #TODO
+alias sp-vulkan="vim $REF_DIR/vulkan.md"
 
 # cpp
 CPP_ROOT="$DROPBOX/c"
@@ -163,9 +164,11 @@ CPP_EXAMPLE_MAKEFILE=$CPP_ROOT/Makefile
 CPP_EXAMPLE_TEST_MAKEFILE=$CPP_ROOT/Makefile_test
 
 
+alias sp-cpp="cd $CPP_ROOT"
 alias sp-make="vim $CPP_ROOT/make.md"
 alias cpp-include="vim $CPP_ROOT/cinclude.md"
 alias cpp-volatile="vim $CPP_ROOT/volatile.md"
+alias cpp-concurrency="vim $CPP_ROOT/concurrency.md"
 alias sp-c="vim $CPP_ROOT/c.md"
 alias cpp-gcc="vim $CPP_ROOT/gcc.md"
 alias cpp-make="vim -p $CPP_EXAMPLE_MAKEFILE $CPP_EXAMPLE_TEST_MAKEFILE"
@@ -308,6 +311,8 @@ alias sp-monad="vim $DATA_STRUCTURE_ROOT/monad.txt" #TODO
 
 # notes
 alias sp-cs-nots="vim $REF_DIR/cs-notes.md"
+alias sp-flash-card="vim $REF_DIR/flash-card.md"
+alias sp-twos-complement="vim $REF_DIR/twos-complement.md"
 
 # distributed
 alias sp-acid="vim $REF_DIR/acid.md"   #TODO
@@ -318,6 +323,7 @@ alias sp-dht="vim $REF_DIR/dht.md" #TODO
 alias sp-mvcc="vim $REF_DIR/mvcc.md" #TODO
 
 # new web
+alias sp-new-web="cd $DROPBOX/new-web"
 alias sp-tor="vim $DROPBOX/new-web/tor.md"
 alias sp-ipfs="vim $DROPBOX/new-web/ipfs.md"
 alias sp-dat="vim $DROPBOX/new-web/dat.md"
@@ -437,7 +443,8 @@ alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
 
 # meta alias
 alias sp-alias="vim $DOTFILES/extrarc && source $DOTFILES/extrarc"
-alias sp-vimrc="vim -p  $HOME/.config/nvim/init.vim  $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc /home/spooky/.config/nvim/plugged/chromatica.nvim/syntax/*"
+alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim  $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc"
+# alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim  $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc /home/spooky/.config/nvim/plugged/chromatica.nvim/syntax/*"
 alias vimsession="vim -S Session.vim"
 
 #repeats $1

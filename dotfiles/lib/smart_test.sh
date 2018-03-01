@@ -3,9 +3,6 @@
 # TODO support gdb debug mode
 # TODO support running only the main executable
 # TODO support running only the main executable+gdb
-#TODO should after test run first tome we should watch for file chages and rerun the same precondition if new vimux command is issued recurse
-
-# TODO should be in entr_loop -> vimux send interupt and pass new command
 # TODO build lock
 
 TEST_EXECUTABLE_NAME="thetest"
@@ -123,6 +120,7 @@ if [ true ]; then
   find_test_make "$in_FILE"
 
   clear
+
   echo "$command_arg"
   eval "$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/make_test_body.sh $make_PATH $command_arg"
   # eval "$command_arg"

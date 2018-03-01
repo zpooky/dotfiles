@@ -426,7 +426,19 @@ function! VimuxTest()
   call VimuxSendKeys("C-c")       " abort already running test
   call VimuxRunCommand("sp_test \"" . expand("%:p") . "\" " . line("."))
 endfunction
-noremap <silent> <leader>t <esc>:call VimuxTest()<CR>
+
+function! VimuxTranslate()
+  call VimuxSendKeys("q")
+  let wordUnderCursor = expand("<cword>")
+  call VimuxRunCommand("trans -d :en -v -- \"" . wordUnderCursor . "\"")
+endfunction
+
+augroup AugroupVimux
+  autocmd!
+
+  autocmd FileType c,cpp,objc noremap <silent> <leader>t <esc>:call VimuxTest()<CR>
+  autocmd FileType md,markdown,text noremap <silent> <leader>t <esc>:call VimuxTranslate()<CR>
+augroup END
 " }}}
 
 " {{{
@@ -462,6 +474,8 @@ if has('win32unix') || has('win64unix') || has('win32') || has('win64') || !has(
   " syntax keyword cppSTLnamespace header
   " syntax keyword cppSTLnamespace sp
   " syntax keyword cppSTLnamespace util
+  " syntax keyword cppType size_t
+  " syntax keyword cppType ssize_t
   " }}}
 else
   " Chromatica {{{
