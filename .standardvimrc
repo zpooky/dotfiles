@@ -423,7 +423,8 @@ abbreviate namepsace namespace
 abbreviate reutrn return
 abbreviate sucessor successor
 abbreviate changess changes
-
+abbreviate gatter gather
+abbreviate scather scatter
 
 " TODO maybe limit to ft=cpp
 abbreviate sizoef sizeof

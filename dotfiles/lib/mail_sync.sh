@@ -1,7 +1,6 @@
 #!/bin/bash
 
-
-LOG=/TMP/sync_mail
+LOG=/tmp/sync_mail
 
 date > ${LOG}
 #TODO file lock
@@ -20,8 +19,8 @@ $DOTFILES_LIB/keypass_cron.sh
 
 sleep 2
 
-$DOTFILES_LIB/offlineimap_cron.sh
-$DOTFILES_LIB/vdirsyncer_cron.sh
+source $DOTFILES_LIB/offlineimap_cron.sh
+source $DOTFILES_LIB/vdirsyncer_cron.sh
 
 echo "killing davmail" >> ${LOG}
 kill -15 $DAVMAIL_PID

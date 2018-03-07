@@ -1,7 +1,9 @@
 #!/bin/bash
-source $HOME/.Xdbus 
-OUT=/tmp/sync_offlineimap
 
+# DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+# export DBUS_SESSION_BUS_ADDRESS
+source $HOME/.Xdbus
+OUT=/tmp/sync_offlineimap
 
 # sync
 echo "offlineimap" > $OUT

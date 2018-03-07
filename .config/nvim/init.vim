@@ -12,10 +12,6 @@ else
 endif
 
 " TODO
-" # rtag
-" https://github.com/lyuts/vim-rtags
-" https://github.com/Andersbakken/rtags/
-" https://skebanga.github.io/rtags-with-cmake-in-spacemacs/
 
 " https://github.com/rprichard/sourceweb
 
@@ -208,6 +204,10 @@ else
 endif
 
 " rtags {{{
+" # rtag
+" https://github.com/lyuts/vim-rtags
+" https://github.com/Andersbakken/rtags/
+" https://skebanga.github.io/rtags-with-cmake-in-spacemacs/
 Plug 'lyuts/vim-rtags',programming_cpp
 " disable default mappings
 let g:rtagsUseDefaultMappings = 0

@@ -1,8 +1,29 @@
 # to allow cron jobs to read keyring
-touch $HOME/.Xdbus
-chmod 600 $HOME/.Xdbus
-env | grep DBUS_SESSION_BUS_ADDRESS > $HOME/.Xdbus
-echo 'export DBUS_SESSION_BUS_ADDRESS' >> $HOME/.Xdbus
+function sp_setup_dbus() {
+  local X_dbus=$HOME/.Xdbus
+  if [ ! -e $X_dbus ]; then
+    touch $X_dbus
+    chmod 600 $X_dbus
+  fi
+  local SP_ENV="`env | grep DBUS_SESSION_BUS_ADDRESS`"
+  if [[ $? -eq 0 ]]; then
+    if [[ ! -z $SP_ENV ]]; then
+      echo "$SP_ENV" > $X_dbus
+      echo 'export DBUS_SESSION_BUS_ADDRESS' >> $X_dbus
+    fi
+  fi
+}
+
+# alias
+DOTFILES=$HOME/dotfiles
+DOTFILES_LIB=$DOTFILES/lib
+DROPBOX=$HOME/Dropbox/root
+REF_DIR="$DROPBOX/\[\]ref"
+DROPBOX_LINUX=$REF_DIR/linux
+DROPBOX_NETWORK=$REF_DIR/network
+
+alias sp-open="sp_setup_dbus; $DOTFILES_LIB/keypass_cron.sh; $DOTFILES_LIB/open_keyring.py"
+
 
 # using terminal emulator xterm with 256 color support
 case "$TERM" in
@@ -18,6 +39,10 @@ fi
 CABAL_PACKAGE_BIN=$HOME/.cabal/bin
 if [[ -e $CABAL_PACKAGE_BIN ]]; then
   PATH=$CABAL_PACKAGE_BIN:$PATH
+fi
+
+if [[ ! -z NUMBER_OF_PROCESSORS ]]; then
+  export NUMBER_OF_PROCESSORS=$(nproc --all)
 fi
 
 if [ -z "$LD_LIBRARY_PATH" ]; then
@@ -74,14 +99,6 @@ alias vim="stty stop '' -ixoff; vim "
 export EDITOR='vim'
 export SYSTEMD_EDITOR='vim'
 export VISUAL='vim'
-
-# alias
-DOTFILES=$HOME/dotfiles
-DOTFILES_LIB=$DOTFILES/lib
-DROPBOX=$HOME/Dropbox/root
-REF_DIR="$DROPBOX/\[\]ref"
-DROPBOX_LINUX=$REF_DIR/linux
-DROPBOX_NETWORK=$REF_DIR/network
 
 # device
 alias sp-openwrt="vim $REF_DIR/openwrt.md"
@@ -320,6 +337,7 @@ alias sp-compuverdeutil="vim $REF_DIR/util.md"
 alias sp-proj="cd $DROPBOX/project"
 alias sp-proj-malloc="vim $DROPBOX/project/malloc.md"
 alias sp-proj-datastructure="vim $DROPBOX/project/datastructure.md"
+alias sp-proj-vfio="vim $DROPBOX/project/vfio.md"
 
 # nas540
 alias nas540="sshfs admin@192.168.1.12:/i-data/ $HOME/mount/nas540"
@@ -409,7 +427,6 @@ function sp_port_scan() {
 }
 alias port-scan='sp_port_scan'
 
-alias sp-open="$DOTFILES_LIB/keypass_cron.sh; $DOTFILES_LIB/open_keyring.py"
 alias sp-space="du -hsc *"
 alias sp-root="cd \`$DOTFILES_LIB/git_root.sh\`"
 

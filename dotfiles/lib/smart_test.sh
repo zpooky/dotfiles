@@ -32,10 +32,10 @@ if [ true ]; then
 
   function find_test_executable() {
     local path=$1
-    path="$(dirname $path)"
+    local path="$(dirname $path)"
 
     while [[ "$path" != "/" ]]; do
-      exe_path="$path/$TEST_EXECUTABLE_NAME"
+      local exe_path="$path/$TEST_EXECUTABLE_NAME"
       ls $exe_path >/dev/null 2>&1
 
       if [ $? -eq 0 ]; then
@@ -43,10 +43,30 @@ if [ true ]; then
         return 0
       fi
 
-      path="$(readlink -f $path/..)"
+      local path="$(readlink -f $path/..)"
     done
 
     echo "thetest executable was not found"
+    exit 1
+  }
+
+  function find_test_make() {
+    local path=$1
+    local path="$(dirname $path)"
+
+    while [[ "$path" != "/" ]]; do
+      local make_path="$path/Makefile"
+      ls $make_path >/dev/null 2>&1
+
+      if [ $? -eq 0 ]; then
+        make_PATH="$path"
+        return 0
+      fi
+
+      local path="$(readlink -f $path/..)"
+    done
+
+    echo "Makefile was not found"
     exit 1
   }
 
@@ -100,9 +120,11 @@ if [ true ]; then
   done
   command_arg="${command_arg}\""
 
+  find_test_make "$in_FILE"
+
   clear
   echo "$command_arg"
-  eval "$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/make_test_body.sh test $command_arg"
+  eval "$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/make_test_body.sh $make_PATH $command_arg"
   # eval "$command_arg"
 
 fi

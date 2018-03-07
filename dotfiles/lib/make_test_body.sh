@@ -12,10 +12,11 @@ make_FILE="$1"
 ARG=${@:2:99}
 
 # make -C test
-make -C $make_FILE -j $(echo $NUMBER_OF_PROCESSORS)
+echo "#####make -C $make_FILE -j $(echo $NUMBER_OF_PROCESSORS)"
+make -C $make_FILE # -j $(echo $NUMBER_OF_PROCESSORS)
 
 if [ $? -eq 0 ]; then
-  cls
+  # clear
   # echo "./test/thetest $@"
 
   eval ${ARG[@]}
