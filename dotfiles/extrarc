@@ -313,6 +313,7 @@ alias sp-monad="vim $DATA_STRUCTURE_ROOT/monad.txt" #TODO
 alias sp-cs-nots="vim $REF_DIR/cs-notes.md"
 alias sp-flash-card="vim $REF_DIR/flash-card.md"
 alias sp-twos-complement="vim $REF_DIR/twos-complement.md"
+alias sp-cookie="vim $REF_DIR/cookie.md"
 
 # distributed
 alias sp-acid="vim $REF_DIR/acid.md"   #TODO
@@ -344,6 +345,8 @@ alias sp-proj="cd $DROPBOX/project"
 alias sp-proj-malloc="vim $DROPBOX/project/malloc.md"
 alias sp-proj-datastructure="vim $DROPBOX/project/datastructure.md"
 alias sp-proj-vfio="vim $DROPBOX/project/vfio.md"
+alias sp-proj-conway="vim $DROPBOX/project/conway.md"
+alias sp-proj-consensus="vim $DROPBOX/project/consensus.md"
 
 # nas540
 alias nas540="sshfs admin@192.168.1.12:/i-data/ $HOME/mount/nas540"

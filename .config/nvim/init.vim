@@ -312,6 +312,7 @@ nmap Y <Plug>(operator-flashy)$
 " }}}
 
 " DelimitMate {{{
+" TODO try https://github.com/jiangmiao/auto-pairs
 " Exapnds () {} "" '' []
 Plug 'Raimondi/delimitMate',programming_nhaskell
 

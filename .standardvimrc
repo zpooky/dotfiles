@@ -205,7 +205,8 @@ augroup AutogroupFileSpecific
   autocmd FileType gitcommit,mail setlocal spell
 
   " set file type for files without extension like <atomic>
-  autocmd BufRead,BufNewFile /usr/include/c++/* set syntax=cpp
+  autocmd BufRead,BufNewFile /usr/include/c++/* set ft=cpp
+  autocmd BufRead,BufNewFile /usr/lib/gcc/* set ft=cpp
 
 augroup END
 " }}}
@@ -432,6 +433,12 @@ abbreviate pidgeons pigeons
 abbreviate occopies occupies
 abbreviate Miliseconds Milliseconds
 abbreviate miliseconds milliseconds
+abbreviate exersize exercise
+abbreviate receave receive
+abbreviate algoritm algorithm
+abbreviate propigate propagate
+abbreviate potentily potentially
+abbreviate everythin everything
 
 " TODO maybe limit to ft=cpp
 abbreviate sizoef sizeof
@@ -444,7 +451,8 @@ abbreviate uint16 uint16_t
 abbreviate uint32 uint32_t
 abbreviate uint64 uint64_t
 abbreviate cosnt const
-
+abbreviate asssert assert
+abbreviate treu true
 " abbreviate nullpt nullptr
 " abbreviate nullp nullptr
 " abbreviate null nullptr
