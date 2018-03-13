@@ -77,6 +77,7 @@ pip2 install --user git+https://github.com/Sarcasm/compdb.git#egg=compdb
 #
 pip2 install jedi
 pip3 install jedi
+pip install jedi
 
 #python formatter
 install_pkg yapf
