@@ -464,7 +464,7 @@ function mkdir_cd(){
 alias mcd="mkdir_cd"
 
 SCRATCHPAD_ROOT=$HOME/scratchpad
-function codi(){
+function sp_calc(){
   local CODI_FILE="$SCRATCHPAD_ROOT/calc_`date +'%Y_%m_%d'`.py"
   if [ ! -e $CODI_FILE ]; then
     cp $SCRATCHPAD_ROOT/calc_template $CODI_FILE
@@ -478,7 +478,6 @@ function codi(){
 }
 
 alias sp-calc="cd $SCRATCHPAD_ROOT"
-alias sp_calc="codi"
 
 # ===============================================
 # ===============================================
@@ -491,7 +490,6 @@ alias cpp_fundeclare="$HOME/dotfiles/lib/cpp_function_declare.sh"
 alias cpp_conscall="$HOME/dotfiles/lib/cpp_constructor_call.sh"
 
 alias sp_gdb="$HOME/dotfiles/lib/gdb_tmux_dashboard.sh"
-alias sp_test="$HOME/dotfiles/lib/smart_test.sh"
 alias sp_cmake_compile_db="cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
 
 function setup_ycm(){

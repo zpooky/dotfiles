@@ -9,11 +9,11 @@ make_FILE="$1"
 ARG=${@:2:99}
 
 # make -C test
-TEMP_FILE=`mktemp /tmp/make_test-XXXXXXXX`
+TEMP_file=`mktemp /tmp/make_test-XXXXXXXX`
 echo ""
 echo "compiling..."
-echo "make -C $make_FILE -j $(echo $NUMBER_OF_PROCESSORS) 1>/dev/null 2> $TEMP_FILE"
-make -C $make_FILE -j $(echo $NUMBER_OF_PROCESSORS) 1>/dev/null 2> $TEMP_FILE
+echo "make -C $make_FILE -j $(echo $NUMBER_OF_PROCESSORS) 1>/dev/null 2> $TEMP_file"
+make -C $make_FILE CXXFLAGS=-fdiagnostics-color=always -j $(echo $NUMBER_OF_PROCESSORS) 1>/dev/null 2> $TEMP_file
 RET=$?
 
 cls
@@ -22,7 +22,7 @@ if [ $RET -eq 0 ]; then
   cls
   # echo "./test/thetest $@"
 
-  # eval ${ARG[@]} 1&2> $TEMP_FILE
+  # eval ${ARG[@]} 1&2> $TEMP_file
   cls
   eval ${ARG[@]}
 
@@ -37,7 +37,7 @@ if [ $RET -eq 0 ]; then
   fi
 
 else
-  cat $TEMP_FILE
+  cat $TEMP_file
 
   bad "Compilation FAILED"
   if [ -v "TMUX" ]; then
@@ -45,3 +45,5 @@ else
     # TODO goto first error if in focus?
   fi
 fi
+
+rm $TEMP_file

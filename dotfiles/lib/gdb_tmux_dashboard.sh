@@ -30,8 +30,7 @@ if [ $? -eq 0 ]; then
   fi
 fi
 #---------------------------------------
-TEMP_DIR=`mktemp -d /tmp/tmp.XXXXXXXXXXXXXX`
-FIFO_PIPE=$TEMP_DIR/fifo
+FIFO_PIPE="`mktemp -u /tmp/tmp.XXXXXXXXXXXXXX`"
 # echo $FIFO_PIPE
 
 mkfifo $FIFO_PIPE || exit 1
@@ -42,6 +41,7 @@ mkfifo $FIFO_PIPE || exit 1
 # do not grey out inactive window
 # TODO split window without creating a shell
 
+unset HISTFILE
 BASH_NO_HIST="unset HISTFILE"
 ZSH_NO_HIST="${BASH_NO_HIST}"
 NO_HIST="if [[ \${SHELL} =~ bash$ ]]; then ${BASH_NO_HIST}; else ${ZSH_NO_HIST}; fi"
@@ -113,7 +113,7 @@ if [ -e $BREAKPOINT_FILE ]; then
 fi
 
 #---
-# "history" 
+# "history"
 REGIONS=("assembly" "memory" "registers" "source" "stack" "threads" "expression" "breakpoints")
 
 CONT=1

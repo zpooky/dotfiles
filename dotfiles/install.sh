@@ -32,10 +32,10 @@ fi
 
 # submodules
 start_feature "git submodules"
-git submodule sync --recursive
+git submodule sync --recursive || exit 1
 # recursivly pull in all submodule repos
-git submodule update --init --recursive --remote
-git submodule update --init --recursive
+git submodule update --init --recursive --remote || exit 1
+git submodule update --init --recursive || exit 1
 
 stop_feature "git submodules"
 start_feature "vim"

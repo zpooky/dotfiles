@@ -150,13 +150,14 @@ if has('nvim')
 else
   " turned off in cygwin since these plugins requires compilation
   " if !has('win32unix') && !has('win64unix')
-    " //TODO make work like deoplete
 
     " YouCompleteMe {{{
     " forked YCM for better cpp suggestions
-    Plug '~/.vim/bundle/OblitumYouCompleteMe',programming_cpp
+    Plug '~/.vim/bundle/OblitumYouCompleteMe',programming_nhaskell
+    " ,programming_cpp
+    "
     " vanilla YCM
-    " Plug '~/.vim/bundle/YouCompleteMe',programming_ncpp_nhaskell
+    " Plug '~/.vim/bundle/YouCompleteMe',programming_nhaskell
 
     " YouCompleteMe - Install
     " cd ~/.vim/bundle/YouCompleteMe;./install.sh --clang-completer
@@ -423,12 +424,12 @@ Plug 'benmills/vimux'
 let g:VimuxOrientation = "h"
 let g:VimuxHeight = "26"
 
-function! VimuxTest()
+function! VimuxSpTest()
   call VimuxSendKeys("C-c")       " abort already running test
-  call VimuxRunCommand("sp_test \"" . expand("%:p") . "\" " . line("."))
+  call VimuxRunCommand("$HOME/dotfiles/lib/vim_smart_test.sh \"" . expand("%:p") . "\" " . line("."))
 endfunction
 
-function! VimuxTranslate()
+function! VimuxSpTranslate()
   call VimuxSendKeys("q")
   let wordUnderCursor = expand("<cword>")
   call VimuxRunCommand("trans -d :en -v -- \"" . wordUnderCursor . "\"")
@@ -437,9 +438,30 @@ endfunction
 augroup AugroupVimux
   autocmd!
 
-  autocmd FileType c,cpp,objc noremap <silent> <leader>t <esc>:call VimuxTest()<CR>
-  autocmd FileType md,markdown,text noremap <silent> <leader>t <esc>:call VimuxTranslate()<CR>
+  autocmd FileType c,cpp,objc noremap <silent> <leader>t <esc>:call VimuxSpTest()<CR>
+  autocmd FileType md,markdown,text noremap <silent> <leader>t <esc>:call VimuxSpTranslate()<CR>
 augroup END
+" }}}
+"
+" {{{
+Plug 'joonty/vim-do'
+
+
+function! VimDoSpScript(script)
+  call do#Execute(a:script . " \"" . expand("%:p") . "\" " . line("."),1)
+endfunction
+
+augroup AugroupVimDo
+  autocmd!
+  " command! -nargs=* Do call do#Execute(<q-args>)
+  " command! -nargs=* DoQuietly call do#Execute(<q-args>, 1)
+  " command! -range DoThis call do#ExecuteSelection()
+  "
+  " ~/dotfiles/lib/tmuxgdb/teamcoil_gen.sh ./test/thetest.exe '--gtest_filter="*btree*"'
+  autocmd FileType c,cpp,objc noremap <silent> <leader>g <esc>:call VimDoSpScript("$HOME/dotfiles/lib/vim_gdb.sh")<CR>
+  autocmd FileType c,cpp,objc noremap <silent> <leader>u <esc>:call VimDoSpScript("$HOME/dotfiles/lib/vim_gdb_until.sh")<CR>
+augroup END
+
 " }}}
 
 " {{{

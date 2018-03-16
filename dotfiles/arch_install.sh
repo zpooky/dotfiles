@@ -48,6 +48,14 @@ npm install -g neovim
 pip2 install --user neovim
 pip3 install --user neovim
 
+#tmux
+# https://github.com/remiprev/teamocil
+gem install teamocil
+
+# https://github.com/tmux-python/tmuxp
+# freeze serialized current session layout to a yaml file which can be used by teamocil
+pip install --user tmuxp
+
 #video player
 install_pkg mpv
 install_pkg fakeroot

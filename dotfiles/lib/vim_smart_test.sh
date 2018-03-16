@@ -5,6 +5,8 @@
 # TODO support running only the main executable+gdb
 # TODO build lock
 
+# ./script <cpp_file> <line>
+
 TEST_EXECUTABLE_NAME="thetest"
 
 # if test file
@@ -115,7 +117,7 @@ if [ true ]; then
       command_arg="${command_arg}:${current}"
     fi
   done
-  command_arg="${command_arg}\""
+  command_arg="${command_arg}\" --gtest_color=yes"
 
   find_test_make "$in_FILE"
 
