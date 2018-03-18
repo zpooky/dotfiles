@@ -420,6 +420,7 @@ abbreviate alteres alterers
 abbreviate othwise otherwise
 abbreviate othrwise otherwise
 abbreviate lenght length
+abbreviate lengh length
 abbreviate halvf half
 abbreviate namepsace namespace
 abbreviate reutrn return
@@ -439,6 +440,7 @@ abbreviate algoritm algorithm
 abbreviate propigate propagate
 abbreviate potentily potentially
 abbreviate everythin everything
+abbreviate greather greater
 
 " TODO maybe limit to ft=cpp
 abbreviate sizoef sizeof
