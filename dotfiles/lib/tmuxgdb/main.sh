@@ -69,7 +69,7 @@ echo "r" >> $GDB_CONFIG_file
 
 # cat $GDB_CONFIG_file
 
-echo "gdb --args $gdb_ARG --command=$GDB_CONFIG_file"
+echo "gdb --command="$GDB_CONFIG_file" --args ${gdb_ARG[@]}"
 gdb --command="$GDB_CONFIG_file" --args ${gdb_ARG[@]}
 
 rm $GDB_CONFIG_file

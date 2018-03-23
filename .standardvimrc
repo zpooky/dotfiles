@@ -441,6 +441,9 @@ abbreviate propigate propagate
 abbreviate potentily potentially
 abbreviate everythin everything
 abbreviate greather greater
+abbreviate optomizations optimizations
+abbreviate optomization optimization
+abbreviate referernce reference
 
 " TODO maybe limit to ft=cpp
 abbreviate sizoef sizeof
