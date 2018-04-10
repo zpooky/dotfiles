@@ -29,13 +29,23 @@ set disassembly-flavor intel
 #gdb-dashboard
 source ~/sources/gdb-dashboard/.gdbinit
 
-#gcc pretty printers
+#gcc pretty printers {
 python
 import sys
 sys.path.insert(0, os.environ['HOME']+'/sources/gdb_pp')
 from libstdcxx.v6.printers import register_libstdcxx_printers
 register_libstdcxx_printers (None)
 end
+# }
+
+#clang pretty printers {
+python
+import sys
+sys.path.insert(0, os.environ['HOME']+'/sources/libcxx-pretty-printers/src')
+from libcxx.v1.printers import register_libcxx_printers
+register_libcxx_printers (None)
+end
+# }
 
 # refresh dashboard [gdb hooks]
 # define - a new hook

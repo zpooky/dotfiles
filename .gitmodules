@@ -22,3 +22,6 @@
 [submodule "sources/YCM-Generator"]
 	path = sources/YCM-Generator
 	url = https://github.com/zpooky/YCM-Generator.git
+[submodule "sources/libcxx-pretty-printers"]
+	path = sources/libcxx-pretty-printers
+	url = https://github.com/koutheir/libcxx-pretty-printers.git

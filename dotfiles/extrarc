@@ -108,6 +108,8 @@ alias sp-books="vim $DROPBOX/books.md"
 alias sp-todo="cd ~/Dropbox/term_todo/"
 alias sp-todo-dev="vim ~/Dropbox/term_todo/dev.md"
 alias sp-interview="cd $DROPBOX/interview"
+alias sp-razor="vim $REF_DIR/razor.md"
+alias sp-ISA="vim $REF_DIR/ISA.md"
 
 # misc
 alias sp-dropbox="cd $REF_DIR"
@@ -125,6 +127,7 @@ alias sp-static-dynamic-typing="vim $REF_DIR/static-dynamic-typing.md" #TODO
 alias sp-formal-verification="vim $REF_DIR/formal-verification.md"
 alias sp-crdt="vim $REF_DIR/crdt.md"       #TODO
 alias sp-turing-complete="vim $REF_DIR/turing-complete.md"       #TODO
+alias sp-lambda-calculus="vim $REF_DIR/lambda-calc.md"       #TODO
 
 # editor
 alias sp-eclipse="vim $REF_DIR/eclipse.txt"
@@ -150,12 +153,14 @@ alias sp-firefox="vim $REF_DIR/firefox.md"
 alias sp-chrome="vim $REF_DIR/chrome.md"
 alias sp-zero-sum-game="vim $REF_DIR/zero-sum-game.md" #TODO
 alias sp-game-theory="vim $REF_DIR/game-theory.md" #TODO
-alias sp-pidgeon-hole="vim $REF_DIR/pidgeon-hole.md" #TODO
+alias sp-pidgeon-hole="vim $REF_DIR/pidgeon-hole.md"
 alias sp-min-max="vim $REF_DIR/min-max.md" #TODO
 alias sp-utc-time="vim $REF_DIR/utc-time.md"
 alias sp-sybil-attack="vim $REF_DIR/sybil-attack.md" #TODO
 alias sp-byzantine-generals-problem="vim $REF_DIR/byzantine-generals-problem.md" #TODO
 alias sp-vulkan="vim $REF_DIR/vulkan.md"
+alias sp-certificate-pinning="vim $REF_DIR/certificate_pinning.md"
+alias sp-zeroday="vim $REF_DIR/zeroday.md"
 
 # cpp
 CPP_ROOT="$DROPBOX/c"
@@ -231,6 +236,7 @@ alias sp-gnu-parallel="vim $DROPBOX_LINUX/gnu-parallel.md"
 alias sp-netcat="vim $DROPBOX_LINUX/netcat.md"
 alias sp-term="vim $DROPBOX_LINUX/term.md"
 alias sp-cp="vim $DROPBOX_LINUX/cp.md"
+alias sp-git="vim $DROPBOX_LINUX/git.md"
 
 # linux
 alias sp-linux="cd $DROPBOX_LINUX"
@@ -239,6 +245,7 @@ alias sp-cgroups="vim $REF_DIR/cgroups.md"      #TODO
 alias sp-mutex="vim $DROPBOX_LINUX/mutex.md"    #TODO
 alias sp-signal="vim $DROPBOX_LINUX/signal.md"
 alias sp-systemd="vim $DROPBOX_LINUX/systemd.md"
+alias sp-journalctl="vim $DROPBOX_LINUX/journalctl.md"
 alias sp-load-average="vim $DROPBOX_LINUX/load-average.md"    #TODO
 alias sp-context-switch="vim $DROPBOX_LINUX/context-switch.md"    #TODO
 alias sp-linux-directory-structure="vim $DROPBOX_LINUX/directory-structure.md"
@@ -548,28 +555,33 @@ function sp_setup_make_project(){
   if [ ! "$(ls -A ${PWD})" ]; then
     git init
 
-    TEST_DIRECTORY="test"
-    SRC_DIRECTORY="src"
-    EXTERNAL_DIRECTORY="external"
-    DIRECTORIES=($TEST_DIRECTORY $EXTERNAL_DIRECTORY $SRC_DIRECTORY ".")
-    for DIR in "${DIRECTORIES[@]}"
+    local test_DIR="test"
+    local test_subdir_DIR="$test_DIR/subdir"
+    local src_DIR="src"
+    local src_subdir_DIR="$src_DIR/subdir"
+    local external_DIR="external"
+    local directories=($test_subdir_DIR $external_DIR $src_subdir_DIR)
+    for DIR in "${directories[@]}"
     do
       if [ ! -e $DIR ]; then
-        mkdir $DIR
+        mkdir -p $DIR
       fi
-      touch $DIR/README.md
+      # touch $DIR/README.md
     done
 
     cp $CPP_EXAMPLE_MAKEFILE .
-    cp $CPP_EXAMPLE_TEST_MAKEFILE $TEST_DIRECTORY/Makefile
+    cp $CPP_EXAMPLE_TEST_MAKEFILE $test_DIR/Makefile
     cp "$CPP_STUB/.gitignore" .
-    cp "$CPP_STUB/app.h" $SRC_DIRECTORY
-    cp "$CPP_STUB/app.cpp" $SRC_DIRECTORY
-    cp "$CPP_STUB/main.cpp" $SRC_DIRECTORY
-    cp "$CPP_STUB/AppTest.cpp" $TEST_DIRECTORY
-    cp $HOME/.clang-format $SRC_DIRECTORY
+    cp "$CPP_STUB/app.h" $src_subdir_DIR
+    cp "$CPP_STUB/app.cpp" $src_subdir_DIR
+    cp "$CPP_STUB/main.cpp" $src_DIR
+    cp "$CPP_STUB/AppTest.cpp" $test_subdir_DIR
+    cp "$CPP_STUB/tests.cpp" $test_DIR
+    cp $HOME/.clang-format .
 
-    cd $EXTERNAL_DIRECTORY
+    ln -s src include
+
+    cd $external_DIR
     git submodule add https://github.com/google/googletest.git
     cd -
 
