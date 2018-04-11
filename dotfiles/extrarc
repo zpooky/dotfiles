@@ -294,6 +294,11 @@ alias sp-memory="vim -p $REF_DIR/memory/*"   #TODO
 # type-theory
 alias sp-type-theory="vim -p $REF_DIR/*type*.txt $REF_DIR/variance.txt"   #TODO
 alias sp-sum-type="vim $REF_DIR/sum-type.md"
+alias sp-proposition-as-types="vim $REF_DIR/proposition-as-types.md"
+alias sp-homotopy-type-theory="vim $REF_DIR/homotopy-type-theory.md"
+alias sp-set-theory="vim $REF_DIR/set-theory.md"
+alias sp-y-combinator="vim $REF_DIR/y-combinator.md"
+
 
 # tree
 DATA_STRUCTURE_ROOT=$REF_DIR/data-structure
@@ -603,6 +608,10 @@ function makex() {
   make "$@" 2>&1 | sed -E -e "/[Ee]rror[: ]/ s%$pathpat%$ccred&$ccend%g" -e "/[Ww]arning[: ]/ s%$pathpat%$ccyellow&$ccend%g"
 
   return ${PIPESTATUS[0]}
+}
+
+function sp_rtags() {
+  find -iname "compile_commands.json" | xargs dirname | xargs -n1 rc -J
 }
 
 function sp_perf_report(){

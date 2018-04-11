@@ -444,6 +444,7 @@ abbreviate greather greater
 abbreviate optomizations optimizations
 abbreviate optomization optimization
 abbreviate referernce reference
+abbreviate manny many
 
 " TODO maybe limit to ft=cpp
 abbreviate sizoef sizeof

@@ -100,7 +100,7 @@ if [ ! -e $FEATURE ]; then
   mkdir build && cd build || exit 1
   cmake ..
   if [ $? -eq 0 ]; then
-    make && make install
+    make -j && make install
     RET=$?
 
     # Cleanup afterward; frees several hundred megabytes

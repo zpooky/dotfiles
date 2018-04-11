@@ -83,9 +83,9 @@ install_pkg patch
 pip2 install --user git+https://github.com/Sarcasm/compdb.git#egg=compdb
 
 #
-pip2 install jedi
-pip3 install jedi
-pip install jedi
+pip2 install --user jedi
+pip3 install --user jedi
+pip install --user jedi
 
 #python formatter
 install_pkg yapf
@@ -285,7 +285,7 @@ if [ $? -eq 1 ]; then
   #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-icalendar.tar.gz" || exit 1
   #
   #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/khal.tar.gz"
-  sudo pip3.6 install khal
+  pip3.6 install --user khal
 fi
 
 # # vdirsyncer
@@ -298,7 +298,7 @@ if [ $? -eq 1 ]; then
   #
   #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/vdirsyncer.tar.gz"
 
-  sudo pip3.6 install vdirsyncer
+  pip3.6 install --user vdirsyncer
 fi
 
 # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/libtinfo5.tar.gz"
@@ -315,7 +315,7 @@ fi
 
 has_feature rtv
 if [ $? -eq 1 ]; then
-  sudo pip3.6 install rtv
+  pip3.6 install --user rtv
 fi
 
 has_feature alacritty
