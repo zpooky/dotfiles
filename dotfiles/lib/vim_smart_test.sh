@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# TODO support gdb debug mode
+source $HOME/dotfiles/lib/vimcpp/shared.sh
+
 # TODO support running only the main executable
 # TODO support running only the main executable+gdb
 # TODO build lock
@@ -9,68 +10,39 @@
 
 TEST_EXECUTABLE_NAME="thetest"
 
+in_FILE="${1}"
+in_SEARCH="${2}"
+
 # if test file
 if [ true ]; then
-  function all_test_cases() {
-    local file=$1
-  }
-
-  function line_is_gtest() {
-    local line="$1"
-
-    local regEx_TEST_F='^[ \t]*TEST_F\((.+)[ \t]*, (.+)\)'
-    local regEx_TEST_P='^[ \t]*TEST_P\((.+)[ \t]*, (.+)\)'
-    local regEx_TEST='^[ \t]*TEST\((.+)[ \t]*, (.+)\)'
-    if [[ $line =~ $regEx_TEST || $line =~ $regEx_TEST_P || $line =~ $regEx_TEST_F ]]; then
-      return 0
-    else
-      return 1
-    fi
-
-  }
 
   function find_test_executable() {
     local path=$1
     local path="$(dirname $path)"
 
-    while [[ "$path" != "/" ]]; do
-      local exe_path="$path/$TEST_EXECUTABLE_NAME"
-      ls $exe_path >/dev/null 2>&1
-
-      if [ $? -eq 0 ]; then
-        test_EXECUTABLE="$exe_path"
-        return 0
-      fi
-
-      local path="$(readlink -f $path/..)"
-    done
-
-    echo "thetest executable was not found"
-    exit 1
+    search_path_upwards "${path}" "${TEST_EXECUTABLE_NAME}"
+    if [ $? -eq 0 ]; then
+      test_EXECUTABLE="${search_RESULT}/${TEST_EXECUTABLE_NAME}"
+      return 0
+    else
+      echo "thetest executable was not found"
+      exit 1
+    fi
   }
 
   function find_test_make() {
     local path=$1
     local path="$(dirname $path)"
 
-    while [[ "$path" != "/" ]]; do
-      local make_path="$path/Makefile"
-      ls $make_path >/dev/null 2>&1
-
-      if [ $? -eq 0 ]; then
-        make_PATH="$path"
-        return 0
-      fi
-
-      local path="$(readlink -f $path/..)"
-    done
-
-    echo "Makefile was not found"
-    exit 1
+    search_path_upwards "${path}" "Makefile"
+    if [ $? -eq 0 ]; then
+      make_PATH="$search_RESULT"
+      return 0
+    else
+      echo "Makefile was not found"
+      exit 1
+    fi
   }
-
-  in_FILE=$1
-  in_SEARCH=$2
 
   test_matches=()
 
@@ -78,7 +50,7 @@ if [ true ]; then
   while IFS='' read -r line || [[ -n "$line" ]]; do
     # TODO count nested levels{} to figure out if we are in root(meaning all tests should run) or that the cursor are inside a test function(meaning only that test should be run(the last in the arrray))
 
-    line_is_gtest "$line"
+    is_line_gtest "$line"
     if [ $? -eq 0 ]; then
       # echo "./test/thetest --gtest_filter=\"*${BASH_REMATCH[1]}.${BASH_REMATCH[2]}*\""
       # echo "$line_cnt: $line"
@@ -117,13 +89,22 @@ if [ true ]; then
       command_arg="${command_arg}:${current}"
     fi
   done
-  command_arg="${command_arg}\" --gtest_color=yes"
+  command_arg="${command_arg}\""
 
   find_test_make "$in_FILE"
 
-  clear
+  # clear
 
-  echo "$command_arg"
+  # TODO make entr run in the root where it finds the .git dir
+  # echo "$command_arg"
+  # echo ""
+  # echo ""
+  # echo ""
+  # echo ""
+  # echo "$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/make_test_body.sh $make_PATH $command_arg"
+  # exit 1
+
+  #     <script that detects changes>  <what to execute on change>          <arguements to on chane script>
   eval "$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/make_test_body.sh $make_PATH $command_arg"
   # eval "$command_arg"
 

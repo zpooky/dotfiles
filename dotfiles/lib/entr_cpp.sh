@@ -23,6 +23,7 @@ sp_has_feature entr
 if [ $? -eq 0 ]; then
   ack --cpp -f | entr $BODY $ARG
 else
+  # TODO only watch the files piped in
   ack --cpp -f | $HOME/dotfiles/lib/timestamp_make.sh $BODY $ARG
 fi
 

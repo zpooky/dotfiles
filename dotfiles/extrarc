@@ -128,6 +128,10 @@ alias sp-formal-verification="vim $REF_DIR/formal-verification.md"
 alias sp-crdt="vim $REF_DIR/crdt.md"       #TODO
 alias sp-turing-complete="vim $REF_DIR/turing-complete.md"       #TODO
 alias sp-lambda-calculus="vim $REF_DIR/lambda-calc.md"       #TODO
+alias sp-exponential-growth="vim $REF_DIR/exponential-growth.md"
+
+#sort
+alias sp-sort-selection-sort="vim $REF_DIR/sort/selection-sort.md"
 
 # editor
 alias sp-eclipse="vim $REF_DIR/eclipse.txt"
