@@ -471,6 +471,7 @@ augroup END
 " a.vim {{{
 " toggle between src/header
 Plug 'micbou/a.vim',programming_cpp
+let g:alternateNoDefaultAlternate = 1
 augroup AugroupAVIM
   autocmd!
   " toggle between header and source
