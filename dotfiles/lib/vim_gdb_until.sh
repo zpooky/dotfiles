@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # TODO work with non test
-# TODO do not break on main using until
+# TODO rebuild
+# TODO send until to running gdb
 
 # ./script <cpp_file> <line>
 
@@ -17,20 +18,6 @@ if [ ! $? -eq 0 ]; then
   echo "failed to find gtest in '$in_FILE':'$in_SEARCH'"
   exit 1
 fi
-
-function find_test_executable() {
-  local path=$1
-  local path="$(dirname $path)"
-
-  search_path_upwards "${path}" "${TEST_EXECUTABLE_NAME}"
-  if [ $? -eq 0 ]; then
-    test_EXECUTABLE="${search_RESULT}/${TEST_EXECUTABLE_NAME}"
-    return 0
-  else
-    echo "thetest executable was not found"
-    exit 1
-  fi
-}
 
 find_test_executable "${in_FILE}"
 

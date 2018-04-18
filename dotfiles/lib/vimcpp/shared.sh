@@ -3,6 +3,25 @@
 #==================================================================
 #=======GTEST=Stuff================================================
 #==================================================================
+# arg: path
+# out: 0:true/1:false
+# result: $test_EXECUTABLE
+function find_test_executable() {
+  local path=$1
+  local path="$(dirname $path)"
+
+  search_path_upwards "${path}" "TESTMARKER"
+  if [ $? -eq 0 ]; then
+    local test_MARKER="${search_RESULT}/TESTMARKER"
+    local TEST_EXECUTABLE_NAME=`cat "${test_MARKER}"`
+    test_EXECUTABLE="${search_RESULT}/${TEST_EXECUTABLE_NAME}"
+    return 0
+  else
+    echo "thetest executable was not found"
+    exit 1
+  fi
+}
+# ======
 
 function is_gtest_file() {
   return 0

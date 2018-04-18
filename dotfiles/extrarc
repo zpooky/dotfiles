@@ -129,6 +129,7 @@ alias sp-crdt="vim $REF_DIR/crdt.md"       #TODO
 alias sp-turing-complete="vim $REF_DIR/turing-complete.md"       #TODO
 alias sp-lambda-calculus="vim $REF_DIR/lambda-calc.md"       #TODO
 alias sp-exponential-growth="vim $REF_DIR/exponential-growth.md"
+alias sp-churn="vim $REF_DIR/churn.md"
 
 #sort
 alias sp-sort-selection-sort="vim $REF_DIR/sort/selection-sort.md"
@@ -240,6 +241,7 @@ alias sp-gnu-parallel="vim $DROPBOX_LINUX/gnu-parallel.md"
 alias sp-netcat="vim $DROPBOX_LINUX/netcat.md"
 alias sp-term="vim $DROPBOX_LINUX/term.md"
 alias sp-cp="vim $DROPBOX_LINUX/cp.md"
+alias sp-scp="vim $DROPBOX_LINUX/scp.md"
 alias sp-git="vim $DROPBOX_LINUX/git.md"
 
 # linux
@@ -586,6 +588,7 @@ function sp_setup_make_project(){
     cp "$CPP_STUB/main.cpp" $src_DIR
     cp "$CPP_STUB/AppTest.cpp" $test_subdir_DIR
     cp "$CPP_STUB/tests.cpp" $test_DIR
+    cp "$CPP_STUB/TESTMARKER" $test_DIR
     cp $HOME/.clang-format .
 
     ln -s src include

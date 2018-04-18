@@ -8,27 +8,12 @@ source $HOME/dotfiles/lib/vimcpp/shared.sh
 
 # ./script <cpp_file> <line>
 
-TEST_EXECUTABLE_NAME="thetest"
 
 in_FILE="${1}"
 in_SEARCH="${2}"
 
 # if test file
 if [ true ]; then
-
-  function find_test_executable() {
-    local path=$1
-    local path="$(dirname $path)"
-
-    search_path_upwards "${path}" "${TEST_EXECUTABLE_NAME}"
-    if [ $? -eq 0 ]; then
-      test_EXECUTABLE="${search_RESULT}/${TEST_EXECUTABLE_NAME}"
-      return 0
-    else
-      echo "thetest executable was not found"
-      exit 1
-    fi
-  }
 
   function find_test_make() {
     local path=$1
