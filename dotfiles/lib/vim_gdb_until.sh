@@ -9,9 +9,10 @@
 in_FILE="${1}"
 in_SEARCH="${2}"
 
-TEST_EXECUTABLE_NAME="thetest"
-
 source $HOME/dotfiles/lib/vimcpp/shared.sh
+
+# if test
+if [ 1 -eq 1 ]; then
 
 gtest_for_file_line "$in_FILE" "$in_SEARCH"
 if [ ! $? -eq 0 ]; then
@@ -30,3 +31,5 @@ in_FILENAME=$(basename "${in_FILE}")
 
 # echo "until ${in_FILENAME}:${in_SEARCH}"
 tmux send-keys "until \"${in_FILENAME}:${in_SEARCH}\"" C-m
+
+fi

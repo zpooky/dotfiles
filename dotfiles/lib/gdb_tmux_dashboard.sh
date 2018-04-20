@@ -29,6 +29,23 @@ if [ $? -eq 0 ]; then
     # exit 1
   fi
 fi
+
+# TODO
+# if [ does the "sp_gdb" pane exists? ]
+#  if [is it running gdb] 
+#    tmux-send file exe
+#    tmux-send run
+#  else
+#    setup fifo with existing tmux pane layout
+#  if
+# else
+#  normal
+# fi
+
+# TODO change to
+# 1. setup panes
+# 2. setup fifo
+
 #---------------------------------------
 FIFO_PIPE="`mktemp -u /tmp/tmp.XXXXXXXXXXXXXX`"
 # echo $FIFO_PIPE
@@ -48,7 +65,7 @@ NO_HIST="if [[ \${SHELL} =~ bash$ ]]; then ${BASH_NO_HIST}; else ${ZSH_NO_HIST};
 
 echo "${NO_HIST}"
 
-tmux new-window -n "gdb"
+tmux new-window -n "sp_gdb"
 # tmux set-option window-style 'fg=colour250,bg=black'
 # tmux set-option window-active-style 'fg=colour250,bg=black'
 
