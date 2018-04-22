@@ -449,6 +449,7 @@ abbreviate aight eight
 abbreviate outherwise otherwise
 abbreviate symantics semantics
 abbreviate resutl result
+abbreviate isntead instead
 
 " TODO maybe limit to ft=cpp
 abbreviate sizoef sizeof
