@@ -30,6 +30,8 @@ in_FILENAME=$(basename "${in_FILE}")
 
 
 # echo "until ${in_FILENAME}:${in_SEARCH}"
-tmux send-keys "until \"${in_FILENAME}:${in_SEARCH}\"" C-m
+# tmux send-keys "until \"${in_FILENAME}:${in_SEARCH}\"" C-m
+tmux send-keys "break '${in_FILENAME}':${in_SEARCH}" C-m
+tmux send-keys "c" C-m
 
 fi

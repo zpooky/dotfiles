@@ -448,6 +448,7 @@ abbreviate manny many
 abbreviate aight eight
 abbreviate outherwise otherwise
 abbreviate symantics semantics
+abbreviate resutl result
 
 " TODO maybe limit to ft=cpp
 abbreviate sizoef sizeof

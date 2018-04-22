@@ -284,7 +284,7 @@ Plug 'chrisbra/NrrwRgn',programming
 " ALE {{{
 " framework for displaying warnings & errors in source code
 if !has('win32unix') && !has('win64unix')
-  Plug 'w0rp/ale',programming
+  " Plug 'w0rp/ale',programming
 
   let g:ale_lint_on_enter = 0
 

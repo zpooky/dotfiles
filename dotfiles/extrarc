@@ -627,7 +627,7 @@ function sp_perf_report(){
 
 function sp_perf(){
   perf record -F 990 $@
-  spperf_report
+  # spperf_report
 }
 
 alias makex="makex | less -RiN -p error"
