@@ -80,12 +80,12 @@ function smart_gtest_test_cases() {
     # if we are currently on the searched line
     if [ $in_SEARCH -eq $line_cnt ]; then
       # TODO if [ ! $nested_count -eq 0 ]; then
-      echo "matches ${#test_matches[@]}"
+      # echo "matches ${#test_matches[@]}"
       # if there is more than zero tests
       if [ ${#test_matches[@]} -gt 0 ]; then
         # take the last found test
         test_matches=(${test_matches[-1]})
-        echo "constraint ${test_matches}"
+        # echo "constraint ${test_matches}"
         break
       fi
       # fi
@@ -176,14 +176,43 @@ function search_path_upwards() {
   return 1
 }
 
+function is_cygwin() {
+  if [[ $(uname -s) =~ CYGWIN.* ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 #==================================================================
 #====TMUX==========================================================
 #==================================================================
 
-function is_tmux_window() {
-  local needle="${1}"
+function tmux_new_window(){
+  local name="${1}"
+
+  local tmp_wid=$(mktemp /tmp/tmp.XXXXXXXXXXXXXX -u)
+  local comm="tmux display -p '#{window_id}' > $tmp_wid"
+
+  tmux new-window -n "${name}" "${comm};${SHELL}"
+  if [ ! $? -eq 0 ]; then
+    return 1
+  fi
+
+  while [ ! -e "${tmp_wid}" ]; do
+    sleep 0.1
+  done
+
+  window_id=$(cat ${tmp_wid})
+
+  rm $tmp_wid
   return 0
 }
+
+# function is_tmux_window() {
+#   local needle="${1}"
+#   return 0
+# }
 
 function switch_tmux_window() {
   # an empty session means the current session
@@ -279,9 +308,49 @@ function tmux_send_keys_id() {
 #   # TODO
 # }
 
-function ppid_for_exe() {
-  ppid_out=""
+function ppid_for_pid() {
+  pid="${1}"
+
+  is_cygwin
+  if [ $? -eq 0 ]; then
+
+    str=($(ps -p "${pid}" | tail -1))
+    if [ !  $? -eq 0 ]; then
+      echo "pid is not running"
+      return 1
+    fi
+
+    ppid_out="${str[1]}"
+
+  else
+
+    str=($(ps -p "${pid}" o pid,ppid | tail -1))
+    if [ !  $? -eq 0 ]; then
+      echo "pid is not running"
+      return 1
+    fi
+
+    ppid_out="${str[1]}"
+
+  fi
+  return 0
 }
+
+# function ppid_for_exe() {
+#   local exe="${1}"
+#
+#   pids=($(pgrep "${exe}"))
+#   if [ ! $? -eq 0 ]; then
+#     echo "failed to pgrep"
+#     return 1
+#   fi
+#
+#   if [ ${#pids[@]} -eq 0 ]; then
+#     echo "no running ${exe}"
+#     return 1
+#   fi
+#
+# }
 
 
 # cygwin
@@ -290,12 +359,47 @@ function ppid_for_exe() {
 #       228    7528     228       8756  pty4     1051816 15:19:31 /usr/bin/gdb
 #      7528    4452    7528       7784  pty4     1051816 15:19:30 /usr/bin/zsh
 
-function ppid_for_pid() {
-  ppid_out=""
-}
-
 function pid_for_pane_id() {
-  pid_out=""
+  local pane_id="${1}"
+  local needle="[${pane_id}]"
+
+  local str=$(tmux list-panes -t "${pane_id}" -F "[#{pane_id}] #{pane_pid}")
+  if [ $? -eq 0 ]; then
+    # local str=$(echo ${str} | grep "\[${pane_idx}\]")
+
+    local arr=(${str})
+    local next=false
+    local set=false
+    local id=""
+    for current in "${arr[@]}"; do
+      # echo "${current}:${next}"
+
+      if [ "$next" = true ]; then
+        local result="${current}"
+        local set=true
+        break
+      fi
+
+      if [ "${current}" = "${needle}" ]; then
+        local next=true
+      fi
+    done
+
+    # echo "_${result}_"
+    # echo "|${str}|"
+
+    if [ "$set" = true ]; then
+      pid_out="${result}"
+      return 0
+    else
+      echo "needle: '${needle}' was not found"
+      return 1
+    fi
+
+  else
+    echo "failed to: '${command}'"
+    return 1
+  fi
 }
 
 function tmux_pane_id_for() {
@@ -336,17 +440,29 @@ function tmux_pane_id_for() {
       return 1
     fi
   else
+    echo "fauiled to tmux list-panes"
     return 1
   fi
 }
 
-function is_exe_running_in_pane() {
-  #TODO 
-  # 1. find gdb window and PID for pane 1
-  # 2. find PPID for all *exe*
-    # 2.1 compare pane.PID with exe.PPID
-    # ... profit
+# function pids_for_exe_and_ppid() {
+# # ps aux                                                                                                                    [0][0.0s][]
+# #       PID    PPID    PGID     WINPID   TTY         UID    STIME COMMAND
+# #      8320    1804    8320       5488  pty6     1051816 11:43:37 /home/fredrik/bin/sshpass
+# #       300    1512     300       9696  pty22    1051816 12:00:10 /home/fredrik/bin/vim
+#   local exe="${1}"
+#   local pane_pid="${2}"
+#
+#   is_cygwin
+#   if [ $? -eq 0 ]; then
+#     return 1
+#   else
+#     echo "no linux support"
+#     exit 1
+#   fi
+# }
 
+function is_exe_running_in_pane() {
   local session="${1}"
   local window="${2}"
   local pane_idx="${3}"
@@ -358,29 +474,37 @@ function is_exe_running_in_pane() {
     return 1
   fi
 
+  pid_for_pane_id "${pane_id}"
+  if [ ! $? -eq 0 ]; then
+    echo "failed to get PPID from pid"
+    return 1
+  fi
+  pane_pid="${pid_out}"
 
+  # pids_for_exe_and_ppid "${exe}" "${pane_pid}"
   local pids=($(pgrep "${exe}"))
   if [ ! $? -eq 0 ]; then
     echo "failed to pgrep: ${exe}"
     return 1
   fi
 
-  if [ ${#pids[@]} -eq 0 ]; then
-    echo "did not find any pids for ${exe}"
-    return 1
-  fi
+  pids_cnt=${#pids[@]}
+  # if [ ! ${pids_cnt} -eq 1 ]; then
+  #   echo "'${pids_cnt}' is not 1, exe: '${exe}' ppid: '${pane_id}'"
+  #   return 1
+  # fi
 
-  pid_for_pane_id "${pane_id}"
-  if [ ! $? -eq 0 ]; then
-    echo "failed to get PPID from pid"
+  if [ ${pids_cnt} -eq 0 ]; then
+    echo "number of pids: '${pids_cnt}', exe: '${exe}' ppid: '${pane_id}'"
     return 1
   fi
 
   for pid in "${pids[@]}"; do
     ppid_for_pid "${pid}"
     if [ $? -eq 0 ]; then
-      if [ "$ppid" = "$pid" ]; then
-        echo "pid: ${pid} match"
+      # echo  "${ppid_out} = ${pane_pid}"
+      if [ "${ppid_out}" = "${pane_pid}" ]; then
+        # echo "pid: ${pid} match"
         return 0
       fi
     fi
@@ -416,6 +540,10 @@ function is_exe_running_in_pane() {
 }
 
 function is_sp_gdb_running() {
-  pane_idx="1"
-  is_exe_running_in_pane "" "sp_gdb" "${pane_idx}" "$(which gdb)"
+  local session=""
+  local window="sp_gdb"
+  local pane_idx="1"
+  # TODO will not work when it is aliased
+  local exe="$(which gdb)"
+  is_exe_running_in_pane "${session}" "${window}" "${pane_idx}" "${exe}"
 }
