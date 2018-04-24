@@ -104,32 +104,32 @@ if [ ! $? -eq 0 ]; then
   echo "failed to spawn window"
 fi
 
-tmux set-option -t ${window_id} window-style 'fg=colour250,bg=black'
-tmux set-option -t ${window_id} window-active-style 'fg=colour250,bg=black'
+# tmux set-option -t ${window_id} window-style 'fg=colour250,bg=black'
+# tmux set-option -t ${window_id} window-active-style 'fg=colour250,bg=black'
 
 # echo "m+te" # [memory][threads,expression]
-pipe_tty "memory_TTY" ${FIFO_pipe}
-tmux split-window -v -p 15 -t ${window_id} "${pipe_cmd}"
+pipe_tty "memory_TTY" "${FIFO_pipe}"
+tmux split-window -v -p 15 -t "${window_id}" "${pipe_cmd}" || exit 1
 
 # echo "s" # [source][assembly
-pipe_tty "source_TTY" ${FIFO_pipe}
-tmux split-window -h -p 55 -t "${window_id}.1" "${pipe_cmd}"
+pipe_tty "source_TTY" "${FIFO_pipe}"
+tmux split-window -h -p 55 -t "${window_id}.1" "${pipe_cmd}" || exit 1
 
 # echo "r+b" # [registers]
-pipe_tty2 "registers_TTY" "breakpoints_TTY" ${FIFO_pipe}
-tmux split-window -h -p 20 -t ${window_id} "${pipe_cmd}"
+pipe_tty2 "registers_TTY" "breakpoints_TTY" "${FIFO_pipe}"
+tmux split-window -h -p 20 -t "${window_id}" "${pipe_cmd}" || exit 1
 
 # echo "a" # [assembly]
-pipe_tty "assembly_TTY" ${FIFO_pipe}
-tmux split-window -v -p 25 -t "${window_id}.2" "${pipe_cmd}"
+pipe_tty "assembly_TTY" "${FIFO_pipe}"
+tmux split-window -v -p 25 -t "${window_id}.2" "${pipe_cmd}" || exit 1
 
 # echo "s+h" # [stack,history]
-pipe_tty2 "history_TTY" "stack_TTY" ${FIFO_pipe}
-tmux split-window -v -t "${window_id}.1" "${pipe_cmd}"
+pipe_tty2 "history_TTY" "stack_TTY" "${FIFO_pipe}"
+tmux split-window -v -t "${window_id}.1" "${pipe_cmd}" || exit 1
 
 # echo "t+e" # [threads,expression]
-pipe_tty2 "threads_TTY" "expression_TTY" ${FIFO_pipe}
-tmux split-window -h -t "${window_id}.6" "${pipe_cmd}"
+pipe_tty2 "threads_TTY" "expression_TTY" "${FIFO_pipe}"
+tmux split-window -h -t "${window_id}.6" "${pipe_cmd}" || exit 1
 #---------------------
 
 # gdb!!
