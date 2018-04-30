@@ -1,11 +1,11 @@
 #!/bin/bash
 
-SOURCE_FILES=()
-EXECUTER_FILE="$1"
-ARG=${@:2:99}
+source_files=()
+executer_file="$1"
+args=${@:2:99}
 
-if [ ! -e "$EXECUTER_FILE" ]; then
-  echo "missing executor '${EXECUTER_FILE}'"
+if [ ! -e "$executer_file" ]; then
+  echo "missing executor '${executer_file}'"
   exit 1
 fi
 
@@ -18,18 +18,20 @@ if [ -p /dev/stdin ]; then
     else
       if [[ ! ${file} =~ ^external.* ]]; then
         # echo "$file"
-        SOURCE_FILES+=("${file}")
+        source_files+=("${file}")
       fi
     fi
 
   done
 else
   echo "No piped files"
-  return 1
+  exit 1
 fi
 
+# echo "${source_files[@]}"
+
 MOD_DATE=()
-SOURCE_LENGTH=${#SOURCE_FILES[@]}
+SOURCE_LENGTH=${#source_files[@]}
 SLEEP_SEC=1
 
 if [ $SOURCE_LENGTH -eq 0 ]; then
@@ -44,7 +46,7 @@ while [ true ]; do
 
   COUNTER=0
   while [ $COUNTER -lt $SOURCE_LENGTH ]; do
-    file="${SOURCE_FILES[$COUNTER]}"
+    file="${source_files[$COUNTER]}"
     # echo "${file}"
 
     # %Y - Time of last modification as seconds since Epoch
@@ -55,7 +57,7 @@ while [ true ]; do
 
       if [ ${#MOD_DATE[@]} -eq $SOURCE_LENGTH ]; then
         if [ ${NEW_DATE} -gt ${MOD_DATE[$COUNTER]} ]; then
-          # echo "$file is changed"
+          echo "$file is changed"
           REBUILD=true
         fi
         MOD_DATE[$COUNTER]=$NEW_DATE
@@ -75,7 +77,7 @@ while [ true ]; do
   if [ $REBUILD = true ]; then
     echo "should rebuild"
     # echo "-----------------"
-    $EXECUTER_FILE $ARG
+    $executer_file $args
     SLEEP_SEC=1
     REBUILD=false
   else

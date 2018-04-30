@@ -184,6 +184,24 @@ function is_cygwin() {
   fi
 }
 
+function has_feature() {
+  local feature="$1"
+
+  which $feature > /dev/null 2>&1
+  local which_feature=$?
+
+  hash $feature > /dev/null 2>&1
+  local hash_feature=$?
+
+  if [ $which_feature -eq $hash_feature ]; then
+    if [ $which_feature -eq 0 ]; then
+      return 0
+    fi
+  fi
+
+  return 1
+}
+
 #==================================================================
 #====TMUX==========================================================
 #==================================================================
