@@ -40,10 +40,14 @@ end
 
 #clang pretty printers {
 python
-import sys
-sys.path.insert(0, os.environ['HOME']+'/sources/libcxx-pretty-printers/src')
-from libcxx.v1.printers import register_libcxx_printers
-register_libcxx_printers (None)
+try:
+  import sys
+  sys.path.insert(0, os.environ['HOME']+'/sources/libcxx-pretty-printers/src')
+  from libcxx.v1.printers import register_libcxx_printers
+  register_libcxx_printers (None)
+except:
+  pass
+
 end
 # }
 

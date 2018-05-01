@@ -195,7 +195,7 @@ fi
 
 # misc
 install_pkg pkg-config
-install_pkg keepassxc
+install_pkg keepass
 install_pkg cscope
 
 has_feature ipfs
