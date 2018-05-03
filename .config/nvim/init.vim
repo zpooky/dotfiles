@@ -409,11 +409,15 @@ augroup END
 " repl based on content from current file
 Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
 
-let g:codi#interpreters = {
-      \ 'python': {
-      \ 'bin': 'python3',
-      \ },
-      \ }
+" let g:codi#interpreters = {
+"       \ 'python': {
+"       \ 'bin': 'python3',
+"       \ },
+"       \ }
+
+" " delay refresh
+" let g:codi#autocmd = 'InsertLeave'
+
 " # vim             command
 " Codi [filetype] - activates Codi
 " Codi!           - deactivates Codi
