@@ -129,6 +129,7 @@ alias sp-crdt="vim $REF_DIR/crdt.md"       #TODO
 alias sp-turing-complete="vim $REF_DIR/turing-complete.md"       #TODO
 alias sp-lambda-calculus="vim $REF_DIR/lambda-calc.md"       #TODO
 alias sp-exponential-growth="vim $REF_DIR/exponential-growth.md"
+alias sp-factorial="vim $REF_DIR/factorial.md"
 alias sp-churn="vim $REF_DIR/churn.md"
 alias sp-bitwise="vim $REF_DIR/bitwise.md"
 alias sp-graph="vim $REF_DIR/graph.md"
