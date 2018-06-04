@@ -1,3 +1,4 @@
+#!/bin/bash
 source $HOME/dotfiles/shared.sh
 
 p() {
@@ -172,10 +173,12 @@ if [ $? -eq 1 ]; then
   install ghc || exit 1
   install ghc-static || exit 1
 fi
+
 has_feature cabal
 if [ $? -eq 1 ]; then
   install cabal-install || exit 1
 fi
+cabal install spellcheck
 
 install_pkg xterm
 has_feature zsh

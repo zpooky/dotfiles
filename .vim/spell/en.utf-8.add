@@ -18,3 +18,4 @@ TX
 uint16
 uint8
 PRNG
+dtor

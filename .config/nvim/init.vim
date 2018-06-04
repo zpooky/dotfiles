@@ -285,6 +285,7 @@ Plug 'chrisbra/NrrwRgn',programming
 " framework for displaying warnings & errors in source code
 if !has('win32unix') && !has('win64unix')
   " Plug 'w0rp/ale',programming
+  Plug 'w0rp/ale',{'for':'bash','sh'}
 
   let g:ale_lint_on_enter = 0
 
@@ -827,9 +828,20 @@ let g:colorizer_colornames_disable = 1
 
 " {{{
 Plug 'zpooky/tabline.vim'
-
 " }}}
 
+" {{{
+Plug 'adelarsq/vim-matchit', { 'for':['tex','html'] }
+" To support % between \begin{} and \end{} in LaTeX
+" }}}
+
+" {{{
+Plug 'xuhdev/vim-latex-live-preview',{'for':'tex'}
+" https://wiki.gnome.org/Apps/Evince
+" https://okular.kde.org/
+
+" :LLPStartPreview
+" }}}
 call plug#end()
 " }}}
 

@@ -109,6 +109,10 @@ alias sp-todo="cd ~/Dropbox/term_todo/"
 alias sp-todo-dev="vim ~/Dropbox/term_todo/dev.md"
 alias sp-interview="cd $DROPBOX/interview"
 alias sp-razor="vim $REF_DIR/razor.md"
+alias sp-occams-razor="sp-razor"
+alias sp-hanlon-razor="sp-razor"
+alias sp-murphys-law="sp-razor"
+alias sp-dunning–kruger="sp-razor"
 alias sp-ISA="vim $REF_DIR/ISA.md"
 
 # misc
@@ -130,6 +134,7 @@ alias sp-turing-complete="vim $REF_DIR/turing-complete.md"       #TODO
 alias sp-lambda-calculus="vim $REF_DIR/lambda-calc.md"       #TODO
 alias sp-exponential-growth="vim $REF_DIR/exponential-growth.md"
 alias sp-factorial="vim $REF_DIR/factorial.md"
+alias sp-pow="vim $REF_DIR/pow.md"
 alias sp-churn="vim $REF_DIR/churn.md"
 alias sp-bitwise="vim $REF_DIR/bitwise.md"
 alias sp-graph="vim $REF_DIR/graph.md"
@@ -155,6 +160,7 @@ alias sp-vimscript="vim $REF_DIR/vimscript.md"
 alias sp-tls="vim $REF_DIR/tls2.md"
 alias sp-bitcoin="vim $REF_DIR/bitcoin.md"    #TODO
 alias sp-markdown="vim $REF_DIR/linux/markdown.md"
+alias sp-latex="vim $REF_DIR/linux/latex.md"
 alias sp-character="vim -p $REF_DIR/character/*.txt"
 alias sp-utf="vim $REF_DIR/character/utf.md" #TODO
 alias sp-firefox="vim $REF_DIR/firefox.md"
@@ -169,6 +175,7 @@ alias sp-byzantine-generals-problem="vim $REF_DIR/byzantine-generals-problem.md"
 alias sp-vulkan="vim $REF_DIR/vulkan.md"
 alias sp-certificate-pinning="vim $REF_DIR/certificate_pinning.md"
 alias sp-zeroday="vim $REF_DIR/zeroday.md"
+alias sp-taxonomy="vim $REF_DIR/taxonomy.md"
 
 # cpp
 CPP_ROOT="$DROPBOX/c"
@@ -323,10 +330,12 @@ alias sp-tree-lsm="vim $DATA_STRUCTURE_ROOT/tree-lsm.md"
 alias sp-tree-trie="vim $DATA_STRUCTURE_ROOT/tree-trie.md"
 alias sp-tree-radix-tree="vim $DATA_STRUCTURE_ROOT/tree-trie.md"
 alias sp-tree-hat-trie="vim $DATA_STRUCTURE_ROOT/tree-hat-trie.md"
+alias sp-tree-splay="vim $DATA_STRUCTURE_ROOT/tree-splay.md"
 
 # data structures
 alias sp-bloom-filter="vim $DATA_STRUCTURE_ROOT/bloom-filter.md"
 alias sp-monad="vim $DATA_STRUCTURE_ROOT/monad.txt" #TODO
+alias sp-hashmap="vim $DATA_STRUCTURE_ROOT/hashmap.md"
 
 # notes
 alias sp-cs-nots="vim $REF_DIR/cs-notes.md"
@@ -334,7 +343,6 @@ alias sp-flash-card="vim $REF_DIR/flash-card.md"
 alias sp-twos-complement="vim $REF_DIR/twos-complement.md"
 alias sp-cookie="vim $REF_DIR/cookie.md"
 alias sp-propaganda="vim $REF_DIR/propaganda.md"
-alias sp-dunning-kruger_effect="vim $REF_DIR/dunning-kruger_effect.md"
 alias sp-vpn="vim $REF_DIR/vpn.md"
 
 # distributed
@@ -638,6 +646,16 @@ alias makex="makex | less -RiN -p error"
 # watch files system for changes and reload
 alias make_loop="$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/make_body.sh"
 alias test_loop="$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/make_test_body.sh test ./test/thetest"
+# function sp_entr(){
+#   //....
+#   sp_has_feature "entr"
+#   if [ $? -eq 0 ]; then
+#     cat $TEMP_file | entr $BODY $ARG
+#   else
+#     cat $TEMP_file | $HOME/dotfiles/lib/timestamp_make.sh $BODY $ARG
+#   fi
+#
+# }
 # alias cpp_change_loop="$HOME/dotfiles/lib/entr_cpp.sh "
 
 function spooky_ag_grep() {
