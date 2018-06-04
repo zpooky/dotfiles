@@ -342,3 +342,12 @@ has_feature shfmt
 if [ $? -eq 1 ]; then
   yaourt -S shfmt
 fi
+
+
+has_feature bibtex
+if [ $? -eq 1 ]; then
+  install_pkg texlive-bin
+  install_pkg texlive-core
+  install_pkg texlive-bibtexextra
+  install_pkg texlive-latexextra
+fi
