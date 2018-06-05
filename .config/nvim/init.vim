@@ -285,7 +285,13 @@ Plug 'chrisbra/NrrwRgn',programming
 " framework for displaying warnings & errors in source code
 if !has('win32unix') && !has('win64unix')
   " Plug 'w0rp/ale',programming
-  Plug 'w0rp/ale',{'for':'bash','sh'}
+  Plug 'w0rp/ale',{'for':'bash','sh','tex','markdown'}
+  " # Prose
+  " - https://github.com/amperser/proselint/
+  " - https://github.com/redpen-cc/redpen
+  " - https://github.com/btford/write-good
+  "
+  " standalone: https://github.com/languagetool-org/languagetool
 
   let g:ale_lint_on_enter = 0
 
