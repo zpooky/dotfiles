@@ -179,7 +179,8 @@ set timeoutlen=1000 ttimeoutlen=0
 set list                              " show special chars, such as tab: eol: trail: extends: nbsp:
 
 " chars to show for blank characters
-set listchars=tab:·»
+set listchars=tab:\ \ 
+" set listchars+=tab:·»
 " set listchars+=eol:¬
 set listchars+=trail:·
 set listchars+=nbsp:+
@@ -199,8 +200,8 @@ augroup AutogroupFileSpecific
 
   " type specific settings
   " autocmd FileType markdown,python setlocal ts=2 sw=2 expandtab
-  autocmd FileType gitcommit,markdown,text,mail setlocal textwidth=80
-  autocmd FileType gitcommit,markdown,text,mail setlocal colorcolumn=-1   " display bar at textwidth
+  autocmd FileType gitcommit,markdown,text,mail,tex setlocal textwidth=80
+  autocmd FileType gitcommit,markdown,text,mail,tex setlocal colorcolumn=-1   " display bar at textwidth
   autocmd FileType gitcommit,markdown,text,mail setlocal complete+=kspell
 " enable spelling for these types
   autocmd FileType gitcommit,mail setlocal spell
@@ -466,6 +467,37 @@ iab responsiblity responsibility
 iab supossed supposed
 iab deapth depth
 iab beahvior behaviour
+iab realying relaying
+iab exclusivly exclusively
+iab whith with
+iab reslease release
+iab theire their
+iab thier their
+iab Investiaged Investigated
+iab investiaged investigated
+iab decentrialized decentralized
+iab intrest interest
+iab instreast interest
+iab intresting interesting
+iab effecivly effectively
+iab wil will
+iab experiance experiance
+iab develping developing
+iab greate great
+iab considor consider
+iab abbeility ability
+iab algorihms algorithms 
+iab postion postion 
+iab avialable available
+iab moddeling modelling
+iab curomstances circumstances
+iab expirement experiment
+iab toughts toughs
+iab effectivly effectively
+iab considuration consideration
+iab clousre closure
+iab createing creating
+iab resullt result
 
 iab Acsending Ascending
 iab acsending ascending

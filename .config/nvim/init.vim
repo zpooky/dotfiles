@@ -285,7 +285,7 @@ Plug 'chrisbra/NrrwRgn',programming
 " framework for displaying warnings & errors in source code
 if !has('win32unix') && !has('win64unix')
   " Plug 'w0rp/ale',programming
-  Plug 'w0rp/ale',{'for':'bash','sh','tex','markdown'}
+  Plug 'w0rp/ale',{'for':['bash','sh','tex','markdown']}
   " # Prose
   " - https://github.com/amperser/proselint/
   " - https://github.com/redpen-cc/redpen
@@ -842,7 +842,7 @@ Plug 'adelarsq/vim-matchit', { 'for':['tex','html'] }
 " }}}
 
 " {{{
-Plug 'xuhdev/vim-latex-live-preview',{'for':'tex'}
+Plug 'xuhdev/vim-latex-live-preview',{'for':['tex','plaintex']}
 " https://wiki.gnome.org/Apps/Evince
 " https://okular.kde.org/
 
@@ -882,7 +882,7 @@ endif
 
 
 " Generic Writing {{{
-" let g:languagetool_jar  = '/opt/languagetool/languagetool-commandline.jar'
+let g:languagetool_jar  = "$HOME/bin/LanguageTool/languagetool-commandline.jar"
 " }}}
 
 " gdb {{{

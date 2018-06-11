@@ -57,6 +57,10 @@ gem install teamocil
 # freeze serialized current session layout to a yaml file which can be used by teamocil
 pip install --user tmuxp
 
+#spelling
+pip install --user proselint
+yaourt -S redpen
+
 #video player
 install_pkg mpv
 install_pkg fakeroot
@@ -351,3 +355,8 @@ if [ $? -eq 1 ]; then
   install_pkg texlive-bibtexextra
   install_pkg texlive-latexextra
 fi
+
+install_pkg bison
+install_pkg flex
+install_pkg linux-headers
+install_pkg strace
