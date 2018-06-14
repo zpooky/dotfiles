@@ -26,6 +26,10 @@ set print array-indexes on
 #
 set disassembly-flavor intel
 
+#
+add-auto-load-safe-path ~/sources/linux-shallow
+add-auto-load-safe-path ~/sources/linux
+
 #gdb-dashboard
 source ~/sources/gdb-dashboard/.gdbinit
 

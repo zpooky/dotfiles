@@ -10,6 +10,8 @@ function find_test_executable() {
   local path=$1
   local path="$(dirname $path)"
 
+  echo "path: ${path}"
+
   search_path_upwards "${path}" "TESTMARKER"
   if [ $? -eq 0 ]; then
     local test_MARKER="${search_RESULT}/TESTMARKER"
