@@ -270,6 +270,9 @@ alias sp-tty="vim $DROPBOX_LINUX/tty.md"
 alias sp-write-to-file="vim $DROPBOX_LINUX/write-to-file.md"
 alias sp-pacman="vim $DROPBOX_LINUX/pacman.md"
 
+# linux dev
+alias sp-linux-dev="vim $REF_DIR/linux-dev.md"
+
 #fs
 alias sp-ssd="vim $REF_DIR/fs/ssd.md"
 
