@@ -350,9 +350,9 @@ nmap <leader>= <esc>:TCommentBlock<CR>
 
 " disable all default mappings
 " let g:tcommentMaps = 0
-let g:tcommentMapLeaderUncommentAnyway = ''
-let g:tcommentMapLeaderCommentAnyway = ''
-let g:tcommentMapLeaderOp1 = 'gc'
+let g:tcomment_mapleader_uncomment_anyway = ''
+let g:tcomment_mapleader_comment_anyway= ''
+let g:tcomment_opleader1 = 'gc'
 
 " Tcomment visual
 vmap <leader>c :TComment<CR>
