@@ -25,6 +25,11 @@ mkfifo $FIFO_pipe || exit 1
 linux_root="${HOME}/sources/linux-shallow"
 vmlinux="${linux_root}/vmlinux"
 
+if [ ! -e "${vmlinux}" ]; then
+  echo "${vmlinux} does not not exist"
+  exit 1
+fi
+
 source $HOME/dotfiles/lib/vimcpp/shared.sh
 
 function pipe_tty() {
@@ -80,6 +85,7 @@ tmux split-window -h -t "${window_id}.6" "${pipe_cmd}" || exit 1
 #---------------------
 
 # gdb!!
+tmux send-keys -t "${window_id}.1" "cd ${linux_root}" C-m
 tmux send-keys -t "${window_id}.1" "gdb ${vmlinux}" C-m
 
 #---configure-dashboard------------------
