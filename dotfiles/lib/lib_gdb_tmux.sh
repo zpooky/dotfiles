@@ -1,23 +1,7 @@
 #!/bin/bash
-# function run() {
-#   local linux_root="/home/spooky/sources/linux-shallow"
-#   local vmlinux="${linux_root}/vmlinux"
-#   gdb "${vmlinux}"
-# }
-#
-# run
-
-the_port="1234"
-the_ip_port="localhost:${the_port}"
-
-ss -l --tcp --numeric | grep "0.0.0.0:${the_port}"
-if [ ! $? -eq 0 ]; then
-  echo "not listening on port: ${the_port}"
-  exit 1
-fi
 
 working_dir="$(mktemp -d /tmp/sp_gdb.XXXXXXXXXXXXXX)"
-FIFO_pipe="`mktemp -u ${working_dir}/pipe.XXXXXXXXXXXXXX`"
+FIFO_pipe="$(mktemp -u ${working_dir}/pipe.XXXXXXXXXXXXXX)"
 # echo $FIFO_pipe
 
 mkfifo $FIFO_pipe || exit 1
@@ -89,9 +73,24 @@ tmux send-keys -t "${window_id}.1" "dashboard assembly -style context 6" C-m
 tmux send-keys -t "${window_id}.1" "dashboard stack -style locals True" C-m
 tmux send-keys -t "${window_id}.1" "dashboard stack -style limit 1" C-m
 tmux send-keys -t "${window_id}.1" 'dashboard -style syntax_highlighting "monokai"' C-m
+# dashboard -style syntax_highlighting "paraiso-dark"
+
+breakpoint_FILE='.gdb_breakpoints'
+grep "^break main$" "$breakpoint_FILE"
+if [ ! $? -eq 0 ]; then
+  tmux send-keys -t "${window_id}.1" "b main" C-m
+fi
+
+# save breakpoints to file
+# >>> save breakpoints .gdb_breakpoints
+# load breakpoints from file
+# >>> source .gdb_breakpoints
+if [ -e $breakpoint_FILE ]; then
+  tmux send-keys -t "${window_id}.1" "source $breakpoint_FILE" C-m
+fi
 
 #---
-# history
+# "history"
 REGIONS=("assembly" "memory" "registers" "source" "stack" "threads" "expression" "breakpoints")
 
 CONT=1
@@ -114,9 +113,6 @@ for REGION in "${REGIONS[@]}"; do
   tmux send-keys -t "${window_id}.1" "dashboard ${REGION}    -output $REGION_TTY" C-m
 done
 
-#
-tmux send-keys -t "${window_id}.1" "lx-symbols" C-m
-tmux send-keys -t "${window_id}.1" "target remote ${the_ip_port}" C-m
-
 # gdb run!
+tmux send-keys -t "${window_id}.1" "r" C-m
 tmux select-pane -t "${window_id}.1"
