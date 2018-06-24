@@ -36,6 +36,16 @@ screenfetch
 
 install_pkg vim
 
+has_feature package-query
+if [ $? -eq 1 ]; then
+  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz"
+fi
+
+has_feature yaourt
+if [ $? -eq 1 ]; then
+  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz"
+fi
+
 #nvim
 has_feature nvim
 if [ $? -eq 1 ]; then
@@ -210,11 +220,6 @@ if [ $? -eq 1 ]; then
   yaourt -S go-ipfs
 fi
 
-has_feature package-query
-if [ $? -eq 1 ]; then
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz"
-fi
-
 has_feature light
 if [ $? -eq 1 ]; then
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/light.tar.gz"
@@ -230,11 +235,6 @@ fi
 has_feature spotify
 if [ $? -eq 1 ]; then
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/spotify.tar.gz"
-fi
-
-has_feature yaourt
-if [ $? -eq 1 ]; then
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz"
 fi
 
 has_feature lbdb-fetchaddr
