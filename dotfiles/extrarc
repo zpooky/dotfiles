@@ -93,7 +93,7 @@ fi
 # Enable aliases to be used when sudoing
 alias sudo='sudo '
 
-# disable xterm ctrl+S XON XOFF signal for
+# disable xterm ctrl+S XON XOFF signal
 alias vim="stty stop '' -ixoff; vim "
 
 export EDITOR='vim'
@@ -113,7 +113,59 @@ alias sp-occams-razor="sp-razor"
 alias sp-hanlon-razor="sp-razor"
 alias sp-murphys-law="sp-razor"
 alias sp-dunning–kruger="sp-razor"
-alias sp-ISA="vim $REF_DIR/ISA.md"
+
+function sp_cpu_alias() {
+  local isa="$REF_DIR/ISA.md"
+  local microarchitecture="$REF_DIR/microarchitecture.md"
+  local risc="$REF_DIR/risc.md"
+  local cisc="$REF_DIR/cisc.md"
+  local opcode="$REF_DIR/opcode.md"
+  local cpu="$REF_DIR/cpu.md"
+  local machine_code="$REF_DIR/machine_code.md"
+  local asm="$REF_DIR/linux/asm.md"
+  local dma="$REF_DIR/dma.md"
+
+
+  # CPU
+  alias sp-cpu="vim -p ${cpu} ${isa} ${microarchitecture} ${risc} ${cisc} ${opcode} ${machine_code} ${asm} ${dma}"
+  alias sp-ISA="vim ${isa}"
+  alias sp-microarchitecture="vim ${microarchitecture}"
+  alias sp-risc="vim ${risc}"
+  alias sp-cisc="vim ${cisc}"
+  alias sp-opcode="vim ${opcode}"
+  alias sp-machine-code="vim ${machine_code}"
+  alias sp-asm="vim ${asm}"
+  alias sp-dma="vim ${dma}"    #TODO
+}
+
+sp_cpu_alias
+
+function sp_memory_alias() {
+  local io_mmu="$REF_DIR/memory/io-mmu.md"
+
+  local virtual_memory="$REF_DIR/memory/virtual-memory.md"
+  local cpu_cache="$REF_DIR/memory/cpu-cache.md"
+  local tlb="$REF_DIR/memory/cpu-tlb.md"
+  local numa="$REF_DIR/memory/numa.md"
+
+  # memory
+  alias sp-virtual-memory="vim -p ${virtual_memory} ${tlb} ${io_mmu}"
+  alias sp-mmu="sp-virtual-memory"
+  alias sp-io-mmu="sp-virtual-memory"
+
+  alias sp-memory="vim -p $REF_DIR/memory/*"
+
+  alias sp-cache="vim -p ${cpu_cache} ${tlb} ${numa}"
+  alias sp-cpu-cache="sp-cache"
+  alias sp-tlb="vim -p ${tlb} ${cpu_cache} ${numa}"
+  alias sp-numa="vim -p ${numa} ${tlb} ${cpu_cache}"
+}
+
+sp_memory_alias
+
+# hardware
+alias sp-northbridge="vim $REF_DIR/northbridge.md"
+alias sp-southbridge="vim $REF_DIR/southbridge.md"
 
 # misc
 alias sp-dropbox="cd $REF_DIR"
@@ -138,6 +190,10 @@ alias sp-pow="vim $REF_DIR/pow.md"
 alias sp-churn="vim $REF_DIR/churn.md"
 alias sp-bitwise="vim $REF_DIR/bitwise.md"
 alias sp-graph="vim $REF_DIR/graph.md"
+alias sp-polish-notation="vim $REF_DIR/polish-notation.md"
+
+#jargon
+alias sp-serverless="vim $REF_DIR/serverless.md"
 
 #sort
 alias sp-sort-selection-sort="vim $REF_DIR/sort/selection-sort.md"
@@ -151,8 +207,7 @@ alias sp-vim-jump="vim $DROPBOX_LINUX/vim/jump.md"
 alias sp-vim-extra="vim $DROPBOX_LINUX/vim/extra.md"
 alias sp-rtag="vim $DROPBOX_LINUX/vim/rtag.md"
 
-# lang
-alias sp-asm="vim $REF_DIR/linux/asm.md" #TODO
+# language
 alias sp-bash="vim $REF_DIR/linux/bash.md"
 alias sp-vimscript="vim $REF_DIR/vimscript.md"
 
@@ -209,6 +264,7 @@ alias cpp-odr="vim $CPP_ROOT/cpp-odr.md" #TODO
 alias sp-debug="cd $REF_DIR/linux/debug"
 alias sp-gdb="vim $DROPBOX_LINUX/debug/gdb.md"
 alias sp-perf="vim $DROPBOX_LINUX/debug/perf.md"
+alias sp-ltrace="vim $DROPBOX_LINUX/debug/ltrace.md"
 alias sp-strace="vim $REF_DIR/linux/debug/strace.md"
 alias sp-tcpdump="vim $REF_DIR/linux/debug/tcpdump.md"
 alias sp-debug-c="vim $DROPBOX_LINUX/debug/cpp-debug.md"
@@ -253,6 +309,7 @@ alias sp-term="vim $DROPBOX_LINUX/term.md"
 alias sp-cp="vim $DROPBOX_LINUX/cp.md"
 alias sp-scp="vim $DROPBOX_LINUX/scp.md"
 alias sp-git="vim $DROPBOX_LINUX/git.md"
+alias sp-jobs="vim $DROPBOX_LINUX/jobs.md"
 
 # linux
 alias sp-linux="cd $DROPBOX_LINUX"
@@ -271,7 +328,16 @@ alias sp-write-to-file="vim $DROPBOX_LINUX/write-to-file.md"
 alias sp-pacman="vim $DROPBOX_LINUX/pacman.md"
 
 # linux dev
-alias sp-linux-dev="vim $REF_DIR/linux-dev.md"
+function sp_linux_dev_alias() {
+  local file_linux_dev="$REF_DIR/linux-dev.md"
+  local file_linux_dev_init="$REF_DIR/linux-dev-init-script.md"
+  local file_linux_dev_char="$REF_DIR/linux-dev-char-dev.md"
+
+  alias sp-linux-dev="vim -p $file_linux_dev $file_linux_dev_init $file_linux_dev_char"
+  alias sp-linux-dev-init="vim $file_linux_dev_init"
+  alias sp-linux-dev-char-dev="vim $file_linux_dev_char"
+}
+sp_linux_dev_alias
 
 #fs
 alias sp-ssd="vim $REF_DIR/fs/ssd.md"
@@ -283,6 +349,7 @@ alias sp-syscall-readv_writev="vim $LINUX_SYSCALL_ROOT/readv_writev.md"
 alias sp-syscall-rcu="vim $LINUX_SYSCALL_ROOT/rcu.md"    #TODO
 alias sp-syscall-membarrier="vim $LINUX_SYSCALL_ROOT/membarrier.md"
 alias sp-syscall-futex="vim $LINUX_SYSCALL_ROOT/futex.md"
+alias sp-syscall-pipe="vim $LINUX_SYSCALL_ROOT/pipe.md"
 
 # networking
 alias sp-network="vim $DROPBOX_NETWORK/linux.md"
@@ -301,14 +368,9 @@ alias sp-oOo="vim $REF_DIR/1out-of-order.md"
 alias sp-concurrency-jvm="vim $REF_DIR/concurrency-jvm.txt"
 alias sp-concurrency="vim $DROPBOX/parallelism/general.md"
 alias sp-concurrent-design="vim $REF_DIR/concurrent-design.txt"
-alias sp-dma="vim $REF_DIR/dma.md"    #TODO
-alias sp-cpu="vim $REF_DIR/cpu.txt"    #TODO
 alias sp-MESI="vim $REF_DIR/MESI.txt"    #TODO
 alias sp-serializability-linearizability="vim $REF_DIR/concurrency/serializability-linearizability.md" #TODO
 alias sp-linearizability-serializability="sp-serializability-linearizability"
-
-# memory
-alias sp-memory="vim -p $REF_DIR/memory/*"   #TODO
 
 # type-theory
 alias sp-type-theory="vim -p $REF_DIR/*type*.txt $REF_DIR/variance.txt"   #TODO
@@ -385,6 +447,7 @@ alias sp-proj-haskell="vim $DROPBOX/project/haskell.md"
 alias sp-proj-course="vim $DROPBOX/project/course.md"
 alias sp-proj-docker="vim $DROPBOX/project/docker.md"
 alias sp-proj-disk-algh="vim $DROPBOX/project/disk-algh.md"
+alias sp-proj-ml="vim $DROPBOX/project/ml.md"
 
 # nas540
 alias nas540="sshfs admin@192.168.1.12:/i-data/ $HOME/mount/nas540"

@@ -253,7 +253,7 @@ call <sid>hi('DiffText', {}, s:cdDiffRedLight, 'none', {})
 
 " Spell {{{
 " TODO
-call <sid>hi('SpellBad', s:cdNone, s:cdNone, 'undercurl', {})
+call <sid>hi('SpellBad', s:cdRed, s:cdNone, 'undercurl', {})
 call <sid>hi('SpellCap', s:cdNone, s:cdNone, 'undercurl', {})
 call <sid>hi('SpellLocal', s:cdNone, s:cdNone, 'undercurl', {})
 " }}}

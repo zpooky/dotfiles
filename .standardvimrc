@@ -238,8 +238,8 @@ map zN [s
 nnoremap <leader>z ea<C-X><C-S>
 
 " underline wrongly spelled words
-hi clear SpellBad
-hi SpellBad cterm=underline
+" hi clear SpellBad
+" hi SpellBad cterm=underline gui=underline
 
 set spelllang=en_gb               " Specify the spell checking language.
 set nospell                       " Disable spell checking by default.
@@ -483,13 +483,13 @@ iab instreast interest
 iab intresting interesting
 iab effecivly effectively
 iab wil will
-iab experiance experiance
+iab experiance experience
 iab develping developing
 iab greate great
 iab considor consider
 iab abbeility ability
 iab algorihms algorithms
-iab postion postion
+iab postion position
 iab avialable available
 iab moddeling modelling
 iab curomstances circumstances
@@ -509,6 +509,7 @@ iab Allways Always
 iab usuable useable
 iab independant independent
 iab generaly generally
+iab Generaly Generally
 iab rentrant re-entrant
 iab interuptable interruptible
 iab postion position
@@ -519,6 +520,35 @@ iab developmeant development
 iab companines companies
 iab mehtologies methodologies 
 iab problmes problems
+iab owerwite overwrite
+iab Usualy Usually
+iab usualy usually
+iab runinning running
+iab interputs interrupts
+iab interput interrupt
+iab occured occurred
+iab writable writeable
+iab perstisting persisting
+iab placeces places
+iab trhough through
+iab deivce device
+iab deivces devices
+iab appropreate appropriate
+iab appopriate appropriate
+iab befroe before
+iab ciruclarly circularly
+iab collectivly collectively
+iab interrput interrupt
+iab interupt interrupt
+iab automaticly automatically
+iab trhough through
+iab primarirly primarily
+iab implemenation implementation
+iab dynamicly dynamically
+iab usefull useful
+iab requres requires
+iab appart apart
+iab nameing naming
 
 iab Acsending Ascending
 iab acsending ascending
