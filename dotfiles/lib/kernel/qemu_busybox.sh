@@ -153,6 +153,7 @@ function build_busybox() {
 
 function build_linux() {
   local linux_config="${linux_root}/.config"
+  local linux_build_config="${linux_root}/linux_build_config"
   echo "#build_linux"
 
   if [ ! -e "${linux_root}" ]; then
@@ -178,12 +179,21 @@ function build_linux() {
       exit 1
     fi
 
+    cp "${source_root}/linux_build_config" "${linux_build_config}"
+    ${linux_root}/scripts/kconfig/merge_config.sh "${linux_config}" "${linux_build_config}"
+    if [ ! $? -eq 0 ]; then
+      cd "$priv"
+      exit 1
+    fi
+
+    # TODO make with debug symbols & gdb
+
   fi
 
   # - "make" will build kernel and drivers. Building drivers takes much more
   #   time than kernel. And we don't need drivers.
   # - "make bzImage" will build only kernel image
-  eatmydata make -j4 bzImage
+  eatmydata make -j8 bzImage
   if [ ! $? -eq 0 ]; then
     cd "$priv"
     exit 1
@@ -212,13 +222,20 @@ function run_qemu() {
   qemu-system-x86_64 -smp 4 -kernel "${bz_image}" \
     -initrd "${initfs_cpio}" \
     -nographic \
-    -append "console=ttyS0 init=/init" \
-    -enable-kvm \
+    -append "console=ttyS0 init=/init nokaslr" \
     -s
+
+  # {
+  # TODO this breaks gdb debugging
+  # https://stackoverflow.com/questions/46069388/kernel-debugging-gdb-step-jumps-out-of-function
+  # -enable-kvm \
+  # }
+
+  # -S
 }
 
 build_busybox
-# build_linux
+build_linux
 run_qemu
 
 cd "${priv}"

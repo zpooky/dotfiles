@@ -11,5 +11,6 @@ mdev -s
 echo -e "\nBoot took $(cut -d' ' -f1 /proc/uptime) seconds\n"
 
 alias ll="ls -alh"
+alias vim="vi"
 
 exec /bin/sh

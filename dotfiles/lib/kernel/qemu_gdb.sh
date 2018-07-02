@@ -1,11 +1,4 @@
 #!/bin/bash
-# function run() {
-#   local linux_root="/home/spooky/sources/linux-shallow"
-#   local vmlinux="${linux_root}/vmlinux"
-#   gdb "${vmlinux}"
-# }
-#
-# run
 
 the_port="1234"
 the_ip_port="localhost:${the_port}"
@@ -26,7 +19,7 @@ linux_root="${HOME}/sources/linux-shallow"
 vmlinux="${linux_root}/vmlinux"
 
 if [ ! -e "${vmlinux}" ]; then
-  echo "${vmlinux} does not not exist"
+  echo "'${vmlinux}' does not not exist"
   exit 1
 fi
 
@@ -86,7 +79,13 @@ tmux split-window -h -t "${window_id}.6" "${pipe_cmd}" || exit 1
 
 # gdb!!
 tmux send-keys -t "${window_id}.1" "cd ${linux_root}" C-m
-tmux send-keys -t "${window_id}.1" "gdb ${vmlinux}" C-m
+
+
+
+tmux send-keys -t "${window_id}.1" "gdb" C-m
+# tmux send-keys -t "${window_id}.1" "/home/spooky/sources/linux-kernel-module-cheat/out/x86_64/buildroot/host/bin/x86_64-linux-gdb" C-m
+tmux send-keys -t "${window_id}.1" "add-auto-load-safe-path ${linux_root}" C-m
+tmux send-keys -t "${window_id}.1" "file ${vmlinux}" C-m
 
 #---configure-dashboard------------------
 # source lines
@@ -121,8 +120,31 @@ for REGION in "${REGIONS[@]}"; do
 done
 
 #
-tmux send-keys -t "${window_id}.1" "lx-symbols" C-m
+tmux send-keys -t "${window_id}.1" "set arch i386:x86-64:intel" C-m
 tmux send-keys -t "${window_id}.1" "target remote ${the_ip_port}" C-m
+tmux send-keys -t "${window_id}.1" "show arch" C-m
+
+# tmux send-keys -t "${window_id}.1" "lx-symbols" C-m
+tmux send-keys -t "${window_id}.1" "lx-symbols $HOME/development/repos/spfs" C-m
+
+
+tmux send-keys -t "${window_id}.1" "break start_kernel" C-m
+tmux send-keys -t "${window_id}.1" "break 'break mount_bdev'" C-m
+# tmux send-keys -t "${window_id}.1" "break 'sp.c:spfs_fill_super_block'" C-m
+# tmux send-keys -t "${window_id}.1" "break 'sp.c:spfs_super_block_init'" C-m
+# tmux send-keys -t "${window_id}.1" "break 'sp.c:spfs_read_super_block'" C-m
+# tmux send-keys -t "${window_id}.1" "break 'sp.c:spfs_btree_init'" C-m
+# tmux send-keys -t "${window_id}.1" "break 'sp.c:spfs_free_init'" C-m
+tmux send-keys -t "${window_id}.1" "break 'btree.c:spfs_btree_modify'" C-m
+tmux send-keys -t "${window_id}.1" "break 'btree.c:spfs_btree_lookup'" C-m
+tmux send-keys -t "${window_id}.1" "break 'btree.c:spfs_btree_insert'" C-m
+tmux send-keys -t "${window_id}.1" "break 'btree.c:spfs_btree_remove'" C-m
+
+
+tmux send-keys -t "${window_id}.1" "continue" C-m
+
+# https://stackoverflow.com/questions/8662468/remote-g-packet-reply-is-too-long
+# https://github.com/cirosantilli/linux-kernel-module-cheat/blob/1c29163c3919d4168d5d34852d804fd3eeb3ba67/rungdb#L20
 
 # gdb run!
 tmux select-pane -t "${window_id}.1"

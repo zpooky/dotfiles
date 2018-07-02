@@ -15,7 +15,7 @@ function linux() {
       if [ $? -eq 0 ]; then
         make x86_64_defconfig
         make kvmconfig
-        eatmydata make -j 4
+        eatmydata make -j 8
       fi
     else
       rm -rf $linux_root
@@ -71,6 +71,16 @@ function run() {
     echo "gdb debug: on"
   fi
 
+  if [ ! -e "${the_kernel}" ]; then
+    echo "'${the_kernel}' is not there..."
+    exit
+  fi
+
+  if [ ! -e "${the_img}" ]; then
+    echo "'${the_img}' is not there..."
+    exit
+  fi
+
   # #notes
   # hda=/dev/sda
 
@@ -93,11 +103,10 @@ function run() {
     -kernel "${the_kernel}" \
     -m '256M' \
     -hda "${the_img}" \
-    --append "root=/dev/sda rw console=ttyS0" \
-    --append nokaslr \
+    --append "root=/dev/sda rw console=ttyS0 nokaslr" \
     --nographic \
     --enable-kvm \
-    -S -s
+    -s
 
   # -S -gdb tcp::1234 /dev/zero
 
