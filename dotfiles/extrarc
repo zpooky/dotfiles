@@ -103,9 +103,13 @@ export VISUAL='vim'
 # device
 alias sp-openwrt="vim $REF_DIR/openwrt.md"
 
+#programming
+alias sp-naming="vim $REF_DIR/naming-things.md"
+
 # notes
 alias sp-books="vim $DROPBOX/books.md"
-alias sp-todo="cd ~/Dropbox/term_todo/"
+alias sp-todo="vim $DROPBOX/note/todo.md"
+alias sp-todo-term="cd ~/Dropbox/term_todo/"
 alias sp-todo-dev="vim ~/Dropbox/term_todo/dev.md"
 alias sp-interview="cd $DROPBOX/interview"
 alias sp-razor="vim $REF_DIR/razor.md"
@@ -122,9 +126,15 @@ function sp_cpu_alias() {
   local opcode="$REF_DIR/opcode.md"
   local cpu="$REF_DIR/cpu.md"
   local machine_code="$REF_DIR/machine_code.md"
-  local asm="$REF_DIR/linux/asm.md"
-  local dma="$REF_DIR/dma.md"
 
+  local asm="$REF_DIR/linux/asm.md"
+  local asm_att="$REF_DIR/linux/asm_att.md"
+  local asm_intel="$REF_DIR/linux/asm_intel.md"
+  local asm_nasm="$REF_DIR/linux/asm_nasm.md"
+  local word_size="$REF_DIR/linux/word-size.md"
+  local asm_make="$REF_DIR/linux/asm_nasm_Makefile.md"
+
+  local dma="$REF_DIR/dma.md"
 
   # CPU
   alias sp-cpu="vim -p ${cpu} ${isa} ${microarchitecture} ${risc} ${cisc} ${opcode} ${machine_code} ${asm} ${dma}"
@@ -134,11 +144,19 @@ function sp_cpu_alias() {
   alias sp-cisc="vim ${cisc}"
   alias sp-opcode="vim ${opcode}"
   alias sp-machine-code="vim ${machine_code}"
-  alias sp-asm="vim ${asm}"
+
+  alias sp-asm="vim -p ${asm} ${asm_att} ${asm_intel} ${asm_nasm} ${word_size} ${asm_make}"
+  alias sp-asm-make="vim -p ${asm_make}"
+  alias sp-word-size="vim -p ${word_size}"
+
   alias sp-dma="vim ${dma}"    #TODO
+
+  #
 }
 
 sp_cpu_alias
+
+alias sp-interrupt="vim -p $REF_DIR/interrupt.md"
 
 function sp_memory_alias() {
   local io_mmu="$REF_DIR/memory/io-mmu.md"
@@ -147,11 +165,16 @@ function sp_memory_alias() {
   local cpu_cache="$REF_DIR/memory/cpu-cache.md"
   local tlb="$REF_DIR/memory/cpu-tlb.md"
   local numa="$REF_DIR/memory/numa.md"
+  local segmented="$REF_DIR/memory/segmented.md"
 
   # memory
   alias sp-virtual-memory="vim -p ${virtual_memory} ${tlb} ${io_mmu}"
   alias sp-mmu="sp-virtual-memory"
   alias sp-io-mmu="sp-virtual-memory"
+
+  alias sp-segmented-memory="vim -p ${segmented}"
+  alias sp-real-mode="sp-segmented-memory"
+  alias sp-protected-mode="sp-segmented-memory"
 
   alias sp-memory="vim -p $REF_DIR/memory/*"
 
@@ -163,15 +186,22 @@ function sp_memory_alias() {
 
 sp_memory_alias
 
-# hardware
-alias sp-northbridge="vim $REF_DIR/northbridge.md"
-alias sp-southbridge="vim $REF_DIR/southbridge.md"
+function sp_hardware_alias() {
+  local chipset="$REF_DIR/chipset.md"
+
+  # hardware
+  alias sp-northbridge="vim $REF_DIR/northbridge.md" # TODO
+  alias sp-southbridge="vim $REF_DIR/southbridge.md" # TODO
+  alias sp-overclock="vim $REF_DIR/overclock.mkd"
+  alias sp-chipset="vim ${chipset}"
+}
+
+sp_hardware_alias
 
 # misc
 alias sp-dropbox="cd $REF_DIR"
 alias sp-ref="cd $DROPBOX_LINUX/"
 alias sp-win="vim $REF_DIR/win.md"
-alias sp-overclock="vim $REF_DIR/overclock.mkd"
 alias sp-cygwin="vim $REF_DIR/cygwin.md"
 
 # computer science

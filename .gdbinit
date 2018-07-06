@@ -24,7 +24,7 @@ set print array off
 set print array-indexes on
 
 #
-set disassembly-flavor intel
+set disassembly-flavor att
 
 #
 add-auto-load-safe-path ~/sources/linux-shallow
@@ -35,10 +35,10 @@ source ~/sources/gdb-dashboard/.gdbinit
 
 #gcc pretty printers {
 python
-import sys
-sys.path.insert(0, os.environ['HOME']+'/sources/gdb_pp')
-from libstdcxx.v6.printers import register_libstdcxx_printers
-register_libstdcxx_printers (None)
+  import sys
+  sys.path.insert(0, os.environ['HOME']+'/sources/gdb_pp')
+  from libstdcxx.v6.printers import register_libstdcxx_printers
+  register_libstdcxx_printers (None)
 end
 # }
 

@@ -36,6 +36,8 @@ screenfetch
 
 install_pkg vim
 
+install_pkg shellcheck
+
 has_feature package-query
 if [ $? -eq 1 ]; then
   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz"
