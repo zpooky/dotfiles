@@ -198,6 +198,9 @@ function sp_hardware_alias() {
 
 sp_hardware_alias
 
+#math
+alias sp-math="vim $REF_DIR/math_notes.md"
+
 # misc
 alias sp-dropbox="cd $REF_DIR"
 alias sp-ref="cd $DROPBOX_LINUX/"
