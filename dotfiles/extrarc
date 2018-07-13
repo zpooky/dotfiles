@@ -118,6 +118,12 @@ alias sp-occams-razor="sp-razor"
 alias sp-hanlon-razor="sp-razor"
 alias sp-murphys-law="sp-razor"
 alias sp-dunning–kruger="sp-razor"
+alias sp-zeroday="vim $REF_DIR/zeroday.md"
+alias sp-taxonomy="vim $REF_DIR/taxonomy.md"
+alias sp-zero-sum-game="vim $REF_DIR/zero-sum-game.md" #TODO
+alias sp-game-theory="vim $REF_DIR/game-theory.md" #TODO
+alias sp-pidgeon-hole="vim $REF_DIR/pidgeon-hole.md"
+alias sp-min-max="vim $REF_DIR/min-max.md" #TODO
 
 function sp_cpu_alias() {
   local isa="$REF_DIR/ISA.md"
@@ -140,6 +146,7 @@ function sp_cpu_alias() {
   # CPU
   alias sp-cpu="vim -p ${cpu} ${isa} ${microarchitecture} ${risc} ${cisc} ${opcode} ${machine_code} ${asm} ${dma}"
   alias sp-ISA="vim ${isa}"
+  alias sp-isa="vim ${isa}"
   alias sp-microarchitecture="vim ${microarchitecture}"
   alias sp-risc="vim ${risc}"
   alias sp-cisc="vim ${cisc}"
@@ -148,6 +155,7 @@ function sp_cpu_alias() {
 
   alias sp-asm="vim -p ${asm} ${asm_att} ${asm_intel} ${asm_nasm} ${word_size} ${asm_make}"
   alias sp-asm-make="vim -p ${asm_make}"
+  alias sp-simd="vim $CPP_ROOT/simd.md"    #TODO
   alias sp-word-size="vim -p ${word_size}"
 
   alias sp-dma="vim ${dma}"    #TODO
@@ -215,6 +223,45 @@ sp_crypto
 #math
 alias sp-math="vim $REF_DIR/math_notes.md"
 
+#circuits
+function sp_circuts_alias() {
+  local fpga="$REF_DIR/fpga.md"
+  local asic="$REF_DIR/asic.md"
+
+  local soc="$REF_DIR/soc.md"
+  local integrated_circuit="$REF_DIR/integrated-circuit.md"
+
+  local pcb="$REF_DIR/printed-circuit-board.md"
+  local breadboard="$REF_DIR/breadboard.md"
+
+  local oscillator="$REF_DIR/crystal_oscillator.md"
+  local transistor="$REF_DIR/transistor.md"
+  local logic_gate="$REF_DIR/logic-gate.md"
+
+  local oscilloscopes="$REF_DIR/oscilloscopes.md"
+
+  local conductor=""
+  local semiconductor=""
+  local insulator=""
+
+  alias sp-fpga="vim -p ${fpga} ${asic}"
+  alias sp-asic="vim -p ${asic} ${fpga}"
+
+  alias sp-soc="vim -p ${soc} ${integrated_circuit}"
+  alias sp-integrated-circuit="vim -p ${integrated_circuit} ${soc}"
+
+  alias sp-pcb="vim -p ${pcb} ${breadboard}"
+  alias sp-breadboard="vim -p ${breadboard} ${pcb}"
+
+  alias sp-crystal-oscillator="vim -p ${oscillator}"
+  alias sp-transistor="vim -p ${transistor}"
+  alias sp-logic-gate="vim -p ${logic_gate}"
+
+  alias sp-oscilloscopes="vim -p ${oscilloscopes}"
+}
+
+sp_circuts_alias
+
 # misc
 alias sp-dropbox="cd $REF_DIR"
 alias sp-ref="cd $DROPBOX_LINUX/"
@@ -236,14 +283,27 @@ alias sp-factorial="vim $REF_DIR/factorial.md"
 alias sp-pow="vim $REF_DIR/pow.md"
 alias sp-churn="vim $REF_DIR/churn.md"
 alias sp-bitwise="vim $REF_DIR/bitwise.md"
-alias sp-graph="vim $REF_DIR/graph.md"
 alias sp-polish-notation="vim $REF_DIR/polish-notation.md"
+
+#
+function sp_problem_solving(){
+  local dyn_p="$REF_DIR/dynamic_programming.md"
+  local div_c="$REF_DIR/divide_and_conquer.md"
+  alias sp-dynamic-programming="vim -p ${dyn_p} ${div_c}"
+  alias sp-divide-and-conquer="vim -p ${div_c} ${dyn_p}"
+}
+sp_problem_solving
 
 #jargon
 alias sp-serverless="vim $REF_DIR/serverless.md"
 
-#sort
-alias sp-sort-selection-sort="vim $REF_DIR/sort/selection-sort.md"
+#algorithms
+function sp_algorithms(){
+  alias sp-sort-selection-sort="vim $REF_DIR/sort/selection-sort.md"
+  alias sp-graph="vim $REF_DIR/graph.md"
+  alias sp-levenshtein="vim $REF_DIR/levenshtein.md"
+}
+sp_algorithms
 
 # editor
 alias sp-eclipse="vim $REF_DIR/eclipse.txt"
@@ -267,17 +327,10 @@ alias sp-character="vim -p $REF_DIR/character/*.txt"
 alias sp-utf="vim $REF_DIR/character/utf.md" #TODO
 alias sp-firefox="vim $REF_DIR/firefox.md"
 alias sp-chrome="vim $REF_DIR/chrome.md"
-alias sp-zero-sum-game="vim $REF_DIR/zero-sum-game.md" #TODO
-alias sp-game-theory="vim $REF_DIR/game-theory.md" #TODO
-alias sp-pidgeon-hole="vim $REF_DIR/pidgeon-hole.md"
-alias sp-min-max="vim $REF_DIR/min-max.md" #TODO
 alias sp-utc-time="vim $REF_DIR/utc-time.md"
 alias sp-sybil-attack="vim $REF_DIR/sybil-attack.md" #TODO
 alias sp-byzantine-generals-problem="vim $REF_DIR/byzantine-generals-problem.md" #TODO
-alias sp-vulkan="vim $REF_DIR/vulkan.md"
 alias sp-certificate-pinning="vim $REF_DIR/certificate_pinning.md"
-alias sp-zeroday="vim $REF_DIR/zeroday.md"
-alias sp-taxonomy="vim $REF_DIR/taxonomy.md"
 
 # cpp
 CPP_ROOT="$DROPBOX/c"
@@ -295,7 +348,6 @@ alias sp-c="vim $CPP_ROOT/c.md"
 alias cpp-gcc="vim $CPP_ROOT/gcc.md"
 alias cpp-make="vim -p $CPP_EXAMPLE_MAKEFILE $CPP_EXAMPLE_TEST_MAKEFILE"
 alias cpp-elf="vim $CPP_ROOT/elf.md"
-alias sp-simd="vim $CPP_ROOT/simd.md"    #TODO
 alias cpp-printf="vim $CPP_ROOT/printf.md"
 alias cpp-carray="vim $CPP_ROOT/carray.md"
 alias cpp-pimpl="vim $CPP_ROOT/pimpl.md"
@@ -380,6 +432,8 @@ function sp_linux_dev_alias() {
   local file_linux_dev_init="$REF_DIR/linux-dev-init-script.md"
   local file_linux_dev_char="$REF_DIR/linux-dev-char-dev.md"
 
+  local linux_dev_graphic="$REF_DIR/linux-dev-graphic.md"
+
   local file_linux_usb="$REF_DIR/linux-usb.md"
   local file_linux_pci="$REF_DIR/linux-pci.md"
   local file_linux_uart="$REF_DIR/linux-uart.md"
@@ -393,9 +447,11 @@ function sp_linux_dev_alias() {
   local file_baude_rate="$REF_DIR/baude-rate.md"
   local file_serial_communication="$REF_DIR/serial-communication.md"
 
-  alias sp-linux-dev="vim -p $file_linux_dev $file_linux_dev_init $file_linux_dev_char"
+  alias sp-linux-dev="vim -p $file_linux_dev $file_linux_dev_init $file_linux_dev_char $linux_dev_graphic"
   alias sp-linux-dev-init="vim $file_linux_dev_init"
-  alias sp-linux-dev-char-dev="vim $file_linux_dev_char"
+  alias sp-linux-dev-char="vim $file_linux_dev_char"
+  alias sp-linux-dev-grapic="vim $linux_dev_graphic"
+  alias sp-vulkan="vim -p $REF_DIR/vulkan.md $linux_dev_graphic"
 
   alias sp-linux-usb="vim $file_linux_usb"
   alias sp-linux-pci="vim $file_linux_pci"
