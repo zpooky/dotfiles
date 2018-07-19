@@ -118,6 +118,7 @@ alias sp-occams-razor="sp-razor"
 alias sp-hanlon-razor="sp-razor"
 alias sp-murphys-law="sp-razor"
 alias sp-dunning–kruger="sp-razor"
+alias sp-conways="sp-razor"
 alias sp-zeroday="vim $REF_DIR/zeroday.md"
 alias sp-taxonomy="vim $REF_DIR/taxonomy.md"
 alias sp-zero-sum-game="vim $REF_DIR/zero-sum-game.md" #TODO
@@ -267,6 +268,7 @@ alias sp-dropbox="cd $REF_DIR"
 alias sp-ref="cd $DROPBOX_LINUX/"
 alias sp-win="vim $REF_DIR/win.md"
 alias sp-cygwin="vim $REF_DIR/cygwin.md"
+alias sp-arch="vim $REF_DIR/arch.md"
 
 # computer science
 alias sp-big-o="vim $REF_DIR/big-o.md"      #TODO
@@ -278,12 +280,21 @@ alias sp-formal-verification="vim $REF_DIR/formal-verification.md"
 alias sp-crdt="vim $REF_DIR/crdt.md"       #TODO
 alias sp-turing-complete="vim $REF_DIR/turing-complete.md"       #TODO
 alias sp-lambda-calculus="vim $REF_DIR/lambda-calc.md"       #TODO
-alias sp-exponential-growth="vim $REF_DIR/exponential-growth.md"
-alias sp-factorial="vim $REF_DIR/factorial.md"
-alias sp-pow="vim $REF_DIR/pow.md"
 alias sp-churn="vim $REF_DIR/churn.md"
 alias sp-bitwise="vim $REF_DIR/bitwise.md"
 alias sp-polish-notation="vim $REF_DIR/polish-notation.md"
+
+function sp_complexity() {
+  local exp="$REF_DIR/exponential-growth.md"
+  local fact="$REF_DIR/factorial.md"
+  local polyn="$REF_DIR/polynomial.md"
+
+  alias sp-exponential-growth="vim -p ${exp} ${fact} ${polyn}"
+  alias sp-factorial="vim -p ${exp} ${fact} ${polyn}"
+  alias sp-pow="vim $REF_DIR/pow.md"
+  alias sp-polynomial="vim -p ${polyn} ${exp} ${fact}"
+}
+sp_complexity
 
 #
 function sp_problem_solving(){
