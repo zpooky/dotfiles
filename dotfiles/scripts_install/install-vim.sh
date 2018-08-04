@@ -50,9 +50,10 @@ if [ -e $VIM_ROOT ]; then
     # make uninstall --prefix=/home/`whoami`
     make uninstall
 
-    make clean || exit 1
-    make distclean
-    ./configure --with-features=huge --enable-rubyinterp --enable-multibyte --enable-perlinterp=yes --enable-pythoninterp --enable-luainterp --enable-gui=gtk2 --enable-cscope --prefix=$TARGET --with-x || exit 1
+#    make clean || exit 1
+#    make distclean
+    #./configure --with-features=huge --enable-rubyinterp --enable-multibyte --enable-perlinterp=yes --enable-pythoninterp --enable-luainterp --enable-gui=gtk2 --enable-cscope --prefix=$TARGET --with-x || exit 1
+    ./configure --with-features=huge --enable-rubyinterp --enable-multibyte --enable-perlinterp=yes --enable-pythoninterp --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu --enable-python3interp --with-python3-config-dir=/usr/lib/python3.4/config-3.4m-x86_64-linux-gnu --enable-luainterp --enable-gui=gtk2 --enable-cscope --prefix=$TARGET || exit 1
 
     make || exit 1 # VIMRUNTIMEDIR=/usr/share/vim/vim74
 

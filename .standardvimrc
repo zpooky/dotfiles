@@ -1,6 +1,9 @@
 " Turn off vi compatibility.(sould be set first)
 set nocompatible
 
+silent! colorscheme codedark
+set background=dark
+
 " encoding {{{
 set encoding=utf-8      " The encoding used
 set fileencoding=utf-8  " The encoding of the resulting output file

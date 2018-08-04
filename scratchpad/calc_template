@@ -12,6 +12,7 @@
 
 # Math functions
 # math.log(x)
+# xor(x,y)
 
 # hex encoded -> utf8 string
 # bytearray.fromhex(hex).decode('utf-8')
@@ -21,3 +22,5 @@
 
 import math
 import binascii
+from operator import xor
+

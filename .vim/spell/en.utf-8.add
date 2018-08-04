@@ -41,3 +41,5 @@ neo4j
 spinlock
 posix
 filesystem
+ciphertext
+plaintext

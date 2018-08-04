@@ -95,6 +95,7 @@ alias sudo='sudo '
 
 # disable xterm ctrl+S XON XOFF signal
 alias vim="stty stop '' -ixoff; vim "
+alias vimnoplugin=" vim -u ~/.standardvimrc"
 
 export EDITOR='vim'
 export SYSTEMD_EDITOR='vim'
@@ -197,6 +198,19 @@ function sp_hardware_alias() {
 }
 
 sp_hardware_alias
+
+
+function sp_crypto(){
+  local cipher_mode="$REF_DIR/cipher-mode.md"
+
+  alias sp-cipher-mode="vim ${cipher_mode}"
+  alias sp-cipher-block-mode="vim ${cipher_mode}"
+  alias sp-ecb="sp-cipher-mode"
+  alias sp-cbc="sp-cipher-mode"
+  alias sp-ctr="sp-cipher-mode"
+}
+
+sp_crypto
 
 #math
 alias sp-math="vim $REF_DIR/math_notes.md"
