@@ -380,9 +380,36 @@ function sp_linux_dev_alias() {
   local file_linux_dev_init="$REF_DIR/linux-dev-init-script.md"
   local file_linux_dev_char="$REF_DIR/linux-dev-char-dev.md"
 
+  local file_linux_usb="$REF_DIR/linux-usb.md"
+  local file_linux_pci="$REF_DIR/linux-pci.md"
+  local file_linux_uart="$REF_DIR/linux-uart.md"
+  local file_linux_gpio="$REF_DIR/linux-gpio.md"
+  local file_linux_acpi="$REF_DIR/linux-acpi.md"
+
+  local file_linux_irq="$REF_DIR/linux-irq.md"
+  local file_linux_apic="$REF_DIR/linux-apic.md"
+  local file_linux_exception="$REF_DIR/linux-exception.md"
+
+  local file_baude_rate="$REF_DIR/baude-rate.md"
+  local file_serial_communication="$REF_DIR/serial-communication.md"
+
   alias sp-linux-dev="vim -p $file_linux_dev $file_linux_dev_init $file_linux_dev_char"
   alias sp-linux-dev-init="vim $file_linux_dev_init"
   alias sp-linux-dev-char-dev="vim $file_linux_dev_char"
+
+  alias sp-linux-usb="vim $file_linux_usb"
+  alias sp-linux-pci="vim $file_linux_pci"
+  alias sp-linux-uart="vim $file_linux_uart"
+  alias sp-linux-gpio="vim $file_linux_gpio"
+  alias sp-linux-acpi="vim $file_linux_acpi"
+
+  alias sp-linux-irq="vim -p $file_linux_irq $file_linux_apic $file_linux_exception"
+  alias sp-linux-apic="vim -p $file_linux_apic $file_linux_irq"
+  alias sp-linux-exception="vim -p $file_linux_exception $file_linux_irq"
+
+  alias sp-baude-rate="vim -p $file_baude_rate"
+  alias sp-serial-communication="vim -p $file_serial_communication"
+
 }
 sp_linux_dev_alias
 
@@ -398,12 +425,21 @@ alias sp-syscall-membarrier="vim $LINUX_SYSCALL_ROOT/membarrier.md"
 alias sp-syscall-futex="vim $LINUX_SYSCALL_ROOT/futex.md"
 alias sp-syscall-pipe="vim $LINUX_SYSCALL_ROOT/pipe.md"
 
-# networking
-alias sp-network="vim $DROPBOX_NETWORK/linux.md"
-alias sp-openvpn="vim $DROPBOX_NETWORK/openvpn.md"
-alias sp-dns="vim $DROPBOX_NETWORK/dns.md"    #TODO
-alias sp-iptables="vim $DROPBOX_NETWORK/iptables.md"    #TODO
-alias sp-hole-punch="vim $DROPBOX_NETWORK/hole-punch.md"    #TODO
+function sp_network() {
+  local net_layer="$DROPBOX_NETWORK/network-layer.md"
+
+  # networking
+  alias sp-network="vim $DROPBOX_NETWORK/linux.md"
+  alias sp-openvpn="vim $DROPBOX_NETWORK/openvpn.md"
+  alias sp-dns="vim $DROPBOX_NETWORK/dns.md"    #TODO
+  alias sp-iptables="vim $DROPBOX_NETWORK/iptables.md"    #TODO
+  alias sp-hole-punch="vim $DROPBOX_NETWORK/hole-punch.md"    #TODO
+
+  alias sp-network-layer="vim ${net_layer}"
+  alias sp-osi="vim ${net_layer}"
+}
+
+sp_network
 
 #audio
 alias sp-audio="vim $REF_DIR/audio.txt"       #TODO
