@@ -123,8 +123,9 @@ alias sp-zeroday="vim $REF_DIR/zeroday.md"
 alias sp-taxonomy="vim $REF_DIR/taxonomy.md"
 alias sp-zero-sum-game="vim $REF_DIR/zero-sum-game.md" #TODO
 alias sp-game-theory="vim $REF_DIR/game-theory.md" #TODO
-alias sp-pidgeon-hole="vim $REF_DIR/pidgeon-hole.md"
 alias sp-min-max="vim $REF_DIR/min-max.md" #TODO
+alias sp-pidgeon-hole="vim $REF_DIR/pidgeon-hole.md"
+alias sp-birthday-paradox="vim $REF_DIR/birthday-paradox.md"
 
 function sp_cpu_alias() {
   local isa="$REF_DIR/ISA.md"
@@ -135,6 +136,10 @@ function sp_cpu_alias() {
   local cpu="$REF_DIR/cpu.md"
   local machine_code="$REF_DIR/machine_code.md"
 
+  local alu="$REF_DIR/cpu-alu.md" # TODO
+  local prefetch="$REF_DIR/cpu-prefetch.md" # TODO
+  local mmu="$REF_DIR/mmu.md" # TODO
+
   local asm="$REF_DIR/linux/asm.md"
   local asm_att="$REF_DIR/linux/asm_att.md"
   local asm_intel="$REF_DIR/linux/asm_intel.md"
@@ -142,7 +147,7 @@ function sp_cpu_alias() {
   local word_size="$REF_DIR/linux/word-size.md"
   local asm_make="$REF_DIR/linux/asm_nasm_Makefile.md"
 
-  local dma="$REF_DIR/dma.md"
+  local dma="$REF_DIR/dma.md" # TODO
 
   # CPU
   alias sp-cpu="vim -p ${cpu} ${isa} ${microarchitecture} ${risc} ${cisc} ${opcode} ${machine_code} ${asm} ${dma}"
@@ -153,6 +158,10 @@ function sp_cpu_alias() {
   alias sp-cisc="vim ${cisc}"
   alias sp-opcode="vim ${opcode}"
   alias sp-machine-code="vim ${machine_code}"
+  
+  alias sp-alu="vim -p $alu"
+  alias sp-prefetch="vim -p $prefetch"
+  alias sp-mmu-cpu="vim -p $mmu"
 
   alias sp-asm="vim -p ${asm} ${asm_att} ${asm_intel} ${asm_nasm} ${word_size} ${asm_make}"
   alias sp-asm-make="vim -p ${asm_make}"
@@ -230,16 +239,19 @@ function sp_circuts_alias() {
   local asic="$REF_DIR/asic.md"
 
   local soc="$REF_DIR/soc.md"
-  local integrated_circuit="$REF_DIR/integrated-circuit.md"
+  local integrated_circuit="$REF_DIR/integrated-circuit.md" #TODO
 
-  local pcb="$REF_DIR/printed-circuit-board.md"
-  local breadboard="$REF_DIR/breadboard.md"
+  local pcb="$REF_DIR/printed-circuit-board.md" #TODO
+  local breadboard="$REF_DIR/breadboard.md" #TODO
 
-  local oscillator="$REF_DIR/crystal_oscillator.md"
-  local transistor="$REF_DIR/transistor.md"
-  local logic_gate="$REF_DIR/logic-gate.md"
+  local oscillator="$REF_DIR/crystal_oscillator.md" #TODO
+  local transistor="$REF_DIR/transistor.md" #TODO
+  local vacuum_tube="$REF_DIR/vacuum-tube.md"
+  local logic_gate="$REF_DIR/logic-gate.md" #TODO
 
-  local oscilloscopes="$REF_DIR/oscilloscopes.md"
+  local electricity="$REF_DIR/electricity.md" #TODO
+
+  local oscilloscopes="$REF_DIR/oscilloscopes.md" #TODO
 
   local conductor=""
   local semiconductor=""
@@ -255,10 +267,22 @@ function sp_circuts_alias() {
   alias sp-breadboard="vim -p ${breadboard} ${pcb}"
 
   alias sp-crystal-oscillator="vim -p ${oscillator}"
-  alias sp-transistor="vim -p ${transistor}"
+  alias sp-transistor="vim -p ${transistor} ${vacuum_tube}"
+  alias sp-vacuum-tube="vim -p ${vacuum_tube} ${transistor} "
   alias sp-logic-gate="vim -p ${logic_gate}"
 
   alias sp-oscilloscopes="vim -p ${oscilloscopes}"
+
+  alias sp-electricity="vim -p ${electricity}"
+  alias sp-ac="sp-electricity"
+  alias sp-dc="sp-electricity"
+  alias sp-current-electricity="sp-electricity"
+  alias sp-ampere="sp-electricity"
+  alias sp-potential-electricity="sp-electricity"
+  alias sp-voltage="sp-electricity"
+  alias sp-multimeter="sp-electricity"
+  alias sp-resistance-electricity="sp-electricity"
+  alias sp-ohm="sp-electricity"
 }
 
 sp_circuts_alias
@@ -275,8 +299,8 @@ alias sp-big-o="vim $REF_DIR/big-o.md"      #TODO
 alias sp-np-problem="vim $REF_DIR/np-problem.md"      #TODO
 alias sp-bnf="vim $REF_DIR/bnf.md"
 alias sp-floating-point="vim $REF_DIR/floating-point.md" #TODO
-alias sp-static-dynamic-typing="vim $REF_DIR/static-dynamic-typing.md" #TODO
-alias sp-formal-verification="vim $REF_DIR/formal-verification.md"
+alias sp-static-dynamic-typing="vim $REF_DIR/static-dynamic-typing.md"
+alias sp-formal-verification="vim $REF_DIR/formal-verification.md" #TODO
 alias sp-crdt="vim $REF_DIR/crdt.md"       #TODO
 alias sp-turing-complete="vim $REF_DIR/turing-complete.md"       #TODO
 alias sp-lambda-calculus="vim $REF_DIR/lambda-calc.md"       #TODO
@@ -302,19 +326,14 @@ function sp_problem_solving(){
   local div_c="$REF_DIR/divide_and_conquer.md"
   alias sp-dynamic-programming="vim -p ${dyn_p} ${div_c}"
   alias sp-divide-and-conquer="vim -p ${div_c} ${dyn_p}"
+
+  alias sp-competitive-prog="vim $REF_DIR/competitive-prog"
 }
 sp_problem_solving
 
 #jargon
 alias sp-serverless="vim $REF_DIR/serverless.md"
 
-#algorithms
-function sp_algorithms(){
-  alias sp-sort-selection-sort="vim $REF_DIR/sort/selection-sort.md"
-  alias sp-graph="vim $REF_DIR/graph.md"
-  alias sp-levenshtein="vim $REF_DIR/levenshtein.md"
-}
-sp_algorithms
 
 # editor
 alias sp-eclipse="vim $REF_DIR/eclipse.txt"
@@ -455,8 +474,14 @@ function sp_linux_dev_alias() {
   local file_linux_apic="$REF_DIR/linux-apic.md"
   local file_linux_exception="$REF_DIR/linux-exception.md"
 
+  local file_linux_device_tree="$REF_DIR/linux-device-tree.md"
+
   local file_baude_rate="$REF_DIR/baude-rate.md"
   local file_serial_communication="$REF_DIR/serial-communication.md"
+
+  local file_duplex="$REF_DIR/duplex-transmission.md"
+  local file_multiplex="$REF_DIR/multiplex-transmission.md" # TODO
+  local file_frequency="$REF_DIR/frequency.md" # TODO
 
   alias sp-linux-dev="vim -p $file_linux_dev $file_linux_dev_init $file_linux_dev_char $linux_dev_graphic"
   alias sp-linux-dev-init="vim $file_linux_dev_init"
@@ -466,7 +491,7 @@ function sp_linux_dev_alias() {
 
   alias sp-linux-usb="vim $file_linux_usb"
   alias sp-linux-pci="vim $file_linux_pci"
-  alias sp-linux-uart="vim $file_linux_uart"
+  alias sp-linux-uart="vim -p $file_linux_uart $file_serial_communication $file_baude_rate"
   alias sp-linux-gpio="vim $file_linux_gpio"
   alias sp-linux-acpi="vim $file_linux_acpi"
 
@@ -474,8 +499,27 @@ function sp_linux_dev_alias() {
   alias sp-linux-apic="vim -p $file_linux_apic $file_linux_irq"
   alias sp-linux-exception="vim -p $file_linux_exception $file_linux_irq"
 
+  alias sp-linux-device-tree="vim -p $file_linux_device_tree"
+
   alias sp-baude-rate="vim -p $file_baude_rate"
   alias sp-serial-communication="vim -p $file_serial_communication"
+  alias sp-parallel-communication="sp-serial-communication"
+
+  alias sp-duplex="vim -p $file_duplex"
+  alias sp-simplex="sp-duplex"
+  alias sp-full-duplex="sp-duplex"
+
+  alias sp-multiplex="vim -p $file_multiplex"
+  alias sp-time-division-multiplexing="sp-multiplex"
+  alias sp-frequency-division-multiplexing="sp-multiplex"
+  alias sp-frequency="vim -p $file_frequency"
+  alias sp-hertz="sp-frequency"
+  alias sp-radio="sp-frequency"
+
+  #TODO insulators, conductors, semiconductors
+  # realyas..
+
+  alias sp-firmware="vim -p $REF_DIR/firmware.md"
 
 }
 sp_linux_dev_alias
@@ -530,29 +574,90 @@ alias sp-homotopy-type-theory="vim $REF_DIR/homotopy-type-theory.md"
 alias sp-set-theory="vim $REF_DIR/set-theory.md"
 alias sp-y-combinator="vim $REF_DIR/y-combinator.md"
 
+sputil_root="$HOME/development/sputil"
+sputil_util="$sputil_root/src/util"
+sputil_problem="$sputil_root/src/problem"
+sputil_np="$sputil_root/src/np"
+function sp_open_sputil(){
+  local file="$1"
+  if [ ! -e $file ]; then
+    echo "file: '${file}' does not exist"
+    return 1
+  fi
+
+  if [ ! -e $sputil_root ]; then
+    echo "root: '${sputil_root}' does not exist"
+    return 1
+  fi
+  local old="$OLDPWD"
+  cd "$sputil_root"
+  vim $file
+  cd -
+
+  OLDPWD="$old"
+}
+
+function sp_repo_list() {
+  local the_root="${1}"
+  local prefix="${2}"
+  if [ -e "${the_root}" ]; then
+    for f in "$the_root"/*.h
+    do
+      local file=$(basename $f)
+      alias "sp-${prefix}-${file}"="sp_open_sputil ${the_root}/${file}"
+    done
+  fi
+}
+
+#algorithms
+function sp_algorithms(){
+  alias sp-graph="vim $REF_DIR/graph.md"
+  alias sp-levenshtein="vim $REF_DIR/levenshtein.md"
+
+  if [ -e "${sputil_root}" ]; then
+    alias sp-permutations="sp_open_sputil $sputil_util/permutation.h"
+    alias sp-combinations="sp_open_sputil $sputil_util/combinations.h"
+    alias sp-options="sp_open_sputil $sputil_util/options.h"
+  fi
+
+  sp_repo_list "${sputil_problem}" "problem"
+  sp_repo_list "${sputil_np}" "np"
+
+}
+sp_algorithms
+
+function sp_sort(){
+  alias sp-sort-selection-sort="vim $REF_DIR/sort/selection-sort.md"
+}
+sp_sort
 
 # tree
-DATA_STRUCTURE_ROOT=$REF_DIR/data-structure
-alias sp-datastructure="cd $DATA_STRUCTURE_ROOT"
-alias sp-tree-merkle-tree="vim $DATA_STRUCTURE_ROOT/tree-merkle-tree.md"   #TODO
-alias sp-tree-avl="vim $DATA_STRUCTURE_ROOT/tree-avl.md"   #TODO
-alias sp-tree-rb="vim $DATA_STRUCTURE_ROOT/tree-rb.md"
-alias sp-tree-heap="vim $DATA_STRUCTURE_ROOT/tree-bheap.md"
-alias sp-tree-bst="vim $DATA_STRUCTURE_ROOT/tree-bst.md"
-alias sp-tree-skip-list="vim $DATA_STRUCTURE_ROOT/tree-skip-list.md"
-alias sp-tree-btree="vim $DATA_STRUCTURE_ROOT/tree-btree.md"   #TODO
-alias sp-tree-lsm="vim $DATA_STRUCTURE_ROOT/tree-lsm.md"
-alias sp-tree-trie="vim $DATA_STRUCTURE_ROOT/tree-trie.md"
-alias sp-tree-radix-tree="vim $DATA_STRUCTURE_ROOT/tree-trie.md"
-alias sp-tree-hat-trie="vim $DATA_STRUCTURE_ROOT/tree-hat-trie.md"
-alias sp-tree-splay="vim $DATA_STRUCTURE_ROOT/tree-splay.md"
+function sp_datastructure(){
+  local DATA_STRUCTURE_ROOT="$REF_DIR/data-structure"
 
-# data structures
-alias sp-bloom-filter="vim $DATA_STRUCTURE_ROOT/bloom-filter.md"
-alias sp-monad="vim $DATA_STRUCTURE_ROOT/monad.txt" #TODO
-alias sp-hashmap="vim $DATA_STRUCTURE_ROOT/hashmap.md"
+  alias sp-datastructure="cd $DATA_STRUCTURE_ROOT"
+  alias sp-tree-merkle-tree="vim $DATA_STRUCTURE_ROOT/tree-merkle-tree.md"   #TODO
+  alias sp-tree-avl="vim $DATA_STRUCTURE_ROOT/tree-avl.md"   #TODO
+  alias sp-tree-rb="vim $DATA_STRUCTURE_ROOT/tree-rb.md"
+  alias sp-tree-heap="vim $DATA_STRUCTURE_ROOT/tree-bheap.md"
+  alias sp-tree-bst="vim $DATA_STRUCTURE_ROOT/tree-bst.md"
+  alias sp-tree-skip-list="vim $DATA_STRUCTURE_ROOT/tree-skip-list.md"
+  alias sp-tree-btree="vim $DATA_STRUCTURE_ROOT/tree-btree.md"   #TODO
+  alias sp-tree-lsm="vim $DATA_STRUCTURE_ROOT/tree-lsm.md"
+  alias sp-tree-trie="vim $DATA_STRUCTURE_ROOT/tree-trie.md"
+  alias sp-tree-radix-tree="vim $DATA_STRUCTURE_ROOT/tree-trie.md"
+  alias sp-tree-hat-trie="vim $DATA_STRUCTURE_ROOT/tree-hat-trie.md"
+  alias sp-tree-splay="vim $DATA_STRUCTURE_ROOT/tree-splay.md" #TODO
+
+  # data structures
+  alias sp-bloom-filter="vim $DATA_STRUCTURE_ROOT/bloom-filter.md"
+  alias sp-monad="vim $DATA_STRUCTURE_ROOT/monad.txt" #TODO
+  alias sp-hashmap="vim $DATA_STRUCTURE_ROOT/hashmap.md"
+}
+sp_datastructure
 
 # notes
+alias sp-video="vim $REF_DIR/video-notes.md"
 alias sp-cs-nots="vim $REF_DIR/cs-notes.md"
 alias sp-flash-card="vim $REF_DIR/flash-card.md"
 alias sp-twos-complement="vim $REF_DIR/twos-complement.md"
@@ -831,6 +936,11 @@ function sp_setup_make_project(){
 
   make -j
   make test -j
+}
+
+
+function sp_setup_c_make_project(){
+  # TODO
 }
 
 function makex() {

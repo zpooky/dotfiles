@@ -354,6 +354,9 @@ iab noxcept noexcept
 iab ovrride override
 iab ovrrides overrides
 iab paralell parallel
+iab Paralell Parallel
+iab Comunnication Communication
+iab comunnication communication
 iab possitive positive
 iab possitve positive
 iab possitves positives
@@ -582,6 +585,9 @@ iab memoziation memoization
 iab usaly usually
 iab instanceiation instantiation
 iab accumelated accumulated
+iab cordinates coordinates
+iab cordinate coordinate
+iab diffrent different
 
 iab Acsending Ascending
 iab acsending ascending
@@ -596,6 +602,8 @@ iab Desending Descending
 iab desending descending
 iab Decending Descending
 iab decending descending
+
+iab holded holed
 
 " TODO maybe limit to ft=cpp
 iab sizoef sizeof
