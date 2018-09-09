@@ -8,6 +8,7 @@ hi clear
 if exists("syntax_on")
     syntax reset
 endif
+
 let g:colors_name="codedark"
 
 " Highlighting function (inspiration from https://github.com/chriskempson/base16-vim)
