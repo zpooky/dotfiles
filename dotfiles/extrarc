@@ -136,6 +136,8 @@ function sp_cpu_alias() {
   local cpu="$REF_DIR/cpu.md"
   local machine_code="$REF_DIR/machine_code.md"
 
+  local microcontroller="$REF_DIR/microcontroller.md"
+
   local alu="$REF_DIR/cpu-alu.md" # TODO
   local prefetch="$REF_DIR/cpu-prefetch.md" # TODO
   local mmu="$REF_DIR/mmu.md" # TODO
@@ -151,6 +153,7 @@ function sp_cpu_alias() {
 
   # CPU
   alias sp-cpu="vim -p ${cpu} ${isa} ${microarchitecture} ${risc} ${cisc} ${opcode} ${machine_code} ${asm} ${dma}"
+  alias sp-microprocessor="sp-cpu"
   alias sp-ISA="vim ${isa}"
   alias sp-isa="vim ${isa}"
   alias sp-microarchitecture="vim ${microarchitecture}"
@@ -158,7 +161,9 @@ function sp_cpu_alias() {
   alias sp-cisc="vim ${cisc}"
   alias sp-opcode="vim ${opcode}"
   alias sp-machine-code="vim ${machine_code}"
-  
+
+  alias sp-microcontroller="vim -p ${microcontroller}"
+
   alias sp-alu="vim -p $alu"
   alias sp-prefetch="vim -p $prefetch"
   alias sp-mmu-cpu="vim -p $mmu"
@@ -357,10 +362,14 @@ alias sp-character="vim -p $REF_DIR/character/*.txt"
 alias sp-utf="vim $REF_DIR/character/utf.md" #TODO
 alias sp-firefox="vim $REF_DIR/firefox.md"
 alias sp-chrome="vim $REF_DIR/chrome.md"
-alias sp-utc-time="vim $REF_DIR/utc-time.md"
 alias sp-sybil-attack="vim $REF_DIR/sybil-attack.md" #TODO
 alias sp-byzantine-generals-problem="vim $REF_DIR/byzantine-generals-problem.md" #TODO
 alias sp-certificate-pinning="vim $REF_DIR/certificate_pinning.md"
+
+#
+alias sp-time="vim $REF_DIR/utc-time.md"
+alias sp-utc-time="sp-time"
+alias sp-date="sp-time"
 
 # cpp
 CPP_ROOT="$DROPBOX/c"
@@ -388,6 +397,7 @@ alias cpp-lambda="vim $CPP_ROOT/lambda.md"
 alias cpp-aliasing="vim $CPP_ROOT/aliasing.md" #TODO
 alias cpp-timer="vim $CPP_ROOT/cpp-timer.md"
 alias cpp-odr="vim $CPP_ROOT/cpp-odr.md" #TODO
+alias cpp-hash="vim $CPP_ROOT/cpp-hash.md"
 
 # debug
 alias sp-debug="cd $REF_DIR/linux/debug"
@@ -418,7 +428,6 @@ alias sp-w3m="vim $DROPBOX_LINUX/w3m.txt"
 alias sp-grep="vim $DROPBOX_LINUX/grep.md"
 alias sp-awk="vim $DROPBOX_LINUX/awk.md"
 alias sp-chmod="vim $DROPBOX_LINUX/chmod.md"
-alias sp-date="vim $REF_DIR/linux/date.md"
 alias sp-locale="vim $REF_DIR/linux/locale.md"
 alias sp-mutt="vim $DROPBOX_LINUX/mutt.txt"
 alias sp-pipe="vim $REF_DIR/linux/pipe.txt"
@@ -842,11 +851,11 @@ alias sp-calc="cd $SCRATCHPAD_ROOT"
 # ===============================================
 # =____________DEVELOPMENT______________________=
 # ===============================================
-alias cpp_extends="$HOME/dotfiles/lib/cpp_extends.sh"
-alias cpp_grep="$HOME/dotfiles/lib/cpp_grep.sh"
-alias cpp_funcall="$HOME/dotfiles/lib/cpp_function_call.sh"
-alias cpp_fundeclare="$HOME/dotfiles/lib/cpp_function_declare.sh"
-alias cpp_conscall="$HOME/dotfiles/lib/cpp_constructor_call.sh"
+alias cpp_extends="$HOME/dotfiles/lib/cpp_grep_extends.sh"
+alias cpp_grep="$HOME/dotfiles/lib/cpp_grep_grep.sh"
+alias cpp_funcall="$HOME/dotfiles/lib/cpp_grep_function_call.sh"
+alias cpp_fundeclare="$HOME/dotfiles/lib/cpp_grep_function_declare.sh"
+alias cpp_conscall="$HOME/dotfiles/lib/cpp_grep_constructor_call.sh"
 
 alias sp_gdb="$HOME/dotfiles/lib/gdb_tmux_dashboard.sh"
 alias sp_cmake_compile_db="cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
@@ -941,6 +950,7 @@ function sp_setup_make_project(){
 
 function sp_setup_c_make_project(){
   # TODO
+  echo ""
 }
 
 function makex() {
