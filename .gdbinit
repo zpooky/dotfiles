@@ -35,22 +35,22 @@ source ~/sources/gdb-dashboard/.gdbinit
 
 #gcc pretty printers {
 python
-  import sys
-  sys.path.insert(0, os.environ['HOME']+'/sources/gdb_pp')
-  from libstdcxx.v6.printers import register_libstdcxx_printers
-  register_libstdcxx_printers (None)
+import sys
+sys.path.insert(0, os.environ['HOME']+'/sources/gdb_pp')
+from libstdcxx.v6.printers import register_libstdcxx_printers
+register_libstdcxx_printers (None)
 end
 # }
 
 #clang pretty printers {
 python
-try:
-  import sys
-  sys.path.insert(0, os.environ['HOME']+'/sources/libcxx-pretty-printers/src')
-  from libcxx.v1.printers import register_libcxx_printers
-  register_libcxx_printers (None)
-except:
-  pass
+# try:
+import sys
+sys.path.insert(0, os.environ['HOME']+'/sources/libcxx-pretty-printers/src')
+from libcxx.v1.printers import register_libcxx_printers
+register_libcxx_printers (None)
+# except:
+#   pass
 
 end
 # }

@@ -762,8 +762,8 @@ function sp_setup_make_project(){
   fi
   setup_meta
 
-  make
-  make test
+  make -j
+  make test -j
 }
 
 function makex() {

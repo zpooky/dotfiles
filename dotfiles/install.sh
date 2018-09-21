@@ -168,6 +168,12 @@ fi
 echo "Enter sudo password"
 sudo echo "start" || exit 1
 
+# rust
+has_feature rustup
+if [[ $? -eq 0 ]]; then
+  rustup update stable
+fi
+
 # pip3
 
 # update
