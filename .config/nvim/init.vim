@@ -455,8 +455,8 @@ augroup END
 " }}}
 "
 " {{{
+" Run script in background
 Plug 'joonty/vim-do'
-
 
 function! VimDoSpScript(script)
   call do#Execute(a:script . " \"" . expand("%:p") . "\" " . line("."),1)
@@ -469,7 +469,9 @@ augroup AugroupVimDo
   " command! -range DoThis call do#ExecuteSelection()
   "
   " ~/dotfiles/lib/tmuxgdb/teamcoil_gen.sh ./test/thetest.exe '--gtest_filter="*btree*"'
+  "
   autocmd FileType c,cpp,objc noremap <silent> <leader>g <esc>:call VimDoSpScript("$HOME/dotfiles/lib/vim_gdb.sh")<CR>
+  " 
   autocmd FileType c,cpp,objc noremap <silent> <leader>u <esc>:call VimDoSpScript("$HOME/dotfiles/lib/vim_gdb_until.sh")<CR>
 augroup END
 

@@ -25,19 +25,15 @@ user:~/.asoundrc
 speaker-test -c 2 # test 2.0
 
 ## Pulseaudio
-PulseAudio serves as a proxy to sound applications using existing _kernel_ sound module: ALSA(not libalsa).
-
-###Installation
-sudo pacman -S pulseaudio pavucontrol pulseaudio-alsa pulseaudio-equalizer
---bluetooth headset
-sudo pacman -S pulseaudio-bluetooth bluez bluez-lib bluez-utils
+PulseAudio serves as a proxy to sound applications using existing _kernel_ sound
+module: ALSA(not libalsa)
 
 ###Debug
 pulseaudio -vvv
 http://www.pclinuxos.com/forum/index.php?topic=135912.30
 
 ###Application
-- pavucontrol
+- pavucontrol # mixer
 - pactl
 - pacmd     #configure a server during runtime
 
@@ -62,7 +58,9 @@ TODO
 
 #networking
 #eth
+dhcpd enp61s0
 systemctl status dhcpcd@enp61s0.service                                                                          [0]
+
 ##networking service
 ##wifi
 sudo wifi-menu
@@ -72,6 +70,28 @@ sudo wifi-menu
 #bluetooth
 ##turn off/on
 ###indicate if bluethooth is on
+
+## headset
+rfkill list
+rfkill unblock bluetooth
+systemctl status bluetooth
+
+bluetoothctl
+  power on
+  agent on
+  default-agent
+  scan on
+  pair 00:1B:66:81:01:60
+  connect 00:1B:66:81:01:60
+  trust 00:1B:66:81:01:60
+  scan off
+
+[CHG] Controller 9C:B6:D0:14:3F:64 Discovering: yes
+[NEW] Device 00:1B:66:81:01:60 00-1B-66-81-01-60
+[CHG] Device 00:1B:66:81:01:60 LegacyPairing: no
+[CHG] Device 00:1B:66:81:01:60 Name: MOMENTUM M2 AEBT
+[CHG] Device 00:1B:66:81:01:60 Alias: MOMENTUM M2 AEBT
+[CHG] Device 00:1B:66:81:01:60 LegacyPairing: yes
 
 #graphic
 ##intel
