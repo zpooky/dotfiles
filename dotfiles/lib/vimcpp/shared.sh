@@ -64,7 +64,9 @@ function smart_gtest_test_cases() {
   local line_cnt=1
 
   while IFS='' read -r line || [[ -n "$line" ]]; do
-    # TODO count nested levels{} to figure out if we are in root(meaning all tests should run) or that the cursor are inside a test function(meaning only that test should be run(the last in the arrray))
+    # TODO count nested levels{} to figure out if we are in root(meaning all
+    # tests should run) or that the cursor are inside a test function(meaning
+    # only that test should be run(the last in the arrray))
 
     is_line_gtest "$line"
     if [ $? -eq 0 ]; then
@@ -106,18 +108,23 @@ function gtest_for_file_line() {
   local in_SEARCH="$2"
 
   if [ ! -e "$in_FILE" ]; then
+    echo "file '${in_FILE}' does not exist"
     return 1
   fi
 
   if [ ! -f "$in_FILE" ]; then
+    echo "is not a file '${in_FILE}'"
     return 1
   fi
 
   test_matcher=""
+  local test_cnt=0
   local line_cnt=1
 
   while IFS='' read -r line || [[ -n "$line" ]]; do
-    # TODO count nested levels{} to figure out if we are in root(meaning all tests should run) or that the cursor are inside a test function(meaning only that test should be run(the last in the arrray))
+    # TODO count nested levels{} to figure out if we are in root(meaning all
+    # tests should run) or that the cursor are inside a test function(meaning
+    # only that test should be run(the last in the array))
 
     is_line_gtest "$line"
     if [ $? -eq 0 ]; then
@@ -126,15 +133,18 @@ function gtest_for_file_line() {
       local param_match="*${BASH_REMATCH[1]}.${BASH_REMATCH[2]}/*"
 
       test_matcher="${exact_match}:${param_match}"
+
+      local test_cnt=$((test_cnt + 1))
     fi
 
     # if we are currently on the searched line
     if [ $in_SEARCH -eq $line_cnt ]; then
 
       # if there is more than zero tests
-      if [ ! -z "${test_matcher}" ]; then
+      if [ $test_cnt -gt 0 ]; then
         break
       else
+        echo "not tests found"
         return 1
       fi
     fi

@@ -8,7 +8,6 @@ source $HOME/dotfiles/lib/vimcpp/shared.sh
 
 # ./script <cpp_file> <line>
 
-
 in_FILE="${1}"
 in_SEARCH="${2}"
 
@@ -33,7 +32,9 @@ if [ true ]; then
 
   line_cnt=1
   while IFS='' read -r line || [[ -n "$line" ]]; do
-    # TODO count nested levels{} to figure out if we are in root(meaning all tests should run) or that the cursor are inside a test function(meaning only that test should be run(the last in the arrray))
+    # TODO count nested levels{} to figure out if we are in root(meaning all
+    # tests should run) or that the cursor are inside a test function(meaning
+    # only that test should be run(the last in the arrray))
 
     is_line_gtest "$line"
     if [ $? -eq 0 ]; then

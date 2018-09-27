@@ -440,6 +440,11 @@ function! VimuxSpTest()
   call VimuxRunCommand("$HOME/dotfiles/lib/vim_smart_test.sh \"" . expand("%:p") . "\" " . line("."))
 endfunction
 
+function! VimuxSpPerf()
+  call VimuxSendKeys("C-c")
+  call VimuxRunCommand("$HOME/dotfiles/lib/vim_perf.sh \"" . expand("%:p") . "\" " . line("."))
+endfunction
+
 function! VimuxSpTranslate()
   call VimuxSendKeys("q")
   let wordUnderCursor = expand("<cword>")
@@ -449,8 +454,12 @@ endfunction
 augroup AugroupVimux
   autocmd!
 
+  "
   autocmd FileType c,cpp,objc noremap <silent> <leader>t <esc>:call VimuxSpTest()<CR>
+  "
   autocmd FileType md,markdown,text noremap <silent> <leader>t <esc>:call VimuxSpTranslate()<CR>
+  "
+  autocmd FileType c,cpp,objc noremap <silent> <leader>p <esc>:call VimuxSpPerf()<CR>
 augroup END
 " }}}
 "
@@ -469,10 +478,12 @@ augroup AugroupVimDo
   " command! -range DoThis call do#ExecuteSelection()
   "
   " ~/dotfiles/lib/tmuxgdb/teamcoil_gen.sh ./test/thetest.exe '--gtest_filter="*btree*"'
+
   "
   autocmd FileType c,cpp,objc noremap <silent> <leader>g <esc>:call VimDoSpScript("$HOME/dotfiles/lib/vim_gdb.sh")<CR>
-  " 
+  "
   autocmd FileType c,cpp,objc noremap <silent> <leader>u <esc>:call VimDoSpScript("$HOME/dotfiles/lib/vim_gdb_until.sh")<CR>
+
 augroup END
 
 " }}}
