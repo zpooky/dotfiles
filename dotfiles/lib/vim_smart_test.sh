@@ -15,8 +15,7 @@ in_SEARCH="${2}"
 if [ true ]; then
 
   function find_test_make() {
-    local path=$1
-    local path="$(dirname $path)"
+    local path="${1}"
 
     search_path_upwards "${path}" "Makefile"
     if [ $? -eq 0 ]; then
@@ -28,53 +27,38 @@ if [ true ]; then
     fi
   }
 
-  test_matches=()
-
-  line_cnt=1
-  while IFS='' read -r line || [[ -n "$line" ]]; do
-    # TODO count nested levels{} to figure out if we are in root(meaning all
-    # tests should run) or that the cursor are inside a test function(meaning
-    # only that test should be run(the last in the arrray))
-
-    is_line_gtest "$line"
-    if [ $? -eq 0 ]; then
-      # echo "./test/thetest --gtest_filter=\"*${BASH_REMATCH[1]}.${BASH_REMATCH[2]}*\""
-      # echo "$line_cnt: $line"
-      # echo "${BASH_REMATCH[@]}"
-
-      exact_match="${BASH_REMATCH[1]}.${BASH_REMATCH[2]}"
-      # Default/ReadWriteLockThreadTest.threaded_TryPrepare/13 (5 ms)
-      param_match="*${BASH_REMATCH[1]}.${BASH_REMATCH[2]}/*"
-      test_matches+=("${exact_match}:${param_match}")
-    fi
-
-    if [ $in_SEARCH -eq $line_cnt ]; then
-      # TODO if [ ! $nested_count -eq 0 ]; then
-      echo "matches ${#test_matches[@]}"
-      if [ ${#test_matches[@]} -gt 0 ]; then
-        test_matches=(${test_matches[-1]})
-        echo "constraint ${test_matches}"
-        break
-      fi
-      # fi
-    fi
-
-    line_cnt=$((line_cnt + 1))
-  done <"$in_FILE"
+  smart_gtest_test_cases "${in_FILE}" "${in_SEARCH}"
+  if [ ! $? -eq 0 ]; then
+    echo "smart_gtest_test_cases '${in_FILE}' '${in_SEARCH}': failed"
+    exit 1
+  fi
 
   # build command array
   find_test_executable "$in_FILE"
   command_arg="${test_EXECUTABLE} --gtest_filter=\""
 
-  arg_first=0
+  arg_first=1
+  if [ $all_tests -eq 1 ]; then
+    for current in "${group_matches[@]}"; do
+      if [ $arg_first -eq 1 ]; then
+        arg_first=0
+      else
+        command_arg="${command_arg}:"
+      fi
+
+      command_arg="${command_arg}${current}.*"
+    done
+  fi
+
   for current in "${test_matches[@]}"; do
-    if [ $arg_first -eq 0 ]; then
-      command_arg="${command_arg}${current}"
-      arg_first=1
+    if [ $arg_first -eq 1 ]; then
+      arg_first=0
     else
-      command_arg="${command_arg}:${current}"
+      command_arg="${command_arg}:"
     fi
+    command_arg="${command_arg}${current}"
   done
+
   command_arg="${command_arg}\""
 
   find_test_make "$in_FILE"

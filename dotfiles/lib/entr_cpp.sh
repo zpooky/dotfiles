@@ -5,21 +5,30 @@ source $HOME/dotfiles/lib/vimcpp/shared.sh
 BODY="$1"
 ARG=${@:2:99}
 
-TEMP_file=`mktemp /tmp/entr.XXXXXXXXXXXXXX`
+TEMP_file="$(mktemp /tmp/entr.XXXXXXXXXXXXXX)"
 if [ ! $? -eq 0 ]; then
   echo "failed to gen tmp file"
   exit 1
 fi
 
-# {
 cur_pwd="$(pwd)"
-search_path_upwards "${cur_pwd}" ".git"
+wd="${cur_pwd}"
+
+# echo "#####'${2}'"
+if [ -e ${2} ]; then
+  # hacky we assume first arg is a fiel or path
+  wd="${2}"
+fi
+
+# {
+# TODO not use pwd instead file arg
+search_path_upwards "${wd}" ".git"
 if [ $? -eq 0 ]; then
   echo "git root: '$search_RESULT'"
   # echo "cd ${search_RESULT}"
 
   cd "${search_RESULT}"
-  if [ !  $? -eq 0 ]; then
+  if [ ! $? -eq 0 ]; then
     echo "failed to cd to '${search_RESULT}'"
     exit 1
   fi

@@ -34,9 +34,9 @@ function is_gtest_file() {
 function is_line_gtest() {
   local line="$1"
 
-  local regEx_TEST_F='^[ \t]*TEST_F\((.+)[ \t]*, (.+)\)'
-  local regEx_TEST_P='^[ \t]*TEST_P\((.+)[ \t]*, (.+)\)'
-  local regEx_TEST='^[ \t]*TEST\((.+)[ \t]*, (.+)\)'
+  local regEx_TEST_F='^[[:space:]]*TEST_F\((.+)[[:space:]]*,[[:space:]]*(.+)\)'
+  local regEx_TEST_P='^[[:space:]]*TEST_P\((.+)[[:space:]]*,[[:space:]]*(.+)\)'
+  local regEx_TEST='^[[:space:]]*TEST\((.+)[[:space:]]*,[[:space:]]*(.+)\)'
   if [[ $line =~ $regEx_TEST || $line =~ $regEx_TEST_P || $line =~ $regEx_TEST_F ]]; then
     return 0
   else
@@ -50,7 +50,7 @@ function is_line_gtest() {
 # result: ...
 function smart_gtest_test_cases() {
   local in_FILE="$1"
-  local in_SEARCH="$2"
+  local in_SEARCH_line="$2"
 
   if [ ! -e "$in_FILE" ]; then
     return 1
@@ -60,7 +60,9 @@ function smart_gtest_test_cases() {
     return 1
   fi
 
+  group_matches=()
   test_matches=()
+  all_tests=1
   local line_cnt=1
 
   while IFS='' read -r line || [[ -n "$line" ]]; do
@@ -74,21 +76,26 @@ function smart_gtest_test_cases() {
       # echo "$line_cnt: $line"
       # echo "${BASH_REMATCH[@]}"
 
+      # echo "base[1]: ${BASH_REMATCH[1]}"
+      # echo "base[2]: ${BASH_REMATCH[2]}"
       local exact_match="${BASH_REMATCH[1]}.${BASH_REMATCH[2]}"
       # Default/ReadWriteLockThreadTest.threaded_TryPrepare/13 (5 ms)
       local param_match="*${BASH_REMATCH[1]}.${BASH_REMATCH[2]}/*"
 
       test_matches+=("${exact_match}:${param_match}")
+      group_matches+=("${BASH_REMATCH[1]}")
     fi
 
     # if we are currently on the searched line
-    if [ $in_SEARCH -eq $line_cnt ]; then
+    if [ $in_SEARCH_line -eq $line_cnt ]; then
       # TODO if [ ! $nested_count -eq 0 ]; then
       # echo "matches ${#test_matches[@]}"
       # if there is more than zero tests
       if [ ${#test_matches[@]} -gt 0 ]; then
         # take the last found test
         test_matches=(${test_matches[-1]})
+        group_matches=(${group_matches[-1]})
+        all_tests=0
         # echo "constraint ${test_matches}"
         break
       fi
@@ -97,6 +104,9 @@ function smart_gtest_test_cases() {
 
     local line_cnt=$((line_cnt + 1))
   done <"$in_FILE"
+
+  # unique
+  group_matches=($(for v in "${group_matches[@]}"; do echo "$v";done| sort| uniq| xargs))
 
   return 0
 }
@@ -169,14 +179,18 @@ function gtest_for_file_line() {
 # out: 0:true/1:false
 # result: search_RESULT
 function search_path_upwards() {
-  local path=${1}
-  local needle=${2}
-  # local path="$(dirname $path)"
+  local path="${1}"
+  local needle="${2}"
+
+  if [ ! -d "${path}" ]; then
+    # not a directory, goto parent
+    local path="$(dirname $path)"
+  fi
 
   while [[ "$path" != "/" ]]; do
     local test_path="${path}/${needle}"
-    ls $test_path >/dev/null 2>&1
 
+    ls "${test_path}" >/dev/null 2>&1
     if [ $? -eq 0 ]; then
       search_RESULT="${path}"
       return 0

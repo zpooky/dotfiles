@@ -5,24 +5,25 @@
 
 source $HOME/dotfiles/lib/entr_shared.sh
 
-make_FILE="$1"
+make_FILE="${1}"
 ARG=${@:2:99}
 
 # make -C test
-TEMP_file=`mktemp /tmp/make_test-XXXXXXXX`
+temp_file="$(mktemp /tmp/make_test-XXXXXXXX)"
+
 echo ""
 echo "compiling..."
-echo "make -C $make_FILE -j $(echo $NUMBER_OF_PROCESSORS) 1>/dev/null 2> $TEMP_file"
-make -C $make_FILE CXXFLAGS=-fdiagnostics-color=always -j $(echo $NUMBER_OF_PROCESSORS) 1>/dev/null 2> $TEMP_file
-RET=$?
+echo "make -C $make_FILE -j $(echo $NUMBER_OF_PROCESSORS) 1>/dev/null 2> $temp_file"
+make -C $make_FILE CXXFLAGS=-fdiagnostics-color=always -j $(echo $NUMBER_OF_PROCESSORS) 1>/dev/null 2> "${temp_file}"
+ret=$?
 
 cls
 header
-if [ $RET -eq 0 ]; then
+if [ $ret -eq 0 ]; then
   cls
   # echo "./test/thetest $@"
 
-  # eval ${ARG[@]} 1&2> $TEMP_file
+  # eval ${ARG[@]} 1&2> $temp_file
   cls
   eval ${ARG[@]}
 
@@ -37,7 +38,7 @@ if [ $RET -eq 0 ]; then
   fi
 
 else
-  cat $TEMP_file
+  cat $temp_file
 
   bad "Compilation FAILED"
   if [ -v "TMUX" ]; then
@@ -46,4 +47,4 @@ else
   fi
 fi
 
-rm $TEMP_file
+rm "${temp_file}"
