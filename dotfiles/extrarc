@@ -155,7 +155,7 @@ function sp_cpu_alias() {
   alias sp-cpu="vim -p ${cpu} ${isa} ${microarchitecture} ${risc} ${cisc} ${opcode} ${machine_code} ${asm} ${dma}"
   alias sp-microprocessor="sp-cpu"
   alias sp-ISA="vim ${isa}"
-  alias sp-isa="vim ${isa}"
+  alias sp-isa="sp-ISA"
   alias sp-microarchitecture="vim ${microarchitecture}"
   alias sp-risc="vim ${risc}"
   alias sp-cisc="vim ${cisc}"
@@ -235,9 +235,6 @@ function sp_crypto(){
 
 sp_crypto
 
-#math
-alias sp-math="vim $REF_DIR/math_notes.md"
-
 #circuits
 function sp_circuts_alias() {
   local fpga="$REF_DIR/fpga.md"
@@ -300,8 +297,6 @@ alias sp-cygwin="vim $REF_DIR/cygwin.md"
 alias sp-arch="vim $REF_DIR/arch.md"
 
 # computer science
-alias sp-big-o="vim $REF_DIR/big-o.md"      #TODO
-alias sp-np-problem="vim $REF_DIR/np-problem.md"      #TODO
 alias sp-bnf="vim $REF_DIR/bnf.md"
 alias sp-floating-point="vim $REF_DIR/floating-point.md" #TODO
 alias sp-static-dynamic-typing="vim $REF_DIR/static-dynamic-typing.md"
@@ -310,8 +305,18 @@ alias sp-crdt="vim $REF_DIR/crdt.md"       #TODO
 alias sp-turing-complete="vim $REF_DIR/turing-complete.md"       #TODO
 alias sp-lambda-calculus="vim $REF_DIR/lambda-calc.md"       #TODO
 alias sp-churn="vim $REF_DIR/churn.md"
-alias sp-bitwise="vim $REF_DIR/bitwise.md"
 alias sp-polish-notation="vim $REF_DIR/polish-notation.md"
+
+alias sp-big-o="vim $REF_DIR/big-o.md"      #TODO
+alias sp-np-problem="vim $REF_DIR/np-problem.md"      #TODO
+alias sp-bitwise="vim $REF_DIR/bitwise.md"
+alias sp-notation="sp-bitwise"
+alias sp-math-notation="sp-bitwise"
+alias sp-set-theory="sp-bitwise"
+
+alias sp-math="vim $REF_DIR/math_notes.md"    #TODO
+alias sp-math-square="sp-math"
+alias sp-order-of-magnitude="vim $REF_DIR/order-of-magnitude.md"
 
 function sp_complexity() {
   local exp="$REF_DIR/exponential-growth.md"
@@ -719,9 +724,30 @@ alias nas540_dl="cd $HOME/mount/nas540/0da29454/admin/download/Transmission/down
 alias extdisk="cd $HOME/mount/exdisk"
 
 function fun_sp_mount_fat() {
-  local DEV="$1"
-  local MP="$2"
-  sudo mount "$DEV" "$MP" -o user,rw,umask=111,dmask=000
+  local dev_file="$1"
+  local mount_point="$2"
+
+  if [ ! -e "${dev_file}" ]; then
+    echo "not existing: '${dev_file}'"
+    return 1
+  fi
+
+  if [ ! -b "${dev_file}" ]; then
+    echo "not a block device: '${dev_file}'"
+    return 1
+  fi
+
+  if [ ! -e "${moint_point}" ]; then
+    echo "not existing: '${mount_point}'"
+    return 1
+  fi
+
+  if [ ! -d "${moint_point}" ]; then
+    echo "not a directory: '${mount_point}'"
+    return 1
+  fi
+
+  sudo mount "$dev_file" "$mount_point" -o user,rw,umask=111,dmask=000
 }
 alias sp_mount_fat="fun_sp_mount_fat"
 

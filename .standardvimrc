@@ -601,6 +601,8 @@ iab canditates candidates
 iab whre where
 iab visualy visually
 iab incorpereated incorporated
+iab occurence occurrence
+iab sciensce science
 
 iab Acsending Ascending
 iab acsending ascending
@@ -632,6 +634,7 @@ iab cosnt const
 iab asssert assert
 iab treu true
 iab pritnf printf
+iab szie_t size_t
 
 " iab nullpt nullptr
 " iab nullp nullptr
