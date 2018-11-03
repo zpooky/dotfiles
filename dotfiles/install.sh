@@ -432,4 +432,4 @@ fi
 #   stop_feature "lesscolors"
 # fi
 
-#$HOME/dotfiles/install_atomic.sh
+$HOME/dotfiles/install_atomic.sh

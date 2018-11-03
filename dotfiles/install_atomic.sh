@@ -20,68 +20,59 @@ if [ ! -e $ZSH_AUTOSUGGEST ]; then
     rm -rf $ZSH_AUTOSUGGEST
   fi
 fi
-PREV_DIR=`pwd`
+PREV_DIR=$(pwd)
 cd $ZSH_AUTOSUGGEST
 git pull --rebase origin master
 cd $PREV_DIR
 
+exit 0
+
 # tig - git terminal ncurses TUI
-PACKAGE_NAME=tig
-FEATURE=$FEATURE_HOME/$PACKAGE_NAME
-if [ ! -e $FEATURE ]; then
+
+has_feature tig
+if [ ! $? -eq 0 ]; then
+  PACKAGE_NAME=tig
+
   start_feature "$PACKAGE_NAME"
 
-  is_arch
-  if [ $? -eq 0 ]; then
-    has_feature "tig"
-    if [[ $? -eq 1 ]]; then
-      install tig || exit 1
+  PREV_DIR=$(pwd)
+
+  ROOT=$GIT_SOURCES/$PACKAGE_NAME
+  if [ ! -e $ROOT ]; then
+    git clone https://github.com/jonas/$PACKAGE_NAME.git $ROOT
+    if [ ! $? -eq 0 ]; then
+      rm -rf $ROOT
     fi
+  fi
+
+  if [ -e $ROOT ]; then
+    cd $ROOT
+
+    git pull --rebase origin master
 
     if [ $? -eq 0 ]; then
-      # tig --help
-      touch $FEATURE
-    fi
-  else
-    PREV_DIR=`pwd`
-
-    ROOT=$GIT_SOURCES/$PACKAGE_NAME
-    if [ ! -e $ROOT ]; then
-      git clone https://github.com/jonas/$PACKAGE_NAME.git $ROOT
-      if [ ! $? -eq 0 ]; then
-        rm -rf $ROOT
-      fi
-    fi
-
-    if [ -e $ROOT ]; then
-      cd $ROOT
-
-      git pull --rebase origin master
+      ./autogen.sh
 
       if [ $? -eq 0 ]; then
-        ./autogen.sh
+        ./configure --prefix=$INSTALL_PREFIX
 
         if [ $? -eq 0 ]; then
-          ./configure --prefix=$INSTALL_PREFIX
+          make
 
           if [ $? -eq 0 ]; then
-            make
+            sudo make uninstall
+            sudo make install
 
             if [ $? -eq 0 ]; then
-              sudo make uninstall
-              sudo make install
-
-              if [ $? -eq 0 ]; then
-                tig --help
-                touch $FEATURE
-              fi
+              tig --help
+              touch $FEATURE
             fi
           fi
         fi
       fi
     fi
-    cd $PREV_DIR
   fi
+  cd $PREV_DIR
 
   stop_feature "tig"
 fi
@@ -111,7 +102,7 @@ fi
 #     if [ $? -eq 0 ]; then
 #       mkdir $TARGET
 #       tar -xzf $TAR -C $TARGET --strip-components=1
-#       if [ $? -eq 0 ]; then 
+#       if [ $? -eq 0 ]; then
 #         cd $TARGET/build/gcc
 #         if [ $? -eq 0 ]; then
 #           make
@@ -156,7 +147,7 @@ if [ ! -e $FEATURE ]; then
       echo ""
     fi
   else
-    PREV_DIR=`pwd`
+    PREV_DIR=$(pwd)
     GLOBAL_ROOT=$GIT_SOURCES/global
     GLOBAL_LATEST=$GLOBAL_ROOT/global-latest
 
@@ -177,7 +168,7 @@ if [ ! -e $FEATURE ]; then
           if [ $? -eq 0 ]; then
             make
             if [ $? -eq 0 ]; then
-              CURRENT=`pwd`
+              CURRENT=$(pwd)
               if [ -e $GLOBAL_LATEST ]; then
                 # uninstall previous
                 cd $GLOBAL_LATEST
@@ -187,7 +178,7 @@ if [ ! -e $FEATURE ]; then
               fi
               sudo make install
               if [ $? -eq 0 ]; then
-                ln -s $TARGET $GLOBAL_LATEST 
+                ln -s $TARGET $GLOBAL_LATEST
                 touch $FEATURE
               fi
             fi
@@ -212,10 +203,10 @@ if [ ! $? -eq 0 ]; then
   is_apt_get
   if [ $? -eq 0 ]; then
     # manually install it because why not
-    TEMP_DIR=`mktemp -d`
+    TEMP_DIR=$(mktemp -d)
     ACK_SOURCE=$TEMP_DIR/ack-grep
     ACK_DESTINATION=/usr/bin/ack-grep
-    curl http://beyondgrep.com/ack-2.14-single-file > $ACK_SOURCE
+    curl http://beyondgrep.com/ack-2.14-single-file >$ACK_SOURCE
     if [ $? -eq 0 ]; then
       chmod 0755 $ACK_SOURCE
       sudo chown root:root $ACK_SOURCE
@@ -269,33 +260,16 @@ fi
 #   stop_feature "jsonlint"
 # fi
 
-# ranger
-# TODO
-# FEATURE=$FEATURE_HOME/ranger1
-# if [ ! -e $FEATURE ]; then
-#   start_feature "ranger"
-#
-#   pip2_install git+https://github.com/ranger/ranger.git
-#   if [ $? -eq 0 ]; then
-#     touch $FEATURE
-#   fi
-#
-#   stop_feature "ranger"
-# fi
-
 # guake
-FEATURE=$FEATURE_HOME/guake1
-if [ ! -e $FEATURE ]; then
+has_feature guake
+if [ ! $? -eq 0 ]; then
   start_feature "guake"
 
   is_arch
   if [ $? -eq 0 ]; then
-    has_feature guake
-    if [[ $? -eq 1 ]]; then
-      install guake || exit 1
-    fi
+    install guake || exit 1
   else
-    PREV_DIR=`pwd`
+    PREV_DIR=$(pwd)
 
     GUAKE_ROOT=$GIT_SOURCES/guake
     if [ ! -e $GUAKE_ROOT ]; then
@@ -325,7 +299,6 @@ if [ ! -e $FEATURE ]; then
 
               if [ $? -eq 0 ]; then
                 guake --help
-                touch $FEATURE
               fi
             fi
           fi
@@ -348,14 +321,11 @@ fi
 
 # should update powerline settings and scripts
 LIB_ROOTS=("/lib" "/usr/lib" "/usr/local/lib")
-for LIB_ROOT in "${LIB_ROOTS[@]}"
-do
-  PYTHON_VERSION=("python2.7" "python2.8" "python2.9" "python3.6" "python3.7" "python3.8")
-  for PYTHON in "${PYTHON_VERSION[@]}"
-  do
+for LIB_ROOT in "${LIB_ROOTS[@]}"; do
+  PYTHON_VERSION=("python2.7" "python2.8" "python2.9" "python3.6" "python3.7" "python3.8" "python3.9")
+  for PYTHON in "${PYTHON_VERSION[@]}"; do
     PACKAGES=("dist-packages" "site-packages")
-    for PACKAGE in "${PACKAGES[@]}"
-    do
+    for PACKAGE in "${PACKAGES[@]}"; do
       # install powerline tmux segments
       POWERLINE_SEGMENTS="${LIB_ROOT}/${PYTHON}/${PACKAGE}/powerline/segments"
 
@@ -372,34 +342,41 @@ STDMAN_FEATURE=$FEATURE_HOME/stdman1
 if [ ! -e $STDMAN_FEATURE ]; then
   start_feature "stdman"
 
-  PREV_DIR=`pwd`
 
-  STDMAN_ROOT=$GIT_SOURCES/stdman
+  PREV_DIR=$(pwd)
 
-  if [ ! -e $STDMAN_ROOT ]; then
-    git clone https://github.com/jeaye/stdman.git $STDMAN_ROOT
-    if [ ! $? -eq 0 ]; then
-      rm -rf $STDMAN_ROOT
+  is_arch
+  if [ $? -eq 0 ]; then
+    install stdman
+  else
+
+    STDMAN_ROOT=$GIT_SOURCES/stdman
+
+    if [ ! -e $STDMAN_ROOT ]; then
+      git clone https://github.com/jeaye/stdman.git $STDMAN_ROOT
+      if [ ! $? -eq 0 ]; then
+        rm -rf $STDMAN_ROOT
+      fi
     fi
-  fi
-
-  if [ -e $STDMAN_ROOT ]; then
-    cd $STDMAN_ROOT
-    git pull --rebase origin master
 
     if [ -e $STDMAN_ROOT ]; then
+      cd $STDMAN_ROOT
+      git pull --rebase origin master
 
-      sudo make uninstall
-      ./configure --prefix=$STDMAN_PREFIX
+      if [ -e $STDMAN_ROOT ]; then
 
-      if [ $? -eq 0 ]; then
-        make
+        sudo make uninstall
+        ./configure --prefix=$STDMAN_PREFIX
+
         if [ $? -eq 0 ]; then
-          sudo make install
+          make
           if [ $? -eq 0 ]; then
-            sudo mandb
+            sudo make install
             if [ $? -eq 0 ]; then
-              touch $STDMAN_FEATURE
+              sudo mandb
+              if [ $? -eq 0 ]; then
+                touch $STDMAN_FEATURE
+              fi
             fi
           fi
         fi
@@ -412,26 +389,26 @@ if [ ! -e $STDMAN_FEATURE ]; then
   cd $PREV_DIR
 fi
 
-# bcc tools containging kernel debug stuff
-BCC_FEATURE=$FEATURE_HOME/bcc
-if [ ! -e $BCC_FEATURE ]; then
-  if [[ $KERNEL_VERSION != ^3.* ]]; then
-    start_feature "bcc"
-
-    is_apt_get
-    if [ $? -eq 0 ]; then
-      # https://github.com/iovisor/bcc/blob/master/INSTALL.md
-      echo "deb [trusted=yes] https://repo.iovisor.org/apt/xenial xenial-nightly main" | sudo tee /etc/apt/sources.list.d/iovisor.list
-      update_package_list
-    fi
-    install bcc-tools
-
-    if [ $? -eq 0 ]; then
-      touch $BCC_FEATURE
-    fi
-    stop_feature "bcc"
-  fi
-fi
+# bcc tools containing kernel debug stuff
+# BCC_FEATURE=$FEATURE_HOME/bcc
+# if [ ! -e $BCC_FEATURE ]; then
+#   if [[ $KERNEL_VERSION != ^3.* ]]; then
+#     start_feature "bcc"
+#
+#     is_apt_get
+#     if [ $? -eq 0 ]; then
+#       # https://github.com/iovisor/bcc/blob/master/INSTALL.md
+#       echo "deb [trusted=yes] https://repo.iovisor.org/apt/xenial xenial-nightly main" | sudo tee /etc/apt/sources.list.d/iovisor.list
+#       update_package_list
+#     fi
+#     install bcc-tools
+#
+#     if [ $? -eq 0 ]; then
+#       touch $BCC_FEATURE
+#     fi
+#     stop_feature "bcc"
+#   fi
+# fi
 
 # keepass
 FEATURE=$FEATURE_HOME/keepass1
@@ -452,15 +429,15 @@ if [ ! -e $FEATURE ]; then
 fi
 
 # mega
-FEATURE=$FEATURE_HOME/mega1
-if [ ! -e $FEATURE ]; then
+has_feature megasync
+if [ ! $? -eq 0 ]; then
   start_feature "mega"
 
   is_apt_get
   if [ $? -eq 0 ]; then
-    PREV_DIR=`pwd`
+    PREV_DIR=$(pwd)
 
-    TEMP_DIR=`mktemp -d`
+    TEMP_DIR=$(mktemp -d)
     cd $TEMP_DIR
 
     MEGA_DEB=$TEMP_DIR/megasync.deb
@@ -471,9 +448,6 @@ if [ ! -e $FEATURE ]; then
       install libcrypto++9
       if [ $? -eq 0 ]; then
         sudo dpkg -y -i $MEGA_DEB
-        if [ $? -eq 0 ]; then
-          touch $FEATURE
-        fi
       fi
     fi
   fi
@@ -482,15 +456,15 @@ if [ ! -e $FEATURE ]; then
 fi
 
 # csope bin. install to /usr/bin
-FEATURE=$FEATURE_HOME/cscope
-if [ ! -e $FEATURE ]; then
+has_feature cscope
+if [ ! $? -eq 0 ]; then
   start_feature "cscope"
 
   is_arch
   if [ $? -eq 0 ]; then
     echo ""
   else
-    PREV_DIR=`pwd`
+    PREV_DIR=$(pwd)
 
     CSOPE=csope
     CSOPE_VERSION=15.8b
@@ -498,8 +472,8 @@ if [ ! -e $FEATURE ]; then
     CSCOPE_TAR_PATH=$CSOPE_ROOT/$CSOPE.tar.gz
     TARGET=$CSOPE_ROOT/$CSOPE-$CSOPE_VERSION
     CSOPE_LATEST=$CSOPE_ROOT/$CSOPE-latest
-    if [ -e ! $CSOPE_ROOT ]; then
-      mkdir $CSOPE_ROOT
+    if [ ! -e  "$CSOPE_ROOT" ]; then
+      mkdir "$CSOPE_ROOT"
     fi
 
     if [ ! -e $TARGET ]; then
@@ -513,7 +487,7 @@ if [ ! -e $FEATURE ]; then
           if [ $? -eq 0 ]; then
             make
             if [ $? -eq 0 ]; then
-              CURRENT=`pwd`
+              CURRENT=$(pwd)
               if [ -e $CSOPE_LATEST ]; then
                 # uninstall previous
                 cd $CSOPE_LATEST
@@ -525,7 +499,6 @@ if [ ! -e $FEATURE ]; then
               if [ $? -eq 0 ]; then
                 ln -s $TARGET $CSOPE_LATEST
                 cscope --version
-                touch $FEATURE
               fi
             fi
           fi
@@ -552,7 +525,7 @@ if [ ! -e $FEATURE ]; then
   if [ $? -eq 0 ]; then
     echo ""
   else
-    PREV_DIR=`pwd`
+    PREV_DIR=$(pwd)
 
     CTAGS=ctags
     CTAGS_ROOT=$GIT_SOURCES/$CTAGS
@@ -605,7 +578,7 @@ if [ ! -e $FEATURE ]; then
       install cppcheck
     fi
   else
-    PREV_DIR=`pwd`
+    PREV_DIR=$(pwd)
 
     CPPCHECK=cppcheck
     CPPCHECK_ROOT=$GIT_SOURCES/$CPPCHECK
@@ -678,8 +651,8 @@ if [ ! -e $FEATURE ]; then
   if [ $? -eq 0 ]; then
     echo ""
   else
-    PREV_DIR=`pwd`
-    TEMP_DIR=`mktemp -d`
+    PREV_DIR=$(pwd)
+    TEMP_DIR=$(mktemp -d)
     cd $TEMP_DIR
 
     HASKELL_VERSION=8.0.1
@@ -698,4 +671,3 @@ if [ ! -e $FEATURE ]; then
 
   stop_feature "haskell8"
 fi
-

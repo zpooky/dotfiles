@@ -34,11 +34,16 @@ install_pkg screenfetch
 
 screenfetch
 
+install_pkg yay
+
+
 install_pkg vim
 install_pkg powerline
 install_pkg python-powerline
 
 install_pkg shellcheck
+
+install_pkg nodejs-jsonlint
 
 #nvim
 install_pkg ruby
@@ -83,6 +88,11 @@ fi
 has_feature redpen
 if [ $? -eq 1 ]; then
   yay -S redpen
+fi
+
+has_feature cppcheck
+if [ $? -eq 1 ]; then
+  yay -S cppcheck
 fi
 
 #video player
@@ -231,8 +241,6 @@ install_pkg keepass
 install_pkg cscope
 install_pkg tig
 install_pkg tmux
-
-install_pkg yay
 
 has_feature ag
 if [ $? -eq 1 ]; then
