@@ -1,32 +1,32 @@
 #!/bin/bash
-source $HOME/dotfiles/shared.sh
+source "$HOME/dotfiles/shared.sh"
 
 p() {
   printf '%b\n' "$1" >&2
 }
 
 bad() {
-  p "\e[31m[✘]\e[0m ${1}${2}"
+  p "\\e[31m[✘]\\e[0m ${1}${2}"
 }
 
 good() {
-  p "\e[32m[✔]\e[0m ${1}${2}"
+  p "\\e[32m[✔]\\e[0m ${1}${2}"
 }
 
 function install_pkg() {
-  has_feature $1
+  has_feature "$1"
   if [ $? -eq 1 ]; then
-    install $1
+    install "$1"
     RET=$?
 
     if [ $RET -eq 1 ]; then
-      bad $1 " was not installed"
+      bad "$1" " was not installed"
       exit 1
     else
-      good $1 " was installed"
+      good "$1" " was installed"
     fi
   else
-    good $1 " is already installed"
+    good "$1" " is already installed"
   fi
 }
 
@@ -35,31 +35,35 @@ install_pkg screenfetch
 screenfetch
 
 install_pkg vim
+install_pkg powerline
+install_pkg python-powerline
 
 install_pkg shellcheck
 
-has_feature package-query
-if [ $? -eq 1 ]; then
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz"
-fi
-
-has_feature yaourt
-if [ $? -eq 1 ]; then
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz"
-fi
-
 #nvim
+install_pkg ruby
+install_pkg npm
+
 has_feature nvim
 if [ $? -eq 1 ]; then
   install_pkg neovim
-fi
-install_pkg ruby
-# install_pkg npm
 
-gem install neovim
-npm install -g neovim
-pip2 install --user neovim
-pip3 install --user neovim
+#pip2 install --user neovim
+#pip3 install --user neovim
+
+  install_pkg python-neovim
+  install_pkg python2-neovim
+
+  gem install neovim
+  npm install -g neovim
+
+  #
+  #pip2 install --user jedi
+  #pip3 install --user jedi
+  #pip install --user jedi
+  yay -S python-jedi
+  yay -S python2-jedi
+fi
 
 #tmux
 # https://github.com/remiprev/teamocil
@@ -67,11 +71,19 @@ gem install teamocil
 
 # https://github.com/tmux-python/tmuxp
 # freeze serialized current session layout to a yaml file which can be used by teamocil
-pip install --user tmuxp
+#pip install --user tmuxp
+yay -S tmuxp
 
 #spelling
-pip install --user proselint
-yaourt -S redpen
+has_feature proselint
+if [ $? -eq 1 ]; then
+  yay -S proselint
+fi
+
+has_feature redpen
+if [ $? -eq 1 ]; then
+  yay -S redpen
+fi
 
 #video player
 install_pkg mpv
@@ -82,6 +94,7 @@ install_pkg guake
 install_pkg chromium
 
 #
+install_pkg ranger
 install_pkg firefox
 install_pkg wget
 install_pkg sudo
@@ -97,18 +110,17 @@ install_pkg perf
 install_pkg patch
 
 # compdb adds header to compile db
-pip2 install --user git+https://github.com/Sarcasm/compdb.git#egg=compdb
+#pip2 install --user git+https://github.com/Sarcasm/compdb.git#egg=compdb
 
-#
-pip2 install --user jedi
-pip3 install --user jedi
-pip install --user jedi
 
 #python formatter
 install_pkg yapf
 
 #tor-browser
-yaourt -S tor-browser
+has_feature tor-browser
+if [ $? -eq 1 ]; then
+  yay -S tor-browser
+fi
 
 #for wifi-menu
 install_pkg dialog
@@ -202,7 +214,8 @@ if [ $? -eq 1 ]; then
   install_pkg zsh
   install_pkg zsh-completions
 fi
-install_pkg termite
+# install_pkg termite
+install_pkg fzf
 
 #xclip
 install_pkg xclip
@@ -216,75 +229,102 @@ fi
 install_pkg pkg-config
 install_pkg keepass
 install_pkg cscope
+install_pkg tig
+install_pkg tmux
+
+install_pkg yay
+
+has_feature ag
+if [ $? -eq 1 ]; then
+  yay -S the_silver_searcher
+fi
 
 has_feature ipfs
 if [ $? -eq 1 ]; then
-  yaourt -S go-ipfs
+  yay -S go-ipfs
 fi
 
 has_feature light
 if [ $? -eq 1 ]; then
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/light.tar.gz"
+  # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/light.tar.gz"
+  yay -S light
 fi
 
 has_feature dropbox
 if [ $? -eq 1 ]; then
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/dropbox.tar.gz"
+  # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/dropbox.tar.gz"
+  yay -S dropbox
   systemctl start dropbox --user
   systemctl enable dropbox --user
 fi
 
+
+has_feature dropbox-cli
+if [ $? -eq 1 ]; then
+  yay -S dropbox-cli
+fi
+
 has_feature spotify
 if [ $? -eq 1 ]; then
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/spotify.tar.gz"
+  #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/spotify.tar.gz"
+  yay -S spotify
 fi
 
 has_feature lbdb-fetchaddr
 if [ $? -eq 1 ]; then
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/lbdb.tar.gz"
+  #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/lbdb.tar.gz"
+  yay -S lbdb
 fi
 
 has_feature davmail
 if [ $? -eq 1 ]; then
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/davmail.tar.gz"
+  #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/davmail.tar.gz"
+  yay -S davmail
 fi
 
 has_feature megasync
 if [ $? -eq 1 ]; then
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/megasync.tar.gz"
+  #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/megasync.tar.gz"
+  yay megasync
 fi
 
 has_feature ctags
 if [ $? -eq 1 ]; then
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/universal-ctags-git.tar.gz"
+  #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/universal-ctags-git.tar.gz"
+  yay -S universal-ctags-git
 fi
 
 # watch directory for file changes
 has_feature entr
 if [ $? -eq 1 ]; then
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/entr.tar.gz"
+  #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/entr.tar.gz"
+  yay -S entr
 fi
 
 has_feature global
 if [ $? -eq 1 ]; then
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/global.tar.gz"
+  #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/global.tar.gz"
+  echo "TODO"
 fi
 
 has_feature bear
 if [ $? -eq 1 ]; then
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/bear.tar.gz"
+  #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/bear.tar.gz"
+  yay -S bear
 fi
 
 has_feature tixati
 if [ $? -eq 1 ]; then
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/tixati.tar.gz"
+  #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/tixati.tar.gz"
+  yay -S tixati
 fi
 
 # screensaver
 install_pkg xscreensaver
 has_feature electricsheep
 if [ $? -eq 1 ]; then
-  install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/electricsheep-svn.tar.gz"
+  #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/electricsheep-svn.tar.gz"
+  yay -S electricsheep
 fi
 
 has_feature khal
@@ -294,7 +334,8 @@ if [ $? -eq 1 ]; then
   #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-icalendar.tar.gz" || exit 1
   #
   #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/khal.tar.gz"
-  pip3.6 install --user khal
+  #pip3.6 install --user khal
+  yay -S khal
 fi
 
 # # vdirsyncer
@@ -307,15 +348,16 @@ if [ $? -eq 1 ]; then
   #
   #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/vdirsyncer.tar.gz"
 
-  pip3.6 install --user vdirsyncer
+  #pip3.6 install --user vdirsyncer
+  yay -S vdirsyncer
 fi
 
 # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/libtinfo5.tar.gz"
-yaourt -S libtinfo5
+# yay -S libtinfo5
 
 has_feature eatmydata
 if [ $? -eq 1 ]; then
-  yaourt -S libeatmydata
+  yay -S libeatmydata
   # #any arch
   # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/libeatmydata.tar.gz"
 fi
@@ -324,19 +366,19 @@ fi
 
 has_feature rtv
 if [ $? -eq 1 ]; then
-  pip3.6 install --user rtv
+  yay -S rtv
 fi
 
 has_feature alacritty
 if [ $? -eq 1 ]; then
-  sudo yaourt -S alacritty-git
+  yay -S alacritty-git
   #   install_aur "https://aur.archlinux.org/alacritty-git.git"
 fi
 
 #rtags
 has_feature rdm
 if [ $? -eq 1 ]; then
-  yaourt -S rtags
+  yay -S rtags
   systemctl --user enable rdm.socket
   systemctl --user start rdm.socket
 
@@ -346,7 +388,7 @@ fi
 
 has_feature shfmt
 if [ $? -eq 1 ]; then
-  yaourt -S shfmt
+  yay -S shfmt
 fi
 
 

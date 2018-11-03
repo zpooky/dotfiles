@@ -1,60 +1,60 @@
 #!/bin/bash
 
-source $HOME/dotfiles/shared.sh
+source "$HOME/dotfiles/shared.sh"
 
 # compile less settings from .lesskey into .less
-lesskey -o $THE_HOME/.less $THE_HOME/.lesskey
+lesskey -o "$THE_HOME/.less" "$THE_HOME/.lesskey"
 
 GIT_CONFIG_FEATURE=$FEATURE_HOME/gitconfig4
-if [ ! -e $GIT_CONFIG_FEATURE ]; then
+if [ ! -e "$GIT_CONFIG_FEATURE" ]; then
   has_feature git
-  if [[ $? -eq 0 ]]; then
+  if [ $? -eq 0 ]; then
     start_feature "git config"
 
     # TODO fetch from keychain
-    git config --global user.name "Fredrik Olsson"
-    git config --global user.email "spooky.bender@gmail.com"
+    git config --global user.name ""
+    git config --global user.email ""
     git config --global core.editor vim
 
     git config --global alias.st "status --ignore-submodules=dirty"
     git config --global alias.tree "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 
-    touch $GIT_CONFIG_FEATURE
+    touch "$GIT_CONFIG_FEATURE"
 
     stop_feature "git config"
   fi
 fi
 
 # setup directory structure
-if [ ! -e $USER_BIN ]; then
-  mkdir $USER_BIN || exit 1
+if [ ! -e "${USER_BIN}" ]; then
+  mkdir "${USER_BIN}" || exit 1
 fi
 
 # submodules
 start_feature "git submodules"
-git submodule sync --recursive || exit 1
+# git submodule sync --recursive || exit 1
 # recursivly pull in all submodule repos
 git submodule update --init --recursive --remote || exit 1
-git submodule update --init --recursive || exit 1
+# git submodule update --init --recursive || exit 1
 
 stop_feature "git submodules"
 start_feature "vim"
 
 VIM_AUTOLOAD=$THE_HOME/.vim/autoload
-if [ ! -e $VIM_AUTOLOAD ]; then
-  mkdir $VIM_AUTOLOAD
+if [ ! -e "$VIM_AUTOLOAD" ]; then
+  mkdir "$VIM_AUTOLOAD"
 fi
 
 PATHOGEN_AUTLOAD=$VIM_AUTOLOAD/pathogen.vim
-if [ -e $PATHOGEN_AUTLOAD ]; then
-  rm -rf $THE_HOME/.pathogen
-  rm $PATHOGEN_AUTLOAD
+if [ -e "$PATHOGEN_AUTLOAD" ]; then
+  rm -rf "$THE_HOME/.pathogen"
+  rm "$PATHOGEN_AUTLOAD"
 fi
 
 VIM_PLUG=$GIT_SOURCES/vim-plug/plug.vim
 VIM_PLUG_TARGET=$VIM_AUTOLOAD/plug.vim
-if [ ! -e $VIM_PLUG_TARGET ]; then
-  ln -s $VIM_PLUG $VIM_PLUG_TARGET
+if [ ! -e "$VIM_PLUG_TARGET" ]; then
+  ln -s "$VIM_PLUG" "$VIM_PLUG_TARGET"
 fi
 
 stop_feature "vim"
@@ -65,20 +65,21 @@ YCM_FORKS=("OblitumYouCompleteMe" "YouCompleteMe")
 
 for YCM in "${YCM_FORKS[@]}"; do
   FEATURE="$FEATURE_HOME/${YCM}${YCM_IT}"
-  if [ ! -e $FEATURE ]; then
+  if [ ! -e "$FEATURE" ]; then
     start_feature "$YCM"
 
     # TODO should recompile when vim version changes
     PREV_DIR=$(pwd)
 
-    cd $THE_HOME/.vim/bundle/$YCM
+    cd "$THE_HOME/.vim/bundle/$YCM"
+
     ./install.py --clang-completer --system-libclang # --go-completer --rust-completer --js-completer
     RET=$?
     if [ $RET -eq 0 ]; then
-      touch $FEATURE
+      touch "$FEATURE"
     fi
 
-    cd $PREV_DIR
+    cd "$PREV_DIR"
 
     stop_feature "$YCM"
   fi
@@ -185,14 +186,14 @@ if [[ $? -eq 1 ]]; then
   install python || exit 1
 fi
 
-has_feature pip
-if [[ $? -eq 1 ]]; then
-  install python-pip || exit 1
-fi
+#has_feature pip
+#if [[ $? -eq 1 ]]; then
+#  install python-pip || exit 1
+#fi
+#
+#pip3_install --upgrade pip || exit 1
 
-pip3_install --upgrade pip || exit 1
-
-pip3_install keyring || exit 1
+# pip3_install keyring || exit 1
 
 start_feature "update package database"
 update_package_list
@@ -302,61 +303,11 @@ if [[ $? -eq 1 ]]; then
 fi
 
 start_feature "libraries"
-is_apt_get
-if [ $? -eq 0 ]; then
-  install libncurses5-dev || exit 1
-  install libgnome2-dev || exit 1
-  install libgnomeui-dev || exit 1
-  install libgtk2.0-dev || exit 1
-  install libatk1.0-dev || exit 1
-  install libbonoboui2-dev || exit 1
-  install libcairo2-dev || exit 1
-  install libx11-dev || exit 1
-  install libxpm-dev || exit 1
-  install libxt-dev || exit 1
-  install python-dev || exit 1
-
-  #
-  install linux-tools-common || exit 1
-  install linux-tools-generic || exit 1
-  install linux-tools-`uname -r` || exit 1
-
-  # The package libreadline is for running applications using readline command
-  # and the package libreadline-dev is for compiling and building readline application.
-  install libreadline6 || exit 1
-  install libreadline6-dev || exit 1
-
-  start_feature "junk"
-  install gnome-common
-  install gtk-doc-tool
-  install libglib2.0-de
-  install libgtk2.0-dev
-  install python-gtk
-  install python-gtk2-de
-  install python-vt
-  install glad
-  install python-glade2
-  install libgconf2-de
-  install python-appindicator
-  install python-vt
-  install python-gcon
-  install python-keybinder
-  install notify-osd
-  install libutempter0
-  install python-notify
-
-  start_feature "apt-get install python"
-
-  install python-sqlite || exit 1
-  install python-vobject || exit 1
-  install python-gnomekeyring || exit 1
-  install python-dev || exit 1
-
-fi
 
 start_feature "development"
 has_feature build-essential
 if [[ $? -eq 1 ]]; then
+
   is_apt_get
   if [ $? -eq 0 ]; then
     install build-essential || exit 1
@@ -391,7 +342,7 @@ fi
 has_feature cpplint
 if [[ $? -eq 1 ]]; then
   start_feature "pip install cpp"
-  pip3_install cpplint || exit 1
+  # pip3_install cpplint || exit 1
 fi
 
 has_feature newsbeuter
@@ -416,32 +367,32 @@ fi
 #not used: personal cal_ical #gmail > settings > ... > copy private cal url
 
 # pip2 for python2.7
-has_feature pip2
-if [ ! $? -eq 0 ]; then
-  is_arch
-  if [ $? -eq 0 ]; then
-    install python2-pip
-  else
-    # python2 -m pip uninstall pip setuptools
-    PREV_DIR=$(pwd)
+# has_feature pip2
+# if [ ! $? -eq 0 ]; then
+#   is_arch
+#   if [ $? -eq 0 ]; then
+#     install python2-pip
+#   else
+#     # python2 -m pip uninstall pip setuptools
+#     PREV_DIR=$(pwd)
+# 
+#     cd /tmp
+#     curl -O https://bootstrap.pypa.io/get-pip.py
+# 
+#     if [ $? -eq 0 ]; then
+#       sudo -H python2.7 get-pip.py
+#     fi
+# 
+#     cd $PREV_DIR
+#   fi
+# fi
 
-    cd /tmp
-    curl -O https://bootstrap.pypa.io/get-pip.py
-
-    if [ $? -eq 0 ]; then
-      sudo -H python2.7 get-pip.py
-    fi
-
-    cd $PREV_DIR
-  fi
-fi
-
-pip2_install --upgrade pip || exit 1
-# mutt url viewer
-has_feature urlscan
-if [[ $? -eq 1 ]]; then
-  pip2_install urlscan || exit 1
-fi
+# pip2_install --upgrade pip || exit 1
+# # mutt url viewer
+# has_feature urlscan
+# if [[ $? -eq 1 ]]; then
+#   pip2_install urlscan || exit 1
+# fi
 
 #python import sort
 # pip2_install git+https://github.com/timothycrosley/isort.git
@@ -451,16 +402,7 @@ has_feature qutebrowser
 if [ $? -eq 1 ]; then
   start_feature "qutebrowser"
 
-  is_arch
-  if [ $? -eq 0 ]; then
-    install qutebrowser
-  else
-    install python3-lxml python-tox python3-pyqt5 python3-pyqt5.qtwebkit
-    install python3-pyqt5.qtquick python3-sip python3-jinja2 python3-pygments python3-yaml
-
-    #TODO install
-  fi
-  stop_feature "qutebrowser"
+  install qutebrowser
 fi
 
 # mpv video player
@@ -490,4 +432,4 @@ fi
 #   stop_feature "lesscolors"
 # fi
 
-$HOME/dotfiles/install_atomic.sh
+#$HOME/dotfiles/install_atomic.sh

@@ -6,7 +6,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions cabal pip python)
+plugins=(git zsh-autosuggestions cabal pip python fzf)
 
 function preexec() {
   sp_zsh_timer_start=${sp_zsh_timer_start:-$SECONDS}
@@ -58,9 +58,6 @@ bindkey -e
 # export KEYTIMEOUT=1
 
 export LANG=en_US.UTF-8
-
-# prints announcements
-alias pacman="pacmatic "
 
 source $HOME/dotfiles/extrarc
 
