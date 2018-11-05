@@ -126,6 +126,10 @@ alias sp-game-theory="vim $REF_DIR/game-theory.md" #TODO
 alias sp-min-max="vim $REF_DIR/min-max.md" #TODO
 alias sp-pidgeon-hole="vim $REF_DIR/pidgeon-hole.md"
 alias sp-birthday-paradox="vim $REF_DIR/birthday-paradox.md"
+alias sp-docker="vim $REF_DIR/docker.md"
+
+alias sp-gerrit="vim $REF_DIR/gerrit.md"
+
 
 function sp_cpu_alias() {
   local isa="$REF_DIR/ISA.md"
@@ -481,6 +485,7 @@ function sp_linux_dev_alias() {
   local file_linux_usb="$REF_DIR/linux-usb.md"
   local file_linux_pci="$REF_DIR/linux-pci.md"
   local file_linux_uart="$REF_DIR/linux-uart.md"
+  local file_linux_i2c="$REF_DIR/i2c.md"
   local file_linux_gpio="$REF_DIR/linux-gpio.md"
   local file_linux_acpi="$REF_DIR/linux-acpi.md"
 
@@ -497,6 +502,8 @@ function sp_linux_dev_alias() {
   local file_multiplex="$REF_DIR/multiplex-transmission.md" # TODO
   local file_frequency="$REF_DIR/frequency.md" # TODO
 
+  local digitial_communication="$REF_DIR/digitial-communication.md"
+
   alias sp-linux-dev="vim -p $file_linux_dev $file_linux_dev_init $file_linux_dev_char $linux_dev_graphic"
   alias sp-linux-dev-init="vim $file_linux_dev_init"
   alias sp-linux-dev-char="vim $file_linux_dev_char"
@@ -506,6 +513,7 @@ function sp_linux_dev_alias() {
   alias sp-linux-usb="vim $file_linux_usb"
   alias sp-linux-pci="vim $file_linux_pci"
   alias sp-linux-uart="vim -p $file_linux_uart $file_serial_communication $file_baude_rate"
+  alias sp-linux-i2c="vim -p $file_linux_i2c $file_serial_communication"
   alias sp-linux-gpio="vim $file_linux_gpio"
   alias sp-linux-acpi="vim $file_linux_acpi"
 
@@ -529,6 +537,10 @@ function sp_linux_dev_alias() {
   alias sp-frequency="vim -p $file_frequency"
   alias sp-hertz="sp-frequency"
   alias sp-radio="sp-frequency"
+
+
+  alias sp-digitial-communication="vim -p $digitial_communication"
+
 
   #TODO insulators, conductors, semiconductors
   # realyas..

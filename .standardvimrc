@@ -603,6 +603,8 @@ iab visualy visually
 iab incorpereated incorporated
 iab occurence occurrence
 iab sciensce science
+iab sencor sensor
+iab delte delete
 
 iab Acsending Ascending
 iab acsending ascending
@@ -861,3 +863,7 @@ map <silent> <leader><F3> <a-]>
 " map <silent> <A-Left> <c-t>
 " }}}
 
+" {{{
+" force open open file
+map <leader>gf :e <cfile><cr>
+" }}}

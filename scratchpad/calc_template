@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-sys.setrecursionlimit(1500)
 ##=Raw================
 # hex:    0xDEADBEEF
 # to hex: hex(number)
@@ -24,7 +23,10 @@ sys.setrecursionlimit(1500)
 # binascii.unhexlify(hex)
 # ===================
 
+import sys
 import math
 import binascii
 from operator import xor
+
+sys.setrecursionlimit(1500)
 

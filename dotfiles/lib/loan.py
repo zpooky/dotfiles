@@ -31,7 +31,7 @@ import sys
 sys.setrecursionlimit(1500)
 
 #=========================================================
-def monthly(loan, monthly_fee, ranta):
+def monthly(loan, monthly_fee, ranta, cnt=1):
   assert (monthly_fee > 0)
 
   one_percent = loan /100
@@ -41,13 +41,13 @@ def monthly(loan, monthly_fee, ranta):
   ammortering = monthly_fee - ranta_payment
 
   if ammortering >= loan:
-    print("ränta: {} Amortering: {} Återstående lån: {}".format(ranta_payment, ammortering, 0))
-    return ranta_payment, 1
+    print("{}. loan: {}kr ränt kostnad: {}kr Amortering: {}kr Återstående lån: {}kr".format(cnt, loan, ranta_payment, ammortering, 0))
+    res = (ranta_payment, 1)
   else:
-    print("ränta: {} Amortering: {} Återstående lån: {}".format(ranta_payment,ammortering, loan-ammortering))
+    print("{}. loan: {}kr ränt kostnad: {}kr Amortering: {}kr Återstående lån: {}kr".format(cnt, loan, ranta_payment, ammortering, loan-ammortering))
+    res = monthly(loan - ammortering, monthly_fee, ranta,cnt+1)
 
-    res = monthly(loan - ammortering, monthly_fee, ranta)
-    return (res[0]+ranta_payment), (res[1]+1)
+  return (res[0]+ranta_payment), (res[1]+1)
 
 #=========================================================
 def calc(loan, ammortering, ranta):
@@ -63,39 +63,49 @@ def calc(loan, ammortering, ranta):
     return (res[0]+payment), (res[1]+1)
 
 #=========================================================
-loan = 1000000
+loan = 700000.0
 # ranta = 2.05
-ranta=2
-aterbetalning_years = 10 # 50
-aterbetalningar = aterbetalning_years*12
-aterbetalningar
-
-lan_one_percent = loan/100
-yearly_ranta=lan_one_percent*ranta
-monthly_ranta=yearly_ranta/12
-
-yearly_ranta
-monthly_ranta
-
-yearly_amortering=loan/aterbetalning_years
-monthly_amortering=loan/aterbetalningar
-
-"monthly loan:"
-math.ceil(monthly_ranta+monthly_amortering)
-
-# ranta_forandring_aterbetalning=lan_one_percent*50
-# total_pay=ranta_forandring_aterbetalning+loan
+ranta=1.53
+# aterbetalning_years = 3 # 50
 #
-# total_pay
+#
+# aterbetalningar = aterbetalning_years*12
+# print("återbetalnings år: {}st".format(aterbetalning_years))
+# print("återbetalnings tillfälle: {}st".format(aterbetalningar))
+#
+# lan_one_percent = loan/100
+# yearly_ranta=lan_one_percent*ranta
+# monthly_ranta=yearly_ranta/12
+#
+# print("årlig ränta: {}kr".format(yearly_ranta))
+# print("månads ränta {}kr".format(monthly_ranta))
+#
+# yearly_amortering=loan/aterbetalning_years
+# monthly_amortering=loan/aterbetalningar
+#
+# dd = math.ceil(monthly_ranta+monthly_amortering)
+# print("monthly loan: {}kr".format(dd))
+# print("---------------")
+# print("")
+#
+#
+# # ranta_forandring_aterbetalning=lan_one_percent*50
+# # total_pay=ranta_forandring_aterbetalning+loan
+# #
+# # total_pay
+#
+# res = calc(loan, monthly_amortering, ranta)
+# math.ceil(res[0])
+# loan+math.ceil(res[0])
 
-res = calc(loan, monthly_amortering, ranta)
-math.ceil(res[0])
-loan+math.ceil(res[0])
-
-res = monthly(loan, 10000, ranta)
-res[0]
-res[1]
-res[1]/12
+#=========================================================
+monthly_repayment=10000.0
+res = monthly(loan, monthly_repayment, ranta)
+print("lån: {}kr, ränta {}%".format(loan,ranta))
+print("månadsvis återbetlaning: {}kr".format(monthly_repayment))
+print("total ränt kostnad innan lånet är återbetalad: {}kr".format(res[0]))
+print("återbetalnings tillfällen: {}".format(res[1]))
+print("år att betala tillbaka: {}".format(float(res[1])/12.0))
 
 
 # 121/12
