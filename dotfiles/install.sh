@@ -59,6 +59,10 @@ fi
 
 stop_feature "vim"
 
+start_feature "fzf"
+$HOME/fz/install
+stop_feature "fzf"
+
 # git You Complete Me(YCM)
 YCM_IT=7
 YCM_FORKS=("OblitumYouCompleteMe" "YouCompleteMe")

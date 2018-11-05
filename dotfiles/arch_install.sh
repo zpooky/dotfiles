@@ -34,8 +34,8 @@ install_pkg screenfetch
 
 screenfetch
 
+# support AUR packages
 install_pkg yay
-
 
 install_pkg vim
 install_pkg powerline
@@ -83,6 +83,12 @@ yay -S tmuxp
 has_feature proselint
 if [ $? -eq 1 ]; then
   yay -S proselint
+fi
+
+# clipboard manager
+has_feature clipster
+if [ $? -eq 1 ]; then
+  yay -S clipster
 fi
 
 has_feature redpen

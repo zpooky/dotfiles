@@ -445,6 +445,12 @@ function! VimuxSpPerf()
   call VimuxRunCommand("$HOME/dotfiles/lib/vim_perf.sh \"" . expand("%:p") . "\" " . line("."))
 endfunction
 
+function! VimuxSpMan()
+  call VimuxSendKeys("C-c")
+  let wordUnderCursor = expand("<cword>")
+  call VimuxRunCommand("man ". wordUnderCursor)
+endfunction
+
 function! VimuxSpTranslate()
   call VimuxSendKeys("q")
   let wordUnderCursor = expand("<cword>")
@@ -454,12 +460,16 @@ endfunction
 augroup AugroupVimux
   autocmd!
 
-  "
+  " <leader+t> run gtest test based on the cursor position in a test file
   autocmd FileType c,cpp,objc noremap <silent> <leader>t <esc>:call VimuxSpTest()<CR>
-  "
+  " <leader+t> run a translate program for the word under the cursor
   autocmd FileType md,markdown,text noremap <silent> <leader>t <esc>:call VimuxSpTranslate()<CR>
-  "
+
+  " <leader+p> run gtest test under perf based on the cursor position in a test file
   autocmd FileType c,cpp,objc noremap <silent> <leader>p <esc>:call VimuxSpPerf()<CR>
+
+  " <leader+l> run man for current word under the cursor
+  autocmd FileType c,cpp noremap <silent> <leader>l <esc>:call VimuxSpMan()<CR>
 augroup END
 " }}}
 "

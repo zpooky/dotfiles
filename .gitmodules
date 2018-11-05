@@ -25,3 +25,6 @@
 [submodule "sources/libcxx-pretty-printers"]
 	path = sources/libcxx-pretty-printers
 	url = https://github.com/koutheir/libcxx-pretty-printers.git
+[submodule "sources/fzf"]
+	path = sources/fzf
+	url = https://github.com/junegunn/fzf.git
