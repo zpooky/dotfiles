@@ -8,6 +8,10 @@ export ZSH=$HOME/.oh-my-zsh
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git zsh-autosuggestions cabal pip python fzf)
 
+DISABLE_AUTO_UPDATE="true"
+
+source $ZSH/oh-my-zsh.sh
+
 function preexec() {
   sp_zsh_timer_start=${sp_zsh_timer_start:-$SECONDS}
   # timer=$(($(date +%s%N)/1000000))
@@ -25,52 +29,22 @@ function precmd() {
   fi
 }
 
-## zsh-users/zsh-autosuggestions
-# bindkey '^ ' autosuggest-accept #bind (ctrl+space) to accept autosuggestion
-##vi-mode
-#increase vi-like functionality(https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins#vi-mode)
-
-source $ZSH/oh-my-zsh.sh
-
-# -------------------
-# User configuration
-zstyle ':completion:*' special-dirs true  # to make `cd ..<tab>` work
-zstyle ':completion:*' completer _complete _ignored
-zstyle :compinstall filename "$HOME/.zshrc"
-
-# enable autocompletion
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
-
-alias ll="ls -alh --color=tty"
-
-if [[ $TERM = "" || -z $TERM ]]; then
-  export TERM="xterm-256color"
-fi
-
-# Emacs mode
-bindkey -e
-
-# Vi mode
-# bindkey -v
-## reduce command/insert mode toogle to 0.1seconds
-# export KEYTIMEOUT=1
-
 export LANG=en_US.UTF-8
 
-source $HOME/dotfiles/extrarc
-
 # keybindings
+# ctrl+left/ctrl+right navigate word
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 
-sp-backward-kill-word(){
-  local WORDCHARS=${WORDCHARS/\//}
-  zle backward-delete-word
-}
-zle -N sp-backward-kill-word
-bindkey '^W' sp-backward-kill-word
+# <del> delete char
+bindkey "\e[3~" delete-char
+
+# <alt+backspace> to delete word
+autoload -U select-word-style
+select-word-style bash
+
+# <ctrl+w> Kill line right
+bindkey '^W' kill-line
 
 #PS
 # %d    - current directory
@@ -99,19 +73,70 @@ PROMPT="%B${NEWLINE}%~%{$fg[yellow]%}:%{$reset_color%}${NEWLINE}%{$fg[red]%}%B$S
 # this is displayed on the far right side
 RPROMPT='[%F{yellow}%?%f][%F{green}$sp_zsh_timer_show%f][%F{red}%(1j.⌘%j.)%f]'
 
-export SHELL=zsh
+## Set up the prompt
+#autoload -Uz promptinit
+#promptinit
+#prompt walters
+# }
 
-#history
 HISTFILE="$HOME/.zhistory"
 # The maximum number of events to save in the internal history.
 HISTSIZE=10000000
 # The maximum number of events to save in the history file.
 SAVEHIST=10000000
 
-setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
-# setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
-# setopt SHARE_HISTORY             # Share history between all sessions.
-setopt HIST_EXPIRE_DUPS_FIRST    # Expire a duplicate event first when trimming history.
+#=================== {
+setopt HIST_EXPIRE_DUPS_FIRST    	# Expire a duplicate event first when trimming history.
+setopt HIST_IGNORE_DUPS 					# Do not record an entry that was just recorded again.
+setopt HIST_REDUCE_BLANKS         # Remove superfluous blanks before recording entry.
+# }
 
-setopt HIST_IGNORE_DUPS          # Do not record an entry that was just recorded again.
-setopt HIST_IGNORE_ALL_DUPS      # Delete an old recorded event if a new event is a duplicate.
+# disable <ctrl+s>, <ctrl+q> flow control
+setopt noflowcontrol
+
+# Use modern completion system
+autoload -Uz compinit
+compinit
+
+#=================== {
+alias ll="ls -alh --color=tty"
+alias pacman="pacmatic "
+
+if [[ $TERM = "" || -z $TERM ]]; then
+  export TERM="xterm-256color"
+fi
+
+# Emacs mode
+bindkey -e
+
+# }
+
+# TODO document
+zstyle ':completion:*' auto-description 'specify: %d'
+zstyle ':completion:*' completer _expand _complete _correct _approximate
+zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' menu select=2
+
+eval "$(dircolors -b)"
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+
+zstyle ':completion:*' menu select=long
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' use-compctl false
+zstyle ':completion:*' verbose true
+
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+
+#=================== {
+zstyle ':completion:*' special-dirs true  # to make `cd ..<tab>` work
+# zstyle ':completion:*' completer _complete _ignored
+zstyle :compinstall filename "$HOME/.zshrc"
+# }
+
+#
+source ~/dotfiles/extrarc

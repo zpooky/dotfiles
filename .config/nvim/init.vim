@@ -861,6 +861,17 @@ Plug 'xuhdev/vim-latex-live-preview',{'for':['tex','plaintex']}
 
 " :LLPStartPreview
 " }}}
+
+" {{{
+" meson syntax
+Plug 'matze/vim-meson'
+" }}}
+
+" {{{
+" bitbake syntax
+Plug 'kergoth/vim-bitbake'
+" }}}
+
 call plug#end()
 " }}}
 
