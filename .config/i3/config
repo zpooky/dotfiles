@@ -146,23 +146,35 @@ bar {
 
 # custom
 # autorun
-## keyboard layout
+## keyboard layout {
 exec "setxkbmap -layout se"
+## }
+
+## clipster {
+## Start clipster daemon
+exec --no-startup-id clipster -d
+
+# shortcut to selection widget (primary)
+bindsym $mod+c exec clipster -sp
+# }
 
 ## Special keyboard support
 
-# PulseAudio
+# PulseAudio {
 bindsym XF86AudioLowerVolume  exec pactl set-sink-volume @DEFAULT_SINK@ '-5%'
 bindsym XF86AudioRaiseVolume  exec pactl set-sink-volume @DEFAULT_SINK@ '+5%'
 bindsym XF86AudioMute         exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+# }
 
-# ALSA
+# ALSA {
 # bindsym XF86AudioLowerVolume exec amixer set Master 5%-
 # bindsym XF86AudioRaiseVolume exec amixer set Master 5%+
 # bindsym XF86AudioMute exec amixer set Master toggle
+# }
 
-## brightness control
+## brightness control {
 # set the minimum light level
 exec light -cS 1
 bindsym XF86MonBrightnessDown exec light -U 5
 bindsym XF86MonBrightnessUp exec light -A 5
+## }

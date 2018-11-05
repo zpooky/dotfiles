@@ -140,3 +140,5 @@ zstyle :compinstall filename "$HOME/.zshrc"
 
 #
 source ~/dotfiles/extrarc
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
