@@ -6,7 +6,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions cabal pip python fzf docker)
+plugins=(git zsh-autosuggestions cabal pip python fzf docker zsh-completions)
 
 DISABLE_AUTO_UPDATE="true"
 
@@ -89,6 +89,8 @@ SAVEHIST=10000000
 setopt HIST_EXPIRE_DUPS_FIRST    	# Expire a duplicate event first when trimming history.
 setopt HIST_IGNORE_DUPS 					# Do not record an entry that was just recorded again.
 setopt HIST_REDUCE_BLANKS         # Remove superfluous blanks before recording entry.
+
+setopt HIST_IGNORE_ALL_DUPS #If a new command line being added to the history list duplicates an older one, the older command is removed from the list (even if it is not the previous event). 
 # }
 
 # disable <ctrl+s>, <ctrl+q> flow control
@@ -100,7 +102,7 @@ compinit
 
 #=================== {
 alias ll="ls -alh --color=tty"
-alias pacman="pacmatic "
+# alias pacman="pacmatic "
 
 if [[ $TERM = "" || -z $TERM ]]; then
   export TERM="xterm-256color"
