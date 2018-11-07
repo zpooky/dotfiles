@@ -58,12 +58,12 @@ start_feature "update tmux plugins"
 stop_feature "update tmux plugins"
 
 start_feature "fzf"
-$HOME/fz/install
+$HOME/sources/fzf/install --key-bindings --completion --xdg --no-update-rc
 stop_feature "fzf"
 
-start_feature "zsh"
-zsh_custom=$HOME/.oh-my-zsh/custom
-zsh_autosuggest=$zsh_custom/plugins/zsh-autosuggestions
+start_feature "zsh-autosuggestions"
+zsh_custom_plugins=$HOME/.oh-my-zsh/custom/plugins
+zsh_autosuggest=$zsh_custom_plugins/zsh-autosuggestions
 if [ ! -e $zsh_autosuggest ]; then
   git clone git://github.com/zsh-users/zsh-autosuggestions "${zsh_autosuggest}"
   if [ ! $? -eq 0 ]; then
@@ -78,7 +78,27 @@ if [ -e $zsh_autosuggest ]; then
   git pull --rebase origin master
   cd $PREV_DIR
 fi
-stop_feature "zsh"
+stop_feature "zsh-autosuggestions"
+
+
+start_feature "zsh-completions"
+zsh_custom_plugins=$HOME/.oh-my-zsh/custom/plugins
+zsh_completions=$zsh_custom_plugins/zsh-completions
+if [ ! -e $zsh_completions ]; then
+  git clone git://github.com/zsh-users/zsh-completions "${zsh_completions}"
+  if [ ! $? -eq 0 ]; then
+    rm -rf "${zsh_completions}"
+  fi
+fi
+
+if [ -e $zsh_completions ]; then
+  PREV_DIR=$(pwd)
+  cd $zsh_completions
+
+  git pull --rebase origin master
+  cd $PREV_DIR
+fi
+stop_feature "zsh-completions"
 
 # git You Complete Me(YCM)
 YCM_IT=7
@@ -106,37 +126,43 @@ for YCM in "${YCM_FORKS[@]}"; do
   fi
 done
 
-# vim color coded
-FEATURE=$FEATURE_HOME/color_coded2
-if [ ! -e $FEATURE ]; then
-  start_feature "color_coded1"
+# vim color coded {
+if [ 1 -eq 0 ]; then
+  FEATURE=$FEATURE_HOME/color_coded2
+  if [ ! -e $FEATURE ]; then
+    start_feature "color_coded1"
 
-  # TODO should recompile when vim version changes
-  PREV_DIR=$(pwd)
-  COLOR_CODED_PATH=$THE_HOME/.vim/bundle/color_coded
-  COLOR_CODED_BUILD_PATH=$COLOR_CODED_PATH/build
-  cd $COLOR_CODED_PATH
-  if [ -d $COLOR_CODED_BUILD_PATH ]; then
-    rm -rf $COLOR_CODED_BUILD_PATH
-  fi
-  mkdir build && cd build || exit 1
-  cmake ..
-  if [ $? -eq 0 ]; then
-    make -j && make install
-    RET=$?
-
-    # Cleanup afterward; frees several hundred megabytes
-    make clean && make clean_clang
-
-    if [ $RET -eq 0 ]; then
-      touch $FEATURE
+    # TODO should recompile when vim version changes
+    PREV_DIR=$(pwd)
+    COLOR_CODED_PATH=$THE_HOME/.vim/bundle/color_coded
+    COLOR_CODED_BUILD_PATH=$COLOR_CODED_PATH/build
+    cd $COLOR_CODED_PATH
+    if [ -d $COLOR_CODED_BUILD_PATH ]; then
+      rm -rf $COLOR_CODED_BUILD_PATH
     fi
+
+    mkdir build && cd build || exit 1
+
+    cmake ..
+
+    if [ $? -eq 0 ]; then
+      make -j && make install
+      RET=$?
+
+      # Cleanup afterward; frees several hundred megabytes
+      make clean && make clean_clang
+
+      if [ $RET -eq 0 ]; then
+        touch $FEATURE
+      fi
+    fi
+
+    cd $PREV_DIR
+
+    stop_feature "color_coded1"
   fi
-
-  cd $PREV_DIR
-
-  stop_feature "color_coded1"
 fi
+#}
 
 # bashrc
 FEATURE=$FEATURE_HOME/bashrc
@@ -175,16 +201,13 @@ if [ $? -eq 0 ]; then
 fi
 
 # gdb formatter from gcc
-GDB_PP=$SOURCES_ROOT/gdb_pp
+GDB_PP="${SOURCES_ROOT}/gdb_pp"
 if [ ! -e $GDB_PP ]; then
   svn co svn://gcc.gnu.org/svn/gcc/trunk/libstdc++-v3/python $GDB_PP
   if [ ! $? -eq 0 ]; then
     rm -rf $GDB_PP
   fi
 fi
-
-echo "Enter sudo password"
-sudo echo "start" || exit 1
 
 # rust
 has_feature rustup
@@ -194,8 +217,14 @@ fi
 
 is_arch
 if [[ $? -eq 0 ]]; then
-  return 0
+  exit 0
 fi
+
+
+exit 1
+
+echo "Enter sudo password"
+sudo echo "start" || exit 1
 
 # pip3
 

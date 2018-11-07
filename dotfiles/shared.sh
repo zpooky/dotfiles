@@ -147,18 +147,18 @@ function install(){
   fi
 }
 
-function pip2_install(){
-  sudo -H pip2 install $@
-}
-
-function pip3_install(){
-  is_arch
-  if [ $? -eq 0 ]; then
-    sudo -H pip install $@
-  else
-    sudo -H pip3 install $@
-  fi
-}
+# function pip2_install(){
+#   sudo -H pip2 install $@
+# }
+#
+# function pip3_install(){
+#   is_arch
+#   if [ $? -eq 0 ]; then
+#     sudo -H pip install $@
+#   else
+#     sudo -H pip3 install $@
+#   fi
+# }
 
 function install_cron(){
   CRON_FILE=/tmp/mycron
