@@ -45,12 +45,6 @@ if [ ! -e "$VIM_AUTOLOAD" ]; then
   mkdir "$VIM_AUTOLOAD"
 fi
 
-PATHOGEN_AUTLOAD=$VIM_AUTOLOAD/pathogen.vim
-if [ -e "$PATHOGEN_AUTLOAD" ]; then
-  rm -rf "$THE_HOME/.pathogen"
-  rm "$PATHOGEN_AUTLOAD"
-fi
-
 VIM_PLUG=$GIT_SOURCES/vim-plug/plug.vim
 VIM_PLUG_TARGET=$VIM_AUTOLOAD/plug.vim
 if [ ! -e "$VIM_PLUG_TARGET" ]; then
@@ -59,9 +53,32 @@ fi
 
 stop_feature "vim"
 
+start_feature "update tmux plugins"
+~/.tmux/plugins/tpm/bin/install_plugins
+stop_feature "update tmux plugins"
+
 start_feature "fzf"
 $HOME/fz/install
 stop_feature "fzf"
+
+start_feature "zsh"
+zsh_custom=$HOME/.oh-my-zsh/custom
+zsh_autosuggest=$zsh_custom/plugins/zsh-autosuggestions
+if [ ! -e $zsh_autosuggest ]; then
+  git clone git://github.com/zsh-users/zsh-autosuggestions "${zsh_autosuggest}"
+  if [ ! $? -eq 0 ]; then
+    rm -rf "${zsh_autosuggest}"
+  fi
+fi
+
+if [ -e $zsh_autosuggest ]; then
+  PREV_DIR=$(pwd)
+  cd $zsh_autosuggest
+
+  git pull --rebase origin master
+  cd $PREV_DIR
+fi
+stop_feature "zsh"
 
 # git You Complete Me(YCM)
 YCM_IT=7
@@ -157,10 +174,6 @@ if [ $? -eq 0 ]; then
   $HOME/dotfiles/arch_install.sh
 fi
 
-start_feature "update tmux plugins"
-~/.tmux/plugins/tpm/bin/install_plugins
-stop_feature "update tmux plugins"
-
 # gdb formatter from gcc
 GDB_PP=$SOURCES_ROOT/gdb_pp
 if [ ! -e $GDB_PP ]; then
@@ -177,6 +190,11 @@ sudo echo "start" || exit 1
 has_feature rustup
 if [[ $? -eq 0 ]]; then
   rustup update stable
+fi
+
+is_arch
+if [[ $? -eq 0 ]]; then
+  return 0
 fi
 
 # pip3
