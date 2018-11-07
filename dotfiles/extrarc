@@ -838,7 +838,8 @@ function sp_port_scan() {
   if [ $? -eq 0 ]; then
     netstat -alnptu | grep -Ei 'Proto|LISTEN'
   else
-    ss --all --listen --processes --tcp --udp --raw # | grep -Ei 'Proto|LISTEN'
+    # ss --all --listen --processes --tcp --udp --raw # | grep -Ei 'Proto|LISTEN'
+    ss -tuna | grep -i 'LISTEN'
   fi
 }
 alias port-scan='sp_port_scan'

@@ -18,7 +18,7 @@
 	url = https://github.com/jeaye/color_coded.git
 [submodule "/home/spooky/.oh-my-zsh"]
 	path = .oh-my-zsh
-	url = git://github.com/robbyrussell/oh-my-zsh.git
+	url = https://github.com/robbyrussell/oh-my-zsh.git
 [submodule "sources/YCM-Generator"]
 	path = sources/YCM-Generator
 	url = https://github.com/zpooky/YCM-Generator.git

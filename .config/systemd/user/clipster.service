@@ -1,10 +1,13 @@
 [Unit]
-Description=Job that runs the clipster daemon
+Description=clipster daemon
 ; Documentation=man:foo(1)
 
 [Service]
+Type=simple
 ; Type=forking
-ExecStart=/home/spooky/dotfiles/clipster/start.sh
+; ExecStart=$HOME/sources/clipster/clipster --daemon
+ExecStart=/home/fredriol/sources/clipster/clipster --daemon
+Restart=always
 
 [Install]
 ; WantedBy=multi-user.target
