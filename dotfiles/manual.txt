@@ -1,7 +1,0 @@
-# Manual installation stepps
-
-## Term 256 color support
-Configure the terminal emulator to use xterm-2256color.
-
-### guake
-in guake preference configure to run the startup script `~/guake_bootstrap.sh`.
