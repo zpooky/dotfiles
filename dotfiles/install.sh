@@ -36,10 +36,9 @@ start_feature "git submodules"
 # recursivly pull in all submodule repos
 git submodule update --init --recursive --remote || exit 1
 # git submodule update --init --recursive || exit 1
-
 stop_feature "git submodules"
-start_feature "vim"
 
+start_feature "vim"
 VIM_AUTOLOAD=$THE_HOME/.vim/autoload
 if [ ! -e "$VIM_AUTOLOAD" ]; then
   mkdir "$VIM_AUTOLOAD"
@@ -50,8 +49,16 @@ VIM_PLUG_TARGET=$VIM_AUTOLOAD/plug.vim
 if [ ! -e "$VIM_PLUG_TARGET" ]; then
   ln -s "$VIM_PLUG" "$VIM_PLUG_TARGET"
 fi
-
 stop_feature "vim"
+
+
+is_arch
+if [ $? -eq 0 ]; then
+  start_feature "arch"
+  $HOME/dotfiles/arch_install.sh
+  stop_feature "arch"
+fi
+
 
 start_feature "update tmux plugins"
 ~/.tmux/plugins/tpm/bin/install_plugins
@@ -65,7 +72,8 @@ start_feature "zsh-autosuggestions"
 zsh_custom_plugins=$HOME/.oh-my-zsh/custom/plugins
 zsh_autosuggest=$zsh_custom_plugins/zsh-autosuggestions
 if [ ! -e $zsh_autosuggest ]; then
-  git clone git://github.com/zsh-users/zsh-autosuggestions "${zsh_autosuggest}"
+
+  git clone https://github.com/zsh-users/zsh-autosuggestions.git "${zsh_autosuggest}"
   if [ ! $? -eq 0 ]; then
     rm -rf "${zsh_autosuggest}"
   fi
@@ -85,7 +93,8 @@ start_feature "zsh-completions"
 zsh_custom_plugins=$HOME/.oh-my-zsh/custom/plugins
 zsh_completions=$zsh_custom_plugins/zsh-completions
 if [ ! -e $zsh_completions ]; then
-  git clone git://github.com/zsh-users/zsh-completions "${zsh_completions}"
+
+  git clone  https://github.com/zsh-users/zsh-completions.git "${zsh_completions}"
   if [ ! $? -eq 0 ]; then
     rm -rf "${zsh_completions}"
   fi
@@ -193,11 +202,6 @@ if [ ! -e $DOTFILES_INPUTRC ]; then
   else
     touch $DOTFILES_INPUTRC
   fi
-fi
-
-is_arch
-if [ $? -eq 0 ]; then
-  $HOME/dotfiles/arch_install.sh
 fi
 
 # gdb formatter from gcc

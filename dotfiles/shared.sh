@@ -125,7 +125,12 @@ function update_package_list(){
   if [ $? -eq 0 ]; then
     sudo apt-get update || exit 1
   else
-    sudo pacman -Sy
+    if [ "$(whoami)" == "root" ]; then
+      echo "pacman -Sy"
+      pacman -Sy
+    else
+      sudo pacman -Sy
+    fi
   fi
 }
 
