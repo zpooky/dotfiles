@@ -30,6 +30,9 @@ function install_pkg() {
   fi
 }
 
+update_package_list
+
+install_pkg awk
 install_pkg screenfetch
 
 screenfetch
