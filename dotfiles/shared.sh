@@ -67,7 +67,7 @@ if [ $? -eq 0 ]; then
 
   mkdir $TARGET
   tar -xzf $TAR -C $TARGET --strip-components=1
-  if [ $? -eq 0 ]; then 
+  if [ $? -eq 0 ]; then
     cd $TARGET
     if [ $? -eq 0 ]; then
       makepkg -Acs
@@ -124,14 +124,25 @@ function update_package_list(){
   is_apt_get
   if [ $? -eq 0 ]; then
     sudo apt-get update || exit 1
+  else
+    sudo pacman -Sy
   fi
 }
 
 function install(){
   is_arch
   if [ $? -eq 0 ];then
-    echo "sudo pacman -S $@"
-    sudo pacman -S $@
+    if [ -n ${IS_DOCKER} ]; then
+      echo "pacman -S --noconfirm $@"
+      pacman -S --noconfirm $@
+    elif [ "$(whoami)" == "root" ]; then
+      echo "pacman -S $@"
+      pacman -S $@
+    else
+      echo "sudo pacman -S $@"
+      sudo pacman -S $@
+    fi
+
   else
     is_apt_get
     if [ $? -eq 0 ]; then
