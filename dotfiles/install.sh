@@ -55,7 +55,7 @@ stop_feature "vim"
 is_arch
 if [ $? -eq 0 ]; then
   start_feature "arch"
-  $HOME/dotfiles/arch_install.sh
+  $HOME/dotfiles/arch_install.sh || exit 1
   stop_feature "arch"
 fi
 

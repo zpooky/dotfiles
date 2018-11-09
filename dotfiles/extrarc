@@ -154,7 +154,7 @@ function sp_cpu_alias() {
   local word_size="$REF_DIR/linux/word-size.md"
   local asm_make="$REF_DIR/linux/asm_nasm_Makefile.md"
 
-  local dma="$REF_DIR/dma.md" # TODO
+  local dma="$REF_DIR/dma.md"
 
   # CPU
   alias sp-cpu="vim -p ${cpu} ${isa} ${microarchitecture} ${risc} ${cisc} ${opcode} ${machine_code} ${asm} ${dma}"
@@ -428,6 +428,8 @@ alias sp-limits="vim $DROPBOX_LINUX/debug/limits.md"
 
 # Axis
 alias sp-axis-audiocontrol="vim $DROPBOX_AXIS/audiocontrol.md"
+alias sp-axis-yocto="vim $DROPBOX_AXIS/yocto/yocto.md"
+alias sp-axis-bitbake="vim $DROPBOX_AXIS/yocto/bitbake.md"
 
 # Linux utils
 alias sp-dd="vim $DROPBOX_LINUX/dd.md"
@@ -461,6 +463,8 @@ alias sp-cp="vim $DROPBOX_LINUX/cp.md"
 alias sp-scp="vim $DROPBOX_LINUX/scp.md"
 alias sp-git="vim $DROPBOX_LINUX/git.md"
 alias sp-jobs="vim $DROPBOX_LINUX/jobs.md"
+alias sp-gpg="vim $REF_DIR/gpg.md"
+alias sp-hexdump="vim $REF_DIR/hexdump.md"
 
 # linux
 alias sp-linux="cd $DROPBOX_LINUX"
