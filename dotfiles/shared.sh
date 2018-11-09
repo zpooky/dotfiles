@@ -163,6 +163,23 @@ function install(){
   fi
 }
 
+function install_yay() {
+  is_arch
+  if [ $? -eq 0 ];then
+    if [ -n ${IS_DOCKER} ]; then
+      echo "yay -S --noconfirm $@"
+      yay -S --noconfirm $@
+    else
+      echo "yay -S $@"
+      yay -S $@
+    fi
+  else
+    echo "requires arch to: 'yay ${@}'"
+    exit 1
+  fi
+}
+
+
 # function pip2_install(){
 #   sudo -H pip2 install $@
 # }
