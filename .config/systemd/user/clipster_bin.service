@@ -1,0 +1,13 @@
+[Unit]
+Description=clipster daemon
+; Documentation=man:foo(1)
+
+[Service]
+Type=simple
+; Type=forking
+ExecStart=/bin/clipster --daemon
+Restart=always
+
+[Install]
+; WantedBy=multi-user.target
+WantedBy=default.target

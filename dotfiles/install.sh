@@ -38,27 +38,24 @@ git submodule update --init --recursive --remote || exit 1
 # git submodule update --init --recursive || exit 1
 stop_feature "git submodules"
 
-start_feature "vim"
-VIM_AUTOLOAD=$THE_HOME/.vim/autoload
-if [ ! -e "$VIM_AUTOLOAD" ]; then
-  mkdir "$VIM_AUTOLOAD"
-fi
-
-VIM_PLUG=$GIT_SOURCES/vim-plug/plug.vim
-VIM_PLUG_TARGET=$VIM_AUTOLOAD/plug.vim
-if [ ! -e "$VIM_PLUG_TARGET" ]; then
-  ln -s "$VIM_PLUG" "$VIM_PLUG_TARGET"
-fi
-stop_feature "vim"
-
-
 is_arch
 if [ $? -eq 0 ]; then
   start_feature "arch"
-  $HOME/dotfiles/arch_install.sh || exit 1
+  ${HOME}/dotfiles/arch_install.sh || exit 1
   stop_feature "arch"
 fi
 
+start_feature "vim"
+has_feature nvim
+if [ $? -eq 0 ]; then
+  nvim +PlugUpdate +qall                                                                                                    [0][4,0s][]
+fi
+
+has_feature vim
+if [ $? -eq 0 ]; then
+  vim +PlugUpdate +qall                                                                                                    [0][4,0s][]
+fi
+stop_feature "vim"
 
 start_feature "update tmux plugins"
 ~/.tmux/plugins/tpm/bin/install_plugins
@@ -177,6 +174,23 @@ if [ 1 -eq 0 ]; then
   fi
 fi
 #}
+
+# should update powerline settings and scripts
+LIB_ROOTS=("/lib" "/usr/lib" "/usr/local/lib")
+for LIB_ROOT in "${LIB_ROOTS[@]}"; do
+  PYTHON_VERSION=("python2.7" "python2.8" "python2.9" "python3.6" "python3.7" "python3.8" "python3.9")
+  for PYTHON in "${PYTHON_VERSION[@]}"; do
+    PACKAGES=("dist-packages" "site-packages")
+    for PACKAGE in "${PACKAGES[@]}"; do
+      # install powerline tmux segments
+      POWERLINE_SEGMENTS="${LIB_ROOT}/${PYTHON}/${PACKAGE}/powerline/segments"
+
+      if [ -e "${POWERLINE_SEGMENTS}" ]; then
+        sudo cp "${THE_HOME}/.config/powerline/segments/spooky" "${POWERLINE_SEGMENTS}" -R
+      fi
+    done
+  done
+done
 
 # bashrc
 FEATURE=$FEATURE_HOME/bashrc
