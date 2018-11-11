@@ -157,13 +157,15 @@ function is_apt_get(){
 function update_package_list(){
   is_apt_get
   if [ $? -eq 0 ]; then
+    echo "sudo apt-get update"
     sudo apt-get update || exit 1
   else
     if [ "$(whoami)" == "root" ]; then
       echo "pacman -Sy"
-      pacman -Sy
+      pacman -Sy || exit 1
     else
-      sudo pacman -Sy
+      echo "sudo pacman -Sy"
+      sudo pacman -Sy || exit 1
     fi
   fi
 }
@@ -171,7 +173,7 @@ function update_package_list(){
 function install(){
   is_arch
   if [ $? -eq 0 ];then
-    if [ -n ${IS_DOCKER} ]; then
+    if [ -n "${IS_DOCKER}" ]; then
       echo "pacman -S --noconfirm $@"
       pacman -S --noconfirm $@
     elif [ "$(whoami)" == "root" ]; then
@@ -200,7 +202,7 @@ function install(){
 function install_yay() {
   is_arch
   if [ $? -eq 0 ];then
-    if [ -n ${IS_DOCKER} ]; then
+    if [ -n "${IS_DOCKER}" ]; then
       echo "yay -S --noconfirm $@"
       yay -S --noconfirm $@
     else

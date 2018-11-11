@@ -31,9 +31,9 @@ function install_pkg() {
 }
 
 function ins_yay_itself() {
-  has_feature "$1"
+  has_feature "yay"
   if [ $? -eq 1 ]; then
-    pacman -Ss "^yay$"
+    pacman -Ss "^yay$" > /dev/null
     if [ $? -eq 0 ]; then
       install_pkg yay
     else
@@ -62,13 +62,27 @@ install_pkg screenfetch
 
 screenfetch
 
-install_pkg vim
-install_pkg powerline
-install_pkg python-powerline
+# gvim for xterm support
+has_feature vim
+if [ $? -eq 1 ]; then
+  install_pkg gvim
+fi
+
+has_feature powerline
+if [ $? -eq 1 ]; then
+  install_pkg powerline
+  install_pkg python-powerline
+fi
 
 install_pkg shellcheck
 
-install_pkg nodejs-jsonlint
+install_pkg pass
+
+
+has_feature jsonlint
+if [ $? -eq 1 ]; then
+  yay -S nodejs-jsonlint
+fi
 
 #nvim
 install_pkg ruby
@@ -99,7 +113,11 @@ fi
 
 #tmux
 # https://github.com/remiprev/teamocil
-install_yay teamocil
+
+has_feature teamocil
+if [ $? -eq 1 ]; then
+  install_yay teamocil
+fi
 
 # https://github.com/tmux-python/tmuxp
 # freeze serialized current session layout to a yaml file which can be used by teamocil
@@ -250,8 +268,9 @@ fi
 has_feature cabal
 if [ $? -eq 1 ]; then
   install cabal-install || exit 1
+  cabal update
+  cabal install spellcheck
 fi
-cabal install spellcheck
 
 install_pkg xterm
 has_feature zsh
@@ -347,7 +366,12 @@ fi
 has_feature global
 if [ $? -eq 1 ]; then
   #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/global.tar.gz"
-  echo "TODO"
+  install_yay global
+fi
+
+has_feature ack
+if [ $? -eq 1 ]; then
+  install_yay ack
 fi
 
 has_feature bear
@@ -379,6 +403,15 @@ if [ $? -eq 1 ]; then
   #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/khal.tar.gz"
   #pip3.6 install --user khal
   install_yay khal
+fi
+
+has_feature syncthing
+if [ $? -eq 1 ]; then
+  install_yay -S syncthing
+  install_yay -S syncthing-gtk
+
+  systemctl enable --user syncthing.service
+  systemctl start --user syncthing.service
 fi
 
 # # vdirsyncer
@@ -445,5 +478,9 @@ fi
 
 install_pkg bison
 install_pkg flex
-install_pkg linux-headers
 install_pkg strace
+
+# echo "/lib/modules/$(uname -r)/build/include"
+# if [ ! -e "/lib/modules/$(uname -r)/build/include" ]; then
+  install_pkg linux-headers
+# fi

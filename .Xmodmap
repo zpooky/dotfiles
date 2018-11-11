@@ -1,0 +1,3 @@
+! keycode 66 = Escape
+clear lock
+keycode 66 = Escape NoSymbol Escape

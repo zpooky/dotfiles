@@ -302,22 +302,6 @@ if [ $? -eq 1 ]; then
   cabal install $STYLEISH_HASKELL
 fi
 
-# should update powerline settings and scripts
-LIB_ROOTS=("/lib" "/usr/lib" "/usr/local/lib")
-for LIB_ROOT in "${LIB_ROOTS[@]}"; do
-  PYTHON_VERSION=("python2.7" "python2.8" "python2.9" "python3.6" "python3.7" "python3.8" "python3.9")
-  for PYTHON in "${PYTHON_VERSION[@]}"; do
-    PACKAGES=("dist-packages" "site-packages")
-    for PACKAGE in "${PACKAGES[@]}"; do
-      # install powerline tmux segments
-      POWERLINE_SEGMENTS="${LIB_ROOT}/${PYTHON}/${PACKAGE}/powerline/segments"
-
-      if [ -e "${POWERLINE_SEGMENTS}" ]; then
-        sudo cp "${THE_HOME}/.config/powerline/segments/spooky" "${POWERLINE_SEGMENTS}" -R
-      fi
-    done
-  done
-done
 
 # stdman
 # example man std::vector

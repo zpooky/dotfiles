@@ -747,7 +747,7 @@ alias nas540="sshfs admin@192.168.1.12:/i-data/ $HOME/mount/nas540"
 alias nas540_dl="cd $HOME/mount/nas540/0da29454/admin/download/Transmission/download"
 alias extdisk="cd $HOME/mount/exdisk"
 
-function fun_sp_mount_fat() {
+function sp_mount_fat() {
   local dev_file="$1"
   local mount_point="$2"
 
@@ -773,7 +773,6 @@ function fun_sp_mount_fat() {
 
   sudo mount "$dev_file" "$mount_point" -o user,rw,umask=111,dmask=000
 }
-alias sp_mount_fat="fun_sp_mount_fat"
 
 
 # ===============================================
