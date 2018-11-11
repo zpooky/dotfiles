@@ -79,66 +79,71 @@ if [ ! -e $zsh_autosuggest ]; then
   fi
 fi
 
-if [ -e $zsh_autosuggest ]; then
+if [ -e "${zsh_autosuggest}" ]; then
   PREV_DIR=$(pwd)
-  cd $zsh_autosuggest
+  cd "${zsh_autosuggest}" || exit 1
 
   git pull --rebase origin master
-  cd $PREV_DIR
+  cd "${PREV_DIR}" || exit 1
 fi
 stop_feature "zsh-autosuggestions"
-
 
 start_feature "zsh-completions"
 zsh_custom_plugins=$HOME/.oh-my-zsh/custom/plugins
 zsh_completions=$zsh_custom_plugins/zsh-completions
-if [ ! -e $zsh_completions ]; then
+if [ ! -e "${zsh_completions}" ]; then
 
-  git clone  https://github.com/zsh-users/zsh-completions.git "${zsh_completions}"
+  git clone https://github.com/zsh-users/zsh-completions.git "${zsh_completions}"
   if [ ! $? -eq 0 ]; then
     rm -rf "${zsh_completions}"
   fi
 fi
 
-if [ -e $zsh_completions ]; then
+if [ -e "${zsh_completions}" ]; then
   PREV_DIR=$(pwd)
-  cd $zsh_completions
+  cd "${zsh_completions}" || exit 1
 
   git pull --rebase origin master
-  cd $PREV_DIR
+  cd "${PREV_DIR}" || exit 1
 fi
 stop_feature "zsh-completions"
 
 # git You Complete Me(YCM)
-YCM_IT=7
-YCM_FORKS=("OblitumYouCompleteMe" "YouCompleteMe")
+ycm_forks=("OblitumYouCompleteMe" "YouCompleteMe")
 
-for YCM in "${YCM_FORKS[@]}"; do
-  FEATURE="$FEATURE_HOME/${YCM}${YCM_IT}"
-  if [ ! -e "$FEATURE" ]; then
-    start_feature "$YCM"
+for ycm in "${ycm_forks[@]}"; do
+  FEATURE="$FEATURE_HOME/${ycm}"
+  ycm_root="$THE_HOME/.vim/bundle/$ycm"
+
+  start_feature "$ycm"
+  head_same "${ycm_root}" "${FEATURE}"
+  if [ $? -eq 1 ]; then
 
     # TODO should recompile when vim version changes
     PREV_DIR=$(pwd)
 
-    cd "$THE_HOME/.vim/bundle/$YCM"
+    cd "${ycm_root}" || exit 1
+
+    git checkout master || exit 1
+    git pull --rebase origin master || exit 1
+    git submodule update --init --recursive || exit 1
 
     ./install.py --clang-completer --system-libclang # --go-completer --rust-completer --js-completer
     RET=$?
     if [ $RET -eq 0 ]; then
-      touch "$FEATURE"
+      head_id >"$FEATURE"
     fi
 
-    cd "$PREV_DIR"
+    cd "${PREV_DIR}" || exit 1
 
-    stop_feature "$YCM"
   fi
+  stop_feature "$ycm"
 done
 
 # vim color coded {
 if [ 1 -eq 0 ]; then
-  FEATURE=$FEATURE_HOME/color_coded2
-  if [ ! -e $FEATURE ]; then
+  FEATURE="${FEATURE_HOME}/color_coded2"
+  if [ ! -e "${FEATURE}" ]; then
     start_feature "color_coded1"
 
     # TODO should recompile when vim version changes
@@ -178,8 +183,8 @@ FEATURE=$FEATURE_HOME/bashrc
 if [ ! -e $BASHRC_FEATURE ]; then
   start_feature "bashrc"
 
-  echo 'source ~/dotfiles/extrarc' >> ~/.bashrc
-  echo 'source ~/dotfiles/extrarc' >> ~/.zshrc
+  echo 'source ~/dotfiles/extrarc' >>~/.bashrc
+  echo 'source ~/dotfiles/extrarc' >>~/.zshrc
 
   touch $FEATURE
   stop_feature "bashrc"
@@ -198,7 +203,7 @@ if [ ! -e $DOTFILES_INPUTRC ]; then
     "\e[1;5D": backward-word
 
     # shift+insert - paste
-    ' > $DOTFILES_INPUTRC
+    ' >$DOTFILES_INPUTRC
   else
     touch $DOTFILES_INPUTRC
   fi
@@ -223,9 +228,6 @@ is_arch
 if [[ $? -eq 0 ]]; then
   exit 0
 fi
-
-
-exit 1
 
 echo "Enter sudo password"
 sudo echo "start" || exit 1
@@ -430,14 +432,14 @@ fi
 #   else
 #     # python2 -m pip uninstall pip setuptools
 #     PREV_DIR=$(pwd)
-# 
+#
 #     cd /tmp
 #     curl -O https://bootstrap.pypa.io/get-pip.py
-# 
+#
 #     if [ $? -eq 0 ]; then
 #       sudo -H python2.7 get-pip.py
 #     fi
-# 
+#
 #     cd $PREV_DIR
 #   fi
 # fi
