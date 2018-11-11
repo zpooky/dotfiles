@@ -40,6 +40,40 @@ function stop_feature(){
   echo "------------------------------------"
 }
 
+function head_id(){
+  git rev-parse HEAD || exit 1
+}
+
+# $ycm_root $FEATURE
+function head_same(){
+  local root_git="${1}"
+  local feature="${2}"
+  if [ ! -e $root_git ]; then
+    echo "missing git repo $root_git"
+    exit 1
+  fi
+
+  local priv=$(pwd)
+
+  if [ ! -e $feature ]; then
+    echo "feature: ${feature} does not exist"
+    return 1
+  fi
+
+  cd "${root_git}" || exit 1
+  feature_id="$(cat $feature)"
+  git_id="$(head_id)"
+  cd "${priv}" || exit 1
+
+  if [ "$feature_id" == "$git_id" ]; then
+    echo "'$feature_id' == '$git_id'"
+    return 0
+  fi
+  echo "'$feature_id' != '$git_id'"
+
+  return 1
+}
+
 function has_feature(){
   which $1 > /dev/null 2>&1
   WHICH_FEATURE=$?
@@ -202,10 +236,6 @@ function install_cron(){
   #install new cron file
   crontab $CRON_FILE
   rm $CRON_FILE
-}
-
-function head_id(){
-  git rev-parse HEAD
 }
 
 is_arch()
