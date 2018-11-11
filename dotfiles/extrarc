@@ -747,9 +747,54 @@ alias sp-proj-disk-algh="vim $DROPBOX/project/disk-algh.md"
 alias sp-proj-ml="vim $DROPBOX/project/ml.md"
 
 # nas540
-alias nas540="sshfs admin@192.168.1.12:/i-data/ $HOME/mount/nas540"
+alias nas540="sshfs admin@192.168.0.104:/i-data/ $HOME/mount/nas540"
 alias nas540_dl="cd $HOME/mount/nas540/0da29454/admin/download/Transmission/download"
+alias nas540_tv="cd $HOME/mount/nas540/0da29454/video/tv"
 alias extdisk="cd $HOME/mount/exdisk"
+
+# chromecast
+function sp_chromecast(){
+  # http://mkchromecast.com/
+  local file="${1}"
+
+  sp_has_feature mkchromecast
+  if [ ! $? -eq 0 ]; then
+    yay -S mkchromecast
+  fi
+
+#   function sp_subs(){
+#     local file="$1"
+#     local filename=$(basename -- "$file")
+#     local extension="${filename##*.}"
+#     local filename="${filename%.*}"
+#
+#     # TODO
+#
+# # ./The Night Of/The.Night.Of.S01E08.HDTV.1080p.[By ExYu-Subs]/The.Night.Of.S01E08.HDTV.1080p.[By ExYu-Subs].mkv
+# # ./The Night Of/The.Night.Of.S01E08.HDTV.1080p.[By ExYu-Subs]/The.Night.Of.S01E08.HDTV.1080p.[By ExYu-Subs]-slo.srt
+# #
+# # ./Homeland/Homeland.S03.Season.3.Complete.720p.HDTV.x264-\[maximersk\]/Subs-EN                                                                                                [1][0.0s][]
+# # sub/ subs/ Sub Subs Subs-EN
+#     return 1
+#   }
+
+  if [[ "${file}" =~ ^http ]]; then
+    mkchromecast --video -y "${file}"
+  else
+
+    if [ ! -e "${file}" ]; then
+      echo "no file '${file}'"
+      return 1
+    fi
+
+    sp_subs "${file}"
+    if [ $? -eq 0 ]; then
+      # mkchromecast --video -i "/tmp/Homeland.S06E01.Fair.Game.1080p.AMZN.WEBRip.HEVC.DD5.1.x265.mkv" --subtitles /tmp/Homeland.S06E01.Fair\ Game.HDTV.x264-BATV.en.HI.srt 
+    else
+      mkchromecast --video -i "${file}"
+    fi
+  fi
+}
 
 function sp_mount_fat() {
   local dev_file="$1"
@@ -785,7 +830,6 @@ function sp_mount_fat() {
 # ===============================================
 
 alias hna="~/dotfiles/lib/hn/spawn.sh"
-
 
 function sp_has_feature() {
   FEATURE="$1"
