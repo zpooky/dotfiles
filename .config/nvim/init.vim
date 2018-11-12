@@ -371,6 +371,17 @@ if !has('win32unix') && !has('win64unix')
   let g:gutentags_generate_on_missing=1
   let g:gutentags_background_update=1
 
+  " let g:gutentags_trace=1
+  " let g:gutentags_define_advanced_commands=1
+
+  let g:gutentags_ctags_exclude=['*.md', 'Makefile','CMakeLists.txt','*.cmake']
+  " let g:gutentags_file_list_command = 'ack -f --nohtml --nojson --nomd '
+  " let g:gutentags_file_list_command = {
+  "       \ 'markers': 
+  "       \ {'.git': 'ack -f --nohtml --nojson --nomd '}
+  "       \ }
+
+        " \ {'.git': 'ack -f --nohtml --nojson --nomd '}
   " let g:gutentags_ctags_executable_cpp="ctag"
 
   let g:gutentags_project_info=[]
