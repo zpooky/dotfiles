@@ -133,12 +133,6 @@ if [ $? -eq 1 ]; then
   install_yay proselint
 fi
 
-# clipboard manager
-has_feature clipster
-if [ $? -eq 1 ]; then
-  install_yay clipster
-fi
-
 has_feature redpen
 if [ $? -eq 1 ]; then
   install_yay redpen
