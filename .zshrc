@@ -6,7 +6,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions cabal pip python fzf docker zsh-completions)
+plugins=(git zsh-autosuggestions cabal pip python fzf docker zsh-completions pass)
 
 DISABLE_AUTO_UPDATE="true"
 
@@ -30,6 +30,8 @@ function precmd() {
 }
 
 export LANG=en_US.UTF-8
+# locale - format dates according to Swedish standards (24h clock)
+export LC_TIME=sv_SE.UTF-8
 
 # keybindings
 # ctrl+left/ctrl+right navigate word

@@ -28,3 +28,6 @@
 [submodule "sources/fzf"]
 	path = sources/fzf
 	url = https://github.com/junegunn/fzf.git
+[submodule "sources/clipster"]
+	path = sources/clipster
+	url = https://github.com/zpooky/clipster.git

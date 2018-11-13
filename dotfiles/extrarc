@@ -322,6 +322,7 @@ alias sp-set-theory="sp-bitwise"
 alias sp-math="vim $REF_DIR/math_notes.md"    #TODO
 alias sp-math-square="sp-math"
 alias sp-order-of-magnitude="vim $REF_DIR/order-of-magnitude.md"
+alias sp-rsa="vim $REF_DIR/rsa.md"
 
 function sp_complexity() {
   local exp="$REF_DIR/exponential-growth.md"
@@ -428,8 +429,10 @@ alias sp-limits="vim $DROPBOX_LINUX/debug/limits.md"
 
 # Axis
 alias sp-axis-audiocontrol="vim $DROPBOX_AXIS/audiocontrol.md"
+alias sp-iobox="vim $DROPBOX_AXIS/iobox.md"
 alias sp-axis-yocto="vim $DROPBOX_AXIS/yocto/yocto.md"
 alias sp-axis-bitbake="vim $DROPBOX_AXIS/yocto/bitbake.md"
+alias sp-glib="vim $DROPBOX_AXIS/glib.md"
 
 # Linux utils
 alias sp-dd="vim $DROPBOX_LINUX/dd.md"
@@ -465,6 +468,7 @@ alias sp-git="vim $DROPBOX_LINUX/git.md"
 alias sp-jobs="vim $DROPBOX_LINUX/jobs.md"
 alias sp-gpg="vim $REF_DIR/gpg.md"
 alias sp-hexdump="vim $REF_DIR/hexdump.md"
+alias sp-apt="vim $REF_DIR/apt.md"
 
 # linux
 alias sp-linux="cd $DROPBOX_LINUX"
