@@ -6,8 +6,10 @@ Description=clipster daemon
 Type=simple
 ; Type=forking
 ; ExecStart=$HOME/sources/clipster/clipster --daemon
-ExecStart=/home/fredriol/sources/clipster/clipster --daemon
+ExecStart=%h/sources/clipster/clipster --daemon
+# ExecStart=$HOME/sources/clipster/clipster --daemon
 Restart=always
+PIDFile=%h/.local/share/clipster/clipster.pid
 
 [Install]
 ; WantedBy=multi-user.target
