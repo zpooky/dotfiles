@@ -34,13 +34,19 @@ function ins_yay_itself() {
   has_feature "yay"
   if [ $? -eq 1 ]; then
     pacman -Ss "^yay$" > /dev/null
-    if [ $? -eq 0 ]; then
+    local ret=$?
+    if [ ${ret} -eq 0 ]; then
       install_pkg yay
-    else
+      return $?
+    elif [ -n "${IS_DOCKER}" ]; then
       #TODO create user+add sudo+clone+build+install
       return 1
+    else
+      install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz"
+      return $?
     fi
   fi
+
   return 0
 }
 
