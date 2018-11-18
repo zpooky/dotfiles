@@ -48,12 +48,12 @@ fi
 start_feature "vim"
 has_feature nvim
 if [ $? -eq 0 ]; then
-  nvim +PlugUpdate +qall                                                                                                    [0][4,0s][]
+  nvim +PlugUpdate +qall
 fi
 
 has_feature vim
 if [ $? -eq 0 ]; then
-  vim +PlugUpdate +qall                                                                                                    [0][4,0s][]
+  vim +PlugUpdate +qall
 fi
 stop_feature "vim"
 

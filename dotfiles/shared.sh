@@ -108,7 +108,7 @@ if [ $? -eq 0 ]; then
       if [ $? -ne 0 ]; then
         return 3
       fi
-      INSTALLS=( $TARGET/*x86_64.pkg.tar.xz )
+      INSTALLS=( $TARGET/*$(uname -m).pkg.tar.xz )
       echo "matching: ${INSTALLS[@]}"
       ls -alh
 
