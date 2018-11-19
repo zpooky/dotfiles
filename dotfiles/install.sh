@@ -57,6 +57,8 @@ if [ $? -eq 0 ]; then
 fi
 stop_feature "vim"
 
+# if wm=gnome | https://github.com/deadalnix/pixel-saver
+
 start_feature "update tmux plugins"
 ~/.tmux/plugins/tpm/bin/install_plugins
 stop_feature "update tmux plugins"
