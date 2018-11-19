@@ -433,6 +433,7 @@ alias sp-iobox="vim $DROPBOX_AXIS/iobox.md"
 alias sp-axis-yocto="vim $DROPBOX_AXIS/yocto/yocto.md"
 alias sp-axis-bitbake="vim $DROPBOX_AXIS/yocto/bitbake.md"
 alias sp-glib="vim $DROPBOX_AXIS/glib.md"
+alias sp-kernel-crash="vim $DROPBOX_AXIS/kernel-crash.md"
 
 # Linux utils
 alias sp-dd="vim $DROPBOX_LINUX/dd.md"
@@ -920,14 +921,12 @@ alias vimsession="vim -S Session.vim"
 alias sp_repeat="~/dotfiles/lib/repeat.sh"
 # alias sp_repeat_i="~/dotfiles/lib/repeati.sh"
 
-function mkdir_cd(){
+function mcd(){
   if [ ! -e $1 ]; then
     mkdir -p $1
   fi
   cd $1
 }
-
-alias mcd="mkdir_cd"
 
 SCRATCHPAD_ROOT=$HOME/scratchpad
 function sp_calc(){

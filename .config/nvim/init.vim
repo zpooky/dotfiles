@@ -617,7 +617,7 @@ Plug 'nickhutchinson/vim-cmake-syntax'
 " ##########
 
 " Pencil {{{
-Plug 'reedes/vim-pencil', { 'for': 'markdown' }
+" Plug 'reedes/vim-pencil', { 'for': 'markdown' }
 
 " hardwrap - vim adds newlines character when line is to long
 " softwrap - vim presents long lines wrapped over multiple lines
@@ -633,20 +633,20 @@ Plug 'reedes/vim-pencil', { 'for': 'markdown' }
 
 " affects HardPencil only - blacklist formatting for text with tagged by these syntax
 " highlight group
-let g:pencil#autoformat_config = {
-      \   'markdown': {
-      \     'black': [
-      \       'htmlH[0-9]',
-      \       'markdown(Code|H[0-9]|Url|IdDeclaration|Link|Rule|Highlight[A-Za-z0-9]+)',
-      \       'markdown(FencedCodeBlock|InlineCode)',
-      \       'mkd(Code|Rule|Delimiter|Link|ListItem|IndentCode)',
-      \       'mmdTable[A-Za-z0-9]*',
-      \     ],
-      \     'white': [
-      \      'markdown(Code|Link)',
-      \     ],
-      \   },
-      \ }
+" let g:pencil#autoformat_config = {
+"       \   'markdown': {
+"       \     'black': [
+"       \       'htmlH[0-9]',
+"       \       'markdown(Code|H[0-9]|Url|IdDeclaration|Link|Rule|Highlight[A-Za-z0-9]+)',
+"       \       'markdown(FencedCodeBlock|InlineCode)',
+"       \       'mkd(Code|Rule|Delimiter|Link|ListItem|IndentCode)',
+"       \       'mmdTable[A-Za-z0-9]*',
+"       \     ],
+"       \     'white': [
+"       \      'markdown(Code|Link)',
+"       \     ],
+"       \   },
+"       \ }
 " }}}
 
 " Goyo {{{
@@ -654,13 +654,13 @@ Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 
 augroup AutogroupGoyo
   autocmd!
-  autocmd FileType markdown,mail,text,gitcommit map <silent> <F11> <Esc> :Goyo <Bar> :TogglePencil <CR>
+  autocmd FileType markdown,mail,text,gitcommit map <silent> <F11> <Esc> :Goyo <CR>
 augroup END
 " }}}
 
 " markdown syntax
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-Plug 'reedes/vim-colors-pencil'   " http://sherifsoliman.com/2016/05/30/favorite-vim-plugins/#vim-colors-pencil
+" Plug 'reedes/vim-colors-pencil'   " http://sherifsoliman.com/2016/05/30/favorite-vim-plugins/#vim-colors-pencil
 " }}}
 
 " {{{
@@ -815,8 +815,7 @@ let g:rainbow_conf =
 Plug 'wellle/targets.vim'
 " }}}
 
-" {{{
-" Centre search result
+" Centre search result {{{
 " Plug 'wincent/loupe'
 noremap n nzz
 noremap N Nzz
@@ -866,13 +865,13 @@ Plug 'chrisbra/Colorizer', { 'for': 'vim' }
 let g:colorizer_colornames_disable = 1
 " }}}
 
-" {{{
+" custom tab bar {{{
 Plug 'zpooky/tabline.vim'
 " }}}
 
 " {{{
-Plug 'adelarsq/vim-matchit', { 'for':['tex','html'] }
 " To support % between \begin{} and \end{} in LaTeX
+Plug 'adelarsq/vim-matchit', { 'for':['tex','html'] }
 " }}}
 
 " {{{
@@ -883,18 +882,22 @@ Plug 'xuhdev/vim-latex-live-preview',{'for':['tex','plaintex']}
 " :LLPStartPreview
 " }}}
 
-" {{{
-" meson syntax
+" meson syntax {{{
 Plug 'matze/vim-meson'
 " }}}
 
-" {{{
-" bitbake syntax
+" bitbake syntax {{{
 Plug 'kergoth/vim-bitbake'
+" }}}
+
+" better vim session {{{
+Plug 'tpope/vim-obsession'
 " }}}
 
 call plug#end()
 " }}}
+
+" {{{
 
 colorscheme codedark
 
