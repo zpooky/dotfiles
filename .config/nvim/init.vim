@@ -269,6 +269,8 @@ if has('nvim')
   Plug 'zchee/deoplete-jedi'
 endif
 
+" Plug 'nathanaelkane/vim-indent-guides',{'for': ['python']}
+
 " redundant?
 " sort imports
 " Plug 'tweekmonster/impsort.vim'

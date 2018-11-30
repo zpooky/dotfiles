@@ -133,7 +133,7 @@ tmux split-window -h -t "${window_id}.6" "${pipe_cmd}" || exit 1
 #---------------------
 
 # gdb!!
-tmux send-keys -t "${window_id}.1" "gdb --args '${sut}' '$2' '$3' '$4' '$5' '$6' '$7' '$8' '$9' '${10}'" C-m
+tmux send-keys -t "${window_id}.1" "gdb --silent --args '${sut}' '$2' '$3' '$4' '$5' '$6' '$7' '$8' '$9' '${10}'" C-m
 
 #---configure-dashboard------------------
 # source lines

@@ -259,6 +259,10 @@ call <sid>hi('SpellCap', s:cdNone, s:cdNone, 'undercurl', {})
 call <sid>hi('SpellLocal', s:cdNone, s:cdNone, 'undercurl', {})
 " }}}
 
+" Misc {{{
+call <sid>hi('bbUnmatched', s:cdRed, s:cdNone, 'undercurl', {})
+" }}}
+
 " Vim editor colors
 "    <sid>hi(GROUP, FOREGROUND, BACKGROUND, ATTRIBUTE, SPECIAL)
 call <sid>hi('Normal', s:cdFront, s:cdBack, 'none', {})

@@ -40,6 +40,12 @@ function ins_yay_itself() {
       return $?
     elif [ -n "${IS_DOCKER}" ]; then
       #TODO create user+add sudo+clone+build+install
+      # TODO yay has to run as non root
+      #git clone https://aur.archlinux.org/yay.git
+      # cd yay
+      # makepkg -si
+
+      # https://github.com/Jguer/yay/issues/701
       return 1
     else
       install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz"

@@ -430,6 +430,9 @@ alias sp-limits="vim $DROPBOX_LINUX/debug/limits.md"
 # Axis
 alias sp-axis-audiocontrol="vim $DROPBOX_AXIS/audiocontrol.md"
 alias sp-iobox="vim $DROPBOX_AXIS/iobox.md"
+alias sp-axis-iobox="sp-iobox"
+alias sp-axis-parhandle="vim $DROPBOX_AXIS/parhandle.md"
+
 alias sp-axis-yocto="vim $DROPBOX_AXIS/yocto/yocto.md"
 alias sp-axis-bitbake="vim $DROPBOX_AXIS/yocto/bitbake.md"
 alias sp-glib="vim $DROPBOX_AXIS/glib.md"
@@ -890,9 +893,10 @@ alias duh="du -h -d 0 [^.]*"
 #force ssh to use xterm when ssh instead of tmux-colour256
 alias ssh='TERM=xterm ssh '
 
-alias sp-sync="$DOTFILES_LIB/mail_sync.sh"
+alias sp_sync="$DOTFILES_LIB/mail_sync.sh"
 
-function sp_port_scan() {
+alias sp-port-scan="vim $REF_DIR/port-scan.md"
+function port_scan() {
   which netstat 2>&1 > /dev/null
   if [ $? -eq 0 ]; then
     netstat -alnptu | grep -Ei 'Proto|LISTEN'
@@ -901,7 +905,6 @@ function sp_port_scan() {
     ss -tuna | grep -i 'LISTEN'
   fi
 }
-alias port-scan='sp_port_scan'
 
 alias sp-space="du -hsc *"
 alias sp-root="cd \`$DOTFILES_LIB/git_root.sh\`"
@@ -954,6 +957,7 @@ alias cpp_funcall="$HOME/dotfiles/lib/cpp_grep_function_call.sh"
 alias cpp_fundeclare="$HOME/dotfiles/lib/cpp_grep_function_declare.sh"
 alias cpp_conscall="$HOME/dotfiles/lib/cpp_grep_constructor_call.sh"
 
+alias gdb=" gdb --silent"
 alias sp_gdb="$HOME/dotfiles/lib/gdb_tmux_dashboard.sh"
 alias sp_cmake_compile_db="cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
 
