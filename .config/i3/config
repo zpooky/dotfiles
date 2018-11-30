@@ -152,10 +152,7 @@ exec "setxkbmap -layout se"
 
 ## clipster {
 ## Start clipster daemon
-exec --no-startup-id clipster -d
-
-# shortcut to selection widget (primary)
-bindsym $mod+c exec clipster -sp
+exec --no-startup-id $HOME/sources/clipster/clipster -d
 # }
 
 ## Special keyboard support
