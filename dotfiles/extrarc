@@ -437,6 +437,7 @@ alias sp-axis-yocto="vim $DROPBOX_AXIS/yocto/yocto.md"
 alias sp-axis-bitbake="vim $DROPBOX_AXIS/yocto/bitbake.md"
 alias sp-glib="vim $DROPBOX_AXIS/glib.md"
 alias sp-kernel-crash="vim $DROPBOX_AXIS/kernel-crash.md"
+alias sp-env="vim $DROPBOX_AXIS/env.md"
 
 # Linux utils
 alias sp-dd="vim $DROPBOX_LINUX/dd.md"
@@ -471,6 +472,7 @@ alias sp-scp="vim $DROPBOX_LINUX/scp.md"
 alias sp-git="vim $DROPBOX_LINUX/git.md"
 alias sp-jobs="vim $DROPBOX_LINUX/jobs.md"
 alias sp-gpg="vim $REF_DIR/gpg.md"
+alias sp-pgp="sp-gpg"
 alias sp-hexdump="vim $REF_DIR/hexdump.md"
 alias sp-apt="vim $REF_DIR/apt.md"
 
@@ -581,6 +583,7 @@ alias sp-syscall-rcu="vim $LINUX_SYSCALL_ROOT/rcu.md"    #TODO
 alias sp-syscall-membarrier="vim $LINUX_SYSCALL_ROOT/membarrier.md"
 alias sp-syscall-futex="vim $LINUX_SYSCALL_ROOT/futex.md"
 alias sp-syscall-pipe="vim $LINUX_SYSCALL_ROOT/pipe.md"
+alias sp-syscall-epoll="vim $LINUX_SYSCALL_ROOT/epoll.md"
 
 function sp_network() {
   local net_layer="$DROPBOX_NETWORK/network-layer.md"
@@ -863,10 +866,6 @@ function sp_has_feature() {
 # fi
 
 #git
-alias gitcommit="git commit"
-alias "cd-"="cd -"
-alias gitst="git st"
-alias gitadd="git add"
 
 #khal
 alias sp-khal='khal calendar -a red -a personal --format="{red-bold}{start-time}{reset}-{green-bold}{end-time}{reset} {calendar-color}{title}{reset}{yellow}{repeat-symbol}{reset} [{cyan}{location}{reset}][{magenta}{calendar}{reset}]"'
@@ -888,7 +887,6 @@ function sp_newsbeuter() {
 
 }
 alias n="sp_newsbeuter"
-alias duh="du -h -d 0 [^.]*"
 
 #force ssh to use xterm when ssh instead of tmux-colour256
 alias ssh='TERM=xterm ssh '
@@ -1095,11 +1093,9 @@ alias test_loop="$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/make_test_bod
 # }
 # alias cpp_change_loop="$HOME/dotfiles/lib/entr_cpp.sh "
 
-function spooky_ag_grep() {
+function sp_ag() {
   ag "$1" --cpp --ignore "external"
 }
-
-alias sp_ag="spooky_ag_grep"
 
 function sp_cryptocurrency(){
   local COIN="$1"

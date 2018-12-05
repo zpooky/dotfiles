@@ -73,7 +73,13 @@ PROMPT="%B${NEWLINE}%~%{$fg[yellow]%}:%{$reset_color%}${NEWLINE}%{$fg[red]%}%B$S
 
 # turnery styled %(1j.true.false)
 # this is displayed on the far right side
-RPROMPT='[%F{yellow}%?%f][%F{green}$sp_zsh_timer_show%f][%F{red}%(1j.⌘%j.)%f]'
+# %S - standout start
+# %s - standout stop
+# %F{color} - foreground color
+# %f        - foreground color standard
+# %K{color} - background color
+# %k        - background color standard
+RPROMPT='[%(?.%F{green}%?%f.%S%F{red}%?%f%s)][%F{green}$sp_zsh_timer_show%f]%F{red}%(1j.[⌘%j].)%f'
 
 ## Set up the prompt
 #autoload -Uz promptinit
@@ -104,7 +110,52 @@ compinit
 
 #=================== {
 alias ll="ls -alh --color=tty"
-# alias pacman="pacmatic "
+
+alias duh="du -h -d 0 [^.]*"
+
+alias lcd="cd"
+alias lvim="vim"
+alias l="ll"
+
+# TODO fi
+function f(){
+  if [[ -z "${1}" ]]; then
+    echo "missing param">&2
+    return 1
+  fi
+  # [^/]* any not /
+
+  local p="${1}"
+  if [[ ! "${p}" =~ '^\^.*' ]]; then
+    # $p does not start with ^
+    local p="[^/]*${p}"
+
+    # -regex matches the complete path limit to filename part by prefixing .*/
+    local p=".*/${p}"
+  else
+    echo ""
+    # strip `^`
+    local x=${p:1:1000000}
+    # create `^.*/${p}`
+    local p="^.*/${x}"
+    # `/` is start of filename aka regex: `^`
+  fi
+
+  if [[ ! "${p}" =~ '.*\$$' ]]; then
+    local p="${p}[^/]*"
+  fi
+
+  # find . -type d \( -path dir1 -o -path dir2 -o -path dir3 \) -prune -o -print
+  local exclude="-path .git -prune -o"
+  echo "# find . -regextype egrep -iregex \"${p}\""
+  find . -regextype egrep -regex "${p}"
+  #find -iname "*${p}*"
+}
+
+alias gitcommit="git commit"
+alias "cd-"="cd -"
+alias gitst="git st"
+alias gitadd="git add"
 
 if [[ $TERM = "" || -z $TERM ]]; then
   export TERM="xterm-256color"
