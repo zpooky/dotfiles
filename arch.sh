@@ -141,12 +141,13 @@ boot
 
 #user
 pacman -S sudo
-adduser spooky
+useradd --create-home --shell /usr/bin/zsh spooky
+#adduser spooky
 passwd spooky
 groupadd sudo
 usermod-a -G sudo spooky
 visudo -f /etc/sudoers # uncomment sudo group access
-chsh -s /usr/bin/zsh
+#chsh -s /usr/bin/zsh
 
 #nfs
 sudo mount 192.168.1.12:/i-data/0da29454/nfs/video /home/spooky/mount/video

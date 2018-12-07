@@ -119,6 +119,7 @@ alias l="ll"
 
 # TODO fi
 function f(){
+  # TODO if both ^$ then we can use -iname
   if [[ -z "${1}" ]]; then
     echo "missing param">&2
     return 1
@@ -133,7 +134,6 @@ function f(){
     # -regex matches the complete path limit to filename part by prefixing .*/
     local p=".*/${p}"
   else
-    echo ""
     # strip `^`
     local x=${p:1:1000000}
     # create `^.*/${p}`
@@ -146,9 +146,16 @@ function f(){
   fi
 
   # find . -type d \( -path dir1 -o -path dir2 -o -path dir3 \) -prune -o -print
-  local exclude="-path .git -prune -o"
-  echo "# find . -regextype egrep -iregex \"${p}\""
-  find . -regextype egrep -regex "${p}"
+  # local exclude="-path .git -prune -o"
+  # local ex="-type d \( -name 'tmp' \) -prune -o"
+  # local ex2=' -not -path "*/tmp/*"'
+  local ex3='! -path "*/tmp/*" ! -path "*/.git/*"'
+
+  local cmd="find . -regextype egrep -regex \"${p}\" ${ex3}"
+  echo "${cmd}"
+  eval "${cmd}"
+
+  # find . -regextype egrep -regex "\"${p}\"" ${ex3}
   #find -iname "*${p}*"
 }
 
