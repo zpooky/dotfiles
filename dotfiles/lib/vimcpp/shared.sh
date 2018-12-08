@@ -136,7 +136,8 @@ function gtest_for_file_line() {
     # tests should run) or that the cursor are inside a test function(meaning
     # only that test should be run(the last in the array))
 
-    is_line_gtest "$line"
+    # echo "${line}"
+    is_line_gtest "${line}"
     if [ $? -eq 0 ]; then
       local exact_match="${BASH_REMATCH[1]}.${BASH_REMATCH[2]}"
       # Default/ReadWriteLockThreadTest.threaded_TryPrepare/13 (5 ms)
@@ -154,7 +155,7 @@ function gtest_for_file_line() {
       if [ $test_cnt -gt 0 ]; then
         break
       else
-        echo "not tests found"
+        echo "not tests found '${test_cnt}'"
         return 1
       fi
     fi

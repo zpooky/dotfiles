@@ -75,6 +75,10 @@ sudo wifi-menu
 rfkill list
 rfkill unblock bluetooth
 systemctl status bluetooth
+systemctl start bluetooth.service
+
+-- has to run before
+pulseaudio --start
 
 bluetoothctl
   power on

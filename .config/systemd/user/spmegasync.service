@@ -3,6 +3,7 @@ Description=megasync
 After=network.target
 
 [Service]
+Environment=DISPLAY=:0
 ExecStart=/usr/bin/megasync
 Restart=on-failure
 

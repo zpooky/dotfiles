@@ -160,7 +160,7 @@ install_pkg mpv
 install_pkg fakeroot
 
 #
-install_pkg guake
+# install_pkg guake
 install_pkg chromium
 
 #
@@ -243,12 +243,12 @@ if [ $? -eq 1 ]; then
 fi
 
 #keyring
-install_pkg gnome-keyring
-has_feature seahorse
-if [ $? -eq 1 ]; then
-  install seahorse || exit 1
-  install python2-gnomekeyring || exit 1
-fi
+# install_pkg gnome-keyring
+# has_feature seahorse
+# if [ $? -eq 1 ]; then
+#   install seahorse || exit 1
+#   install python2-gnomekeyring || exit 1
+# fi
 
 #
 has_feature ntpd

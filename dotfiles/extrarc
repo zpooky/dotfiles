@@ -956,7 +956,7 @@ alias cpp_fundeclare="$HOME/dotfiles/lib/cpp_grep_function_declare.sh"
 alias cpp_conscall="$HOME/dotfiles/lib/cpp_grep_constructor_call.sh"
 
 alias gdb=" gdb --silent"
-alias sp_gdb="$HOME/dotfiles/lib/gdb_tmux_dashboard.sh"
+alias sp_gdb="$HOME/dotfiles/lib/tmuxgdb/tmuxgdb.sh"
 alias sp_cmake_compile_db="cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
 
 function setup_ycm(){
@@ -1135,4 +1135,6 @@ function sp_ltc(){
 
 alias sp_bitcoin_table="coinmon"
 
+# getting errors from vim about next line when it is the last line
 # vim: set ft=zsh:
+#

@@ -11,10 +11,16 @@ if [ ! -p $FIFO_pipe ]; then
   exit 1
 fi
 
-REGIONS=( ${@:2:99} )
+REGIONS=(${@:2:99})
 
 for REGION in "${REGIONS[@]}"; do
 
-  echo "$REGION=\"`tty`\" > $FIFO_pipe"
-  echo "$REGION=\"`tty`\"" > $FIFO_pipe &
+  the_tty=$(tty)
+  if [ ! $? -eq 0 ]; then
+    echo "error"
+  fi
+  echo "test"
+
+  # echo "$REGION=\"`tty`\" > $FIFO_pipe"
+  echo "$REGION=\"$(tty)\"" >$FIFO_pipe &
 done

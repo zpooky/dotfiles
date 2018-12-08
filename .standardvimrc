@@ -666,48 +666,59 @@ set smartindent                   " support auto indentation when for example th
 " }}}
 
 " tmp directories {{{
-if has("win32")
-else
-  if !isdirectory("/tmp/.vim")
-    call mkdir("/tmp/.vim", "", 0777)
-  endif
+function! SetupTmp()
+  if has("win32")
+    set noswapfile          " no swap
+  else
+    let l:root = "/tmp/.vim-".$USER
+    if !isdirectory(l:root)
+      call mkdir(l:root, "", 0700)
+    endif
 
-  if !isdirectory("/tmp/.vim/undo")
-    call mkdir("/tmp/.vim/undo", "", 0700)
-  endif
-  if !isdirectory("/tmp/.vim/swap")
-    call mkdir("/tmp/.vim/swap", "", 0700)
-  endif
-  if !isdirectory("/tmp/.vim/backup")
-    call mkdir("/tmp/.vim/backup", "", 0700)
-  endif
-endif
-" }}}
+    " let l:root = l:base."/".$USER
+    " if !isdirectory(l:root)
+    "   call mkdir(l:root, "", 0700)
+    " endif
 
-" Backup {{{
-set nobackup            " no bak
-" set backup
-" pointles to backup to /tmp?
-" set backupdir=/tmp/.vim/backup//
-" set backupskip=/tmp/*,~/tmp
-" set writebackup
-" }}}
+    " Undo {{{
+    let l:undo = l:root."/undo"
+    if !isdirectory(l:undo)
+      call mkdir(l:undo, "", 0700)
+    endif
+    " https://advancedweb.hu/2017/09/12/vim-using-undo-branches
+    set undolevels=1000               " Use many levels of undo
+    set undofile                      " File Persistent undo
+    " set undodir=l:undo."//"           " Store undo file in tmp directory
+    set directory=/tmp/.vim-$USER/undo//
+    " }}}
 
-" Swap lock files {{{
-if has("win32")
-  set noswapfile          " no swap
-else
-  set swapfile
-  " two slashes means that vim will create unique swap file names per file
-  set directory=/tmp/.vim/swap//
-endif
-" }}}
+    " swap lock file {{{
+    let l:swap =l:root."/swap"
+    if !isdirectory(l:swap)
+      call mkdir(l:swap, "", 0700)
+    endif
+    " two slashes means that vim will create unique swap file names per file
+    " set directory=l:swap.//
+    set directory=/tmp/.vim-$USER/swap//
+    set swapfile
+    " }}}
 
-" Undo {{{
-" https://advancedweb.hu/2017/09/12/vim-using-undo-branches
-set undolevels=1000               " Use many levels of undo
-set undofile                      " File Persistent undo
-set undodir=/tmp/.vim/undo//      " Store undo file in tmp directory
+    " Backup {{{
+    let l:backup = l:root."/backup"
+    if !isdirectory(l:backup)
+      call mkdir(l:backup, "", 0700)
+    endif
+    set nobackup            " no bak
+    " set backup
+    " pointles to backup to /tmp?
+    " set backupdir=/tmp/.vim/backup//
+    " set backupskip=/tmp/*,~/tmp
+    " set writebackup
+    " }}}
+
+  endif
+endfunction
+call SetupTmp()
 " }}}
 
 " Custom mappings {{{
