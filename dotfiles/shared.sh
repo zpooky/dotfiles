@@ -173,7 +173,7 @@ function update_package_list(){
 function install(){
   is_arch
   if [ $? -eq 0 ];then
-    if [ -n "${IS_DOCKER}" ]; then
+    if [[ -n "${IS_DOCKER}" ]]; then
       echo "pacman -S --noconfirm $@"
       pacman -S --noconfirm $@
     elif [ "$(whoami)" == "root" ]; then
@@ -202,7 +202,7 @@ function install(){
 function install_yay() {
   is_arch
   if [ $? -eq 0 ];then
-    if [ -n "${IS_DOCKER}" ]; then
+    if [[ -n "${IS_DOCKER}" ]]; then
       echo "yay -S --noconfirm $@"
       yay -S --noconfirm $@
     else

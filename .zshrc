@@ -115,6 +115,8 @@ alias duh="du -h -d 0 [^.]*"
 
 alias lcd="cd"
 alias lvim="vim"
+alias lrm="lrm"
+alias lgit="lrm"
 alias l="ll"
 
 # TODO fi

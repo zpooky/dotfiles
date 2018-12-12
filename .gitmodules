@@ -31,3 +31,6 @@
 [submodule "sources/clipster"]
 	path = sources/clipster
 	url = https://github.com/zpooky/clipster.git
+[submodule "sources/teamocil"]
+	path = sources/teamocil
+	url = https://github.com/zpooky/teamocil.git

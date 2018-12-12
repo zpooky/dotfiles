@@ -797,6 +797,7 @@ function sp_chromecast(){
     sp_subs "${file}"
     if [ $? -eq 0 ]; then
       # mkchromecast --video -i "/tmp/Homeland.S06E01.Fair.Game.1080p.AMZN.WEBRip.HEVC.DD5.1.x265.mkv" --subtitles /tmp/Homeland.S06E01.Fair\ Game.HDTV.x264-BATV.en.HI.srt 
+      echo ""
     else
       mkchromecast --video -i "${file}"
     fi
