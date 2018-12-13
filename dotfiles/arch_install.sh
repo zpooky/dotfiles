@@ -30,6 +30,12 @@ function install_pkg() {
   fi
 }
 
+function install_graphic_pkg() {
+  if [[ ! -n "${IS_DOCKER}" ]]; then
+    install_pkg $@
+  fi
+}
+
 function ins_yay_itself() {
   has_feature "yay"
   if [ $? -eq 1 ]; then
@@ -38,15 +44,15 @@ function ins_yay_itself() {
     if [ ${ret} -eq 0 ]; then
       install_pkg yay
       return $?
-    elif [ -n "${IS_DOCKER}" ]; then
-      #TODO create user+add sudo+clone+build+install
-      # TODO yay has to run as non root
-      #git clone https://aur.archlinux.org/yay.git
-      # cd yay
-      # makepkg -si
-
-      # https://github.com/Jguer/yay/issues/701
-      return 1
+    # elif [[ -n "${IS_DOCKER}" ]]; then
+    #   #TODO create user+add sudo+clone+build+install
+    #   # TODO yay has to run as non root
+    #   #git clone https://aur.archlinux.org/yay.git
+    #   # cd yay
+    #   # makepkg -si
+    #
+    #   # https://github.com/Jguer/yay/issues/701
+    #   return 1
     else
       install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz"
       return $?
@@ -126,10 +132,11 @@ fi
 #tmux
 # https://github.com/remiprev/teamocil
 
-has_feature teamocil
-if [ $? -eq 1 ]; then
-  install_yay teamocil
-fi
+# $HOME/source/teamocil
+# has_feature teamocil
+# if [ $? -eq 1 ]; then
+#   install_yay teamocil
+# fi
 
 # https://github.com/tmux-python/tmuxp
 # freeze serialized current session layout to a yaml file which can be used by teamocil
@@ -156,16 +163,16 @@ if [ $? -eq 1 ]; then
 fi
 
 #video player
-install_pkg mpv
+install_graphic_pkg mpv
 install_pkg fakeroot
 
 #
 # install_pkg guake
-install_pkg chromium
+install_graphic_pkg chromium
 
 #
 install_pkg ranger
-install_pkg firefox
+install_graphic_pkg firefox
 install_pkg wget
 install_pkg sudo
 install_pkg python2
@@ -186,41 +193,117 @@ install_pkg patch
 install_pkg yapf
 
 #tor-browser
-has_feature tor-browser
-if [ $? -eq 1 ]; then
-  install_yay tor-browser
-fi
+install_graphic_pkg tor-browser
 
 #for wifi-menu
-install_pkg dialog
-install_pkg wpa_supplicant
+install_graphic_pkg dialog
+install_graphic_pkg wpa_supplicant
 
 #actively maintaned fork for newsbeuter
-install_pkg newsboat [0]
+install_pkg newsboat
 
 # X display server
-has_feature X
-if [ $? -eq 1 ]; then
-  install xorg-server || exit 1
-  install xorg-xrandr || exit 1
-fi
-has_feature xinit
-if [ $? -eq 1 ]; then
-  install xorg-xinit || exit 1
-fi
+if [[ ! -n "${IS_DOCKER}" ]]; then
+  has_feature X
+  if [ $? -eq 1 ]; then
+    install xorg-server || exit 1
+    install xorg-xrandr || exit 1
+  fi
+  has_feature xinit
+  if [ $? -eq 1 ]; then
+    install xorg-xinit || exit 1
+  fi
 
-has_feature nslookup
-if [ $? -eq 1 ]; then
-  install dnsutils
-fi
+  has_feature nslookup
+  if [ $? -eq 1 ]; then
+    install dnsutils
+  fi
 
-# window manager
-install_pkg dmenu
-has_feature i3
-if [ $? -eq 1 ]; then
-  install i3-wm || exit 1
-fi
-install_pkg i3lock
+  # window manager
+  install_pkg dmenu
+  has_feature i3
+  if [ $? -eq 1 ]; then
+    install i3-wm || exit 1
+  fi
+  install_pkg i3lock
+
+  #xclip
+  install_pkg xclip
+
+  has_feature ipfs
+  if [ $? -eq 1 ]; then
+    install_yay go-ipfs
+  fi
+
+  has_feature light
+  if [ $? -eq 1 ]; then
+    # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/light.tar.gz"
+    install_yay light
+  fi
+
+  has_feature dropbox
+  if [ $? -eq 1 ]; then
+    # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/dropbox.tar.gz"
+    install_yay dropbox
+    systemctl start dropbox --user
+    systemctl enable dropbox --user
+  fi
+
+
+  has_feature dropbox-cli
+  if [ $? -eq 1 ]; then
+    install_yay dropbox-cli
+  fi
+
+  has_feature spotify
+  if [ $? -eq 1 ]; then
+    #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/spotify.tar.gz"
+    install_yay spotify
+  fi
+
+  has_feature tixati
+  if [ $? -eq 1 ]; then
+    #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/tixati.tar.gz"
+    install_yay tixati
+  fi
+
+  # screensaver
+  install_pkg xscreensaver
+  has_feature electricsheep
+  if [ $? -eq 1 ]; then
+    #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/electricsheep-svn.tar.gz"
+    install_yay electricsheep
+  fi
+
+  has_feature syncthing
+  if [ $? -eq 1 ]; then
+    install_yay -S syncthing
+    install_yay -S syncthing-gtk
+
+    systemctl enable --user syncthing.service
+    systemctl start --user syncthing.service
+  fi
+
+  #rtags
+  has_feature rdm
+  if [ $? -eq 1 ]; then
+    install_yay rtags
+    systemctl --user enable rdm.socket
+    systemctl --user start rdm.socket
+
+    systemctl --user enable rdm
+    systemctl --user start rdm
+  fi
+
+
+  has_feature bibtex
+  if [ $? -eq 1 ]; then
+    install_pkg texlive-bin
+    install_pkg texlive-core
+    install_pkg texlive-bibtexextra
+    install_pkg texlive-latexextra
+  fi
+fi # if IS_DOCKER
 
 #
 install_pkg help2man
@@ -287,9 +370,6 @@ fi
 # install_pkg termite
 install_pkg fzf
 
-#xclip
-install_pkg xclip
-
 has_feature javac
 if [ $? -eq 1 ]; then
   install jdk8-openjdk
@@ -305,37 +385,6 @@ install_pkg tmux
 has_feature ag
 if [ $? -eq 1 ]; then
   install_yay the_silver_searcher
-fi
-
-has_feature ipfs
-if [ $? -eq 1 ]; then
-  install_yay go-ipfs
-fi
-
-has_feature light
-if [ $? -eq 1 ]; then
-  # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/light.tar.gz"
-  install_yay light
-fi
-
-has_feature dropbox
-if [ $? -eq 1 ]; then
-  # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/dropbox.tar.gz"
-  install_yay dropbox
-  systemctl start dropbox --user
-  systemctl enable dropbox --user
-fi
-
-
-has_feature dropbox-cli
-if [ $? -eq 1 ]; then
-  install_yay dropbox-cli
-fi
-
-has_feature spotify
-if [ $? -eq 1 ]; then
-  #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/spotify.tar.gz"
-  install_yay spotify
 fi
 
 has_feature lbdb-fetchaddr
@@ -386,20 +435,6 @@ if [ $? -eq 1 ]; then
   install_yay bear
 fi
 
-has_feature tixati
-if [ $? -eq 1 ]; then
-  #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/tixati.tar.gz"
-  install_yay tixati
-fi
-
-# screensaver
-install_pkg xscreensaver
-has_feature electricsheep
-if [ $? -eq 1 ]; then
-  #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/electricsheep-svn.tar.gz"
-  install_yay electricsheep
-fi
-
 has_feature khal
 if [ $? -eq 1 ]; then
   #   #TODO multiarch
@@ -409,15 +444,6 @@ if [ $? -eq 1 ]; then
   #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/khal.tar.gz"
   #pip3.6 install --user khal
   install_yay khal
-fi
-
-has_feature syncthing
-if [ $? -eq 1 ]; then
-  install_yay -S syncthing
-  install_yay -S syncthing-gtk
-
-  systemctl enable --user syncthing.service
-  systemctl start --user syncthing.service
 fi
 
 # # vdirsyncer
@@ -457,30 +483,11 @@ if [ $? -eq 1 ]; then
   #   install_aur "https://aur.archlinux.org/alacritty-git.git"
 fi
 
-#rtags
-has_feature rdm
-if [ $? -eq 1 ]; then
-  install_yay rtags
-  systemctl --user enable rdm.socket
-  systemctl --user start rdm.socket
-
-  systemctl --user enable rdm
-  systemctl --user start rdm
-fi
-
 has_feature shfmt
 if [ $? -eq 1 ]; then
   install_yay shfmt
 fi
 
-
-has_feature bibtex
-if [ $? -eq 1 ]; then
-  install_pkg texlive-bin
-  install_pkg texlive-core
-  install_pkg texlive-bibtexextra
-  install_pkg texlive-latexextra
-fi
 
 install_pkg bison
 install_pkg flex
