@@ -54,6 +54,7 @@ function ins_yay_itself() {
     #   # https://github.com/Jguer/yay/issues/701
     #   return 1
     else
+      install_pkg wget
       install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz"
       return $?
     fi
