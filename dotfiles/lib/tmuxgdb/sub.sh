@@ -19,7 +19,6 @@ for REGION in "${REGIONS[@]}"; do
   if [ ! $? -eq 0 ]; then
     echo "error"
   fi
-  echo "test"
 
   # echo "$REGION=\"`tty`\" > $FIFO_pipe"
   echo "$REGION=\"$(tty)\"" >$FIFO_pipe &

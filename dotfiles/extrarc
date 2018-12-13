@@ -796,7 +796,7 @@ function sp_chromecast(){
 
     sp_subs "${file}"
     if [ $? -eq 0 ]; then
-      # mkchromecast --video -i "/tmp/Homeland.S06E01.Fair.Game.1080p.AMZN.WEBRip.HEVC.DD5.1.x265.mkv" --subtitles /tmp/Homeland.S06E01.Fair\ Game.HDTV.x264-BATV.en.HI.srt 
+      # mkchromecast --video -i "file.mkv" --subtitles "file.srt"
       echo ""
     else
       mkchromecast --video -i "${file}"
@@ -959,6 +959,9 @@ alias cpp_conscall="$HOME/dotfiles/lib/cpp_grep_constructor_call.sh"
 alias gdb=" gdb --silent"
 alias sp_gdb="$HOME/dotfiles/lib/tmuxgdb/tmuxgdb.sh"
 alias sp_cmake_compile_db="cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
+
+alias sp_cppcheck="cppcheck --enable=all --inconclusive --std=posix ."
+alias sp_valgrind="valgrind --tool=memcheck --leak-check=full --track-origins=yes "
 
 function setup_ycm(){
   if [[ -e CMakeLists.txt ]]; then

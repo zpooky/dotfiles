@@ -36,21 +36,34 @@ source ~/sources/gdb-dashboard/.gdbinit
 #gcc pretty printers {
 python
 import sys
-sys.path.insert(0, os.environ['HOME']+'/sources/gdb_pp')
-from libstdcxx.v6.printers import register_libstdcxx_printers
-register_libstdcxx_printers (None)
+from pathlib import Path
+
+pp = os.environ['HOME']+'/sources/gdb_pp'
+path = Path(pp)
+if path.is_dir():
+  try:
+    sys.path.insert(0, pp)
+    from libstdcxx.v6.printers import register_libstdcxx_printers
+    register_libstdcxx_printers (None)
+  except:
+    pass
 end
 # }
 
 #clang pretty printers {
 python
-# try:
 import sys
-sys.path.insert(0, os.environ['HOME']+'/sources/libcxx-pretty-printers/src')
-from libcxx.v1.printers import register_libcxx_printers
-register_libcxx_printers (None)
-# except:
-#   pass
+from pathlib import Path
+
+pp = os.environ['HOME']+'/sources/libcxx-pretty-printers/src'
+path = Path(pp)
+if path.is_dir():
+  try:
+    sys.path.insert(0, pp)
+    from libcxx.v1.printers import register_libcxx_printers
+    register_libcxx_printers (None)
+  except:
+    pass
 
 end
 # }

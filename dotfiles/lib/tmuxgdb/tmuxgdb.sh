@@ -48,6 +48,6 @@ echo "      - $HOME/dotfiles/lib/tmuxgdb/sub.sh  \"${FIFO_pipe}\" memory_TTY" >>
 cat "${TEAMCIL_yaml}"
 
 # --debug 
-time teamocil --layout "${TEAMCIL_yaml}"  || exit 1
+time $HOME/sources/teamocil/bin/teamocil --layout "${TEAMCIL_yaml}"  || exit 1
 
 # rm "${TEAMCIL_yaml}"
