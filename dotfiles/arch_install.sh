@@ -163,6 +163,12 @@ if [ $? -eq 1 ]; then
   install_yay cppcheck
 fi
 
+has_feature afl-gcc
+if [ $? -eq 1 ]; then
+  install_pkg afl
+  install_pkg afl-utils
+fi
+
 #video player
 install_graphic_pkg mpv
 install_pkg fakeroot

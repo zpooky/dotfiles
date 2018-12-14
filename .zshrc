@@ -109,16 +109,6 @@ autoload -Uz compinit
 compinit
 
 #=================== {
-alias ll="ls -alh --color=tty"
-
-alias duh="du -h -d 0 [^.]*"
-
-alias lcd="cd"
-alias lvim="vim"
-alias lrm="lrm"
-alias lgit="lrm"
-alias l="ll"
-
 # TODO fi
 function f(){
   # TODO if both ^$ then we can use -iname
@@ -160,11 +150,6 @@ function f(){
   # find . -regextype egrep -regex "\"${p}\"" ${ex3}
   #find -iname "*${p}*"
 }
-
-alias gitcommit="git commit"
-alias "cd-"="cd -"
-alias gitst="git st"
-alias gitadd="git add"
 
 if [[ $TERM = "" || -z $TERM ]]; then
   export TERM="xterm-256color"
