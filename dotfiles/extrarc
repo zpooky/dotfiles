@@ -316,6 +316,7 @@ alias sp-ref="cd $DROPBOX_LINUX/"
 alias sp-win="vim $REF_DIR/win.md"
 alias sp-cygwin="vim $REF_DIR/cygwin.md"
 alias sp-arch="vim $REF_DIR/arch.md"
+alias sp-cyckel="vim $REF_DIR/cyckel.md"
 
 # computer science
 alias sp-bnf="vim $REF_DIR/bnf.md"
@@ -429,6 +430,7 @@ alias cpp-hash="vim $CPP_ROOT/cpp-hash.md"
 # debug
 alias sp-debug="cd $REF_DIR/linux/debug"
 alias sp-gdb="vim $DROPBOX_LINUX/debug/gdb.md"
+alias sp-afl="vim $DROPBOX_LINUX/afl.md"
 alias sp-perf="vim $DROPBOX_LINUX/debug/perf.md"
 alias sp-ltrace="vim $DROPBOX_LINUX/debug/ltrace.md"
 alias sp-strace="vim $REF_DIR/linux/debug/strace.md"

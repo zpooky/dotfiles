@@ -607,6 +607,17 @@ iab sciensce science
 iab sencor sensor
 iab delte delete
 iab chipertext ciphertext
+iab ossilates oscillates
+iab possitve positive
+iab neagative negative
+iab ossilation oscillation
+iab frequence frequency
+iab Bandwith Bandwidth
+iab bandwith bandwidth
+iab betwen between
+iab Digitial Digital
+iab digitial digital
+iab vacum vacuum
 
 iab Acsending Ascending
 iab acsending ascending
@@ -628,6 +639,7 @@ iab digitial digital
 
 " TODO maybe limit to ft=cpp
 iab sizoef sizeof
+iab doubel double
 iab deinfe define
 iab memst memset
 iab szie_t size_t

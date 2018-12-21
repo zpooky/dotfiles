@@ -409,6 +409,8 @@ endif
 Plug 'sbdchd/neoformat'
 
 let g:neoformat_enabled_cpp = ['clangformat']
+let g:neoformat_enabled_c = ['clangformat']
+
 let g:neoformat_python_spyapf = {
       \ 'args': ['--style="$HOME/style.py"'],
       \ 'exe': 'yapf',
@@ -420,8 +422,8 @@ let g:neoformat_only_msg_on_error = 1
 
 augroup AutogroupNeoformat
   autocmd!
-  autocmd FileType c,cpp,python,sh,zsh nnoremap <buffer><leader>f <esc>:Neoformat<CR>
-  autocmd FileType c,cpp,python,sh,zsh vnoremap <buffer><leader>f <esc>:Neoformat<CR>
+  autocmd FileType c,cpp,python,sh,bash,zsh nnoremap <buffer><leader>f <esc>:Neoformat<CR>
+  autocmd FileType c,cpp,python,sh,bash,zsh vnoremap <buffer><leader>f <esc>:Neoformat<CR>
 augroup END
 " }}}
 
