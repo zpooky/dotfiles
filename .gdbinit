@@ -9,6 +9,9 @@ set history filename ~/.gdb_history
 set history save
 set history expansion on
 
+# print any object ignoring any size limitation
+set max-value-size unlimited
+
 #
 set verbose off
 #set confirm off
