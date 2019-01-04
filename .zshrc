@@ -151,8 +151,8 @@ function f(){
   #find -iname "*${p}*"
 }
 
-if [[ $TERM = "" || -z $TERM ]]; then
-  export TERM="xterm-256color"
+if [[ $TERM = "" ]] || [[ -z $TERM ]]; then
+  # export TERM="xterm-256color"
 fi
 
 # Emacs mode

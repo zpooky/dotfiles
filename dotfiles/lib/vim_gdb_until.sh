@@ -24,7 +24,8 @@ if [ 1 -eq 1 ]; then
 
   # sp_gdb ./test/thetest.exe --gtest_filter="*btree*"
   echo "sp_gdb ${test_EXECUTABLE} --gtest_filter=\"${test_matcher}\""
-  $HOME/dotfiles/lib/gdb_tmux_dashboard.sh "${test_EXECUTABLE}" "--gtest_filter="${test_matcher}""
+  $HOME/dotfiles/lib/tmuxgdb/tmuxgdb.sh "${test_EXECUTABLE}" "--gtest_filter=\"${test_matcher}\""
+
 
   in_FILENAME=$(basename "${in_FILE}")
 
