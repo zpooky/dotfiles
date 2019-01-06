@@ -1,9 +1,6 @@
 " Turn off vi compatibility.(sould be set first)
 set nocompatible
 
-silent! colorscheme codedark
-set background=dark
-
 " encoding {{{
 set encoding=utf-8      " The encoding used
 set fileencoding=utf-8  " The encoding of the resulting output file
@@ -21,7 +18,7 @@ endif
 " if $TERM == "xterm-256color"
 " endif
 
-if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal" || $TERM == "urxvt" || $TERM == "tmux-256color" || has('nvim')
+if $TERM == "alacritty" || $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal" || $TERM == "urxvt" || $TERM == "tmux-256color" || has('nvim')
   set t_Co=256
   if has('nvim') || has('termguicolors')
     " :h xterm-true-color
@@ -32,6 +29,8 @@ if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gno
     set termguicolors
   endif
 endif
+
+silent! colorscheme codedark
 
 if v:version > 703 || v:version == 703 && has('patch541') || has('nvim')
   " Fixes joining comment lines
