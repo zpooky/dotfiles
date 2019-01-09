@@ -9,6 +9,7 @@ Type=simple
 ExecStart=%h/sources/clipster/clipster --daemon
 # ExecStart=$HOME/sources/clipster/clipster --daemon
 Restart=always
+RestartSec=60
 PIDFile=%h/.local/share/clipster/clipster.pid
 
 [Install]

@@ -111,8 +111,9 @@ fi
 alias sudo='sudo '
 
 # disable xterm ctrl+S XON XOFF signal
-alias vim="stty stop '' -ixoff; vim "
+alias vim="stty stop '' -ixoff; vim -p "
 alias vimnoplugin=" vim -u ~/.standardvimrc"
+alias vimp="vim -"
 
 export EDITOR='vim'
 export SYSTEMD_EDITOR='vim'
@@ -426,6 +427,7 @@ alias cpp-aliasing="vim $CPP_ROOT/aliasing.md" #TODO
 alias cpp-timer="vim $CPP_ROOT/cpp-timer.md"
 alias cpp-odr="vim $CPP_ROOT/cpp-odr.md" #TODO
 alias cpp-hash="vim $CPP_ROOT/cpp-hash.md"
+alias sp-musl="vim $CPP_ROOT/musl.md"
 
 # debug
 alias sp-debug="cd $REF_DIR/linux/debug"
@@ -447,9 +449,11 @@ alias sp-limits="vim $DROPBOX_LINUX/debug/limits.md"
 
 # Axis
 alias sp-axis-audiocontrol="vim $DROPBOX_AXIS/audiocontrol.md"
+alias sp-axis-monolith="vim $DROPBOX_AXIS/monolith.md"
 alias sp-iobox="vim $DROPBOX_AXIS/iobox.md"
 alias sp-axis-iobox="sp-iobox"
 alias sp-axis-parhandle="vim $DROPBOX_AXIS/parhandle.md"
+alias sp-axis="vim $DROPBOX_AXIS/axis.md"
 
 alias sp-axis-yocto="vim $DROPBOX_AXIS/yocto/yocto.md"
 alias sp-axis-bitbake="vim $DROPBOX_AXIS/yocto/bitbake.md"
@@ -493,6 +497,9 @@ alias sp-gpg="vim $REF_DIR/gpg.md"
 alias sp-pgp="sp-gpg"
 alias sp-hexdump="vim $REF_DIR/hexdump.md"
 alias sp-apt="vim $REF_DIR/apt.md"
+alias sp-sudo="vim $REF_DIR/sudo.md"
+alias sp-su="vim $REF_DIR/su.md"
+alias sp-pass="vim $REF_DIR/pass.md"
 
 # linux
 alias sp-linux="cd $DROPBOX_LINUX"
@@ -506,7 +513,7 @@ alias sp-load-average="vim $DROPBOX_LINUX/load-average.md"    #TODO
 alias sp-context-switch="vim $DROPBOX_LINUX/context-switch.md"    #TODO
 alias sp-linux-directory-structure="vim $DROPBOX_LINUX/directory-structure.md"
 alias sp-random="vim $DROPBOX_LINUX/random.md"
-alias sp-tty="vim $DROPBOX_LINUX/tty.md"
+alias sp-tty="sp-term"
 alias sp-write-to-file="vim $DROPBOX_LINUX/write-to-file.md"
 alias sp-pacman="vim $DROPBOX_LINUX/pacman.md"
 alias sp-dbus="vim $DROPBOX_LINUX/dbus.md"
@@ -739,6 +746,7 @@ alias sp-paxos="vim $REF_DIR/paxos-consensus.md"    #TODO
 alias sp-raft="vim $REF_DIR/raft-consensus.md"    #TODO
 alias sp-dht="vim $REF_DIR/dht.md" #TODO
 alias sp-mvcc="vim $REF_DIR/mvcc.md" #TODO
+alias sp-stun="vim $REF_DIR/stun.md"
 
 # new web
 alias sp-new-web="cd $DROPBOX/new-web"

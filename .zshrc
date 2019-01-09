@@ -1,4 +1,9 @@
 # Path to your oh-my-zsh installation.
+# if [ -e $HOME/sources/fzf/bin ]; then
+#   export FZF_BASE=$HOME/sources/fzf/bin
+#   export PATH=$PATH:$FZF_BASE
+# fi
+
 export ZSH=$HOME/.oh-my-zsh
 
 # oh-my-zsh plugins

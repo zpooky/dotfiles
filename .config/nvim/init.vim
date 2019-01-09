@@ -367,7 +367,7 @@ if !has('win32unix') && !has('win64unix')
   " ctags, cscope & global generation
   Plug 'ludovicchabant/vim-gutentags',programming_nhaskell
 
-  let g:gutentags_modules=['ctags', 'gtags_cscope']
+  let g:gutentags_modules=['ctags'] ", 'gtags_cscope'
   let g:gutentags_ctags_executable="ctags"
   let g:gutentags_ctags_tagfile=".tags"
   let g:gutentags_generate_on_missing=1
@@ -398,9 +398,6 @@ if !has('win32unix') && !has('win64unix')
   let g:gutentags_auto_add_gtags_cscope = 1
 
   " }}}
-
-  " gtags support
-  Plug 'bbchung/gtags.vim',programming_nhaskell
 endif
 " }}}
 
