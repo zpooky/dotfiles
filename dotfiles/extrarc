@@ -273,6 +273,7 @@ function sp_circuts_alias() {
   local vacuum_tube="$REF_DIR/vacuum-tube.md"
   local logic_gate="$REF_DIR/logic-gate.md" #TODO
 
+  local waveform="$REF_DIR/waveform.md"
   local electricity="$REF_DIR/electricity.md" #TODO
 
   local oscilloscopes="$REF_DIR/oscilloscopes.md" #TODO
@@ -297,7 +298,8 @@ function sp_circuts_alias() {
 
   alias sp-oscilloscopes="vim -p ${oscilloscopes}"
 
-  alias sp-electricity="vim -p ${electricity}"
+  alias sp-waveform="vim -p ${waveform}"
+  alias sp-electricity="vim -p ${electricity} ${waveform}"
   alias sp-ac="sp-electricity"
   alias sp-dc="sp-electricity"
   alias sp-current-electricity="sp-electricity"
@@ -318,6 +320,9 @@ alias sp-win="vim $REF_DIR/win.md"
 alias sp-cygwin="vim $REF_DIR/cygwin.md"
 alias sp-arch="vim $REF_DIR/arch.md"
 alias sp-cyckel="vim $REF_DIR/cyckel.md"
+alias sp-stocks="vim $REF_DIR/stocks.md"
+alias sp-duffs-device="vim $REF_DIR/duffs-device.md"
+alias sp-glossary="vim $REF_DIR/glossary.md"
 
 # computer science
 alias sp-bnf="vim $REF_DIR/bnf.md"
@@ -400,6 +405,9 @@ alias sp-time="vim $REF_DIR/utc-time.md"
 alias sp-utc-time="sp-time"
 alias sp-date="sp-time"
 
+# python
+alias sp-python="vim $REF_DIR/python.md"
+
 # cpp
 CPP_ROOT="$DROPBOX/c"
 CPP_STUB="$CPP_ROOT/stub"
@@ -429,6 +437,8 @@ alias cpp-odr="vim $CPP_ROOT/cpp-odr.md" #TODO
 alias cpp-hash="vim $CPP_ROOT/cpp-hash.md"
 alias sp-musl="vim $CPP_ROOT/musl.md"
 
+alias c-make="vim -p $CPP_STUB/c-Makefile"
+
 # debug
 alias sp-debug="cd $REF_DIR/linux/debug"
 alias sp-gdb="vim $DROPBOX_LINUX/debug/gdb.md"
@@ -453,7 +463,7 @@ alias sp-axis-monolith="vim $DROPBOX_AXIS/monolith.md"
 alias sp-iobox="vim $DROPBOX_AXIS/iobox.md"
 alias sp-axis-iobox="sp-iobox"
 alias sp-axis-parhandle="vim $DROPBOX_AXIS/parhandle.md"
-alias sp-axis="vim $DROPBOX_AXIS/axis.md"
+alias sp-axis="vim -p $DROPBOX_AXIS/env.md $DROPBOX_AXIS/axis.md"
 
 alias sp-axis-yocto="vim $DROPBOX_AXIS/yocto/yocto.md"
 alias sp-axis-bitbake="vim $DROPBOX_AXIS/yocto/bitbake.md"
@@ -500,6 +510,7 @@ alias sp-apt="vim $REF_DIR/apt.md"
 alias sp-sudo="vim $REF_DIR/sudo.md"
 alias sp-su="vim $REF_DIR/su.md"
 alias sp-pass="vim $REF_DIR/pass.md"
+alias sp-getopt="vim $REF_DIR/getopt.md"
 
 # linux
 alias sp-linux="cd $DROPBOX_LINUX"
@@ -627,7 +638,7 @@ function sp_network() {
 sp_network
 
 #audio
-alias sp-audio="vim $REF_DIR/audio.txt"       #TODO
+alias sp-audio="vim $REF_DIR/audio.md"
 
 #concurrency
 alias sp-numa="vim $DROPBOX_LINUX/numa.md"    #TODO
@@ -722,11 +733,13 @@ function sp_datastructure(){
   alias sp-tree-radix-tree="vim $DATA_STRUCTURE_ROOT/tree-trie.md"
   alias sp-tree-hat-trie="vim $DATA_STRUCTURE_ROOT/tree-hat-trie.md"
   alias sp-tree-splay="vim $DATA_STRUCTURE_ROOT/tree-splay.md" #TODO
+  alias sp-bst="vim $DATA_STRUCTURE_ROOT/bst.md"
 
   # data structures
   alias sp-bloom-filter="vim $DATA_STRUCTURE_ROOT/bloom-filter.md"
   alias sp-monad="vim $DATA_STRUCTURE_ROOT/monad.txt" #TODO
   alias sp-hashmap="vim $DATA_STRUCTURE_ROOT/hashmap.md"
+  alias sp-hash="sp-hashmap"
 }
 sp_datastructure
 
@@ -958,12 +971,12 @@ function mcd(){
 
 SCRATCHPAD_ROOT=$HOME/scratchpad
 function sp_calc(){
-  local CODI_FILE="$SCRATCHPAD_ROOT/calc_`date +'%Y_%m_%d'`.py"
-  if [ ! -e $CODI_FILE ]; then
-    cp $SCRATCHPAD_ROOT/calc_template $CODI_FILE
+  local codi_file="${SCRATCHPAD_ROOT}/calc_`date +'%Y_%m_%d'`.py"
+  if [ ! -e "${codi_file}" ]; then
+    cp "${SCRATCHPAD_ROOT}/calc_template" "${codi_file}"
   fi
 
-  vim $CODI_FILE -c "
+  vim -p "${codi_file}" -c "
     hi ColorColumn ctermbg=NONE
     hi VertSplit ctermbg=NONE
     hi NonText ctermfg=0

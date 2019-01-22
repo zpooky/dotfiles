@@ -135,7 +135,7 @@ let neovim_update_remote={ 'do': ':UpdateRemotePlugins' }
 set completeopt-=preview
 if has('nvim')
   " Deoplete {{{
-  Plug 'Shougo/deoplete.nvim',neovim_update_remote
+  Plug 'Shougo/deoplete.nvim',{ 'do': ':UpdateRemotePlugins' }
   let g:deoplete#enable_at_startup = 1
 
   " }}}
@@ -153,7 +153,7 @@ else
 
     " YouCompleteMe {{{
     " forked YCM for better cpp suggestions
-    Plug '~/.vim/bundle/OblitumYouCompleteMe',programming_nhaskell
+    Plug '~/.vim/bundle/OblitumYouCompleteMe',programming
     " ,programming_cpp
     "
     " vanilla YCM
@@ -286,8 +286,8 @@ Plug 'chrisbra/NrrwRgn',programming
 " ALE {{{
 " framework for displaying warnings & errors in source code
 if !has('win32unix') && !has('win64unix')
-  " Plug 'w0rp/ale',programming
-  Plug 'w0rp/ale',{'for':['bash','sh','tex','markdown']}
+  Plug 'w0rp/ale',programming
+  " Plug 'w0rp/ale',{'for':['bash','sh','tex','markdown']}
   " # Prose
   " - https://github.com/amperser/proselint/
   " - https://github.com/redpen-cc/redpen
@@ -367,11 +367,21 @@ if !has('win32unix') && !has('win64unix')
   " ctags, cscope & global generation
   Plug 'ludovicchabant/vim-gutentags',programming_nhaskell
 
+  " https://github.com/ludovicchabant/vim-gutentags/issues/109
+  let g:gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
+  if g:gitroot !=# ''
+    let g:gutentags_cache_dir = g:gitroot .'/.git/tags'
+  endif
+
   let g:gutentags_modules=['ctags'] ", 'gtags_cscope'
   let g:gutentags_ctags_executable="ctags"
   let g:gutentags_ctags_tagfile=".tags"
   let g:gutentags_generate_on_missing=1
   let g:gutentags_background_update=1
+
+
+  let g:gutentags_generate_on_write=1
+  let g:gutentags_generate_on_new=1
 
   " let g:gutentags_trace=1
   " let g:gutentags_define_advanced_commands=1
@@ -726,7 +736,8 @@ if !has('win32') && !has('win64')
   noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
   noremap <silent> <leader>. <esc>:CommandTTag<cr>
 
-  let g:CommandTWildIgnore=&wildignore . ",*.log"
+  " bitbake: oe-logs,oe-workdir
+  let g:CommandTWildIgnore=&wildignore . ",*.log,oe-logs,oe-workdir"
   " }}}
 endif
 
