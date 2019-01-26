@@ -1,8 +1,11 @@
 # Path to your oh-my-zsh installation.
-# if [ -e $HOME/sources/fzf/bin ]; then
-#   export FZF_BASE=$HOME/sources/fzf/bin
-#   export PATH=$PATH:$FZF_BASE
-# fi
+if [ -e $HOME/sources/fzf/bin ]; then
+  export FZF_BASE=$HOME/sources/fzf
+  export PATH=$PATH:$FZF_BASE/bin
+  # <ctrl+r> = history
+  # <alt+c> = cd (dir) search
+  #
+fi
 
 export ZSH=$HOME/.oh-my-zsh
 
