@@ -918,7 +918,7 @@ set tags=./.tags;/
 " open tag
 " map <silent> <F3> <c-]>
 " open tag in vertical split
-map <silent> <F3> <c-]>
+map <silent> <F3> <c-]> <bar> :execute 'normal zt'<cr>
 " previous
 " map <silent> <A-Left> <c-t>
 " }}}
