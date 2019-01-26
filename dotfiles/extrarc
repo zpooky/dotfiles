@@ -940,7 +940,12 @@ function port_scan() {
     netstat -alnptu | grep -Ei 'Proto|LISTEN'
   else
     # ss --all --listen --processes --tcp --udp --raw # | grep -Ei 'Proto|LISTEN'
-    ss -tuna | grep -i 'LISTEN'
+    # -t: --tcp
+    # -u: --udp
+    # -n: --numeric?
+    # -a: --all
+    # -p: show pid
+    ss -tuna -p | grep -i 'LISTEN'
   fi
 }
 

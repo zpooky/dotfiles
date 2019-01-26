@@ -110,7 +110,6 @@ stop_feature "zsh-completions"
 
 # git You Complete Me(YCM)
 ycm_forks=("OblitumYouCompleteMe" "YouCompleteMe")
-
 for ycm in "${ycm_forks[@]}"; do
   FEATURE="$FEATURE_HOME/${ycm}"
   ycm_root="$THE_HOME/.vim/bundle/$ycm"

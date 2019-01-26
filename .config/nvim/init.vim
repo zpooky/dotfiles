@@ -524,10 +524,9 @@ augroup END
 " #######
 " # cpp #
 " #######
-" a.vim {{{
-" toggle between src/header
-Plug 'micbou/a.vim',programming_cpp
-let g:alternateNoDefaultAlternate = 1
+" vim-projectionist {{{
+Plug 'tpope/vim-projectionist',programming_cpp
+
 augroup AugroupAVIM
   autocmd!
   " toggle between header and source
@@ -535,11 +534,21 @@ augroup AugroupAVIM
   " open source or header in vertical split
   autocmd FileType c,cpp,objc map <silent> <leader><F2> :AV<CR>
 
-augroup END
-" }}}
+  autocmd User ProjectionistDetect
+        \ call projectionist#append(getcwd(),
+        \ {
+        \    '*.c': {
+        \      'alternate': '{}.h'
+        \    },
+        \    '*.cpp': {
+        \      'alternate': '{}.h'
+        \    },
+        \    '*.h': {
+        \      'alternate': ['{}.c', '{}.cpp']
+        \    },
+        \ })
 
-" unmap some a.vim mappings
-" Plug '~/.vim/bundle/after',programming_cpp
+augroup END
 " }}}
 
 " {{{

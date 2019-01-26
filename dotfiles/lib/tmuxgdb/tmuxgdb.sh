@@ -13,7 +13,7 @@
 if pgrep gdb; then
   if [[ $(uname -s) =~ CYGWIN.* ]]; then
     echo "gdb is already running"
-    # exit 1
+    exit 1
   fi
 fi
 
