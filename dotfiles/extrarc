@@ -550,14 +550,11 @@ function sp_linux_dev_alias() {
 
   local file_linux_device_tree="$REF_DIR/linux-device-tree.md"
 
-  local file_baude_rate="$REF_DIR/baude-rate.md"
   local file_serial_communication="$REF_DIR/serial-communication.md"
 
-  local file_duplex="$REF_DIR/duplex-transmission.md"
   local file_multiplex="$REF_DIR/multiplex-transmission.md" # TODO
   local file_frequency="$REF_DIR/frequency.md" # TODO
 
-  local digitial_communication="$REF_DIR/digitial-communication.md"
 
   local file_alsa="$REF_DIR/linux-alsa.md"
 
@@ -569,7 +566,7 @@ function sp_linux_dev_alias() {
 
   alias sp-linux-usb="vim $file_linux_usb"
   alias sp-linux-pci="vim $file_linux_pci"
-  alias sp-linux-uart="vim -p $file_linux_uart $file_serial_communication $file_baude_rate"
+  alias sp-linux-uart="vim -p $file_linux_uart $file_serial_communication $file_baud_rate"
   alias sp-linux-i2c="vim -p $file_linux_i2c $file_serial_communication"
   alias sp-linux-gpio="vim $file_linux_gpio"
   alias sp-linux-acpi="vim $file_linux_acpi"
@@ -580,11 +577,9 @@ function sp_linux_dev_alias() {
 
   alias sp-linux-device-tree="vim -p $file_linux_device_tree"
 
-  alias sp-baude-rate="vim -p $file_baude_rate"
   alias sp-serial-communication="vim -p $file_serial_communication"
   alias sp-parallel-communication="sp-serial-communication"
 
-  alias sp-duplex="vim -p $file_duplex"
   alias sp-simplex="sp-duplex"
   alias sp-full-duplex="sp-duplex"
 
@@ -596,8 +591,6 @@ function sp_linux_dev_alias() {
   alias sp-radio="sp-frequency"
 
   alias sp-alsa="vim -p $file_alsa"
-
-  alias sp-digitial-communication="vim -p $digitial_communication"
 
 
   #TODO insulators, conductors, semiconductors
@@ -621,24 +614,60 @@ alias sp-syscall-futex="vim $LINUX_SYSCALL_ROOT/futex.md"
 alias sp-syscall-pipe="vim $LINUX_SYSCALL_ROOT/pipe.md"
 alias sp-syscall-epoll="vim $LINUX_SYSCALL_ROOT/epoll.md"
 
+file_baud_rate="$REF_DIR/baude-rate.md"
 function sp_network() {
   local net_layer="$DROPBOX_NETWORK/network-layer.md"
+  local tcp="$DROPBOX_NETWORK/tcp.md"
+  local udp="$DROPBOX_NETWORK/udp.md"
+  local udp="$DROPBOX_NETWORK/udp.md"
+  local file_duplex="$REF_DIR/duplex-transmission.md"
+
+  local file_pam="$DROPBOX_NETWORK/pulse_amplitude_modulation.md"
+  local file_pcm="$REF_DIR/pulse_code_modulation.md"
+  local file_pwm="$REF_DIR/pulse_width_modulation.md"
+  local file_analog_modulation="$REF_DIR/analog_modulation.md"
+  local file_digital_modulation="$REF_DIR/digital_modulation.md"
+
+  local digital_communication="$REF_DIR/digitial-communication.md"
+  local file_baseband="$REF_DIR/baseband.md"
+  local file_passband="$REF_DIR/passband.md"
+  local file_broadband="$REF_DIR/broadband.md"
+
+  local file_mdi="$REF_DIR/medium_dependent_interface.md"
 
   # networking
   alias sp-network="vim $DROPBOX_NETWORK/linux.md"
+  alias sp-network-dhcp="vim $DROPBOX_NETWORK/dhcp.md"
+  alias sp-dhcp="sp-network-dhcp"
   alias sp-openvpn="vim $DROPBOX_NETWORK/openvpn.md"
   alias sp-dns="vim $DROPBOX_NETWORK/dns.md"    #TODO
   alias sp-iptables="vim $DROPBOX_NETWORK/iptables.md"    #TODO
   alias sp-hole-punch="vim $DROPBOX_NETWORK/hole-punch.md"    #TODO
 
-  alias sp-network-layer="vim ${net_layer}"
+  alias sp-duplex="vim -p ${file_duplex}"
+  alias sp-network-layer="vim -p ${net_layer} ${file_duplex} ${file_pam} ${fie_mdi}"
   alias sp-osi="vim ${net_layer}"
+  alias sp-network-tcp="vim ${tcp}"
+  alias sp-network-udp="vim ${udp}"
+
+  # Analog to Digital
+  alias sp-pam="vim -p ${file_pam} ${file_pcm} ${file_pwm} ${file_digital_modulation} ${file_analog_modulation}"
+  alias sp-pcm="vim -p ${file_pcm} ${file_pam} ${file_pwm} ${file_digital_modulation} ${file_analog_modulation}"
+  alias sp-pwm="vim -p ${file_pwm} ${file_pcm} ${file_pam} ${file_digital_modulation} ${file_analog_modulation}"
+  alias sp-modulation="vim -p ${file_digital_modulation} ${file_analog_modulation}"
+  alias sp-baud="vim -p ${file_baud_rate} ${file_pam}"
+
+  alias sp-digital-communication="vim -p $digital_communication"
+  alias sp-broadband="vim -p ${file_broadband} ${file_baseband} ${file_passband}"
+  alias sp-baseband="vim -p ${file_baseband} ${file_broadband}  ${file_passband}"
+  alias sp-passband="vim -p ${file_passband} ${file_baseband} ${file_broadband} "
+  alias sp-band="vim -p ${file_broadband} ${file_baseband} ${file_passband}"
+
+  #audio
+  alias sp-audio="vim -p $REF_DIR/audio.md ${file_pcm}"
 }
 
 sp_network
-
-#audio
-alias sp-audio="vim $REF_DIR/audio.md"
 
 #concurrency
 alias sp-numa="vim $DROPBOX_LINUX/numa.md"    #TODO

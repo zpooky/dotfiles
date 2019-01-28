@@ -152,7 +152,7 @@ function f(){
   local ex3='! -path "*/tmp/*" ! -path "*/.git/*"'
 
   local cmd="find . -regextype egrep -regex \"${p}\" ${ex3}"
-  echo "${cmd}"
+  echo "${cmd}">&2
   eval "${cmd}"
 
   # find . -regextype egrep -regex "\"${p}\"" ${ex3}
