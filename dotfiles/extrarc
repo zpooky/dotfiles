@@ -616,10 +616,8 @@ alias sp-syscall-epoll="vim $LINUX_SYSCALL_ROOT/epoll.md"
 
 file_baud_rate="$REF_DIR/baude-rate.md"
 function sp_network() {
-  local net_layer="$DROPBOX_NETWORK/network-layer.md"
   local tcp="$DROPBOX_NETWORK/tcp.md"
-  local udp="$DROPBOX_NETWORK/udp.md"
-  local udp="$DROPBOX_NETWORK/udp.md"
+  local file_udp="$DROPBOX_NETWORK/udp.md"
   local file_duplex="$REF_DIR/duplex-transmission.md"
 
   local file_pam="$DROPBOX_NETWORK/pulse_amplitude_modulation.md"
@@ -633,7 +631,12 @@ function sp_network() {
   local file_passband="$REF_DIR/passband.md"
   local file_broadband="$REF_DIR/broadband.md"
 
+  local file_csma="$REF_DIR/csma-cd.md"
+
   local file_mdi="$REF_DIR/medium_dependent_interface.md"
+
+  local net_layer="$DROPBOX_NETWORK/network-layer.md"
+  local net_layer_ethernet="$DROPBOX_NETWORK/ethernet.md ${file_duplex} ${file_pam} ${file_mdi} ${file_csma}"
 
   # networking
   alias sp-network="vim $DROPBOX_NETWORK/linux.md"
@@ -645,10 +648,13 @@ function sp_network() {
   alias sp-hole-punch="vim $DROPBOX_NETWORK/hole-punch.md"    #TODO
 
   alias sp-duplex="vim -p ${file_duplex}"
-  alias sp-network-layer="vim -p ${net_layer} ${file_duplex} ${file_pam} ${fie_mdi}"
-  alias sp-osi="vim ${net_layer}"
+  alias sp-network-layer="vim -p ${net_layer} ${net_layer_ethernet}"
+  alias sp-network-ethernet="vim -p ${net_layer_ethernet}"
+  alias sp-osi="sp-network-layer"
   alias sp-network-tcp="vim ${tcp}"
-  alias sp-network-udp="vim ${udp}"
+  alias sp-network-udp="vim ${file_udp}"
+
+  alias sp-network-csma="vim -p ${file_csma}"
 
   # Analog to Digital
   alias sp-pam="vim -p ${file_pam} ${file_pcm} ${file_pwm} ${file_digital_modulation} ${file_analog_modulation}"
