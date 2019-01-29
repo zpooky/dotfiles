@@ -656,6 +656,7 @@ iab yeild yield
 iab elivator elevator
 iab collission collision
 iab recipiant recipient
+iab utlize utilize
 iab receipent recipient
 iab recipent recipient
 iab depricated deprecated
@@ -663,6 +664,7 @@ iab identifyed identified
 iab opperate operate
 iab communcation communication
 iab resposne response
+iab coaxal coaxial
 
 iab Acsending Ascending
 iab acsending ascending
@@ -726,6 +728,8 @@ set smartindent                   " support auto indentation when for example th
 function! SetupTmp()
   if has("win32")
     set noswapfile          " no swap
+    set noundofile          " no undo file
+    set nobackup            " no bak
   else
     let l:root = "/tmp/.vim-".$USER
     if !isdirectory(l:root)
@@ -746,7 +750,7 @@ function! SetupTmp()
     set undolevels=1000               " Use many levels of undo
     set undofile                      " File Persistent undo
     " set undodir=l:undo."//"           " Store undo file in tmp directory
-    set directory=/tmp/.vim-$USER/undo//
+    set undodir=/tmp/.vim-$USER/undo//
     " }}}
 
     " swap lock file {{{
