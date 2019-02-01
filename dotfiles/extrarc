@@ -623,8 +623,7 @@ function sp_network() {
   local file_pam="$DROPBOX_NETWORK/pulse_amplitude_modulation.md"
   local file_pcm="$REF_DIR/pulse_code_modulation.md"
   local file_pwm="$REF_DIR/pulse_width_modulation.md"
-  local file_analog_modulation="$REF_DIR/analog_modulation.md"
-  local file_digital_modulation="$REF_DIR/digital_modulation.md"
+  local file_modulation="$REF_DIR/digital_modulation.md"
 
   local digital_communication="$REF_DIR/digitial-communication.md"
   local file_baseband="$REF_DIR/baseband.md"
@@ -657,10 +656,10 @@ function sp_network() {
   alias sp-network-csma="vim -p ${file_csma}"
 
   # Analog to Digital
-  alias sp-pam="vim -p ${file_pam} ${file_pcm} ${file_pwm} ${file_digital_modulation} ${file_analog_modulation}"
-  alias sp-pcm="vim -p ${file_pcm} ${file_pam} ${file_pwm} ${file_digital_modulation} ${file_analog_modulation}"
-  alias sp-pwm="vim -p ${file_pwm} ${file_pcm} ${file_pam} ${file_digital_modulation} ${file_analog_modulation}"
-  alias sp-modulation="vim -p ${file_digital_modulation} ${file_analog_modulation}"
+  alias sp-pam="vim -p ${file_pam} ${file_pcm} ${file_pwm} ${file_modulation}"
+  alias sp-pcm="vim -p ${file_pcm} ${file_pam} ${file_pwm} ${file_modulation}"
+  alias sp-pwm="vim -p ${file_pwm} ${file_pcm} ${file_pam} ${file_modulation}"
+  alias sp-modulation="vim -p ${file_modulation} ${file_pcm} ${file_pam} ${file_pwm}"
   alias sp-baud="vim -p ${file_baud_rate} ${file_pam}"
 
   alias sp-digital-communication="vim -p $digital_communication"
@@ -992,11 +991,16 @@ alias sp-root="cd \`$DOTFILES_LIB/git_root.sh\`"
 alias tmux='tmux -2'
 alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
 
-# meta alias
+# meta
 alias sp-alias="vim $DOTFILES/extrarc && source $DOTFILES/extrarc"
+alias sp-zshrc="vim -p $HOME/.zshrc $DOTFILES/extrarc $DOTFILES/workrc"
+alias sp-workrc="vim -p $HOME/dotfiles/workrc && source $DOTFILES/workrc"
+
 alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim  $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc"
 # alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim  $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc /home/spooky/.config/nvim/plugged/chromatica.nvim/syntax/*"
+
 alias vimsession="vim -S Session.vim"
+
 
 #repeats $1
 alias sp_repeat="~/dotfiles/lib/repeat.sh"
@@ -1217,7 +1221,4 @@ function sp_ltc(){
 }
 
 alias sp_bitcoin_table="coinmon"
-
-# getting errors from vim about next line when it is the last line
 # vim: set ft=zsh:
-#

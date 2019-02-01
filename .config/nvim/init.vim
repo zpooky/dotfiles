@@ -216,7 +216,7 @@ let g:rtagsUseDefaultMappings = 0
 let g:rtagsJumpStackMaxSize = 1000
 let g:rtagsUseLocationList = 1
 
-augroup AutogroupRTags
+augroup AugroupRTags
   autocmd!
   " RENAME
   autocmd FileType c,cpp map <silent> <F1> <esc>:call rtags#RenameSymbolUnderCursor()<CR>
@@ -365,13 +365,16 @@ vmap <leader>= :TCommentBlock<CR>
 if !has('win32unix') && !has('win64unix')
   " gutentags {{{
   " ctags, cscope & global generation
-  Plug 'ludovicchabant/vim-gutentags',programming_nhaskell
+  Plug 'ludovicchabant/vim-gutentags' ",programming_nhaskell = lazy load does not work correctly
+  function! SetupGutentag()
+    let l:tags = $HOME."/.cache/tags"
+    if !isdirectory(l:tags)
+      call mkdir(l:tags, "p", 0700)
+    endif
+    return l:tags
+  endfunction
 
-  " https://github.com/ludovicchabant/vim-gutentags/issues/109
-  let g:gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
-  if g:gitroot !=# ''
-    let g:gutentags_cache_dir = g:gitroot .'/.git/tags'
-  endif
+  let g:gutentags_cache_dir = SetupGutentag()
 
   let g:gutentags_modules=['ctags'] ", 'gtags_cscope'
   let g:gutentags_ctags_executable="ctags"
@@ -386,10 +389,10 @@ if !has('win32unix') && !has('win64unix')
   " let g:gutentags_trace=1
   " let g:gutentags_define_advanced_commands=1
 
-  let g:gutentags_ctags_exclude=['*.md', 'Makefile','CMakeLists.txt','*.cmake']
+  let g:gutentags_ctags_exclude=['autoconf','*.md','configure', 'Makefile','CMakeLists.txt','*.cmake','*.mak', '*.am','*.in','*.m4','*.html','*.php','*.py','*.service', '*.mount','*.target','*.css','*.rst']
   " let g:gutentags_file_list_command = 'ack -f --nohtml --nojson --nomd '
   " let g:gutentags_file_list_command = {
-  "       \ 'markers': 
+  "       \ 'markers':
   "       \ {'.git': 'ack -f --nohtml --nojson --nomd '}
   "       \ }
 
@@ -427,7 +430,7 @@ let g:neoformat_enabled_python = ['spyapf']
 let g:neoformat_enabled_sh = ['shfmt']
 let g:neoformat_only_msg_on_error = 1
 
-augroup AutogroupNeoformat
+augroup AugroupNeoformat
   autocmd!
   autocmd FileType c,cpp,python,sh,bash,zsh nnoremap <buffer><leader>f <esc>:Neoformat<CR>
   autocmd FileType c,cpp,python,sh,bash,zsh vnoremap <buffer><leader>f <esc>:Neoformat<CR>
@@ -644,7 +647,7 @@ Plug 'nickhutchinson/vim-cmake-syntax'
 
 " TODO
 " let g:pencil#wrapModeDefault = 'hard'
-" augroup AutogroupPencil
+" augroup AugroupPencil
 "   autocmd!
 "   autocmd FileType markdown,mkd call pencil#init()
 "   autocmd FileType text         call pencil#init({'wrap': 'hard'})
@@ -672,7 +675,7 @@ Plug 'nickhutchinson/vim-cmake-syntax'
 " Goyo {{{
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 
-augroup AutogroupGoyo
+augroup AugroupGoyo
   autocmd!
   autocmd FileType markdown,mail,text,gitcommit map <silent> <F11> <Esc> :Goyo <CR>
 augroup END
@@ -782,7 +785,7 @@ endif
 "
 " " Close all open buffers on entering a window if the only
 " " buffer that's left is the NERDTree buffer
-" augroup AutogroupNerdTree
+" augroup AugroupNerdTree
 "   autocmd!
 "   autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
 " augroup END
@@ -925,7 +928,7 @@ colorscheme codedark
 " colorscheme {{{
 " if has('win32unix') || has('win64unix')
   " wrk {{{
-  " augroup AutogroupCppVisual
+  " augroup AugroupCppVisual
   "   autocmd!
     " autocmd FileType c,cpp colorscheme codedark
   " augroup END
@@ -943,7 +946,7 @@ if has('win32unix') || has('win64unix')
   " in cygwin if we save a file not in dos mode outside the 'virtual' linux
   " prompt if it should not be in dos mode instead of the default unix
   " TODO should ignore special buffers like vim msg
-  augroup AutogroupCygwin
+  augroup AugroupCygwin
     autocmd!
     autocmd BufWritePre * if &ff != 'dos' && expand('%:p') =~ "^\/cygdrive\/d\/Worksapce\/" && expand('%:p') !~ "\/Dropbox\/" && input('set ff to dos [y]') == 'y' | setlocal ff=dos | endif
   augroup END
@@ -974,7 +977,7 @@ function! GDBBreak()
 endfunction
 
 command! GDBBreak :call GDBBreak()
-augroup AutogroupGDB
+augroup AugroupGDB
   autocmd!
   autocmd FileType c,cpp,objc nnoremap <leader>j <esc>:GDBBreak<CR>
 augroup END
@@ -995,7 +998,7 @@ function! FormatJson()
 endfunction!
 command! FormatJson :call FormatJson()
 
-augroup AutogroupFormatJson
+augroup AugroupFormatJson
   autocmd!
   autocmd FileType json nnoremap <buffer><leader>f <esc>:FormatJson<CR>
 augroup END

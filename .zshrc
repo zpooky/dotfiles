@@ -1,4 +1,10 @@
-# Path to your oh-my-zsh installation.
+#=================== {
+if [[ "$(whoami)"="fredriol" ]]; then
+  source $HOME/dotfiles/workrc
+fi
+# }
+
+#=================== {
 if [ -e $HOME/sources/fzf/bin ]; then
   export FZF_BASE=$HOME/sources/fzf
   export PATH=$PATH:$FZF_BASE/bin
