@@ -47,15 +47,24 @@ if [ $? -eq 0 ]; then
 fi
 
 start_feature "vim"
-has_feature nvim
-if [ $? -eq 0 ]; then
+if has_feature nvim; then
   nvim +PlugUpdate +qall
 fi
 
-has_feature vim
-if [ $? -eq 0 ]; then
+
+if has_feature vim; then
   vim +PlugUpdate +qall
 fi
+
+if [ -e ~/.vim/plugged/command-t ]; then
+  PREV_DIR=$(pwd)
+
+  if cd "$HOME/.vim/plugged/command-t"; then
+    rake make
+    cd "${PREV_DIR}"
+  fi
+fi
+
 stop_feature "vim"
 
 # if wm=gnome | https://github.com/deadalnix/pixel-saver

@@ -50,7 +50,7 @@ esac
 [[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
 
 if [[ -e $HOME/bin ]]; then
-  PATH=$HOME/bin/:$PATH
+  PATH=$HOME/bin:$PATH
 fi
 
 CABAL_PACKAGE_BIN=$HOME/.cabal/bin
@@ -65,7 +65,7 @@ fi
 if [ -z "$LD_LIBRARY_PATH" ]; then
   export LD_LIBRARY_PATH
 fi
-LD_LIBRARY_PATH=/usr/lib64:/usr/local/lib:$LD_LIBRARY_PATH
+# LD_LIBRARY_PATH=/usr/lib64:/usr/local/lib:$LD_LIBRARY_PATH
 
 # CABAL_LIBS=~/.cabal/lib/x86_64-linux-ghc-8.0.2
 # if [ -e $CABAL_LIBS ]; then
@@ -76,11 +76,6 @@ if [ -z "$LIBRARY_PATH" ]; then
   export LIBRARY_PATH
 fi
 # LIBRARY_PATH=$CABAL_LIBS:$LIBRARY_PATH
-
-SASAL_LIB=/usr/local/lib/sasl2
-if [[ -e $SASAL_LIB ]]; then
-  LD_LIBRARY_PATH=$SASAL_LIB:$LD_LIBRARY_PATH
-fi
 
 TMUX_COMPLETION=/usr/share/doc/tmux/examples/bash_completion_tmux.sh
 if [[ -e $TMUX_COMPLETION ]]; then
@@ -95,11 +90,6 @@ fi
 GEM_BIN=$HOME/.gem/ruby/2.5.0/bin
 if [[ -e $GEM_BIN ]]; then
   PATH=$GEM_BIN:$PATH
-fi
-
-QUTEBROWSER_BIN=/usr/bin/qutebrowser
-if [[ -e $QUTEBROWSER_BIN ]]; then
-  export BROWSER=$QUTEBROWSER_BIN
 fi
 
 SP_PIP_BIN=$HOME/.local/bin

@@ -1,5 +1,5 @@
 #=================== {
-if [[ "$(whoami)"="fredriol" ]]; then
+if [ "$(whoami)" = "fredriol" ]; then
   source $HOME/dotfiles/workrc
 fi
 # }

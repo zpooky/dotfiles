@@ -155,6 +155,10 @@ exec "setxkbmap -layout se"
 exec --no-startup-id $HOME/sources/clipster/clipster -d
 # }
 
+## rtag {
+exec rdm --daemon
+## }
+
 ## Special keyboard support
 
 # PulseAudio {
