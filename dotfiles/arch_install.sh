@@ -130,6 +130,11 @@ if [ $? -eq 1 ]; then
   install_yay python2-jedi
 fi
 
+has_feature trans
+if [ $? -eq 1 ]; then
+  install_yay translate-shell
+fi
+
 #tmux
 # https://github.com/remiprev/teamocil
 

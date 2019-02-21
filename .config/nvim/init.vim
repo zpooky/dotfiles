@@ -479,6 +479,7 @@ endfunction
 function! VimuxSpTranslate()
   call VimuxSendKeys("q")
   let wordUnderCursor = expand("<cword>")
+  " https://github.com/soimort/translate-shell
   call VimuxRunCommand("trans -d :en -v -- \"" . wordUnderCursor . "\"")
 endfunction
 
@@ -548,6 +549,9 @@ augroup AugroupAVIM
         \    '*.h': {
         \      'alternate': ['{}.cpp', '{}.c']
         \    },
+        \    'lib/*.c': { 'alternate': 'include/linux/{}.h' },
+        \    'kernel/*.c': { 'alternate': 'include/linux/{}.h' },
+        \    'include/linux/*.h': { 'alternate': [ 'kernel/{}.c', 'lib/{}.c' ] },
         \ })
 
 augroup END

@@ -21,8 +21,9 @@ alias duh="du -h -d 0 [^.]*"
 
 alias lcd="cd"
 alias lvim="vim"
-alias lrm="lrm"
-alias lgit="lrm"
+alias ltree="tree"
+alias lrm="rm"
+alias lgit="git"
 alias l="ll"
 
 alias gitcommit="git commit"
@@ -145,7 +146,7 @@ function sp_cpu_alias() {
   local risc="$REF_DIR/risc.md"
   local cisc="$REF_DIR/cisc.md"
   local opcode="$REF_DIR/opcode.md"
-  local cpu="$REF_DIR/cpu.md"
+  local file_cpu="$REF_DIR/cpu.md"
   local machine_code="$REF_DIR/machine_code.md"
 
   local microcontroller="$REF_DIR/microcontroller.md"
@@ -163,8 +164,13 @@ function sp_cpu_alias() {
 
   local dma="$REF_DIR/dma.md"
 
+  local file_rtc="$REF_DIR/rtc.md"
+
   # CPU
-  alias sp-cpu="vim -p ${cpu} ${isa} ${microarchitecture} ${risc} ${cisc} ${opcode} ${machine_code} ${asm} ${dma}"
+  alias sp-cpu="vim -p ${file_cpu} ${isa} ${microarchitecture} ${risc} ${cisc} ${opcode} ${machine_code} ${asm} ${dma}"
+  alias sp-smp="vim -p ${file_cpu}"
+  alias sp-smt="sp-smp"
+
   alias sp-microprocessor="sp-cpu"
   alias sp-ISA="vim ${isa}"
   alias sp-isa="sp-ISA"
@@ -173,6 +179,8 @@ function sp_cpu_alias() {
   alias sp-cisc="vim ${cisc}"
   alias sp-opcode="vim ${opcode}"
   alias sp-machine-code="vim ${machine_code}"
+
+  alias sp-rtc="vim ${file_rtc}"
 
   alias sp-microcontroller="vim -p ${microcontroller}"
 
@@ -247,6 +255,7 @@ function sp_crypto(){
 
 sp_crypto
 
+file_waveform="$REF_DIR/waveform.md"
 #circuits
 function sp_circuts_alias() {
   local fpga="$REF_DIR/fpga.md"
@@ -263,7 +272,6 @@ function sp_circuts_alias() {
   local vacuum_tube="$REF_DIR/vacuum-tube.md"
   local logic_gate="$REF_DIR/logic-gate.md" #TODO
 
-  local waveform="$REF_DIR/waveform.md"
   local electricity="$REF_DIR/electricity.md" #TODO
 
   local oscilloscopes="$REF_DIR/oscilloscopes.md" #TODO
@@ -288,8 +296,8 @@ function sp_circuts_alias() {
 
   alias sp-oscilloscopes="vim -p ${oscilloscopes}"
 
-  alias sp-waveform="vim -p ${waveform}"
-  alias sp-electricity="vim -p ${electricity} ${waveform}"
+  alias sp-waveform="vim -p ${file_waveform}"
+  alias sp-electricity="vim -p ${electricity} ${file_waveform}"
   alias sp-ac="sp-electricity"
   alias sp-dc="sp-electricity"
   alias sp-current-electricity="sp-electricity"
@@ -310,9 +318,13 @@ alias sp-win="vim $REF_DIR/win.md"
 alias sp-cygwin="vim $REF_DIR/cygwin.md"
 alias sp-arch="vim $REF_DIR/arch.md"
 alias sp-cyckel="vim $REF_DIR/cyckel.md"
-alias sp-stocks="vim $REF_DIR/stocks.md"
 alias sp-duffs-device="vim $REF_DIR/duffs-device.md"
 alias sp-glossary="vim $REF_DIR/glossary.md"
+alias sp-tlv="vim $REF_DIR/tlv.md"
+
+#
+alias sp-stocks="vim $REF_DIR/stocks.md"
+alias sp-bank="sp-stocks"
 
 # computer science
 alias sp-bnf="vim $REF_DIR/bnf.md"
@@ -482,10 +494,11 @@ alias sp-mount="vim $REF_DIR/linux/mount.txt"
 alias sp-xclip="vim $DROPBOX_LINUX/xclip.txt"
 alias sp-openssl="vim $REF_DIR/sec/openssl.md"
 alias sp-package="vim $DROPBOX_LINUX/install.txt"
-alias sp-tar="vim $DROPBOX_LINUX/compression.txt"
+alias sp-tar="vim $DROPBOX_LINUX/compression.md"
+alias sp-ssh="vim $DROPBOX_LINUX/ssh.md"
 alias sp-nice="vim $DROPBOX_LINUX/nice.md"
+alias sp-scheduler="sp-nice"
 alias sp-ar="vim $DROPBOX_LINUX/ar.md"
-alias sp-ip="vim $DROPBOX_LINUX/ip.md"
 alias sp-gnu-parallel="vim $DROPBOX_LINUX/gnu-parallel.md"
 alias sp-netcat="vim $DROPBOX_LINUX/netcat.md"
 alias sp-term="vim $DROPBOX_LINUX/term.md"
@@ -519,6 +532,8 @@ alias sp-write-to-file="vim $DROPBOX_LINUX/write-to-file.md"
 alias sp-pacman="vim $DROPBOX_LINUX/pacman.md"
 alias sp-dbus="vim $DROPBOX_LINUX/dbus.md"
 
+local file_frequency="$REF_DIR/frequency.md" # TODO
+
 # linux dev
 function sp_linux_dev_alias() {
   local file_linux_dev="$REF_DIR/linux-dev.md"
@@ -543,7 +558,6 @@ function sp_linux_dev_alias() {
   local file_serial_communication="$REF_DIR/serial-communication.md"
 
   local file_multiplex="$REF_DIR/multiplex-transmission.md" # TODO
-  local file_frequency="$REF_DIR/frequency.md" # TODO
 
 
   local file_alsa="$REF_DIR/linux-alsa.md"
@@ -578,7 +592,6 @@ function sp_linux_dev_alias() {
   alias sp-frequency-division-multiplexing="sp-multiplex"
   alias sp-frequency="vim -p $file_frequency"
   alias sp-hertz="sp-frequency"
-  alias sp-radio="sp-frequency"
 
   alias sp-alsa="vim -p $file_alsa"
 
@@ -616,9 +629,7 @@ function sp_network() {
   local file_modulation="$REF_DIR/digital_modulation.md"
 
   local digital_communication="$REF_DIR/digitial-communication.md"
-  local file_baseband="$REF_DIR/baseband.md"
-  local file_passband="$REF_DIR/passband.md"
-  local file_broadband="$REF_DIR/broadband.md"
+  local file_band="$REF_DIR/band.md"
 
   local file_csma="$REF_DIR/csma-cd.md"
 
@@ -626,6 +637,11 @@ function sp_network() {
 
   local net_layer="$DROPBOX_NETWORK/network-layer.md"
   local net_layer_ethernet="$DROPBOX_NETWORK/ethernet.md ${file_duplex} ${file_pam} ${file_mdi} ${file_csma}"
+
+  local file_bandwidth="$DROPBOX_NETWORK/bandwidth.md"
+
+  local file_ipv6="$DROPBOX_LINUX/ip.md"
+  local file_link_local="$DROPBOX_NETWORK/link-local.md"
 
   # networking
   alias sp-network="vim $DROPBOX_NETWORK/linux.md"
@@ -649,14 +665,18 @@ function sp_network() {
   alias sp-pam="vim -p ${file_pam} ${file_pcm} ${file_pwm} ${file_modulation}"
   alias sp-pcm="vim -p ${file_pcm} ${file_pam} ${file_pwm} ${file_modulation}"
   alias sp-pwm="vim -p ${file_pwm} ${file_pcm} ${file_pam} ${file_modulation}"
-  alias sp-modulation="vim -p ${file_modulation} ${file_pcm} ${file_pam} ${file_pwm}"
+  alias sp-modulation="vim -p ${file_modulation} ${file_pam} ${file_pcm} ${file_pwm} ${file_band} ${file_waveform}"
   alias sp-baud="vim -p ${file_baud_rate} ${file_pam}"
 
+  alias sp-bandwidth="vim -p ${file_bandwidth} ${file_frequency}"
   alias sp-digital-communication="vim -p $digital_communication"
-  alias sp-broadband="vim -p ${file_broadband} ${file_baseband} ${file_passband}"
-  alias sp-baseband="vim -p ${file_baseband} ${file_broadband}  ${file_passband}"
-  alias sp-passband="vim -p ${file_passband} ${file_baseband} ${file_broadband} "
-  alias sp-band="vim -p ${file_broadband} ${file_baseband} ${file_passband}"
+  alias sp-broadband="vim -p ${file_band} ${file_bandwidth} ${file_frequency}"
+  alias sp-baseband="sp-broadband"
+  alias sp-passband="sp-broadband"
+  alias sp-band="sp-broadband"
+
+  alias sp-ip="vim -p ${file_ipv6}"
+  alias sp-link-local="vim -p ${file_link_local} ${file_ipv6}"
 
   #audio
   alias sp-audio="vim -p $REF_DIR/audio.md ${file_pcm}"
@@ -810,11 +830,15 @@ alias sp-proj-vfio="vim $DROPBOX/project/vfio.md"
 alias sp-proj-conway="vim $DROPBOX/project/conway.md"
 alias sp-proj-consensus="vim $DROPBOX/project/consensus.md"
 alias sp-proj-compiler="vim $DROPBOX/project/lang.md"
+alias sp-proj-lang="sp-proj-compiler"
 alias sp-proj-haskell="vim $DROPBOX/project/haskell.md"
 alias sp-proj-course="vim $DROPBOX/project/course.md"
 alias sp-proj-docker="vim $DROPBOX/project/docker.md"
 alias sp-proj-disk-algh="vim $DROPBOX/project/disk-algh.md"
 alias sp-proj-ml="vim $DROPBOX/project/ml.md"
+alias sp-proj-sync="vim $DROPBOX/project/sync.md"
+alias sp-proj-os="vim $DROPBOX/project/kernel.md"
+alias sp-proj-kernel="sp-proj-os"
 
 # nas540
 alias nas540="sshfs admin@nas540:/i-data/ $HOME/mount/nas540"

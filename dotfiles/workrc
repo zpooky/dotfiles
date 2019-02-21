@@ -229,12 +229,19 @@ function flash_192_168_0_90_ftp() {
     local l_image="${BUILDDIR}/fimage"
   fi
 
-  if [ ! -e ${l_image} ]; then
+  if [ ! -e "${l_image}" ]; then
     notify-send "ERROR missing '${l_image}'"
     echo "missing '${l_image}'" >&2
     return 1
   fi
 
+  if [ ! -f "${l_image}" ]; then
+    notify-send "ERROR not a file '${l_image}'"
+    echo "not a file '${l_image}'" >&2
+    return 1
+  fi
+
+  date
   echo "flashing '${l_image}'"
 
   # ftp -u ftp://${l_user}:${l_pass}@${l_ip}/flash_all ${l_image}
@@ -279,11 +286,15 @@ function netboot_192_168_0_90(){
 
   echo "machine '${l_machine}'"
   if [[ "${l_machine}"="m3066-v" ]]; then
+    $HOME/development/axis/tpp/ff enable-ssh
+    sleep 1s
     $HOME/development/axis/tpp/ff :netboot
     sleep 1s
     boot_axis -F -i "${l_image}" -W 7AC -v
     local ret=$?
   elif [[ "${l_machine}"="m3075-v" ]]; then
+    $HOME/development/axis/tpp/ff enable-ssh
+    sleep 100ms
     $HOME/development/axis/tpp/ff :netboot
     sleep 1s
     boot_axis -F -i "${l_image}" -W 7AD -v
@@ -306,6 +317,7 @@ function netboot_192_168_0_90(){
 
 function bitbake_axis-image-cvp() {
   # TODO time
+  date
   bitbake axis-image-cvp
   local ret=$?
   if [ ${ret} -eq 0 ]; then
@@ -313,6 +325,7 @@ function bitbake_axis-image-cvp() {
   else
     notify-send "Build [FAILED]"
   fi
+  date
 
   return $ret
 }

@@ -254,9 +254,45 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab mehtod method
+iab accour occur
+iab recieved received
+iab choises choices
+iab performes performs
+iab receipient recipient
+iab unpriviliged unprivileged
+iab affetcs affects
+iab occopy occupy
+iab acces access
+iab conecpt concept
 iab acomplished accomplished
+iab creater creator
+iab signifys signifies
+iab histroy history
+iab completelty completely
+iab lier liar
+iab perfrom perform
+iab porpuse purpose
+iab periodicly periodically
+iab incompatibal incompatible
+iab continueing continuing
+iab divergant divergent
+iab commiting committing
 iab respons response
+iab differntiate differentiate
+iab referse refers
+iab achived achieved
+iab specificly specifically
+iab reproducable reproducible
+iab globaly globally
+iab formated formatted
+iab atomatic automatic
+iab primarly primarily
+iab capabillities capabilities
 iab dubble double
+iab referes refers
+iab transmiited transmitted
+iab refere refer
 iab activly actively
 iab lazyily lazily
 iab affectlivy affectively
@@ -528,6 +564,9 @@ iab intrested interested
 iab excpected expected
 iab excpect expect
 iab Allways Always
+iab decieds decides
+iab higest highest
+iab alloted allotted
 iab usuable useable
 iab independant independent
 iab generaly generally
