@@ -7,7 +7,7 @@ export FTP_PROXY="${ftp_proxy}"
 export https_proxy="http://wwwproxy.se.axis.com:3128"
 export HTTPS_PROXY="${https_proxy}"
 
-export no_proxy=localhost,127.0.0.1,127.0.1.1,.localdomain,axis.com
+export no_proxy=192.168.0.90,localhost,127.0.0.1,127.0.1.1,.localdomain,axis.com
 
 # export ftp_proxy="ftp://ftp-proxy.se.axis.com:4514/"
 # export FTP_PROXY="ftp://ftp-proxy.se.axis.com:4514/"
@@ -31,6 +31,7 @@ function ssh_192_168_0_90() {
     l_env+=' && echo "alias systemctl_status=\"systemctl status audiocontrol monolith parhand ioboxd\"" >> $HOME/.shinit'
     l_env+=' && echo "alias systemctl_root=\"cd /usr/lib/systemd/system\"" >> $HOME/.shinit'
     l_env+=' && echo "alias tree=\"ls -alhR1\"" >> $HOME/.shinit'
+    l_env+=' && echo "alias port_scan=\"netstat -lnptu\"" >> $HOME/.shinit'
 
   # sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} 'alias ll="ls -alh";ll; exec /bin/sh -l' # 'alias ll="ls-alh"; /bin/sh -l'
     sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "${l_env_setup} ${l_env}; exec /bin/sh -l"
@@ -363,7 +364,7 @@ function entr_devtool_build(){
     return 1
   fi
 
-  ack -f --cpp --ignore-dir=oe-workdir --ignore-dir=oe-logs -r "${l_workspace}" | entr "${HOME}/dotfiles/lib/devtool_build.sh" "${project}"
+  ack -f --cpp --ignore-dir=oe-workdir --ignore-dir=oe-logs -r "${l_workspace}" | entr -c "${HOME}/dotfiles/lib/devtool_build.sh" "${project}"
 }
 
 function env_setup() {

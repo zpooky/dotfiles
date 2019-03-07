@@ -24,6 +24,9 @@ alias lvim="vim"
 alias ltree="tree"
 alias lrm="rm"
 alias lgit="git"
+alias lcat="cat"
+alias lmv="mv"
+alias lcp="cp"
 alias l="ll"
 
 alias gitcommit="git commit"
@@ -637,6 +640,7 @@ function sp_network() {
 
   local net_layer="$DROPBOX_NETWORK/network-layer.md"
   local net_layer_ethernet="$DROPBOX_NETWORK/ethernet.md ${file_duplex} ${file_pam} ${file_mdi} ${file_csma}"
+  local file_power_over_ethernet="$DROPBOX_NETWORK/poe.md"
 
   local file_bandwidth="$DROPBOX_NETWORK/bandwidth.md"
 
@@ -654,7 +658,10 @@ function sp_network() {
 
   alias sp-duplex="vim -p ${file_duplex}"
   alias sp-network-layer="vim -p ${net_layer} ${net_layer_ethernet}"
-  alias sp-network-ethernet="vim -p ${net_layer_ethernet}"
+  alias sp-link-layer-discovery-protocol="sp-network-layer"
+  alias sp-lldp="sp-link-layer-discovery-protocol"
+  alias sp-ethernet="vim -p ${net_layer_ethernet}"
+  alias sp-poe="vim -p ${file_power_over_ethernet}"
   alias sp-osi="sp-network-layer"
   alias sp-network-tcp="vim ${tcp}"
   alias sp-network-udp="vim ${file_udp}"
@@ -985,7 +992,8 @@ alias sp-port-scan="vim $REF_DIR/port-scan.md"
 function port_scan() {
   which netstat 2>&1 > /dev/null
   if [ $? -eq 0 ]; then
-    netstat -alnptu | grep -Ei 'Proto|LISTEN'
+    # netstat -alnptu | grep -Ei 'Proto|LISTEN'
+    netstat --tcp --udp --udplite --raw --listening --program --numeric
   else
     # ss --all --listen --processes --tcp --udp --raw # | grep -Ei 'Proto|LISTEN'
     # -t: --tcp

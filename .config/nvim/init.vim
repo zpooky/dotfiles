@@ -544,10 +544,16 @@ augroup AugroupAVIM
         \      'alternate': '{}.h'
         \    },
         \    '*.cpp': {
-        \      'alternate': '{}.h'
+        \      'alternate': ['{}.h', '{}.hpp', '{}.hh']
         \    },
         \    '*.h': {
         \      'alternate': ['{}.cpp', '{}.c']
+        \    },
+        \    '*.hpp': {
+        \      'alternate': ['{}.cpp']
+        \    },
+        \    '*.hh': {
+        \      'alternate': ['{}.cpp']
         \    },
         \    'lib/*.c': { 'alternate': 'include/linux/{}.h' },
         \    'kernel/*.c': { 'alternate': 'include/linux/{}.h' },
@@ -919,6 +925,12 @@ Plug 'kergoth/vim-bitbake'
 
 " better vim session {{{
 Plug 'tpope/vim-obsession'
+" }}}
+
+" align text around character {{{
+let g:lion_squeeze_spaces = 1
+" glip=     | align in paragraph around =
+Plug 'tommcdo/vim-lion'
 " }}}
 
 call plug#end()
