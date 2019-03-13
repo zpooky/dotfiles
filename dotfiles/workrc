@@ -94,9 +94,23 @@ function scp_crashdump_192_168_0_90(){
 # # $BUILDDIR
 # }
 
-function deploy_192_168_0_90(){
+function valid_build_dir() {
   if [ ! -n "${BUILDDIR}" ]; then
     echo "Must be run from oe-initenv shell">&2
+    return 1
+  fi
+
+  if [[ ! "$(pwd)" =~ ^${BUILDDIR}.* ]]; then
+    echo "ERROR: You are not located under the directory of oe-initenv ('${BUILDDIR}')"
+    return 1
+  fi
+
+  return 0
+}
+
+
+function deploy_192_168_0_90(){
+  if ! valid_build_dir; then
     return 1
   fi
 
@@ -142,8 +156,7 @@ function deploy_192_168_0_90(){
 }
 
 function rtags_all(){
-  if [ ! -n "${BUILDDIR}" ]; then
-    echo "Must be run from oe-initenv shell">&2
+  if ! valid_build_dir; then
     return 1
   fi
 
@@ -168,35 +181,30 @@ function rtags_all(){
   date
 }
 
-function modify_all() {
-  which devtool > /dev/null
-  if [ ! $? -eq 0 ]; then
-    echo "devtool is not in path" >&2
-    return 1
-  fi
-
-  if [ ! -n "${BUILDDIR}" ]; then
-    echo "Must be run from oe-initenv shell">&2
+function devtool_modify() {
+  if ! valid_build_dir; then
     return 1
   fi
 
   local dist_root="${BUILDDIR}/../.."
   local lwd="$(pwd)"
 
-  if [ ! -e "${dist_root}/.git" ]; then
-    echo "Is not a repo">&2
-    return 1
-  fi
+  # if [ ! -e "${dist_root}/.git" ]; then
+  #   echo "Is not a repo">&2
+  #   return 1
+  # fi
 
-  local proj=(audiocontrol  audiocontrol-conf  audio-params  audio-properties  ioboxd  linux-axis  modscpu-public  monolith  parhand  parhandclient  portcast-properties)
+
+  local proj=( "$@" )
   for cur in "${proj[@]}"; do
-    devtool modify "$cur"
-    if [ $? -eq 0 ];then
-      cd "${dist_root}"
-      git add .
-      git commit -m "$cur"
-      cd "${lwd}"
-    fi
+    echo "##### devtool modify \"$cur\""
+    devtool modify $cur
+    # if [ $? -eq 0 ];then
+    #   cd "${dist_root}"
+    #   git add .
+    #   git commit -m "$cur"
+    #   cd "${lwd}"
+    # fi
   done
 }
 
@@ -219,6 +227,7 @@ function modify_all() {
 # }
 
 function flash_192_168_0_90_ftp() {
+  # TODO grep for "Error: No custom firmware certificate for camera group 'axis-devel-ambarella-s5l'."
   local l_user="root"
   local l_pass="pass"
   local l_ip="192.168.0.90"
@@ -227,18 +236,23 @@ function flash_192_168_0_90_ftp() {
   if [[ -n "${1}" ]]; then
     local l_image="${1}"
   elif [[ -n "${BUILDDIR}" ]]; then
+    if ! valid_build_dir; then
+      return 1
+    fi
     local l_image="${BUILDDIR}/fimage"
   fi
 
   if [ ! -e "${l_image}" ]; then
     notify-send "ERROR missing '${l_image}'"
     echo "missing '${l_image}'" >&2
+    echo "Autodetect in oe-initenv shell">&2
     return 1
   fi
 
   if [ ! -f "${l_image}" ]; then
     notify-send "ERROR not a file '${l_image}'"
     echo "not a file '${l_image}'" >&2
+    echo "Autodetect in oe-initenv shell">&2
     return 1
   fi
 
@@ -266,17 +280,31 @@ function flash_192_168_0_90_ftp() {
 }
 
 function netboot_192_168_0_90(){
-  if [ ! -n "${BUILDDIR}" ]; then
-    echo "Must be run from oe-initenv shell">&2
+
+  local l_image="./fimage"
+  local l_machine="" # unused
+
+  if [[ -n "${1}" ]]; then
+    local l_image="${1}"
+  elif [[ -n "${BUILDDIR}" ]]; then
+    if ! valid_build_dir; then
+      return 1
+    fi
+    local l_machine="$(basename ${BUILDDIR})"
+    local l_image="${BUILDDIR}/fimage"
+  fi
+
+  if [ ! -e "${l_image}" ]; then
+    notify-send "ERROR missing '${l_image}'"
+    echo "missing '${l_image}'" >&2
+    echo "Autodetect in oe-initenv shell">&2
     return 1
   fi
 
-  local l_image="${BUILDDIR}/fimage"
-  local l_machine="$(basename ${BUILDDIR})"
-
-  if [ ! -e ${l_image} ]; then
-    notify-send "ERROR missing '${l_image}'"
-    echo "missing '${l_image}'" >&2
+  if [ ! -f "${l_image}" ]; then
+    notify-send "ERROR not a file '${l_image}'"
+    echo "not a file '${l_image}'" >&2
+    echo "Autodetect in oe-initenv shell">&2
     return 1
   fi
 
@@ -285,26 +313,41 @@ function netboot_192_168_0_90(){
     local l_machine="$(cat ${l_marker})"
   fi
 
-  echo "machine '${l_machine}'"
-  if [[ "${l_machine}"="m3066-v" ]]; then
-    $HOME/development/axis/tpp/ff enable-ssh
-    sleep 1s
-    $HOME/development/axis/tpp/ff :netboot
-    sleep 1s
-    boot_axis -F -i "${l_image}" -W 7AC -v
-    local ret=$?
-  elif [[ "${l_machine}"="m3075-v" ]]; then
-    $HOME/development/axis/tpp/ff enable-ssh
-    sleep 100ms
-    $HOME/development/axis/tpp/ff :netboot
-    sleep 1s
-    boot_axis -F -i "${l_image}" -W 7AD -v
-    local ret=$?
-  else
-    notify-send "unknow machine '${l_machine}' [FAILED]" "[FAILED]"
-    echo "unknow machine '${l_machine}'">&2
-    return 1
-  fi
+  # echo "machine '${l_machine}'"
+  # if [[ "${l_machine}"="m3066-v" ]]; then
+  #   $HOME/development/axis/tpp/ff enable-ssh
+  #   sleep 1s
+  #   $HOME/development/axis/tpp/ff :netboot
+  #   sleep 1s
+  #   boot_axis -F -i "${l_image}" -W 7AC -v
+  #   local ret=$?
+  # elif [[ "${l_machine}"="m3075-v" ]]; then
+  #   $HOME/development/axis/tpp/ff enable-ssh
+  #   sleep 100ms
+  #   $HOME/development/axis/tpp/ff :netboot
+  #   sleep 1s
+  #   boot_axis -F -i "${l_image}" -W 7AD -v
+  #   local ret=$?
+  # elif [[ "${l_machine}"="p3225-lv-mkii" ]]; then
+  #   $HOME/development/axis/tpp/ff enable-ssh
+  #   sleep 100ms
+  #   $HOME/development/axis/tpp/ff :netboot
+  #   sleep 1s
+  #   echo "boot_axis -F -i \"${l_image}\" -W 705.4 -v"
+  #   boot_axis -F -i "${l_image}" -W 705.4 -v
+  #   local ret=$?
+  # else
+  #   notify-send "unknow machine '${l_machine}' [FAILED]" "[FAILED]"
+  #   echo "unknow machine '${l_machine}'">&2
+  #   return 1
+  # fi
+
+  $HOME/development/axis/tpp/ff enable-ssh
+  sleep 1s
+  $HOME/development/axis/tpp/ff :netboot
+  sleep 1s
+  boot_axis -F -i "${l_image}" -v
+  local ret=$?
 
   if [ ${ret} -eq 0 ]; then
     notify-send "netboot ${l_machine} [DONE]" "${l_image} [DONE]"
@@ -332,8 +375,7 @@ function bitbake_axis-image-cvp() {
 }
 
 function bitbake_sources_clean() {
-  if [ ! -n "${BUILDDIR}" ]; then
-    echo "Must be run from oe-initenv shell">&2
+  if ! valid_build_dir; then
     return 1
   fi
   local l_workspace="${BUILDDIR}/workspace/sources"
@@ -350,8 +392,7 @@ function bitbake_sources_clean() {
 }
 
 function entr_devtool_build(){
-  if [ ! -n "${BUILDDIR}" ]; then
-    echo "Must be run from oe-initenv shell">&2
+  if ! valid_build_dir; then
     return 1
   fi
 

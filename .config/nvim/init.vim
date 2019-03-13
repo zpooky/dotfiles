@@ -933,6 +933,16 @@ let g:lion_squeeze_spaces = 1
 Plug 'tommcdo/vim-lion'
 " }}}
 
+" {{{
+Plug 'chaoren/vim-wordmotion'
+" change definition of what is a word(w) (CamelCase, _ seperated words, ...)
+" CamelCaseACRONYMWords_underscore1234
+" }}}
+
+" " {{{
+" Plug 'chriskempson/base16-vim'
+" " }}}
+
 call plug#end()
 " }}}
 
@@ -943,10 +953,10 @@ colorscheme codedark
 " colorscheme {{{
 " if has('win32unix') || has('win64unix')
   " wrk {{{
-  " augroup AugroupCppVisual
-  "   autocmd!
-    " autocmd FileType c,cpp colorscheme codedark
-  " augroup END
+" augroup AugroupColorscheme
+"   autocmd!
+"   " autocmd FileType * colorscheme codedark
+" augroup END
 
 " colorscheme base16
 " colorscheme molokai
