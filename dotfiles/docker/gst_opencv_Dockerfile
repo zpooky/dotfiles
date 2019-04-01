@@ -1,0 +1,92 @@
+FROM archlinux/base:latest
+
+ENV HTTP_PROXY="http://wwwproxy.se.axis.com:3128"
+ENV http_proxy="http://wwwproxy.se.axis.com:3128"
+
+ENV HTTPS_PROXY="http://wwwproxy.se.axis.com:3128"
+ENV https_proxy="http://wwwproxy.se.axis.com:3128"
+
+ENV ftp_proxy="http://wwwproxy.se.axis.com:3128"
+ENV FTP_PROXY="http://wwwproxy.se.axis.com:3128"
+
+ENV IS_DOCKER="true"
+
+RUN echo "PATH: ${PATH}"
+
+RUN pacman -Sy && pacman -S --noconfirm readline \
+                          git \
+                          sudo \
+                          vim \
+                          zsh \
+                          tsocks \
+                          gtk-doc \
+                          meson \
+                          ninja \
+                          glib2 \
+                          base-devel \
+                          cmake
+
+RUN mkdir -p /apps
+
+# {
+RUN git clone https://gitlab.freedesktop.org/gstreamer/gstreamer.git
+WORKDIR gstreamer
+RUN git checkout 1.14.0
+RUN ./autogen.sh
+RUN make -j 10
+RUN make install
+WORKDIR ..
+# }
+
+ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+
+# {
+RUN git clone https://gitlab.freedesktop.org/gstreamer/gst-plugins-base.git
+WORKDIR gst-plugins-base
+RUN git checkout 1.14.0
+RUN ./autogen.sh --disable-gtk-doc
+RUN make -j 10
+RUN make install
+WORKDIR ..
+# }
+
+# {
+RUN git clone https://github.com/opencv/opencv_contrib.git
+WORKDIR opencv_contrib
+RUN git checkout 3.3.0
+RUN git submodule update --init --recursive
+WORKDIR ..
+# }
+
+# {
+RUN git clone https://github.com/opencv/opencv.git
+WORKDIR opencv
+RUN git checkout 3.3.0
+# {
+RUN mkdir build
+WORKDIR build
+RUN cmake -DCMAKE_BUILD_TYPE=RELEASE \
+	-DCMAKE_INSTALL_PREFIX=/usr/local \
+	-DINSTALL_C_EXAMPLES=ON \
+  -DOPENCV_EXTRA_MODULES_PATH=/opencv_contrib/modules \
+	-DBUILD_EXAMPLES=ON ..
+RUN make -j 10
+RUN make install
+WORKDIR ..
+# }
+WORKDIR ..
+# ENV PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig
+ENV PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:/usr/local/lib64/pkgconfig
+# }
+
+# {
+RUN git clone https://github.com/GStreamer/gst-plugins-bad.git
+WORKDIR gst-plugins-bad
+RUN git checkout 1.14.0
+RUN ./autogen.sh --enable-opencv --disable-gtk-doc
+RUN make -j 10
+RUN make install
+WORKDIR ..
+# }
+
+# vim:ft=dockerfile

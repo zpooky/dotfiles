@@ -1,0 +1,44 @@
+FROM archlinux/base:latest
+
+ENV http_proxy="http://wwwproxy.se.axis.com:3128"
+ENV HTTP_PROXY="http://wwwproxy.se.axis.com:3128"
+
+ENV https_proxy="http://wwwproxy.se.axis.com:3128"
+ENV HTTPS_PROXY="http://wwwproxy.se.axis.com:3128"
+
+ENV ftp_proxy="http://wwwproxy.se.axis.com:3128"
+ENV FTP_PROXY="http://wwwproxy.se.axis.com:3128"
+
+ENV IS_DOCKER="true"
+
+RUN echo "PATH: ${PATH}"
+
+RUN pacman -Sy && \
+    pacman -S --noconfirm git sudo vim zsh tsocks
+
+RUN pacman -Sy && \
+    pacman -S --noconfirm clang gcc cmake which git make llvm llvm-libs
+
+RUN echo "clang: $(which clang)"
+RUN echo "gcc: $(which gcc)"
+
+RUN mkdir app
+RUN git clone https://github.com/Andersbakken/rtags.git rtags --depth=1
+RUN find / -iname "llvm-config"
+RUN find / -iname "clang"
+
+# RUN cd /app/rtags && git checkout v2.20
+
+WORKDIR rtags
+RUN git submodule update --init --recursive -j
+RUN ./configure --release 
+RUN make -j 8
+RUN make install
+WORKDIR ..
+
+EXPOSE 25555
+
+# CMD ["alias", "ll='ls -alh'"]
+# CMD ["rdm", "--tcp-port", "25555"]
+
+# vim:ft=dockerfile

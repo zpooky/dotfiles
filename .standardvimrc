@@ -254,6 +254,7 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab maintaned maintained
 iab mehtod method
 iab accour occur
 iab recieved received
