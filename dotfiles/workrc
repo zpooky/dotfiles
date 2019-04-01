@@ -290,7 +290,6 @@ function netboot_192_168_0_90(){
     if ! valid_build_dir; then
       return 1
     fi
-    local l_machine="$(basename ${BUILDDIR})"
     local l_image="${BUILDDIR}/fimage"
   fi
 
@@ -313,21 +312,26 @@ function netboot_192_168_0_90(){
     local l_machine="$(cat ${l_marker})"
   fi
 
-  # echo "machine '${l_machine}'"
-  # if [[ "${l_machine}"="m3066-v" ]]; then
-  #   $HOME/development/axis/tpp/ff enable-ssh
-  #   sleep 1s
-  #   $HOME/development/axis/tpp/ff :netboot
-  #   sleep 1s
-  #   boot_axis -F -i "${l_image}" -W 7AC -v
-  #   local ret=$?
-  # elif [[ "${l_machine}"="m3075-v" ]]; then
-  #   $HOME/development/axis/tpp/ff enable-ssh
-  #   sleep 100ms
-  #   $HOME/development/axis/tpp/ff :netboot
-  #   sleep 1s
-  #   boot_axis -F -i "${l_image}" -W 7AD -v
-  #   local ret=$?
+  echo "image '${l_image}'"
+  local l_machine="$(basename ${BUILDDIR})"
+  echo "machine '${l_machine}'"
+
+  $HOME/development/axis/tpp/ff enable-ssh
+  if [ ! $? -eq 0 ]; then
+    echo "failed to enable-ssh"
+    return 1
+  fi
+  sleep 1s
+
+  $HOME/development/axis/tpp/ff :netboot
+  sleep 1s
+
+  if [[ "${l_machine}"="m3066-v" ]]; then
+    boot_axis -F -i "${l_image}" -W 7AC -v
+    local ret=$?
+  elif [[ "${l_machine}"="m3075-v" ]]; then
+    boot_axis -F -i "${l_image}" -W 7AD -v
+    local ret=$?
   # elif [[ "${l_machine}"="p3225-lv-mkii" ]]; then
   #   $HOME/development/axis/tpp/ff enable-ssh
   #   sleep 100ms
@@ -336,18 +340,10 @@ function netboot_192_168_0_90(){
   #   echo "boot_axis -F -i \"${l_image}\" -W 705.4 -v"
   #   boot_axis -F -i "${l_image}" -W 705.4 -v
   #   local ret=$?
-  # else
-  #   notify-send "unknow machine '${l_machine}' [FAILED]" "[FAILED]"
-  #   echo "unknow machine '${l_machine}'">&2
-  #   return 1
-  # fi
-
-  $HOME/development/axis/tpp/ff enable-ssh
-  sleep 1s
-  $HOME/development/axis/tpp/ff :netboot
-  sleep 1s
-  boot_axis -F -i "${l_image}" -v
-  local ret=$?
+  else
+    boot_axis -F -i "${l_image}" -v
+    local ret=$?
+  fi
 
   if [ ${ret} -eq 0 ]; then
     notify-send "netboot ${l_machine} [DONE]" "${l_image} [DONE]"
@@ -374,7 +370,9 @@ function bitbake_axis-image-cvp() {
   return $ret
 }
 
-function bitbake_sources_clean() {
+function bitbake_clean_all() {
+  #                clean # does cleanup work dirs?
+  # devtool build -c gstreamer1.0-plugins-bad
   if ! valid_build_dir; then
     return 1
   fi
@@ -385,10 +383,22 @@ function bitbake_sources_clean() {
     return 2
   fi
 
-  echo "bitbake -c clean $(cd ${l_workspace}; ls -d -- */ | tr '/' ' ' | xargs)">&2
+  echo "###bitbake -c clean $(cd ${l_workspace}; ls -d -- */ | tr '/' ' ' | xargs)">&2
 
   bitbake -c clean $(cd ${l_workspace}; ls -d -- */ | tr '/' ' ' | xargs)
   return $?
+}
+
+function bitbake_clean() {
+  if ! valid_build_dir; then
+    return 1
+  fi
+
+  local proj=( "$@" )
+  for cur in "${proj[@]}"; do
+    echo "###bitbake -c clean ${cur}">&2
+    bitbake -c clean "${cur}"
+  done
 }
 
 function entr_devtool_build(){
