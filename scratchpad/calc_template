@@ -21,11 +21,17 @@
 # bytearray.fromhex(hex).decode('utf-8')
 # hex encoded -> raw
 # binascii.unhexlify(hex)
+
+# sha256
+# m = hashlib.sha256()
+# m.update(binascii.unhexlify(""))
+# m.hexdigest()
 # ===================
 
 import sys
 import math
 import binascii
+import hashlib
 from operator import xor
 
 sys.setrecursionlimit(1500)

@@ -13,6 +13,8 @@ ENV IS_DOCKER="true"
 
 RUN echo "PATH: ${PATH}"
 
+ARG INSTALL_PREFIX=/usr/local
+
 RUN pacman -Sy && pacman -S --noconfirm readline \
                           git \
                           sudo \
@@ -24,7 +26,8 @@ RUN pacman -Sy && pacman -S --noconfirm readline \
                           ninja \
                           glib2 \
                           base-devel \
-                          cmake
+                          cmake \
+                          nasm
 
 RUN mkdir -p /apps
 
@@ -44,7 +47,7 @@ ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 RUN git clone https://gitlab.freedesktop.org/gstreamer/gst-plugins-base.git
 WORKDIR gst-plugins-base
 RUN git checkout 1.14.0
-RUN ./autogen.sh --disable-gtk-doc
+RUN ./autogen.sh --disable-gtk-doc --prefix=$INSTALL_PREFIX
 RUN make -j 10
 RUN make install
 WORKDIR ..
@@ -54,7 +57,7 @@ WORKDIR ..
 RUN git clone https://github.com/opencv/opencv_contrib.git
 WORKDIR opencv_contrib
 RUN git checkout 3.3.0
-RUN git submodule update --init --recursive
+RUN git submodule update --init --recursive --jobs 8
 WORKDIR ..
 # }
 
@@ -62,13 +65,14 @@ WORKDIR ..
 RUN git clone https://github.com/opencv/opencv.git
 WORKDIR opencv
 RUN git checkout 3.3.0
+RUN git submodule update --init --recursive --jobs 8
 # {
 RUN mkdir build
 WORKDIR build
 RUN cmake -DCMAKE_BUILD_TYPE=RELEASE \
-	-DCMAKE_INSTALL_PREFIX=/usr/local \
+	-DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX \
 	-DINSTALL_C_EXAMPLES=ON \
-  -DOPENCV_EXTRA_MODULES_PATH=/opencv_contrib/modules \
+  -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
 	-DBUILD_EXAMPLES=ON ..
 RUN make -j 10
 RUN make install
@@ -80,10 +84,52 @@ ENV PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:/usr/local/lib64/pkgconfig
 # }
 
 # {
+# git clone https://github.com/cisco/openh264.git
+# WORKDIR openh264
+# PREFIX=$INSTALL_PREFIX make
+# PREFIX=$INSTALL_PREFIX make install
+# WORKDIR ..
+# }
+
+# {
 RUN git clone https://github.com/GStreamer/gst-plugins-bad.git
 WORKDIR gst-plugins-bad
 RUN git checkout 1.14.0
-RUN ./autogen.sh --enable-opencv --disable-gtk-doc
+RUN git submodule update --init --recursive --jobs 8
+RUN ./autogen.sh --enable-opencv --enable-openh264 --disable-gtk-doc --prefix=$INSTALL_PREFIX
+RUN make -j 10
+RUN make install
+WORKDIR ..
+# }
+
+# {
+RUN git clone https://github.com/GStreamer/gst-plugins-good.git
+WORKDIR gst-plugins-good
+RUN git checkout 1.14.0
+RUN git submodule update --init --recursive --jobs 8
+RUN ./autogen.sh --disable-gtk-doc --prefix=$INSTALL_PREFIX
+RUN make -j 10
+RUN make install
+WORKDIR ..
+# }
+
+# {
+RUN git clone https://github.com/GStreamer/gst-plugins-ugly.git
+WORKDIR gst-plugins-ugly
+RUN git checkout 1.14.0
+RUN git submodule update --init --recursive --jobs 8
+RUN ./autogen.sh --disable-gtk-doc --prefix=$INSTALL_PREFIX
+RUN make -j 10
+RUN make install
+WORKDIR ..
+# }
+
+# {
+RUN git clone https://github.com/GStreamer/gst-libav.git
+WORKDIR gst-libav
+RUN git checkout 1.14.0
+RUN git submodule update --init --recursive --jobs 8
+RUN ./autogen.sh --disable-gtk-doc --prefix=$INSTALL_PREFIX
 RUN make -j 10
 RUN make install
 WORKDIR ..

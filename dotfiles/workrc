@@ -282,7 +282,7 @@ function flash_192_168_0_90_ftp() {
 function netboot_192_168_0_90(){
 
   local l_image="./fimage"
-  local l_machine="" # unused
+  local l_machine=""
 
   if [[ -n "${1}" ]]; then
     local l_image="${1}"
@@ -406,7 +406,6 @@ function entr_devtool_build(){
     return 1
   fi
 
-  # TODO $BUILDDIR assert that it is the prefix of $(pwd) everywhere where $BUILDDIR is used
   local project="${1}"
   local l_workspace="${BUILDDIR}/workspace/sources/${project}"
 
@@ -415,8 +414,25 @@ function entr_devtool_build(){
     return 1
   fi
 
-  ack -f --cpp --ignore-dir=oe-workdir --ignore-dir=oe-logs -r "${l_workspace}" | entr -c "${HOME}/dotfiles/lib/devtool_build.sh" "${project}"
+  ack -f --cpp --ignore-dir=oe-workdir --ignore-dir=oe-logs -r "${l_workspace}" | entr -c "$HOME/dotfiles/lib/devtool_build.sh" "${project}"
 }
+
+function devtool_build(){
+  if ! valid_build_dir; then
+    return 1
+  fi
+
+  local project="${1}"
+  local l_workspace="${BUILDDIR}/workspace/sources/${project}"
+
+  if [ ! -e "${l_workspace}" ]; then
+    echo "missing worksapce '${l_workspace}'">&2
+    return 1
+  fi
+
+  "$HOME/dotfiles/lib/devtool_build.sh" "${project}"
+}
+
 
 function env_setup() {
   local l_args="${@}"

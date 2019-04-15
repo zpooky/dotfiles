@@ -443,6 +443,7 @@ alias cpp-aliasing="vim $CPP_ROOT/aliasing.md" #TODO
 alias cpp-timer="vim $CPP_ROOT/cpp-timer.md"
 alias cpp-odr="vim $CPP_ROOT/cpp-odr.md" #TODO
 alias cpp-hash="vim $CPP_ROOT/cpp-hash.md"
+alias cpp-hex="vim $REF_DIR/util.md"
 alias sp-musl="vim $CPP_ROOT/musl.md"
 
 alias c-make="vim -p $CPP_STUB/c-Makefile"
@@ -472,6 +473,7 @@ alias sp-iobox="vim $DROPBOX_AXIS/iobox.md"
 alias sp-axis-iobox="sp-iobox"
 alias sp-axis-parhandle="vim $DROPBOX_AXIS/parhandle.md"
 alias sp-axis="vim -p $DROPBOX_AXIS/env.md $DROPBOX_AXIS/axis.md"
+alias sp-gstreamer="vim -p $DROPBOX_AXIS/gstreamer.md"
 
 alias sp-axis-yocto="vim $DROPBOX_AXIS/yocto/yocto.md"
 alias sp-axis-bitbake="vim $DROPBOX_AXIS/yocto/bitbake.md"
@@ -520,6 +522,7 @@ alias sp-sudo="vim $REF_DIR/sudo.md"
 alias sp-su="vim $REF_DIR/su.md"
 alias sp-pass="vim $REF_DIR/pass.md"
 alias sp-getopt="vim $REF_DIR/getopt.md"
+alias sp-ffmpeg="vim $REF_DIR/ffmpeg.md"
 
 # linux
 alias sp-linux="cd $DROPBOX_LINUX"
@@ -830,7 +833,6 @@ alias sp-machine-learning="vim $REF_DIR/machine-learing.md" #TODO
 
 # Work
 alias sp-util="vim $REF_DIR/util.md"
-alias sp-compuverdeutil="vim $REF_DIR/util.md"
 
 # Project
 alias sp-proj="cd $DROPBOX/project"

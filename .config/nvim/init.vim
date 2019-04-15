@@ -833,7 +833,15 @@ let g:rainbow_conf =
       \ {
       \ 'ctermfgs': ['lightblue', 'red', 'cyan', 'darkgreen'],
       \ 'guifgs': ['#ff9900','#ff1493','#9acd32'],
-      \ 'operators': '_[\,\-\<\>\.|\*]_'
+      \ 'operators': '_[\,\-\<\>\.|\*]_',
+      \	'separately': {
+      \   'sh': {
+      \     'parentheses': [['\(^\|\s\)\S*()\s*{\?\($\|\s\)','_^{_','}'], ['\(^\|\s\)if\($\|\s\)','_\(^\|\s\)\(then\|else\|elif\)\($\|\s\)_','\(^\|\s\)fi\($\|\s\)'], ['\(^\|\s\)for\($\|\s\)','_\(^\|\s\)\(do\|in\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)while\($\|\s\)','_\(^\|\s\)\(do\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)case\($\|\s\)','_\(^\|\s\)\(\S*)\|in\|;;\)\($\|\s\)_','\(^\|\s\)esac\($\|\s\)']],
+      \   },
+      \   'make': {
+      \     'parentheses':[['\(^\|\s\)\(ifeq\|ifneq\|ifdef\|ifndef\)\($\|\s\)','_\(^\|\s\)\(endif\|else ifeq\|else ifneq\|else ifdef\|else ifndef\|else\)\($\|\s\)_','\(^\|\s\)endif\($\|\s\)']],
+      \   }
+      \ }
       \ }
 " }}}
 
