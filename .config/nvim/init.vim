@@ -964,7 +964,7 @@ Plug 'zpooky/vim-illuminate', {'for':['c','cpp','vim','shell','make']}
 " hi link illuminatedWord Pmenu
 hi link illuminatedWord SpIlluminated
 "
-let g:Illuminate_delay = 250
+let g:Illuminate_delay = 50
 let g:Illuminate_ftblacklist = ['vim-plug', '', 'gitcommit']
 " by default most things are highlighted, this overrides that:
 let g:Illuminate_ftHighlightGroups = {
