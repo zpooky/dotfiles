@@ -389,7 +389,7 @@ if !has('win32unix') && !has('win64unix')
   " let g:gutentags_trace=1
   " let g:gutentags_define_advanced_commands=1
 
-  let g:gutentags_ctags_exclude=['autoconf','*.md','configure', 'Makefile','CMakeLists.txt','*.cmake','*.mak', '*.am','*.in','*.m4','*.html','*.php','*.py','*.service', '*.mount','*.target','*.css','*.rst', '*.json', 'Session.vim']
+  let g:gutentags_ctags_exclude=['autoconf','*.md','configure', 'Makefile','CMakeLists.txt','*.cmake','*.mak', '*.am','*.in','*.m4','*.html','*.php','*.py','*.service', '*.mount','*.target','*.css','*.rst', '*.json', 'Session.vim', '*.dtd']
   " let g:gutentags_file_list_command = 'ack -f --nohtml --nojson --nomd '
   " let g:gutentags_file_list_command = {
   "       \ 'markers':
@@ -942,14 +942,41 @@ Plug 'tommcdo/vim-lion'
 " }}}
 
 " {{{
-Plug 'chaoren/vim-wordmotion'
+" Plug 'chaoren/vim-wordmotion'
 " change definition of what is a word(w) (CamelCase, _ seperated words, ...)
 " CamelCaseACRONYMWords_underscore1234
 " }}}
 
-" " {{{
+" {{{
 " Plug 'chriskempson/base16-vim'
-" " }}}
+" }}}
+
+" {{{
+" Plug 'tpope/vim-sleuth'
+" }}}
+
+" {{{
+Plug 'zpooky/vim-illuminate', {'for':['c','cpp','vim','shell','make']}
+
+" hi link illuminatedWord MatchParen
+" hi illuminatedWord cterm=underline gui=underline
+" hi link illuminatedWord CursorLine
+" hi link illuminatedWord Pmenu
+hi link illuminatedWord SpIlluminated
+"
+let g:Illuminate_delay = 250
+let g:Illuminate_ftblacklist = ['vim-plug', '', 'gitcommit']
+" by default most things are highlighted, this overrides that:
+let g:Illuminate_ftHighlightGroups = {
+      \ 'vim': ['vimVar', 'vimString', 'vimLineComment', 'vimFuncName', 'vimFunction', 'vimUserFunc', 'vimFunc'],
+      \ 'shell': ['shDerefSimple', 'shDeref', 'shVariable'],
+      \ 'make': ['makeIdent', 'makeTarget'],
+      \ }
+
+let g:Illuminate_ftHighlightGroupsBlacklist = {
+      \ 'c': ['cType', 'cConditional','cNumbers', 'cNumber', 'cStatement','cRepeat', 'cStructure', 'cStorageClass','cBoolean', 'cComment', 'cCommentL','cCppString','cInclude'],
+      \ }
+" }}}
 
 call plug#end()
 " }}}
