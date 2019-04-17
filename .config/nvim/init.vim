@@ -389,7 +389,7 @@ if !has('win32unix') && !has('win64unix')
   " let g:gutentags_trace=1
   " let g:gutentags_define_advanced_commands=1
 
-  let g:gutentags_ctags_exclude=['autoconf','*.md','configure', 'Makefile','CMakeLists.txt','*.cmake','*.mak', '*.am','*.in','*.m4','*.html','*.php','*.py','*.service', '*.mount','*.target','*.css','*.rst', '*.json', 'Session.vim', '*.dtd']
+  let g:gutentags_ctags_exclude=['autoconf','*.md','configure', 'Makefile','CMakeLists.txt','*.cmake','*.mak', '*.am','*.in','*.m4','*.html','*.php','*.py','*.service', '*.mount','*.target','*.css','*.rst', '*.json', 'Session.vim', '*.dtd', '*.patch']
   " let g:gutentags_file_list_command = 'ack -f --nohtml --nojson --nomd '
   " let g:gutentags_file_list_command = {
   "       \ 'markers':
@@ -974,8 +974,9 @@ let g:Illuminate_ftHighlightGroups = {
       \ }
 
 let g:Illuminate_ftHighlightGroupsBlacklist = {
-      \ 'c': ['cType', 'cConditional','cNumbers', 'cNumber', 'cStatement','cRepeat', 'cStructure', 'cStorageClass','cBoolean', 'cComment', 'cCommentL','cCppString','cInclude'],
+      \ 'c': ['cType', 'cConditional','cNumbers', 'cNumber', 'cRepeat', 'cStructure', 'cStorageClass','cBoolean', 'cComment', 'cCommentL','cCppString','cInclude'],
       \ }
+"  'cStatement',
 " }}}
 
 call plug#end()
