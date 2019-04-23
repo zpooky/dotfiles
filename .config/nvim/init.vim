@@ -840,9 +840,13 @@ let g:rainbow_conf =
       \   },
       \   'make': {
       \     'parentheses':[['\(^\|\s\)\(ifeq\|ifneq\|ifdef\|ifndef\)\($\|\s\)','_\(^\|\s\)\(endif\|else ifeq\|else ifneq\|else ifdef\|else ifndef\|else\)\($\|\s\)_','\(^\|\s\)endif\($\|\s\)']],
-      \   }
+      \   },
+      \   'fortran': {
+      \     'parentheses':[['\(^\|\s\)\(\#if\|\#ifdef\|\#ifndef\)\($\|\s\)','_\(^\|\s\)\(\#endif\|\#elif\|\#else\)\($\|\s\)_','\(^\|\s\)\#endif\($\|\s\)'], ['\(^\|\s\)\#for\($\|\s\)','\(^\|\s\)\#endfor\($\|\s\)']],
+      \   },
       \ }
       \ }
+" note: fortran is dummy used for *.fpp files
 " }}}
 
 " {{{
@@ -964,17 +968,20 @@ Plug 'zpooky/vim-illuminate', {'for':['c','cpp','vim','shell','make']}
 " hi link illuminatedWord Pmenu
 hi link illuminatedWord SpIlluminated
 "
-let g:Illuminate_delay = 50
+let g:sh_no_error = 1
+let g:Illuminate_delay = 0
 let g:Illuminate_ftblacklist = ['vim-plug', '', 'gitcommit']
 " by default most things are highlighted, this overrides that:
 let g:Illuminate_ftHighlightGroups = {
       \ 'vim': ['vimVar', 'vimString', 'vimLineComment', 'vimFuncName', 'vimFunction', 'vimUserFunc', 'vimFunc'],
       \ 'shell': ['shDerefSimple', 'shDeref', 'shVariable'],
+      \ 'sh': ['shDerefSimple', 'shDeref', 'shVariable'],
       \ 'make': ['makeIdent', 'makeTarget'],
       \ }
 
 let g:Illuminate_ftHighlightGroupsBlacklist = {
-      \ 'c': ['cType', 'cConditional','cNumbers', 'cNumber', 'cRepeat', 'cStructure', 'cStorageClass','cBoolean', 'cComment', 'cCommentL','cCppString','cInclude'],
+      \ 'c': ['cType', 'cConditional','cNumbers', 'cNumber', 'cRepeat', 'cStructure', 'cStorageClass','cBoolean', 'cComment', 'cCommentL','cCppString','cInclude', 'cOperator','cSpecialCharacter'],
+      \ 'cpp': ['cType','cppType','cppStatement','cOperator','cppSTLtype','cCppString','cppModifier','cppSTLnamespace','cppExceptions','cppSTLconstant','cNumber','cppNumber','cStorageClass','cStructure','cConditional','cppCast','cCppOutWrapper']
       \ }
 "  'cStatement',
 " }}}
