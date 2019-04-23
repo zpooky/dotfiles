@@ -263,6 +263,10 @@ call <sid>hi('SpellLocal', s:cdNone, s:cdNone, 'undercurl', {})
 call <sid>hi('bbUnmatched', s:cdRed, s:cdNone, 'undercurl', {})
 " }}}
 
+" vim-illuminated {{{
+call <sid>hi('SpIlluminated', {}, s:cdLeftMid, 'none', {})
+" }}}
+
 " Vim editor colors
 "    <sid>hi(GROUP, FOREGROUND, BACKGROUND, ATTRIBUTE, SPECIAL)
 call <sid>hi('Normal', s:cdFront, s:cdBack, 'none', {})
