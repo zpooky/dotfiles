@@ -26,12 +26,16 @@
 # m = hashlib.sha256()
 # m.update(binascii.unhexlify(""))
 # m.hexdigest()
+
+# random
+# hex(random.getrandbits(32))
 # ===================
 
 import sys
 import math
 import binascii
 import hashlib
+import random
 from operator import xor
 
 sys.setrecursionlimit(1500)

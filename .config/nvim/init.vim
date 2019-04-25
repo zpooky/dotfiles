@@ -306,7 +306,7 @@ if !has('win32unix') && !has('win64unix')
         \   'c': ['gcc','cppcheck'],
         \}
 
-  let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Wpedantic -Iexternal -I../external -I../external/googletest/googletest -Iexternal/googletest/googletest -Werror-pointer-arith"
+  let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Iexternal -I../external -I../external/googletest/googletest -Iexternal/googletest/googletest -Werror-pointer-arith"
 endif
 " }}}
 

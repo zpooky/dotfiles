@@ -480,6 +480,7 @@ alias sp-gstreamer="vim -p $DROPBOX_AXIS/gstreamer.md"
 
 alias sp-axis-yocto="vim $DROPBOX_AXIS/yocto/yocto.md"
 alias sp-axis-bitbake="vim $DROPBOX_AXIS/yocto/bitbake.md"
+alias sp-bitbake="vim $REF_DIR/bitbake.md"
 alias sp-glib="vim $DROPBOX_AXIS/glib.md"
 alias sp-kernel-crash="vim $DROPBOX_AXIS/kernel-crash.md"
 alias sp-env="vim $DROPBOX_AXIS/env.md"
