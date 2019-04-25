@@ -262,6 +262,7 @@ function sp_crypto(){
 sp_crypto
 
 file_waveform="$REF_DIR/waveform.md"
+file_dsp="$REF_DIR/dsp.md"
 #circuits
 function sp_circuts_alias() {
   local fpga="$REF_DIR/fpga.md"
@@ -285,6 +286,7 @@ function sp_circuts_alias() {
   local conductor=""
   local semiconductor=""
   local insulator=""
+
 
   alias sp-fpga="vim -p ${fpga} ${asic}"
   alias sp-asic="vim -p ${asic} ${fpga}"
@@ -313,6 +315,7 @@ function sp_circuts_alias() {
   alias sp-multimeter="sp-electricity"
   alias sp-resistance-electricity="sp-electricity"
   alias sp-ohm="sp-electricity"
+
 }
 
 sp_circuts_alias
@@ -653,6 +656,8 @@ function sp_network() {
   local file_ipv6="$DROPBOX_LINUX/ip.md"
   local file_link_local="$DROPBOX_NETWORK/link-local.md"
 
+  local file_audio="$REF_DIR/audio.md"
+
   # networking
   alias sp-network="vim $DROPBOX_NETWORK/linux.md"
   alias sp-network-dhcp="vim $DROPBOX_NETWORK/dhcp.md"
@@ -692,7 +697,8 @@ function sp_network() {
   alias sp-link-local="vim -p ${file_link_local} ${file_ipv6}"
 
   #audio
-  alias sp-audio="vim -p $REF_DIR/audio.md ${file_pcm}"
+  alias sp-audio="vim -p ${file_audio} ${file_pcm}"
+  alias sp-dsp="vim -p ${file_dsp} ${file_waveform} ${file_audio} ${file_pcm}"
 }
 
 sp_network

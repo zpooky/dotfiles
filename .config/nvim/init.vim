@@ -960,7 +960,7 @@ Plug 'tommcdo/vim-lion'
 " }}}
 
 " {{{
-Plug 'zpooky/vim-illuminate', {'for':['c','cpp','vim','shell','make']}
+Plug 'zpooky/vim-illuminate', {'for':['c','cpp','vim','shell','make','python']}
 
 " hi link illuminatedWord MatchParen
 " hi illuminatedWord cterm=underline gui=underline
@@ -973,15 +973,17 @@ let g:Illuminate_delay = 0
 let g:Illuminate_ftblacklist = ['vim-plug', '', 'gitcommit']
 " by default most things are highlighted, this overrides that:
 let g:Illuminate_ftHighlightGroups = {
-      \ 'vim': ['vimVar', 'vimString', 'vimLineComment', 'vimFuncName', 'vimFunction', 'vimUserFunc', 'vimFunc'],
+      \ 'vim': ['vimVar', 'vimString', 'vimFuncName', 'vimFunction', 'vimUserFunc', 'vimFunc','vimOption'],
       \ 'shell': ['shDerefSimple', 'shDeref', 'shVariable'],
       \ 'sh': ['shDerefSimple', 'shDeref', 'shVariable'],
       \ 'make': ['makeIdent', 'makeTarget'],
       \ }
 
 let g:Illuminate_ftHighlightGroupsBlacklist = {
+      \ 'vim': ['vimFuncKey'],
       \ 'c': ['cType', 'cConditional','cNumbers', 'cNumber', 'cRepeat', 'cStructure', 'cStorageClass','cBoolean', 'cComment', 'cCommentL','cCppString','cInclude', 'cOperator','cSpecialCharacter'],
-      \ 'cpp': ['cType','cppType','cppStatement','cOperator','cppSTLtype','cCppString','cppModifier','cppSTLnamespace','cppExceptions','cppSTLconstant','cNumber','cppNumber','cStorageClass','cStructure','cConditional','cppCast','cCppOutWrapper']
+      \ 'cpp': ['cType','cppType','cppStatement','cOperator','cppSTLtype','cCppString','cppModifier','cppSTLnamespace','cppExceptions','cppSTLconstant','cNumber','cppNumber','cStorageClass','cStructure','cConditional','cppCast','cCppOutWrapper'],
+      \ 'python': ['pythonStatement','pythonRepeat','pythonOperator','pythonString','pythonConditional','pythonNumber','pythonComment','pythonInclude'],
       \ }
 "  'cStatement',
 " }}}
