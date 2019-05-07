@@ -311,6 +311,7 @@ if !has('win32unix') && !has('win64unix')
         \}
 
   let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Iexternal -I../external -I../external/googletest/googletest -Iexternal/googletest/googletest -Werror-pointer-arith"
+  let g:ale_c_gcc_options="-std=gnu11 -Wall -Wextra -Iexternal -I../external -Iinclude -I../include "
 endif
 " }}}
 
@@ -968,7 +969,7 @@ Plug 'tommcdo/vim-lion'
 " }}}
 
 " {{{
-Plug 'zpooky/vim-illuminate', {'for':['c','cpp','vim','shell','make','python']}
+Plug 'zpooky/vim-illuminate', {'for':['c','cpp','vim','shell','make','python','go']}
 
 " hi link illuminatedWord MatchParen
 " hi illuminatedWord cterm=underline gui=underline
@@ -992,6 +993,7 @@ let g:Illuminate_ftHighlightGroupsBlacklist = {
       \ 'c': ['cType', 'cConditional','cNumbers', 'cNumber', 'cRepeat', 'cStructure', 'cStorageClass','cBoolean', 'cComment', 'cCommentL','cCppString','cInclude', 'cOperator','cSpecialCharacter'],
       \ 'cpp': ['cType','cppType','cppStatement','cOperator','cppSTLtype','cCppString','cppModifier','cppSTLnamespace','cppExceptions','cppSTLconstant','cNumber','cppNumber','cStorageClass','cStructure','cConditional','cppCast','cCppOutWrapper','cComment', 'cCommentL'],
       \ 'python': ['pythonStatement','pythonRepeat','pythonOperator','pythonString','pythonConditional','pythonNumber','pythonComment','pythonInclude'],
+      \ 'go': ['goDecimalInt', 'goComment', 'goString'],
       \ }
 "  'cStatement',
 " }}}
