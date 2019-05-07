@@ -254,6 +254,12 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab differense difference
+iab preassure pressure
+iab ressitance resistance
+iab pressoure pressure
+iab collissions collisions
+iab meassurement measurement
 iab simular similar
 iab reliabily reliably
 iab adjasent adjacent

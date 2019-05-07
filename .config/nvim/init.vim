@@ -280,7 +280,7 @@ endif
 " {{{
 " Create split focusing only on the selected
 " :NR
-Plug 'chrisbra/NrrwRgn',programming
+" Plug 'chrisbra/NrrwRgn',programming
 " }}}
 
 " ALE {{{
@@ -296,13 +296,17 @@ if !has('win32unix') && !has('win64unix')
   " standalone: https://github.com/languagetool-org/languagetool
 
   let g:ale_lint_on_enter = 0
+  let b:ale_warn_about_trailing_whitespace = 0
+
+  let g:ale_sign_error = '>'
+  let g:ale_sign_warning = '-'
 
   " :ALEInfo - current settings
 
   "'clang', 'clangcheck', 'cpplint','cppcheck', 'clangtidy'
   let g:ale_linters = {
         \   'cpp': ['g++','cppcheck'],
-        \   'python': ['flake8'],
+        \   'python': ['pylint'],
         \   'c': ['gcc','cppcheck'],
         \}
 
@@ -565,7 +569,7 @@ augroup END
 
 " {{{
 if has('win32unix') || has('win64unix') || has('win32') || has('win64') || !has('nvim')
-  " {{{
+  " vim-cpp-enhanced-highlight {{{
   " better c++ syntax
   Plug 'octol/vim-cpp-enhanced-highlight',programming_cpp
   " syntax keyword cppSTLenum memory_order_acquire
@@ -577,7 +581,11 @@ if has('win32unix') || has('win64unix') || has('win32') || has('win64') || !has(
   " syntax keyword cppSTLnamespace util
   " syntax keyword cppType size_t
   " syntax keyword cppType ssize_t
+  let g:cpp_class_scope_highlight = 0           " Highlighting of class scope
+  let g:cpp_experimental_template_highlight = 0 " Highlighting of template functions
+  " let g:cpp_member_variable_highlight = 1
   " }}}
+
 else
   " Chromatica {{{
   Plug 'arakashic/chromatica.nvim'  ",{'for':['c','cpp'], 'do': ':UpdateRemotePlugins' }
@@ -982,7 +990,7 @@ let g:Illuminate_ftHighlightGroups = {
 let g:Illuminate_ftHighlightGroupsBlacklist = {
       \ 'vim': ['vimFuncKey'],
       \ 'c': ['cType', 'cConditional','cNumbers', 'cNumber', 'cRepeat', 'cStructure', 'cStorageClass','cBoolean', 'cComment', 'cCommentL','cCppString','cInclude', 'cOperator','cSpecialCharacter'],
-      \ 'cpp': ['cType','cppType','cppStatement','cOperator','cppSTLtype','cCppString','cppModifier','cppSTLnamespace','cppExceptions','cppSTLconstant','cNumber','cppNumber','cStorageClass','cStructure','cConditional','cppCast','cCppOutWrapper'],
+      \ 'cpp': ['cType','cppType','cppStatement','cOperator','cppSTLtype','cCppString','cppModifier','cppSTLnamespace','cppExceptions','cppSTLconstant','cNumber','cppNumber','cStorageClass','cStructure','cConditional','cppCast','cCppOutWrapper','cComment', 'cCommentL'],
       \ 'python': ['pythonStatement','pythonRepeat','pythonOperator','pythonString','pythonConditional','pythonNumber','pythonComment','pythonInclude'],
       \ }
 "  'cStatement',
@@ -1051,12 +1059,6 @@ augroup AugroupGDB
   autocmd!
   autocmd FileType c,cpp,objc nnoremap <leader>j <esc>:GDBBreak<CR>
 augroup END
-" }}}
-
-" vim-cpp-enhanced-highlight {{{
-let g:cpp_class_scope_highlight = 0           " Highlighting of class scope
-let g:cpp_experimental_template_highlight = 0 " Highlighting of template functions
-" let g:cpp_member_variable_highlight = 1
 " }}}
 
 " format json {{{

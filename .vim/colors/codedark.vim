@@ -264,8 +264,8 @@ call <sid>hi('bbUnmatched', s:cdRed, s:cdNone, 'undercurl', {})
 " }}}
 
 " vim-illuminated {{{
-call <sid>hi('SpIlluminated', {}, s:cdLeftMid, 'none', {})
-" call <sid>hi('SpIlluminated',{},s:cdDiffGreenDark, 'none', {})
+" call <sid>hi('SpIlluminated', {}, s:cdLeftMid, 'none', {})
+call <sid>hi('SpIlluminated',{},s:cdDiffGreenDark, 'none', {})
 " }}}
 
 " Vim editor colors
