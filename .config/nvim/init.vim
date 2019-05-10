@@ -335,13 +335,46 @@ let delimitMate_expand_cr = 1
 let delimitMate_smart_matchpairs = 1
 let delimitMate_balance_matchpairs = 1
 let delimitMate_matchpairs = "(:),[:],{:}"
+" ```':'```
+" /*:*/
 " }}}
 
 " Tagbar {{{
 " pane displaying tag information present in current file
-" Plug 'majutsushi/tagbar',programming_nhaskell
+Plug 'majutsushi/tagbar',programming_nhaskell
 
-let g:tagbar_show_linenumbers = 1 " display line number in the tagbar pane
+let g:tagbar_show_linenumbers = -1 " display line number in the tagbar pane
+let g:tagbar_compact = 1
+let g:tagbar_autofocus = 1        " focus on open
+let g:tagbar_indent = 0
+nmap <F12> <esc>:TagbarToggle<CR>
+
+let g:tagbar_type_c = {
+    \ 'ctagstype' : 'c',
+    \ 'kinds'     : [
+        \ 'f:functions',
+        \ 'v:variables:0:0',
+    \ ],
+\ }
+
+let g:tagbar_type_cpp = {
+    \ 'ctagstype' : 'c',
+    \ 'kinds'     : [
+        \ 'f:functions',
+        \ 'v:variables:0:0',
+    \ ],
+\ }
+
+" \ 'p:prototypes:1:0',
+" \ 'c:classes',
+" \ 'd:macros:1:0',
+" \ 'g:enums',
+" \ 'e:enumerators:0:0',
+" \ 't:typedefs:0:0',
+" \ 'n:namespaces',
+" \ 's:structs',
+" \ 'u:unions',
+" \ 'm:members:0:0',
 
 " }}}
 
@@ -768,8 +801,8 @@ if !has('win32') && !has('win64')
 
   " bitbake: oe-logs,oe-workdir
   let g:CommandTWildIgnore=&wildignore . ",*.log,oe-logs,oe-workdir"
-  " }}}
 endif
+" }}}
 
 " tagbar {{{
 " pane displaying tag information present in current file
@@ -778,45 +811,6 @@ endif
 " nmap <silent> <F10> <esc>:TagbarToggle<CR>
 " imap <silent> <F10> <ESC>:TagbarToggle<CR>
 " cmap <silent> <F10> <ESC>:TagbarToggle<CR>
-" }}}
-
-" nerdtree {{{
-" file explorer
-" Plug 'scrooloose/nerdtree',{'on':'NERDTreeToggle'}
-
-" map <silent> <F8> <esc>:NERDTreeToggle<CR>
-" imap <silent> <F8> <ESC>:NERDTreeToggle<CR>
-" cmap <silent> <F8> <ESC>:NERDTreeToggle<CR>
-"
-" let NERDTreeIgnore = [
-"     \ '\.pyc$',
-"     \ '\.class$',
-"     \ '\.cm\(x\(a\)\?\|i\|t\)$',
-"     \ '\.sp\(o\|i\)t$',
-"     \ '\.o\(\(pt\|mc\)\)\=$',
-" \ '\.annot$'] " Ignores
-"
-" let NERDTreeAutoDeleteBuffer = 1
-" let NERDTreeMinimalUI = 1
-" let NERDTreeDirArrows = 1
-" let NERDTreeShowHidden = 1  " show hidden dotfiles
-"
-" " Close all open buffers on entering a window if the only
-" " buffer that's left is the NERDTree buffer
-" augroup AugroupNerdTree
-"   autocmd!
-"   autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
-" augroup END
-"
-" function! s:CloseIfOnlyNerdTreeLeft()
-"   if exists("t:NERDTreeBufName")
-"     if bufwinnr(t:NERDTreeBufName) != -1
-"       if winnr("$") == 1
-"         q
-"       endif
-"     endif
-"   endif
-" endfunction
 " }}}
 
 " rainbow scope {{{
@@ -979,7 +973,7 @@ hi link illuminatedWord SpIlluminated
 "
 let g:sh_no_error = 1
 let g:Illuminate_delay = 0
-let g:Illuminate_ftblacklist = ['vim-plug', '', 'gitcommit']
+let g:Illuminate_ftblacklist = ['vim-plug', '', 'gitcommit', 'tagbar']
 " by default most things are highlighted, this overrides that:
 let g:Illuminate_ftHighlightGroups = {
       \ 'vim': ['vimVar', 'vimString', 'vimFuncName', 'vimFunction', 'vimUserFunc', 'vimFunc','vimOption'],

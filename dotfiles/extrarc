@@ -334,6 +334,7 @@ alias sp-tlv="vim $REF_DIR/tlv.md"
 #
 alias sp-stocks="vim $REF_DIR/stocks.md"
 alias sp-bank="sp-stocks"
+alias sp-finance="sp-stocks"
 
 # computer science
 alias sp-bnf="vim $REF_DIR/bnf.md"
