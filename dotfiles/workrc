@@ -31,7 +31,9 @@ function ssh_192_168_0_90() {
     l_env+=' && echo "alias systemctl_status=\"systemctl status audiocontrol monolith parhand ioboxd\"" >> $HOME/.shinit'
     l_env+=' && echo "alias systemctl_root=\"cd /usr/lib/systemd/system\"" >> $HOME/.shinit'
     l_env+=' && echo "alias tree=\"ls -alhR1\"" >> $HOME/.shinit'
-    l_env+=' && echo "alias port_scan=\"netstat -lnptu\"" >> $HOME/.shinit'
+    l_env+=' && echo "alias port_scan=\"netstat -lnptux\"" >> $HOME/.shinit'
+    # AF_UNIX socket
+    l_env+=' && echo "alias unix_con=\"netstat -apnx\"" >> $HOME/.shinit'
 
   # sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} 'alias ll="ls -alh";ll; exec /bin/sh -l' # 'alias ll="ls-alh"; /bin/sh -l'
     sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "${l_env_setup} ${l_env}; exec /bin/sh -l"
@@ -256,6 +258,8 @@ function flash_192_168_0_90_ftp() {
     return 1
   fi
 
+  sleep 1
+  sha256sum "${l_image}"
   date
   echo "flashing '${l_image}'"
 

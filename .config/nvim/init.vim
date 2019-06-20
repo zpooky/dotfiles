@@ -12,6 +12,12 @@ else
 endif
 
 " TODO
+" 1. auto select indentation based on existing  content
+" 2. fix arg shift
+" 3. ctag should index referenced header from path
+" 4. coc.vim?
+" 5. rtags...
+" TODO syntax all caps is macro (MH_HASH_SIZE)
 
 " https://github.com/rprichard/sourceweb
 
@@ -801,8 +807,14 @@ if !has('win32') && !has('win64')
 
   " bitbake: oe-logs,oe-workdir
   let g:CommandTWildIgnore=&wildignore . ",*.log,oe-logs,oe-workdir"
+  let g:CommandTFileScanner="find"
 endif
 " }}}
+
+" " include git:gitignore in vim:wildignore {{{
+" TODO Plug 'euclio/gitignore.vim'
+" https://www.vim.org/scripts/script.php?script_id=2557 https://github.com/vim-scripts/gitignore
+" " }}}
 
 " tagbar {{{
 " pane displaying tag information present in current file

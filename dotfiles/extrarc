@@ -251,12 +251,15 @@ sp_hardware_alias
 
 function sp_crypto(){
   local cipher_mode="$REF_DIR/cipher-mode.md"
+  local file_hmac="$REF_DIR/hmac.md"
 
   alias sp-cipher-mode="vim ${cipher_mode}"
   alias sp-cipher-block-mode="vim ${cipher_mode}"
   alias sp-ecb="sp-cipher-mode"
   alias sp-cbc="sp-cipher-mode"
   alias sp-ctr="sp-cipher-mode"
+
+  alias sp-hmac="vim -p ${file_hmac}"
 }
 
 sp_crypto
@@ -351,6 +354,7 @@ alias sp-big-o="vim $REF_DIR/big-o.md"      #TODO
 alias sp-np-problem="vim $REF_DIR/np-problem.md"      #TODO
 alias sp-bitwise="vim $REF_DIR/bitwise.md"
 alias sp-notation="sp-bitwise"
+alias sp-symbol="sp-bitwise"
 alias sp-math-notation="sp-bitwise"
 alias sp-set-theory="sp-bitwise"
 
@@ -547,6 +551,8 @@ alias sp-pacman="vim $DROPBOX_LINUX/pacman.md"
 alias sp-dbus="vim $DROPBOX_LINUX/dbus.md"
 
 local file_frequency="$REF_DIR/frequency.md" # TODO
+local file_audio="$REF_DIR/audio.md"
+local file_pcm="$REF_DIR/pulse_code_modulation.md"
 
 # linux dev
 function sp_linux_dev_alias() {
@@ -607,7 +613,7 @@ function sp_linux_dev_alias() {
   alias sp-frequency="vim -p $file_frequency"
   alias sp-hertz="sp-frequency"
 
-  alias sp-alsa="vim -p $file_alsa"
+  alias sp-alsa="vim -p ${file_alsa} ${file_audio} ${file_pcm}"
 
 
   #TODO insulators, conductors, semiconductors
@@ -638,7 +644,6 @@ function sp_network() {
   local file_duplex="$REF_DIR/duplex-transmission.md"
 
   local file_pam="$DROPBOX_NETWORK/pulse_amplitude_modulation.md"
-  local file_pcm="$REF_DIR/pulse_code_modulation.md"
   local file_pwm="$REF_DIR/pulse_width_modulation.md"
   local file_modulation="$REF_DIR/digital_modulation.md"
 
@@ -658,7 +663,6 @@ function sp_network() {
   local file_ipv6="$DROPBOX_LINUX/ip.md"
   local file_link_local="$DROPBOX_NETWORK/link-local.md"
 
-  local file_audio="$REF_DIR/audio.md"
 
   # networking
   alias sp-network="vim $DROPBOX_NETWORK/linux.md"
@@ -784,6 +788,7 @@ sp_sort
 # tree
 function sp_datastructure(){
   local DATA_STRUCTURE_ROOT="$REF_DIR/data-structure"
+  local file_fisher_yates="$DATA_STRUCTURE_ROOT/fisher-yates.md"
 
   alias sp-datastructure="cd $DATA_STRUCTURE_ROOT"
   alias sp-tree-merkle-tree="vim $DATA_STRUCTURE_ROOT/tree-merkle-tree.md"   #TODO
@@ -800,20 +805,34 @@ function sp_datastructure(){
   alias sp-tree-splay="vim $DATA_STRUCTURE_ROOT/tree-splay.md" #TODO
   alias sp-bst="vim $DATA_STRUCTURE_ROOT/bst.md"
 
+  alias sp-fisher-yates="vim -p ${file_fisher_yates}"
+  alias sp-shuffle="vim -p ${file_fisher_yates}"
+
   # data structures
   alias sp-bloom-filter="vim $DATA_STRUCTURE_ROOT/bloom-filter.md"
   alias sp-monad="vim $DATA_STRUCTURE_ROOT/monad.txt" #TODO
   alias sp-hashmap="vim $DATA_STRUCTURE_ROOT/hashmap.md"
   alias sp-hash="sp-hashmap"
+  alias sp-crypto-hash="vim $DATA_STRUCTURE_ROOT/crypto-hash.md"
+  alias sp-sha="sp-crypto-hash"
+  alias sp-cqrs="vim -p $DATA_STRUCTURE_ROOT/cqrs.md"
 }
 sp_datastructure
 
 # notes
+function sp_notes(){
+  local file_cookie="$REF_DIR/cookie.md"
+  local file_http="$REF_DIR/http.md"
+
+  alias sp-cookie="vim ${file_cookie} ${file_http}"
+  alias sp-http="vim ${file_http} ${file_cookie}"
+}
+sp_notes
+
 alias sp-video="vim $REF_DIR/video-notes.md"
 alias sp-cs-nots="vim $REF_DIR/cs-notes.md"
 alias sp-flash-card="vim $REF_DIR/flash-card.md"
 alias sp-twos-complement="vim $REF_DIR/twos-complement.md"
-alias sp-cookie="vim $REF_DIR/cookie.md"
 alias sp-propaganda="vim $REF_DIR/propaganda.md"
 alias sp-vpn="vim $REF_DIR/vpn.md"
 

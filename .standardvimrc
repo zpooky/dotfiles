@@ -216,6 +216,7 @@ augroup AutogroupFileSpecific
   " set file type for files without extension like <atomic>
   autocmd BufRead,BufNewFile /usr/include/c++/* set ft=cpp
   autocmd BufRead,BufNewFile /usr/lib/gcc/* set ft=cpp
+  autocmd BufRead,BufNewFile Kbuild.include set ft=make
 
 augroup END
 " }}}
@@ -254,6 +255,12 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab importently importantly
+iab asynchroniozly asynchronously
+iab occours occurs
+iab registring registering
+iab asynchroniosly asynchronously
+iab existance existence
 iab includeing including
 iab differense difference
 iab preassure pressure
@@ -735,6 +742,12 @@ iab refference reference
 iab faviroable favourable
 iab unfaivorable unfavourable
 iab unsuccessfull unsuccessful
+iab porpuses purposes
+iab intreseted interested
+iab intrestign interesting
+iab stero stereo
+iab compenent component
+iab refering referring
 
 iab Acsending Ascending
 iab acsending ascending
@@ -770,6 +783,7 @@ iab asssert assert
 iab treu true
 iab pritnf printf
 iab szie_t size_t
+iab typdef typedef
 
 " iab nullpt nullptr
 " iab nullp nullptr

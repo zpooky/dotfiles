@@ -29,6 +29,10 @@ set print array-indexes on
 #
 set disassembly-flavor att
 
+# threaded
+set target-async 1
+set non-stop on
+
 #
 add-auto-load-safe-path ~/sources/linux-shallow
 add-auto-load-safe-path ~/sources/linux
