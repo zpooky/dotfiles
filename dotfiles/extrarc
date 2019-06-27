@@ -433,6 +433,7 @@ CPP_EXAMPLE_TEST_MAKEFILE=$CPP_ROOT/Makefile_test
 
 alias sp-cpp="cd $CPP_ROOT"
 alias sp-make="vim $CPP_ROOT/make.md"
+alias sp-cmake="vim $CPP_ROOT/cmake.md"
 alias cpp-include="vim $CPP_ROOT/cinclude.md"
 alias cpp-volatile="vim $CPP_ROOT/volatile.md"
 alias cpp-concurrency="vim $CPP_ROOT/concurrency.md"
@@ -857,6 +858,7 @@ alias sp-freenet="vim $DROPBOX/new-web/freenet.md"
 #
 alias sp-neural-network="vim $REF_DIR/neural-network.md"  #TODO
 alias sp-machine-learning="vim $REF_DIR/machine-learing.md" #TODO
+alias sp-bluetooth="vim $REF_DIR/bluetooth.md"
 
 # Work
 alias sp-util="vim $REF_DIR/util.md"
@@ -1050,7 +1052,7 @@ alias sp-alias="vim $DOTFILES/extrarc && source $DOTFILES/extrarc"
 alias sp-zshrc="vim -p $HOME/.zshrc $DOTFILES/extrarc $DOTFILES/workrc"
 alias sp-workrc="vim -p $HOME/dotfiles/workrc && source $DOTFILES/workrc"
 
-alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim  $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc"
+alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc $HOME/coc-settings.json"
 # alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim  $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc /home/spooky/.config/nvim/plugged/chromatica.nvim/syntax/*"
 
 alias vimsession="vim -S Session.vim"

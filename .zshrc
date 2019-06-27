@@ -93,7 +93,8 @@ PROMPT="%B${NEWLINE}%~%{$fg[yellow]%}:%{$reset_color%}${NEWLINE}%{$fg[red]%}%B$S
 # %f        - foreground color standard
 # %K{color} - background color
 # %k        - background color standard
-RPROMPT='[%(?.%F{green}%?%f.%S%F{red}%?%f%s)][%F{green}$sp_zsh_timer_show%f]%F{red}%(1j.[⌘%j].)%f'
+local sp_hostname=$(hostname)
+RPROMPT='[${sp_hostname}][%(?.%F{green}%?%f.%S%F{red}%?%f%s)][%F{green}$sp_zsh_timer_show%f]%F{red}%(1j.[⌘%j].)%f'
 
 ## Set up the prompt
 #autoload -Uz promptinit
