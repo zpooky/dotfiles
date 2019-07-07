@@ -81,7 +81,6 @@ else
   # local SUFFIX='>'
   local SUFFIX='»'
 fi
-
 local INTTERNAL_NBSP=$'\u00A0'
 PROMPT="%B${NEWLINE}%~%{$fg[yellow]%}:%{$reset_color%}${NEWLINE}%{$fg[red]%}%B$SUFFIX%{$reset_color%}%b${INTTERNAL_NBSP}"
 

@@ -138,142 +138,178 @@ let spooky_libclang="/usr/lib/libclang.so"
 
 let neovim_update_remote={ 'do': ':UpdateRemotePlugins' }
 
-set completeopt-=preview
 if has('nvim')
-  " Deoplete {{{
-  Plug 'Shougo/deoplete.nvim',{ 'do': ':UpdateRemotePlugins' }
-  let g:deoplete#enable_at_startup = 1
-
-  " }}}
-
-  " Deoplete-clang {{{
-  Plug 'zchee/deoplete-clang',programming
-  let g:deoplete#sources#clang#libclang_path=spooky_libclang
-  let g:deoplete#sources#clang#clang_header="/usr/lib/clang"
-  let g:deoplete#sources#clang#std#cpp = 'c++14'
-  let g:deoplete#sources#clang#sort_algo = 'priority'
-  " }}}
-else
-  " turned off in cygwin since these plugins requires compilation
-  " if !has('win32unix') && !has('win64unix')
-
-    " YouCompleteMe {{{
-    " forked YCM for better cpp suggestions
-    Plug '~/.vim/bundle/OblitumYouCompleteMe',programming
-    " ,programming_cpp
-    "
-    " vanilla YCM
-    " Plug '~/.vim/bundle/YouCompleteMe',programming_nhaskell
-
-    " YouCompleteMe - Install
-    " cd ~/.vim/bundle/YouCompleteMe;./install.sh --clang-completer
-
-    let g:ycm_show_diagnostics_ui = 0
-    let g:ycm_collect_identifiers_from_tags_files = 0
-    let g:ycm_confirm_extra_conf = 0                        " disable confirm of project specific ycm conf
-
-    let g:ycm_autoclose_preview_window_after_completion = 0 " do not directly close prototype window
-    let g:ycm_autoclose_preview_window_after_insertion = 1  " close it when I exit insert mode.
-    let g:ycm_global_ycm_extra_conf = "~/.ycm_extra_conf.py"
-
-    let g:ycm_semantic_triggers = {'haskell' : ['.']}
-
-    " " ycm ultisnip integration
-    " " YCM + UltiSnips works like crap
-    " " https://www.youtube.com/watch?v=WeppptWfV-0
-    " let g:ycm_use_ultisnips_completer = 1
-    " let g:ycm_key_list_select_completion=[]
-    " let g:ycm_key_list_previous_completion=[]
-    " let g:UltiSnipsExpandTrigger = '<Tab>'
-    " let g:UltiSnipsJumpForwardTrigger = '<Tab>'
-    " let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
-    "
-    " let g:UltiSnipsMappingsToIgnore = ['autocomplete']
-    "
-    " let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
-    " let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
-    " let g:ycm_key_list_accept_completion = ['<C-y>']
-
-    " using Ycm to navigate
-    " https://github.com/Valloric/YouCompleteMe#goto-commands
-    " map <silent> <F3> <esc>:YcmCompleter GoTo<CR>
-
-    " }}}
-  " else
-  "   " {{{
-  "   Plug 'Rip-Rip/clang_complete',{'do':'make install','for':['cpp','c']}
-  "   let g:clang_close_preview = 1
+  " " Deoplete {{{
+  " Plug 'Shougo/deoplete.nvim',{ 'do': ':UpdateRemotePlugins' }
+  " let g:deoplete#enable_at_startup = 1
   "
-  "   " Plug 'xaizek/vim-inccomplete',{'for':['cpp','c']}
+  " " }}}
+  "
+  " " Deoplete-clang {{{
+  " Plug 'zchee/deoplete-clang',programming
+  " let g:deoplete#sources#clang#libclang_path=spooky_libclang
+  " let g:deoplete#sources#clang#clang_header="/usr/lib/clang"
+  " let g:deoplete#sources#clang#std#cpp = 'c++14'
+  " let g:deoplete#sources#clang#sort_algo = 'priority'
+  " " }}}
+else
+  " " turned off in cygwin since these plugins requires compilation
+  " " if !has('win32unix') && !has('win64unix')
+  "
+  "   " YouCompleteMe {{{
+  "   " forked YCM for better cpp suggestions
+  "   Plug '~/.vim/bundle/OblitumYouCompleteMe',programming
+  "   " ,programming_cpp
+  "   "
+  "   " vanilla YCM
+  "   " Plug '~/.vim/bundle/YouCompleteMe',programming_nhaskell
+  "
+  "   " YouCompleteMe - Install
+  "   " cd ~/.vim/bundle/YouCompleteMe;./install.sh --clang-completer
+  "
+  "   let g:ycm_show_diagnostics_ui = 0
+  "   let g:ycm_collect_identifiers_from_tags_files = 0
+  "   let g:ycm_confirm_extra_conf = 0                        " disable confirm of project specific ycm conf
+  "
+  "   let g:ycm_autoclose_preview_window_after_completion = 0 " do not directly close prototype window
+  "   let g:ycm_autoclose_preview_window_after_insertion = 1  " close it when I exit insert mode.
+  "   let g:ycm_global_ycm_extra_conf = "~/.ycm_extra_conf.py"
+  "
+  "   let g:ycm_semantic_triggers = {'haskell' : ['.']}
+  "
+  "   " " ycm ultisnip integration
+  "   " " YCM + UltiSnips works like crap
+  "   " " https://www.youtube.com/watch?v=WeppptWfV-0
+  "   " let g:ycm_use_ultisnips_completer = 1
+  "   " let g:ycm_key_list_select_completion=[]
+  "   " let g:ycm_key_list_previous_completion=[]
+  "   " let g:UltiSnipsExpandTrigger = '<Tab>'
+  "   " let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+  "   " let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+  "   "
+  "   " let g:UltiSnipsMappingsToIgnore = ['autocomplete']
+  "   "
+  "   " let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
+  "   " let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
+  "   " let g:ycm_key_list_accept_completion = ['<C-y>']
+  "
+  "   " using Ycm to navigate
+  "   " https://github.com/Valloric/YouCompleteMe#goto-commands
+  "   " map <silent> <F3> <esc>:YcmCompleter GoTo<CR>
+  "
   "   " }}}
-  " endif
+  " " else
+  " "   " {{{
+  " "   Plug 'Rip-Rip/clang_complete',{'do':'make install','for':['cpp','c']}
+  " "   let g:clang_close_preview = 1
+  " "
+  " "   " Plug 'xaizek/vim-inccomplete',{'for':['cpp','c']}
+  " "   " }}}
+  " " endif
 
 endif
 
-" rtags {{{
-" # rtag
-" https://github.com/lyuts/vim-rtags
-" https://github.com/Andersbakken/rtags/
-" https://skebanga.github.io/rtags-with-cmake-in-spacemacs/
-Plug 'lyuts/vim-rtags',programming_cpp
-" disable default mappings
-let g:rtagsUseDefaultMappings = 0
+" " rtags {{{
+" " # rtag
+" " https://github.com/lyuts/vim-rtags
+" " https://github.com/Andersbakken/rtags/
+" " https://skebanga.github.io/rtags-with-cmake-in-spacemacs/
+" Plug 'lyuts/vim-rtags',programming_cpp
+" " disable default mappings
+" let g:rtagsUseDefaultMappings = 0
+"
+" let g:rtagsJumpStackMaxSize = 1000
+" let g:rtagsUseLocationList = 1
+"
+" augroup AugroupRTags
+"   autocmd!
+"   " RENAME
+"   autocmd FileType c,cpp map <silent> <F1> <esc>:call rtags#RenameSymbolUnderCursor()<CR>
+"   "
+" " map <silent> <F1> <esc>:call rtags#SymbolInfo()<CR>
+"
+"   " JUMP TO
+"   autocmd FileType cpp unmap <f3>
+"   autocmd FileType cpp map <silent> <F3> <esc>:call rtags#JumpTo(g:SAME_WINDOW)<CR>
+"   autocmd FileType cpp map <silent> <leader><F3> <esc>:call rtags#JumpTo(g:NEW_TAB)<CR>
+"
+"   autocmd FileType c,cpp map <silent> <F4> <esc>:call rtags#FindRefs()<CR>
+"   autocmd FileType c,cpp map <silent> <F5> <esc>:call rtags#FindRefsCallTree()<CR>
+" augroup END
+"
+"
+" " if g:rtagsUseDefaultMappings == 1
+" "     noremap <Leader>ri :call rtags#SymbolInfo()<CR>
+" "     noremap <Leader>rj :call rtags#JumpTo(g:SAME_WINDOW)<CR>
+" "     noremap <Leader>rJ :call rtags#JumpTo(g:SAME_WINDOW, { '--declaration-only' : '' })<CR>
+" "     noremap <Leader>rS :call rtags#JumpTo(g:H_SPLIT)<CR>
+" "     noremap <Leader>rV :call rtags#JumpTo(g:V_SPLIT)<CR>
+" "     noremap <Leader>rT :call rtags#JumpTo(g:NEW_TAB)<CR>
+" "     noremap <Leader>rp :call rtags#JumpToParent()<CR>
+" "     noremap <Leader>rf :call rtags#FindRefs()<CR>
+" "     noremap <Leader>rF :call rtags#FindRefsCallTree()<CR>
+" "     noremap <Leader>rn :call rtags#FindRefsByName(input("Pattern? ", "", "customlist,rtags#CompleteSymbols"))<CR>
+" "     noremap <Leader>rs :call rtags#FindSymbols(input("Pattern? ", "", "customlist,rtags#CompleteSymbols"))<CR>
+" "     noremap <Leader>rr :call rtags#ReindexFile()<CR>
+" "     noremap <Leader>rl :call rtags#ProjectList()<CR>
+" "     noremap <Leader>rw :call rtags#RenameSymbolUnderCursor()<CR>
+" "     noremap <Leader>rv :call rtags#FindVirtuals()<CR>
+" "     noremap <Leader>rb :call rtags#JumpBack()<CR>
+" "     noremap <Leader>rC :call rtags#FindSuperClasses()<CR>
+" "     noremap <Leader>rc :call rtags#FindSubClasses()<CR>
+" "     noremap <Leader>rd :call rtags#Diagnostics()<CR>
+" " endif
+" " }}}
 
-let g:rtagsJumpStackMaxSize = 1000
-let g:rtagsUseLocationList = 1
+" coc.vim {{{
+" Plug 'neoclide/coc.nvim',{'do':'yarn install'}
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml' ]
 
-augroup AugroupRTags
+" :CocConfig
+" :CocInstall
+
+" TODO checkut
+" " Smaller updatetime for CursorHold & CursorHoldI
+" set updatetime=300
+" don't give |ins-completion-menu| messages.
+" set shortmess+=c
+
+" TODO coc.nvim jedi python
+
+augroup AugroupCoc
   autocmd!
-  " RENAME
-  autocmd FileType c,cpp map <silent> <F1> <esc>:call rtags#RenameSymbolUnderCursor()<CR>
+  autocmd FileType cpp unmap <f3>
+  autocmd FileType cpp map <silent> <F3> <Plug>(coc-definition)
+
+  " Go to the Type of a variable
+  " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-type-definition)
   "
-" map <silent> <F1> <esc>:call rtags#SymbolInfo()<CR>
-
-  " JUMP TO
-  autocmd FileType c,cpp map <silent> <F3> <esc>:call rtags#JumpTo(g:SAME_WINDOW)<CR>
-  autocmd FileType c,cpp map <silent> <leader><F3> <esc>:call rtags#JumpTo(g:NEW_TAB)<CR>
-
-  autocmd FileType c,cpp map <silent> <F4> <esc>:call rtags#FindRefs()<CR>
-  autocmd FileType c,cpp map <silent> <F5> <esc>:call rtags#FindRefsCallTree()<CR>
+  " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-implementation)
+  " Find all references for type under cursor
+  " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-references)
+  " 
+  autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-rename)
 augroup END
 
-
-" if g:rtagsUseDefaultMappings == 1
-"     noremap <Leader>ri :call rtags#SymbolInfo()<CR>
-"     noremap <Leader>rj :call rtags#JumpTo(g:SAME_WINDOW)<CR>
-"     noremap <Leader>rJ :call rtags#JumpTo(g:SAME_WINDOW, { '--declaration-only' : '' })<CR>
-"     noremap <Leader>rS :call rtags#JumpTo(g:H_SPLIT)<CR>
-"     noremap <Leader>rV :call rtags#JumpTo(g:V_SPLIT)<CR>
-"     noremap <Leader>rT :call rtags#JumpTo(g:NEW_TAB)<CR>
-"     noremap <Leader>rp :call rtags#JumpToParent()<CR>
-"     noremap <Leader>rf :call rtags#FindRefs()<CR>
-"     noremap <Leader>rF :call rtags#FindRefsCallTree()<CR>
-"     noremap <Leader>rn :call rtags#FindRefsByName(input("Pattern? ", "", "customlist,rtags#CompleteSymbols"))<CR>
-"     noremap <Leader>rs :call rtags#FindSymbols(input("Pattern? ", "", "customlist,rtags#CompleteSymbols"))<CR>
-"     noremap <Leader>rr :call rtags#ReindexFile()<CR>
-"     noremap <Leader>rl :call rtags#ProjectList()<CR>
-"     noremap <Leader>rw :call rtags#RenameSymbolUnderCursor()<CR>
-"     noremap <Leader>rv :call rtags#FindVirtuals()<CR>
-"     noremap <Leader>rb :call rtags#JumpBack()<CR>
-"     noremap <Leader>rC :call rtags#FindSuperClasses()<CR>
-"     noremap <Leader>rc :call rtags#FindSubClasses()<CR>
-"     noremap <Leader>rd :call rtags#Diagnostics()<CR>
-" endif
+"  {{{
+" cmake -GNinja -H. -BRelease -DCMAKE_INSTALL_PREFIX=$HOME && ninja -C Release && ninja -C Release install
+" NOT a vim plugin
+Plug 'MaskRay/ccls',{'do':'cmake -GNinja -H. -BRelease -DCMAKE_INSTALL_PREFIX=$HOME && ninja -C Release && ninja -C Release install'}
 " }}}
 
 " python {{{
-Plug 'davidhalter/jedi-vim',{'for': ['python']}
-" Disable default binding
-let g:jedi#completions_enabled = 0
-let g:jedi#goto_command = "<f3>"
-" autocmd FileType python setlocal completeopt-=preview
-
-" TODO let g:jedi#rename_command = "<leader>r"
-if has('nvim')
-  let g:jedi#completions_enabled = 0
-  Plug 'neovim/python-client'
-  Plug 'zchee/deoplete-jedi'
-endif
+" Plug 'davidhalter/jedi-vim',{'for': ['python']}
+" " Disable default binding
+" let g:jedi#completions_enabled = 0
+" let g:jedi#goto_command = "<f3>"
+" " autocmd FileType python setlocal completeopt-=preview
+"
+" " TODO let g:jedi#rename_command = "<leader>r"
+" if has('nvim')
+"   Plug 'neovim/python-client'
+"   Plug 'zchee/deoplete-jedi'
+" endif
 
 " Plug 'nathanaelkane/vim-indent-guides',{'for': ['python']}
 
@@ -311,10 +347,16 @@ if !has('win32unix') && !has('win64unix')
 
   "'clang', 'clangcheck', 'cpplint','cppcheck', 'clangtidy'
   let g:ale_linters = {
-        \   'cpp': ['g++','cppcheck'],
+        \   'cpp':    ['g++','cppcheck', 'ccls'],
         \   'python': ['pylint'],
-        \   'c': ['gcc','cppcheck'],
+        \   'c':      ['gcc','cppcheck', 'ccls'],
         \}
+
+  " :ALEFix
+  " let g:ale_fixers = {
+  "       \ 'cpp': ['trim_whitespace']
+  "       \ 'c':   ['trim_whitespace']
+  "       \}
 
   let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Iexternal -I../external -I../external/googletest/googletest -Iexternal/googletest/googletest -Werror-pointer-arith"
   let g:ale_c_gcc_options="-std=gnu11 -Wall -Wextra -Iexternal -I../external -Iinclude -I../include "
@@ -896,22 +938,25 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 Plug 'bronson/vim-visual-star-search'
 
 " Statusline {{{
-if has('win32unix') || has('win64unix') || $TERM == "linux" || has('nvim') || has('win32') || has('win64')
-  Plug 'vim-airline/vim-airline'
-
-  if has('win32unix') || has('win64unix') || has('win32') || has('win64')
-    " augroup AutogroupCygwinCppVisual
-    "   autocmd!
-    " autocmd FileType cpp map <silent> <F11> <Esc> :set laststatus=0 <Bar> :AirlineToggle<CR>
-    " augroup END
-    map <silent> <F11> <Esc> :set laststatus=0 <Bar> :AirlineToggle<CR>
-  endif
-else
-  python3 from powerline.vim import setup as powerline_setup
-  python3 powerline_setup()
-  python3 del powerline_setup
-endif
-  set laststatus=2
+" if has('win32unix') || has('win64unix') || $TERM == "linux" || has('nvim') || has('win32') || has('win64')
+"   Plug 'vim-airline/vim-airline'
+"
+"   if has('win32unix') || has('win64unix') || has('win32') || has('win64')
+"     " augroup AutogroupCygwinCppVisual
+"     "   autocmd!
+"     " autocmd FileType cpp map <silent> <F11> <Esc> :set laststatus=0 <Bar> :AirlineToggle<CR>
+"     " augroup END
+"     map <silent> <F11> <Esc> :set laststatus=0 <Bar> :AirlineToggle<CR>
+"   endif
+" else
+"   python3 from powerline.vim import setup as powerline_setup
+"   python3 powerline_setup()
+"   python3 del powerline_setup
+" endif
+" 0: never
+" 1: only if there are at least two windows
+" 2: always
+set laststatus=1
 " }}}
 
 

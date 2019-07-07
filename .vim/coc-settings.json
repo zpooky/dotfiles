@@ -1,0 +1,23 @@
+{
+  "python.linting.enabled": false,
+  "json.format.enable": false,
+  "coc.preferences.extensionUpdateCheck": "never",
+  "languageserver": {
+    "ccls": {
+      "command": "ccls",
+      "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
+      "rootPatterns": [
+        ".ccls",
+        "compile_commands.json",
+        ".vim/",
+        ".git/",
+        ".hg/"
+      ],
+      "initializationOptions": {
+        "cache": {
+          "directory": "$HOME/.cache/ccls"
+        }
+      }
+    }
+  }
+}

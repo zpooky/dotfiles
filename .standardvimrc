@@ -76,6 +76,12 @@ augroup AutogroupCursorLine
     autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
     autocmd WinLeave * setlocal nocursorline
 augroup END
+
+" Better display for messages
+set cmdheight=2
+
+" no top level buffer is displayed when using autosggestion
+set completeopt-=preview
 " }}}
 
 " syntax {{{
