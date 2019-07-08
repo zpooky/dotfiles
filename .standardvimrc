@@ -77,9 +77,6 @@ augroup AutogroupCursorLine
     autocmd WinLeave * setlocal nocursorline
 augroup END
 
-" Better display for messages
-set cmdheight=2
-
 " no top level buffer is displayed when using autosggestion
 set completeopt-=preview
 " }}}
@@ -261,6 +258,8 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab buttom bottom
+iab necessarly necessarily
 iab importently importantly
 iab asynchroniozly asynchronously
 iab occours occurs

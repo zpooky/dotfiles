@@ -34,6 +34,11 @@ alias "cd-"="cd -"
 alias gitst="git st"
 alias gitadd="git add"
 
+function htops() {
+  TERM=xterm htop -p $(pidof "$1" | tr ' ' ',')
+}
+alias htop=" TERM=xterm htop"
+
 #
 DOTFILES=$HOME/dotfiles
 DOTFILES_LIB=$DOTFILES/lib
@@ -358,8 +363,6 @@ alias sp-symbol="sp-bitwise"
 alias sp-math-notation="sp-bitwise"
 alias sp-set-theory="sp-bitwise"
 
-alias sp-math="vim $REF_DIR/math_notes.md"    #TODO
-alias sp-math-square="sp-math"
 alias sp-order-of-magnitude="vim $REF_DIR/order-of-magnitude.md"
 alias sp-rsa="vim $REF_DIR/rsa.md"
 
@@ -368,8 +371,11 @@ function sp_complexity() {
   local fact="$REF_DIR/factorial.md"
   local polyn="$REF_DIR/polynomial.md"
 
+  alias sp-math="vim -p $REF_DIR/math_notes.md ${exp} ${fact} ${polyn}"
+  alias sp-math-square="sp-math"
+
   alias sp-exponential-growth="vim -p ${exp} ${fact} ${polyn}"
-  alias sp-factorial="vim -p ${exp} ${fact} ${polyn}"
+  alias sp-factorial="vim -p ${fact} ${exp} ${polyn}"
   alias sp-pow="vim $REF_DIR/pow.md"
   alias sp-polynomial="vim -p ${polyn} ${exp} ${fact}"
 }
@@ -458,22 +464,29 @@ alias sp-musl="vim $CPP_ROOT/musl.md"
 alias c-make="vim -p $CPP_STUB/c-Makefile"
 
 # debug
-alias sp-debug="cd $REF_DIR/linux/debug"
-alias sp-gdb="vim $DROPBOX_LINUX/debug/gdb.md"
-alias sp-afl="vim $DROPBOX_LINUX/afl.md"
-alias sp-perf="vim $DROPBOX_LINUX/debug/perf.md"
-alias sp-ltrace="vim $DROPBOX_LINUX/debug/ltrace.md"
-alias sp-strace="vim $REF_DIR/linux/debug/strace.md"
-alias sp-tcpdump="vim $REF_DIR/linux/debug/tcpdump.md"
-alias sp-debug-c="vim $DROPBOX_LINUX/debug/cpp-debug.md"
-alias sp-debug-cache="vim $DROPBOX_LINUX/debug/cache.md"
-alias sp-debug-hardware="vim $DROPBOX_LINUX/debug/hardware.md"
-alias sp-debug-io="vim $DROPBOX_LINUX/debug/io.md"
-alias sp-debug-cpu="vim $DROPBOX_LINUX/debug/cpu.md"
-alias sp-debug-network="vim $DROPBOX_LINUX/debug/network.md"
-alias sp-debug-network-filter="vim $DROPBOX_LINUX/debug/network-filter.md"
-alias sp-debug-power="vim $DROPBOX_LINUX/debug/power.md"
-alias sp-limits="vim $DROPBOX_LINUX/debug/limits.md"
+function sp_debug(){
+  local cpu="$DROPBOX_LINUX/debug/cpu.md"
+  local htop="$DROPBOX_LINUX/debug/htop.md"
+
+  alias sp-debug="cd $REF_DIR/linux/debug"
+  alias sp-gdb="vim $DROPBOX_LINUX/debug/gdb.md"
+  alias sp-afl="vim $DROPBOX_LINUX/afl.md"
+  alias sp-perf="vim $DROPBOX_LINUX/debug/perf.md"
+  alias sp-ltrace="vim $DROPBOX_LINUX/debug/ltrace.md"
+  alias sp-strace="vim $REF_DIR/linux/debug/strace.md"
+  alias sp-tcpdump="vim $REF_DIR/linux/debug/tcpdump.md"
+  alias sp-debug-c="vim $DROPBOX_LINUX/debug/cpp-debug.md"
+  alias sp-debug-cache="vim $DROPBOX_LINUX/debug/cache.md"
+  alias sp-debug-hardware="vim $DROPBOX_LINUX/debug/hardware.md"
+  alias sp-debug-io="vim $DROPBOX_LINUX/debug/io.md"
+  alias sp-debug-cpu="vim -p ${cpu} ${htop}"
+  alias sp-htop="vim -p ${htop} ${cpu}"
+  alias sp-debug-network="vim $DROPBOX_LINUX/debug/network.md"
+  alias sp-debug-network-filter="vim $DROPBOX_LINUX/debug/network-filter.md"
+  alias sp-debug-power="vim $DROPBOX_LINUX/debug/power.md"
+  alias sp-limits="vim $DROPBOX_LINUX/debug/limits.md"
+}
+sp_debug
 
 # Axis
 alias sp-axis-audiocontrol="vim $DROPBOX_AXIS/audiocontrol.md"
@@ -513,6 +526,7 @@ alias sp-xclip="vim $DROPBOX_LINUX/xclip.txt"
 alias sp-openssl="vim $REF_DIR/sec/openssl.md"
 alias sp-package="vim $DROPBOX_LINUX/install.txt"
 alias sp-tar="vim $DROPBOX_LINUX/compression.md"
+alias sp-uname="vim $DROPBOX_LINUX/uname.md"
 alias sp-ssh="vim $DROPBOX_LINUX/ssh.md"
 alias sp-nice="vim $DROPBOX_LINUX/nice.md"
 alias sp-scheduler="sp-nice"

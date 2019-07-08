@@ -91,6 +91,11 @@ define hookpost-down
 dashboard
 end
 
+# refresh on change thread
+define hookpost-thread
+dashboard
+end
+
 # refresh on change stack frame
 define hookpost-frame
 dashboard

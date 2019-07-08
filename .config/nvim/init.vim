@@ -134,9 +134,13 @@ let programming_cpp=          {'for':['c','cpp']}
 let programming_haskell=      {'for':'haskell'}
 let programming_scala=        {'for':'scala'}
 
-let spooky_libclang="/usr/lib/libclang.so"
-
-let neovim_update_remote={ 'do': ':UpdateRemotePlugins' }
+" if filereadable("/usr/lib/llvm-6.0/lib/libclang.so"):
+"   let spooky_libclang="/usr/lib/llvm-6.0/lib/libclang.so"
+" elseif filereadable("/usr/lib/llvm-3.8/lib/libclang.so"):
+"   let spooky_libclang="/usr/lib/llvm-3.8/lib/libclang.so"
+" elseif filereadable("/usr/lib/libclang.so"):
+  let spooky_libclang="/usr/lib/libclang.so"
+" endif
 
 if has('nvim')
   " " Deoplete {{{
@@ -292,7 +296,6 @@ augroup AugroupCoc
   autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-rename)
 augroup END
 
-"  {{{
 " cmake -GNinja -H. -BRelease -DCMAKE_INSTALL_PREFIX=$HOME && ninja -C Release && ninja -C Release install
 " NOT a vim plugin
 Plug 'MaskRay/ccls',{'do':'cmake -GNinja -H. -BRelease -DCMAKE_INSTALL_PREFIX=$HOME && ninja -C Release && ninja -C Release install'}
@@ -475,7 +478,7 @@ if !has('win32unix') && !has('win64unix')
   " let g:gutentags_trace=1
   " let g:gutentags_define_advanced_commands=1
 
-  let g:gutentags_ctags_exclude=['autoconf','*.md','configure', 'Makefile','CMakeLists.txt','*.cmake','*.mak', '*.am','*.in','*.m4','*.html','*.php','*.py','*.service', '*.mount','*.target','*.css','*.rst', '*.json', 'Session.vim', '*.dtd', '*.patch']
+  let g:gutentags_ctags_exclude=['autoconf','*.md','configure', 'Makefile','CMakeLists.txt','*.cmake','*.mak', '*.am','*.in','*.m4','*.html','*.php','*.py','*.service', '*.mount','*.target','*.css','*.rst', '*.json', 'Session.vim', '*.dtd', '*.patch','*.ac','*.pm']
   " let g:gutentags_file_list_command = 'ack -f --nohtml --nojson --nomd '
   " let g:gutentags_file_list_command = {
   "       \ 'markers':
@@ -645,6 +648,10 @@ augroup AugroupAVIM
         \    'kernel/*.c': { 'alternate': 'include/linux/{}.h' },
         \    'include/linux/*.h': { 'alternate': [ 'kernel/{}.c', 'lib/{}.c' ] },
         \ })
+
+" TODO
+" \    'src/*.c': { 'alternate': 'inc/{}.h' },
+" \    'inc/*.h': { 'alternate': 'src/{}.c' },
 
 augroup END
 " }}}
@@ -936,6 +943,7 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 " {{{
 " Visual select + * will search the selected
 Plug 'bronson/vim-visual-star-search'
+" }}}
 
 " Statusline {{{
 " if has('win32unix') || has('win64unix') || $TERM == "linux" || has('nvim') || has('win32') || has('win64')
