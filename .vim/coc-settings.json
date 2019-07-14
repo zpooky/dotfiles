@@ -15,7 +15,7 @@
       ],
       "initializationOptions": {
         "cache": {
-          "directory": "$HOME/.cache/ccls"
+          "directory": "~/.cache/ccls"
         }
       }
     }

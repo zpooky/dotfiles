@@ -338,6 +338,7 @@ alias sp-cyckel="vim $REF_DIR/cyckel.md"
 alias sp-duffs-device="vim $REF_DIR/duffs-device.md"
 alias sp-glossary="vim $REF_DIR/glossary.md"
 alias sp-tlv="vim $REF_DIR/tlv.md"
+alias sp-audiobook="vim $REF_DIR/audiobook.md"
 
 #
 alias sp-stocks="vim $REF_DIR/stocks.md"

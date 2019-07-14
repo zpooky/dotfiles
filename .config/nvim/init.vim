@@ -270,6 +270,8 @@ endif
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml' ]
 
+" https://kimpers.com/vim-intelligent-autocompletion/
+
 " :CocConfig
 " :CocInstall
 
@@ -478,7 +480,8 @@ if !has('win32unix') && !has('win64unix')
   " let g:gutentags_trace=1
   " let g:gutentags_define_advanced_commands=1
 
-  let g:gutentags_ctags_exclude=['autoconf','*.md','configure', 'Makefile','CMakeLists.txt','*.cmake','*.mak', '*.am','*.in','*.m4','*.html','*.php','*.py','*.service', '*.mount','*.target','*.css','*.rst', '*.json', 'Session.vim', '*.dtd', '*.patch','*.ac','*.pm']
+  let g:gutentags_ctags_exclude=['autoconf','*.md','configure', 'Makefile','CMakeLists.txt','*.cmake','*.mak', '*.am','*.in','*.m4','*.html','*.php','*.py','*.service', '*.mount','*.target','*.css','*.rst', '*.json', 'Session.vim', '*.dtd', '*.patch','*.ac','*.pm','.ccls-cache']
+
   " let g:gutentags_file_list_command = 'ack -f --nohtml --nojson --nomd '
   " let g:gutentags_file_list_command = {
   "       \ 'markers':
