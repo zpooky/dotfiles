@@ -1,5 +1,7 @@
 " Vim Code Dark (color scheme)
 " https://github.com/tomasiser/vim-code-dark
+"
+" :highlight to see example of all exisiting of how highlight groups will look
 
 scriptencoding utf-8
 
@@ -252,6 +254,15 @@ call <sid>hi('DiffChange', {}, s:cdDiffRedDark, 'none', {})
 call <sid>hi('DiffText', {}, s:cdDiffRedLight, 'none', {})
 " }}}
 
+" ALE {{{
+call <sid>hi('ALEErrorSign', s:cdRed, {}, 'bold', {})
+call <sid>hi('ALEWarningSign', s:cdYellowOrange, {}, 'none', {})
+" # TODO
+" CocErrorSign   xxx ctermfg=9 guifg=#ff0000
+" CocWarningSign xxx ctermfg=130 guifg=#ff922b
+" CocSelectedText xxx ctermfg=9 guifg=#fb4934
+" }}}
+
 " Spell {{{
 " TODO
 call <sid>hi('SpellBad', s:cdRed, s:cdNone, 'undercurl', {})
@@ -347,7 +358,7 @@ call <sid>hi("Conceal", s:cdFront, s:cdBack, 'none', {})
 
 call <sid>hi('Ignore', s:cdFront, {}, 'none', {})
 
-call <sid>hi('Error', s:cdRed, {}, 'undercurl', s:cdRed)
+call <sid>hi('Error', {}, s:cdRed, 'bold', s:cdRed)
 
 call <sid>hi('Todo', s:cdNone, s:cdLeftMid, 'none', {})
 

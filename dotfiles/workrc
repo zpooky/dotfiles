@@ -17,6 +17,11 @@ export no_proxy=192.168.0.90,localhost,127.0.0.1,127.0.1.1,.localdomain,axis.com
 # source to give access to build tools functions
 source ~/development/axis/oe-setup/oe-setup.sh
 
+function axis_enable_root_192_168_0_90(){
+  curl --noproxy "*" --connect-timeout 5 'http://192.168.0.90/axis-cgi/pwdgrp.cgi?action=add&user=root&pwd=pass&grp=root&sgrp=admin:operator:viewer:ptz'
+  return $?
+}
+
 function ssh_192_168_0_90() {
   # TODO instead scp file
   function sshx() {
@@ -34,6 +39,8 @@ function ssh_192_168_0_90() {
     l_env+=' && echo "alias port_scan=\"netstat -lnptux\"" >> $HOME/.shinit'
     # AF_UNIX socket
     l_env+=' && echo "alias unix_con=\"netstat -apnx\"" >> $HOME/.shinit'
+
+    axis_enable_root_192_168_0_90
 
   # sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} 'alias ll="ls -alh";ll; exec /bin/sh -l' # 'alias ll="ls-alh"; /bin/sh -l'
     TERM=xterm sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "${l_env_setup} ${l_env}; exec /bin/sh -l"
@@ -69,6 +76,8 @@ function scp_192_168_0_90() {
     return 1
   fi
 
+  axis_enable_root_192_168_0_90
+
   sshpass -p "${l_pass}" scp "${l_source}" "${l_user}"@"${l_ip}":"${l_remote_dest}"
 }
 
@@ -79,6 +88,8 @@ function scp_crashdump_192_168_0_90(){
 
   local l_source='/var/spool/storage/SD_DISK/dumps/*'
   local l_dest="~/development/crashdump/"
+
+  axis_enable_root_192_168_0_90
 
   echo "sshpass -p ${l_pass} scp ${l_user}@${l_ip}:${l_source} ${l_dest}"
   sshpass -p "${l_pass}" scp "${l_user}"@"${l_ip}":"${l_source}" "${l_dest}"
@@ -110,51 +121,94 @@ function valid_build_dir() {
   return 0
 }
 
-
 function deploy_192_168_0_90(){
+  local project="${1}"
+  local project_dir="${BUILDDIR}/workspace/sources/${project}"
+
   if ! valid_build_dir; then
     return 1
   fi
 
-  local project="${1}"
-  local project_dir="${BUILDDIR}/workspace/sources/${project}"
 
   if [ ! -e "${project_dir}" ]; then
-    echo "'$project_dir' does not exist" >&2
-    return 1
+    echo "'${project_dir}' does not exist" >&2
+    return 2
   fi
 
-  if [ "${project}" != "ioboxd" ]; then
-    echo "only ioboxd supported" >&2
-    return 1
+  if [ "${project}"=="ioboxd" ]; then
+    local l_dest="/usr/bin/ioboxd"
+    local l_source="${project_dir}/${project}"
+    local l_systemd_name="ioboxd"
+  else
+    echo "'${project}' is not supported" >&2
+    return 3
   fi
 
+  echo "before local: $(sha256sum ${l_source})"
 
-  echo "devtool build ${project}"
-  # devtool build "${project}"
+  devtool_build "${project}"
   if [ ! $? -eq 0 ]; then
-    return 1
+    return 4
   fi
+
+  echo "after local: $(sha256sum ${l_source})"
 
   local l_user="root"
   local l_pass="pass"
   local l_ip="192.168.0.90"
 
-  local l_source="${project_dir}/${project}"
-  local l_dest=1"/usr/bin/ioboxd"
+  local l_etc_fwmgr_src="/tmp/fwmgr.conf"
+  local l_etc_fwmgr_dest="/etc/fwmgr.conf"
 
-  $HOME/development/axis/tpp/ff :remount
+  echo "- curl"
+  axis_enable_root_192_168_0_90
+
+  sshpass -p "${l_pass}" scp "${l_user}"@"${l_ip}":"${l_etc_fwmgr_dest}" "${l_etc_fwmgr_src}"
   if [ ! $? -eq 0 ]; then
-    return 1
+    echo "overlay_usr=all" > "${l_etc_fwmgr_src}"
+
+    sshpass -p "${l_pass}" scp "${l_etc_fwmgr_src}" "${l_user}"@"${l_ip}":"${l_etc_fwmgr_dest}"
+    ret=$?
+
+    if [ ! $ret -eq 0 ]; then
+      return $ret
+    fi
+
+    echo "- mounting overlay fs"
+
+    # TODO reboot
+    # TODO sleep
+  else
+    echo "- already mounted overlay fs"
   fi
 
+  echo "- systemctl stop ${l_systemd_name}"
+  sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "systemctl stop ${l_systemd_name}"
+  local res=$?
+  if [ ! $res -eq 0 ]; then
+    return $res
+  fi
+
+  echo "- scp ${l_source} to ${l_dest}"
   sshpass -p "${l_pass}" scp "${l_source}" "${l_user}"@"${l_ip}":"${l_dest}"
   local res=$?
   if [ ! $res -eq 0 ]; then
     return $res
   fi
 
-  sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "systemctl restart ioboxd"
+  # echo "- systemctl start ${l_systemd_name}"
+  # sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "systemctl start ${l_systemd_name}"
+  # local res=$?
+  # return $res
+
+  echo "- reboot now"
+  sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "/usr/sbin/reboot now"
+  local res=$?
+  if [ ! $res -eq 0 ]; then
+    return $res
+  fi
+
+  return 0
 }
 
 function rtags_all(){
@@ -210,24 +264,6 @@ function devtool_modify() {
   done
 }
 
-# function deploy_target_192_168_0_90() {
-#   local l_user="root"
-#   local l_pass="pass"
-#   local l_ip="192.168.0.90"
-#
-#   local l_project="$1"
-#
-#   has_feature devtool
-#   if [ ! $? -eq 0 ]; then
-#     echo "need to run from a oe-initenv enviornment"
-#     return 1
-#   fi
-#
-#   devtool deploy-target "${l_project}" "${l_user}"@"${l_ip}" -s --no-check-space
-#
-# # $HOME/development/axis/tpp/ff enable-ssh
-# }
-
 function flash_192_168_0_90_ftp() {
   # TODO grep for "Error: No custom firmware certificate for camera group 'axis-devel-ambarella-s5l'."
   local l_user="root"
@@ -262,6 +298,8 @@ function flash_192_168_0_90_ftp() {
   sha256sum "${l_image}"
   date
   echo "flashing '${l_image}'"
+
+  axis_enable_root_192_168_0_90
 
   # ftp -u ftp://${l_user}:${l_pass}@${l_ip}/flash_all ${l_image}
   # if [ ! $? -eq 0 ]; then
@@ -331,9 +369,11 @@ function netboot_192_168_0_90(){
   sleep 1s
 
   if [[ "${l_machine}"="m3066-v" ]]; then
+    echo "boot_axis -F -i ${l_image} -W 7AC -v"
     boot_axis -F -i "${l_image}" -W 7AC -v
     local ret=$?
   elif [[ "${l_machine}"="m3075-v" ]]; then
+    echo "boot_axis -F -i ${l_image} -W 7AD -v"
     boot_axis -F -i "${l_image}" -W 7AD -v
     local ret=$?
   # elif [[ "${l_machine}"="p3225-lv-mkii" ]]; then
@@ -344,6 +384,10 @@ function netboot_192_168_0_90(){
   #   echo "boot_axis -F -i \"${l_image}\" -W 705.4 -v"
   #   boot_axis -F -i "${l_image}" -W 705.4 -v
   #   local ret=$?
+  elif [[ "${l_machine}"="p3235-lv" ]]; then
+    echo "boot_axis -F -i "${l_image}" -W 77A -v"
+    boot_axis -F -i "${l_image}" -W 77A -v
+    local ret=$?
   else
     boot_axis -F -i "${l_image}" -v
     local ret=$?
@@ -435,6 +479,7 @@ function devtool_build(){
   fi
 
   "$HOME/dotfiles/lib/devtool_build.sh" "${project}"
+  return $?
 }
 
 

@@ -65,7 +65,7 @@ set scrolloff=2                   " keep at least N lines above/below when scrol
 
 " if !has('win32unix') && !has('win64unix')
   " does not work in cygwin
-  set ttyfast                     " Faster redraw
+  " set ttyfast                     " Faster redraw
 " endif
 
 " Highlight current line

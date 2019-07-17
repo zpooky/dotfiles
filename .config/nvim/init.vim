@@ -345,8 +345,8 @@ if !has('win32unix') && !has('win64unix')
   let g:ale_lint_on_enter = 0
   let b:ale_warn_about_trailing_whitespace = 0
 
-  let g:ale_sign_error = '>'
-  let g:ale_sign_warning = '-'
+  let g:ale_sign_error = '>>'
+  let g:ale_sign_warning = '--'
 
   " :ALEInfo - current settings
 
@@ -967,7 +967,7 @@ Plug 'bronson/vim-visual-star-search'
 " 0: never
 " 1: only if there are at least two windows
 " 2: always
-set laststatus=1
+set laststatus=0
 " }}}
 
 

@@ -17,7 +17,7 @@ function sp_setup_dbus() {
 # alias
 alias ll="ls -alh --color=tty"
 
-alias duh="du -h -d 0 [^.]*"
+alias duh="du -h -d 0 [^.]* | sort -hr"
 
 alias lcd="cd"
 alias lvim="vim"
@@ -494,6 +494,7 @@ alias sp-axis-audiocontrol="vim $DROPBOX_AXIS/audiocontrol.md"
 alias sp-axis-monolith="vim $DROPBOX_AXIS/monolith.md"
 alias sp-iobox="vim $DROPBOX_AXIS/iobox.md"
 alias sp-axis-iobox="sp-iobox"
+alias sp-axis-image2d="vim $DROPBOX_AXIS/image2d.md"
 alias sp-axis-parhandle="vim $DROPBOX_AXIS/parhandle.md"
 alias sp-axis="vim -p $DROPBOX_AXIS/env.md $DROPBOX_AXIS/axis.md"
 alias sp-gstreamer="vim -p $DROPBOX_AXIS/gstreamer.md"
@@ -1230,7 +1231,7 @@ function sp_perf_report(){
 }
 
 function sp_perf(){
-  perf record -F 990 $@
+  perf record -F 990 -- $@
   # spperf_report
 }
 
