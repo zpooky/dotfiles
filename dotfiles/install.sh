@@ -51,7 +51,6 @@ if has_feature nvim; then
   nvim +PlugUpdate +qall
 fi
 
-
 if has_feature vim; then
   vim +PlugUpdate +qall
 fi

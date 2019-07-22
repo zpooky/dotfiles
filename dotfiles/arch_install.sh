@@ -87,11 +87,11 @@ if [ $? -eq 1 ]; then
   install_pkg gvim
 fi
 
-has_feature powerline
-if [ $? -eq 1 ]; then
-  install_pkg powerline
-  install_pkg python-powerline
-fi
+# has_feature powerline
+# if [ $? -eq 1 ]; then
+#   install_pkg powerline
+#   install_pkg python-powerline
+# fi
 
 install_pkg shellcheck
 
@@ -121,6 +121,7 @@ if [ $? -eq 1 ]; then
   install_yay ruby-neovim
   # npm install -g neovim
   install_yay nodejs-neovim
+  install_yay bash-language-server
 
   #
   #pip2 install --user jedi
@@ -384,13 +385,13 @@ install_pkg fzf
 
 has_feature javac
 if [ $? -eq 1 ]; then
-  install jdk8-openjdk
+  install jdk10-openjdk
 fi
 
 # misc
 install_pkg pkg-config
 install_pkg keepass
-install_pkg cscope
+# install_pkg cscope
 install_pkg tig
 install_pkg tmux
 
@@ -430,11 +431,11 @@ if [ $? -eq 1 ]; then
   install_yay entr
 fi
 
-has_feature global
-if [ $? -eq 1 ]; then
-  #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/global.tar.gz"
-  install_yay global
-fi
+# has_feature global
+# if [ $? -eq 1 ]; then
+#   #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/global.tar.gz"
+#   install_yay global
+# fi
 
 has_feature ack
 if [ $? -eq 1 ]; then
@@ -484,14 +485,15 @@ fi
 
 # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/fbterm-git.tar.gz"
 
-has_feature rtv
-if [ $? -eq 1 ]; then
-  install_yay rtv
-fi
+# has_feature rtv
+# if [ $? -eq 1 ]; then
+#   install_yay rtv
+# fi
 
 has_feature alacritty
 if [ $? -eq 1 ]; then
-  install_yay alacritty-git
+  install_yay alacritty
+  install_yay alacritty-terminfo
   #   install_aur "https://aur.archlinux.org/alacritty-git.git"
 fi
 

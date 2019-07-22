@@ -11,6 +11,26 @@ else
   source $HOME/.standardvimrc
 endif
 
+if has('nvim')
+  " - sh
+  "   - npm install bash-language-server
+  "   - yay -S bash-language-server
+  " - js
+  "   - npm install -g neovim
+  "   - yay -S nodejs-neovim
+  " - python2
+  "   - yay -S python2-neovim
+  "   - pip2 install --user jedi
+  "   - yay -S python2-jedi
+  " - python3
+  "   - yay -S python-neovim
+  "   - pip3 install --user jedi
+  "   - yay -S python-jedi
+  " - ruby
+  "   - yay -S ruby-neovim
+  "   - gem install neovim
+endif
+
 " TODO
 " 1. auto select indentation based on existing  content
 " 2. fix arg shift
@@ -285,8 +305,8 @@ let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml' 
 
 augroup AugroupCoc
   autocmd!
-  autocmd FileType cpp unmap <f3>
-  autocmd FileType cpp map <silent> <F3> <Plug>(coc-definition)
+  autocmd FileType cpp,sh unmap <f3>
+  autocmd FileType cpp,sh map <silent> <F3> <Plug>(coc-definition)
 
   " Go to the Type of a variable
   " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-type-definition)
@@ -355,6 +375,7 @@ if !has('win32unix') && !has('win64unix')
         \   'cpp':    ['g++','cppcheck', 'ccls'],
         \   'python': ['pylint'],
         \   'c':      ['gcc','cppcheck', 'ccls'],
+        \   'sh':     ['language_server'],
         \}
 
   " :ALEFix
@@ -660,7 +681,7 @@ augroup END
 " }}}
 
 " {{{
-if has('win32unix') || has('win64unix') || has('win32') || has('win64') || !has('nvim')
+" if has('win32unix') || has('win64unix') || has('win32') || has('win64') || !has('nvim')
   " vim-cpp-enhanced-highlight {{{
   " better c++ syntax
   Plug 'octol/vim-cpp-enhanced-highlight',programming_cpp
@@ -678,22 +699,22 @@ if has('win32unix') || has('win64unix') || has('win32') || has('win64') || !has(
   " let g:cpp_member_variable_highlight = 1
   " }}}
 
-else
-  " Chromatica {{{
-  Plug 'arakashic/chromatica.nvim'  ",{'for':['c','cpp'], 'do': ':UpdateRemotePlugins' }
-  let g:chromatica#enable_at_startup=1
-  let g:chromatica#responsive_mode = 1
-
-  " let g:chromatica#debug_log = 1
-  " let g:chromatica#debug_profiling = 1
-
-  if has('win32') || has('win64')
-    let g:chromatica#libclang_path="D:\\Program Files\\LLVM\\lib\\libclang.lib"
-  else
-    let g:chromatica#libclang_path=spooky_libclang
-  endif
-  " }}}
-endif
+" else
+"   " Chromatica {{{
+"   Plug 'arakashic/chromatica.nvim'  ",{'for':['c','cpp'], 'do': ':UpdateRemotePlugins' }
+"   let g:chromatica#enable_at_startup=1
+"   let g:chromatica#responsive_mode = 1
+"
+"   " let g:chromatica#debug_log = 1
+"   " let g:chromatica#debug_profiling = 1
+"
+"   if has('win32') || has('win64')
+"     let g:chromatica#libclang_path="D:\\Program Files\\LLVM\\lib\\libclang.lib"
+"   else
+"     let g:chromatica#libclang_path=spooky_libclang
+"   endif
+"   " }}}
+" endif
 " }}}
 
 " {{{
