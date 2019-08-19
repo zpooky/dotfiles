@@ -29,6 +29,7 @@
 
 # random
 # hex(random.getrandbits(32))
+# random.randint(1, 10)
 # ===================
 
 import sys
@@ -37,6 +38,7 @@ import binascii
 import hashlib
 import random
 from operator import xor
+import numpy as np
 
 sys.setrecursionlimit(1500)
 

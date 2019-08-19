@@ -1,9 +1,3 @@
-[submodule ".vim/bundle/YouCompleteMe"]
-	path = .vim/bundle/YouCompleteMe
-	url = https://github.com/Valloric/YouCompleteMe.git
-[submodule ".vim/bundle/OblitumYouCompleteMe"]
-	path = .vim/bundle/OblitumYouCompleteMe
-	url = https://github.com/oblitum/YouCompleteMe.git
 [submodule "/home/dev/.tmux/plugins/tpm"]
 	path = .tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
@@ -13,9 +7,6 @@
 [submodule "sources/vim-plug"]
 	path = sources/vim-plug
 	url = https://github.com/junegunn/vim-plug.git
-[submodule ".vim/bundle/color_coded"]
-	path = .vim/bundle/color_coded
-	url = https://github.com/jeaye/color_coded.git
 [submodule "/home/spooky/.oh-my-zsh"]
 	path = .oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git

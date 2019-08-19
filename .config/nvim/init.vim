@@ -288,7 +288,7 @@ endif
 " coc.vim {{{
 " Plug 'neoclide/coc.nvim',{'do':'yarn install'}
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml' ]
+let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml', 'coc-java']
 
 " https://kimpers.com/vim-intelligent-autocompletion/
 
@@ -316,11 +316,26 @@ augroup AugroupCoc
   " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-references)
   " 
   autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-rename)
+
+
+  autocmd FileType python map <silent> <F3> <Plug>(coc-definition)
+
+  autocmd FileType java map <silent> <F3> <Plug>(coc-definition)
+
+  autocmd FileType scala map <silent> <F3> <Plug>(coc-definition)
+" nmap <silent> [c <Plug>(coc-diagnostic-prev)
+" nmap <silent> ]c <Plug>(coc-diagnostic-next)
 augroup END
 
 " cmake -GNinja -H. -BRelease -DCMAKE_INSTALL_PREFIX=$HOME && ninja -C Release && ninja -C Release install
 " NOT a vim plugin
 Plug 'MaskRay/ccls',{'do':'cmake -GNinja -H. -BRelease -DCMAKE_INSTALL_PREFIX=$HOME && ninja -C Release && ninja -C Release install'}
+" }
+
+" java {
+" https://github.com/neoclide/coc-java
+" }
+
 " }}}
 
 " python {{{
@@ -674,6 +689,9 @@ augroup AugroupAVIM
         \ })
 
 " TODO
+" \    'include/*.h': {
+" \      'alternate': ['src/{}.cpp', 'src/{}.c']
+" \    },
 " \    'src/*.c': { 'alternate': 'inc/{}.h' },
 " \    'inc/*.h': { 'alternate': 'src/{}.c' },
 
@@ -748,6 +766,13 @@ let g:haskell_conceal_wide = 1
 " vim-scala {{{
 " scala support
 Plug 'derekwyatt/vim-scala',programming_scala
+" https://scalameta.org/metals/docs/editors/vim.html
+
+augroup AugroupScala
+  au BufRead,BufNewFile *.sbt set filetype=scala
+augroup END
+
+"TODO format-> :SortScalaImports
 
 let g:scala_use_default_keymappings = 0
 " }}}

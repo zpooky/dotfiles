@@ -35,7 +35,7 @@ if [ $? -eq 0 ]; then
 fi
 
 # ack --cpp -f 
-ack -f --cpp --print0 | xargs -n 1 -0 -I {} -- echo "$(pwd)/{}" > $TEMP_file
+ack -f --cpp --print0 --ignore-dir=googletest --ignore-dir=.ccls-cache | xargs -n 1 -0 -I {} -- echo "$(pwd)/{}" > $TEMP_file
 if [ ! $? -eq 0 ]; then
   echo "failed to ack for cpp files"
   cd "${cur_pwd}"

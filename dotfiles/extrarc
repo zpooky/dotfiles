@@ -566,8 +566,10 @@ alias sp-tty="sp-term"
 alias sp-write-to-file="vim $DROPBOX_LINUX/write-to-file.md"
 alias sp-pacman="vim $DROPBOX_LINUX/pacman.md"
 alias sp-dbus="vim $DROPBOX_LINUX/dbus.md"
+alias sp-grub="vim -p $DROPBOX_LINUX/grub.md $DROPBOX_LINUX/partition-fdisk.txt $DROPBOX_LINUX/partitioning.txt"
 
 local file_frequency="$REF_DIR/frequency.md" # TODO
+local file_sound="$REF_DIR/sound.md"
 local file_audio="$REF_DIR/audio.md"
 local file_pcm="$REF_DIR/pulse_code_modulation.md"
 
@@ -597,6 +599,7 @@ function sp_linux_dev_alias() {
   local file_multiplex="$REF_DIR/multiplex-transmission.md" # TODO
 
 
+  local file_pulseaudio="$REF_DIR/linux-pulseaudio.md"
   local file_alsa="$REF_DIR/linux-alsa.md"
 
   alias sp-linux-dev="vim -p $file_linux_dev $file_linux_dev_init $file_linux_dev_char $linux_dev_graphic"
@@ -630,7 +633,8 @@ function sp_linux_dev_alias() {
   alias sp-frequency="vim -p $file_frequency"
   alias sp-hertz="sp-frequency"
 
-  alias sp-alsa="vim -p ${file_alsa} ${file_audio} ${file_pcm}"
+  alias sp-alsa="vim -p ${file_alsa} ${file_pulseaudio}"
+  alias sp-pulseaudio="vim -p ${file_pulseaudio} ${file_alsa}"
 
 
   #TODO insulators, conductors, semiconductors
@@ -720,8 +724,9 @@ function sp_network() {
   alias sp-link-local="vim -p ${file_link_local} ${file_ipv6}"
 
   #audio
-  alias sp-audio="vim -p ${file_audio} ${file_pcm}"
-  alias sp-dsp="vim -p ${file_dsp} ${file_waveform} ${file_audio} ${file_pcm}"
+  alias sp-audio="vim -p ${file_audio} ${file_sound} $REF_DIR/audio-digital.md $REF_DIR/audio-digital-sync.md ${file_pcm}"
+  alias sp-sound="vim -p ${file_sound} ${file_audio} $REF_DIR/audio-digital.md $REF_DIR/audio-digital-sync.md ${file_pcm}"
+  alias sp-dsp="vim -p ${file_dsp} ${file_waveform} ${file_pcm}"
 }
 
 sp_network
@@ -896,6 +901,9 @@ alias sp-proj-ml="vim $DROPBOX/project/ml.md"
 alias sp-proj-sync="vim $DROPBOX/project/sync.md"
 alias sp-proj-os="vim $DROPBOX/project/kernel.md"
 alias sp-proj-kernel="sp-proj-os"
+
+#course
+alias sp-course-audio-dsp="vim $DROPBOX/course/audio-dsp.md"
 
 # nas540
 alias nas540="sshfs admin@nas540:/i-data/ $HOME/mount/nas540"

@@ -71,32 +71,6 @@ sudo wifi-menu
 ##turn off/on
 ###indicate if bluethooth is on
 
-## headset
-rfkill list
-rfkill unblock bluetooth
-systemctl status bluetooth
-systemctl start bluetooth.service
-
--- has to run before
-pulseaudio --start
-
-bluetoothctl
-  power on
-  agent on
-  default-agent
-  scan on
-  pair 00:1B:66:81:01:60
-  connect 00:1B:66:81:01:60
-  trust 00:1B:66:81:01:60
-  scan off
-
-[CHG] Controller 9C:B6:D0:14:3F:64 Discovering: yes
-[NEW] Device 00:1B:66:81:01:60 00-1B-66-81-01-60
-[CHG] Device 00:1B:66:81:01:60 LegacyPairing: no
-[CHG] Device 00:1B:66:81:01:60 Name: MOMENTUM M2 AEBT
-[CHG] Device 00:1B:66:81:01:60 Alias: MOMENTUM M2 AEBT
-[CHG] Device 00:1B:66:81:01:60 LegacyPairing: yes
-
 #graphic
 ##intel
 ##nvidia

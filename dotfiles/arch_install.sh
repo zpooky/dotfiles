@@ -104,8 +104,23 @@ if [ $? -eq 1 ]; then
 fi
 
 #nvim
+install_pkg nodejs
+install_pkg yarn
+
 install_pkg ruby
 install_pkg npm
+
+# scala language server
+install_yay metals
+
+# clang based language server
+install_yay ccls
+
+# Eclipse Java language server
+install_yay jdtls
+
+# An LSP server for Go
+install_yay gopls-git
 
 has_feature nvim
 if [ $? -eq 1 ]; then
@@ -206,7 +221,7 @@ install_pkg patch
 install_pkg yapf
 
 #tor-browser
-install_graphic_pkg tor-browser
+# install_graphic_pkg tor-browser
 
 #for wifi-menu
 install_graphic_pkg dialog
@@ -298,15 +313,15 @@ if [[ ! -n "${IS_DOCKER}" ]]; then
   fi
 
   #rtags
-  has_feature rdm
-  if [ $? -eq 1 ]; then
-    install_yay rtags
-    systemctl --user enable rdm.socket
-    systemctl --user start rdm.socket
-
-    systemctl --user enable rdm
-    systemctl --user start rdm
-  fi
+  # has_feature rdm
+  # if [ $? -eq 1 ]; then
+  #   install_yay rtags
+  #   systemctl --user enable rdm.socket
+  #   systemctl --user start rdm.socket
+  #
+  #   systemctl --user enable rdm
+  #   systemctl --user start rdm
+  # fi
 
 
   has_feature bibtex
@@ -361,18 +376,18 @@ install_pkg automake
 install_pkg acpi
 
 #haskell
-has_feature ghc
-if [ $? -eq 1 ]; then
-  install ghc || exit 1
-  install ghc-static || exit 1
-fi
+# has_feature ghc
+# if [ $? -eq 1 ]; then
+#   install ghc || exit 1
+#   install ghc-static || exit 1
+# fi
 
-has_feature cabal
-if [ $? -eq 1 ]; then
-  install cabal-install || exit 1
-  cabal update
-  cabal install spellcheck
-fi
+# has_feature cabal
+# if [ $? -eq 1 ]; then
+#   install cabal-install || exit 1
+#   cabal update
+#   cabal install spellcheck
+# fi
 
 install_pkg xterm
 has_feature zsh
@@ -509,5 +524,5 @@ install_pkg strace
 
 # echo "/lib/modules/$(uname -r)/build/include"
 # if [ ! -e "/lib/modules/$(uname -r)/build/include" ]; then
-  install_pkg linux-headers
+  # install_pkg linux-headers
 # fi
