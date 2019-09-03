@@ -125,20 +125,31 @@ function deploy_192_168_0_90(){
   local project="${1}"
   local project_dir="${BUILDDIR}/workspace/sources/${project}"
 
+  local l_reboot=false
+  # local l_systemd_restart=false
+
   if ! valid_build_dir; then
     return 1
   fi
-
 
   if [ ! -e "${project_dir}" ]; then
     echo "'${project_dir}' does not exist" >&2
     return 2
   fi
 
-  if [ "${project}"=="ioboxd" ]; then
+  if [ "${project}" = "ioboxd" ]; then
     local l_dest="/usr/bin/ioboxd"
-    local l_source="${project_dir}/${project}"
+    local l_source="${project_dir}/ioboxd"
     local l_systemd_name="ioboxd"
+    local l_reboot=true
+  elif [ "${project}" = "monolith" ]; then
+    local l_dest="/usr/bin/monolith"
+    local l_source="${project_dir}/monolith/oe-workdir/package/usr/bin/monolith"
+    local l_systemd_name="monolith"
+  elif [ "${project}" = "wsd" ]; then
+    local l_dest="/usr/bin/wsd"
+    local l_source="${project_dir}/oe-workdir/package/usr/bin/wsd"
+    local l_systemd_name="wsd"
   else
     echo "'${project}' is not supported" >&2
     return 3
@@ -149,6 +160,16 @@ function deploy_192_168_0_90(){
   devtool_build "${project}"
   if [ ! $? -eq 0 ]; then
     return 4
+  fi
+
+  if [ ! -e ${l_source} ]; then
+    echo "missing '${l_source}'"
+    return 5
+  fi
+
+  if [ ! -f ${l_source} ]; then
+    echo "is not a file '${l_source}'"
+    return 5
   fi
 
   echo "after local: $(sha256sum ${l_source})"
@@ -201,11 +222,20 @@ function deploy_192_168_0_90(){
   # local res=$?
   # return $res
 
-  echo "- reboot now"
-  sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "/usr/sbin/reboot now"
-  local res=$?
-  if [ ! $res -eq 0 ]; then
-    return $res
+  if [ $l_reboot = true ]; then
+    echo "- reboot now"
+    sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "/usr/sbin/reboot "
+    local res=$?
+    if [ ! $res -eq 0 ]; then
+      return $res
+    fi
+  else
+    echo "- systemctl start ${l_systemd_name}"
+    sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "systemctl start ${l_systemd_name}"
+    local res=$?
+    if [ ! $res -eq 0 ]; then
+      return $res
+    fi
   fi
 
   return 0
@@ -295,6 +325,8 @@ function flash_192_168_0_90_ftp() {
   fi
 
   sleep 1
+  echo
+  echo
   sha256sum "${l_image}"
   date
   echo "flashing '${l_image}'"
@@ -404,8 +436,15 @@ function netboot_192_168_0_90(){
 }
 
 function bitbake_axis-image-cvp() {
+  if ! valid_build_dir; then
+    return 1
+  fi
   # TODO time
   date
+
+  local fimage="${BUILDDIR}/fimage"
+  local fimage_before=$(sha256sum "${fimage}")
+
   bitbake axis-image-cvp
   local ret=$?
   if [ ${ret} -eq 0 ]; then
@@ -414,6 +453,14 @@ function bitbake_axis-image-cvp() {
     notify-send "Build [FAILED]"
   fi
   date
+
+  local fimage_after=$(sha256sum "${fimage}")
+
+  echo "# ${fimage}"
+  echo "before: ${fimage_before}"
+  echo "after : ${fimage_after}"
+  echo
+  echo
 
   return $ret
 }
@@ -478,8 +525,12 @@ function devtool_build(){
     return 1
   fi
 
+
   "$HOME/dotfiles/lib/devtool_build.sh" "${project}"
-  return $?
+  local out=$?
+
+
+  return out
 }
 
 
@@ -568,6 +619,37 @@ function env_setup() {
   cp ~/Dropbox/axis/gitignore .gitignore
   git add .
   git commit -m "initial"
+}
+
+
+function portcast_features(){
+  if ! valid_build_dir; then
+    return 1
+  fi
+
+  local build_root="${BUILDDIR}/../.."
+  local machine_root=$(realpath "${build_root}/meta-axis-bsp/conf/machine/axis-config")
+
+  # echo grep "AXIS_CONFIG_PORTCAST=y" "${machine_root}" -lir
+  # echo "${build_root}"
+  # echo "${machine_root}"
+
+  local machine_configs=( $(grep "AXIS_CONFIG_PORTCAST=y" "${machine_root}" -lir) )
+
+  # echo ${machine_configs}
+
+  for ax in ${machine_configs[@]};
+  do
+    echo "# ${ax}"
+    grep AXIS_CONFIG_AUDIO_OUTPUTS "${ax}" | xargs echo "-"
+    grep AXIS_CONFIG_AUDIO_SOURCES "${ax}" | xargs echo "-"
+    grep "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_DEFAULT" "${ax}" | xargs echo "-"
+    grep "^AXIS_CONFIG_AUDIO_SAMPLE_RATE" "${ax}" | xargs -n1 echo "-"
+
+    grep AXIS_CONFIG_GPIOMAP "${ax}"| xargs echo "?"
+    grep AXIS_CONFIG_IO_INPUTS "${ax}" | xargs echo "?"
+    echo
+  done
 }
 
 # setxkbmap -option caps:escape

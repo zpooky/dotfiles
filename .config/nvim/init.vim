@@ -35,8 +35,6 @@ endif
 " 1. auto select indentation based on existing  content
 " 2. fix arg shift
 " 3. ctag should index referenced header from path
-" 4. coc.vim?
-" 5. rtags...
 " TODO syntax all caps is macro (MH_HASH_SIZE)
 
 " https://github.com/rprichard/sourceweb
@@ -577,6 +575,9 @@ Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
 
 " " delay refresh
 " let g:codi#autocmd = 'InsertLeave'
+"
+let g:codi#width = 120
+let g:codi#rightalign =0
 
 " # vim             command
 " Codi [filetype] - activates Codi

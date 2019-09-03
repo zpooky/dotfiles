@@ -339,6 +339,8 @@ alias sp-duffs-device="vim $REF_DIR/duffs-device.md"
 alias sp-glossary="vim $REF_DIR/glossary.md"
 alias sp-tlv="vim $REF_DIR/tlv.md"
 alias sp-audiobook="vim $REF_DIR/audiobook.md"
+alias sp-backup="vim $REF_DIR/backup.md"
+alias sp-spell="vim $REF_DIR/spell.md"
 
 #
 alias sp-stocks="vim $REF_DIR/stocks.md"
@@ -1101,6 +1103,8 @@ function sp_calc(){
   fi
 
   vim -p "${codi_file}" -c "
+    set scrollbind
+    set cursorbind
     hi ColorColumn ctermbg=NONE
     hi VertSplit ctermbg=NONE
     hi NonText ctermfg=0
