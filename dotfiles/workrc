@@ -121,12 +121,62 @@ function valid_build_dir() {
   return 0
 }
 
+function overlay_mount_192_168_0_90(){
+  local l_etc_fwmgr_src="/tmp/fwmgr.conf"
+  local l_etc_fwmgr_dest="/etc/fwmgr.conf"
+
+  local l_user="root"
+  local l_pass="pass"
+  local l_ip="192.168.0.90"
+  local res=0
+
+  echo "sshpass -p ${l_pass} scp ${l_user}@${l_ip}:${l_etc_fwmgr_dest} ${l_etc_fwmgr_src}"
+  sshpass -p "${l_pass}" scp "${l_user}"@"${l_ip}":"${l_etc_fwmgr_dest}" "${l_etc_fwmgr_src}"
+  if [ ! $? -eq 0 ]; then
+    echo "- mounting overlay fs"
+    echo "overlay_usr=all" > "${l_etc_fwmgr_src}"
+
+    echo "sshpass -p ${l_pass} scp ${l_etc_fwmgr_src} ${l_user}@${l_ip}:${l_etc_fwmgr_dest}"
+    sshpass -p "${l_pass}" scp "${l_etc_fwmgr_src}" "${l_user}"@"${l_ip}":"${l_etc_fwmgr_dest}"
+    res=$?
+
+    if [ ! $res -eq 0 ]; then
+      echo "failed mounting"
+      exit $res
+    fi
+
+
+    echo "sshpass -p ${l_pass} ssh -t ${l_user}@${l_ip} /usr/sbin/reboot"
+    sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "/usr/sbin/reboot"
+
+    sleep 3
+
+    res=1
+    while [ ! $res -eq 0 ]; do
+      echo "sshpass -p ${l_pass} ssh -t ${l_user}@${l_ip} ls"
+      sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "ls"
+      res=$?
+    done
+  else
+    echo "- already mounted overlay fs"
+  fi
+
+  return $res
+}
+
+# TODO sshfs mount camera in some work dir that will be used by makefile
+# TODO find command to setup env(to override dest) and run make with corretch binaries
 function deploy_192_168_0_90(){
   local project="${1}"
   local project_dir="${BUILDDIR}/workspace/sources/${project}"
 
   local l_reboot=false
+  local l_systemd=false
   # local l_systemd_restart=false
+
+  local l_user="root"
+  local l_pass="pass"
+  local l_ip="192.168.0.90"
 
   if ! valid_build_dir; then
     return 1
@@ -137,19 +187,53 @@ function deploy_192_168_0_90(){
     return 2
   fi
 
+  axis_enable_root_192_168_0_90
+
   if [ "${project}" = "ioboxd" ]; then
     local l_dest="/usr/bin/ioboxd"
     local l_source="${project_dir}/ioboxd"
     local l_systemd_name="ioboxd"
-    local l_reboot=true
+    l_reboot=true
   elif [ "${project}" = "monolith" ]; then
     local l_dest="/usr/bin/monolith"
     local l_source="${project_dir}/monolith/oe-workdir/package/usr/bin/monolith"
     local l_systemd_name="monolith"
+    l_systemd=true
   elif [ "${project}" = "wsd" ]; then
     local l_dest="/usr/bin/wsd"
     local l_source="${project_dir}/oe-workdir/package/usr/bin/wsd"
     local l_systemd_name="wsd"
+    l_systemd=true
+  elif [ "${project}" = "audiocontrol" ]; then
+    local l_dest="/usr/bin/audiocontrol"
+    local l_source="${project_dir}/oe-workdir/package/usr/bin/audiocontrol"
+    local l_systemd_name="audiocontrol"
+    l_systemd=true
+  elif [ "${project}" = "mediaclip-cgi" ]; then
+    local l_source="${project_dir}/oe-workdir/package/usr/html/axis-cgi"
+
+    local src_mediaclip="${l_source}/mediaclip.cgi"
+    local src_playclip="${l_source}/playclip.cgi"
+
+    local l_systemd_name="httpd"
+
+    # devtool_build "${project}"
+    # if [ ! $? -eq 0 ]; then
+    #   return 4
+    # fi
+
+    overlay_mount_192_168_0_90
+
+    echo "sshpass -p ${l_pass} scp ${src_mediaclip} ${l_user}@${l_ip}:/usr/html/axis-cgi"
+    sshpass -p "${l_pass}" scp "${src_mediaclip}" "${l_user}"@"${l_ip}":"/usr/html/axis-cgi"
+
+    echo "sshpass -p ${l_pass} scp ${src_playclip} ${l_user}@${l_ip}:/usr/html/axis-cgi"
+    sshpass -p "${l_pass}" scp "${src_playclip}" "${l_user}"@"${l_ip}":"/usr/html/axis-cgi"
+
+    echo "sshpass -p ${l_pass} ssh -t ${l_user}@${l_ip} systemctl restart ${l_systemd_name}"
+    sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "systemctl restart ${l_systemd_name}"
+
+    return 0
   else
     echo "'${project}' is not supported" >&2
     return 3
@@ -174,34 +258,9 @@ function deploy_192_168_0_90(){
 
   echo "after local: $(sha256sum ${l_source})"
 
-  local l_user="root"
-  local l_pass="pass"
-  local l_ip="192.168.0.90"
-
-  local l_etc_fwmgr_src="/tmp/fwmgr.conf"
-  local l_etc_fwmgr_dest="/etc/fwmgr.conf"
-
   echo "- curl"
-  axis_enable_root_192_168_0_90
 
-  sshpass -p "${l_pass}" scp "${l_user}"@"${l_ip}":"${l_etc_fwmgr_dest}" "${l_etc_fwmgr_src}"
-  if [ ! $? -eq 0 ]; then
-    echo "overlay_usr=all" > "${l_etc_fwmgr_src}"
-
-    sshpass -p "${l_pass}" scp "${l_etc_fwmgr_src}" "${l_user}"@"${l_ip}":"${l_etc_fwmgr_dest}"
-    ret=$?
-
-    if [ ! $ret -eq 0 ]; then
-      return $ret
-    fi
-
-    echo "- mounting overlay fs"
-
-    # TODO reboot
-    # TODO sleep
-  else
-    echo "- already mounted overlay fs"
-  fi
+  overlay_mount_192_168_0_90
 
   echo "- systemctl stop ${l_systemd_name}"
   sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "systemctl stop ${l_systemd_name}"
@@ -229,14 +288,18 @@ function deploy_192_168_0_90(){
     if [ ! $res -eq 0 ]; then
       return $res
     fi
-  else
+  elif [ $l_systemd = true ]; then
     echo "- systemctl start ${l_systemd_name}"
     sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "systemctl start ${l_systemd_name}"
     local res=$?
     if [ ! $res -eq 0 ]; then
       return $res
     fi
+  else
+    echo "none"
+    return 1
   fi
+
 
   return 0
 }
@@ -292,6 +355,8 @@ function devtool_modify() {
     #   cd "${lwd}"
     # fi
   done
+
+  notify-send "modify done"
 }
 
 function flash_192_168_0_90_ftp() {
@@ -390,11 +455,13 @@ function netboot_192_168_0_90(){
   local l_machine="$(basename ${BUILDDIR})"
   echo "machine '${l_machine}'"
 
-  $HOME/development/axis/tpp/ff enable-ssh
-  if [ ! $? -eq 0 ]; then
-    echo "failed to enable-ssh"
-    return 1
-  fi
+  # axis_enable_root_192_168_0_90
+  #
+  # $HOME/development/axis/tpp/ff enable-ssh
+  # if [ ! $? -eq 0 ]; then
+  #   echo "failed to enable-ssh"
+  #   return 1
+  # fi
   sleep 1s
 
   $HOME/development/axis/tpp/ff :netboot
@@ -505,7 +572,7 @@ function entr_devtool_build(){
   local l_workspace="${BUILDDIR}/workspace/sources/${project}"
 
   if [ ! -e "${l_workspace}" ]; then
-    echo "missing worksapce '${l_workspace}'">&2
+    echo "missing workspace '${l_workspace}'">&2
     return 1
   fi
 
@@ -521,7 +588,7 @@ function devtool_build(){
   local l_workspace="${BUILDDIR}/workspace/sources/${project}"
 
   if [ ! -e "${l_workspace}" ]; then
-    echo "missing worksapce '${l_workspace}'">&2
+    echo "missing workspace '${l_workspace}'">&2
     return 1
   fi
 
@@ -596,7 +663,7 @@ function env_setup() {
   fi
 
   if [[ -e "${l_workdir}" ]]; then
-    echo "worksapce already exist '${l_workdir}'"
+    echo "workspace already exist '${l_workdir}'"
     return 5
   fi
 
@@ -606,7 +673,7 @@ function env_setup() {
   fi
 
   if [[ ! -e "${l_workdir}" ]]; then
-    echo "worksapce does not exist '${l_workdir}'"
+    echo "workspace does not exist '${l_workdir}'"
     return 6
   fi
 
@@ -621,6 +688,63 @@ function env_setup() {
   git commit -m "initial"
 }
 
+function setProperty(){
+  local key=$1
+  local value=$2
+  local file=$3
+
+  awk -v pat="^$key=" -v value="$key=$value" '{ if ($0 ~ pat) print value; else print $0; }' $file > $file.tmp
+  mv $file.tmp $file
+}
+
+function getProperty() {
+   local key=$1
+   local file=$2
+   local value=$(cat "$file" | grep "$key" | cut -d'=' -f2)
+   echo $value
+}
+
+function listProperties(){
+  local file=$1
+
+  cat "${file}" | cut -d'=' -f1 | xargs
+}
+
+function dumpProperties(){
+  if [ $# -eq 0 ]; then
+    return 10
+  fi
+
+  local tmp_file="$(mktemp /tmp/tmp.XXXXXXXXXXXXXX)"
+
+  # echo "arg: $1"
+  cat $1 > $tmp_file
+  shift
+
+  while [ $# -gt 0 ]; do
+    local args=($(listProperties "$1"))
+
+    for key in ${args[@]}; do
+      local value=$(getProperty "${key}" "$1")
+      # echo "${value} = getProperty ${key} $1"
+      setProperty "${key}" "${value}" "${tmp_file}"
+    done
+
+    shift
+  done
+
+  while IFS='' read -r line || [[ -n "$line" ]]; do
+    echo "- ${line}"
+  done < "${tmp_file}"
+
+# echo "${default_audiocontrol_conf}"
+# if [ -e "${audiocontrol_conf_product}" ]; then
+# awk -F= '!a[$1]++' "${default_audiocontrol_prod}" "${audiocontrol_conf_product}"
+# fi
+
+  rm ${tmp_file}
+}
+
 
 function portcast_features(){
   if ! valid_build_dir; then
@@ -629,6 +753,9 @@ function portcast_features(){
 
   local build_root="${BUILDDIR}/../.."
   local machine_root=$(realpath "${build_root}/meta-axis-bsp/conf/machine/axis-config")
+
+  local audiocontrol_conf_root="${BUILDDIR}/workspace/sources/audiocontrol-conf"
+  local default_audiocontrol_conf="${audiocontrol_conf_root}/products/default_audiocontrol_prod.inc"
 
   # echo grep "AXIS_CONFIG_PORTCAST=y" "${machine_root}" -lir
   # echo "${build_root}"
@@ -640,14 +767,28 @@ function portcast_features(){
 
   for ax in ${machine_configs[@]};
   do
-    echo "# ${ax}"
+    local ax_name="$(basename ${ax})"
+    local product_name="$(cut -d '.' -f1 <<< $ax_name)"
+    local audiocontrol_conf_product="${audiocontrol_conf_root}/products/${product_name}/audiocontrol_prod.inc"
+
+    echo "========================================"
+    echo "# ${product_name}"
     grep AXIS_CONFIG_AUDIO_OUTPUTS "${ax}" | xargs echo "-"
     grep AXIS_CONFIG_AUDIO_SOURCES "${ax}" | xargs echo "-"
-    grep "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_DEFAULT" "${ax}" | xargs echo "-"
+    grep "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_DEFAULT" "${ax}" | xargs echo "- default:"
     grep "^AXIS_CONFIG_AUDIO_SAMPLE_RATE" "${ax}" | xargs -n1 echo "-"
 
+    echo "## I/O"
     grep AXIS_CONFIG_GPIOMAP "${ax}"| xargs echo "?"
     grep AXIS_CONFIG_IO_INPUTS "${ax}" | xargs echo "?"
+
+    echo "## audiocontrol-conf"
+    if [ -e "${audiocontrol_conf_product}" ]; then
+      dumpProperties "${default_audiocontrol_conf}" "${audiocontrol_conf_product}"
+    else
+      dumpProperties "${default_audiocontrol_conf}"
+    fi
+
     echo
   done
 }

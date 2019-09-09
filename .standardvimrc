@@ -258,6 +258,8 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab refred referred
+iab allso also
 iab meassuring measuring
 iab reprecente represent
 iab speach speech
