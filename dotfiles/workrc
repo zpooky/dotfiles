@@ -122,22 +122,22 @@ function valid_build_dir() {
 }
 
 function overlay_mount_192_168_0_90(){
-  local l_etc_fwmgr_src="/tmp/fwmgr.conf"
-  local l_etc_fwmgr_dest="/etc/fwmgr.conf"
+  local l_fwmgr_local="/tmp/fwmgr.conf"
+  local l_fwmgr_remote="/etc/fwmgr.conf"
 
   local l_user="root"
   local l_pass="pass"
   local l_ip="192.168.0.90"
   local res=0
 
-  echo "sshpass -p ${l_pass} scp ${l_user}@${l_ip}:${l_etc_fwmgr_dest} ${l_etc_fwmgr_src}"
-  sshpass -p "${l_pass}" scp "${l_user}"@"${l_ip}":"${l_etc_fwmgr_dest}" "${l_etc_fwmgr_src}"
+  echo "sshpass -p ${l_pass} scp ${l_user}@${l_ip}:${l_fwmgr_remote} ${l_fwmgr_local}"
+  sshpass -p "${l_pass}" scp "${l_user}"@"${l_ip}":"${l_fwmgr_remote}" "${l_fwmgr_local}"
   if [ ! $? -eq 0 ]; then
     echo "- mounting overlay fs"
-    echo "overlay_usr=all" > "${l_etc_fwmgr_src}"
+    echo "overlay_usr=all" > "${l_fwmgr_local}"
 
-    echo "sshpass -p ${l_pass} scp ${l_etc_fwmgr_src} ${l_user}@${l_ip}:${l_etc_fwmgr_dest}"
-    sshpass -p "${l_pass}" scp "${l_etc_fwmgr_src}" "${l_user}"@"${l_ip}":"${l_etc_fwmgr_dest}"
+    echo "sshpass -p ${l_pass} scp ${l_fwmgr_local} ${l_user}@${l_ip}:${l_fwmgr_remote}"
+    sshpass -p "${l_pass}" scp "${l_fwmgr_local}" "${l_user}"@"${l_ip}":"${l_fwmgr_remote}"
     res=$?
 
     if [ ! $res -eq 0 ]; then
@@ -145,18 +145,7 @@ function overlay_mount_192_168_0_90(){
       exit $res
     fi
 
-
-    echo "sshpass -p ${l_pass} ssh -t ${l_user}@${l_ip} /usr/sbin/reboot"
-    sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "/usr/sbin/reboot"
-
-    sleep 3
-
-    res=1
-    while [ ! $res -eq 0 ]; do
-      echo "sshpass -p ${l_pass} ssh -t ${l_user}@${l_ip} ls"
-      sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "ls"
-      res=$?
-    done
+    reboot_192_168_0_90
   else
     echo "- already mounted overlay fs"
   fi
@@ -230,8 +219,7 @@ function deploy_192_168_0_90(){
     echo "sshpass -p ${l_pass} scp ${src_playclip} ${l_user}@${l_ip}:/usr/html/axis-cgi"
     sshpass -p "${l_pass}" scp "${src_playclip}" "${l_user}"@"${l_ip}":"/usr/html/axis-cgi"
 
-    echo "sshpass -p ${l_pass} ssh -t ${l_user}@${l_ip} systemctl restart ${l_systemd_name}"
-    sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "systemctl restart ${l_systemd_name}"
+    ssh_192_168_0_90_execute "systemctl restart ${l_systemd_name}"
 
     return 0
   else
@@ -239,7 +227,7 @@ function deploy_192_168_0_90(){
     return 3
   fi
 
-  echo "before local: $(sha256sum ${l_source})"
+  before_sha256="$(sha256sum ${l_source})"
 
   devtool_build "${project}"
   if [ ! $? -eq 0 ]; then
@@ -256,18 +244,19 @@ function deploy_192_168_0_90(){
     return 5
   fi
 
-  echo "after local: $(sha256sum ${l_source})"
+  after_sha256="$(sha256sum ${l_source})"
 
   echo "- curl"
 
   overlay_mount_192_168_0_90
 
-  echo "- systemctl stop ${l_systemd_name}"
-  sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "systemctl stop ${l_systemd_name}"
+  ssh_192_168_0_90_execute "systemctl stop ${l_systemd_name}"
   local res=$?
   if [ ! $res -eq 0 ]; then
     return $res
   fi
+
+  before_camera_sha256=$(sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "sha256sum ${l_dest}")
 
   echo "- scp ${l_source} to ${l_dest}"
   sshpass -p "${l_pass}" scp "${l_source}" "${l_user}"@"${l_ip}":"${l_dest}"
@@ -276,21 +265,27 @@ function deploy_192_168_0_90(){
     return $res
   fi
 
+  after_camera_sha256=$(sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "sha256sum ${l_dest}")
+
   # echo "- systemctl start ${l_systemd_name}"
   # sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "systemctl start ${l_systemd_name}"
   # local res=$?
   # return $res
 
+  echo "# before  LOCAL: ${before_sha256}"
+  echo "# after   LOCAL: ${after_sha256}"
+  echo "# before CAMERA: ${before_camera_sha256}"
+  echo "# after  CAMERA: ${after_camera_sha256}"
+
   if [ $l_reboot = true ]; then
     echo "- reboot now"
-    sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "/usr/sbin/reboot "
+    reboot_192_168_0_90
     local res=$?
     if [ ! $res -eq 0 ]; then
       return $res
     fi
   elif [ $l_systemd = true ]; then
-    echo "- systemctl start ${l_systemd_name}"
-    sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "systemctl start ${l_systemd_name}"
+    ssh_192_168_0_90_execute "systemctl start ${l_systemd_name}"
     local res=$?
     if [ ! $res -eq 0 ]; then
       return $res
@@ -359,6 +354,36 @@ function devtool_modify() {
   notify-send "modify done"
 }
 
+function ssh_192_168_0_90_execute(){
+  local l_user="root"
+  local l_pass="pass"
+  local l_ip="192.168.0.90"
+
+  local cmd="$1"
+
+  echo "sshpass -p ${l_pass} ssh -q ${l_user}@${l_ip} \"${cmd}\""
+  sshpass -p "${l_pass}" ssh -qt ${l_user}@${l_ip} "${cmd}"
+  return $?
+}
+
+
+function reboot_192_168_0_90() {
+  local l_user="root"
+  local l_pass="pass"
+  local l_ip="192.168.0.90"
+
+  ssh_192_168_0_90_execute "/usr/sbin/reboot"
+  sleep 5
+
+  res=1
+  while [ ! $res -eq 0 ]; do
+    ssh_192_168_0_90_execute "ls"
+    res=$?
+  done
+
+  return $res
+}
+
 function flash_192_168_0_90_ftp() {
   # TODO grep for "Error: No custom firmware certificate for camera group 'axis-devel-ambarella-s5l'."
   local l_user="root"
@@ -403,7 +428,22 @@ function flash_192_168_0_90_ftp() {
     $HOME/development/axis/tpp/ff enable-ftp
     local ret=$?
     if [ ${ret} -eq 0 ]; then
+      local l_fwmgr_local="/tmp/fwmgr.conf"
+      local l_fwmgr_remote="/etc/fwmgr.conf"
+      local res=0
+
       sleep 2s
+
+      rm ${l_fwmgr_local} 2> /dev/null
+
+      echo "sshpass -p ${l_pass} scp ${l_user}@${l_ip}:${l_fwmgr_remote} ${l_fwmgr_local}"
+      sshpass -p "${l_pass}" scp "${l_user}"@"${l_ip}":"${l_fwmgr_remote}" "${l_fwmgr_local}"
+      if [ -f ${l_fwmgr_local} ]; then
+        ssh_192_168_0_90_execute "rm ${l_fwmgr_remote}"
+
+        reboot_192_168_0_90
+      fi
+
       ftp -u ftp://${l_user}:${l_pass}@${l_ip}/flash_all ${l_image}
       local ret=$?
       if [ ${ret} -eq 0 ]; then
@@ -745,7 +785,7 @@ function dumpProperties(){
   rm ${tmp_file}
 }
 
-
+# TODO portcast-conf
 function portcast_features(){
   if ! valid_build_dir; then
     return 1
