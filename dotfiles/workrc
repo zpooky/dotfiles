@@ -18,8 +18,16 @@ export no_proxy=192.168.0.90,localhost,127.0.0.1,127.0.1.1,.localdomain,axis.com
 source ~/development/axis/oe-setup/oe-setup.sh
 
 function axis_enable_root_192_168_0_90(){
-  curl --noproxy "*" --connect-timeout 5 'http://192.168.0.90/axis-cgi/pwdgrp.cgi?action=add&user=root&pwd=pass&grp=root&sgrp=admin:operator:viewer:ptz'
-  return $?
+  local resp=$(curl --noproxy "*" --connect-timeout 5 'http://192.168.0.90/axis-cgi/pwdgrp.cgi?action=add&user=root&pwd=pass&grp=root&sgrp=admin:operator:viewer:ptz' -w "%{http_code}")
+  echo "${resp}"
+
+  local code=$(echo "${resp}" | tail -1)
+
+  if [ "${code}" = "200" ]; then
+    return 0
+  fi
+
+  return 1
 }
 
 function ssh_192_168_0_90() {
@@ -40,7 +48,25 @@ function ssh_192_168_0_90() {
     # AF_UNIX socket
     l_env+=' && echo "alias unix_con=\"netstat -apnx\"" >> $HOME/.shinit'
 
+    local disable_setup="/tmp/disable_setup"
     axis_enable_root_192_168_0_90
+    if [ $? -eq 0 ]; then
+      touch "${disable_setup}"
+    fi
+
+    if [ -e "${disable_setup}" ]; then
+      ssh_192_168_0_90_execute "parhandclient set root.System.CaptureFrequencySet yes"
+      local res=$?
+
+      if [ $res -eq 0 ]; then
+        ssh_192_168_0_90_execute "parhandclient set root.System.CaptureModeSet yes"
+        local res=$?
+      fi
+
+      if [ $res -eq 0 ]; then
+        rm "${disable_setup}"
+      fi
+    fi
 
   # sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} 'alias ll="ls -alh";ll; exec /bin/sh -l' # 'alias ll="ls-alh"; /bin/sh -l'
     TERM=xterm sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "${l_env_setup} ${l_env}; exec /bin/sh -l"
@@ -61,6 +87,9 @@ function ssh_192_168_0_90() {
       sshx
     fi
   fi
+
+  # hides functions from global scope
+  unset -f sshx
 }
 
 
@@ -177,10 +206,11 @@ function deploy_192_168_0_90(){
   fi
 
   axis_enable_root_192_168_0_90
+  $HOME/development/axis/tpp/ff enable-ssh
 
   if [ "${project}" = "ioboxd" ]; then
     local l_dest="/usr/bin/ioboxd"
-    local l_source="${project_dir}/ioboxd"
+    local l_source="${project_dir}/oe-workdir/package/usr/bin/ioboxd"
     local l_systemd_name="ioboxd"
     l_reboot=true
   elif [ "${project}" = "monolith" ]; then
@@ -197,6 +227,16 @@ function deploy_192_168_0_90(){
     local l_dest="/usr/bin/audiocontrol"
     local l_source="${project_dir}/oe-workdir/package/usr/bin/audiocontrol"
     local l_systemd_name="audiocontrol"
+    l_reboot=true
+  elif [ "${project}" = "audio-streaming-caps-cgi" ]; then
+    local l_dest="/usr/html/axis-cgi/audio/streamingcapabilities.cgi"
+    local l_source="${project_dir}/oe-workdir/package/usr/html/axis-cgi/audio/streamingcapabilities.cgi"
+    local l_systemd_name="httpd"
+    l_systemd=true
+  elif [ "${project}" = "audio-service" ]; then
+    local l_dest="/usr/bin/audio-service"
+    local l_source="${project_dir}/audio-service/oe-workdir/package/usr/bin/audio-service"
+    local l_systemd_name="audio-service"
     l_systemd=true
   elif [ "${project}" = "mediaclip-cgi" ]; then
     local l_source="${project_dir}/oe-workdir/package/usr/html/axis-cgi"
@@ -252,51 +292,49 @@ function deploy_192_168_0_90(){
 
   ssh_192_168_0_90_execute "systemctl stop ${l_systemd_name}"
   local res=$?
-  if [ ! $res -eq 0 ]; then
-    return $res
+  if [ $res -eq 0 ]; then
+
+    before_camera_sha256=$(sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "sha256sum ${l_dest}")
+
+    echo "- scp ${l_source} to ${l_dest}"
+    sshpass -p "${l_pass}" scp -q "${l_source}" "${l_user}"@"${l_ip}":"${l_dest}"
+    local res=$?
+
+    if [ $res -eq 0 ]; then
+      after_camera_sha256=$(sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "sha256sum ${l_dest}")
+
+      # echo "- systemctl start ${l_systemd_name}"
+      # sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "systemctl start ${l_systemd_name}"
+      # local res=$?
+      # return $res
+
+      echo "# before  LOCAL: ${before_sha256}"
+      echo "# after   LOCAL: ${after_sha256}"
+      echo "# before CAMERA: ${before_camera_sha256}"
+      echo "# after  CAMERA: ${after_camera_sha256}"
+
+      res=1
+      if [ $l_reboot = true ]; then
+        reboot_192_168_0_90
+        res=$?
+      elif [ $l_systemd = true ]; then
+        ssh_192_168_0_90_execute "systemctl start ${l_systemd_name}"
+        res=$?
+      else
+        echo "none"
+      fi
+    fi
   fi
 
-  before_camera_sha256=$(sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "sha256sum ${l_dest}")
-
-  echo "- scp ${l_source} to ${l_dest}"
-  sshpass -p "${l_pass}" scp "${l_source}" "${l_user}"@"${l_ip}":"${l_dest}"
-  local res=$?
-  if [ ! $res -eq 0 ]; then
-    return $res
-  fi
-
-  after_camera_sha256=$(sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "sha256sum ${l_dest}")
-
-  # echo "- systemctl start ${l_systemd_name}"
-  # sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "systemctl start ${l_systemd_name}"
-  # local res=$?
-  # return $res
-
-  echo "# before  LOCAL: ${before_sha256}"
-  echo "# after   LOCAL: ${after_sha256}"
-  echo "# before CAMERA: ${before_camera_sha256}"
-  echo "# after  CAMERA: ${after_camera_sha256}"
-
-  if [ $l_reboot = true ]; then
-    echo "- reboot now"
-    reboot_192_168_0_90
-    local res=$?
-    if [ ! $res -eq 0 ]; then
-      return $res
-    fi
-  elif [ $l_systemd = true ]; then
-    ssh_192_168_0_90_execute "systemctl start ${l_systemd_name}"
-    local res=$?
-    if [ ! $res -eq 0 ]; then
-      return $res
-    fi
+  if [ $res -eq 0 ]; then
+    notify-send "deploy '${project}' [DONE]"
+    echo "OK"
   else
-    echo "none"
-    return 1
+    notify-send "deploy '${project}' [FAILED]"
+    echo "FAILED"
   fi
 
-
-  return 0
+  return $res
 }
 
 function rtags_all(){
@@ -372,7 +410,7 @@ function reboot_192_168_0_90() {
   local l_pass="pass"
   local l_ip="192.168.0.90"
 
-  ssh_192_168_0_90_execute "/usr/sbin/reboot"
+  ssh_192_168_0_90_execute "sleep 1;/usr/sbin/reboot;sleep 4"
   sleep 5
 
   res=1
@@ -422,6 +460,7 @@ function flash_192_168_0_90_ftp() {
   echo "flashing '${l_image}'"
 
   axis_enable_root_192_168_0_90
+  sleep 2
 
   # ftp -u ftp://${l_user}:${l_pass}@${l_ip}/flash_all ${l_image}
   # if [ ! $? -eq 0 ]; then
@@ -436,12 +475,13 @@ function flash_192_168_0_90_ftp() {
 
       rm ${l_fwmgr_local} 2> /dev/null
 
-      echo "sshpass -p ${l_pass} scp ${l_user}@${l_ip}:${l_fwmgr_remote} ${l_fwmgr_local}"
-      sshpass -p "${l_pass}" scp "${l_user}"@"${l_ip}":"${l_fwmgr_remote}" "${l_fwmgr_local}"
+      echo "sshpass -p ${l_pass} scp -q ${l_user}@${l_ip}:${l_fwmgr_remote} ${l_fwmgr_local}"
+      sshpass -p "${l_pass}" scp -q "${l_user}"@"${l_ip}":"${l_fwmgr_remote}" "${l_fwmgr_local}"
       if [ -f ${l_fwmgr_local} ]; then
         ssh_192_168_0_90_execute "rm ${l_fwmgr_remote}"
 
         reboot_192_168_0_90
+        sleep 5s
       fi
 
       ftp -u ftp://${l_user}:${l_pass}@${l_ip}/flash_all ${l_image}
@@ -616,7 +656,10 @@ function entr_devtool_build(){
     return 1
   fi
 
-  ack -f --cpp --ignore-dir=oe-workdir --ignore-dir=oe-logs -r "${l_workspace}" | entr -c "$HOME/dotfiles/lib/devtool_build.sh" "${project}"
+  echo "ack -f --cpp --ignore-dir=oe-workdir --ignore-dir=oe-logs -r ${l_workspace}"
+  cd ${l_workspace}
+  ack -f --cpp --ignore-dir=oe-workdir --ignore-dir=oe-logs -r | entr -c "$HOME/dotfiles/lib/devtool_build.sh" "${project}"
+  cd -
 }
 
 function devtool_build(){
@@ -728,65 +771,68 @@ function env_setup() {
   git commit -m "initial"
 }
 
-function setProperty(){
-  local key=$1
-  local value=$2
-  local file=$3
-
-  awk -v pat="^$key=" -v value="$key=$value" '{ if ($0 ~ pat) print value; else print $0; }' $file > $file.tmp
-  mv $file.tmp $file
-}
-
-function getProperty() {
-   local key=$1
-   local file=$2
-   local value=$(cat "$file" | grep "$key" | cut -d'=' -f2)
-   echo $value
-}
-
-function listProperties(){
-  local file=$1
-
-  cat "${file}" | cut -d'=' -f1 | xargs
-}
-
-function dumpProperties(){
-  if [ $# -eq 0 ]; then
-    return 10
-  fi
-
-  local tmp_file="$(mktemp /tmp/tmp.XXXXXXXXXXXXXX)"
-
-  # echo "arg: $1"
-  cat $1 > $tmp_file
-  shift
-
-  while [ $# -gt 0 ]; do
-    local args=($(listProperties "$1"))
-
-    for key in ${args[@]}; do
-      local value=$(getProperty "${key}" "$1")
-      # echo "${value} = getProperty ${key} $1"
-      setProperty "${key}" "${value}" "${tmp_file}"
-    done
-
-    shift
-  done
-
-  while IFS='' read -r line || [[ -n "$line" ]]; do
-    echo "- ${line}"
-  done < "${tmp_file}"
-
-# echo "${default_audiocontrol_conf}"
-# if [ -e "${audiocontrol_conf_product}" ]; then
-# awk -F= '!a[$1]++' "${default_audiocontrol_prod}" "${audiocontrol_conf_product}"
-# fi
-
-  rm ${tmp_file}
-}
-
 # TODO portcast-conf
 function portcast_features(){
+  function dumpProperties(){
+    function setProperty(){
+      local key=$1
+      local value=$2
+      local file=$3
+
+      awk -v pat="^$key=" -v value="$key=$value" '{ if ($0 ~ pat) print value; else print $0; }' $file > $file.tmp
+      mv $file.tmp $file
+    }
+
+    function getProperty() {
+      local key=$1
+      local file=$2
+      local value=$(cat "$file" | grep "$key" | cut -d'=' -f2)
+      echo $value
+    }
+
+    function listProperties(){
+      local file=$1
+
+      cat "${file}" | cut -d'=' -f1 | xargs
+    }
+
+    if [ $# -eq 0 ]; then
+      return 10
+    fi
+
+    local tmp_file="$(mktemp /tmp/tmp.XXXXXXXXXXXXXX)"
+
+    # echo "arg: $1"
+    cat $1 > $tmp_file
+    shift
+
+    while [ $# -gt 0 ]; do
+      local args=($(listProperties "$1"))
+
+      for key in ${args[@]}; do
+        local value=$(getProperty "${key}" "$1")
+        # echo "${value} = getProperty ${key} $1"
+        setProperty "${key}" "${value}" "${tmp_file}"
+      done
+
+      shift
+    done
+
+    while IFS='' read -r line || [[ -n "$line" ]]; do
+      echo "- ${line}"
+    done < "${tmp_file}"
+
+  # echo "${default_audiocontrol_conf}"
+  # if [ -e "${audiocontrol_conf_product}" ]; then
+  # awk -F= '!a[$1]++' "${default_audiocontrol_prod}" "${audiocontrol_conf_product}"
+  # fi
+
+    rm ${tmp_file}
+
+    # hides functions from global scope
+    unset -f setProperty getProperty listProperties
+  }
+
   if ! valid_build_dir; then
     return 1
   fi
@@ -816,7 +862,7 @@ function portcast_features(){
     grep AXIS_CONFIG_AUDIO_OUTPUTS "${ax}" | xargs echo "-"
     grep AXIS_CONFIG_AUDIO_SOURCES "${ax}" | xargs echo "-"
     grep "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_DEFAULT" "${ax}" | xargs echo "- default:"
-    grep "^AXIS_CONFIG_AUDIO_SAMPLE_RATE" "${ax}" | xargs -n1 echo "-"
+    grep -E "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_[0-9]+" "${ax}" | xargs -n1 echo "-"
 
     echo "## I/O"
     grep AXIS_CONFIG_GPIOMAP "${ax}"| xargs echo "?"

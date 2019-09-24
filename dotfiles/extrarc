@@ -1097,9 +1097,13 @@ function mcd(){
 
 SCRATCHPAD_ROOT=$HOME/scratchpad
 function sp_calc(){
-  local codi_file="${SCRATCHPAD_ROOT}/calc_`date +'%Y_%m_%d'`.py"
-  if [ ! -e "${codi_file}" ]; then
-    cp "${SCRATCHPAD_ROOT}/calc_template" "${codi_file}"
+  if [ $# -eq 0 ]; then
+    local codi_file="${SCRATCHPAD_ROOT}/calc_$(date +'%Y_%m_%d').py"
+    if [ ! -e "${codi_file}" ]; then
+      cp "${SCRATCHPAD_ROOT}/calc_template" "${codi_file}"
+    fi
+  else
+    local codi_file="${1}"
   fi
 
   vim -p "${codi_file}" -c "
@@ -1108,7 +1112,7 @@ function sp_calc(){
     hi ColorColumn ctermbg=NONE
     hi VertSplit ctermbg=NONE
     hi NonText ctermfg=0
-    Codi python $@"
+    Codi python "
 }
 
 alias sp-calc="cd $SCRATCHPAD_ROOT"
