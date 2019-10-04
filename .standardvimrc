@@ -258,6 +258,8 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab noice noise
+iab Noice Noise
 iab refred referred
 iab allso also
 iab meassuring measuring

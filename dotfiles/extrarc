@@ -342,6 +342,15 @@ alias sp-audiobook="vim $REF_DIR/audiobook.md"
 alias sp-backup="vim $REF_DIR/backup.md"
 alias sp-spell="vim $REF_DIR/spell.md"
 
+alias sp-radar="vim $REF_DIR/radar.md"
+alias sp-sonar="sp-radar"
+
+alias sp-visual="vim $REF_DIR/image-visual.md"
+
+alias sp-mri-scan="vim $REF_DIR/medical.md"
+alias sp-ct-scan="sp-mri"
+alias sp-cat-scan="sp-mri"
+
 #
 alias sp-stocks="vim $REF_DIR/stocks.md"
 alias sp-bank="sp-stocks"
@@ -402,7 +411,7 @@ alias sp-serverless="vim $REF_DIR/serverless.md"
 # editor
 alias sp-eclipse="vim $REF_DIR/eclipse.txt"
 alias sp-vim="vim $DROPBOX_LINUX/vim/vim.md"
-alias sp-visual="vim $REF_DIR/visual-studio.md"
+alias sp-visual-studio="vim $REF_DIR/visual-studio.md"
 alias sp-vim-cpp="vim $DROPBOX_LINUX/vim/cpp.md"
 alias sp-vim-jump="vim $DROPBOX_LINUX/vim/jump.md"
 alias sp-vim-extra="vim $DROPBOX_LINUX/vim/extra.md"

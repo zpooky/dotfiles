@@ -55,6 +55,7 @@ function ssh_192_168_0_90() {
     fi
 
     if [ -e "${disable_setup}" ]; then
+      # disable some web menus
       ssh_192_168_0_90_execute "parhandclient set root.System.CaptureFrequencySet yes"
       local res=$?
 
@@ -212,7 +213,7 @@ function deploy_192_168_0_90(){
     local l_dest="/usr/bin/ioboxd"
     local l_source="${project_dir}/oe-workdir/package/usr/bin/ioboxd"
     local l_systemd_name="ioboxd"
-    l_reboot=true
+    l_systemd=true
   elif [ "${project}" = "monolith" ]; then
     local l_dest="/usr/bin/monolith"
     local l_source="${project_dir}/monolith/oe-workdir/package/usr/bin/monolith"
@@ -227,7 +228,7 @@ function deploy_192_168_0_90(){
     local l_dest="/usr/bin/audiocontrol"
     local l_source="${project_dir}/oe-workdir/package/usr/bin/audiocontrol"
     local l_systemd_name="audiocontrol"
-    l_reboot=true
+    l_systemd=true
   elif [ "${project}" = "audio-streaming-caps-cgi" ]; then
     local l_dest="/usr/html/axis-cgi/audio/streamingcapabilities.cgi"
     local l_source="${project_dir}/oe-workdir/package/usr/html/axis-cgi/audio/streamingcapabilities.cgi"
@@ -237,6 +238,11 @@ function deploy_192_168_0_90(){
     local l_dest="/usr/bin/audio-service"
     local l_source="${project_dir}/audio-service/oe-workdir/package/usr/bin/audio-service"
     local l_systemd_name="audio-service"
+    l_systemd=true
+  elif [ "${project}" = "audiodevicecontrol-cgi" ]; then
+    local l_dest="/usr/html/axis-cgi/audiodevicecontrol.cgi"
+    local l_source="${project_dir}/oe-workdir/package/usr/html/axis-cgi/audiodevicecontrol.cgi"
+    local l_systemd_name="httpd"
     l_systemd=true
   elif [ "${project}" = "mediaclip-cgi" ]; then
     local l_source="${project_dir}/oe-workdir/package/usr/html/axis-cgi"
@@ -371,6 +377,9 @@ function devtool_modify() {
   local dist_root="${BUILDDIR}/../.."
   local lwd="$(pwd)"
 
+  local failed=""
+  local success=""
+
   # if [ ! -e "${dist_root}/.git" ]; then
   #   echo "Is not a repo">&2
   #   return 1
@@ -381,6 +390,11 @@ function devtool_modify() {
   for cur in "${proj[@]}"; do
     echo "##### devtool modify \"$cur\""
     devtool modify $cur
+    if [ $? -eq 0 ]; then
+      success="${success} ${cur}"
+    else
+      failed="${failed} ${cur}"
+    fi
     # if [ $? -eq 0 ];then
     #   cd "${dist_root}"
     #   git add .
@@ -389,7 +403,16 @@ function devtool_modify() {
     # fi
   done
 
-  notify-send "modify done"
+  local msg="modify done"
+  if [ ! -z "${success}" ]; then
+    msg="${msg}\nsuccess: ${success}"
+  fi
+
+  if [ ! -z "${failed}" ]; then
+    msg="${msg}\nfailed: ${failed}"
+  fi
+
+  notify-send "$(echo -e ${msg})"
 }
 
 function ssh_192_168_0_90_execute(){
