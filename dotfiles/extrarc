@@ -701,6 +701,7 @@ function sp_network() {
   local file_ipv6="$DROPBOX_LINUX/ip.md"
   local file_link_local="$DROPBOX_NETWORK/link-local.md"
 
+  local file_nat="$DROPBOX_NETWORK/nat.md"
 
   # networking
   alias sp-network="vim $DROPBOX_NETWORK/linux.md"
@@ -739,6 +740,8 @@ function sp_network() {
 
   alias sp-ip="vim -p ${file_ipv6}"
   alias sp-link-local="vim -p ${file_link_local} ${file_ipv6}"
+
+  alias sp-nat="vim -p ${file_nat}"
 
   #audio
   alias sp-audio="vim -p ${file_audio} ${file_sound} $REF_DIR/audio-digital.md $REF_DIR/audio-digital-sync.md ${file_pcm}"

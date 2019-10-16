@@ -31,7 +31,6 @@ function axis_enable_root_192_168_0_90(){
 }
 
 function ssh_192_168_0_90() {
-  # TODO instead scp file
   function sshx() {
     local l_user="root"
     local l_pass="pass"
@@ -405,14 +404,20 @@ function devtool_modify() {
 
   local msg="modify done"
   if [ ! -z "${success}" ]; then
-    msg="${msg}\nsuccess: ${success}"
+    success="success: ${success}"
   fi
 
   if [ ! -z "${failed}" ]; then
-    msg="${msg}\nfailed: ${failed}"
+    failed="failed: ${failed}"
   fi
 
-  notify-send "$(echo -e ${msg})"
+  if [ -z "${success}" ]; then
+    notify-send "${msg}" "${failed}"
+  elif [ -z "${failed}" ]; then
+    notify-send "${msg}" "${success}"
+  else
+    notify-send "${msg}" "${success}" "${failed}"
+  fi
 }
 
 function ssh_192_168_0_90_execute(){
@@ -451,6 +456,24 @@ function flash_192_168_0_90_ftp() {
   local l_pass="pass"
   local l_ip="192.168.0.90"
   local l_image="./fimage"
+
+  function http_ok() {
+    local res=1
+    local cnt=10
+    sleep "${cnt}s"
+    while [ ! $res -eq 0 ] && [ $cnt -lt 240 ]; do
+      nc -vz 192.168.0.90 80 2> /dev/null
+      res=$?
+      sleep 1s
+      cnt=$((cnt+1))
+    done
+
+    if [ $res -eq 0 ]; then
+      notify-send "OK HTTP up"
+    else
+      notify-send "GAVE UP HTTP probe" "after $cnt seconds"
+    fi
+  }
 
   if [[ -n "${1}" ]]; then
     local l_image="${1}"
@@ -511,6 +534,7 @@ function flash_192_168_0_90_ftp() {
       local ret=$?
       if [ ${ret} -eq 0 ]; then
         notify-send "flashing ${l_ip} [DONE]" "${l_image} [DONE]"
+        http_ok &
       else
         notify-send "flashing ${l_ip} [FAILED]" "${l_image} [FAILED]"
       fi
@@ -654,6 +678,25 @@ function bitbake_clean_all() {
   return $?
 }
 
+function bitbake_touch_all() {
+  if ! valid_build_dir; then
+    return 1
+  fi
+  local l_workspace="${BUILDDIR}/workspace/sources"
+
+  if [ ! -e ${l_workspace} ]; then
+    echo "${l_workspace} does not exist">&2
+    return 2
+  fi
+
+  cd ${l_workspace}
+  ack -f --cpp --fortran --shell --ignore-dir=oe-workdir --ignore-dir=oe-logs -r -- . | xargs touch
+  local res=$?
+  cd -
+
+  return ${res}
+}
+
 function bitbake_clean() {
   if ! valid_build_dir; then
     return 1
@@ -681,7 +724,7 @@ function entr_devtool_build(){
 
   echo "ack -f --cpp --ignore-dir=oe-workdir --ignore-dir=oe-logs -r ${l_workspace}"
   cd ${l_workspace}
-  ack -f --cpp --ignore-dir=oe-workdir --ignore-dir=oe-logs -r | entr -c "$HOME/dotfiles/lib/devtool_build.sh" "${project}"
+  ack -f --cpp --fortran --shell --ignore-dir=oe-workdir --ignore-dir=oe-logs -r | entr -c "$HOME/dotfiles/lib/devtool_build.sh" "${project}"
   cd -
 }
 
