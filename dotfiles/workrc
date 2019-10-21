@@ -469,7 +469,7 @@ function flash_192_168_0_90_ftp() {
     done
 
     if [ $res -eq 0 ]; then
-      notify-send "OK HTTP up"
+      notify-send "OK HTTP up" "after $cnt seconds"
     else
       notify-send "GAVE UP HTTP probe" "after $cnt seconds"
     fi
