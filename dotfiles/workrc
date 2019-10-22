@@ -18,17 +18,103 @@ export no_proxy=192.168.0.90,localhost,127.0.0.1,127.0.1.1,.localdomain,axis.com
 source ~/development/axis/oe-setup/oe-setup.sh
 
 function axis_enable_root_192_168_0_90(){
-  local resp=$(curl --noproxy "*" --connect-timeout 5 'http://192.168.0.90/axis-cgi/pwdgrp.cgi?action=add&user=root&pwd=pass&grp=root&sgrp=admin:operator:viewer:ptz' -w "%{http_code}")
+  local l_ip="192.168.0.90"
+  local resp=$(curl --noproxy "*" --connect-timeout 5 'http://192.168.0.90/axis-cgi/pwdgrp.cgi?action=add&user=root&pwd=pass&grp=root&sgrp=admin:operator:viewer:ptz' -w "%{http_code}" 2>/dev/null)
   echo "${resp}"
 
   local code=$(echo "${resp}" | tail -1)
 
   if [ "${code}" = "200" ]; then
     return 0
+  elif [ "${code}" = "401" ]; then
+    return 1
   fi
 
-  return 1
+  return 2
 }
+
+function setup_ssh_eager() {
+  local res=1
+  local cnt=0
+  local l_ip="192.168.0.90"
+  local disable_setup="/tmp/disable_setup"
+
+  local tout=2
+  local max_time=240
+
+  # nc -w is timeout in seconds
+  while [ ! $res -eq 0 ] && [ $cnt -lt $max_time ]; do
+    echo "nc -vz -w ${tout} ${l_ip} 80 2> /dev/null"
+    nc -vz -w ${tout} ${l_ip} 80 2> /dev/null
+    res=$?
+    sleep 1
+    cnt=$((cnt+tout+1))
+  done
+
+  if [ ! $res -eq 0 ]; then
+    notify-send "GAVE UP HTTP probe" "after $cnt seconds"
+    return 1
+  fi
+
+  local res=2
+  while [ $res -eq 2 ] && [ $cnt -lt $max_time ]; do
+    axis_enable_root_192_168_0_90
+    res=$?
+    sleep ${tout}s
+    cnt=$((cnt+tout))
+  done
+
+  if [ ! $res -eq 2 ]; then
+    touch "${disable_setup}"
+  else
+    notify-send "GAVE UP setup root account" "after $cnt seconds"
+    return 1
+  fi
+
+
+  res=1
+  while [ ! $res -eq 0 ] && [ $cnt -lt $max_time ]; do
+    $HOME/development/axis/tpp/ff enable-ssh 2>&1
+    res=$?
+    sleep $tout
+    cnt=$((cnt+tout))
+  done
+
+  if [ ! $res -eq 0 ]; then
+    notify-send "GAVE enable-ssh" "after $cnt seconds"
+    return 1
+  fi
+
+  res=1
+  while [ ! $res -eq 0 ] && [ $cnt -lt $max_time ]; do
+    echo "nc -vz -w ${tout} ${l_ip} 22 2> /dev/null"
+    nc -vz -w ${tout} ${l_ip} 22 2> /dev/null
+    res=$?
+    sleep 1
+    cnt=$((cnt+tout+1))
+  done
+
+  if [ ! $res -eq 0 ]; then
+    notify-send "GAVE UP nc port 22" "after $cnt seconds"
+    return 1
+  fi
+
+  res=1
+  while [ ! $res -eq 0 ] && [ $cnt -lt $max_time ]; do
+    ssh_192_168_0_90_execute "ls"
+    res=$?
+    sleep 1
+    cnt=$((cnt+1))
+  done
+
+  if [ ! $res -eq 0 ]; then
+    notify-send "GAVE UP ssh ls" "after $cnt seconds"
+    return 1
+  fi
+
+  return ${res}
+}
+
 
 function ssh_192_168_0_90() {
   function sshx() {
@@ -433,21 +519,28 @@ function ssh_192_168_0_90_execute(){
 }
 
 
-function reboot_192_168_0_90() {
+function reboot_192_168_0_90_async() {
+  local cmd="sleep 1;/usr/sbin/reboot;sleep 4"
+
+  # ssh_192_168_0_90_execute "${cmd}"
+  # return $?
+
   local l_user="root"
   local l_pass="pass"
   local l_ip="192.168.0.90"
 
-  ssh_192_168_0_90_execute "sleep 1;/usr/sbin/reboot;sleep 4"
+    # TODO maybe have ssh "-o ConnectTimeout 1" timeout of 1sec
+  echo "sshpass -p ${l_pass} ssh -q -o \"ConnectTimeout 1\" ${l_user}@${l_ip} \"${cmd}\""
+  sshpass -p "${l_pass}" ssh -qt -o "ConnectTimeout 1" ${l_user}@${l_ip} "${cmd}"
+  return $?
+}
+
+function reboot_192_168_0_90() {
+  reboot_192_168_0_90_async
   sleep 5
 
-  res=1
-  while [ ! $res -eq 0 ]; do
-    ssh_192_168_0_90_execute "ls"
-    res=$?
-  done
-
-  return $res
+  setup_ssh_eager
+  return $?
 }
 
 function flash_192_168_0_90_ftp() {
@@ -457,23 +550,16 @@ function flash_192_168_0_90_ftp() {
   local l_ip="192.168.0.90"
   local l_image="./fimage"
 
-  function http_ok() {
-    local res=1
-    local cnt=10
-    sleep "${cnt}s"
-    while [ ! $res -eq 0 ] && [ $cnt -lt 240 ]; do
-      nc -vz 192.168.0.90 80 2> /dev/null
-      res=$?
-      sleep 1s
-      cnt=$((cnt+1))
-    done
+function http_ok() {
+  local cnt=10
+  sleep "${cnt}s"
+  setup_ssh_eager > /dev/null
+  res=$?
 
-    if [ $res -eq 0 ]; then
-      notify-send "OK HTTP up" "after $cnt seconds"
-    else
-      notify-send "GAVE UP HTTP probe" "after $cnt seconds"
-    fi
-  }
+  if [ $res -eq 0 ]; then
+    notify-send "OK ssh"
+  fi
+}
 
   if [[ -n "${1}" ]]; then
     local l_image="${1}"
@@ -742,9 +828,10 @@ function devtool_build(){
   fi
 
 
-  "$HOME/dotfiles/lib/devtool_build.sh" "${project}"
+  time $HOME/dotfiles/lib/devtool_build.sh "${project}"
   local out=$?
 
+  echo ""
 
   return out
 }
