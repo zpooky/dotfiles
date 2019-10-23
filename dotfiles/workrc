@@ -71,18 +71,27 @@ function setup_ssh_eager() {
     return 1
   fi
 
+  sleep 5
+  cnt=$((cnt+5))
 
-  res=1
-  while [ ! $res -eq 0 ] && [ $cnt -lt $max_time ]; do
-    $HOME/development/axis/tpp/ff enable-ssh 2>&1
-    res=$?
-    sleep $tout
-    cnt=$((cnt+tout))
-  done
+  echo "nc -vz -w ${tout} ${l_ip} 22 2> /dev/null"
+  nc -vz -w ${tout} ${l_ip} 22 2> /dev/null
+  res=$?
 
   if [ ! $res -eq 0 ]; then
-    notify-send "GAVE enable-ssh" "after $cnt seconds"
-    return 1
+    # try to avoid this
+    res=1
+    while [ ! $res -eq 0 ] && [ $cnt -lt $max_time ]; do
+      $HOME/development/axis/tpp/ff enable-ssh 2>&1
+      res=$?
+      sleep $tout
+      cnt=$((cnt+tout))
+    done
+
+    if [ ! $res -eq 0 ]; then
+      notify-send "GAVE enable-ssh" "after $cnt seconds"
+      return 1
+    fi
   fi
 
   res=1
@@ -236,7 +245,40 @@ function valid_build_dir() {
   return 0
 }
 
+function overlay_mount_192_168_0_90_async(){
+  local l_fwmgr_local="/tmp/fwmgr.conf"
+  local l_fwmgr_remote="/etc/fwmgr.conf"
+
+  local l_user="root"
+  local l_pass="pass"
+  local l_ip="192.168.0.90"
+  local res=0
+
+  echo "sshpass -p ${l_pass} scp ${l_user}@${l_ip}:${l_fwmgr_remote} ${l_fwmgr_local}"
+  sshpass -p "${l_pass}" scp "${l_user}"@"${l_ip}":"${l_fwmgr_remote}" "${l_fwmgr_local}"
+  if [ ! $? -eq 0 ]; then
+    echo "- mounting overlay fs"
+    echo "overlay_usr=all" > "${l_fwmgr_local}"
+
+    echo "sshpass -p ${l_pass} scp ${l_fwmgr_local} ${l_user}@${l_ip}:${l_fwmgr_remote}"
+    sshpass -p "${l_pass}" scp "${l_fwmgr_local}" "${l_user}"@"${l_ip}":"${l_fwmgr_remote}"
+    res=$?
+
+    if [ ! $res -eq 0 ]; then
+      echo "failed mounting"
+      exit $res
+    fi
+
+    reboot_192_168_0_90_async
+  else
+    echo "- already mounted overlay fs"
+  fi
+
+  return ${res}
+}
+
 function overlay_mount_192_168_0_90(){
+  # TODO duplicate
   local l_fwmgr_local="/tmp/fwmgr.conf"
   local l_fwmgr_remote="/etc/fwmgr.conf"
 
@@ -265,7 +307,7 @@ function overlay_mount_192_168_0_90(){
     echo "- already mounted overlay fs"
   fi
 
-  return $res
+  return ${res}
 }
 
 # TODO sshfs mount camera in some work dir that will be used by makefile
@@ -360,6 +402,8 @@ function deploy_192_168_0_90(){
 
   before_sha256="$(sha256sum ${l_source})"
 
+  overlay_mount_192_168_0_90_async
+
   devtool_build "${project}"
   if [ ! $? -eq 0 ]; then
     return 4
@@ -379,7 +423,7 @@ function deploy_192_168_0_90(){
 
   echo "- curl"
 
-  overlay_mount_192_168_0_90
+  setup_ssh_eager
 
   ssh_192_168_0_90_execute "systemctl stop ${l_systemd_name}"
   local res=$?
