@@ -745,6 +745,8 @@ function bitbake_axis-image-cvp() {
   return $ret
 }
 
+#ffbuild -c monolith-unittest
+#bitbake monolith:do_check
 function bitbake_clean_all() {
   #                clean # does cleanup work dirs?
   # devtool build -c gstreamer1.0-plugins-bad
