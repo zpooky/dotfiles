@@ -257,10 +257,19 @@ call <sid>hi('DiffText', {}, s:cdDiffRedLight, 'none', {})
 " ALE {{{
 call <sid>hi('ALEErrorSign', s:cdRed, {}, 'bold', {})
 call <sid>hi('ALEWarningSign', s:cdYellowOrange, {}, 'none', {})
-" # TODO
+" }}}
+
+" Coc {{{
 " CocErrorSign   xxx ctermfg=9 guifg=#ff0000
 " CocWarningSign xxx ctermfg=130 guifg=#ff922b
 " CocSelectedText xxx ctermfg=9 guifg=#fb4934
+hi clear CocListFgBlack
+hi clear CocListBlackBlack
+hi clear CocUnderline
+hi clear CocErrorHighlight
+hi clear CocWarningHighlight
+hi clear CocInfoHighlight
+hi clear CocHintHighlight
 " }}}
 
 " Spell {{{

@@ -269,6 +269,7 @@ function sp_crypto(){
 
 sp_crypto
 
+file_frequency="$REF_DIR/frequency.md" # TODO
 file_waveform="$REF_DIR/waveform.md"
 file_dsp="$REF_DIR/dsp.md"
 #circuits
@@ -369,7 +370,7 @@ alias sp-polish-notation="vim $REF_DIR/polish-notation.md"
 
 alias sp-big-o="vim $REF_DIR/big-o.md"      #TODO
 alias sp-np-problem="vim $REF_DIR/np-problem.md"      #TODO
-alias sp-bitwise="vim $REF_DIR/bitwise.md"
+alias sp-bitwise="vim -p $REF_DIR/bitwise.md ${file_waveform} ${file_frequency}"
 alias sp-notation="sp-bitwise"
 alias sp-symbol="sp-bitwise"
 alias sp-math-notation="sp-bitwise"
@@ -390,6 +391,7 @@ function sp_complexity() {
   alias sp-factorial="vim -p ${fact} ${exp} ${polyn}"
   alias sp-pow="vim $REF_DIR/pow.md"
   alias sp-polynomial="vim -p ${polyn} ${exp} ${fact}"
+  alias sp-computational-complexity="vim -p $REF_DIR/computational-complexity.md"
 }
 sp_complexity
 
@@ -533,14 +535,17 @@ alias sp-locale="vim $REF_DIR/linux/locale.md"
 alias sp-mutt="vim $DROPBOX_LINUX/mutt.txt"
 alias sp-pipe="vim $REF_DIR/linux/pipe.txt"
 alias sp-tmux="vim $DROPBOX_LINUX/tmux.txt"
-alias sp-tunnel="vim $REF_DIR/ssh_tunnel.md"
 alias sp-mount="vim $REF_DIR/linux/mount.txt"
 alias sp-xclip="vim $DROPBOX_LINUX/xclip.txt"
 alias sp-openssl="vim $REF_DIR/sec/openssl.md"
 alias sp-package="vim $DROPBOX_LINUX/install.txt"
 alias sp-tar="vim $DROPBOX_LINUX/compression.md"
 alias sp-uname="vim $DROPBOX_LINUX/uname.md"
-alias sp-ssh="vim $DROPBOX_LINUX/ssh.md"
+
+alias sp-ssh="vim -p $DROPBOX_LINUX/ssh.md $REF_DIR/ssh_tunnel.md"
+alias sp-ssh-tunnel="vim -p $REF_DIR/ssh_tunnel.md $DROPBOX_LINUX/ssh.md"
+alias sp-tunnel="sp-ssh-tunnel"
+
 alias sp-nice="vim $DROPBOX_LINUX/nice.md"
 alias sp-scheduler="sp-nice"
 alias sp-ar="vim $DROPBOX_LINUX/ar.md"
@@ -560,6 +565,8 @@ alias sp-su="vim $REF_DIR/su.md"
 alias sp-pass="vim $REF_DIR/pass.md"
 alias sp-getopt="vim $REF_DIR/getopt.md"
 alias sp-ffmpeg="vim $REF_DIR/ffmpeg.md"
+alias sp-nfs="vim $REF_DIR/nfs.md"
+alias sp-fstab="vim $REF_DIR/fstab.md"
 
 # linux
 alias sp-linux="cd $DROPBOX_LINUX"
@@ -579,7 +586,6 @@ alias sp-pacman="vim $DROPBOX_LINUX/pacman.md"
 alias sp-dbus="vim $DROPBOX_LINUX/dbus.md"
 alias sp-grub="vim -p $DROPBOX_LINUX/grub.md $DROPBOX_LINUX/partition-fdisk.txt $DROPBOX_LINUX/partitioning.txt"
 
-local file_frequency="$REF_DIR/frequency.md" # TODO
 local file_sound="$REF_DIR/sound.md"
 local file_audio="$REF_DIR/audio.md"
 local file_pcm="$REF_DIR/pulse_code_modulation.md"
@@ -917,10 +923,10 @@ alias sp-proj-kernel="sp-proj-os"
 alias sp-course-audio-dsp="vim $DROPBOX/course/audio-dsp.md"
 
 # nas540
-alias nas540="sshfs admin@nas540:/i-data/ $HOME/mount/nas540"
+alias sp-nas="vim $REF_DIR/nas/general.txt"
+alias nas540_mount="sshfs admin@nas540:/i-data/ $HOME/mount/nas540"
 alias nas540_dl="cd $HOME/mount/nas540/0da29454/admin/download/Transmission/download"
 alias nas540_tv="cd $HOME/mount/nas540/0da29454/video/tv"
-alias extdisk="cd $HOME/mount/exdisk"
 
 # chromecast
 function sp_chromecast(){

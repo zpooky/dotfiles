@@ -12,12 +12,16 @@
         ".vim/",
         ".git/",
         ".hg/"
-      ],
-      "initializationOptions": {
-        "cache": {
-          "directory": "~/.cache/ccls"
-        }
-      }
+      ]
+    },
+    "metals": {
+      "command": "metals-vim",
+      "filetypes": ["scala", "sbt"],
+      "rootPatterns": [
+        "build.sbt",
+        ".git/",
+        ".hg/"
+      ]
     }
   }
 }

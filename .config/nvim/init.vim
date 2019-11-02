@@ -300,11 +300,11 @@ let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml',
 " set shortmess+=c
 
 " TODO coc.nvim jedi python
-
+" c++ {
 augroup AugroupCoc
   autocmd!
-  autocmd FileType cpp,sh unmap <f3>
-  autocmd FileType cpp,sh map <silent> <F3> <Plug>(coc-definition)
+  autocmd FileType cpp,sh,c unmap <f3>
+  autocmd FileType cpp,sh,c map <silent> <F3> <Plug>(coc-definition)
 
   " Go to the Type of a variable
   " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-type-definition)
@@ -902,11 +902,14 @@ if !has('win32') && !has('win64')
   noremap <silent> <leader>r <Esc>:CommandT<CR>
   " noremap <silent> <leader>O <Esc>:CommandTFlush<CR>
   noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
-  noremap <silent> <leader>. <esc>:CommandTTag<cr>
+  " noremap <silent> <leader>. <esc>:CommandTTag<cr>
+  nmap <silent> <Leader>. <Plug>(CommandTTag)
 
   " bitbake: oe-logs,oe-workdir
   let g:CommandTWildIgnore=&wildignore . ",*.log,oe-logs,oe-workdir"
   let g:CommandTFileScanner="find"
+
+  " let g:CommandTTagIncludeFilenames=1
 endif
 " }}}
 

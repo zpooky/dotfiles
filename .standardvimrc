@@ -61,7 +61,7 @@ set noerrorbells                  " don't beep
 
 set splitright                    " open new pane to the right
 
-set scrolloff=2                   " keep at least N lines above/below when scrolling
+set scrolloff=1                   " keep at least N lines above/below when scrolling
 
 " if !has('win32unix') && !has('win64unix')
   " does not work in cygwin

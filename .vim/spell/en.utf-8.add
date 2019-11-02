@@ -44,3 +44,4 @@ filesystem
 ciphertext
 plaintext
 memoization
+assert
