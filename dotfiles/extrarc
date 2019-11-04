@@ -257,12 +257,16 @@ sp_hardware_alias
 function sp_crypto(){
   local cipher_mode="$REF_DIR/cipher-mode.md"
   local file_hmac="$REF_DIR/hmac.md"
+  local file_elliptic_curve="$REF_DIR/elliptic-curve.md"
 
   alias sp-cipher-mode="vim ${cipher_mode}"
   alias sp-cipher-block-mode="vim ${cipher_mode}"
   alias sp-ecb="sp-cipher-mode"
   alias sp-cbc="sp-cipher-mode"
   alias sp-ctr="sp-cipher-mode"
+  alias sp-ecc="vim -p ${file_elliptic_curve}"
+  alias sp-elliptic-curve="sp-ecc"
+
 
   alias sp-hmac="vim -p ${file_hmac}"
 }
@@ -330,6 +334,7 @@ function sp_circuts_alias() {
 sp_circuts_alias
 
 # misc
+alias sp-work="vim $REF_DIR/work.md"
 alias sp-dropbox="cd $REF_DIR"
 alias sp-ref="cd $DROPBOX_LINUX/"
 alias sp-win="vim $REF_DIR/win.md"
@@ -567,6 +572,8 @@ alias sp-getopt="vim $REF_DIR/getopt.md"
 alias sp-ffmpeg="vim $REF_DIR/ffmpeg.md"
 alias sp-nfs="vim $REF_DIR/nfs.md"
 alias sp-fstab="vim $REF_DIR/fstab.md"
+alias sp-group="vim $REF_DIR/etc-group.md"
+alias sp-etc-group="sp-group"
 
 # linux
 alias sp-linux="cd $DROPBOX_LINUX"

@@ -74,24 +74,26 @@ function setup_ssh_eager() {
   sleep 5
   cnt=$((cnt+5))
 
-  echo "nc -vz -w ${tout} ${l_ip} 22 2> /dev/null"
-  nc -vz -w ${tout} ${l_ip} 22 2> /dev/null
-  res=$?
-
-  if [ ! $res -eq 0 ]; then
-    # try to avoid this
-    res=1
-    while [ ! $res -eq 0 ] && [ $cnt -lt $max_time ]; do
-      $HOME/development/axis/tpp/ff enable-ssh 2>&1
-      res=$?
-      sleep $tout
-      cnt=$((cnt+tout))
-    done
+  res=1
+  while [ ! $res -eq 0 ] && [ $cnt -lt $max_time ]; do
+    $HOME/development/axis/tpp/ff enable-ssh 2>&1
+    res=$?
 
     if [ ! $res -eq 0 ]; then
-      notify-send "GAVE enable-ssh" "after $cnt seconds"
-      return 1
+      echo "nc -vz -w ${tout} ${l_ip} 22 2> /dev/null"
+      nc -vz -w ${tout} ${l_ip} 22 2> /dev/null
+      res=$?
     fi
+
+    if [ ! $res -eq 0 ]; then
+      sleep $tout
+      cnt=$((cnt+tout))
+    fi
+  done
+
+  if [ ! $res -eq 0 ]; then
+    notify-send "GAVE enable-ssh" "after $cnt seconds"
+    return 1
   fi
 
   res=1
@@ -139,15 +141,11 @@ function ssh_192_168_0_90() {
     l_env+=' && echo "alias systemctl_root=\"cd /usr/lib/systemd/system\"" >> $HOME/.shinit'
     l_env+=' && echo "alias tree=\"ls -alhR1\"" >> $HOME/.shinit'
     l_env+=' && echo "alias port_scan=\"netstat -lnptux\"" >> $HOME/.shinit'
+    l_env+=' && echo "alias sp-sd=\"cd /var/spool/storage/SD_DISK\"" >> $HOME/.shinit'
     # AF_UNIX socket
     l_env+=' && echo "alias unix_con=\"netstat -apnx\"" >> $HOME/.shinit'
 
     local disable_setup="/tmp/disable_setup"
-    axis_enable_root_192_168_0_90
-    if [ $? -eq 0 ]; then
-      touch "${disable_setup}"
-    fi
-
     if [ -e "${disable_setup}" ]; then
       # disable some web menus
       ssh_192_168_0_90_execute "parhandclient set root.System.CaptureFrequencySet yes"
@@ -177,7 +175,7 @@ function ssh_192_168_0_90() {
   #   echo ""
   elif [ ! $res -eq 0 ]; then
 
-    $HOME/development/axis/tpp/ff enable-ssh
+    setup_ssh_eager
     if [ $? -eq 0 ]; then
       sshx
     fi
@@ -428,6 +426,7 @@ function deploy_192_168_0_90(){
   ssh_192_168_0_90_execute "systemctl stop ${l_systemd_name}"
   local res=$?
   if [ $res -eq 0 ]; then
+    ssh_192_168_0_90_execute "echo '=${project}====================================' >> /var/log/error.log"
 
     before_camera_sha256=$(sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "sha256sum ${l_dest}")
 
@@ -564,7 +563,7 @@ function ssh_192_168_0_90_execute(){
 
 
 function reboot_192_168_0_90_async() {
-  local cmd="sleep 1;/usr/sbin/reboot;sleep 4"
+  local cmd="/usr/sbin/reboot;sleep 4"
 
   # ssh_192_168_0_90_execute "${cmd}"
   # return $?
@@ -804,10 +803,20 @@ function bitbake_clean_all() {
     return 2
   fi
 
+  date
   echo "###bitbake -c clean $(cd ${l_workspace}; ls -d -- */ | tr '/' ' ' | xargs)">&2
 
   bitbake -c clean $(cd ${l_workspace}; ls -d -- */ | tr '/' ' ' | xargs)
-  return $?
+  local res=$?
+
+  if [ ${res} -eq 0 ]; then
+    notify-send "CLEAN [SUCCESS]"
+  else
+    notify-send "CLEAN [FAILED]"
+  fi
+  date
+
+  return $res
 }
 
 function bitbake_touch_all() {
@@ -1078,6 +1087,123 @@ function portcast_features(){
   done
 }
 
+function dump_sample_rates(){
+  local name="$(basename ${1})"
+  name=${name/".axis-config"/""}
+  echo "# ${name}"
+  grep -E "AXIS_CONFIG_AUDIO" "${1}" | xargs echo "-"
+  grep -E "AXIS_CONFIG_AUDIO_SAMPLE_RATE_8KHZ" "${1}" | xargs echo "-"
+  grep -E "AXIS_CONFIG_AUDIO_SAMPLE_RATE_16KHZ" "${1}" | xargs echo "-"
+  grep -E "AXIS_CONFIG_AUDIO_SAMPLE_RATE_32KHZ" "${1}" | xargs echo "-"
+  grep -E "AXIS_CONFIG_AUDIO_SAMPLE_RATE_44_1KHZ" "${1}" | xargs echo "-"
+  grep -E "AXIS_CONFIG_AUDIO_SAMPLE_RATE_48KHZ" "${1}" | xargs echo "-"
+  grep -E "AXIS_CONFIG_PORTCAST" "${1}" | xargs echo "-"
+  echo ""
+}
+
+function sample_rate_holes(){
+  if ! valid_build_dir; then
+    return 1
+  fi
+
+  local build_root="${BUILDDIR}/../.."
+  local dir=$(realpath "${build_root}/meta-axis-bsp/conf/machine/axis-config")
+  if [ ! -d ${dir} ]; then
+    echo "'$dir' not a dir"
+    return 1
+  fi
+
+  for cur in "${dir}"/*; do
+    local res=0
+    grep -E "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_8KHZ" "${cur}" > /dev/null
+    if [ $? -eq 0 ]; then
+      res=8
+    fi
+
+    grep -E "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_16KHZ" "${cur}" > /dev/null
+    if [ $? -eq 0 ]; then
+      if [ ! $res -eq 8 ]; then
+        dump_sample_rates "${cur}"
+        continue
+      fi
+      res=16
+    fi
+
+    grep -E "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_32KHZ" "${cur}" > /dev/null
+    if [ $? -eq 0 ]; then
+      if [ ! $res -eq 16 ]; then
+        dump_sample_rates "${cur}"
+        continue
+      fi
+      res=32
+    fi
+
+    grep -E "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_44_1KHZ" "${cur}" > /dev/null
+    if [ $? -eq 0 ]; then
+      if [ ! $res -eq 32 ]; then
+        dump_sample_rates "${cur}"
+        continue
+      fi
+      res=44
+    fi
+
+    grep -E "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_48KHZ" "${cur}" > /dev/null
+    if [ $? -eq 0 ]; then
+      if [ ! $res -eq 44 ]; then
+        dump_sample_rates "${cur}"
+        continue
+      fi
+      res=48
+    fi
+  done
+}
+
+function only_one_sample_rate(){
+  if ! valid_build_dir; then
+    return 1
+  fi
+
+  local build_root="${BUILDDIR}/../.."
+  local dir=$(realpath "${build_root}/meta-axis-bsp/conf/machine/axis-config")
+  if [ ! -d ${dir} ]; then
+    echo "'$dir' not a dir"
+    return 1
+  fi
+
+  for cur in "${dir}"/*; do
+    local cnt=0
+    grep -E "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_8KHZ" "${cur}" > /dev/null
+    if [ $? -eq 0 ]; then
+      cnt=$((cnt+1))
+    fi
+
+    grep -E "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_16KHZ" "${cur}" > /dev/null
+    if [ $? -eq 0 ]; then
+      cnt=$((cnt+1))
+    fi
+
+    grep -E "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_32KHZ" "${cur}" > /dev/null
+    if [ $? -eq 0 ]; then
+      cnt=$((cnt+1))
+    fi
+
+    grep -E "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_44_1KHZ" "${cur}" > /dev/null
+    if [ $? -eq 0 ]; then
+      cnt=$((cnt+1))
+    fi
+
+    grep -E "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_48KHZ" "${cur}" > /dev/null
+    if [ $? -eq 0 ]; then
+      cnt=$((cnt+1))
+    fi
+
+    if [ $cnt -eq 1 ]; then
+      echo "${cnt}"
+      dump_sample_rates "${cur}"
+    fi
+  done
+}
+
 # setxkbmap -option caps:escape
 
 # release shares (daily build?)
@@ -1087,4 +1213,4 @@ function portcast_features(){
 # /n/slask/fredriol
 # \\storage03\n_slask\fredriol
 
-# vim: set ft=zsh:
+# vim: set ft=sh:
