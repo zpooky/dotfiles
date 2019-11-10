@@ -347,6 +347,7 @@ alias sp-tlv="vim $REF_DIR/tlv.md"
 alias sp-audiobook="vim $REF_DIR/audiobook.md"
 alias sp-backup="vim $REF_DIR/backup.md"
 alias sp-spell="vim $REF_DIR/spell.md"
+alias sp-pdf="vim $REF_DIR/pdf.md"
 
 alias sp-radar="vim $REF_DIR/radar.md"
 alias sp-sonar="sp-radar"
