@@ -304,7 +304,7 @@ let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml',
 augroup AugroupCoc
   autocmd!
   autocmd FileType cpp,sh,c unmap <f3>
-  autocmd FileType cpp,sh,c map <silent> <F3> <Plug>(coc-definition)
+  autocmd FileType cpp,sh,c,cpp map <silent> <F3> <Plug>(coc-definition)
 
   " Go to the Type of a variable
   " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-type-definition)

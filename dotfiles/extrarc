@@ -127,7 +127,7 @@ alias sp-naming="vim $REF_DIR/naming-things.md"
 # notes
 alias sp-books="vim $DROPBOX/books.md"
 alias sp-todo="vim $DROPBOX/note/todo.md"
-alias sp-todo-term="cd ~/Dropbox/term_todo/"
+alias sp_todo="cd ~/Dropbox/term_todo/"
 alias sp-todo-dev="vim ~/Dropbox/term_todo/dev.md"
 alias sp-interview="cd $DROPBOX/interview"
 alias sp-razor="vim $REF_DIR/razor.md"
@@ -1103,7 +1103,7 @@ alias sp-alias="vim $DOTFILES/extrarc && source $DOTFILES/extrarc"
 alias sp-zshrc="vim -p $HOME/.zshrc $DOTFILES/extrarc $DOTFILES/workrc"
 alias sp-workrc="vim -p $HOME/dotfiles/workrc && source $DOTFILES/workrc"
 
-alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc $HOME/coc-settings.json"
+alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc $HOME/.vim/coc-settings.json"
 # alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim  $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc /home/spooky/.config/nvim/plugged/chromatica.nvim/syntax/*"
 
 alias vimsession="vim -S Session.vim"

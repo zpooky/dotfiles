@@ -1,7 +1,28 @@
 {
   "python.linting.enabled": false,
+  "python.jedienabled": true,
+
+
+  "rust-client.rlspath": "/usr/bin/rls",
+  "rust-client.disablerustup": true,
+
   "json.format.enable": false,
   "coc.preferences.extensionUpdateCheck": "never",
+
+  "coc.preferences.autotrigger": "always",
+  "coc.preferences.triggerafterinsertenter": false,
+  "coc.preferences.timeout": 2000,
+  "coc.preferences.noselect": true,
+  "coc.preferences.formatontype": false,
+  "coc.preferences.jumpcommand": "edit",
+  "coc.preferences.diagnostic.enable": true,
+  "coc.preferences.diagnostic.signoffset": 1000,
+  "coc.preferences.diagnostic.errorsign": ">>",
+  "coc.preferences.diagnostic.warningsign": "⚠",
+  "coc.preferences.diagnostic.infosign": ">>",
+  "coc.preferences.diagnostic.hintsign": ">>",
+  "coc.preferences.snippetindicator": "⭐︎",
+
   "languageserver": {
     "ccls": {
       "command": "ccls",
@@ -12,7 +33,12 @@
         ".vim/",
         ".git/",
         ".hg/"
-      ]
+      ],
+      "initializationoptions": {
+        "cache": {
+          "directory": "/tmp/.ccls-cache"
+        }
+      }
     },
     "metals": {
       "command": "metals-vim",
@@ -22,6 +48,12 @@
         ".git/",
         ".hg/"
       ]
+    },
+    "bash": {
+      "command": "bash-language-server",
+      "args": ["start"],
+      "filetypes": ["sh"],
+      "ignoredRootPaths": ["~"]
     }
   }
 }
