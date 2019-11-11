@@ -31,12 +31,6 @@ if has('nvim')
   "   - gem install neovim
 endif
 
-" TODO
-" 1. auto select indentation based on existing  content
-" 2. fix arg shift
-" 3. ctag should index referenced header from path
-" TODO syntax all caps is macro (MH_HASH_SIZE)
-
 " https://github.com/rprichard/sourceweb
 
 " # java dev
@@ -888,10 +882,6 @@ Plug 'tpope/vim-repeat'
 Plug 'AndrewRadev/sideways.vim'
 nmap gl <Esc>:SidewaysRight<CR>
 nmap gh <Esc>:SidewaysLeft<CR>
-" TODO make swap work on argument & type level: (Type<one,two>, another)
-" TODO support shifting space separated arguments
-" TODO support delete & yank & highlight & argument
-
 " }}}
 
 " CommandT {{{
@@ -951,9 +941,10 @@ let g:rainbow_conf =
       \ 'ctermfgs': ['lightblue', 'red', 'cyan', 'darkgreen'],
       \ 'guifgs': ['#ff9900','#ff1493','#9acd32'],
       \ 'operators': '_[\,\-\<\>\.|\*]_',
+      \	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
       \	'separately': {
       \   'sh': {
-      \     'parentheses': [['\(^\|\s\)\S*()\s*{\?\($\|\s\)','_^{_','}'], ['\(^\|\s\)if\($\|\s\)','_\(^\|\s\)\(then\|else\|elif\)\($\|\s\)_','\(^\|\s\)fi\($\|\s\)'], ['\(^\|\s\)for\($\|\s\)','_\(^\|\s\)\(do\|in\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)while\($\|\s\)','_\(^\|\s\)\(do\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)case\($\|\s\)','_\(^\|\s\)\(\S*)\|in\|;;\)\($\|\s\)_','\(^\|\s\)esac\($\|\s\)']],
+      \     'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
       \   },
       \   'make': {
       \     'parentheses':[['\(^\|\s\)\(ifeq\|ifneq\|ifdef\|ifndef\)\($\|\s\)','_\(^\|\s\)\(endif\|else ifeq\|else ifneq\|else ifdef\|else ifndef\|else\)\($\|\s\)_','\(^\|\s\)endif\($\|\s\)']],
@@ -961,8 +952,27 @@ let g:rainbow_conf =
       \   'fortran': {
       \     'parentheses':[['\(^\|\s\)\(\#if\|\#ifdef\|\#ifndef\)\($\|\s\)','_\(^\|\s\)\(\#endif\|\#elif\|\#else\)\($\|\s\)_','\(^\|\s\)\#endif\($\|\s\)'], ['\(^\|\s\)\#for\($\|\s\)','\(^\|\s\)\#endfor\($\|\s\)']],
       \   },
+      \   'vim': {
+      \     'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+      \   },
+      \   'c': {
+      \     'parentheses':[['\(\#ifdef\|\#ifndef\|\#if\)','\#endif'], 'start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+      \   },
       \ }
       \ }
+
+      " \   'c': {
+      " \     'parentheses':[['\(\#ifdef\|\#ifndef\|\#if\)','\(\#elif\|\#else\)','\#endif'], 'start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+      " \   },
+
+      " has no effect
+      " \   'sh': {
+      " \     'parentheses': [['\(^\|\s\)\S*()\s*{\?\($\|\s\)','_^{_','}'], ['\(^\|\s\)if\($\|\s\)','_\(^\|\s\)\(then\|else\|elif\)\($\|\s\)_','\(^\|\s\)fi\($\|\s\)'], ['\(^\|\s\)for\($\|\s\)','_\(^\|\s\)\(do\|in\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)while\($\|\s\)','_\(^\|\s\)\(do\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)case\($\|\s\)','_\(^\|\s\)\(\S*)\|in\|;;\)\($\|\s\)_','\(^\|\s\)esac\($\|\s\)']],
+      " \   },
+
+" vim:
+" \           'parentheses': [['fu\w* \s*.*)','endfu\w*'], ['for','endfor'], ['while', 'endwhile'], ['if','_elseif\|else_','endif'], ['(',')'], ['\[','\]'], ['{','}']],
+
 " note: fortran is dummy used for *.fpp files
 " }}}
 

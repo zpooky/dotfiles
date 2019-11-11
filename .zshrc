@@ -156,6 +156,9 @@ function f(){
   # local ex="-type d \( -name 'tmp' \) -prune -o"
   # local ex2=' -not -path "*/tmp/*"'
   local ex3='! -path "*/tmp/*" ! -path "*/.git/*"'
+  if [ "${PWD}" = "${HOME}" ]; then
+    ex3="${ex3} ! -path '$HOME/dists/*' ! -path '~/dists/*' ! -path './dists/*'"
+  fi
 
   local cmd="find . -regextype egrep -iregex \"${p}\" ${ex3}"
   echo "${cmd}">&2

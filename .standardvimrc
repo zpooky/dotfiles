@@ -105,12 +105,19 @@ set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.i
 
 " ignore these files when :edit <tab>
 set wildignore=*.swp,*.bak,*.pyc,*.exe,*.dat,*.bin,*.out,*.pdf,*.cache,*.part
-set wildignore+=*~,*.swp,*.tmp
+set wildignore+=*.tmp
 set wildignore+=*.d,main,*.o,*.a,*.stackdump,*.so
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.mkv,*.mp4
 set wildignore+=*.class,*.jar
 set wildignore+=*.zip,*.tar,*.tar.gz
 set wildignore+=GPATH,GRTAGS,GTAGS
+" TODO does not work
+set wildignore+=*~
+
+set wildignore+=*/node_modules/*
+set wildignore+=*/tmp/*
+set wildignore+=*/target/*
+set wildignore+=*/build/*
 
 set wildignore+=*/.git,*/.hg,*/.svn
 set wildignore+=tags,*.tags

@@ -349,6 +349,11 @@ function deploy_192_168_0_90(){
     local l_source="${project_dir}/oe-workdir/package/usr/bin/wsd"
     local l_systemd_name="wsd"
     l_systemd=true
+  elif [ "${project}" = "sipd" ]; then
+    local l_dest="/usr/bin/sipd"
+    local l_source="${project_dir}/oe-workdir/package/usr/bin/sipd"
+    local l_systemd_name="sipd"
+    l_systemd=true
   elif [ "${project}" = "audiocontrol" ]; then
     local l_dest="/usr/bin/audiocontrol"
     local l_source="${project_dir}/oe-workdir/package/usr/bin/audiocontrol"
@@ -1071,6 +1076,7 @@ function portcast_features(){
     grep AXIS_CONFIG_AUDIO_SOURCES "${ax}" | xargs echo "-"
     grep "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_DEFAULT" "${ax}" | xargs echo "- default:"
     grep -E "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_[0-9]+" "${ax}" | xargs -n1 echo "-"
+    grep -E "AXIS_CONFIG_SIP" "${ax}" | xargs echo "-"
 
     echo "## I/O"
     grep AXIS_CONFIG_GPIOMAP "${ax}"| xargs echo "?"
@@ -1091,7 +1097,7 @@ function dump_sample_rates(){
   local name="$(basename ${1})"
   name=${name/".axis-config"/""}
   echo "# ${name}"
-  grep -E "AXIS_CONFIG_AUDIO" "${1}" | xargs echo "-"
+  grep -E "^AXIS_CONFIG_AUDIO=y" "${1}" | xargs echo "-"
   grep -E "AXIS_CONFIG_AUDIO_SAMPLE_RATE_8KHZ" "${1}" | xargs echo "-"
   grep -E "AXIS_CONFIG_AUDIO_SAMPLE_RATE_16KHZ" "${1}" | xargs echo "-"
   grep -E "AXIS_CONFIG_AUDIO_SAMPLE_RATE_32KHZ" "${1}" | xargs echo "-"
@@ -1200,6 +1206,84 @@ function only_one_sample_rate(){
     if [ $cnt -eq 1 ]; then
       echo "${cnt}"
       dump_sample_rates "${cur}"
+    fi
+  done
+}
+
+# function sample_rate_highest_44KHz(){
+#   if ! valid_build_dir; then
+#     return 1
+#   fi
+#
+#   local build_root="${BUILDDIR}/../.."
+#   local dir=$(realpath "${build_root}/meta-axis-bsp/conf/machine/axis-config")
+#   if [ ! -d ${dir} ]; then
+#     echo "'$dir' not a dir"
+#     return 1
+#   fi
+#
+#   for cur in "${dir}"/*; do
+#     local has_44=0
+#     local has_48=0
+#     local has_portcast=0
+#
+#     grep -E "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_44_1KHZ" "${cur}" > /dev/null
+#     if [ $? -eq 0 ]; then
+#       has_44=1
+#     fi
+#
+#     grep -E "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_48KHZ" "${cur}" > /dev/null
+#     if [ $? -eq 0 ]; then
+#       has_48=1
+#     fi
+#
+#     grep -E "^AXIS_CONFIG_PORTCAST" "${cur}" > /dev/null
+#     if [ $? -eq 0 ]; then
+#       has_portcast=1
+#     fi
+#
+#     if [ $has_44 -eq 1 ]; then
+#       dump_sample_rates "${cur}"
+#     fi
+#   done
+# }
+
+function no_sources_outputs(){
+  if ! valid_build_dir; then
+    return 1
+  fi
+
+  local build_root="${BUILDDIR}/../.."
+  local dir=$(realpath "${build_root}/meta-axis-bsp/conf/machine/axis-config")
+  if [ ! -d ${dir} ]; then
+    echo "'$dir' not a dir"
+    return 1
+  fi
+
+  for cur in "${dir}"/*; do
+    local no_sources=0
+    local output=0
+    grep -E "^AXIS_CONFIG_AUDIO_SOURCES=0" "${cur}" > /dev/null
+    if [ $? -eq 0 ]; then
+      no_sources=1
+    fi
+    grep -E "^AXIS_CONFIG_AUDIO_SOURCES=" "${cur}" > /dev/null
+    if [ ! $? -eq 0 ]; then
+      no_sources=1
+    fi
+
+    grep -E "^AXIS_CONFIG_AUDIO_OUTPUTS=" "${cur}" > /dev/null
+    if [ $? -eq 0 ]; then
+      output=1
+    fi
+    if [ $no_sources -eq 1 ] && [ $output -eq 1 ]; then
+      local name="$(basename ${cur})"
+      name=${name/".axis-config"/""}
+      echo "# ${name}"
+      grep -E "^AXIS_CONFIG_AUDIO=y" "${cur}" | xargs echo "-"
+      grep -E "AXIS_CONFIG_AUDIO_SOURCES" "${cur}" | xargs echo "-"
+      grep -E "AXIS_CONFIG_AUDIO_OUTPUTS" "${cur}" | xargs echo "-"
+      echo ""
     fi
   done
 }

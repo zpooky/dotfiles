@@ -39,6 +39,7 @@ import hashlib
 import random
 from operator import xor
 import numpy as np
+import matplotlib.pyplot as plt
 
 sys.setrecursionlimit(1500)
 

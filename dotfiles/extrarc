@@ -276,6 +276,7 @@ sp_crypto
 file_frequency="$REF_DIR/frequency.md" # TODO
 file_waveform="$REF_DIR/waveform.md"
 file_dsp="$REF_DIR/dsp.md"
+file_db="$REF_DIR/decibel.md"
 #circuits
 function sp_circuts_alias() {
   local fpga="$REF_DIR/fpga.md"
@@ -329,6 +330,10 @@ function sp_circuts_alias() {
   alias sp-resistance-electricity="sp-electricity"
   alias sp-ohm="sp-electricity"
 
+  alias sp-decibel="vim -p ${file_db}"
+  alias sp-db="sp-decibel"
+  alias sp-snr="sp-decibel"
+  alias sp-signal-to-noise-ratio="sp-decibel"
 }
 
 sp_circuts_alias
@@ -348,6 +353,7 @@ alias sp-audiobook="vim $REF_DIR/audiobook.md"
 alias sp-backup="vim $REF_DIR/backup.md"
 alias sp-spell="vim $REF_DIR/spell.md"
 alias sp-pdf="vim $REF_DIR/pdf.md"
+alias sp-google="vim $REF_DIR/google.md"
 
 alias sp-radar="vim $REF_DIR/radar.md"
 alias sp-sonar="sp-radar"
@@ -752,7 +758,7 @@ function sp_network() {
   alias sp-nat="vim -p ${file_nat}"
 
   #audio
-  alias sp-audio="vim -p ${file_audio} ${file_sound} $REF_DIR/audio-digital.md $REF_DIR/audio-digital-sync.md ${file_pcm}"
+  alias sp-audio="vim -p ${file_audio} ${file_sound} $REF_DIR/audio-digital.md $REF_DIR/audio-digital-sync.md ${file_pcm} ${file_db}"
   alias sp-sound="vim -p ${file_sound} ${file_audio} $REF_DIR/audio-digital.md $REF_DIR/audio-digital-sync.md ${file_pcm}"
   alias sp-dsp="vim -p ${file_dsp} ${file_waveform} ${file_pcm}"
 }
@@ -929,6 +935,9 @@ alias sp-proj-ml="vim $DROPBOX/project/ml.md"
 alias sp-proj-sync="vim $DROPBOX/project/sync.md"
 alias sp-proj-os="vim $DROPBOX/project/kernel.md"
 alias sp-proj-kernel="sp-proj-os"
+alias sp-proj-graphic="vim $DROPBOX/project/game.md"
+alias sp-proj-raytrace="sp-proj-graphic"
+alias sp-proj-game="sp-proj-graphic"
 
 #course
 alias sp-course-audio-dsp="vim $DROPBOX/course/audio-dsp.md"
@@ -1104,7 +1113,7 @@ alias sp-alias="vim $DOTFILES/extrarc && source $DOTFILES/extrarc"
 alias sp-zshrc="vim -p $HOME/.zshrc $DOTFILES/extrarc $DOTFILES/workrc"
 alias sp-workrc="vim -p $HOME/dotfiles/workrc && source $DOTFILES/workrc"
 
-alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc $HOME/.vim/coc-settings.json"
+alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/c.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc $HOME/.vim/coc-settings.json"
 # alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim  $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc /home/spooky/.config/nvim/plugged/chromatica.nvim/syntax/*"
 
 alias vimsession="vim -S Session.vim"
