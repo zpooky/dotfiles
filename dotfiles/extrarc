@@ -434,6 +434,7 @@ alias sp-rtag="vim $DROPBOX_LINUX/vim/rtag.md"
 # language
 alias sp-bash="vim $REF_DIR/linux/bash.md"
 alias sp-vimscript="vim $REF_DIR/vimscript.md"
+alias sp-vim-script="sp-vimscript"
 
 # other
 alias sp-tls="vim $REF_DIR/tls2.md"

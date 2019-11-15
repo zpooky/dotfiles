@@ -794,10 +794,10 @@ iab deinfe define
 iab memst memset
 iab szie_t size_t
 iab stati static
-iab uint8 uint8_t
-iab uint16 uint16_t
-iab uint32 uint32_t
-iab uint64 uint64_t
+" iab uint8 uint8_t
+" iab uint16 uint16_t
+" iab uint32 uint32_t
+" iab uint64 uint64_t
 iab cosnt const
 iab asssert assert
 iab treu true
@@ -1046,4 +1046,96 @@ map <silent> <F3> <c-]> <bar> :execute 'normal zt'<cr>
 " {{{
 " force open open file
 map <leader>gf :e <cfile><cr>
+" }}}
+
+" toggle file {{{
+function! SpookyDoToggle(file, match, dest) abort
+  " echo "'".a:file."'".a:match."'"
+  " echo a:match
+  let lres = matchlist(a:file, a:match)
+  let res = matchstr(a:file, a:match)
+  " echo res
+  if !empty(res)
+    " echo "match"
+    " substitute()
+    " return substitute(v:throwpoint, '.*\D\(\d\+\).*', '\1', "")
+    for cur in a:dest
+      " let shadow = substitute(lres, a:file, cur, '')
+      let i=1
+      while i < len(lres)
+        " echo "substitute(".cur.", \\".i.", ".get(lres, i).", \"\")"
+        let se = '\\'.i
+        let cur = substitute(cur, se, get(lres, i), "")
+        " echo shadow."|".res."|".a:file
+        let i += 1
+      endwhile
+      if filereadable(cur)
+        echo cur
+        execute "edit ".cur
+        return 1
+      endif
+    endfor
+  endif
+
+  return 0
+endfunction
+
+" TODO reuse this to determin if the mirror of a .h file is a c or a cpp file
+" in order to set ft in the header
+function! SpookyToggleFile(file) abort
+  " echomsg "wasd: ".a:file
+  let fname='\w\+'
+
+  if SpookyDoToggle(a:file, '^\(.*\)\/\('.fname.'\)\.vim$', ['\1/\2.cpp'])
+    return 0
+  endif
+
+  if SpookyDoToggle(a:file, '^\(.*\)\/lib\/\('.fname.'\)\.c$', ['\1/include/linux/\2.h'])
+    return 0
+  endif
+  if SpookyDoToggle(a:file, '^\(.*\)\/kernel\/\('.fname.'\)\.c$', ['\1/include/linux/\2.h'])
+    return 0
+  endif
+  if SpookyDoToggle(a:file, '^\(.*\)\/include\/linux\/\('.fname.'\)\.h$', ['\1/kernel/\2.c', '\1/lib/\2.c'])
+    return 0
+  endif
+
+  if SpookyDoToggle(a:file, '^\(.*\)\/include\/\('.fname.'\)\.h$', ['\1/src/\2.cpp', '\1/src/\2.c', '\1/\2.cpp', '\1/\2.c'])
+    return 0
+  endif
+  if SpookyDoToggle(a:file, '^\(.*\)\/inc\/\('.fname.'\)\.h$', ['\1/src/\2.cpp', '\1/src/\2.c'])
+    return 0
+  endif
+
+  if SpookyDoToggle(a:file, '^\(.*\)\/src\/\('.fname.'\)\.c$', ['\1/include/\2.h', '\1/inc/\2.h', '\2.h'])
+    return 0
+  endif
+  if SpookyDoToggle(a:file, '^\(.*\)\/src\/\('.fname.'\)\.cpp$', ['\1/include/\2.h', '\1/include/\2.hpp', '\1/include/\2.hh', '\1/inc/\2.h', '\1/inc/\2.hpp', '\1/inc/\2.hh'])
+    return 0
+  endif
+
+  if SpookyDoToggle(a:file, '^\(.*\)\/\('.fname.'\)\.c$', ['\1/\2.h', '\1/include/\2.h'])
+    return 0
+  endif
+  if SpookyDoToggle(a:file, '^\(.*\)\/\('.fname.'\)\.cpp$', ['\1/\2.h', '\1/\2.hpp', '\1/\2.hh', '\1/include/\2.h', '\1/include/\2.hpp', '\1/include/\2.hh', '\1/inc/\2.h', '\1/inc/\2.hpp', '\1/inc/\2.hh'])
+    return 0
+  endif
+
+  if SpookyDoToggle(a:file, '^\(.*\)\/\('.fname.'\)\.h$', ['\1/\2.cpp', '\1/\2.c'])
+    return 0
+  endif
+  if SpookyDoToggle(a:file, '^\(.*\)\/\('.fname.'\)\.hpp$', ['\1/\2.cpp'])
+    return 0
+  endif
+  if SpookyDoToggle(a:file, '^\(.*\)\/\('.fname.'\)\.hh$', ['\1/\2.cpp'])
+    return 0
+  endif
+endfunction
+
+" autocmd FileType c,cpp
+command! SpookyToggleFile :call SpookyToggleFile(expand('%:p'))
+augroup AugroupToggleFIle
+  autocmd!
+  autocmd FileType c,cpp nnoremap <silent> <F2> :SpookyToggleFile<CR>
+augroup END
 " }}}

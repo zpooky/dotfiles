@@ -2,6 +2,7 @@
 " https://github.com/tomasiser/vim-code-dark
 "
 " :highlight to see example of all exisiting of how highlight groups will look
+" :ColorHighlight highlight in document
 
 scriptencoding utf-8
 
@@ -173,10 +174,13 @@ if g:codedark_conservative | let s:cdPink = s:cdBlue | endif
 " endif
 
 " tabline {{{
+" note: only this groups are supporte in the tabline
+
 " hi TabLine      ctermfg=Black  ctermbg=Green     cterm=NONE
 " hi TabLineFill  ctermfg=Black  ctermbg=Green     cterm=NONE
 " hi TabLineSel   ctermfg=White  ctermbg=DarkBlue  cterm=NONE
 let s:cdTmuxDarkRed = {'gui': '#ac4142', 'cterm': s:cterm08, 'cterm256': '52'}
+let s:cdTmuxYellow = {'gui': '#e7c547', 'cterm': s:cterm08, 'cterm256': '52'}
 call <sid>hi('TabLine', s:cdFront, s:cdTabOther, 'none', {})
 call <sid>hi('TabLineFill', s:cdFront, s:cdTabOutside, 'none', {})
 call <sid>hi('TabLineSel', s:cdFront, s:cdTmuxDarkRed, 'bold', {})

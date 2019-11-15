@@ -651,46 +651,39 @@ augroup END
 " # cpp #
 " #######
 " vim-projectionist {{{
-Plug 'tpope/vim-projectionist',programming_cpp
-
-augroup AugroupAVIM
-  autocmd!
-  " toggle between header and source
-  autocmd FileType c,cpp,objc map <silent> <F2> :A<CR>
-  " open source or header in vertical split
-  autocmd FileType c,cpp,objc map <silent> <leader><F2> :AV<CR>
-
-  autocmd User ProjectionistDetect
-        \ call projectionist#append(getcwd(),
-        \ {
-        \    '*.c': {
-        \      'alternate': '{}.h'
-        \    },
-        \    '*.cpp': {
-        \      'alternate': ['{}.h', '{}.hpp', '{}.hh']
-        \    },
-        \    '*.h': {
-        \      'alternate': ['{}.cpp', '{}.c']
-        \    },
-        \    '*.hpp': {
-        \      'alternate': ['{}.cpp']
-        \    },
-        \    '*.hh': {
-        \      'alternate': ['{}.cpp']
-        \    },
-        \    'lib/*.c': { 'alternate': 'include/linux/{}.h' },
-        \    'kernel/*.c': { 'alternate': 'include/linux/{}.h' },
-        \    'include/linux/*.h': { 'alternate': [ 'kernel/{}.c', 'lib/{}.c' ] },
-        \ })
-
-" TODO
-" \    'include/*.h': {
-" \      'alternate': ['src/{}.cpp', 'src/{}.c']
-" \    },
-" \    'src/*.c': { 'alternate': 'inc/{}.h' },
-" \    'inc/*.h': { 'alternate': 'src/{}.c' },
-
-augroup END
+" Plug 'tpope/vim-projectionist',programming_cpp
+"
+" augroup AugroupAVIM
+"   autocmd!
+"   " toggle between header and source
+"   autocmd FileType c,cpp,objc map <silent> <F2> :A<CR>
+"   " open source or header in vertical split
+"   autocmd FileType c,cpp,objc map <silent> <leader><F2> :AV<CR>
+"
+"   autocmd User ProjectionistDetect
+"         \ call projectionist#append(getcwd(),
+"         \ {
+"         \    '*.c': {
+"         \      'alternate': '{}.h'
+"         \    },
+"         \    '*.cpp': {
+"         \      'alternate': ['{}.h', '{}.hpp', '{}.hh']
+"         \    },
+"         \    '*.h': {
+"         \      'alternate': ['{}.cpp', '{}.c']
+"         \    },
+"         \    '*.hpp': {
+"         \      'alternate': ['{}.cpp']
+"         \    },
+"         \    '*.hh': {
+"         \      'alternate': ['{}.cpp']
+"         \    },
+"         \    'lib/*.c': { 'alternate': 'include/linux/{}.h' },
+"         \    'kernel/*.c': { 'alternate': 'include/linux/{}.h' },
+"         \    'include/linux/*.h': { 'alternate': [ 'kernel/{}.c', 'lib/{}.c' ] },
+"         \ })
+"
+" augroup END
 " }}}
 
 " {{{
@@ -1034,8 +1027,6 @@ set laststatus=0
 " {{{
 " translate colorc codes inline into colors
 Plug 'chrisbra/Colorizer', { 'for': 'vim' }
-
-" :ColorHighlight
 
 " let g:colorizer_auto_filetype='vim'
 let g:colorizer_colornames_disable = 1
