@@ -206,32 +206,6 @@ set listchars+=nbsp:+
 set showbreak="\u21aa"
 " }}}
 
-" {{{
-augroup AutogroupFileSpecific
-  autocmd!
-
-  " manually set filetype based on ext
-  autocmd BufNewFile,BufFilePre,BufRead *.md set ft=markdown
-  autocmd BufNewFile,BufRead *.nasm set ft=nasm
-
-  " type specific settings
-  autocmd FileType markdown,python setlocal ts=2 sw=2 expandtab
-  autocmd FileType markdown,text,mail,tex setlocal textwidth=80
-  autocmd FileType gitcommit setlocal textwidth=72
-  autocmd FileType gitcommit,markdown,text,mail,tex setlocal colorcolumn=-1   " display bar at textwidth
-  autocmd FileType gitcommit,markdown,text,mail setlocal complete+=kspell
-" enable spelling for these types
-  autocmd FileType gitcommit,mail setlocal spell
-
-  " set file type for files without extension like <atomic>
-  autocmd BufRead,BufNewFile /usr/include/c++/* set ft=cpp
-  autocmd BufRead,BufNewFile /usr/lib/gcc/* set ft=cpp
-  autocmd BufRead,BufNewFile Kbuild.include set ft=make
-
-augroup END
-" }}}
-
-
 " Search {{{
 set incsearch                     " search wile you type
 set smartcase                     " Case insensitive search, except when capital letters are used.
@@ -1049,86 +1023,97 @@ map <leader>gf :e <cfile><cr>
 " }}}
 
 " toggle file {{{
-function! SpookyDoToggle(file, match, dest) abort
+function! SpookyMirrorFor(file, match, dest) abort
   " echo "'".a:file."'".a:match."'"
   " echo a:match
   let lres = matchlist(a:file, a:match)
   let res = matchstr(a:file, a:match)
   " echo res
   if !empty(res)
-    " echo "match"
-    " substitute()
-    " return substitute(v:throwpoint, '.*\D\(\d\+\).*', '\1', "")
     for cur in a:dest
-      " let shadow = substitute(lres, a:file, cur, '')
       let i=1
       while i < len(lres)
         " echo "substitute(".cur.", \\".i.", ".get(lres, i).", \"\")"
-        let se = '\\'.i
-        let cur = substitute(cur, se, get(lres, i), "")
-        " echo shadow."|".res."|".a:file
+        let cur = substitute(cur,'\\'.i , get(lres, i), "")
         let i += 1
       endwhile
+
       if filereadable(cur)
-        echo cur
-        execute "edit ".cur
-        return 1
+        return cur
       endif
     endfor
   endif
 
-  return 0
+  return ""
 endfunction
 
-" TODO reuse this to determin if the mirror of a .h file is a c or a cpp file
-" in order to set ft in the header
-function! SpookyToggleFile(file) abort
-  " echomsg "wasd: ".a:file
+function! SpookyGetMirror(file) abort
   let fname='\w\+'
 
-  if SpookyDoToggle(a:file, '^\(.*\)\/\('.fname.'\)\.vim$', ['\1/\2.cpp'])
-    return 0
+  " if SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.vim$', ['\1/\2.cpp'])
+  "   return 0
+  " endif
+
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/lib\/\('.fname.'\)\.c$', ['\1/include/linux/\2.h'])
+  if strlen(mirror) > 0
+    return mirror
+  endif
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/kernel\/\('.fname.'\)\.c$', ['\1/include/linux/\2.h'])
+  if strlen(mirror) > 0
+    return mirror
+  endif
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/include\/linux\/\('.fname.'\)\.h$', ['\1/kernel/\2.c', '\1/lib/\2.c'])
+  if strlen(mirror) > 0
+    return mirror
   endif
 
-  if SpookyDoToggle(a:file, '^\(.*\)\/lib\/\('.fname.'\)\.c$', ['\1/include/linux/\2.h'])
-    return 0
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/include\/\('.fname.'\)\.h$', ['\1/src/\2.cpp', '\1/src/\2.c', '\1/\2.cpp', '\1/\2.c'])
+  if strlen(mirror) > 0
+    return mirror
   endif
-  if SpookyDoToggle(a:file, '^\(.*\)\/kernel\/\('.fname.'\)\.c$', ['\1/include/linux/\2.h'])
-    return 0
-  endif
-  if SpookyDoToggle(a:file, '^\(.*\)\/include\/linux\/\('.fname.'\)\.h$', ['\1/kernel/\2.c', '\1/lib/\2.c'])
-    return 0
-  endif
-
-  if SpookyDoToggle(a:file, '^\(.*\)\/include\/\('.fname.'\)\.h$', ['\1/src/\2.cpp', '\1/src/\2.c', '\1/\2.cpp', '\1/\2.c'])
-    return 0
-  endif
-  if SpookyDoToggle(a:file, '^\(.*\)\/inc\/\('.fname.'\)\.h$', ['\1/src/\2.cpp', '\1/src/\2.c'])
-    return 0
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/inc\/\('.fname.'\)\.h$', ['\1/src/\2.cpp', '\1/src/\2.c'])
+  if strlen(mirror) > 0
+    return mirror
   endif
 
-  if SpookyDoToggle(a:file, '^\(.*\)\/src\/\('.fname.'\)\.c$', ['\1/include/\2.h', '\1/inc/\2.h', '\2.h'])
-    return 0
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/src\/\('.fname.'\)\.c$', ['\1/include/\2.h', '\1/inc/\2.h', '\2.h'])
+  if strlen(mirror) > 0
+    return mirror
   endif
-  if SpookyDoToggle(a:file, '^\(.*\)\/src\/\('.fname.'\)\.cpp$', ['\1/include/\2.h', '\1/include/\2.hpp', '\1/include/\2.hh', '\1/inc/\2.h', '\1/inc/\2.hpp', '\1/inc/\2.hh'])
-    return 0
-  endif
-
-  if SpookyDoToggle(a:file, '^\(.*\)\/\('.fname.'\)\.c$', ['\1/\2.h', '\1/include/\2.h'])
-    return 0
-  endif
-  if SpookyDoToggle(a:file, '^\(.*\)\/\('.fname.'\)\.cpp$', ['\1/\2.h', '\1/\2.hpp', '\1/\2.hh', '\1/include/\2.h', '\1/include/\2.hpp', '\1/include/\2.hh', '\1/inc/\2.h', '\1/inc/\2.hpp', '\1/inc/\2.hh'])
-    return 0
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/src\/\('.fname.'\)\.cpp$', ['\1/include/\2.h', '\1/include/\2.hpp', '\1/include/\2.hh', '\1/inc/\2.h', '\1/inc/\2.hpp', '\1/inc/\2.hh'])
+  if strlen(mirror) > 0
+    return mirror
   endif
 
-  if SpookyDoToggle(a:file, '^\(.*\)\/\('.fname.'\)\.h$', ['\1/\2.cpp', '\1/\2.c'])
-    return 0
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.c$', ['\1/\2.h', '\1/include/\2.h'])
+  if strlen(mirror) > 0
+    return mirror
   endif
-  if SpookyDoToggle(a:file, '^\(.*\)\/\('.fname.'\)\.hpp$', ['\1/\2.cpp'])
-    return 0
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.cpp$', ['\1/\2.h', '\1/\2.hpp', '\1/\2.hh', '\1/include/\2.h', '\1/include/\2.hpp', '\1/include/\2.hh', '\1/inc/\2.h', '\1/inc/\2.hpp', '\1/inc/\2.hh'])
+  if strlen(mirror) > 0
+    return mirror
   endif
-  if SpookyDoToggle(a:file, '^\(.*\)\/\('.fname.'\)\.hh$', ['\1/\2.cpp'])
-    return 0
+
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.h$', ['\1/\2.cpp', '\1/\2.c'])
+  if strlen(mirror) > 0
+    return mirror
+  endif
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.hpp$', ['\1/\2.cpp'])
+  if strlen(mirror) > 0
+    return mirror
+  endif
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.hh$', ['\1/\2.cpp'])
+  if strlen(mirror) > 0
+    return mirror
+  endif
+
+  return ""
+endfunction
+
+function! SpookyToggleFile(file) abort
+  let mirror = SpookyGetMirror(a:file)
+  if strlen(mirror) > 0
+    execute "edit ".mirror
   endif
 endfunction
 
@@ -1137,5 +1122,45 @@ command! SpookyToggleFile :call SpookyToggleFile(expand('%:p'))
 augroup AugroupToggleFIle
   autocmd!
   autocmd FileType c,cpp nnoremap <silent> <F2> :SpookyToggleFile<CR>
+augroup END
+" }}}
+
+" {{{
+function! SpookyHeaderType(file) abort
+  let mirror = SpookyGetMirror(a:file)
+  if strlen(mirror) > 0
+    if mirror =~ '\.cpp$'
+      set ft=cpp
+      return 1
+    endif
+  endif
+
+  set ft=c
+  return 1
+endfunction
+
+augroup AutogroupFileSpecific
+  autocmd!
+
+  " manually set filetype based on ext
+  autocmd BufNewFile,BufFilePre,BufRead *.md set ft=markdown
+  autocmd BufNewFile,BufRead *.nasm set ft=nasm
+
+  " type specific settings
+  autocmd FileType markdown,python setlocal ts=2 sw=2 expandtab
+  autocmd FileType markdown,text,mail,tex setlocal textwidth=80
+  autocmd FileType gitcommit setlocal textwidth=72
+  autocmd FileType gitcommit,markdown,text,mail,tex setlocal colorcolumn=-1   " display bar at textwidth
+  autocmd FileType gitcommit,markdown,text,mail setlocal complete+=kspell
+" enable spelling for these types
+  autocmd FileType gitcommit,mail setlocal spell
+
+  " set file type for files without extension like <atomic>
+  autocmd BufRead,BufNewFile /usr/include/c++/* set ft=cpp
+  autocmd BufRead,BufNewFile /usr/lib/gcc/* set ft=cpp
+  autocmd BufRead,BufNewFile Kbuild.include set ft=make
+
+  "
+  autocmd BufNewFile,BufFilePre,BufRead *.h call SpookyHeaderType(expand('%:p'))
 augroup END
 " }}}

@@ -145,6 +145,14 @@ function ssh_192_168_0_90() {
     # AF_UNIX socket
     l_env+=' && echo "alias unix_con=\"netstat -apnx\"" >> $HOME/.shinit'
 
+    l_env+=' && echo "watch() {" >> $HOME/.shinit'
+    l_env+=' && echo "  while [ 1 ]; do" >> $HOME/.shinit'
+    l_env+=' && echo "    echo \"-------------------------------------------------------------------------------\"" >> $HOME/.shinit'
+    l_env+=' && echo "    eval \$1;" >> $HOME/.shinit'
+    l_env+=' && echo "    sleep 1;" >> $HOME/.shinit'
+    l_env+=' && echo "  done" >> $HOME/.shinit'
+    l_env+=' && echo "}" >> $HOME/.shinit'
+
     local disable_setup="/tmp/disable_setup"
     if [ -e "${disable_setup}" ]; then
       # disable some web menus
@@ -435,7 +443,7 @@ function deploy_192_168_0_90(){
 
     before_camera_sha256=$(sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "sha256sum ${l_dest}")
 
-    echo "- scp ${l_source} to ${l_dest}"
+    echo "sshpass -p '${l_pass}' scp -q '${l_source}' '${l_user}'@'${l_ip}':'${l_dest}'"
     sshpass -p "${l_pass}" scp -q "${l_source}" "${l_user}"@"${l_ip}":"${l_dest}"
     local res=$?
 
