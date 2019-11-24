@@ -1289,6 +1289,16 @@ function sp_perf(){
 
 alias makex="makex | less -RiN -p error"
 
+function print_clipboard() {
+  echo "xclip -o -selection primary  : '$(xclip -o -selection primary 2>&1)'"
+  echo "xclip -o -selection secondary: '$(xclip -o -selection secondary 2>&1)'"
+  echo "xclip -o -selection clipboard: '$(xclip -o -selection clipboard 2>&1)'"
+  echo ""
+  echo "xsel -o --primary  : $(xsel -o --primary 2>&1)"
+  echo "xsel -o --secondary: $(xsel -o --secondary 2>&1)"
+  echo "xsel -o --clipboard: $(xsel -o --clipboard 2>&1)"
+}
+
 # watch files system for changes and reload
 alias make_loop="$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/make_body.sh"
 alias test_loop="$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/make_test_body.sh test ./test/thetest"

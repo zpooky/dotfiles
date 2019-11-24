@@ -247,6 +247,8 @@ if [[ ! -n "${IS_DOCKER}" ]]; then
     install dnsutils
   fi
 
+  install_pkg xsel
+
   # window manager
   install_pkg dmenu
   has_feature i3
