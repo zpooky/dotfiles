@@ -1144,6 +1144,7 @@ augroup AutogroupFileSpecific
 
   " manually set filetype based on ext
   autocmd BufNewFile,BufFilePre,BufRead *.md set ft=markdown
+  " https://github.com/Shirk/vim-gas
   autocmd BufNewFile,BufRead *.nasm set ft=nasm
 
   " type specific settings

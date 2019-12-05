@@ -294,6 +294,7 @@ function sp_circuts_alias() {
   local logic_gate="$REF_DIR/logic-gate.md" #TODO
 
   local electricity="$REF_DIR/electricity.md" #TODO
+  local file_rms="$REF_DIR/rms.md"
 
   local oscilloscopes="$REF_DIR/oscilloscopes.md" #TODO
 
@@ -330,10 +331,14 @@ function sp_circuts_alias() {
   alias sp-resistance-electricity="sp-electricity"
   alias sp-ohm="sp-electricity"
 
-  alias sp-decibel="vim -p ${file_db}"
+  alias sp-decibel="vim -p ${file_db} ${file_rms}"
   alias sp-db="sp-decibel"
-  alias sp-snr="sp-decibel"
-  alias sp-signal-to-noise-ratio="sp-decibel"
+  alias sp-snr="sp-db"
+  alias sp-signal-to-noise-ratio="sp-db"
+  alias sp-spl="sp-db"
+
+  alias sp-rms="vim -p ${file_rms}"
+  alias sp-root-mean-square="sp-rms"
 }
 
 sp_circuts_alias
@@ -354,6 +359,7 @@ alias sp-backup="vim $REF_DIR/backup.md"
 alias sp-spell="vim $REF_DIR/spell.md"
 alias sp-pdf="vim $REF_DIR/pdf.md"
 alias sp-google="vim $REF_DIR/google.md"
+alias sp-flatpak="vim $REF_DIR/flatpak.md"
 
 alias sp-radar="vim $REF_DIR/radar.md"
 alias sp-sonar="sp-radar"
@@ -489,6 +495,10 @@ alias cpp-hex="vim $REF_DIR/util.md"
 alias sp-musl="vim $CPP_ROOT/musl.md"
 
 alias c-make="vim -p $CPP_STUB/c-Makefile"
+alias c-backtrace="vim -p $CPP_STUB/backtrace.md"
+alias cpp-backtrace="c-backtrace"
+alias c-stacktrace="c-backtrace"
+alias cpp-stacktrace="c-backtrace"
 
 # debug
 function sp_debug(){
@@ -546,7 +556,7 @@ alias sp-awk="vim $DROPBOX_LINUX/awk.md"
 alias sp-chmod="vim $DROPBOX_LINUX/chmod.md"
 alias sp-locale="vim $REF_DIR/linux/locale.md"
 alias sp-mutt="vim $DROPBOX_LINUX/mutt.txt"
-alias sp-pipe="vim $REF_DIR/linux/pipe.txt"
+alias sp-pipe="vim $REF_DIR/linux/pipe.md"
 alias sp-tmux="vim $DROPBOX_LINUX/tmux.txt"
 alias sp-mount="vim $REF_DIR/linux/mount.txt"
 alias sp-xclip="vim $DROPBOX_LINUX/xclip.txt"

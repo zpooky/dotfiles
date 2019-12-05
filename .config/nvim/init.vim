@@ -691,6 +691,7 @@ augroup END
   " vim-cpp-enhanced-highlight {{{
   " better c++ syntax
   Plug 'octol/vim-cpp-enhanced-highlight',programming_cpp
+  " Plug 'abudden/taghighlight-automirror'
   " syntax keyword cppSTLenum memory_order_acquire
   " syntax keyword cppSTLenum memory_order_release
   " syntax keyword cppSTLnamespace debug

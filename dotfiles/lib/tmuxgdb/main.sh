@@ -14,6 +14,13 @@ fi
 GDB_CONFIG_file="$(mktemp /tmp/gdb_config_file.XXXXXXXXXXXXXX)"
 BREAKPOINT_file='.gdb_breakpoints'
 
+echo "\${SP_GDB_SOURCE}: ${SP_GDB_SOURCE}"
+echo "\${SP_GDB_EXE}: ${SP_GDB_EXE}"
+
+if [ "${SP_GDB_EXE}" = "" ]; then
+  SP_GDB_EXE=gdb
+fi
+
 #---configure-dashboard------------------
 # source lines
 echo "dashboard source -style context 21" >>"${GDB_CONFIG_file}"
@@ -62,6 +69,13 @@ for region in "${regions[@]}"; do
   echo "dashboard ${region}    -output $REGION_TTY" >>"${GDB_CONFIG_file}"
 done
 
+if [ ! "${SP_GDB_SOURCE}" = "" ]; then
+  if [ ! -e ${SP_GDB_SOURCE} ]; then
+    exit 2
+  fi
+  cat ${SP_GDB_SOURCE} >> "${GDB_CONFIG_file}"
+fi
+
 # gdb run!
 echo "r" >>"${GDB_CONFIG_file}"
 
@@ -74,7 +88,7 @@ cat "${GDB_CONFIG_file}"
 # done
 
 shift 1
-echo "gdb --silent --command=\"${GDB_CONFIG_file}\" --args $@"
-gdb --silent --command="${GDB_CONFIG_file}" --args "$@"
+echo "${SP_GDB_EXE} --silent --command=\"${GDB_CONFIG_file}\" --args $@"
+${SP_GDB_EXE} --silent --command="${GDB_CONFIG_file}" --args "$@"
 
 # rm "${GDB_CONFIG_file}"

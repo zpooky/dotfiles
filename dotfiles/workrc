@@ -781,7 +781,7 @@ function bitbake_axis-image-cvp() {
   local fimage="${BUILDDIR}/fimage"
   local fimage_before=$(sha256sum "${fimage}")
 
-  bitbake axis-image-cvp
+  nice bitbake axis-image-cvp
   local ret=$?
   if [ ${ret} -eq 0 ]; then
     notify-send "Build [SUCCESS]"
@@ -1102,17 +1102,24 @@ function portcast_features(){
 }
 
 function dump_sample_rates(){
+  local build_root="${BUILDDIR}/../.."
+  local dir=$(realpath "${build_root}/meta-axis-bsp/conf/machine")
   local name="$(basename ${1})"
   name=${name/".axis-config"/""}
-  echo "# ${name}"
-  grep -E "^AXIS_CONFIG_AUDIO=y" "${1}" | xargs echo "-"
-  grep -E "AXIS_CONFIG_AUDIO_SAMPLE_RATE_8KHZ" "${1}" | xargs echo "-"
-  grep -E "AXIS_CONFIG_AUDIO_SAMPLE_RATE_16KHZ" "${1}" | xargs echo "-"
-  grep -E "AXIS_CONFIG_AUDIO_SAMPLE_RATE_32KHZ" "${1}" | xargs echo "-"
-  grep -E "AXIS_CONFIG_AUDIO_SAMPLE_RATE_44_1KHZ" "${1}" | xargs echo "-"
-  grep -E "AXIS_CONFIG_AUDIO_SAMPLE_RATE_48KHZ" "${1}" | xargs echo "-"
-  grep -E "AXIS_CONFIG_PORTCAST" "${1}" | xargs echo "-"
-  echo ""
+  local prod_conf="${dir}/${name}.conf"
+
+  echo -n "${name}.conf "
+  # grep -E "^AXIS_CONFIG_AUDIO=y" "${1}" | xargs echo "-"
+  # grep -E "AXIS_CONFIG_AUDIO_SAMPLE_RATE_8KHZ" "${1}" | xargs echo "-"
+  # grep -E "AXIS_CONFIG_AUDIO_SAMPLE_RATE_16KHZ" "${1}" | xargs echo "-"
+  # grep -E "AXIS_CONFIG_AUDIO_SAMPLE_RATE_32KHZ" "${1}" | xargs echo "-"
+  # grep -E "AXIS_CONFIG_AUDIO_SAMPLE_RATE_44_1KHZ" "${1}" | xargs echo "-"
+  # grep -E "AXIS_CONFIG_AUDIO_SAMPLE_RATE_48KHZ" "${1}" | xargs echo "-"
+  # grep -E "AXIS_CONFIG_PORTCAST" "${1}" | xargs echo "-"
+  # if [ -e "${prod_conf}" ]; then
+  #   grep "^require " "${prod_conf}" | xargs echo "-"
+  # fi
+  # echo ""
 }
 
 function sample_rate_holes(){
@@ -1294,6 +1301,80 @@ function no_sources_outputs(){
       echo ""
     fi
   done
+}
+
+# function sp_gen_bsp_multiple() {
+#   if ! valid_build_dir; then
+#     return 1
+#   fi
+#
+#   local build_root="${BUILDDIR}/../.."
+#   local dir=$(realpath "${build_root}/meta-axis-bsp/conf/machine")
+#   if [ ! -d ${dir} ]; then
+#     echo "'$dir' not a dir"
+#     return 1
+#   fi
+#
+#   local products=("fa54" "fritos" "gangsterponymn34220pl" "gangsterponyov4689" "grizzly" "p1364" "p1365-mkii" "p1367" "p1368-e" "p1375" "p1375-e" "p1445-le-3" "p1445-le" "p1447-le" "p1448-le" "p1455-le" "p3245-ve" "p5655-e" "p7304" "q1615-mkii" "q1615-mkiii" "q1645" "q1647" "q1659" "q1700-le" "q1785-le" "q1798-le" "q1952-e" "q3515" "q3517" "q3518" "q3527" "q6074" "q6075" "q8752-e" "q9216-slv" "scratchingelephantmn34220pl" "scratchingelephantov4689" "trocadero-4ch" "trocadero" "trocadero-panorama" "trocadero-thermal")
+#   local cur
+#   for cur in "${products[@]}"; do
+#     gen_bsp -l ${BUILDDIR}/../../meta-axis-bsp/ "${cur}" --menuconfig
+#   done
+# }
+
+function gdb_192_168_0_90(){
+  local project="${1}"
+  local project_dir="${BUILDDIR}/workspace/sources/${project}"
+  local bin_dir="${project_dir}/oe-workdir/package/usr/bin/${project}"
+
+  local l_ip="192.168.0.90"
+
+  if ! valid_build_dir; then
+    return 1
+  fi
+
+  if [ ! -e "${project_dir}" ]; then
+    echo "'${project_dir}' does not exist" >&2
+    return 2
+  fi
+
+  if [ ! -f "${bin_dir}" ]; then
+    echo "'${bin_dir}' is not built?" >&2
+    return 3
+  fi
+  # -p -- prints gdb command
+  local gdb_str="$(rungdb -p ${bin_dir})"
+  if [ ! $? -eq 0 ]; then
+    return 4
+  fi
+  # /.../aarch64-poky-linux-gdb -x gdbinit workspace/sources/ioboxd/oe-workdir/package/usr/bin/ioboxd
+
+  local gdbinit="./gdbinit"
+  local new_gdbinit="$(mktemp /tmp/gdbinit.XXXXXXXXXXXXXX)"
+  if [ ! -f ${gdbinit} ]; then
+    return 5
+  fi
+  echo "target remote ${l_ip}:12345" >> ${gdbinit}
+
+  mv "${gdbinit}" "${new_gdbinit}"
+  if [ ! $? -eq 0 ]; then
+    return 6
+  fi
+
+  local gdb_parts=($(echo ${gdb_str}))
+  # for cur in ${gdb_parts[@]}; do
+  #   echo "- $cur"
+  # done
+
+  local gdb_exe="${gdb_parts[1]}"
+  if [ ! -e "${gdb_exe}" ]; then
+    return 7
+  fi
+
+  # echo "SP_GDB_EXE=${gdb_exe} SP_GDB_SOURCE=${new_gdbinit} $HOME/dotfiles/lib/tmuxgdb/tmuxgdb.sh ${bin_dir}"
+  export SP_GDB_EXE="${gdb_exe}"
+  export SP_GDB_SOURCE="${new_gdbinit}"
+  $HOME/dotfiles/lib/tmuxgdb/tmuxgdb.sh "${bin_dir}"
 }
 
 # setxkbmap -option caps:escape

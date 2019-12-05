@@ -30,13 +30,17 @@ name="$(mktemp -u XXXXXXXXXX)"
 #   formated_gdb_args="${formated_gdb_args} \"${current}\""
 # done
 
+
+echo "\${SP_GDB_SOURCE}: ${SP_GDB_SOURCE}"
+echo "\${SP_GDB_EXE}: ${SP_GDB_EXE}"
+
 echo "windows:" >"${TEAMCIL_yaml}"
 echo "  - name: ${name}" >>"${TEAMCIL_yaml}"
 echo "    root: $(pwd)" >>"${TEAMCIL_yaml}"
 echo "    layout: 1342,231x61,0,0[231x51,0,0{103x51,0,0[103x25,0,0,1,103x25,0,26,6],101x51,104,0[101x38,104,0,3,101x12,104,39,5],25x51,206,0,4},231x9,0,52{115x9,0,52,2,115x9,116,52,7}]" >>"${TEAMCIL_yaml}"
 echo "    panes:" >>"${TEAMCIL_yaml}"
 echo "      - commands:" >>"${TEAMCIL_yaml}"
-echo "        - $HOME/dotfiles/lib/tmuxgdb/main.sh \"${FIFO_pipe}\" $@" >>"${TEAMCIL_yaml}"
+echo "        - SP_GDB_SOURCE=${SP_GDB_SOURCE} SP_GDB_EXE=${SP_GDB_EXE} $HOME/dotfiles/lib/tmuxgdb/main.sh \"${FIFO_pipe}\" $@" >>"${TEAMCIL_yaml}"
 echo "        focus: true" >>"${TEAMCIL_yaml}"
 echo "      - $HOME/dotfiles/lib/tmuxgdb/sub.sh  \"${FIFO_pipe}\" history_TTY stack_TTY" >>"${TEAMCIL_yaml}"
 echo "      - $HOME/dotfiles/lib/tmuxgdb/sub.sh  \"${FIFO_pipe}\" source_TTY" >>"${TEAMCIL_yaml}"
