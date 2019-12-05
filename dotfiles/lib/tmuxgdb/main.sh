@@ -74,10 +74,10 @@ if [ ! "${SP_GDB_SOURCE}" = "" ]; then
     exit 2
   fi
   cat ${SP_GDB_SOURCE} >> "${GDB_CONFIG_file}"
+else
+  # gdb run!
+  echo "r" >>"${GDB_CONFIG_file}"
 fi
-
-# gdb run!
-echo "r" >>"${GDB_CONFIG_file}"
 
 cat "${GDB_CONFIG_file}"
 

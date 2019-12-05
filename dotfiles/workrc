@@ -1372,9 +1372,7 @@ function gdb_192_168_0_90(){
   fi
 
   # echo "SP_GDB_EXE=${gdb_exe} SP_GDB_SOURCE=${new_gdbinit} $HOME/dotfiles/lib/tmuxgdb/tmuxgdb.sh ${bin_dir}"
-  export SP_GDB_EXE="${gdb_exe}"
-  export SP_GDB_SOURCE="${new_gdbinit}"
-  $HOME/dotfiles/lib/tmuxgdb/tmuxgdb.sh "${bin_dir}"
+  SP_GDB_EXE="${gdb_exe}" SP_GDB_SOURCE="${new_gdbinit}" $HOME/dotfiles/lib/tmuxgdb/tmuxgdb.sh "${bin_dir}"
 }
 
 # setxkbmap -option caps:escape
