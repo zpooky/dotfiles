@@ -177,6 +177,22 @@ bindkey -e
 
 # }
 
+# {{{
+function xxcopybuffer () {
+  if which clipcopy &>/dev/null; then
+    echo $BUFFER | clipcopy
+    # notify-send "${BUFFER}" "copy"
+  else
+    echo "clipcopy function not found. Please make sure you have Oh My Zsh installed correctly."
+  fi
+}
+
+zle -N xxcopybuffer
+
+# ^f12
+bindkey "^[[24;5~" xxcopybuffer
+#}}}
+
 # TODO document
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
