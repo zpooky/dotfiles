@@ -727,6 +727,7 @@ function sp_network() {
   local file_link_local="$DROPBOX_NETWORK/link-local.md"
 
   local file_nat="$DROPBOX_NETWORK/nat.md"
+  local file_hole_punch="$DROPBOX_NETWORK/hole-punch.md"
 
   # networking
   alias sp-network="vim $DROPBOX_NETWORK/linux.md"
@@ -735,7 +736,6 @@ function sp_network() {
   alias sp-openvpn="vim $DROPBOX_NETWORK/openvpn.md"
   alias sp-dns="vim $DROPBOX_NETWORK/dns.md"    #TODO
   alias sp-iptables="vim $DROPBOX_NETWORK/iptables.md"    #TODO
-  alias sp-hole-punch="vim $DROPBOX_NETWORK/hole-punch.md"    #TODO
 
   alias sp-duplex="vim -p ${file_duplex}"
   alias sp-network-layer="vim -p ${net_layer} ${net_layer_ethernet}"
@@ -766,7 +766,9 @@ function sp_network() {
   alias sp-ip="vim -p ${file_ipv6}"
   alias sp-link-local="vim -p ${file_link_local} ${file_ipv6}"
 
-  alias sp-nat="vim -p ${file_nat}"
+  alias sp-hole-punch="vim ${file_hole_punch} ${file_nat}"    #TODO
+  alias sp-nat="vim -p ${file_nat} ${file_hole_punch}"
+  alias sp-upnp="sp-nat"
 
   #audio
   alias sp-audio="vim -p ${file_audio} ${file_sound} $REF_DIR/audio-digital.md $REF_DIR/audio-digital-sync.md ${file_pcm} ${file_db}"
@@ -1141,12 +1143,12 @@ function mcd(){
   cd $1
 }
 
-SCRATCHPAD_ROOT=$HOME/scratchpad
 function sp_calc(){
+  local scratchpad_root=$HOME/scratchpad
   if [ $# -eq 0 ]; then
-    local codi_file="${SCRATCHPAD_ROOT}/calc_$(date +'%Y_%m_%d').py"
+    local codi_file="${scratchpad_root}/calc_$(date +'%Y_%m_%d').py"
     if [ ! -e "${codi_file}" ]; then
-      cp "${SCRATCHPAD_ROOT}/calc_template" "${codi_file}"
+      cp "${scratchpad_root}/calc_template" "${codi_file}"
     fi
   else
     local codi_file="${1}"
@@ -1161,9 +1163,35 @@ function sp_calc(){
     Codi python "
 }
 
-alias sp-calc="cd $SCRATCHPAD_ROOT"
+function sp_calc_cpp() {
+  local scratchpad_root=$HOME/scratchpad_cpp
 
-# ===============================================
+  which cling 2>&1 > /dev/null
+  if [ ! $? -eq 0 ]; then
+    echo "missing cling" >&2
+    exit 1
+  fi
+
+  if [ $# -eq 0 ]; then
+    local codi_file="${scratchpad_root}/calc_$(date +'%Y_%m_%d').cppx"
+    if [ ! -e "${codi_file}" ]; then
+      cp "${scratchpad_root}/calc_template" "${codi_file}"
+    fi
+  else
+    local codi_file="${1}"
+  fi
+
+  nvim -p "${codi_file}" -c "
+    set scrollbind
+    set cursorbind
+    hi ColorColumn ctermbg=NONE
+    hi VertSplit ctermbg=NONE
+    hi NonText ctermfg=0
+    Codi cpp "
+}
+
+alias sp-calc="cd $HOME/scratchpad"
+
 # ===============================================
 # =____________DEVELOPMENT______________________=
 # ===============================================

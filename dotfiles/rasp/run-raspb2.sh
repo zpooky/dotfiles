@@ -56,4 +56,4 @@ qemu-system-arm \
 # qemu-img convert ./raspbian-buster-lite.qcow2 ./spooky.img
 
 # 4. write image to sdcard
-# dd if=./spooky.img of=/dev/mmclk0 status=progress
+# dd if=./spooky.img of=/dev/mmcblk0 status=progress
