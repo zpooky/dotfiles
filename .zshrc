@@ -13,6 +13,12 @@ if [ -e $HOME/sources/fzf/bin ]; then
   #
 fi
 
+NPM_PACKAGES="$HOME/.npm-packages"
+if [ -e ${NPM_PACKAGES} ]; then
+  export PATH="${NPM_PACKAGES}/bin:${PATH}"
+  export NODE_PATH="${NPM_PACKAGES}/lib/node_modules:${NODE_PATH}"
+fi
+
 export ZSH=$HOME/.oh-my-zsh
 
 # oh-my-zsh plugins

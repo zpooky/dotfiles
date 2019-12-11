@@ -135,8 +135,7 @@ function ssh_192_168_0_90() {
 
     local l_env_setup='ENV=$HOME/.shinit; export ENV;'
     local l_env=''
-    l_env+='echo "alias vim=vi" > $HOME/.shinit'
-    l_env+=' && echo "alias ll=\"ls -alh\"" >> $HOME/.shinit'
+    l_env+='echo "alias ll=\"ls -alh\"" >> $HOME/.shinit'
     l_env+=' && echo "alias systemctl_status=\"systemctl status audiocontrol monolith parhand ioboxd\"" >> $HOME/.shinit'
     l_env+=' && echo "alias systemctl_root=\"cd /usr/lib/systemd/system\"" >> $HOME/.shinit'
     l_env+=' && echo "alias tree=\"ls -alhR1\"" >> $HOME/.shinit'
@@ -151,6 +150,16 @@ function ssh_192_168_0_90() {
     l_env+=' && echo "    eval \$1;" >> $HOME/.shinit'
     l_env+=' && echo "    sleep 1;" >> $HOME/.shinit'
     l_env+=' && echo "  done" >> $HOME/.shinit'
+    l_env+=' && echo "}" >> $HOME/.shinit'
+
+    l_env+=' && echo "vim() {" >> $HOME/.shinit'
+    l_env+=' && echo "if [ -e  /usr/bin/vim ]; then" >> $HOME/.shinit'
+    l_env+=' && echo "  /usr/bin/vim \$@" >> $HOME/.shinit'
+    l_env+=' && echo "elif [ -e  /usr/bin/vim.tiny ]; then" >> $HOME/.shinit'
+    l_env+=' && echo "  /usr/bin/vim.tiny \$@" >> $HOME/.shinit'
+    l_env+=' && echo "else" >> $HOME/.shinit'
+    l_env+=' && echo "  vi \$@" >> $HOME/.shinit'
+    l_env+=' && echo "fi" >> $HOME/.shinit'
     l_env+=' && echo "}" >> $HOME/.shinit'
 
     local disable_setup="/tmp/disable_setup"

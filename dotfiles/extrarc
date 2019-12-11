@@ -951,6 +951,8 @@ alias sp-proj-kernel="sp-proj-os"
 alias sp-proj-graphic="vim $DROPBOX/project/game.md"
 alias sp-proj-raytrace="sp-proj-graphic"
 alias sp-proj-game="sp-proj-graphic"
+alias sp-proj-video="vim $DROPBOX/project/video.md"
+alias sp-proj-math="vim $DROPBOX/project/math.md"
 
 #course
 alias sp-course-audio-dsp="vim $DROPBOX/course/audio-dsp.md"
