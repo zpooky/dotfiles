@@ -1094,6 +1094,7 @@ function! SpookyGetMirror(file) abort
     return mirror
   endif
 
+  " fname.h -> fname.c
   let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.h$', ['\1/\2.cpp', '\1/\2.c'])
   if strlen(mirror) > 0
     return mirror

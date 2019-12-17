@@ -34,7 +34,7 @@
         ".git/",
         ".hg/"
       ],
-      "initializationoptions": {
+      "initializationOptions": {
         "cache": {
           "directory": "/tmp/.ccls-cache"
         }

@@ -1111,7 +1111,8 @@ function port_scan() {
     # -n: --numeric?
     # -a: --all
     # -p: show pid
-    ss -tuna -p | grep -i 'LISTEN'
+    ss -tuna -p | grep 'LISTEN'
+    ss -tuna -p | grep 'udp'
   fi
 }
 

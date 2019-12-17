@@ -57,3 +57,5 @@ qemu-system-arm \
 
 # 4. write image to sdcard
 # dd if=./spooky.img of=/dev/mmcblk0 status=progress
+
+# ?. on raspberry pi run `raspi-config` advanced/expand_rootfs to be able to use the full capacity of the sdcard
