@@ -293,8 +293,11 @@ let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml',
 " don't give |ins-completion-menu| messages.
 " set shortmess+=c
 
-" TODO coc.nvim jedi python
 " c++ {
+" set updatetime=300
+" au CursorHold * sil call CocActionAsync('highlight')
+" au CursorHoldI * sil call CocActionAsync('showSignatureHelp')
+
 augroup AugroupCoc
   autocmd!
   autocmd FileType cpp,sh,c unmap <f3>
@@ -307,7 +310,7 @@ augroup AugroupCoc
   " Find all references for type under cursor
   " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-references)
   " 
-  autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-rename)
+  autocmd FileType c,cpp,python map <silent> <F4> <Plug>(coc-rename)
 
 
   autocmd FileType python map <silent> <F3> <Plug>(coc-definition)
@@ -369,11 +372,12 @@ if !has('win32unix') && !has('win64unix')
   "
   " standalone: https://github.com/languagetool-org/languagetool
 
+  " let g:ale_sign_column_always = 1
   let g:ale_lint_on_enter = 0
   let b:ale_warn_about_trailing_whitespace = 0
 
   let g:ale_sign_error = '>>'
-  let g:ale_sign_warning = '--'
+  let g:ale_sign_warning = '⚠'
 
   " :ALEInfo - current settings
 
@@ -381,9 +385,17 @@ if !has('win32unix') && !has('win64unix')
   let g:ale_linters = {
         \   'cpp':    ['g++','cppcheck', 'ccls'],
         \   'python': ['pylint'],
-        \   'c':      ['gcc','cppcheck', 'ccls'],
+        \   'c':      ['clangtidy', 'ccls'],
         \   'sh':     ['language_server'],
         \}
+" !! :lopen to get a list of more wanring
+" 'gcc','cppcheck', 'ccls',
+
+" let g:ale_c_clangtidy_checks = ['-*', 'cppcoreguidelines-*']
+
+" '-*' disable all
+" '-XX' disable 'XX'
+let g:ale_c_clangtidy_checks = ['-clang-diagnostic-language-extension-token', '-clang-diagnostic-implicit-function-declaration', '-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling', '-clang-analyzer-osx', '-clang-analyzer-optin.osx', '-clang-diagnostic-error']
 
   " :ALEFix
   " let g:ale_fixers = {
@@ -391,8 +403,8 @@ if !has('win32unix') && !has('win64unix')
   "       \ 'c':   ['trim_whitespace']
   "       \}
 
-  let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -Iexternal -I../external -I../external/googletest/googletest -Iexternal/googletest/googletest -Werror-pointer-arith"
-  let g:ale_c_gcc_options="-std=gnu11 -Wall -Wextra -Iexternal -I../external -Iinclude -I../include "
+  let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -I. -Iexternal -I../external -I../external/googletest/googletest -Iexternal/googletest/googletest -Werror-pointer-arith"
+  let g:ale_c_gcc_options="-std=gnu11 -Wall -Wextra -I. -Iexternal -I../external -Iinclude -I../include "
 endif
 " }}}
 
@@ -1178,18 +1190,18 @@ augroup END
 " }}}
 
 " format json {{{
-function! FormatJson()
-  :mark o
-  " format json file using 2 space indentation
-  exec "%!python ~/dotfiles/lib/json_format.py 2"
-  :normal `o
-endfunction!
-command! FormatJson :call FormatJson()
-
-augroup AugroupFormatJson
-  autocmd!
-  autocmd FileType json nnoremap <buffer><leader>f <esc>:FormatJson<CR>
-augroup END
+" function! FormatJson()
+"   :mark o
+"   " format json file using 2 space indentation
+"   exec "%!python ~/dotfiles/lib/json_format.py 2"
+"   :normal `o
+" endfunction!
+" command! FormatJson :call FormatJson()
+"
+" augroup AugroupFormatJson
+"   autocmd!
+"   autocmd FileType json nnoremap <buffer><leader>f <esc>:FormatJson<CR>
+" augroup END
 " }}}
 
 " debug syntax {{{

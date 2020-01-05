@@ -882,6 +882,7 @@ function sp_datastructure(){
   alias sp-monad="vim $DATA_STRUCTURE_ROOT/monad.txt" #TODO
   alias sp-hashmap="vim $DATA_STRUCTURE_ROOT/hashmap.md"
   alias sp-hash="sp-hashmap"
+  alias sp-perfect-hash="sp-hashmap"
   alias sp-crypto-hash="vim $DATA_STRUCTURE_ROOT/crypto-hash.md"
   alias sp-sha="sp-crypto-hash"
   alias sp-cqrs="vim -p $DATA_STRUCTURE_ROOT/cqrs.md"

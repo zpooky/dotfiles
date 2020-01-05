@@ -36,7 +36,7 @@
       ],
       "initializationOptions": {
         "cache": {
-          "directory": "/tmp/.ccls-cache"
+          "directory": "/tmp/ccls-cache"
         }
       }
     },
