@@ -17,6 +17,10 @@ export no_proxy=192.168.0.90,localhost,127.0.0.1,127.0.1.1,.localdomain,axis.com
 # source to give access to build tools functions
 source ~/development/axis/oe-setup/oe-setup.sh
 
+export NVM_DIR="$HOME/sources/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 function axis_enable_root_192_168_0_90(){
   local l_ip="192.168.0.90"
   local resp=$(curl --noproxy "*" --connect-timeout 5 'http://192.168.0.90/axis-cgi/pwdgrp.cgi?action=add&user=root&pwd=pass&grp=root&sgrp=admin:operator:viewer:ptz' -w "%{http_code}" 2>/dev/null)
@@ -92,7 +96,7 @@ function setup_ssh_eager() {
   done
 
   if [ ! $res -eq 0 ]; then
-    notify-send "GAVE enable-ssh" "after $cnt seconds"
+    notify-send "GAVE UP enable-ssh" "after $cnt seconds"
     return 1
   fi
 
@@ -448,7 +452,9 @@ function deploy_192_168_0_90(){
   ssh_192_168_0_90_execute "systemctl stop ${l_systemd_name}"
   local res=$?
   if [ $res -eq 0 ]; then
-    ssh_192_168_0_90_execute "echo '=${project}====================================' >> /var/log/error.log"
+    ssh_192_168_0_90_execute "echo '=${project}======$(date)==============================' >> /var/log/error.log"
+    ssh_192_168_0_90_execute "echo '=${project}======$(date)==============================' >> /var/log/info.log"
+    ssh_192_168_0_90_execute "echo '=${project}======$(date)==============================' >> /var/log/warning.log"
 
     before_camera_sha256=$(sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "sha256sum ${l_dest}")
 

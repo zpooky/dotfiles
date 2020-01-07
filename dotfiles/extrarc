@@ -450,6 +450,7 @@ alias sp-latex="vim $REF_DIR/linux/latex.md"
 alias sp-character="vim -p $REF_DIR/character/*.txt"
 alias sp-utf="vim $REF_DIR/character/utf.md" #TODO
 alias sp-firefox="vim $REF_DIR/firefox.md"
+alias sp-ubuntu="vim $REF_DIR/ubuntu.md"
 alias sp-chrome="vim $REF_DIR/chrome.md"
 alias sp-sybil-attack="vim $REF_DIR/sybil-attack.md" #TODO
 alias sp-byzantine-generals-problem="vim $REF_DIR/byzantine-generals-problem.md" #TODO
@@ -532,7 +533,7 @@ alias sp-iobox="vim $DROPBOX_AXIS/iobox.md"
 alias sp-axis-iobox="sp-iobox"
 alias sp-axis-image2d="vim $DROPBOX_AXIS/image2d.md"
 alias sp-axis-parhandle="vim $DROPBOX_AXIS/parhandle.md"
-alias sp-axis="vim -p $DROPBOX_AXIS/env.md $DROPBOX_AXIS/axis.md"
+alias sp-axis="vim -p $DROPBOX_AXIS/env.md"
 alias sp-gstreamer="vim -p $DROPBOX_AXIS/gstreamer.md"
 
 alias sp-axis-yocto="vim $DROPBOX_AXIS/yocto/yocto.md"
@@ -753,6 +754,7 @@ function sp_network() {
   alias sp-pam="vim -p ${file_pam} ${file_pcm} ${file_pwm} ${file_modulation}"
   alias sp-pcm="vim -p ${file_pcm} ${file_pam} ${file_pwm} ${file_modulation}"
   alias sp-pwm="vim -p ${file_pwm} ${file_pcm} ${file_pam} ${file_modulation}"
+  alias sp-pdm="sp-pwm"
   alias sp-modulation="vim -p ${file_modulation} ${file_pam} ${file_pcm} ${file_pwm} ${file_band} ${file_waveform}"
   alias sp-baud="vim -p ${file_baud_rate} ${file_pam}"
 
@@ -907,13 +909,24 @@ alias sp-propaganda="vim $REF_DIR/propaganda.md"
 alias sp-vpn="vim $REF_DIR/vpn.md"
 
 # distributed
-alias sp-acid="vim $REF_DIR/acid.md"   #TODO
-alias sp-cap="vim $REF_DIR/cap.md"    #TODO
-alias sp-paxos="vim $REF_DIR/paxos-consensus.md"    #TODO
-alias sp-raft="vim $REF_DIR/raft-consensus.md"    #TODO
-alias sp-dht="vim $REF_DIR/dht.md" #TODO
-alias sp-mvcc="vim $REF_DIR/mvcc.md" #TODO
-alias sp-stun="vim $REF_DIR/stun.md"
+function sp_distributed(){
+  local file_paxos="$REF_DIR/paxos-consensus.md"
+  local file_raft="$REF_DIR/raft-consensus.md"
+  local file_consensus_proj="$DROPBOX/project/consensus.md"
+
+  alias sp-acid="vim $REF_DIR/acid.md"   #TODO
+  alias sp-cap="vim $REF_DIR/cap.md"    #TODO
+
+  alias sp-proj-consensus="vim ${file_consensus_proj}"
+  alias sp-paxos="vim ${file_paxos}"    #TODO
+  alias sp-raft="vim ${file_raft}"    #TODO
+  alias sp-consensus-protocol="vim -p ${file_consensus_proj} ${file_raft} ${file_paxos}"
+   
+  alias sp-dht="vim $REF_DIR/dht.md" #TODO
+  alias sp-mvcc="vim $REF_DIR/mvcc.md" #TODO
+  alias sp-stun="vim $REF_DIR/stun.md"
+}
+sp_distributed
 
 # new web
 alias sp-new-web="cd $DROPBOX/new-web"
@@ -938,7 +951,6 @@ alias sp-proj-malloc="vim $DROPBOX/project/malloc.md"
 alias sp-proj-datastructure="vim $DROPBOX/project/datastructure.md"
 alias sp-proj-vfio="vim $DROPBOX/project/vfio.md"
 alias sp-proj-conway="vim $DROPBOX/project/conway.md"
-alias sp-proj-consensus="vim $DROPBOX/project/consensus.md"
 alias sp-proj-compiler="vim $DROPBOX/project/lang.md"
 alias sp-proj-lang="sp-proj-compiler"
 alias sp-proj-haskell="vim $DROPBOX/project/haskell.md"
@@ -954,6 +966,9 @@ alias sp-proj-raytrace="sp-proj-graphic"
 alias sp-proj-game="sp-proj-graphic"
 alias sp-proj-video="vim $DROPBOX/project/video.md"
 alias sp-proj-math="vim $DROPBOX/project/math.md"
+alias sp-proj-emulator="vim $DROPBOX/project/emulator.md"
+alias sp-proj-crdt="sp-crdt"
+alias sp-proj-crypto="vim $DROPBOX/project/crypto.md"
 
 #course
 alias sp-course-audio-dsp="vim $DROPBOX/course/audio-dsp.md"

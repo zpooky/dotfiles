@@ -26,9 +26,17 @@ if has('nvim')
   "   - yay -S python-neovim
   "   - pip3 install --user jedi
   "   - yay -S python-jedi
+  "   - pip3 install pynvim --upgrade 
   " - ruby
   "   - yay -S ruby-neovim
   "   - gem install neovim
+  " - docker
+  "   - npm install -g dockerfile-language-server-nodejs
+  "
+  " npm install --global prettier --upgrade
+  " pip3 install --user yapf --upgrade
+  "
+  " :checkhealth
 endif
 
 " https://github.com/rprichard/sourceweb
@@ -376,7 +384,8 @@ if !has('win32unix') && !has('win64unix')
   let g:ale_lint_on_enter = 0
   let b:ale_warn_about_trailing_whitespace = 0
 
-  let g:ale_sign_error = '>>'
+  " let g:ale_sign_error = '>>'
+  let g:ale_sign_error = '⤫'
   let g:ale_sign_warning = '⚠'
 
   " :ALEInfo - current settings
@@ -560,12 +569,13 @@ let g:neoformat_python_spyapf = {
       \ }
 let g:neoformat_enabled_python = ['spyapf']
 let g:neoformat_enabled_sh = ['shfmt']
+let g:neoformat_enabled_javascript = ['prettier']
 let g:neoformat_only_msg_on_error = 1
 
 augroup AugroupNeoformat
   autocmd!
-  autocmd FileType c,cpp,python,sh,bash,zsh nnoremap <buffer><leader>f <esc>:Neoformat<CR>
-  autocmd FileType c,cpp,python,sh,bash,zsh vnoremap <buffer><leader>f <esc>:Neoformat<CR>
+  autocmd FileType c,cpp,python,sh,bash,zsh,javascript nnoremap <buffer><leader>f <esc>:Neoformat<CR>
+  autocmd FileType c,cpp,python,sh,bash,zsh,javascript vnoremap <buffer><leader>f <esc>:Neoformat<CR>
 augroup END
 " }}}
 

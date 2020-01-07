@@ -291,6 +291,42 @@ call <sid>hi('bbUnmatched', s:cdRed, s:cdNone, 'undercurl', {})
 " call <sid>hi('SpIlluminated', {}, s:cdLeftMid, 'none', {})
 call <sid>hi('SpIlluminated',{},s:cdDiffGreenDark, 'none', {})
 " }}}
+"
+
+" JavaScript: {{{
+call <sid>hi('jsVariableDef', s:cdLightBlue, {}, 'none', {})
+call <sid>hi('jsFuncArgs', s:cdLightBlue, {}, 'none', {})
+call <sid>hi('jsRegexpString', s:cdLightRed, {}, 'none', {})
+call <sid>hi('jsThis', s:cdBlue, {}, 'none', {})
+
+call <sid>hi('javaScriptConditional', s:cdViasfora, {}, 'none', {})
+call <sid>hi('javaScriptStatement', s:cdViasfora, {}, 'none', {}) "return
+
+call <sid>hi('javaScriptReserved', s:cdBlue, {}, 'none', {}) "const, export, import
+call <sid>hi('javaScriptOperator', s:cdBlue, {}, 'none', {}) "new
+call <sid>hi('javaScriptException', s:cdBlue, {}, 'none', {}) "throw
+
+" call <sid>hi('javaScriptStringT', s:cdBlue, {}, 'none', {}) " this is the '`' enclose string
+" call <sid>hi('javaScriptEmbed', s:cdViasfora, {}, 'none', {}) "the variable part `as ${variable} was`
+" }}}
+
+" {{{
+" hi semshiLocal           ctermfg=209 guifg=#ff875f
+" hi semshiGlobal          ctermfg=214 guifg=#ffaf00
+" hi semshiImported        ctermfg=214 guifg=#ffaf00 cterm=bold gui=bold
+" hi semshiParameter       ctermfg=75  guifg=#5fafff
+" hi semshiParameterUnused ctermfg=117 guifg=#87d7ff cterm=underline gui=underline
+" hi semshiFree            ctermfg=218 guifg=#ffafd7
+" hi semshiBuiltin         ctermfg=207 guifg=#ff5fff
+" hi semshiAttribute       ctermfg=49  guifg=#00ffaf
+" hi semshiSelf            ctermfg=249 guifg=#b2b2b2
+" hi semshiUnresolved      ctermfg=226 guifg=#ffff00 cterm=underline gui=underline
+" hi semshiSelected        ctermfg=231 guifg=#ffffff ctermbg=161 guibg=#d7005f
+"
+" hi semshiErrorSign       ctermfg=231 guifg=#ffffff ctermbg=160 guibg=#d70000
+" hi semshiErrorChar       ctermfg=231 guifg=#ffffff ctermbg=160 guibg=#d70000
+" sign define semshiError text=E> texthl=semshiErrorSign
+"}}}
 
 " Vim editor colors
 "    <sid>hi(GROUP, FOREGROUND, BACKGROUND, ATTRIBUTE, SPECIAL)
@@ -402,12 +438,6 @@ call <sid>hi('cssVendor', s:cdOrange, {}, 'none', {})
 call <sid>hi('cssValueNumber', s:cdOrange, {}, 'none', {})
 call <sid>hi('cssValueLength', s:cdOrange, {}, 'none', {})
 call <sid>hi('cssUnitDecorators', s:cdOrange, {}, 'none', {})
-
-" JavaScript:
-call <sid>hi('jsVariableDef', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('jsFuncArgs', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('jsRegexpString', s:cdLightRed, {}, 'none', {})
-call <sid>hi('jsThis', s:cdBlue, {}, 'none', {})
 
 " Ruby:
 call <sid>hi('rubyClassNameTag', s:cdBlueGreen, {}, 'none', {})

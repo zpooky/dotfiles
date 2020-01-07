@@ -17,10 +17,10 @@
   "coc.preferences.jumpcommand": "edit",
   "coc.preferences.diagnostic.enable": true,
   "coc.preferences.diagnostic.signoffset": 1000,
-  "coc.preferences.diagnostic.errorsign": ">>",
+  "coc.preferences.diagnostic.errorsign": "⤫",
   "coc.preferences.diagnostic.warningsign": "⚠",
-  "coc.preferences.diagnostic.infosign": ">>",
-  "coc.preferences.diagnostic.hintsign": ">>",
+  "coc.preferences.diagnostic.infosign": "•",
+  "coc.preferences.diagnostic.hintsign": "•",
   "coc.preferences.snippetindicator": "⭐︎",
 
   "languageserver": {
