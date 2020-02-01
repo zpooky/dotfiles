@@ -871,7 +871,8 @@ function sp_datastructure(){
   alias sp-tree-heap="vim $DATA_STRUCTURE_ROOT/tree-bheap.md"
   alias sp-tree-bst="vim $DATA_STRUCTURE_ROOT/tree-bst.md"
   alias sp-tree-skip-list="vim $DATA_STRUCTURE_ROOT/tree-skip-list.md"
-  alias sp-tree-btree="vim $DATA_STRUCTURE_ROOT/tree-btree.md"   #TODO
+  alias sp-tree-btree="vim $DATA_STRUCTURE_ROOT/tree-btree.md"
+  alias sp-tree-2-3-tree="sp-tree-btree"
   alias sp-tree-lsm="vim $DATA_STRUCTURE_ROOT/tree-lsm.md"
   alias sp-tree-trie="vim $DATA_STRUCTURE_ROOT/tree-trie.md"
   alias sp-tree-radix-tree="vim $DATA_STRUCTURE_ROOT/tree-trie.md"
