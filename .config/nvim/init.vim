@@ -1105,7 +1105,11 @@ Plug 'tommcdo/vim-lion'
 " }}}
 
 " {{{
+if has('nvim')
+Plug 'zpooky/vim-illuminate', {'for':['c','cpp','vim','shell','make','go']}
+else
 Plug 'zpooky/vim-illuminate', {'for':['c','cpp','vim','shell','make','python','go']}
+endif
 
 " hi link illuminatedWord MatchParen
 " hi illuminatedWord cterm=underline gui=underline

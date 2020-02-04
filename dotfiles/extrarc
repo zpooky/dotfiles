@@ -258,6 +258,7 @@ function sp_crypto(){
   local cipher_mode="$REF_DIR/cipher-mode.md"
   local file_hmac="$REF_DIR/hmac.md"
   local file_elliptic_curve="$REF_DIR/elliptic-curve.md"
+  local file_diffie_hellman="$REF_DIR/diffie_hellman.md"
 
   alias sp-cipher-mode="vim ${cipher_mode}"
   alias sp-cipher-block-mode="vim ${cipher_mode}"
@@ -266,7 +267,7 @@ function sp_crypto(){
   alias sp-ctr="sp-cipher-mode"
   alias sp-ecc="vim -p ${file_elliptic_curve}"
   alias sp-elliptic-curve="sp-ecc"
-
+  alias sp-diffie-hellman="vim -p ${file_diffie_hellman}"
 
   alias sp-hmac="vim -p ${file_hmac}"
 }
@@ -277,6 +278,8 @@ file_frequency="$REF_DIR/frequency.md" # TODO
 file_waveform="$REF_DIR/waveform.md"
 file_dsp="$REF_DIR/dsp.md"
 file_db="$REF_DIR/decibel.md"
+local file_serial_communication="$REF_DIR/serial-communication.md"
+
 #circuits
 function sp_circuts_alias() {
   local fpga="$REF_DIR/fpga.md"
@@ -301,7 +304,6 @@ function sp_circuts_alias() {
   local conductor=""
   local semiconductor=""
   local insulator=""
-
 
   alias sp-fpga="vim -p ${fpga} ${asic}"
   alias sp-asic="vim -p ${asic} ${fpga}"
@@ -339,6 +341,12 @@ function sp_circuts_alias() {
 
   alias sp-rms="vim -p ${file_rms}"
   alias sp-root-mean-square="sp-rms"
+
+  alias sp-spi="sp-serial-communication"
+  alias sp-i2c="sp-spi"
+  alias sp-i2s="sp-spi"
+  alias sp-uart="sp-spi"
+  alias sp-gpio="sp-spi"
 }
 
 sp_circuts_alias
@@ -360,6 +368,9 @@ alias sp-spell="vim $REF_DIR/spell.md"
 alias sp-pdf="vim $REF_DIR/pdf.md"
 alias sp-google="vim $REF_DIR/google.md"
 alias sp-flatpak="vim $REF_DIR/flatpak.md"
+alias sp-wireguard="vim $REF_DIR/wireguard.md"
+alias sp-pipewire="vim $REF_DIR/pipewire.md"
+alias sp-js="vim $REF_DIR/js.md"
 
 alias sp-radar="vim $REF_DIR/radar.md"
 alias sp-sonar="sp-radar"
@@ -494,6 +505,7 @@ alias cpp-odr="vim $CPP_ROOT/cpp-odr.md" #TODO
 alias cpp-hash="vim $CPP_ROOT/cpp-hash.md"
 alias cpp-hex="vim $REF_DIR/util.md"
 alias sp-musl="vim $CPP_ROOT/musl.md"
+alias sp-asan="vim $CPP_ROOT/asan.md"
 
 alias c-make="vim -p $CPP_STUB/c-Makefile"
 alias c-backtrace="vim -p $CPP_STUB/backtrace.md"
@@ -534,6 +546,7 @@ alias sp-axis-iobox="sp-iobox"
 alias sp-axis-image2d="vim $DROPBOX_AXIS/image2d.md"
 alias sp-axis-parhandle="vim $DROPBOX_AXIS/parhandle.md"
 alias sp-axis="vim -p $DROPBOX_AXIS/env.md"
+alias sp-axis-todo="vim -p $DROPBOX_AXIS/todo.md"
 alias sp-gstreamer="vim -p $DROPBOX_AXIS/gstreamer.md"
 
 alias sp-axis-yocto="vim $DROPBOX_AXIS/yocto/yocto.md"
@@ -605,6 +618,7 @@ alias sp-journalctl="vim $DROPBOX_LINUX/journalctl.md"
 alias sp-load-average="vim $DROPBOX_LINUX/load-average.md"    #TODO
 alias sp-context-switch="vim $DROPBOX_LINUX/context-switch.md"    #TODO
 alias sp-linux-directory-structure="vim $DROPBOX_LINUX/directory-structure.md"
+alias sp-linker="sp-linux-directory-structure"
 alias sp-random="vim $DROPBOX_LINUX/random.md"
 alias sp-tty="sp-term"
 alias sp-write-to-file="vim $DROPBOX_LINUX/write-to-file.md"
@@ -617,6 +631,7 @@ local file_audio="$REF_DIR/audio.md"
 local file_pcm="$REF_DIR/pulse_code_modulation.md"
 
 # linux dev
+file_baud_rate="$REF_DIR/baude-rate.md"
 function sp_linux_dev_alias() {
   local file_linux_dev="$REF_DIR/linux-dev.md"
   local file_linux_dev_init="$REF_DIR/linux-dev-init-script.md"
@@ -626,8 +641,6 @@ function sp_linux_dev_alias() {
 
   local file_linux_usb="$REF_DIR/linux-usb.md"
   local file_linux_pci="$REF_DIR/linux-pci.md"
-  local file_linux_uart="$REF_DIR/linux-uart.md"
-  local file_linux_i2c="$REF_DIR/i2c.md"
   local file_linux_gpio="$REF_DIR/linux-gpio.md"
   local file_linux_acpi="$REF_DIR/linux-acpi.md"
 
@@ -636,8 +649,6 @@ function sp_linux_dev_alias() {
   local file_linux_exception="$REF_DIR/linux-exception.md"
 
   local file_linux_device_tree="$REF_DIR/linux-device-tree.md"
-
-  local file_serial_communication="$REF_DIR/serial-communication.md"
 
   local file_multiplex="$REF_DIR/multiplex-transmission.md" # TODO
 
@@ -653,8 +664,8 @@ function sp_linux_dev_alias() {
 
   alias sp-linux-usb="vim $file_linux_usb"
   alias sp-linux-pci="vim $file_linux_pci"
-  alias sp-linux-uart="vim -p $file_linux_uart $file_serial_communication $file_baud_rate"
-  alias sp-linux-i2c="vim -p $file_linux_i2c $file_serial_communication"
+  alias sp-linux-uart="sp-uart"
+  alias sp-linux-i2c="sp-i2c"
   alias sp-linux-gpio="vim $file_linux_gpio"
   alias sp-linux-acpi="vim $file_linux_acpi"
 
@@ -664,7 +675,7 @@ function sp_linux_dev_alias() {
 
   alias sp-linux-device-tree="vim -p $file_linux_device_tree"
 
-  alias sp-serial-communication="vim -p $file_serial_communication"
+  alias sp-serial-communication="vim -p $file_serial_communication $file_baud_rate"
   alias sp-parallel-communication="sp-serial-communication"
 
   alias sp-simplex="sp-duplex"
@@ -701,7 +712,6 @@ alias sp-syscall-futex="vim $LINUX_SYSCALL_ROOT/futex.md"
 alias sp-syscall-pipe="vim $LINUX_SYSCALL_ROOT/pipe.md"
 alias sp-syscall-epoll="vim $LINUX_SYSCALL_ROOT/epoll.md"
 
-file_baud_rate="$REF_DIR/baude-rate.md"
 function sp_network() {
   local tcp="$DROPBOX_NETWORK/tcp.md"
   local file_udp="$DROPBOX_NETWORK/udp.md"
@@ -925,7 +935,7 @@ function sp_distributed(){
   alias sp-paxos="vim ${file_paxos}"    #TODO
   alias sp-raft="vim ${file_raft}"    #TODO
   alias sp-consensus-protocol="vim -p ${file_consensus_proj} ${file_raft} ${file_paxos}"
-   
+
   alias sp-dht="vim $REF_DIR/dht.md" #TODO
   alias sp-mvcc="vim $REF_DIR/mvcc.md" #TODO
   alias sp-stun="vim $REF_DIR/stun.md"

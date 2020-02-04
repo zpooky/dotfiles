@@ -17,6 +17,10 @@ export no_proxy=192.168.0.90,localhost,127.0.0.1,127.0.1.1,.localdomain,axis.com
 # source to give access to build tools functions
 source ~/development/axis/oe-setup/oe-setup.sh
 
+if [ -e ~/development/xcam-scan ]; then
+  export PATH=$PATH:~/development/xcam-scan
+fi
+
 export NVM_DIR="$HOME/sources/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -157,14 +161,21 @@ function ssh_192_168_0_90() {
     l_env+=' && echo "}" >> $HOME/.shinit'
 
     l_env+=' && echo "vim() {" >> $HOME/.shinit'
-    l_env+=' && echo "if [ -e  /usr/bin/vim ]; then" >> $HOME/.shinit'
-    l_env+=' && echo "  /usr/bin/vim \$@" >> $HOME/.shinit'
-    l_env+=' && echo "elif [ -e  /usr/bin/vim.tiny ]; then" >> $HOME/.shinit'
-    l_env+=' && echo "  /usr/bin/vim.tiny \$@" >> $HOME/.shinit'
-    l_env+=' && echo "else" >> $HOME/.shinit'
-    l_env+=' && echo "  vi \$@" >> $HOME/.shinit'
-    l_env+=' && echo "fi" >> $HOME/.shinit'
+    l_env+=' && echo "  if [ -e  /usr/bin/vim ]; then" >> $HOME/.shinit'
+    l_env+=' && echo "    /usr/bin/vim \$@" >> $HOME/.shinit'
+    l_env+=' && echo "  elif [ -e  /usr/bin/vim.tiny ]; then" >> $HOME/.shinit'
+    l_env+=' && echo "    /usr/bin/vim.tiny \$@" >> $HOME/.shinit'
+    l_env+=' && echo "  else" >> $HOME/.shinit'
+    l_env+=' && echo "    vi \$@" >> $HOME/.shinit'
+    l_env+=' && echo "  fi" >> $HOME/.shinit'
     l_env+=' && echo "}" >> $HOME/.shinit'
+
+    l_env+=' && echo "alias dmesg_tail=\"while true; do dmesg -c ; sleep 1 ; done\"" >> $HOME/.shinit'
+
+    # l_env+=' && echo "f() {" >> $HOME/.shinit'
+    # l_env+=' && echo "  find -iname "*${1}*" >> $HOME/.shinit'
+    # l_env+=' && echo "}" >> $HOME/.shinit'
+
 
     local disable_setup="/tmp/disable_setup"
     if [ -e "${disable_setup}" ]; then
@@ -394,6 +405,16 @@ function deploy_192_168_0_90(){
     local l_dest="/usr/html/axis-cgi/audiodevicecontrol.cgi"
     local l_source="${project_dir}/oe-workdir/package/usr/html/axis-cgi/audiodevicecontrol.cgi"
     local l_systemd_name="httpd"
+    l_systemd=true
+  elif [ "${project}" = "device-monitor" ]; then
+    local l_dest="/usr/bin/dmonitord"
+    local l_source="${project_dir}/oe-workdir/package/usr/bin/dmonitord"
+    local l_systemd_name="device-monitor"
+    l_systemd=true
+  elif [ "${project}" = "stm32f070xx-init" ]; then
+    local l_dest="/usr/libexec/stm32f070xx-setup"
+    local l_source="${project_dir}/oe-workdir/package/usr/libexec/stm32f070xx-setup"
+    local l_systemd_name="stm32f070xx-setup"
     l_systemd=true
   elif [ "${project}" = "mediaclip-cgi" ]; then
     local l_source="${project_dir}/oe-workdir/package/usr/html/axis-cgi"
@@ -695,6 +716,8 @@ function http_ok() {
       else
         notify-send "flashing ${l_ip} [FAILED]" "${l_image} [FAILED]"
       fi
+    else
+      notify-send "ERROR failed enable-ftp"
     fi
   # fi
 
@@ -816,6 +839,70 @@ function bitbake_axis-image-cvp() {
   return $ret
 }
 
+function bitbake_axis_ACA() {
+  local dist_root="${BUILDDIR}"
+  local conf_root="${dist_root}/conf"
+  local local_conf="${conf_root}/local.conf"
+  local cwd="${PWD}"
+
+  if ! valid_build_dir; then
+    return 1
+  fi
+
+  local mm=$(grep "EXTERNALSRC_pn-aca" ${local_conf})
+  if [ ! $? -eq 0 ]; then
+    echo "EXTERNALSRC_pn-aca is not setup in ${local_conf}"
+    return $?
+  fi
+
+  local regex=[[:space:]]*EXTERNALSRC_pn-aca[[:space:]]*=[[:space:]]*\"(.*)\"[[:space:]]*
+
+  if [[ "${mm}" =~ $regex ]]; then
+    local aca_dir="$(eval echo ${match[1]})"
+    echo "${aca_dir}"
+
+    if [ ! -e "${aca_dir}" ]; then
+      echo "ACA Directory: '${aca_dir}' does not exist"
+      return 1
+    fi
+
+    cd ${aca_dir}
+
+    echo "# yarn install"
+    yarn install
+    if [ ! $? -eq 0 ]; then
+      cd "${cwd}"
+      return $?
+    fi
+
+    echo "# yarn build"
+    yarn build
+    if [ ! $? -eq 0 ]; then
+      cd "${cwd}"
+      return $?
+    fi
+
+    cd "${cwd}"
+  else
+    echo "regex failed"
+    return 1
+  fi
+
+  echo "# bitbake -c cleansstate aca"
+  bitbake -c cleansstate aca
+  if [ ! $? -eq 0 ]; then
+    return $?
+  fi
+
+  echo "# bitbake axis-image-cvp"
+  bitbake axis-image-cvp
+  if [ ! $? -eq 0 ]; then
+    return $?
+  fi
+
+  return 0
+}
+
 #ffbuild -c monolith-unittest
 #bitbake monolith:do_check
 function bitbake_clean_all() {
@@ -847,6 +934,11 @@ function bitbake_clean_all() {
   return $res
 }
 
+function do_touch_dir(){
+  ack -f --cpp --fortran --shell --ignore-dir=oe-workdir --ignore-dir=oe-logs -r -- . | xargs touch
+  return $?
+}
+
 function bitbake_touch_all() {
   if ! valid_build_dir; then
     return 1
@@ -859,7 +951,7 @@ function bitbake_touch_all() {
   fi
 
   cd ${l_workspace}
-  ack -f --cpp --fortran --shell --ignore-dir=oe-workdir --ignore-dir=oe-logs -r -- . | xargs touch
+  do_touch_dir
   local res=$?
   cd -
 
@@ -1338,9 +1430,10 @@ function no_sources_outputs(){
 # }
 
 function gdb_192_168_0_90(){
-  local project="${1}"
-  local project_dir="${BUILDDIR}/workspace/sources/${project}"
-  local bin_dir="${project_dir}/oe-workdir/package/usr/bin/${project}"
+  local src="${1}"
+  local src_dir="${BUILDDIR}/workspace/sources/${src}"
+  local bin_dir="${src_dir}/oe-workdir/package/usr/bin/${src}"
+  local gdb_dir="${BUILDDIR}/tmp/work"
 
   local l_ip="192.168.0.90"
 
@@ -1348,8 +1441,8 @@ function gdb_192_168_0_90(){
     return 1
   fi
 
-  if [ ! -e "${project_dir}" ]; then
-    echo "'${project_dir}' does not exist" >&2
+  if [ ! -e "${src_dir}" ]; then
+    echo "'${src_dir}' does not exist" >&2
     return 2
   fi
 
@@ -1362,7 +1455,9 @@ function gdb_192_168_0_90(){
   if [ ! $? -eq 0 ]; then
     return 4
   fi
+
   # /.../aarch64-poky-linux-gdb -x gdbinit workspace/sources/ioboxd/oe-workdir/package/usr/bin/ioboxd
+  # /home/fredriol/dists/tonfisken/builds/m3077-plve/tmp/work/x86_64-linux/gdb-cross-arm
 
   local gdbinit="./gdbinit"
   local new_gdbinit="$(mktemp /tmp/gdbinit.XXXXXXXXXXXXXX)"
@@ -1388,6 +1483,64 @@ function gdb_192_168_0_90(){
 
   # echo "SP_GDB_EXE=${gdb_exe} SP_GDB_SOURCE=${new_gdbinit} $HOME/dotfiles/lib/tmuxgdb/tmuxgdb.sh ${bin_dir}"
   SP_GDB_EXE="${gdb_exe}" SP_GDB_SOURCE="${new_gdbinit}" $HOME/dotfiles/lib/tmuxgdb/tmuxgdb.sh "${bin_dir}"
+}
+
+function dists_size() {
+  local dists="$HOME/dists"
+
+  for dist in "${dists}"/*; do
+
+    if [ -d "${dist}" ]; then
+      local build_path="${dist}/builds"
+
+      for machine in "${build_path}"/*; do
+        local tmp_path="${machine}/tmp"
+
+        if [ -e "${tmp_path}" ]; then
+          echo "${tmp_path}"
+        fi
+      done
+    fi
+  done
+}
+
+# repo sync -j10
+function bitbake_sync(){
+  local project_dir="${BUILDDIR}/workspace/appends"
+  local meta_axis="${BUILDDIR}/../../meta-axis"
+
+  local l_ip="192.168.0.90"
+
+  if ! valid_build_dir; then
+    return 1
+  fi
+
+  if ! repo sync -j10; then
+   return $?
+  fi
+
+  for dist in "${project_dir}"/*; do
+    local fname="$(basename ${dist})"
+
+    if [[ "${fname}" =~ '^(.+)_.*\.bbappend$' ]]; then
+      local needle="${match[1]}"
+      # echo "${fname}|${needle}"
+
+      local dest_bb=$(find ${meta_axis} -name "${needle}_*.bb")
+      if [ -e "${dest_bb}" ]; then
+        local dest_bb_fname="$(basename ${dest_bb})append"
+
+        local src_bbappend="${project_dir}/${fname}"
+        local dest_bbappend="${project_dir}/${dest_bb_fname}"
+        if [ ! "${fname}" = "${dest_bb_fname}" ]; then
+          echo "mv ${src_bbappend} ${dest_bbappend}"
+          mv "${src_bbappend}" "${dest_bbappend}"
+        else
+          echo "'${fname}' UP TO DATE"
+        fi
+      fi
+    fi
+  done
 }
 
 # setxkbmap -option caps:escape

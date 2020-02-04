@@ -13,6 +13,10 @@ if [ -e $HOME/sources/fzf/bin ]; then
   #
 fi
 
+if [ -e $HOME/.cargo/bin ]; then
+  export PATH="${HOME}/.cargo/bin:${PATH}"
+fi
+
 NPM_PACKAGES="$HOME/.npm-packages"
 if [ -e ${NPM_PACKAGES} ]; then
   export PATH="${NPM_PACKAGES}/bin:${PATH}"
