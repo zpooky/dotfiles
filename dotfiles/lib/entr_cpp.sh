@@ -11,11 +11,11 @@ if [ ! $? -eq 0 ]; then
   exit 1
 fi
 
-cur_pwd="$(pwd)"
+cur_pwd="$PWD"
 wd="${cur_pwd}"
 
 # echo "#####'${2}'"
-if [ -e ${2} ]; then
+if [ -e ${2} ] && [ ! "${2}" = "" ]; then
   # hacky we assume first arg is a fiel or path
   wd="${2}"
 fi

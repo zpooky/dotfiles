@@ -777,7 +777,7 @@ function sp_network() {
   alias sp-sound="vim -p ${file_sound} ${file_audio} $REF_DIR/audio-digital.md $REF_DIR/audio-digital-sync.md ${file_pcm}"
   alias sp-dsp="vim -p ${file_dsp} ${file_waveform} ${file_pcm}"
 
-  alias sp-radio="vim $REF_DIR/radio.md"
+  alias sp-radio="vim -p $REF_DIR/radio.md ${file_waveform} ${file_db}"
   alias sp-wifi="sp-radio"
 }
 
