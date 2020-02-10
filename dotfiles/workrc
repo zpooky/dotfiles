@@ -178,20 +178,20 @@ function ssh_192_168_0_90() {
 
 
     local disable_setup="/tmp/disable_setup"
-    if [ -e "${disable_setup}" ]; then
+    # if [ -e "${disable_setup}" ]; then
       # disable some web menus
-      ssh_192_168_0_90_execute "parhandclient set root.System.CaptureFrequencySet yes"
-      local res=$?
-
-      if [ $res -eq 0 ]; then
-        ssh_192_168_0_90_execute "parhandclient set root.System.CaptureModeSet yes"
-        local res=$?
-      fi
-
-      if [ $res -eq 0 ]; then
-        rm "${disable_setup}"
-      fi
-    fi
+      # ssh_192_168_0_90_execute "parhandclient set root.System.CaptureFrequencySet yes"
+      # local res=$?
+      #
+      # if [ $res -eq 0 ]; then
+      #   ssh_192_168_0_90_execute "parhandclient set root.System.CaptureModeSet yes"
+      #   local res=$?
+      # fi
+      #
+      # if [ $res -eq 0 ]; then
+      #   rm "${disable_setup}"
+      # fi
+    # fi
 
   # sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} 'alias ll="ls -alh";ll; exec /bin/sh -l' # 'alias ll="ls-alh"; /bin/sh -l'
     TERM=xterm sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "${l_env_setup} ${l_env}; exec /bin/sh -l"

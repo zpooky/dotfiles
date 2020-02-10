@@ -674,6 +674,7 @@ function sp_linux_dev_alias() {
   alias sp-linux-exception="vim -p $file_linux_exception $file_linux_irq"
 
   alias sp-linux-device-tree="vim -p $file_linux_device_tree"
+  alias sp-device-tree="sp-linux-device-tree"
 
   alias sp-serial-communication="vim -p $file_serial_communication $file_baud_rate"
   alias sp-parallel-communication="sp-serial-communication"

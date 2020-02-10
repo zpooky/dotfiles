@@ -1154,6 +1154,75 @@ function! SpookyHeaderType(file) abort
   return 1
 endfunction
 
+function! s:SpookyIndentDetect() abort
+" 'vim-plug', '', 'gitcommit', 'tagbar'
+  if &buftype ==# 'help'
+    return
+  endif
+
+  let heuristics = {'spaces': 0, 'tabs': 0}
+  let lines = getline(1, 1024)
+
+  for line in lines
+    if len(line) == 0
+      continue
+    endif
+
+    " line only containing spaces
+    if line =~# '^ *$'
+      continue
+    endif
+    " line only containing tabs
+    if line =~# '^\t*$'
+      continue
+    endif
+
+    " c style multiline comment
+    " /*
+    " _*/
+    if line =~# '^ \*'
+      continue
+    endif
+
+
+    if line =~# '^\t'
+      let heuristics.tabs += 1
+    elseif line =~# '^ '
+      let heuristics.spaces += 1
+    endif
+
+  endfor
+
+  " set noexpandtab
+  " set expandtab                     " <tab> is converted to spaces
+  " set shiftwidth=2                  " number of spaces to use for autoindenting
+  set smarttab                      " insert tabs on the start of a line according
+                                  " to shiftwidth, not tabstop
+  if heuristics.tabs > heuristics.spaces
+    echo "hard"
+    set noexpandtab
+    set shiftwidth=2
+    set tabstop=2
+  elseif heuristics.spaces > heuristics.tabs
+    echo "spaces"
+    set expandtab       " <tab> is converted to spaces
+    set tabstop=2
+    set shiftwidth=2    " number of spaces to use for autoindenting
+  else
+    echo "default"
+    " default
+    set expandtab       " <tab> is converted to spaces
+    set tabstop=2
+    set shiftwidth=2    " number of spaces to use for autoindenting
+  endif
+
+endfunction
+
+augroup AutogroupIndentDetect
+  autocmd!
+  autocmd FileType * call s:SpookyIndentDetect()
+augroup END
+
 augroup AutogroupFileSpecific
   autocmd!
 
@@ -1161,6 +1230,7 @@ augroup AutogroupFileSpecific
   autocmd BufNewFile,BufFilePre,BufRead *.md set ft=markdown
   " https://github.com/Shirk/vim-gas
   autocmd BufNewFile,BufRead *.nasm set ft=nasm
+  autocmd BufNewFile,BufRead *.fpp set ft=sh
 
   " type specific settings
   autocmd FileType markdown,python setlocal ts=2 sw=2 expandtab
