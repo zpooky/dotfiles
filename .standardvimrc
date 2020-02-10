@@ -894,13 +894,13 @@ map <silent> <leader>O O<esc>
 " map <silent> <leader>o o<C-U><esc>
 " map <silent> <leader>O O<C-U><esc>
 
-" half page down/up
-map <silent> ö <C-D>
-map <silent> Ö <C-U>
-"
-" page up/down
-map <silent> å <PageUp>
-map <silent> ä <PageDown>
+" " half page down/up
+" map <silent> ö <C-D>
+" map <silent> Ö <C-U>
+" "
+" " page up/down
+" map <silent> å <PageUp>
+" map <silent> ä <PageDown>
 
 " pane navigation
 map <silent> <leader>1 <esc>1gt
@@ -944,11 +944,23 @@ nnoremap <expr> - (v:count > 3 ? "m'" . v:count : '') . '-'
 " nnoremap <right> <nop>
 " nnoremap <up> <nop>
 " nnoremap <down> <nop>
-
+"
 " inoremap <left> <nop>
 " inoremap <right> <nop>
 " inoremap <up> <nop>
 " inoremap <down> <nop>
+
+" does not work
+" nnoremap <s+left> <nop>
+" nnoremap <s+right> <nop>
+" nnoremap <s+up> <nop>
+" nnoremap <s+down> <nop>
+"
+" inoremap <s+left> <nop>
+" inoremap <s+right> <nop>
+" inoremap <s+up> <nop>
+" inoremap <s+down> <nop>
+
 
 " disable f1 help
 inoremap <F1> <nop>

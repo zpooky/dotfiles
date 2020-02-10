@@ -213,6 +213,7 @@ function ssh_192_168_0_90() {
     fi
   fi
 
+  date
   # hides functions from global scope
   unset -f sshx
 }
@@ -413,8 +414,14 @@ function deploy_192_168_0_90(){
     l_systemd=true
   elif [ "${project}" = "stm32f070xx-init" ]; then
     local l_dest="/usr/libexec/stm32f070xx-setup"
-    local l_source="${project_dir}/oe-workdir/package/usr/libexec/stm32f070xx-setup"
+    # local l_source="${project_dir}/oe-workdir/package/usr/libexec/stm32f070xx-setup"
+    local l_source="${project_dir}/stm32f070xx-setup"
     local l_systemd_name="stm32f070xx-setup"
+    l_systemd=true
+  elif [ "${project}" = "dynamic-device-init" ]; then
+    local l_dest="/usr/libexec/dynamic-device-init"
+    local l_source="${project_dir}/oe-workdir/package/usr/libexec/dynamic-device-init"
+    local l_systemd_name="dynamic-device-init"
     l_systemd=true
   elif [ "${project}" = "mediaclip-cgi" ]; then
     local l_source="${project_dir}/oe-workdir/package/usr/html/axis-cgi"
@@ -1508,25 +1515,43 @@ function dists_size() {
 function bitbake_sync(){
   local project_dir="${BUILDDIR}/workspace/appends"
   local meta_axis="${BUILDDIR}/../../meta-axis"
-
-  local l_ip="192.168.0.90"
+  local meta_axis_bsp="${BUILDDIR}/../../meta-axis-bsp"
 
   if ! valid_build_dir; then
     return 1
   fi
 
-  if ! repo sync -j10; then
-   return $?
-  fi
+  # if ! repo sync -j10; then
+  #  return $?
+  # fi
 
   for dist in "${project_dir}"/*; do
     local fname="$(basename ${dist})"
 
     if [[ "${fname}" =~ '^(.+)_.*\.bbappend$' ]]; then
-      local needle="${match[1]}"
-      # echo "${fname}|${needle}"
+      local needle
+      local bb_name="${match[1]}"
+      # echo "${fname}|${bb_name}"
 
-      local dest_bb=$(find ${meta_axis} -name "${needle}_*.bb")
+      local search_dir=""
+      if [ "${bb_name}" = "devicetree" ]; then
+        search_dir="${meta_axis_bsp}"
+        needle="${bb_name}_"
+      elif [ "${bb_name}" = "linux-axis" ]; then
+        search_dir="${meta_axis_bsp}"
+        if [[ "${fname}" =~ '^(.+_[0-9]+\.[0-9]+\.).*\.bbappend$' ]]; then
+          needle="${match[1]}"
+        else
+          echo "something went wrong"
+          return 1
+        fi
+      else
+        search_dir="${meta_axis}"
+        needle="${bb_name}_"
+      fi
+      # echo "find ${search_dir} -name \"${needle}*.bb\""
+      local dest_bb=$(find ${search_dir} -name "${needle}*.bb")
+
       if [ -e "${dest_bb}" ]; then
         local dest_bb_fname="$(basename ${dest_bb})append"
 

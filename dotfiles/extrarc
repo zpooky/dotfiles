@@ -983,6 +983,7 @@ alias sp-proj-math="vim $DROPBOX/project/math.md"
 alias sp-proj-emulator="vim $DROPBOX/project/emulator.md"
 alias sp-proj-crdt="sp-crdt"
 alias sp-proj-crypto="vim $DROPBOX/project/crypto.md"
+alias sp-proj-db="vim $DROPBOX/project/db.md"
 
 #course
 alias sp-course-audio-dsp="vim $DROPBOX/course/audio-dsp.md"
