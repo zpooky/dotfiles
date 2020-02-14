@@ -790,18 +790,10 @@ set nowrap                        " do not soft wrap long lines
 set backspace=indent,eol,start    " allow backspacing over everything in insert mode
 set autoread                      " auto reload after outside changes(tmux sends a event on focus)
 
-" Tab {{{
-set tabstop=2                     " Number of spaces to represent a <TAB> character from file
-set expandtab                     " <tab> is converted to spaces
-set shiftwidth=2                  " number of spaces to use for autoindenting
-set smarttab                      " insert tabs on the start of a line according
-                                  " to shiftwidth, not tabstop
-" }}}
-
 " Indentation {{{
-set autoindent                    " use the same indent from current line when starting a new line
-set copyindent                    " use the same character(tabs,spaces...) for indentation as the previous line
-set smartindent                   " support auto indentation when for example the previous line end with { used for (c/c++)
+" set autoindent                    " use the same indent from current line when starting a new line
+" set copyindent                    " use the same character(tabs,spaces...) for indentation as the previous line
+" set smartindent                   " support auto indentation when for example the previous line end with { used for (c/c++)
 " }}}
 
 " tmp directories {{{
@@ -1199,18 +1191,17 @@ function! s:SpookyIndentDetect() abort
   set smarttab                      " insert tabs on the start of a line according
                                   " to shiftwidth, not tabstop
   if heuristics.tabs > heuristics.spaces
-    echo "hard"
+    " echo "hard"
     set noexpandtab
     set shiftwidth=2
     set tabstop=2
   elseif heuristics.spaces > heuristics.tabs
-    echo "spaces"
+    " echo "spaces"
     set expandtab       " <tab> is converted to spaces
     set tabstop=2
     set shiftwidth=2    " number of spaces to use for autoindenting
   else
-    echo "default"
-    " default
+    " echo "default"
     set expandtab       " <tab> is converted to spaces
     set tabstop=2
     set shiftwidth=2    " number of spaces to use for autoindenting

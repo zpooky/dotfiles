@@ -276,7 +276,6 @@ sp_crypto
 
 file_frequency="$REF_DIR/frequency.md" # TODO
 file_waveform="$REF_DIR/waveform.md"
-file_dsp="$REF_DIR/dsp.md"
 file_db="$REF_DIR/decibel.md"
 local file_serial_communication="$REF_DIR/serial-communication.md"
 
@@ -784,9 +783,10 @@ function sp_network() {
   alias sp-upnp="sp-nat"
 
   #audio
-  alias sp-audio="vim -p ${file_audio} ${file_sound} $REF_DIR/audio-digital.md $REF_DIR/audio-digital-sync.md ${file_pcm} ${file_db}"
-  alias sp-sound="vim -p ${file_sound} ${file_audio} $REF_DIR/audio-digital.md $REF_DIR/audio-digital-sync.md ${file_pcm}"
-  alias sp-dsp="vim -p ${file_dsp} ${file_waveform} ${file_pcm}"
+  local file_audio_dsp="$DROPBOX/course/audio-dsp.md"
+  alias sp-dsp="vim -p ${file_audio_dsp} ${file_audio} ${file_sound} ${file_waveform} $REF_DIR/audio-digital.md $REF_DIR/audio-digital-sync.md ${file_pcm} ${file_db}"
+  alias sp-audio="vim -p ${file_audio} ${file_audio_dsp} ${file_sound} ${file_waveform} $REF_DIR/audio-digital.md $REF_DIR/audio-digital-sync.md ${file_pcm} ${file_db}"
+  alias sp-sound="vim -p ${file_sound} ${file_audio_dsp} ${file_audio} ${file_waveform} $REF_DIR/audio-digital.md $REF_DIR/audio-digital-sync.md ${file_pcm} ${file_db}"
 
   alias sp-radio="vim -p $REF_DIR/radio.md ${file_waveform} ${file_db}"
   alias sp-wifi="sp-radio"
@@ -985,9 +985,6 @@ alias sp-proj-emulator="vim $DROPBOX/project/emulator.md"
 alias sp-proj-crdt="sp-crdt"
 alias sp-proj-crypto="vim $DROPBOX/project/crypto.md"
 alias sp-proj-db="vim $DROPBOX/project/db.md"
-
-#course
-alias sp-course-audio-dsp="vim $DROPBOX/course/audio-dsp.md"
 
 # nas540
 alias sp-nas="vim $REF_DIR/nas/general.txt"
