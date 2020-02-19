@@ -100,6 +100,11 @@ if [[ -e $SP_PIP_BIN ]]; then
   PATH=$SP_PIP_BIN:$PATH
 fi
 
+ALIAS_SRC="$HOME/sources/notes/aliasrc.sh"
+if [ -f "${ALIAS_SRC}" ]; then
+  source "${ALIAS_SRC}"
+fi
+
 # Enable aliases to be used when sudoing
 alias sudo='sudo '
 
@@ -251,7 +256,6 @@ alias ssh='TERM=xterm ssh '
 
 alias sp_sync="$DOTFILES_LIB/mail_sync.sh"
 
-alias sp-port-scan="vim $REF_DIR/port-scan.md"
 function port_scan() {
   which netstat 2>&1 > /dev/null
   if [ $? -eq 0 ]; then
@@ -278,8 +282,8 @@ alias tmux='tmux -2'
 alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
 
 # meta
-alias sp-alias="vim $DOTFILES/extrarc && source $DOTFILES/extrarc"
-alias sp-zshrc="vim -p $HOME/.zshrc $DOTFILES/extrarc $DOTFILES/workrc"
+alias sp-alias="vim $ALIAS_SRC $DOTFILES/extrarc && source $DOTFILES/extrarc"
+alias sp-zshrc="vim -p $HOME/.zshrc $ALIAS_SRC $DOTFILES/extrarc $DOTFILES/workrc"
 alias sp-workrc="vim -p $HOME/dotfiles/workrc && source $DOTFILES/workrc"
 
 alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/c.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc $HOME/.vim/coc-settings.json"

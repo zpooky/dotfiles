@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source $HOME/dotfiles/lib/vimcpp/shared.sh
+
 is_meson(){
   if [ -e meson.build ]; then
     return 0
