@@ -37,7 +37,8 @@
       "initializationOptions": {
         "cache": {
           "directory": "/tmp/ccls-cache"
-        }
+        },
+        "compilationDatabaseDirectory": "build",
       }
     },
     "metals": {
@@ -60,5 +61,6 @@
       "filetypes": ["dockerfile"],
       "args": ["--stdio"]
     }
-  }
+  },
+  "java.errors.incompleteClasspath.severity": "ignore"
 }

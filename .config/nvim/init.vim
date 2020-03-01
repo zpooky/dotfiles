@@ -1101,7 +1101,7 @@ Plug 'tommcdo/vim-lion'
 " }}}
 
 " {{{
-" Plug 'tpope/vim-sleuth'
+Plug 'tikhomirov/vim-glsl'
 " }}}
 
 " {{{
