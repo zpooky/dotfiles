@@ -144,7 +144,7 @@ function ssh_192_168_0_90() {
     local l_env_setup='ENV=$HOME/.shinit; export ENV;'
     local l_env=''
     l_env+='echo "alias ll=\"ls -alh\"" >> $HOME/.shinit'
-    l_env+=' && echo "alias systemctl_status=\"systemctl status audiocontrol monolith parhand ioboxd\"" >> $HOME/.shinit'
+    l_env+=' && echo "alias systemctl_status=\"systemctl status audiocontrol monolith parhand ioboxd -l\"" >> $HOME/.shinit'
     l_env+=' && echo "alias systemctl_root=\"cd /usr/lib/systemd/system\"" >> $HOME/.shinit'
     l_env+=' && echo "alias tree=\"ls -alhR1\"" >> $HOME/.shinit'
     l_env+=' && echo "alias port_scan=\"netstat -lnptux\"" >> $HOME/.shinit'
@@ -343,6 +343,7 @@ function overlay_mount_192_168_0_90(){
 
 # TODO sshfs mount camera in some work dir that will be used by makefile
 # TODO find command to setup env(to override dest) and run make with corretch binaries
+#TODO maybe touch all sources in $project_dir?
 function deploy_192_168_0_90(){
   local project="${1}"
   local project_dir="${BUILDDIR}/workspace/sources/${project}"
@@ -1512,7 +1513,7 @@ function dists_size() {
 }
 
 # repo sync -j10
-function bitbake_sync(){
+function bitbake_repo_sync(){
   local project_dir="${BUILDDIR}/workspace/appends"
   local meta_axis="${BUILDDIR}/../../meta-axis"
   local meta_axis_bsp="${BUILDDIR}/../../meta-axis-bsp"
@@ -1521,9 +1522,9 @@ function bitbake_sync(){
     return 1
   fi
 
-  # if ! repo sync -j10; then
-  #  return $?
-  # fi
+  if ! repo sync -j10; then
+   return $?
+  fi
 
   for dist in "${project_dir}"/*; do
     local fname="$(basename ${dist})"

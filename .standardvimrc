@@ -1040,10 +1040,10 @@ function! SpookyMirrorFor(file, match, dest) abort
       let i=1
       while i < len(lres)
         " echo "substitute(".cur.", \\".i.", ".get(lres, i).", \"\")"
-        let cur = substitute(cur,'\\'.i , get(lres, i), "")
+        let cur = substitute(cur,'\\'.i , get(lres, i), "g")
         let i += 1
       endwhile
-
+      " echo cur
       if filereadable(cur)
         return cur
       endif
@@ -1110,6 +1110,18 @@ function! SpookyGetMirror(file) abort
     return mirror
   endif
   let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.hh$', ['\1/\2.cpp'])
+  if strlen(mirror) > 0
+    return mirror
+  endif
+
+" ~/sources/gk/src/camera.c
+" ~/sources/gk/include/gk/camera.h
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\(.*\)\/src\/\('.fname.'\)\.c$', ['\1/\2/include/\2/\3.h', '\1/\2/inc/\2/\3.h', '\1/\2/include/\2/\3.hh', '\1/\2/inc/\2/\3.hh', '\1/\2/include/\2/\3.hpp', '\1/\2/inc/\2/\3.hpp'])
+  if strlen(mirror) > 0
+    return mirror
+  endif
+
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/include\/\(.*\)\/\('.fname.'\)\.h$', ['\1/src/\3.c', '\1/src/\3.cpp'])
   if strlen(mirror) > 0
     return mirror
   endif

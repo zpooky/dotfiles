@@ -393,9 +393,8 @@ if !has('win32unix') && !has('win64unix')
   "'clang', 'clangcheck', 'cpplint','cppcheck', 'clangtidy'
   let g:ale_linters = {
         \   'cpp':    ['g++','cppcheck', 'ccls'],
-        \   'python': ['pylint'],
         \   'c':      ['clangtidy', 'ccls'],
-        \   'sh':     ['language_server'],
+        \   'sh':     ['shellcheck'],
         \}
 " !! :lopen to get a list of more wanring
 " 'gcc','cppcheck', 'ccls',

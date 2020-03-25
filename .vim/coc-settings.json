@@ -1,5 +1,6 @@
 {
-  "python.linting.enabled": false,
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
   "python.jedienabled": true,
 
 
