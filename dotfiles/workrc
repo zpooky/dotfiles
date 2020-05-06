@@ -424,6 +424,11 @@ function deploy_192_168_0_90(){
     local l_source="${project_dir}/oe-workdir/package/usr/libexec/dynamic-device-init"
     local l_systemd_name="dynamic-device-init"
     l_systemd=true
+  elif [ "${project}" = "digital-camviewsetupd" ]; then
+    local l_dest="/usr/bin/camviewsetupd"
+    local l_source="${project_dir}/oe-workdir/package/usr/bin/camviewsetupd"
+    local l_systemd_name="camviewsetupd"
+    l_systemd=true
   elif [ "${project}" = "mediaclip-cgi" ]; then
     local l_source="${project_dir}/oe-workdir/package/usr/html/axis-cgi"
 
@@ -1440,7 +1445,12 @@ function no_sources_outputs(){
 function gdb_192_168_0_90(){
   local src="${1}"
   local src_dir="${BUILDDIR}/workspace/sources/${src}"
-  local bin_dir="${src_dir}/oe-workdir/package/usr/bin/${src}"
+  if [ "${src}" = "monolith" ]; then
+    local bin_dir="${src_dir}/monolith/oe-workdir/package/usr/bin/monolith"
+  else
+    local bin_dir="${src_dir}/oe-workdir/package/usr/bin/${src}"
+  fi
+
   local gdb_dir="${BUILDDIR}/tmp/work"
 
   local l_ip="192.168.0.90"
