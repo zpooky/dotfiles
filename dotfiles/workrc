@@ -429,6 +429,16 @@ function deploy_192_168_0_90(){
     local l_source="${project_dir}/oe-workdir/package/usr/bin/camviewsetupd"
     local l_systemd_name="camviewsetupd"
     l_systemd=true
+  elif [ "${project}" = "actionengined" ]; then
+    local l_dest="/usr/bin/actionengined"
+    local l_source="${project_dir}/oe-workdir/package/usr/bin/actionengined"
+    local l_systemd_name=(action-engine-user action-engine-system)
+    l_systemd=true
+  elif [ "${project}" = "libevent2" ]; then
+    local l_dest="/usr/lib/libevent2.so"
+    local l_source="${project_dir}/oe-workdir/package/usr/lib/libevent2.so"
+    local l_systemd_name=(action-engine-user action-engine-system)
+    l_systemd=true
   elif [ "${project}" = "mediaclip-cgi" ]; then
     local l_source="${project_dir}/oe-workdir/package/usr/html/axis-cgi"
 
@@ -483,8 +493,14 @@ function deploy_192_168_0_90(){
 
   setup_ssh_eager
 
-  ssh_192_168_0_90_execute "systemctl stop ${l_systemd_name}"
-  local res=$?
+  for cur in "${l_systemd_name[@]}"
+  do
+    ssh_192_168_0_90_execute "systemctl stop ${cur}"
+    local res=$?
+    if [ ! $res -eq 0 ]; then
+      break
+    fi
+  done
   if [ $res -eq 0 ]; then
     ssh_192_168_0_90_execute "echo '=${project}======$(date)==============================' >> /var/log/error.log"
     ssh_192_168_0_90_execute "echo '=${project}======$(date)==============================' >> /var/log/info.log"
@@ -514,8 +530,14 @@ function deploy_192_168_0_90(){
         reboot_192_168_0_90
         res=$?
       elif [ $l_systemd = true ]; then
-        ssh_192_168_0_90_execute "systemctl start ${l_systemd_name}"
-        res=$?
+        for cur in "${l_systemd_name[@]}"
+        do
+          ssh_192_168_0_90_execute "systemctl start ${cur}"
+          local res=$?
+          if [ ! $res -eq 0 ]; then
+            break
+          fi
+        done
       else
         echo "none"
       fi
@@ -635,8 +657,8 @@ function reboot_192_168_0_90_async() {
   local l_ip="192.168.0.90"
 
     # TODO maybe have ssh "-o ConnectTimeout 1" timeout of 1sec
-  echo "sshpass -p ${l_pass} ssh -q -o \"ConnectTimeout 1\" ${l_user}@${l_ip} \"${cmd}\""
-  sshpass -p "${l_pass}" ssh -qt -o "ConnectTimeout 1" ${l_user}@${l_ip} "${cmd}"
+  echo "sshpass -p ${l_pass} ssh -q -o \"ConnectTimeout 1\" -o \"ControlPersist 1\" ${l_user}@${l_ip} \"${cmd}\""
+  sshpass -p "${l_pass}" ssh -qt -o "ConnectTimeout 1" -o "ControlPersist 1" ${l_user}@${l_ip} "${cmd}"
   return $?
 }
 
