@@ -838,16 +838,19 @@ Plug 'nickhutchinson/vim-cmake-syntax'
 " }}}
 
 " Goyo {{{
-Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
-
-augroup AugroupGoyo
-  autocmd!
-  autocmd FileType markdown,mail,text,gitcommit map <silent> <F11> <Esc> :Goyo <CR>
-augroup END
+" Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+"
+" augroup AugroupGoyo
+"   autocmd!
+"   autocmd FileType markdown,mail,text,gitcommit map <silent> <F11> <Esc> :Goyo <CR>
+" augroup END
 " }}}
 
 " markdown syntax
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+let g:vim_markdown_new_list_item_indent = 2
+let g:vim_markdown_auto_insert_bullets = 0
+let g:vim_markdown_folding_style_pythonic = 1
 " Plug 'reedes/vim-colors-pencil'   " http://sherifsoliman.com/2016/05/30/favorite-vim-plugins/#vim-colors-pencil
 " }}}
 
