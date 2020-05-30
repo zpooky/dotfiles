@@ -332,7 +332,7 @@ augroup END
 
 " cmake -GNinja -H. -BRelease -DCMAKE_INSTALL_PREFIX=$HOME && ninja -C Release && ninja -C Release install
 " NOT a vim plugin
-Plug 'MaskRay/ccls',{'do':'cmake -GNinja -H. -BRelease -DCMAKE_INSTALL_PREFIX=$HOME && ninja -C Release && ninja -C Release install'}
+" Plug 'MaskRay/ccls',{'do':'cmake -GNinja -H. -BRelease -DCMAKE_INSTALL_PREFIX=$HOME && ninja -C Release && ninja -C Release install'}
 " }
 
 " java {

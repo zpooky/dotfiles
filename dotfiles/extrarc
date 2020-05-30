@@ -117,7 +117,7 @@ export EDITOR='vim'
 export SYSTEMD_EDITOR='vim'
 export VISUAL='vim'
 
-alias nas540_mount="sshfs admin@nas540:/i-data/ $HOME/mount/nas540"
+alias nas540_mount="sshfs admin@192.168.1.12:/i-data/ $HOME/mount/nas540"
 alias nas540_dl="cd $HOME/mount/nas540/0da29454/admin/download/Transmission/download"
 alias nas540_tv="cd $HOME/mount/nas540/0da29454/video/tv"
 
