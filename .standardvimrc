@@ -856,7 +856,7 @@ call SetupTmp()
 
 " Custom mappings {{{
 " Alternative save
-nnoremap <silent> <leader>w <esc>:wa!<CR>
+nnoremap <leader>w <esc>:silent! wa<CR>
 " Alternative quit
 nnoremap <silent> <leader>q <esc>:q<CR>
 

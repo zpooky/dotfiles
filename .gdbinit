@@ -38,11 +38,12 @@ add-auto-load-safe-path ~/sources/linux-shallow
 add-auto-load-safe-path ~/sources/linux
 
 #gdb-dashboard
-source ~/sources/gdb-dashboard/.gdbinit
+# source ~/sources/gdb-dashboard/.gdbinit
 
 #gcc pretty printers {
 python
 import sys
+import os
 from pathlib import Path
 
 pp = os.environ['HOME']+'/sources/gdb_pp'
@@ -60,6 +61,7 @@ end
 #clang pretty printers {
 python
 import sys
+import os
 from pathlib import Path
 
 pp = os.environ['HOME']+'/sources/libcxx-pretty-printers/src'
@@ -80,6 +82,10 @@ end
 # hookpost - means post execution of command
 # -*command* - the command to hook for
 # dashboard - refreshes the gdb-dashboard
+
+# define hookpost-run
+# dashboard
+# end
 
 # refresh on moving up a stack frame
 define hookpost-up

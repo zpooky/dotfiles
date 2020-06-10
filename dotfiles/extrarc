@@ -274,7 +274,7 @@ function port_scan() {
 }
 
 alias sp-space="du -hsc *"
-alias sp-root="cd \`$DOTFILES_LIB/git_root.sh\`"
+alias sp_root="cd \`$DOTFILES_LIB/git_root.sh\`"
 
 #tmux
 # force the 256 colors compatibility
@@ -481,7 +481,7 @@ function sp_perf_report(){
 }
 
 function sp_perf(){
-  perf record -F 990 -- $@
+  perf record -F 99 -- $@
   # spperf_report
 }
 
@@ -512,9 +512,64 @@ alias test_loop="$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/make_test_bod
 # }
 # alias cpp_change_loop="$HOME/dotfiles/lib/entr_cpp.sh "
 
-function sp_ag() {
-  ag "$1" --cpp --ignore "external"
+# function sp_ag() {
+#   ag "$1" --cpp --ignore "external"
+# }
+
+function agstruct() {
+  # TODO verify $1 matches A-Z0-9...
+  if [ ! $1 ]; then
+    echo "missing arg">&2
+    return 1
+  fi
+
+  # echo "struct $1([ \t]*\n*)*{" "$(~/dotfiles/lib/git_root.sh) --multiline --cpp --cc" >&2
+  ag "(struct|enum) $1([ \t]*\n*)*{" "$(~/dotfiles/lib/git_root.sh)" --multiline --cpp --cc
 }
+
+function agfunc() {
+  # TODO verify $1 matches A-Z0-9...
+  # TODO "define function" #define wasd(a,b) __fun(a,2,b)
+  if [ ! $1 ]; then
+    echo "missing arg">&2
+    return 1
+  fi
+  local decl;
+  local arg;
+  local args
+  local ctype;
+
+  # extern inline u8 readb(const volatile void __iomem *addr)
+  # void dump_stack(void)
+  #
+  #static int nec_i2c_check_status(struct nec_i2c_dev_info *info, u32 expected)
+  #static void slave_transfer_timeout(struct timer_list *t)
+
+  ctype=""
+  ctype="${ctype}(const)*[ \t\n]*"
+  ctype="${ctype}(volatile)*[ \t\n]*"
+  ctype="${ctype}(struct|enum|class){0,1}[ \t\n]*"
+  ctype="${ctype}[a-zA-Z0-9_]+[ \t\n]+"
+  ctype="${ctype}\\**[ \t\n]*"
+
+  arg="${ctype},{0,1}[ \t\n]*"
+  arg="(${arg})"
+
+  args="(${arg}*|void|)"
+
+  decl=""
+  decl="${decl}((extern|inline|static)*[ \t\n]*)*"
+  decl="${decl}${ctype}"
+  decl="${decl}$1[ \t\n]*"
+  decl="${decl}\\(${args}\\)[ \t\n]*"
+  decl="${decl}{"
+
+echo $decl
+  ag "${decl}" "$(~/dotfiles/lib/git_root.sh)" --multiline --cpp --cc
+}
+
+# function agdecl() {
+# }
 
 function sp_cryptocurrency(){
   local COIN="$1"

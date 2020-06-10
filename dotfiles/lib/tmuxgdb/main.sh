@@ -23,6 +23,7 @@ fi
 
 #---configure-dashboard------------------
 # source lines
+echo "source ~/sources/gdb-dashboard/.gdbinit" >>"${GDB_CONFIG_file}"
 echo "dashboard source -style context 21" >>"${GDB_CONFIG_file}"
 echo "dashboard assembly -style context 6" >>"${GDB_CONFIG_file}"
 echo "dashboard stack -style locals True" >>"${GDB_CONFIG_file}"
