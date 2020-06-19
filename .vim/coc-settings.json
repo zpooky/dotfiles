@@ -4,7 +4,6 @@
   "python.jedienabled": true,
 
 
-  "rust-client.rlspath": "/usr/bin/rls",
   "rust-client.disablerustup": true,
 
   "json.format.enable": false,

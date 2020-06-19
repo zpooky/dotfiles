@@ -288,7 +288,7 @@ endif
 " coc.vim {{{
 " Plug 'neoclide/coc.nvim',{'do':'yarn install'}
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml', 'coc-java']
+let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml', 'coc-java', 'coc-rls', 'coc-go']
 
 " https://kimpers.com/vim-intelligent-autocompletion/
 
@@ -308,8 +308,8 @@ let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml',
 
 augroup AugroupCoc
   autocmd!
-  autocmd FileType cpp,sh,c unmap <f3>
-  autocmd FileType cpp,sh,c,cpp map <silent> <F3> <Plug>(coc-definition)
+  autocmd FileType cpp,sh,c,rust,go unmap <f3>
+  autocmd FileType cpp,sh,c,rust,go map <silent> <F3> <Plug>(coc-definition)
 
   " Go to the Type of a variable
   " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-type-definition)
@@ -569,12 +569,13 @@ let g:neoformat_python_spyapf = {
 let g:neoformat_enabled_python = ['spyapf']
 let g:neoformat_enabled_sh = ['shfmt']
 let g:neoformat_enabled_javascript = ['prettier']
+let g:neoformat_enabled_rust = ['rustfmt']
 let g:neoformat_only_msg_on_error = 1
 
 augroup AugroupNeoformat
   autocmd!
-  autocmd FileType c,cpp,python,sh,bash,zsh,javascript nnoremap <buffer><leader>f <esc>:Neoformat<CR>
-  autocmd FileType c,cpp,python,sh,bash,zsh,javascript vnoremap <buffer><leader>f <esc>:Neoformat<CR>
+  autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust nnoremap <buffer><leader>f <esc>:Neoformat<CR>
+  autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust vnoremap <buffer><leader>f <esc>:Neoformat<CR>
 augroup END
 " }}}
 
