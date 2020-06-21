@@ -15,6 +15,7 @@ if has('nvim')
   " - sh
   "   - npm install bash-language-server
   "   - yay -S bash-language-server
+  "   - yay -S shfmt
   " - js
   "   - npm install -g neovim
   "   - yay -S nodejs-neovim
@@ -32,6 +33,15 @@ if has('nvim')
   "   - gem install neovim
   " - docker
   "   - npm install -g dockerfile-language-server-nodejs
+  " - rust
+  "   - rustup component add rustfmt
+  " - json
+  "   - yay -S jq
+  " - scala
+  "   - yay -S metals
+  " - markdown
+  "   - yay -S redpen
+  "   - yay -S languagetool
   "
   " npm install --global prettier --upgrade
   " pip3 install --user yapf --upgrade
@@ -289,13 +299,16 @@ endif
 " Plug 'neoclide/coc.nvim',{'do':'yarn install'}
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml', 'coc-java', 'coc-rls', 'coc-go']
+" https://github.com/josa42/coc-go
+" https://github.com/neoclide/coc-java
 
 " https://kimpers.com/vim-intelligent-autocompletion/
 
+" :CocInfo
 " :CocConfig
 " :CocInstall
 
-" TODO checkut
+" TODO checkout
 " " Smaller updatetime for CursorHold & CursorHoldI
 " set updatetime=300
 " don't give |ins-completion-menu| messages.
@@ -308,8 +321,8 @@ let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml',
 
 augroup AugroupCoc
   autocmd!
-  autocmd FileType cpp,sh,c,rust,go unmap <f3>
-  autocmd FileType cpp,sh,c,rust,go map <silent> <F3> <Plug>(coc-definition)
+  autocmd FileType cpp,sh,c,rust,go,sh,zsh unmap <f3>
+  autocmd FileType cpp,sh,c,rust,go,sh,zsh map <silent> <F3> <Plug>(coc-definition)
 
   " Go to the Type of a variable
   " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-type-definition)
@@ -328,15 +341,14 @@ augroup AugroupCoc
   autocmd FileType scala map <silent> <F3> <Plug>(coc-definition)
 " nmap <silent> [c <Plug>(coc-diagnostic-prev)
 " nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+  " Add missing imports on save
+  autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
 augroup END
 
 " cmake -GNinja -H. -BRelease -DCMAKE_INSTALL_PREFIX=$HOME && ninja -C Release && ninja -C Release install
 " NOT a vim plugin
 " Plug 'MaskRay/ccls',{'do':'cmake -GNinja -H. -BRelease -DCMAKE_INSTALL_PREFIX=$HOME && ninja -C Release && ninja -C Release install'}
-" }
-
-" java {
-" https://github.com/neoclide/coc-java
 " }
 
 " }}}
@@ -395,7 +407,11 @@ if !has('win32unix') && !has('win64unix')
         \   'cpp':    ['g++','cppcheck', 'ccls'],
         \   'c':      ['clangtidy', 'ccls'],
         \   'sh':     ['shellcheck'],
+        \   'rust':   ['rls'],
+        \   'markdown': [ 'redpen', 'writegood'],
         \}
+  " TODO redpen config (there is no way of in ALE to configure)
+  " 'languagetool',
 " !! :lopen to get a list of more wanring
 " 'gcc','cppcheck', 'ccls',
 
@@ -570,12 +586,13 @@ let g:neoformat_enabled_python = ['spyapf']
 let g:neoformat_enabled_sh = ['shfmt']
 let g:neoformat_enabled_javascript = ['prettier']
 let g:neoformat_enabled_rust = ['rustfmt']
+let g:neoformat_enabled_json = ['jq']
 let g:neoformat_only_msg_on_error = 1
 
 augroup AugroupNeoformat
   autocmd!
-  autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust nnoremap <buffer><leader>f <esc>:Neoformat<CR>
-  autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust vnoremap <buffer><leader>f <esc>:Neoformat<CR>
+  autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust,json nnoremap <buffer><leader>f <esc>:Neoformat<CR>
+  autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust,json vnoremap <buffer><leader>f <esc>:Neoformat<CR>
 augroup END
 " }}}
 
@@ -1108,6 +1125,11 @@ Plug 'tikhomirov/vim-glsl'
 " }}}
 
 " {{{
+" rust Cargo.toml
+Plug 'cespare/vim-toml'
+" }}}
+
+" {{{
 if has('nvim')
 Plug 'zpooky/vim-illuminate', {'for':['c','cpp','vim','shell','make','go']}
 else
@@ -1175,10 +1197,6 @@ if has('win32unix') || has('win64unix')
   augroup END
 endif
 
-
-" Generic Writing {{{
-let g:languagetool_jar  = "$HOME/bin/LanguageTool/languagetool-commandline.jar"
-" }}}
 
 " gdb {{{
 " function! JobCallback(self, data) abort
