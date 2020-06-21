@@ -321,8 +321,8 @@ let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml',
 
 augroup AugroupCoc
   autocmd!
-  autocmd FileType cpp,sh,c,rust,go,sh,zsh unmap <f3>
-  autocmd FileType cpp,sh,c,rust,go,sh,zsh map <silent> <F3> <Plug>(coc-definition)
+  autocmd FileType cpp,sh,c,rust,go,zsh unmap <f3>
+  autocmd FileType cpp,sh,c,rust,go,zsh map <silent> <F3> <Plug>(coc-definition)
 
   " Go to the Type of a variable
   " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-type-definition)
@@ -408,10 +408,14 @@ if !has('win32unix') && !has('win64unix')
         \   'c':      ['clangtidy', 'ccls'],
         \   'sh':     ['shellcheck'],
         \   'rust':   ['rls'],
-        \   'markdown': [ 'redpen', 'writegood'],
+        \   'markdown': [],
         \}
-  " TODO redpen config (there is no way of in ALE to configure)
-  " 'languagetool',
+  " TODO  'redpen', 'writegood'
+  " - redpen config (there is no way of in ALE to configure) http://redpen.herokuapp.com/
+  " - 'languagetool' in ALE only states there is an grammatical error in this line not more precise
+  "   - https://github.com/dpelle/vim-LanguageTool
+  "   - https://github.com/rhysd/vim-grammarous
+  "
 " !! :lopen to get a list of more wanring
 " 'gcc','cppcheck', 'ccls',
 
@@ -1249,4 +1253,17 @@ endfunc
 
 command! SynStack :call SynStack()
 map <F7> :SynStack<CR>
+" }}}
+
+" {{{
+" TODO this is the get grammar working
+" https://github.com/vigoux/LanguageTool.nvim
+" let g:languagetool_server='/usr/share/java/languagetool/languagetool-server.jar'
+" Plug 'vigoux/LanguageTool.nvim', {'for':['markdown', 'tex]}
+"
+" augroup AugroupLanguageServerTool
+"   autocmd Filetype tex LanguageToolSetUp
+"   autocmd Filetype markdown LanguageToolSetUp
+" augroup END
+
 " }}}

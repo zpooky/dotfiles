@@ -856,6 +856,7 @@ call SetupTmp()
 
 " Custom mappings {{{
 " Alternative save
+" TODO if tabs > 1 do this. other wise remove 'silent!'
 nnoremap <leader>w <esc>:silent! wa<CR>
 " Alternative quit
 nnoremap <silent> <leader>q <esc>:q<CR>
