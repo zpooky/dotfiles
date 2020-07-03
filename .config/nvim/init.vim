@@ -868,12 +868,19 @@ Plug 'nickhutchinson/vim-cmake-syntax'
 " augroup END
 " }}}
 
-" markdown syntax
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-let g:vim_markdown_new_list_item_indent = 2
-let g:vim_markdown_auto_insert_bullets = 0
-let g:vim_markdown_folding_style_pythonic = 1
+" markdown syntax {{{
+" Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+" let g:vim_markdown_new_list_item_indent = 2
+" let g:vim_markdown_auto_insert_bullets = 0
+" let g:vim_markdown_folding_style_pythonic = 1
+
 " Plug 'reedes/vim-colors-pencil'   " http://sherifsoliman.com/2016/05/30/favorite-vim-plugins/#vim-colors-pencil
+" }}}
+
+" markdown {{{
+Plug 'tpope/vim-markdown'
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'c', 'dts', 'xml']
+let g:markdown_syntax_conceal = 0
 " }}}
 
 " {{{

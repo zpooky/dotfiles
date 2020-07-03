@@ -1055,7 +1055,9 @@ function! SpookyMirrorFor(file, match, dest) abort
 endfunction
 
 function! SpookyGetMirror(file) abort
-  let fname='\w\+'
+  " let fname='\w\+'
+  let fname='[a-zA-Z0-9_-]\+'
+  " echo a:file
 
   " if SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.vim$', ['\1/\2.cpp'])
   "   return 0
