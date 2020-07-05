@@ -233,6 +233,10 @@ call <sid>hi('chromaticaStatement', s:cdViasfora, {}, 'none', {})
 call <sid>hi('cType', s:cdVSType, {}, 'none', {})
 call <sid>hi('cppType', s:cdVSType, {}, 'none', {})
 " }}}
+"
+" java {{{
+call <sid>hi('rustConditional', s:cdViasfora, {}, 'none', {})
+" }}}
 
 " java {{{
 call <sid>hi('javaStatement', s:cdViasfora, {}, 'none', {})

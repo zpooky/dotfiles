@@ -156,7 +156,7 @@ exec --no-startup-id $HOME/sources/clipster/clipster -d
 # }
 
 ## rtag {
-exec rdm --daemon
+# exec rdm --daemon
 ## }
 
 ## Special keyboard support
@@ -174,8 +174,9 @@ bindsym XF86AudioMute         exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 # }
 
 ## brightness control {
+# user needs to belong to the video group 'sudo usermod -a -G video spooky'
 # set the minimum light level
-exec light -cS 1
+exec light -N 1
 bindsym XF86MonBrightnessDown exec light -U 5
 bindsym XF86MonBrightnessUp exec light -A 5
 ## }

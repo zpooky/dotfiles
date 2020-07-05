@@ -77,9 +77,6 @@ ins_yay_itself
 
 # 3. other
 install_pkg awk
-install_pkg screenfetch
-
-screenfetch
 
 # gvim for xterm support
 has_feature vim
@@ -92,6 +89,11 @@ fi
 #   install_pkg powerline
 #   install_pkg python-powerline
 # fi
+
+# TODO
+# - man-db
+# - man-pages
+
 
 install_pkg shellcheck
 
@@ -203,7 +205,7 @@ install_pkg ranger
 install_graphic_pkg firefox
 install_pkg wget
 install_pkg sudo
-install_pkg python2
+# install_pkg python2
 install_pkg cmake
 install_pkg clang
 install_pkg python
@@ -224,11 +226,11 @@ install_pkg yapf
 # install_graphic_pkg tor-browser
 
 #for wifi-menu
-install_graphic_pkg dialog
-install_graphic_pkg wpa_supplicant
+# install_graphic_pkg dialog
+# install_graphic_pkg wpa_supplicant
 
 #actively maintaned fork for newsbeuter
-install_pkg newsboat
+# install_pkg newsboat
 
 # X display server
 if [[ ! -n "${IS_DOCKER}" ]]; then
@@ -255,35 +257,34 @@ if [[ ! -n "${IS_DOCKER}" ]]; then
   if [ $? -eq 1 ]; then
     install i3-wm || exit 1
   fi
-  install_pkg i3lock
 
   #xclip
   install_pkg xclip
 
-  has_feature ipfs
-  if [ $? -eq 1 ]; then
-    install_yay go-ipfs
-  fi
+  # has_feature ipfs
+  # if [ $? -eq 1 ]; then
+  #   install_yay go-ipfs
+  # fi
 
   has_feature light
   if [ $? -eq 1 ]; then
     # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/light.tar.gz"
-    install_yay light
+    install_pkg light
   fi
-
-  has_feature dropbox
-  if [ $? -eq 1 ]; then
-    # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/dropbox.tar.gz"
-    install_yay dropbox
-    systemctl start dropbox --user
-    systemctl enable dropbox --user
-  fi
-
-
-  has_feature dropbox-cli
-  if [ $? -eq 1 ]; then
-    install_yay dropbox-cli
-  fi
+  #
+  # has_feature dropbox
+  # if [ $? -eq 1 ]; then
+  #   # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/dropbox.tar.gz"
+  #   install_yay dropbox
+  #   systemctl start dropbox --user
+  #   systemctl enable dropbox --user
+  # fi
+  #
+  #
+  # has_feature dropbox-cli
+  # if [ $? -eq 1 ]; then
+  #   install_yay dropbox-cli
+  # fi
 
   has_feature spotify
   if [ $? -eq 1 ]; then
@@ -298,12 +299,12 @@ if [[ ! -n "${IS_DOCKER}" ]]; then
   fi
 
   # screensaver
-  install_pkg xscreensaver
-  has_feature electricsheep
-  if [ $? -eq 1 ]; then
-    #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/electricsheep-svn.tar.gz"
-    install_yay electricsheep
-  fi
+  # install_pkg xscreensaver
+  # has_feature electricsheep
+  # if [ $? -eq 1 ]; then
+  #   #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/electricsheep-svn.tar.gz"
+  #   install_yay electricsheep
+  # fi
 
   has_feature syncthing
   if [ $? -eq 1 ]; then
@@ -336,7 +337,7 @@ if [[ ! -n "${IS_DOCKER}" ]]; then
 fi # if IS_DOCKER
 
 #
-install_pkg help2man
+# install_pkg help2man
 
 # daemon to watch for acpi event like backligt power up/down
 has_feature acpid
@@ -364,13 +365,13 @@ fi
 # fi
 
 #
-has_feature ntpd
-if [ $? -eq 1 ]; then
-  install ntp || exit 1
-  systemctl enable ntpd.service
-  systemctl start ntpd.service
-  timedatectl
-fi
+# has_feature ntpd
+# if [ $? -eq 1 ]; then
+#   install ntp || exit 1
+#   systemctl enable ntpd.service
+#   systemctl start ntpd.service
+#   timedatectl
+# fi
 
 install_pkg automake
 
@@ -391,7 +392,7 @@ install_pkg acpi
 #   cabal install spellcheck
 # fi
 
-install_pkg xterm
+# install_pkg xterm
 has_feature zsh
 if [ $? -eq 1 ]; then
   install_pkg zsh
@@ -417,17 +418,17 @@ if [ $? -eq 1 ]; then
   install_yay the_silver_searcher
 fi
 
-has_feature lbdb-fetchaddr
-if [ $? -eq 1 ]; then
-  #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/lbdb.tar.gz"
-  install_yay lbdb
-fi
-
-has_feature davmail
-if [ $? -eq 1 ]; then
-  #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/davmail.tar.gz"
-  install_yay davmail
-fi
+# has_feature lbdb-fetchaddr
+# if [ $? -eq 1 ]; then
+#   #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/lbdb.tar.gz"
+#   install_yay lbdb
+# fi
+#
+# has_feature davmail
+# if [ $? -eq 1 ]; then
+#   #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/davmail.tar.gz"
+#   install_yay davmail
+# fi
 
 has_feature megasync
 if [ $? -eq 1 ]; then
@@ -435,18 +436,10 @@ if [ $? -eq 1 ]; then
   install_yay megasync
 fi
 
-has_feature ctags
-if [ $? -eq 1 ]; then
-  #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/universal-ctags-git.tar.gz"
-  install_yay universal-ctags-git
-fi
+install_pkg ctags
 
 # watch directory for file changes
-has_feature entr
-if [ $? -eq 1 ]; then
-  #install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/entr.tar.gz"
-  install_yay entr
-fi
+install_pkg entr
 
 # has_feature global
 # if [ $? -eq 1 ]; then
@@ -454,10 +447,7 @@ fi
 #   install_yay global
 # fi
 
-has_feature ack
-if [ $? -eq 1 ]; then
-  install_yay ack
-fi
+install_pkg ack
 
 has_feature bear
 if [ $? -eq 1 ]; then
@@ -465,30 +455,30 @@ if [ $? -eq 1 ]; then
   install_yay bear
 fi
 
-has_feature khal
-if [ $? -eq 1 ]; then
-  #   #TODO multiarch
-  #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-tzlocal.tar.gz" || exit 1
-  #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-icalendar.tar.gz" || exit 1
-  #
-  #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/khal.tar.gz"
-  #pip3.6 install --user khal
-  install_yay khal
-fi
-
-# # vdirsyncer
-has_feature vdirsyncer
-if [ $? -eq 1 ]; then
-  #   #TODO multiarch
-  #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-atomicwrites.tar.gz"|| exit 1
-  #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-click-threading.tar.gz"|| exit 1
-  #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-click-log.tar.gz" || exit 1
-  #
-  #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/vdirsyncer.tar.gz"
-
-  #pip3.6 install --user vdirsyncer
-  install_yay vdirsyncer
-fi
+# has_feature khal
+# if [ $? -eq 1 ]; then
+#   #   #TODO multiarch
+#   #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-tzlocal.tar.gz" || exit 1
+#   #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-icalendar.tar.gz" || exit 1
+#   #
+#   #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/khal.tar.gz"
+#   #pip3.6 install --user khal
+#   install_yay khal
+# fi
+#
+# # # vdirsyncer
+# has_feature vdirsyncer
+# if [ $? -eq 1 ]; then
+#   #   #TODO multiarch
+#   #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-atomicwrites.tar.gz"|| exit 1
+#   #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-click-threading.tar.gz"|| exit 1
+#   #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/python-click-log.tar.gz" || exit 1
+#   #
+#   #   install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/vdirsyncer.tar.gz"
+#
+#   #pip3.6 install --user vdirsyncer
+#   install_yay vdirsyncer
+# fi
 
 # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/libtinfo5.tar.gz"
 # yay -S libtinfo5
@@ -507,12 +497,7 @@ fi
 #   install_yay rtv
 # fi
 
-has_feature alacritty
-if [ $? -eq 1 ]; then
-  install_yay alacritty
-  install_yay alacritty-terminfo
-  #   install_aur "https://aur.archlinux.org/alacritty-git.git"
-fi
+install_pkg alacritty
 
 has_feature shfmt
 if [ $? -eq 1 ]; then

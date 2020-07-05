@@ -80,3 +80,32 @@ sudo wifi-menu
 /etc/i3status.conf
 ##keyboard mapping
 ~/.config/i3/config
+
+# local
+/etc/locale.gen:
+```
+sv_SE.UTF-8 UTF-8
+en_US.UTF-8 UTF-8
+```
+/etc/locale.conf:
+```
+LANG=sv_SE.UTF-8
+```
+$ locale-gen
+
+$ localectl status
+$ localectl --no-convert set-x11-keymap se
+/etc/X11/xorg.conf.d/00-keyboard.conf:
+```
+Section "InputClass"
+        Identifier "system-keyboard"
+        MatchIsKeyboard "on"
+        Option "XkbLayout" "se"
+        Option "XkbOptions" "caps:escape" # manually added
+EndSection
+```
+
+
+# light
+user needs to be part of video group in order to write the backlight sysfs file
+sudo usermod -a -G video spooky

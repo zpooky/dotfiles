@@ -11,7 +11,11 @@ is_meson(){
 
 build() {
   local res=0
-  if is_meson; then
+  if [ -e Cargo.toml ]; then
+    cargo build
+    res=$?
+  elif is_meson; then
+    echo "is meson"
 
     if [ ! -e build ]; then
       mkdir build

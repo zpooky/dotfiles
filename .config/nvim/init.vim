@@ -21,11 +21,11 @@ if has('nvim')
   "   - yay -S nodejs-neovim
   " - python2
   "   - yay -S python2-neovim
-  "   - pip2 install --user jedi
+  "   - pip2 install --user --upgrade jedi
   "   - yay -S python2-jedi
   " - python3
   "   - yay -S python-neovim
-  "   - pip3 install --user jedi
+  "   - pip3 install --user --upgrade jedi
   "   - yay -S python-jedi
   "   - pip3 install pynvim --upgrade 
   " - ruby
@@ -298,7 +298,7 @@ endif
 " coc.vim {{{
 " Plug 'neoclide/coc.nvim',{'do':'yarn install'}
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml', 'coc-java', 'coc-rls', 'coc-go']
+let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml', 'coc-java', 'coc-rls', 'coc-rust-analyzer', 'coc-go']
 " https://github.com/josa42/coc-go
 " https://github.com/neoclide/coc-java
 
@@ -323,6 +323,7 @@ augroup AugroupCoc
   autocmd!
   autocmd FileType cpp,sh,c,rust,go,zsh unmap <f3>
   autocmd FileType cpp,sh,c,rust,go,zsh map <silent> <F3> <Plug>(coc-definition)
+  " autocmd FileType cpp,sh,c,rust,go,zsh map <silent> <leader><F3> :tabedit % | call CocActionAsync('jumpDefinition')
 
   " Go to the Type of a variable
   " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-type-definition)
@@ -344,6 +345,10 @@ augroup AugroupCoc
 
   " Add missing imports on save
   autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
+
+  autocmd FileType rust map <leader>a <Plug>(coc-codeaction)
+
+" rust https://github.com/jonhoo/configs/blob/master/editor/.config/nvim/init.vim
 augroup END
 
 " cmake -GNinja -H. -BRelease -DCMAKE_INSTALL_PREFIX=$HOME && ninja -C Release && ninja -C Release install
@@ -407,9 +412,9 @@ if !has('win32unix') && !has('win64unix')
         \   'cpp':    ['g++','cppcheck', 'ccls'],
         \   'c':      ['clangtidy', 'ccls'],
         \   'sh':     ['shellcheck'],
-        \   'rust':   ['rls'],
         \   'markdown': [],
         \}
+  " coc does this instead: 'rust':   ['rls', 'analyzer'],
   " TODO  'redpen', 'writegood'
   " - redpen config (there is no way of in ALE to configure) http://redpen.herokuapp.com/
   " - 'languagetool' in ALE only states there is an grammatical error in this line not more precise
@@ -927,8 +932,17 @@ Plug 'tpope/vim-repeat'
 " gl    | shift argument right
 " gh    | shift argument left
 Plug 'AndrewRadev/sideways.vim'
-nmap gl <Esc>:SidewaysRight<CR>
-nmap gh <Esc>:SidewaysLeft<CR>
+" let dict = Hash<String, Vec<String>>::new();
+" []string{"One", "Two", "Three"}
+" dict = {one: 1, two: 2, three: 3}
+" std::unordered_map<k, v>()
+" let xs = [1;2;3]
+" <input name="one" id="two" class="three" />
+" a { color: #fff; background: blue; text-decoration: underline; }
+
+nnoremap gl :SidewaysRight<CR>
+" TODO not working
+nnoremap gh :SidewaysLeft<CR>
 " }}}
 
 " CommandT {{{
