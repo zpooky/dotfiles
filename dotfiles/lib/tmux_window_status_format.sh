@@ -4,18 +4,28 @@ l_pwd="${1}"
 name="#W"
 l_dists="/home/fredriol/dists"
 
-#  black, red, green, yellow, blue, magenta, cyan, white; if supported the bright variants brightred, brightgreen, brightyellow
+#  black, red, green, yellow, blue, magenta, cyan, white; if supported the
+#  bright variants brightred, brightgreen, brightyellow
 
-echo ${l_pwd} >> /tmp/wasd
-
+# echo ${l_pwd} >> /tmp/wasd
 if [[ "${l_pwd}" =~ ^${l_dists}/* ]]; then
   stripped=${l_pwd#"${l_dists}"}
   dist=$(echo "${stripped}" | cut -d "/" -f2)
+  builds="${l_dists}/${dist}/builds"
   build=""
 
-  if [[ "${l_pwd}" =~ ^${l_dists}/${dist}/builds/* ]]; then
+  if [[ "${l_pwd}" =~ ^${builds}/* ]]; then
     stripped=${l_pwd#"${l_dists}/${dist}/builds"}
     build=$(echo "${stripped}" | cut -d "/" -f2)
+  elif [[ -e ${builds} ]]; then
+    files=${builds}/*
+    if [ ${#files[@]} -gt 0 ]; then
+      sep=""
+      for f in $files; do
+        build="${build}${sep}$(basename ${f})"
+        sep=","
+      done
+    fi
   fi
 
   if [ ! -z ${build} ]; then
@@ -23,6 +33,10 @@ if [[ "${l_pwd}" =~ ^${l_dists}/* ]]; then
       name="${dist}:#[fg=yellow]${build}"
     fi
   fi
+elif [ -z "${name}" ];then
+  #TODO this does not work
+  #TODO git
+  name="<deleted?>"
 fi
 
 # name="$(basename ${PWD})"

@@ -9,7 +9,7 @@ scriptencoding utf-8
 
 if has('gui_running')
   " configure font and font size for gvim
-  set guifont=Consolas:h9
+  " set guifont=Consolas:h9
 
   " a gui pops up allowing you to configure font, size...
   " set guifont=*
@@ -1204,8 +1204,9 @@ function! s:SpookyIndentDetect() abort
   " set noexpandtab
   " set expandtab                     " <tab> is converted to spaces
   " set shiftwidth=2                  " number of spaces to use for autoindenting
-  set smarttab                      " insert tabs on the start of a line according
-                                  " to shiftwidth, not tabstop
+  set smarttab                        " insert tabs on the start of a line according
+                                      " to shiftwidth, not tabstop
+  " TODO rust indent with two tabs
   if heuristics.tabs > heuristics.spaces
     " echo "hard"
     set noexpandtab
@@ -1257,3 +1258,31 @@ augroup AutogroupFileSpecific
   autocmd BufNewFile,BufFilePre,BufRead *.h call SpookyHeaderType(expand('%:p'))
 augroup END
 " }}}
+
+" TODO echo path when we enter new buffer
+"nnoremap
+" map <silent> gt :tabnext <bar> redraw <bar> echo @%<cr>
+" nnoremap <expr> gt :tabnext v:count <bar> redraw <bar> echo @%<cr>
+
+function! SpookyTabnext() abort
+  if v:count > 0
+    if tabpagenr() == v:count
+      return
+    endif
+    " echomsg v:count.'|'.tabpagenr()
+    echomsg 'tabnext '.v:count.' | redraw | echo expand("%:p")'
+    execute 'tabnext '.v:count.' | redraw | echo expand("%:p")'
+  else
+    execute 'tabnext | redraw | echo expand("%:p")'
+  endif
+endfunction
+" echo fnameescape(fnamemodify(finddir('.git',escape(expand('%:p:h'), ' ') . ';'), ':h'))
+
+
+" nnoremap <expr> wasd :call SpookyTabnext(v:count)<cr>
+" nnoremap <silent> wasd :call SpookyTabnext()<cr>
+" nnoremap <expr> wasd (v:count > 0 ? ":".v:count."tabnext" : ":tabnext") <bar> redraw <bar> echo @%
+" set laststatus=2
+" set statusline+=%F
+"
+" nnoremap <expr> - (v:count > 3 ? "m'" . v:count : '') . '-'

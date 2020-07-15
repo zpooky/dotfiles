@@ -249,9 +249,20 @@ call <sid>hi('javaType', s:cdVSType, {}, 'none', {})
 " Markdown {{{
 " #List item prefix(-)
 call <sid>hi('mkdListItem', s:cdViasfora, {}, 'bold', {})
+call <sid>hi('markdownListMarker', s:cdViasfora, {}, 'bold', {})
 " ##URL
 call <sid>hi('mkdInlineURL', s:cdYellow, {}, 'none', {})
 " }}}
+
+" '------------------------------- ...'
+call <sid>hi('markdownRule', s:cdLightBlue, {}, 'none', {})
+
+" ``` code block```
+call <sid>hi('markdownCode', s:cdOrange, {}, 'none', {})
+call <sid>hi('markdownRainbow_lv0_r0', s:cdOrange, {}, 'none', {})
+call <sid>hi('markdownRainbow_lv0_r1', s:cdOrange, {}, 'none', {})
+call <sid>hi('markdownRainbow_lv1_r0', s:cdOrange, {}, 'none', {})
+
 
 " Diff {{{
 call <sid>hi('diffRemoved', s:cdRed, {}, 'none', {})

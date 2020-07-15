@@ -21,6 +21,14 @@ if [ -e ~/development/xcam-scan ]; then
   export PATH=$PATH:~/development/xcam-scan
 fi
 
+if [ -e ~/go ]; then
+  export PATH=~/go/bin:$PATH
+  export GOPATH=~/gopath
+  if [ -e "${GOPATH}" ]; then
+    export PATH=$GOPATH/bin:$PATH
+  fi
+fi
+
 export NVM_DIR="$HOME/sources/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -168,6 +176,12 @@ function ssh_192_168_0_90() {
     l_env+=' && echo "  else" >> $HOME/.shinit'
     l_env+=' && echo "    vi \$@" >> $HOME/.shinit'
     l_env+=' && echo "  fi" >> $HOME/.shinit'
+    l_env+=' && echo "}" >> $HOME/.shinit'
+
+    l_env+=' && echo "debug_monolith() {" >> $HOME/.shinit'
+    l_env+=' && echo "  systemctl stop monolith" >> $HOME/.shinit'
+    l_env+=' && echo "  systemctl mask monolith" >> $HOME/.shinit'
+    l_env+=' && echo "  GST_DEBUG=2,monolith:5,rtpbin:4,cachememory:5,cache:5,cachesink:5,cachebufferpool:5 monolith -m 54321" >> $HOME/.shinit'
     l_env+=' && echo "}" >> $HOME/.shinit'
 
     l_env+=' && echo "alias dmesg_tail=\"while true; do dmesg -c ; sleep 1 ; done\"" >> $HOME/.shinit'
@@ -438,6 +452,11 @@ function deploy_192_168_0_90(){
     local l_dest="/usr/lib/libevent2.so"
     local l_source="${project_dir}/oe-workdir/package/usr/lib/libevent2.so"
     local l_systemd_name=(action-engine-user action-engine-system)
+    l_systemd=true
+  elif [ "${project}" = "camviewsetup-cgi" ]; then
+    local l_dest="/usr/bin/camviewsetup-cgi"
+    local l_source="${project_dir}/oe-workdir/package/usr/bin/camviewsetup-cgi"
+    local l_systemd_name="camviewsetup-cgi"
     l_systemd=true
   elif [ "${project}" = "mediaclip-cgi" ]; then
     local l_source="${project_dir}/oe-workdir/package/usr/html/axis-cgi"
@@ -1533,13 +1552,15 @@ function dists_size() {
     if [ -d "${dist}" ]; then
       local build_path="${dist}/builds"
 
-      for machine in "${build_path}"/*; do
-        local tmp_path="${machine}/tmp"
+      if [ -e $build_path ]; then
+        for machine in "${build_path}"/*; do
+          local tmp_path="${machine}/tmp"
 
-        if [ -e "${tmp_path}" ]; then
-          echo "${tmp_path}"
-        fi
-      done
+          if [ -e "${tmp_path}" ]; then
+            echo "${tmp_path}"
+          fi
+        done
+      fi
     fi
   done
 }
@@ -1599,6 +1620,59 @@ function bitbake_repo_sync(){
       fi
     fi
   done
+}
+
+function bitbake_backtrace() {
+  if ! valid_build_dir; then
+    return 1
+  fi
+  # TODO
+  local dir="${BUILDDIR}/tmp/work/m3077_plve-poky-linux-gnueabi/axis-image-cvp/1.0-r0/rootfs-dbg"
+  if [ ! -e "${dir}" ]; then
+    echo "${dir} does not exist" 1>&2
+    return 2
+  fi
+
+  if [ ! $1 ]; then
+    echo "missing backtrace" 1>&2
+    return 3
+  fi
+
+  IFS=$'\n'
+  arr=(${1})
+
+  for CURRENT in "${arr[@]}"; do
+    regex2='.*\/(.*)\(([a-zA-Z_0-9]+)[+-x0-9]+\)'
+    regex='.*\/(.*)\(([+-x0-9]+)\)'
+    if [[ "${CURRENT}" =~ $regex ]]; then
+      # echo "find ${dir} -name ${BASH_REMATCH[1]} "
+      res=$(find "${dir}" -name "${BASH_REMATCH[1]}*" | egrep '.*')
+      if [ ! $? -eq 0 ]; then
+        # echo "missing ${BASH_REMATCH[1]}"
+        # exit 1
+        echo "$CURRENT"
+      else
+        res2=$(echo "$res" | grep -v '\.py$')
+        if [ ! $? -eq 0 ]; then
+          return 4
+        fi
+        # echo "res2: $res2"
+        echo "addr2line -a -f -e ${res2} ${BASH_REMATCH[2]}" 1>&2
+        parts=($(addr2line -a -f -e "${res2}" "${BASH_REMATCH[2]}"))
+        # addr2line -a -f -e "${res2}" "${BASH_REMATCH[2]}"
+        bs=$(basename "${parts[2]}")
+        echo "${parts[1]} $bs"
+        # echo "${BASH_REMATCH[1]}"
+        # echo "${BASH_REMATCH[2]}"
+      fi
+    elif [[ "${CURRENT}" =~ $regex2 ]]; then
+      # echo "$CURRENT"
+      echo "${BASH_REMATCH[2]} ${BASH_REMATCH[1]}"
+    else
+      echo "$CURRENT"
+    fi
+  done
+
 }
 
 # setxkbmap -option caps:escape
