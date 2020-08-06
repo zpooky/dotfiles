@@ -112,11 +112,14 @@ install_pkg yarn
 install_pkg ruby
 install_pkg npm
 
+# wifi
+install_pkg iwd
+
 # scala language server
 install_yay metals
 
 # clang based language server
-install_yay ccls
+install_pkg ccls
 
 # Eclipse Java language server
 install_yay jdtls

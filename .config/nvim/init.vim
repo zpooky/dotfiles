@@ -298,7 +298,7 @@ endif
 " coc.vim {{{
 " Plug 'neoclide/coc.nvim',{'do':'yarn install'}
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml', 'coc-java', 'coc-rls', 'coc-rust-analyzer', 'coc-go']
+let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-yaml', 'coc-xml', 'coc-java', 'coc-rls', 'coc-rust-analyzer', 'coc-go', 'coc-jedi', 'coc-metals', 'coc-sql', 'coc-vimlsp']
 " https://github.com/josa42/coc-go
 " https://github.com/neoclide/coc-java
 
@@ -321,9 +321,15 @@ let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-python', 'coc-yaml',
 
 augroup AugroupCoc
   autocmd!
-  autocmd FileType cpp,sh,c,rust,go,zsh unmap <f3>
-  autocmd FileType cpp,sh,c,rust,go,zsh map <silent> <F3> <Plug>(coc-definition)
+  autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java unmap <f3>
+  " autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java unmap gd
+  autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java map <silent> <F3> <Plug>(coc-definition)
   " autocmd FileType cpp,sh,c,rust,go,zsh map <silent> <leader><F3> :tabedit % | call CocActionAsync('jumpDefinition')
+
+  autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java nmap <silent> gd <Plug>(coc-definition)
+  autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java nmap <silent> gy <Plug>(coc-type-definition)
+  autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java nmap <silent> gi <Plug>(coc-implementation)
+  autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java nmap <silent> gr <Plug>(coc-references)
 
   " Go to the Type of a variable
   " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-type-definition)
@@ -598,10 +604,12 @@ let g:neoformat_enabled_rust = ['rustfmt']
 let g:neoformat_enabled_json = ['jq']
 let g:neoformat_only_msg_on_error = 1
 
+" TODO scala,java
+
 augroup AugroupNeoformat
   autocmd!
-  autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust,json nnoremap <buffer><leader>f <esc>:Neoformat<CR>
-  autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust,json vnoremap <buffer><leader>f <esc>:Neoformat<CR>
+  autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust,json,scala,java nnoremap <buffer><leader>f <esc>:Neoformat<CR>
+  autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust,json,scala,java vnoremap <buffer><leader>f <esc>:Neoformat<CR>
 augroup END
 " }}}
 
@@ -618,8 +626,8 @@ Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
 " " delay refresh
 " let g:codi#autocmd = 'InsertLeave'
 "
-let g:codi#width = 120
-let g:codi#rightalign =0
+" let g:codi#width = 120
+let g:codi#rightalign = 0
 
 " # vim             command
 " Codi [filetype] - activates Codi
@@ -802,7 +810,7 @@ let g:haskell_conceal_wide = 1
 " #########
 " vim-scala {{{
 " scala support
-Plug 'derekwyatt/vim-scala',programming_scala
+" Plug 'derekwyatt/vim-scala',programming_scala
 " https://scalameta.org/metals/docs/editors/vim.html
 
 augroup AugroupScala
@@ -957,7 +965,7 @@ if !has('win32') && !has('win64')
   nmap <silent> <Leader>. <Plug>(CommandTTag)
 
   " bitbake: oe-logs,oe-workdir
-  let g:CommandTWildIgnore=&wildignore . ",*.log,oe-logs,oe-workdir"
+  let g:CommandTWildIgnore=&wildignore . ",*.log,oe-logs,oe-workdir,*.wav"
   let g:CommandTFileScanner="find"
 
   " let g:CommandTTagIncludeFilenames=1
