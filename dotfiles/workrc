@@ -458,6 +458,11 @@ function deploy_192_168_0_90(){
     local l_source="${project_dir}/oe-workdir/package/usr/bin/camviewsetup-cgi"
     local l_systemd_name="camviewsetup-cgi"
     l_systemd=true
+  elif [ "${project}" = "lens-correctiond" ]; then
+    local l_dest="/usr/bin/lens_correctiond"
+    local l_source="${project_dir}/oe-workdir/package/usr/bin/lens_correctiond"
+    local l_systemd_name="lens-correction"
+    l_systemd=true
   elif [ "${project}" = "mediaclip-cgi" ]; then
     local l_source="${project_dir}/oe-workdir/package/usr/html/axis-cgi"
 

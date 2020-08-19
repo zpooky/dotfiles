@@ -892,7 +892,7 @@ Plug 'nickhutchinson/vim-cmake-syntax'
 
 " markdown {{{
 Plug 'tpope/vim-markdown'
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'c', 'dts', 'xml', 'strace', 'zsh=sh']
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'c', 'dts', 'xml', 'strace', 'zsh=sh', 'cpp']
 let g:markdown_syntax_conceal = 0
 " }}}
 
