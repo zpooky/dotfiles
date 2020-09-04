@@ -1,6 +1,11 @@
 " Turn off vi compatibility.(sould be set first)
 set nocompatible
 
+" always show tab bar
+set showtabline=2
+" the limit of the number of files opened by vim -p
+set tabpagemax=100
+
 " encoding {{{
 set encoding=utf-8      " The encoding used
 set fileencoding=utf-8  " The encoding of the resulting output file

@@ -13,10 +13,14 @@ if [[ "${l_pwd}" =~ ^${l_dists}/* ]]; then
   dist=$(echo "${stripped}" | cut -d "/" -f2)
   builds="${l_dists}/${dist}/builds"
   build=""
+  workspace=""
 
   if [[ "${l_pwd}" =~ ^${builds}/* ]]; then
     stripped=${l_pwd#"${l_dists}/${dist}/builds"}
     build=$(echo "${stripped}" | cut -d "/" -f2)
+    if [[ "${l_pwd}" =~ ^${builds}/${build}/workspace/sources/([a-zA-Z0-9_\.-]+) ]]; then
+      workspace=":#[fg=green]${BASH_REMATCH[1]}"
+    fi
   elif [[ -e ${builds} ]]; then
     files=${builds}/*
     if [ ${#files[@]} -gt 0 ]; then
@@ -30,18 +34,14 @@ if [[ "${l_pwd}" =~ ^${l_dists}/* ]]; then
 
   if [ ! -z ${build} ]; then
     if [ "${build}" != "${dist}" ]; then
-      name="${dist}:#[fg=yellow]${build}"
+      name="${dist}:#[fg=cyan]${build}${workspace}"
     fi
   fi
-elif [ -z "${name}" ];then
-  #TODO this does not work
-  #TODO git
-  name="<deleted?>"
 fi
 
 # name="$(basename ${PWD})"
 
-echo "#[fg=yellow,bold]#I#[fg=white]:${name}#{?window_zoomed_flag,+Z,}"
+echo "#[fg=yellow,bold]#I#[fg=white]:${name}#{?window_zoomed_flag,#[fg=blue]+Z,}"
 
 #   alternate_on                    If pane is in alternate screen
 #   alternate_saved_x               Saved cursor X in alternate screen

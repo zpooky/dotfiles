@@ -1593,7 +1593,10 @@ function bitbake_repo_sync(){
       # echo "${fname}|${bb_name}"
 
       local search_dir=""
-      if [ "${bb_name}" = "devicetree" ]; then
+      if [ "${bb_name}" = "hwconfig" ]; then
+        search_dir="${meta_axis_bsp}"
+        needle="${bb_name}_"
+      elif [ "${bb_name}" = "devicetree" ]; then
         search_dir="${meta_axis_bsp}"
         needle="${bb_name}_"
       elif [ "${bb_name}" = "linux-axis" ]; then
