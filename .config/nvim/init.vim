@@ -516,6 +516,11 @@ let g:tagbar_type_cpp = {
 " <leader>+c | // comment
 " <leader>+= | /* multiline
 " TODO make <leader>+c behave as gc in visual mode
+" let g:tcomment#filetype#syntax_map = {...}
+let g:tcomment_types = {
+      \'codipython'            : "# %s"
+      \ }
+
 Plug 'tomtom/tcomment_vim'
 nmap <leader>c <esc>:TComment<CR>
 nmap <leader>= <esc>:TCommentBlock<CR>
@@ -1138,8 +1143,9 @@ Plug 'tpope/vim-obsession'
 " }}}
 
 " align text around character {{{
+" markdown table align format
 let g:lion_squeeze_spaces = 1
-" glip=     | align in paragraph around =
+"visual mode: 'gl|': align in paragraph around =
 Plug 'tommcdo/vim-lion'
 " }}}
 

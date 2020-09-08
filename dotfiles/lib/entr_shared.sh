@@ -9,6 +9,13 @@ is_meson(){
   return 1
 }
 
+is_cmake(){
+  if [ -e CMakeLists.txt ]; then
+    return 0
+  fi
+  return 1
+}
+
 build() {
   local res=0
   if [ -e Cargo.toml ]; then
@@ -40,6 +47,25 @@ build() {
     # make and discard everything from stdout(display only errors & warnings)
     make 1> /dev/null
     res=$?
+  elif is_cmake; then
+    if [ ! -e build ]; then
+      mkdir build
+      res=$?
+    fi
+    if [ $res -eq 0 ]; then
+      cd build
+
+      if [ ! -e CMakeCache.txt ] || [ ! -e CMakeFiles ] || [ ! -e cmake_install.cmake ]; then
+        cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+        res=$?
+      fi
+
+      if [ $res -eq 0 ]; then
+        make
+        res=$?
+      fi
+    fi
+
   else
     echo "missing buld tool">&2
     exit 1

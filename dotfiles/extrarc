@@ -314,13 +314,16 @@ function sp_calc(){
     local codi_file="${1}"
   fi
 
-  vim -p "${codi_file}" -c "
+  nvim -p "${codi_file}" -c "
     set scrollbind
     set cursorbind
     hi ColorColumn ctermbg=NONE
     hi VertSplit ctermbg=NONE
     hi NonText ctermfg=0
-    Codi python "
+    Codi python
+    set ft=codipython
+    set syntax=python
+    "
 }
 
 function sp_calc_cpp() {

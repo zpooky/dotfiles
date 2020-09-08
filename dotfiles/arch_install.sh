@@ -115,6 +115,10 @@ install_pkg npm
 # wifi
 install_pkg iwd
 
+# dev
+install_pkg backward-cpp
+install_pkg gtest
+
 # scala language server
 install_yay metals
 

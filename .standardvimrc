@@ -786,6 +786,8 @@ iab pritnf printf
 iab szie_t size_t
 iab typdef typedef
 
+iab distrubition distribution
+
 " iab nullpt nullptr
 " iab nullp nullptr
 " iab null nullptr
