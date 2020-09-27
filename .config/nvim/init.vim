@@ -899,6 +899,7 @@ Plug 'nickhutchinson/vim-cmake-syntax'
 Plug 'tpope/vim-markdown'
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'c', 'dts', 'xml', 'strace', 'zsh=sh', 'cpp']
 let g:markdown_syntax_conceal = 0
+let g:markdown_minlines = 9000
 " }}}
 
 " {{{
