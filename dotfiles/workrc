@@ -463,6 +463,41 @@ function deploy_192_168_0_90(){
     local l_source="${project_dir}/oe-workdir/package/usr/bin/lens_correctiond"
     local l_systemd_name="lens-correction"
     l_systemd=true
+  elif [ "${project}" = "temperature-ctrld" ]; then
+    local l_dest="/usr/bin/temperature_ctrld"
+    local l_source="${project_dir}/oe-workdir/package/usr/bin/temperature_ctrld"
+    local l_systemd_name="temperature-controller"
+    l_systemd=true
+  elif [ "${project}" = "powerd" ]; then
+    local l_dest="/usr/bin/powerd"
+    local l_source="${project_dir}/oe-workdir/package/usr/bin/powerd"
+    local l_systemd_name="power-controller"
+    l_systemd=true
+  elif [ "${project}" = "powerd-conf" ]; then
+    local l_product=$(basename $BUILDDIR)
+    local l_pconf="${project_dir}/powerd_${l_product}.conf"
+    local l_systemd_name="power-controller"
+    if [ ! -e ${l_conf} ]; then
+      return 1
+    fi
+
+    local l_dest="/etc/powerd/powerd.conf"
+    echo "sshpass -p ${l_pass} scp ${l_pconf} ${l_user}@${l_ip}:${l_dest}"
+    sshpass -p "${l_pass}" scp "${l_pconf}" "${l_user}"@"${l_ip}":"${l_dest}"
+    if [ ! $? -eq 0 ]; then
+      return 2
+    fi
+    ssh_192_168_0_90_execute "chown power:power ${l_dest}"
+    if [ ! $? -eq 0 ]; then
+      return 3
+    fi
+
+    ssh_192_168_0_90_execute "systemctl restart ${l_systemd_name}"
+    if [ ! $? -eq 0 ]; then
+      return 4
+    fi
+
+    return 0
   elif [ "${project}" = "mediaclip-cgi" ]; then
     local l_source="${project_dir}/oe-workdir/package/usr/html/axis-cgi"
 
@@ -664,7 +699,7 @@ function ssh_192_168_0_90_execute(){
 
   local cmd="$1"
 
-  echo "sshpass -p ${l_pass} ssh -q ${l_user}@${l_ip} \"${cmd}\""
+  echo "sshpass -p ${l_pass} ssh -q ${l_user}@${l_ip} \"${cmd}\"" >&2
   sshpass -p "${l_pass}" ssh -qt ${l_user}@${l_ip} "${cmd}"
   return $?
 }
@@ -767,7 +802,11 @@ function http_ok() {
         sleep 5s
       fi
 
-      ftp -u ftp://${l_user}:${l_pass}@${l_ip}/flash_all ${l_image}
+      # ftp -u ftp://${l_user}:${l_pass}@${l_ip}/flash_all ${l_image}
+      curl -D - -S -s -T ${l_image} ftp://${l_user}:${l_pass}@${l_ip}/flash_all
+
+      # echo "ftp-upload -h ${l_ip} -u ${l_user} --password ${l_pass} -d /flash_all ${l_image}"
+      # ftp-upload -h ${l_ip} -u ${l_user} --password ${l_pass} -d /flash_all ${l_image}
       local ret=$?
       if [ ${ret} -eq 0 ]; then
         notify-send "flashing ${l_ip} [DONE]" "${l_image} [DONE]"
@@ -1243,27 +1282,34 @@ function portcast_features(){
     local ax_name="$(basename ${ax})"
     local product_name="$(cut -d '.' -f1 <<< $ax_name)"
     local audiocontrol_conf_product="${audiocontrol_conf_root}/products/${product_name}/audiocontrol_prod.inc"
+    local audio_sources=$(grep AXIS_CONFIG_AUDIO_SOURCES "${ax}")
 
+    # if [ "$audio_sources" = "AXIS_CONFIG_AUDIO_SOURCES=0" ]; then
     echo "========================================"
     echo "# ${product_name}"
+    grep "AXIS_CONFIG_AUDIO=" "${ax}" | xargs echo "-"
     grep AXIS_CONFIG_AUDIO_OUTPUTS "${ax}" | xargs echo "-"
     grep AXIS_CONFIG_AUDIO_SOURCES "${ax}" | xargs echo "-"
-    grep "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_DEFAULT" "${ax}" | xargs echo "- default:"
-    grep -E "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_[0-9]+" "${ax}" | xargs -n1 echo "-"
-    grep -E "AXIS_CONFIG_SIP" "${ax}" | xargs echo "-"
+    grep AXIS_CONFIG_PORTCAST "${ax}" | xargs echo "-"
+    # fi
+    # grep "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_DEFAULT" "${ax}" | xargs echo "- default:"
+    # grep -E "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_[0-9]+" "${ax}" | xargs -n1 echo "-"
+    # grep -E "AXIS_CONFIG_SIP" "${ax}" | xargs echo "-"
+    # grep -E "AXIS_CONFIG_AUDIO_INPUT_TYPE_INTERNAL" "${ax}" | xargs echo "-"
+    # grep -E "AXIS_CONFIG_AUDIO_INTERNAL_MIC_TYPE_analog" "${ax}" | xargs echo "-"
 
-    echo "## I/O"
-    grep AXIS_CONFIG_GPIOMAP "${ax}"| xargs echo "?"
-    grep AXIS_CONFIG_IO_INPUTS "${ax}" | xargs echo "?"
+    # echo "## I/O"
+    # grep AXIS_CONFIG_GPIOMAP "${ax}"| xargs echo "?"
+    # grep AXIS_CONFIG_IO_INPUTS "${ax}" | xargs echo "?"
 
-    echo "## audiocontrol-conf"
-    if [ -e "${audiocontrol_conf_product}" ]; then
-      dumpProperties "${default_audiocontrol_conf}" "${audiocontrol_conf_product}"
-    else
-      dumpProperties "${default_audiocontrol_conf}"
-    fi
+    # echo "## audiocontrol-conf"
+    # if [ -e "${audiocontrol_conf_product}" ]; then
+    #   dumpProperties "${default_audiocontrol_conf}" "${audiocontrol_conf_product}"
+    # else
+    #   dumpProperties "${default_audiocontrol_conf}"
+    # fi
 
-    echo
+    # echo
   done
 }
 
@@ -1681,6 +1727,39 @@ function bitbake_backtrace() {
     fi
   done
 
+}
+
+function spooky_boot_axis() {
+  if ! valid_build_dir; then
+    return 1
+  fi
+  local fimage="${BUILDDIR}/fimage"
+  if [ ! -e ${fimage} ]; then
+    echo "fimage does not exist (${fimage})">&2
+    return 1
+  fi
+
+  local bootb="$(ssh_192_168_0_90_execute 'bootblocktool -err -lw')"
+  local ret=$?
+  if [ ! $ret -eq 0 ]; then
+    echo "failed getting existing bootblock" >&2
+    return $ret
+  fi
+  local bootb="$(echo $bootb | tr -d '\r' | tr -d '\n' | tr -d '\b' | tr -d '\t' | tr -d '\v' | tr -d '\f')"
+
+  local hwid="$(ssh_192_168_0_90_execute 'bootblocktool -err -x HWID')"
+  local ret=$?
+  if [ ! $ret -eq 0 ]; then
+    echo "failed gettign HWID" >&2
+    return $ret
+  fi
+  local hwid="$(echo ${hwid} | tr -d '\r' | tr -d '\n' | tr -d '\b' | tr -d '\t' | tr -d '\v' | tr -d '\f')"
+
+  # echo "${fimage}"
+  # echo "${bootb}"
+  # echo "${hwid}"
+
+  echo "boot_axis -i ${fimage} -FW ${hwid} -w \"${bootb}\""
 }
 
 # setxkbmap -option caps:escape
