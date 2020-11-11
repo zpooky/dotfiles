@@ -41,5 +41,11 @@ from operator import xor
 import numpy as np
 import matplotlib.pyplot as plt
 
+def gcd(a, b):
+  if b == 0:
+    return a
+  else:
+    return gcd(b, a%b)
+
 sys.setrecursionlimit(1500)
 

@@ -14,20 +14,17 @@ endif
 if has('nvim')
   " - sh
   "   - npm install bash-language-server
-  "   - yay -S bash-language-server
-  "   - yay -S shfmt
+  "   - yay -S bash-language-server shfmt
   " - js
   "   - npm install -g neovim
   "   - yay -S nodejs-neovim
   " - python2
-  "   - yay -S python2-neovim
   "   - pip2 install --user --upgrade jedi
-  "   - yay -S python2-jedi
+  "   - yay -S python2-neovim python2-jedi
   " - python3
-  "   - yay -S python-neovim
   "   - pip3 install --user --upgrade jedi
-  "   - yay -S python-jedi
-  "   - pip3 install pynvim --upgrade 
+  "   - yay -S python-neovim python-jedi
+  "   - pip3 install pynvim --upgrade
   " - ruby
   "   - yay -S ruby-neovim
   "   - gem install neovim
@@ -40,8 +37,7 @@ if has('nvim')
   " - scala
   "   - yay -S metals
   " - markdown
-  "   - yay -S redpen
-  "   - yay -S languagetool
+  "   - yay -S redpen languagetool
   "
   " npm install --global prettier --upgrade
   " pip3 install --user yapf --upgrade
@@ -564,7 +560,7 @@ if !has('win32unix') && !has('win64unix')
   " let g:gutentags_trace=1
   " let g:gutentags_define_advanced_commands=1
 
-  let g:gutentags_ctags_exclude=['autoconf','*.md','configure', 'Makefile','CMakeLists.txt','*.cmake','*.mak', '*.am','*.in','*.m4','*.html','*.php','*.py','*.service', '*.mount','*.target','*.css','*.rst', '*.json', 'Session.vim', '*.dtd', '*.patch','*.ac','*.pm','.ccls-cache']
+  let g:gutentags_ctags_exclude=['autoconf','*.md','configure', 'Makefile','CMakeLists.txt','*.cmake','*.mak', '*.am','*.in','*.m4','*.html','*.php','*.py','*.service', '*.mount','*.target','*.css','*.rst', '*.json', 'Session.vim', '*.dtd', '*.patch','*.ac','*.pm','.ccls-cache', 'svg']
 
   " let g:gutentags_file_list_command = 'ack -f --nohtml --nojson --nomd '
   " let g:gutentags_file_list_command = {

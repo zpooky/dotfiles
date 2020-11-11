@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# https://shaharmike.com/cpp/build-clang/
+
 PREV_DIR=`pwd`
 
 SOURCES_ROOT=$HOME/sources

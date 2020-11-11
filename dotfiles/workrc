@@ -383,95 +383,105 @@ function deploy_192_168_0_90(){
   $HOME/development/axis/tpp/ff enable-ssh
 
   if [ "${project}" = "ioboxd" ]; then
-    local l_dest="/usr/bin/ioboxd"
-    local l_source="${project_dir}/oe-workdir/package/usr/bin/ioboxd"
+    local l_dest=("/usr/bin/ioboxd")
+    local l_source=("${project_dir}/oe-workdir/package/usr/bin/ioboxd")
     local l_systemd_name="ioboxd"
     l_systemd=true
   elif [ "${project}" = "monolith" ]; then
-    local l_dest="/usr/bin/monolith"
-    local l_source="${project_dir}/monolith/oe-workdir/package/usr/bin/monolith"
+    local l_dest=("/usr/bin/monolith")
+    local l_source=("${project_dir}/monolith/oe-workdir/package/usr/bin/monolith")
     local l_systemd_name="monolith"
     l_systemd=true
   elif [ "${project}" = "wsd" ]; then
-    local l_dest="/usr/bin/wsd"
-    local l_source="${project_dir}/oe-workdir/package/usr/bin/wsd"
+    local l_dest=("/usr/bin/wsd")
+    local l_source=("${project_dir}/oe-workdir/package/usr/bin/wsd")
     local l_systemd_name="wsd"
     l_systemd=true
   elif [ "${project}" = "sipd" ]; then
-    local l_dest="/usr/bin/sipd"
-    local l_source="${project_dir}/oe-workdir/package/usr/bin/sipd"
+    local l_dest=("/usr/bin/sipd")
+    local l_source=("${project_dir}/oe-workdir/package/usr/bin/sipd")
     local l_systemd_name="sipd"
     l_systemd=true
   elif [ "${project}" = "audiocontrol" ]; then
-    local l_dest="/usr/bin/audiocontrol"
-    local l_source="${project_dir}/oe-workdir/package/usr/bin/audiocontrol"
+    local l_dest=("/usr/bin/audiocontrol")
+    local l_source=("${project_dir}/oe-workdir/package/usr/bin/audiocontrol")
     local l_systemd_name="audiocontrol"
     l_systemd=true
   elif [ "${project}" = "audio-streaming-caps-cgi" ]; then
-    local l_dest="/usr/html/axis-cgi/audio/streamingcapabilities.cgi"
-    local l_source="${project_dir}/oe-workdir/package/usr/html/axis-cgi/audio/streamingcapabilities.cgi"
+    local l_dest=("/usr/html/axis-cgi/audio/streamingcapabilities.cgi")
+    local l_source=("${project_dir}/oe-workdir/package/usr/html/axis-cgi/audio/streamingcapabilities.cgi")
     local l_systemd_name="httpd"
     l_systemd=true
   elif [ "${project}" = "audio-service" ]; then
-    local l_dest="/usr/bin/audio-service"
-    local l_source="${project_dir}/audio-service/oe-workdir/package/usr/bin/audio-service"
+    local l_dest=("/usr/bin/audio-service")
+    local l_source=("${project_dir}/audio-service/oe-workdir/package/usr/bin/audio-service")
     local l_systemd_name="audio-service"
     l_systemd=true
   elif [ "${project}" = "audiodevicecontrol-cgi" ]; then
-    local l_dest="/usr/html/axis-cgi/audiodevicecontrol.cgi"
-    local l_source="${project_dir}/oe-workdir/package/usr/html/axis-cgi/audiodevicecontrol.cgi"
+    local l_dest=("/usr/html/axis-cgi/audiodevicecontrol.cgi")
+    local l_source=("${project_dir}/oe-workdir/package/usr/html/axis-cgi/audiodevicecontrol.cgi")
     local l_systemd_name="httpd"
     l_systemd=true
   elif [ "${project}" = "device-monitor" ]; then
-    local l_dest="/usr/bin/dmonitord"
-    local l_source="${project_dir}/oe-workdir/package/usr/bin/dmonitord"
+    local l_dest=("/usr/bin/dmonitord")
+    local l_source=("${project_dir}/oe-workdir/package/usr/bin/dmonitord")
     local l_systemd_name="device-monitor"
     l_systemd=true
   elif [ "${project}" = "stm32f070xx-init" ]; then
-    local l_dest="/usr/libexec/stm32f070xx-setup"
+    local l_dest=("/usr/libexec/stm32f070xx-setup")
     # local l_source="${project_dir}/oe-workdir/package/usr/libexec/stm32f070xx-setup"
     local l_source="${project_dir}/stm32f070xx-setup"
     local l_systemd_name="stm32f070xx-setup"
     l_systemd=true
   elif [ "${project}" = "dynamic-device-init" ]; then
-    local l_dest="/usr/libexec/dynamic-device-init"
-    local l_source="${project_dir}/oe-workdir/package/usr/libexec/dynamic-device-init"
+    local l_dest=("/usr/libexec/dynamic-device-init")
+    local l_source=("${project_dir}/oe-workdir/package/usr/libexec/dynamic-device-init")
     local l_systemd_name="dynamic-device-init"
     l_systemd=true
   elif [ "${project}" = "digital-camviewsetupd" ]; then
-    local l_dest="/usr/bin/camviewsetupd"
-    local l_source="${project_dir}/oe-workdir/package/usr/bin/camviewsetupd"
+    local l_dest=("/usr/bin/camviewsetupd")
+    local l_source=("${project_dir}/oe-workdir/package/usr/bin/camviewsetupd")
     local l_systemd_name="camviewsetupd"
     l_systemd=true
   elif [ "${project}" = "actionengined" ]; then
-    local l_dest="/usr/bin/actionengined"
-    local l_source="${project_dir}/oe-workdir/package/usr/bin/actionengined"
+    local l_dest=("/usr/bin/actionengined")
+    local l_source=("${project_dir}/oe-workdir/package/usr/bin/actionengined")
     local l_systemd_name=(action-engine-user action-engine-system)
     l_systemd=true
   elif [ "${project}" = "libevent2" ]; then
-    local l_dest="/usr/lib/libevent2.so"
-    local l_source="${project_dir}/oe-workdir/package/usr/lib/libevent2.so"
+    local l_dest=("/usr/lib/libevent2.so")
+    local l_source=("${project_dir}/oe-workdir/package/usr/lib/libevent2.so")
     local l_systemd_name=(action-engine-user action-engine-system)
     l_systemd=true
   elif [ "${project}" = "camviewsetup-cgi" ]; then
-    local l_dest="/usr/bin/camviewsetup-cgi"
-    local l_source="${project_dir}/oe-workdir/package/usr/bin/camviewsetup-cgi"
+    local l_dest=("/usr/bin/camviewsetup-cgi")
+    local l_source=("${project_dir}/oe-workdir/package/usr/bin/camviewsetup-cgi")
     local l_systemd_name="camviewsetup-cgi"
     l_systemd=true
   elif [ "${project}" = "lens-correctiond" ]; then
-    local l_dest="/usr/bin/lens_correctiond"
-    local l_source="${project_dir}/oe-workdir/package/usr/bin/lens_correctiond"
+    local l_dest=("/usr/bin/lens_correctiond")
+    local l_source=("${project_dir}/oe-workdir/package/usr/bin/lens_correctiond")
     local l_systemd_name="lens-correction"
     l_systemd=true
   elif [ "${project}" = "temperature-ctrld" ]; then
-    local l_dest="/usr/bin/temperature_ctrld"
-    local l_source="${project_dir}/oe-workdir/package/usr/bin/temperature_ctrld"
+    local l_dest=("/usr/bin/temperature_ctrld")
+    local l_source=("${project_dir}/oe-workdir/package/usr/bin/temperature_ctrld")
     local l_systemd_name="temperature-controller"
     l_systemd=true
   elif [ "${project}" = "powerd" ]; then
-    local l_dest="/usr/bin/powerd"
-    local l_source="${project_dir}/oe-workdir/package/usr/bin/powerd"
+    local l_dest=("/usr/bin/powerd" "/usr/lib/power_plugins/libpower_lib.so")
+    local l_source=("${project_dir}/oe-workdir/package/usr/bin/powerd" "${project_dir}/oe-workdir/package/usr/lib/power_plugins/libpower_lib.so")
     local l_systemd_name="power-controller"
+    l_systemd=true
+  elif [ "${project}" = "powerd-plugin-lldpd" ]; then
+    local l_dest=("/usr/sbin/lldpproxy")
+    local l_source=("${project_dir}/oe-workdir/package/usr/sbin/lldpproxy")
+    local l_systemd_name="powerd-plugin-lldpd"
+    l_systemd=true
+  elif [ "${project}" = "lightd" ]; then
+    local l_dest=("/usr/bin/lightd")
+    local l_source=("${project_dir}/oe-workdir/package/usr/bin/lightd")
+    local l_systemd_name="light-controller"
     l_systemd=true
   elif [ "${project}" = "powerd-conf" ]; then
     local l_product=$(basename $BUILDDIR)
@@ -527,7 +537,20 @@ function deploy_192_168_0_90(){
     return 3
   fi
 
-  before_sha256="$(sha256sum ${l_source})"
+  #========================================
+  echo "${l_source[@]}: ${#l_source[@]} 1[${l_source[1]}]"
+  echo "${l_dest[@]}: ${#l_dest[@]} 1[${l_dest[1]}]"
+
+  if [ ! ${#l_source[@]} -eq ${#l_dest[@]} ]; then
+    echo "BUG: Expected as many sources as destinations">&2
+    return 4
+  fi
+
+  before_sha256=()
+  after_sha256=()
+  for src in "${l_source[@]}"; do
+    before_sha256+=("$(sha256sum ${src})")
+  done
 
   overlay_mount_192_168_0_90_async
 
@@ -536,27 +559,33 @@ function deploy_192_168_0_90(){
     return 4
   fi
 
-  if [ ! -e ${l_source} ]; then
-    echo "missing '${l_source}'"
-    return 5
-  fi
+  for src in "${l_source[@]}"; do
+    if [ ! -e ${src} ]; then
+      echo "missing '${src}'"
+      return 5
+    fi
+  done
 
-  if [ ! -f ${l_source} ]; then
-    echo "is not a file '${l_source}'"
-    return 5
-  fi
+  for src in "${l_source[@]}"; do
+    if [ ! -f ${src} ]; then
+      echo "is not a file '${src}'"
+      return 5
+    fi
+  done
 
-  after_sha256="$(sha256sum ${l_source})"
+  for src in "${l_source[@]}"; do
+    after_sha256+=("$(sha256sum ${src})")
+  done
 
   echo "- curl"
 
   setup_ssh_eager
 
-  for cur in "${l_systemd_name[@]}"
-  do
+  for cur in "${l_systemd_name[@]}"; do
     ssh_192_168_0_90_execute "systemctl stop ${cur}"
     local res=$?
     if [ ! $res -eq 0 ]; then
+      echo "FAILED: to stop systemd serverice ${cur}"
       break
     fi
   done
@@ -564,33 +593,51 @@ function deploy_192_168_0_90(){
     ssh_192_168_0_90_execute "echo '=${project}======$(date)==============================' >> /var/log/error.log"
     ssh_192_168_0_90_execute "echo '=${project}======$(date)==============================' >> /var/log/info.log"
     ssh_192_168_0_90_execute "echo '=${project}======$(date)==============================' >> /var/log/warning.log"
+    before_camera_sha256=()
+    after_camera_sha256=()
 
-    before_camera_sha256=$(sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "sha256sum ${l_dest}")
+    for dst in "${l_dest[@]}"; do
+      before_camera_sha256+=($(sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "sha256sum ${dst}"))
+    done
 
-    echo "sshpass -p '${l_pass}' scp -q '${l_source}' '${l_user}'@'${l_ip}':'${l_dest}'"
-    sshpass -p "${l_pass}" scp -q "${l_source}" "${l_user}"@"${l_ip}":"${l_dest}"
-    local res=$?
+    i=1
+    while [ $i -le ${#l_source[@]} ]; do
+      echo "sshpass -p '${l_pass}' scp -q '${l_source[$i]}' '${l_user}'@'${l_ip}':'${l_dest[$i]}'"
+      sshpass -p "${l_pass}" scp -q "${l_source[$i]}" "${l_user}"@"${l_ip}":"${l_dest[$i]}"
+      local res=$?
+      if [ ! $res -eq 0 ]; then
+        echo "FAILED: to scp ${l_source[$i]} to ${l_dest[$i]}"
+        break
+      fi
+      let i=i+1
+    done
 
+    echo "3"
     if [ $res -eq 0 ]; then
-      after_camera_sha256=$(sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "sha256sum ${l_dest}")
+      for dst in "${l_dest[@]}"; do
+        after_camera_sha256+=($(sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "sha256sum ${dst}"))
+      done
 
       # echo "- systemctl start ${l_systemd_name}"
       # sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} "systemctl start ${l_systemd_name}"
       # local res=$?
       # return $res
 
-      echo "# before  LOCAL: ${before_sha256}"
-      echo "# after   LOCAL: ${after_sha256}"
-      echo "# before CAMERA: ${before_camera_sha256}"
-      echo "# after  CAMERA: ${after_camera_sha256}"
+      echo "# before  LOCAL"
+      echo "${before_sha256[@]}"
+      echo "# after   LOCAL"
+      echo "${after_sha256[@]}"
+      echo "# before CAMERA"
+      echo "${before_camera_sha256[@]}"
+      echo "# after  CAMERA"
+      echo "${after_camera_sha256[@]}"
 
       res=1
       if [ $l_reboot = true ]; then
         reboot_192_168_0_90
         res=$?
       elif [ $l_systemd = true ]; then
-        for cur in "${l_systemd_name[@]}"
-        do
+        for cur in "${l_systemd_name[@]}"; do
           ssh_192_168_0_90_execute "systemctl start ${cur}"
           local res=$?
           if [ ! $res -eq 0 ]; then
@@ -818,90 +865,6 @@ function http_ok() {
       notify-send "ERROR failed enable-ftp"
     fi
   # fi
-
-  date
-  return ret
-}
-
-function netboot_192_168_0_90(){
-
-  local l_image="./fimage"
-  local l_machine=""
-
-  if [[ -n "${1}" ]]; then
-    local l_image="${1}"
-  elif [[ -n "${BUILDDIR}" ]]; then
-    if ! valid_build_dir; then
-      return 1
-    fi
-    local l_image="${BUILDDIR}/fimage"
-  fi
-
-  if [ ! -e "${l_image}" ]; then
-    notify-send "ERROR missing '${l_image}'"
-    echo "missing '${l_image}'" >&2
-    echo "Autodetect in oe-initenv shell">&2
-    return 1
-  fi
-
-  if [ ! -f "${l_image}" ]; then
-    notify-send "ERROR not a file '${l_image}'"
-    echo "not a file '${l_image}'" >&2
-    echo "Autodetect in oe-initenv shell">&2
-    return 1
-  fi
-
-  local l_marker="${BUILDDIR}/spmarker"
-  if [[ -e "${l_marker}" ]]; then
-    local l_machine="$(cat ${l_marker})"
-  fi
-
-  echo "image '${l_image}'"
-  local l_machine="$(basename ${BUILDDIR})"
-  echo "machine '${l_machine}'"
-
-  # axis_enable_root_192_168_0_90
-  #
-  # $HOME/development/axis/tpp/ff enable-ssh
-  # if [ ! $? -eq 0 ]; then
-  #   echo "failed to enable-ssh"
-  #   return 1
-  # fi
-  sleep 1s
-
-  $HOME/development/axis/tpp/ff :netboot
-  sleep 1s
-
-  if [[ "${l_machine}"="m3066-v" ]]; then
-    echo "boot_axis -F -i ${l_image} -W 7AC -v"
-    boot_axis -F -i "${l_image}" -W 7AC -v
-    local ret=$?
-  elif [[ "${l_machine}"="m3075-v" ]]; then
-    echo "boot_axis -F -i ${l_image} -W 7AD -v"
-    boot_axis -F -i "${l_image}" -W 7AD -v
-    local ret=$?
-  # elif [[ "${l_machine}"="p3225-lv-mkii" ]]; then
-  #   $HOME/development/axis/tpp/ff enable-ssh
-  #   sleep 100ms
-  #   $HOME/development/axis/tpp/ff :netboot
-  #   sleep 1s
-  #   echo "boot_axis -F -i \"${l_image}\" -W 705.4 -v"
-  #   boot_axis -F -i "${l_image}" -W 705.4 -v
-  #   local ret=$?
-  elif [[ "${l_machine}"="p3235-lv" ]]; then
-    echo "boot_axis -F -i "${l_image}" -W 77A -v"
-    boot_axis -F -i "${l_image}" -W 77A -v
-    local ret=$?
-  else
-    boot_axis -F -i "${l_image}" -v
-    local ret=$?
-  fi
-
-  if [ ${ret} -eq 0 ]; then
-    notify-send "netboot ${l_machine} [DONE]" "${l_image} [DONE]"
-  else
-    notify-send "netboot ${l_machine} [FAILED]" "${l_image} [FAILED]"
-  fi
 
   date
   return ret
@@ -1730,20 +1693,35 @@ function bitbake_backtrace() {
 }
 
 function spooky_boot_axis() {
-  if ! valid_build_dir; then
-    return 1
+  local fimage=""
+
+  if [[ -n "${1}" ]]; then
+    local fimage="${1}"
+  elif [[ -n "${BUILDDIR}" ]]; then
+    if ! valid_build_dir; then
+      return 1
+    fi
+    local fimage="${BUILDDIR}/fimage"
   fi
-  local fimage="${BUILDDIR}/fimage"
+
   if [ ! -e ${fimage} ]; then
+    notify-send "ERROR missing '${fimage}'"
     echo "fimage does not exist (${fimage})">&2
-    return 1
+    return 2
+  fi
+
+  if [ ! -f "${fimage}" ]; then
+    notify-send "ERROR not a file '${fimage}'"
+    echo "not a file '${fimage}'" >&2
+    echo "Autodetect in oe-initenv shell">&2
+    return 3
   fi
 
   local bootb="$(ssh_192_168_0_90_execute 'bootblocktool -err -lw')"
   local ret=$?
   if [ ! $ret -eq 0 ]; then
     echo "failed getting existing bootblock" >&2
-    return $ret
+    return 4
   fi
   local bootb="$(echo $bootb | tr -d '\r' | tr -d '\n' | tr -d '\b' | tr -d '\t' | tr -d '\v' | tr -d '\f')"
 
@@ -1751,7 +1729,7 @@ function spooky_boot_axis() {
   local ret=$?
   if [ ! $ret -eq 0 ]; then
     echo "failed gettign HWID" >&2
-    return $ret
+    return 5
   fi
   local hwid="$(echo ${hwid} | tr -d '\r' | tr -d '\n' | tr -d '\b' | tr -d '\t' | tr -d '\v' | tr -d '\f')"
 
@@ -1760,6 +1738,100 @@ function spooky_boot_axis() {
   # echo "${hwid}"
 
   echo "boot_axis -i ${fimage} -FW ${hwid} -w \"${bootb}\""
+  return 0
+}
+
+function netboot_192_168_0_90(){
+
+  # local l_image="./fimage"
+  # local l_machine=""
+
+  # local l_marker="${BUILDDIR}/spmarker"
+  # if [[ -e "${l_marker}" ]]; then
+  #   local l_machine="$(cat ${l_marker})"
+  # fi
+  #
+  # echo "image '${l_image}'"
+  # local l_machine="$(basename ${BUILDDIR})"
+  # echo "machine '${l_machine}'"
+
+  # axis_enable_root_192_168_0_90
+  #
+  # $HOME/development/axis/tpp/ff enable-ssh
+  # if [ ! $? -eq 0 ]; then
+  #   echo "failed to enable-ssh"
+  #   return 1
+  # fi
+  # sleep 1s
+
+  # $HOME/development/axis/tpp/ff :netboot
+  # sleep 1s
+
+    # boot_axis -F -i "${l_image}" -W 76A -v
+
+  # if [[ "${l_machine}" = "m3066-v" ]]; then
+  #   echo "boot_axis -F -i ${l_image} -W 7AC -v"
+  #   boot_axis -F -i "${l_image}" -W 7AC -v
+  #   local ret=$?
+  # elif [[ "${l_machine}" = "m3075-v" ]]; then
+  #   echo "boot_axis -F -i ${l_image} -W 7AD -v"
+  #   boot_axis -F -i "${l_image}" -W 7AD -v
+  #   local ret=$?
+  # # elif [[ "${l_machine}"="p3225-lv-mkii" ]]; then
+  # #   $HOME/development/axis/tpp/ff enable-ssh
+  # #   sleep 100ms
+  # #   $HOME/development/axis/tpp/ff :netboot
+  # #   sleep 1s
+  # #   echo "boot_axis -F -i \"${l_image}\" -W 705.4 -v"
+  # #   boot_axis -F -i "${l_image}" -W 705.4 -v
+  # #   local ret=$?
+  # elif [[ "${l_machine}" = "p3235-lv" ]]; then
+  #   echo "boot_axis -F -i "${l_image}" -W 77A -v"
+  #   boot_axis -F -i "${l_image}" -W 77A -v
+  #   local ret=$?
+  # elif [[ "${l_machine}" = "m3077-plve" ]]; then
+  #   echo "boot_axis -F -i "${l_image}" -W 7E5 -v"
+  #   boot_axis -F -i "${l_image}" -W 7E5 -v
+  #   local ret=$?
+  # else
+  #   boot_axis -F -i "${l_image}" -v
+  #   local ret=$?
+  # fi
+
+  local ret=0
+  # setup_ssh_eager
+  ret=$?
+  if [ ! $? -eq 0 ]; then
+    echo "failed setting up ssh">&2
+  else
+    local cmd="$(spooky_boot_axis ${@})"
+    ret=$?
+
+    if [ $ret -eq 0 ]; then
+      echo "${cmd}"
+      local netb="systemctl reboot -ff netboot; sleep 4"
+      ssh_192_168_0_90_execute "${netb}"
+      ret=$?
+
+      # if [ ! $ret -eq 0 ]; then
+      #     echo "failed to enter netboot mode">&2
+      # else
+        sleep 3
+        eval ${cmd}
+        ret=$?
+      # fi
+    fi
+  fi
+
+  if [ ${ret} -eq 0 ]; then
+    notify-send "netboot ${l_machine} [DONE]" "${l_image} [DONE]"
+    http_ok &
+  else
+    notify-send "netboot ${l_machine} [FAILED]" "${l_image} [FAILED]"
+  fi
+
+  date
+  return ret
 }
 
 # setxkbmap -option caps:escape

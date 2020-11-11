@@ -244,6 +244,7 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab periphrials peripherals
 iab colission collision
 iab performe perform
 iab noice noise
@@ -1088,7 +1089,11 @@ function! SpookyGetMirror(file) abort
   if strlen(mirror) > 0
     return mirror
   endif
-  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/inc\/\('.fname.'\)\.h$', ['\1/src/\2.cpp', '\1/src/\2.c'])
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/inc\/\('.fname.'\)\.h$', ['\1/src/\2.cpp', '\1/src/\2.c', '\1/src/\2.cc'])
+  if strlen(mirror) > 0
+    return mirror
+  endif
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/inc\/\('.fname.'\)\.hh$', ['\1/src/\2.cpp', '\1/src/\2.c', '\1/src/\2.cc'])
   if strlen(mirror) > 0
     return mirror
   endif
@@ -1097,42 +1102,75 @@ function! SpookyGetMirror(file) abort
   if strlen(mirror) > 0
     return mirror
   endif
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/src\/\('.fname.'\)\.cc$', ['\1/include/\2.h', '\1/inc/\2.h', '\2.h', '\1/include/\2.hh', '\1/inc/\2.hh', '\2.hh', '\1/include/\2.hpp', '\1/inc/\2.hpp', '\2.hpp'])
+  if strlen(mirror) > 0
+    return mirror
+  endif
   let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/src\/\('.fname.'\)\.cpp$', ['\1/include/\2.h', '\1/include/\2.hpp', '\1/include/\2.hh', '\1/inc/\2.h', '\1/inc/\2.hpp', '\1/inc/\2.hh'])
   if strlen(mirror) > 0
     return mirror
   endif
 
+  " fname.c -> include/fname.h, fname.h
   let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.c$', ['\1/\2.h', '\1/include/\2.h'])
   if strlen(mirror) > 0
     return mirror
   endif
+
+  " fname.cpp -> fname.[h,hpp,hh], include/fname.[h,hpp,hh]
   let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.cpp$', ['\1/\2.h', '\1/\2.hpp', '\1/\2.hh', '\1/include/\2.h', '\1/include/\2.hpp', '\1/include/\2.hh', '\1/inc/\2.h', '\1/inc/\2.hpp', '\1/inc/\2.hh'])
   if strlen(mirror) > 0
     return mirror
   endif
 
-  " fname.h -> fname.c
-  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.h$', ['\1/\2.cpp', '\1/\2.c'])
+  " fname.[h,hpp,hh] -> fname.[cpp,c,cc]
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.h$', ['\1/\2.cpp', '\1/\2.c', '\1/\2.cc'])
   if strlen(mirror) > 0
     return mirror
   endif
-  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.hpp$', ['\1/\2.cpp'])
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.hpp$', ['\1/\2.cpp', '\1/\2.cc'])
   if strlen(mirror) > 0
     return mirror
   endif
-  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.hh$', ['\1/\2.cpp'])
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.hh$', ['\1/\2.cpp', '\1/\2.cc'])
   if strlen(mirror) > 0
     return mirror
   endif
 
-" ~/sources/gk/src/camera.c
-" ~/sources/gk/include/gk/camera.h
+" /gk/src/camera.c <-> /gk/include/gk/camera.h
   let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\(.*\)\/src\/\('.fname.'\)\.c$', ['\1/\2/include/\2/\3.h', '\1/\2/inc/\2/\3.h', '\1/\2/include/\2/\3.hh', '\1/\2/inc/\2/\3.hh', '\1/\2/include/\2/\3.hpp', '\1/\2/inc/\2/\3.hpp'])
   if strlen(mirror) > 0
     return mirror
   endif
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\(.*\)\/src\/\('.fname.'\)\.cc$', ['\1/\2/include/\2/\3.h', '\1/\2/inc/\2/\3.h', '\1/\2/include/\2/\3.hh', '\1/\2/inc/\2/\3.hh', '\1/\2/include/\2/\3.hpp', '\1/\2/inc/\2/\3.hpp'])
+  if strlen(mirror) > 0
+    return mirror
+  endif
 
-  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/include\/\(.*\)\/\('.fname.'\)\.h$', ['\1/src/\3.c', '\1/src/\3.cpp'])
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/include\/\(.*\)\/\('.fname.'\)\.h$', ['\1/src/\3.c', '\1/src/\3.cc', '\1/src/\3.cpp'])
+  if strlen(mirror) > 0
+    return mirror
+  endif
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/include\/\(.*\)\/\('.fname.'\)\.hh$', ['\1/src/\3.c', '\1/src/\3.cc', '\1/src/\3.cpp'])
+  if strlen(mirror) > 0
+    return mirror
+  endif
+
+" /libyuv/source/camera.[c,cc,cpp] <-> /libyuv/include/libyuv/camera.h
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\(.*\)\/source\/\('.fname.'\)\.c$', ['\1/\2/include/\2/\3.h', '\1/\2/inc/\2/\3.h', '\1/\2/include/\2/\3.hh', '\1/\2/inc/\2/\3.hh', '\1/\2/include/\2/\3.hpp', '\1/\2/inc/\2/\3.hpp'])
+  if strlen(mirror) > 0
+    return mirror
+  endif
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\(.*\)\/source\/\('.fname.'\)\.cc$', ['\1/\2/include/\2/\3.h', '\1/\2/inc/\2/\3.h', '\1/\2/include/\2/\3.hh', '\1/\2/inc/\2/\3.hh', '\1/\2/include/\2/\3.hpp', '\1/\2/inc/\2/\3.hpp'])
+  if strlen(mirror) > 0
+    return mirror
+  endif
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/\(.*\)\/source\/\('.fname.'\)\.cpp$', ['\1/\2/include/\2/\3.h', '\1/\2/inc/\2/\3.h', '\1/\2/include/\2/\3.hh', '\1/\2/inc/\2/\3.hh', '\1/\2/include/\2/\3.hpp', '\1/\2/inc/\2/\3.hpp'])
+  if strlen(mirror) > 0
+    return mirror
+  endif
+
+  let mirror = SpookyMirrorFor(a:file, '^\(.*\)\/include\/\(.*\)\/\('.fname.'\)\.h$', ['\1/source/\3.c', '\1/source/\3.cc', '\1/source/\3.cpp'])
   if strlen(mirror) > 0
     return mirror
   endif
@@ -1214,11 +1252,12 @@ function! s:SpookyIndentDetect() abort
   set smarttab                        " insert tabs on the start of a line according
                                       " to shiftwidth, not tabstop
   " TODO rust indent with two tabs
+  " echo "tabs:".heuristics.tabs." spaces:".heuristics.spaces
   if heuristics.tabs > heuristics.spaces
     " echo "hard"
     set noexpandtab
-    set shiftwidth=2
     set tabstop=2
+    set shiftwidth=2
   elseif heuristics.spaces > heuristics.tabs
     " echo "spaces"
     set expandtab       " <tab> is converted to spaces

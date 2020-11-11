@@ -1,45 +1,45 @@
 #!/bin/bash
 
 l_pwd="${1}"
+# name="#(~/dotfiles/lib/tmux_window_status_format_DELETED.sh #{pane_current_path})"
 name="#W"
 l_dists="/home/fredriol/dists"
 
 #  black, red, green, yellow, blue, magenta, cyan, white; if supported the
 #  bright variants brightred, brightgreen, brightyellow
 
-# echo ${l_pwd} >> /tmp/wasd
-if [[ "${l_pwd}" =~ ^${l_dists}/* ]]; then
-  stripped=${l_pwd#"${l_dists}"}
-  dist=$(echo "${stripped}" | cut -d "/" -f2)
-  builds="${l_dists}/${dist}/builds"
-  build=""
-  workspace=""
+if [[ "${USERNAME}" == "fredriol" ]]; then
+  if [[ "${l_pwd}" =~ ^${l_dists}/* ]]; then
+    stripped=${l_pwd#"${l_dists}"}
+    dist=$(echo "${stripped}" | cut -d "/" -f2)
+    builds="${l_dists}/${dist}/builds"
+    build=""
+    workspace=""
 
-  if [[ "${l_pwd}" =~ ^${builds}/* ]]; then
-    stripped=${l_pwd#"${l_dists}/${dist}/builds"}
-    build=$(echo "${stripped}" | cut -d "/" -f2)
-    if [[ "${l_pwd}" =~ ^${builds}/${build}/workspace/sources/([a-zA-Z0-9_\.-]+) ]]; then
-      workspace=":#[fg=green]${BASH_REMATCH[1]}"
+    if [[ "${l_pwd}" =~ ^${builds}/* ]]; then
+      stripped=${l_pwd#"${l_dists}/${dist}/builds"}
+      build=$(echo "${stripped}" | cut -d "/" -f2)
+      if [[ "${l_pwd}" =~ ^${builds}/${build}/workspace/sources/([a-zA-Z0-9_\.-]+) ]]; then
+        workspace=":#[fg=green]${BASH_REMATCH[1]}"
+      fi
+    elif [[ -e ${builds} ]]; then
+      files=${builds}/*
+      if [ ${#files[@]} -gt 0 ]; then
+        sep=""
+        for f in $files; do
+          build="${build}${sep}$(basename ${f})"
+          sep=","
+        done
+      fi
     fi
-  elif [[ -e ${builds} ]]; then
-    files=${builds}/*
-    if [ ${#files[@]} -gt 0 ]; then
-      sep=""
-      for f in $files; do
-        build="${build}${sep}$(basename ${f})"
-        sep=","
-      done
-    fi
-  fi
 
-  if [ ! -z ${build} ]; then
-    if [ "${build}" != "${dist}" ]; then
-      name="${dist}:#[fg=cyan]${build}${workspace}"
+    if [ ! -z ${build} ]; then
+      if [ "${build}" != "${dist}" ]; then
+        name="${dist}:#[fg=cyan]${build}${workspace}"
+      fi
     fi
   fi
 fi
-
-# name="$(basename ${PWD})"
 
 echo "#[fg=yellow,bold]#I#[fg=white]:${name}#{?window_zoomed_flag,#[fg=blue]+Z,}"
 
