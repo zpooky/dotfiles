@@ -16,6 +16,20 @@ is_cmake(){
   return 1
 }
 
+is_gradle(){
+  if [ -e build.gradle ]; then
+    return 0
+  fi
+  return 1
+}
+
+is_maven(){
+  if [ -e pom.xml ]; then
+    return 0
+  fi
+  return 1
+}
+
 build() {
   local res=0
   if [ -e Cargo.toml ]; then
@@ -66,6 +80,10 @@ build() {
       fi
     fi
 
+  elif is_gradle; then
+    gradle build
+  elif is_maven; then
+    mvn compile
   else
     echo "missing buld tool">&2
     exit 1

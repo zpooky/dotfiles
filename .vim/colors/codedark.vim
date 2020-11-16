@@ -242,6 +242,7 @@ call <sid>hi('rustConditional', s:cdViasfora, {}, 'none', {})
 call <sid>hi('javaStatement', s:cdViasfora, {}, 'none', {})
 call <sid>hi('javaConditional', s:cdViasfora, {}, 'none', {})
 call <sid>hi('javaRepeat', s:cdViasfora, {}, 'none', {})
+call <sid>hi('javaException', s:cdViasfora, {}, 'none', {})
 
 call <sid>hi('javaType', s:cdVSType, {}, 'none', {})
 " }}}

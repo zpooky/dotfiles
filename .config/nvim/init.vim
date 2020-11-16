@@ -1166,10 +1166,15 @@ Plug 'cespare/vim-toml'
 " }}}
 
 " {{{
+Plug 'uiiaoo/java-syntax.vim'
+highlight link JavaIdentifier NONE
+" }}}
+
+" {{{
 if has('nvim')
 Plug 'zpooky/vim-illuminate', {'for':['c','cpp','vim','shell','make','go']}
 else
-Plug 'zpooky/vim-illuminate', {'for':['c','cpp','vim','shell','make','python','go']}
+Plug 'zpooky/vim-illuminate', {'for':['c','cpp','vim','shell','make','python','go', 'java', 'scala']}
 endif
 
 " hi link illuminatedWord MatchParen
@@ -1187,7 +1192,9 @@ let g:Illuminate_ftHighlightGroups = {
       \ 'shell': ['shDerefSimple', 'shDeref', 'shVariable'],
       \ 'sh': ['shDerefSimple', 'shDeref', 'shVariable'],
       \ 'make': ['makeIdent', 'makeTarget'],
+      \ 'java': ['javaFunction', 'javaIdentifier', 'javaConstant'],
       \ }
+" TODO not working
 
 let g:Illuminate_ftHighlightGroupsBlacklist = {
       \ 'vim': ['vimFuncKey'],
@@ -1195,6 +1202,7 @@ let g:Illuminate_ftHighlightGroupsBlacklist = {
       \ 'cpp': ['cType','cppType','cppStatement','cOperator','cppSTLtype','cCppString','cppModifier','cppSTLnamespace','cppExceptions','cppSTLconstant','cNumber','cppNumber','cStorageClass','cStructure','cConditional','cppCast','cCppOutWrapper','cComment', 'cCommentL'],
       \ 'python': ['pythonStatement','pythonRepeat','pythonOperator','pythonString','pythonConditional','pythonNumber','pythonComment','pythonInclude'],
       \ 'go': ['goDecimalInt', 'goComment', 'goString'],
+      \ 'java': ['javaType'],
       \ }
 "  'cStatement',
 " }}}
