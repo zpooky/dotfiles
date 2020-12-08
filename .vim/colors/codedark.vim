@@ -247,6 +247,11 @@ call <sid>hi('javaException', s:cdViasfora, {}, 'none', {})
 call <sid>hi('javaType', s:cdVSType, {}, 'none', {})
 " }}}
 
+" python {{{
+call <sid>hi('pythonConditional', s:cdViasfora, {}, 'none', {})
+call <sid>hi('pythonStatement', s:cdViasfora, {}, 'none', {})
+" }}}
+
 " Markdown {{{
 " #List item prefix(-)
 call <sid>hi('mkdListItem', s:cdViasfora, {}, 'bold', {})

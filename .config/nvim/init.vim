@@ -1171,6 +1171,10 @@ highlight link JavaIdentifier NONE
 " }}}
 
 " {{{
+Plug 'vim-python/python-syntax'
+" }}}
+
+" {{{
 if has('nvim')
 Plug 'zpooky/vim-illuminate', {'for':['c','cpp','vim','shell','make','go']}
 else

@@ -13,6 +13,14 @@ if [ -e $HOME/sources/fzf/bin ]; then
   #
 fi
 
+if [ -e $HOME/.gem/ruby/2.7.0/bin ]; then
+  export PATH=$PATH:$HOME/.gem/ruby/2.7.0/bin
+fi
+
+if [ -e $HOME/.npm-packages/bin ]; then
+  export PATH=$PATH:$HOME/.npm-packages/bin
+fi
+
 if [ -e $HOME/.cargo/bin ]; then
   export PATH="${HOME}/.cargo/bin:${PATH}"
 fi
