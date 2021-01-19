@@ -483,6 +483,15 @@ function deploy_192_168_0_90(){
     local l_source=("${project_dir}/oe-workdir/package/usr/bin/lightd")
     local l_systemd_name="light-controller"
     l_systemd=true
+  elif [ "${project}" = "lightd-conf" ]; then
+    local l_dest=("/usr/share/lightd/led0.conf" "/etc/conf.d/lightd" "/etc/lightd/led0.conf" "/etc/lightd/dimming.conf" "/etc/lightd/illumination.conf" "/etc/lightd/lightd.conf")
+    local l_source=("${project_dir}/oe-workdir/package/usr/share/lightd/led0.conf" "${project_dir}/oe-workdir/package/etc/conf.d/lightd" "${project_dir}/oe-workdir/package/etc/lightd/led0.conf" "${project_dir}/oe-workdir/package/etc/lightd/dimming.conf" "${project_dir}/oe-workdir/package/etc/lightd/illumination.conf" "${project_dir}/oe-workdir/package/etc/lightd/lightd.conf")
+    local l_systemd_name="light-controller"
+    l_systemd=true
+  elif [ "${project}" = "libcamblock-eeprom" ]; then
+    local l_dest=("/usr/lib/libcamblock_eeprom.so")
+    local l_source=("${project_dir}/oe-workdir/package/usr/lib/libcamblock_eeprom.so")
+    l_systemd=false
   elif [ "${project}" = "powerd-conf" ]; then
     local l_product=$(basename $BUILDDIR)
     local l_pconf="${project_dir}/powerd_${l_product}.conf"
@@ -581,14 +590,17 @@ function deploy_192_168_0_90(){
 
   setup_ssh_eager
 
-  for cur in "${l_systemd_name[@]}"; do
-    ssh_192_168_0_90_execute "systemctl stop ${cur}"
-    local res=$?
-    if [ ! $res -eq 0 ]; then
-      echo "FAILED: to stop systemd serverice ${cur}"
-      break
-    fi
-  done
+  local res=0
+  if [ "${l_systemd}" = 'true' ]; then
+    for cur in "${l_systemd_name[@]}"; do
+      ssh_192_168_0_90_execute "systemctl stop ${cur}"
+      local res=$?
+      if [ ! $res -eq 0 ]; then
+        echo "FAILED: to stop systemd serverice ${cur}"
+        break
+      fi
+    done
+  fi
   if [ $res -eq 0 ]; then
     ssh_192_168_0_90_execute "echo '=${project}======$(date)==============================' >> /var/log/error.log"
     ssh_192_168_0_90_execute "echo '=${project}======$(date)==============================' >> /var/log/info.log"

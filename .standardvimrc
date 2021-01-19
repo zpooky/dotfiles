@@ -6,6 +6,11 @@ set showtabline=2
 " the limit of the number of files opened by vim -p
 set tabpagemax=100
 
+" {{{
+" shorter info messages
+set shortmess=flmnrwI
+" }}}
+
 " encoding {{{
 set encoding=utf-8      " The encoding used
 set fileencoding=utf-8  " The encoding of the resulting output file
