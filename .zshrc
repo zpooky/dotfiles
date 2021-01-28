@@ -21,6 +21,10 @@ if [ -e $HOME/.npm-packages/bin ]; then
   export PATH=$PATH:$HOME/.npm-packages/bin
 fi
 
+if [ -e $HOME/.local/bin ]; then
+  export PATH=$PATH:$HOME/.local/bin
+fi
+
 if [ -e $HOME/.cargo/bin ]; then
   export PATH="${HOME}/.cargo/bin:${PATH}"
 fi

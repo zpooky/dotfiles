@@ -293,7 +293,7 @@ endif
 
 " coc.vim {{{
 " Plug 'neoclide/coc.nvim',{'do':'yarn install'}
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release'}
 let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-yaml', 'coc-xml', 'coc-java', 'coc-rls', 'coc-rust-analyzer', 'coc-go', 'coc-jedi', 'coc-metals', 'coc-sql', 'coc-vimlsp']
 " https://github.com/josa42/coc-go
 " https://github.com/neoclide/coc-java
