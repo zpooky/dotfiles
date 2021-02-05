@@ -41,6 +41,7 @@ if has('nvim')
   "
   " npm install --global prettier --upgrade
   " pip3 install --user yapf --upgrade
+  " pip3 install --upgrade neovim
   "
   " :checkhealth
 endif
