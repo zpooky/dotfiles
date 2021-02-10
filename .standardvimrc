@@ -1270,11 +1270,14 @@ function! s:SpookyIndentDetect() abort
   if &buftype ==# 'help'
     return
   endif
+  " echomsg "spooky: ".expand('%')
 
   let heuristics = {'spaces': 0, 'tabs': 0}
   let lines = getline(1, 1024)
+  " echomsg "lines: ".len(lines)."|".get(lines, 0, "NONE")."|".len(get(lines, 0, "NONE"))
 
   for line in lines
+    " echomsg line
     if len(line) == 0
       continue
     endif
@@ -1312,17 +1315,17 @@ function! s:SpookyIndentDetect() abort
   " TODO rust indent with two tabs
   " echo "tabs:".heuristics.tabs." spaces:".heuristics.spaces
   if heuristics.tabs > heuristics.spaces
-    " echo "hard"
+    " echomsg "hard tabs:".heuristics.tabs." spaces:".heuristics.spaces
     set noexpandtab
     set tabstop=2
     set shiftwidth=2
   elseif heuristics.spaces > heuristics.tabs
-    " echo "spaces"
+    " echomsg "spaces tabs:".heuristics.tabs." spaces:".heuristics.spaces
     set expandtab       " <tab> is converted to spaces
-    set tabstop=2
+    set tabstop=2       " Number of spaces that a <Tab> in the file counts for
     set shiftwidth=2    " number of spaces to use for autoindenting
   else
-    " echo "default"
+    " echomsg "default tabs:".heuristics.tabs." spaces:".heuristics.spaces
     set expandtab       " <tab> is converted to spaces
     set tabstop=2
     set shiftwidth=2    " number of spaces to use for autoindenting
@@ -1332,7 +1335,8 @@ endfunction
 
 augroup AutogroupIndentDetect
   autocmd!
-  autocmd FileType * call s:SpookyIndentDetect()
+  autocmd BufReadPost,FileReadPost * call s:SpookyIndentDetect()
+  " autocmd FileType call s:SpookyIndentDetect()
 augroup END
 
 augroup AutogroupFileSpecific

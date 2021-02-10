@@ -598,13 +598,16 @@ let g:neoformat_enabled_c = ['clangformat']
 let g:neoformat_python_spyapf = {
       \ 'args': ['--style="$HOME/style.py"'],
       \ 'exe': 'yapf',
-      \ 'stdin': 1
+      \ 'stdin': 1,
       \ }
 let g:neoformat_enabled_python = ['spyapf']
 let g:neoformat_enabled_sh = ['shfmt']
 let g:neoformat_enabled_javascript = ['prettier']
 let g:neoformat_enabled_rust = ['rustfmt']
 let g:neoformat_enabled_json = ['jq']
+
+let g:neoformat_enabled_java = ['prettier']
+
 let g:neoformat_only_msg_on_error = 1
 
 " TODO scala,java

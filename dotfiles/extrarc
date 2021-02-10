@@ -287,7 +287,7 @@ alias sp-alias="vim $ALIAS_SRC $DOTFILES/extrarc && source $DOTFILES/extrarc"
 alias sp-zshrc="vim -p $HOME/.zshrc $ALIAS_SRC $DOTFILES/extrarc $DOTFILES/workrc"
 alias sp-workrc="vim -p $HOME/dotfiles/workrc && source $DOTFILES/workrc"
 
-alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/c.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc $HOME/.vim/coc-settings.json"
+alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/c.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc $HOME/.vim/coc-settings.json $HOME/.vim/plugged/vim-markdown/syntax/markdown.vim"
 # alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim  $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc /home/spooky/.config/nvim/plugged/chromatica.nvim/syntax/*"
 
 alias vimsession="vim -S Session.vim"

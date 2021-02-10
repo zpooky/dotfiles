@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# pip3 install --user scipy --upgrade
+# pip3 install --user numpy --upgrade
+# pip3 install --user matplotlib --upgrade
+
 ##=Raw================
 # hex:    0xDEADBEEF
 # to hex: hex(number)
