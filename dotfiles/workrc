@@ -7,7 +7,7 @@ export FTP_PROXY="${ftp_proxy}"
 export https_proxy="http://wwwproxy.se.axis.com:3128"
 export HTTPS_PROXY="${https_proxy}"
 
-export no_proxy=192.168.0.90,localhost,127.0.0.1,127.0.1.1,.localdomain,axis.com
+export no_proxy=192.168.0.90,192.168.0.20,192.168.0.21,localhost,127.0.0.1,127.0.1.1,.localdomain,axis.com
 
 # export ftp_proxy="ftp://ftp-proxy.se.axis.com:4514/"
 # export FTP_PROXY="ftp://ftp-proxy.se.axis.com:4514/"
@@ -34,8 +34,8 @@ export NVM_DIR="$HOME/sources/nvm"
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 function axis_enable_root_192_168_0_90(){
-  local l_ip="192.168.0.90"
-  local resp=$(curl --noproxy "*" --connect-timeout 5 'http://192.168.0.90/axis-cgi/pwdgrp.cgi?action=add&user=root&pwd=pass&grp=root&sgrp=admin:operator:viewer:ptz' -w "%{http_code}" 2>/dev/null)
+  local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
+  local resp=$(curl --noproxy "*" --connect-timeout 5 "http://${l_ip}/axis-cgi/pwdgrp.cgi?action=add&user=root&pwd=pass&grp=root&sgrp=admin:operator:viewer:ptz" -w "%{http_code}" 2>/dev/null)
   echo "${resp}"
 
   local code=$(echo "${resp}" | tail -1)
@@ -52,7 +52,7 @@ function axis_enable_root_192_168_0_90(){
 function setup_ssh_eager() {
   local res=1
   local cnt=0
-  local l_ip="192.168.0.90"
+  local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
   local disable_setup="/tmp/disable_setup"
 
   local tout=2
@@ -147,14 +147,13 @@ function ssh_192_168_0_90() {
   function sshx() {
     local l_user="root"
     local l_pass="pass"
-    local l_ip="192.168.0.90"
+    local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
 
     local l_env_setup='ENV=$HOME/.shinit; export ENV;'
     local l_env=''
     l_env+='echo "alias ll=\"ls -alh\"" >> $HOME/.shinit'
     l_env+=' && echo "alias systemctl_status=\"systemctl status audiocontrol monolith parhand ioboxd -l\"" >> $HOME/.shinit'
     l_env+=' && echo "alias systemctl_root=\"cd /usr/lib/systemd/system\"" >> $HOME/.shinit'
-    l_env+=' && echo "alias tree=\"ls -alhR1\"" >> $HOME/.shinit'
     l_env+=' && echo "alias port_scan=\"netstat -lnptux\"" >> $HOME/.shinit'
     l_env+=' && echo "alias sp-sd=\"cd /var/spool/storage/SD_DISK\"" >> $HOME/.shinit'
     # AF_UNIX socket
@@ -166,6 +165,14 @@ function ssh_192_168_0_90() {
     l_env+=' && echo "    eval \$1;" >> $HOME/.shinit'
     l_env+=' && echo "    sleep 1;" >> $HOME/.shinit'
     l_env+=' && echo "  done" >> $HOME/.shinit'
+    l_env+=' && echo "}" >> $HOME/.shinit'
+
+    l_env+=' && echo "tree() {" >> $HOME/.shinit'
+    l_env+=' && echo "  if [ -e /usr/bin/tree ]; then" >> $HOME/.shinit'
+    l_env+=' && echo "    /usr/bin/tree \$@" >> $HOME/.shinit'
+    l_env+=' && echo "  else" >> $HOME/.shinit'
+    l_env+=' && echo "    ls -alhR1" >> $HOME/.shinit'
+    l_env+=' && echo "  fi" >> $HOME/.shinit'
     l_env+=' && echo "}" >> $HOME/.shinit'
 
     l_env+=' && echo "vim() {" >> $HOME/.shinit'
@@ -240,7 +247,7 @@ function ssh_192_168_0_90() {
 function scp_192_168_0_90() {
   local l_user="root"
   local l_pass="pass"
-  local l_ip="192.168.0.90"
+  local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
 
   local l_source="$1"
   local l_remote_dest="$2"
@@ -257,7 +264,7 @@ function scp_192_168_0_90() {
 function scp_crashdump_192_168_0_90(){
   local l_user="root"
   local l_pass="pass"
-  local l_ip="192.168.0.90"
+  local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
 
   local l_source='/var/spool/storage/SD_DISK/dumps/*'
   local l_dest="~/development/crashdump/"
@@ -300,7 +307,7 @@ function overlay_mount_192_168_0_90_async(){
 
   local l_user="root"
   local l_pass="pass"
-  local l_ip="192.168.0.90"
+  local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
   local res=0
 
   echo "sshpass -p ${l_pass} scp ${l_user}@${l_ip}:${l_fwmgr_remote} ${l_fwmgr_local}"
@@ -315,7 +322,7 @@ function overlay_mount_192_168_0_90_async(){
 
     if [ ! $res -eq 0 ]; then
       echo "failed mounting"
-      exit $res
+      return $res
     fi
 
     reboot_192_168_0_90_async
@@ -333,7 +340,7 @@ function overlay_mount_192_168_0_90(){
 
   local l_user="root"
   local l_pass="pass"
-  local l_ip="192.168.0.90"
+  local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
   local res=0
 
   echo "sshpass -p ${l_pass} scp ${l_user}@${l_ip}:${l_fwmgr_remote} ${l_fwmgr_local}"
@@ -372,7 +379,7 @@ function deploy_192_168_0_90(){
 
   local l_user="root"
   local l_pass="pass"
-  local l_ip="192.168.0.90"
+  local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
 
   if ! valid_build_dir; then
     return 1
@@ -648,11 +655,11 @@ function deploy_192_168_0_90(){
       echo "# after  CAMERA"
       echo "${after_camera_sha256[@]}"
 
-      res=1
+      res=0
       if [ $l_reboot = true ]; then
         reboot_192_168_0_90
         res=$?
-      elif [ $l_systemd = true ]; then
+      elif [ "${l_systemd}" = 'true' ]; then
         for cur in "${l_systemd_name[@]}"; do
           ssh_192_168_0_90_execute "systemctl start ${cur}"
           local res=$?
@@ -758,7 +765,7 @@ function devtool_modify() {
 function ssh_192_168_0_90_execute(){
   local l_user="root"
   local l_pass="pass"
-  local l_ip="192.168.0.90"
+  local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
 
   local cmd="$1"
 
@@ -776,7 +783,7 @@ function reboot_192_168_0_90_async() {
 
   local l_user="root"
   local l_pass="pass"
-  local l_ip="192.168.0.90"
+  local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
 
     # TODO maybe have ssh "-o ConnectTimeout 1" timeout of 1sec
   echo "sshpass -p ${l_pass} ssh -q -o \"ConnectTimeout 1\" -o \"ControlPersist 1\" ${l_user}@${l_ip} \"${cmd}\""
@@ -796,7 +803,7 @@ function flash_192_168_0_90_ftp() {
   # TODO grep for "Error: No custom firmware certificate for camera group 'axis-devel-ambarella-s5l'."
   local l_user="root"
   local l_pass="pass"
-  local l_ip="192.168.0.90"
+  local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
   local l_image="./fimage"
 
 function http_ok() {
@@ -1524,7 +1531,7 @@ function gdb_192_168_0_90(){
 
   local gdb_dir="${BUILDDIR}/tmp/work"
 
-  local l_ip="192.168.0.90"
+  local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
 
   if ! valid_build_dir; then
     return 1
