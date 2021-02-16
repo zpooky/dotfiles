@@ -5,8 +5,7 @@ source $HOME/dotfiles/shared.sh
 # powerline
 FEATURE=$FEATURE_HOME/powerline1
 if [ ! -e $FEATURE ]; then
-  is_arch
-  if [ $? -eq 0 ]; then
+  if has_feature pacman; then
     install python2-powerline
     install python-powerline
     install powerline-fonts

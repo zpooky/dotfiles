@@ -37,8 +37,7 @@ fi
 DAVMAIL_FEATURE=$FEATURE_HOME/davmail
 if [ ! -e $DAVMAIL_FEATURE ]; then
 
-  is_arch
-  if [ $? -eq 0 ]; then
+  if has_feature pacman; then
     echo "TODO"
   else
     PREV_DIR=`pwd`
@@ -86,8 +85,7 @@ fi
 # lbdb - contact list for mutt
 LBDB_FEATURE=$FEATURE_HOME/lbdb
 if [ ! -e $LBDB_FEATURE ]; then
-  is_arch
-  if [ $? -eq 0 ]; then
+  if has_feature pacman; then
     echo "TODO"
   else
     install lbdb
@@ -110,8 +108,7 @@ if [ ! -e $FEATURE ]; then
   # 3. Credentials > Oath Constant Screen > Product name > Save
   # 4. Crednetials > Create credential > oath client id
   RET=1
-  is_arch
-  if [ $? -eq 0 ]; then
+  if has_feature pacman; then
     has_feature offlineimap
     if [ $? -eq 1 ]; then
       install offlineimap

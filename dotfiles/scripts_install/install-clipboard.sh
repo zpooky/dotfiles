@@ -7,8 +7,7 @@ FEATURE=$FEATURE_HOME/xclip
 if [ ! -e $FEATURE ]; then
   start_feature "xclip"
 
-  is_arch
-  if [ $? -eq 0 ]; then
+  if has_feature pacman; then
     install xclip
     if [ $? -eq 0 ];then
       touch $FEATURE

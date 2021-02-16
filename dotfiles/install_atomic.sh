@@ -122,8 +122,7 @@ FEATURE=$FEATURE_HOME/global
 if [ ! -e $FEATURE ]; then
   start_feature "global"
 
-  is_arch
-  if [ $? -eq 0 ]; then
+  if has_feature pacman; then
     has_feature global
     if [[ $? -eq 1 ]]; then
       # install global || exit 1
@@ -183,8 +182,7 @@ has_feature ack-grep
 if [ ! $? -eq 0 ]; then
   start_feature "ack"
 
-  is_apt_get
-  if [ $? -eq 0 ]; then
+  if has_feature apt-get; then
     # manually install it because why not
     TEMP_DIR=$(mktemp -d)
     ACK_SOURCE=$TEMP_DIR/ack-grep
@@ -209,8 +207,7 @@ fi
 
 has_feature ag
 if [[ $? -eq 1 ]]; then
-  is_arch
-  if [ $? -eq 0 ]; then
+  if has_feature pacman; then
     install the_silver_searcher
   else
     install silversearcher-ag
@@ -243,58 +240,6 @@ fi
 #   stop_feature "jsonlint"
 # fi
 
-# guake
-has_feature guake
-if [ ! $? -eq 0 ]; then
-  start_feature "guake"
-
-  is_arch
-  if [ $? -eq 0 ]; then
-    install guake || exit 1
-  else
-    PREV_DIR=$(pwd)
-
-    GUAKE_ROOT=$GIT_SOURCES/guake
-    if [ ! -e $GUAKE_ROOT ]; then
-      git clone https://github.com/Guake/guake.git $GUAKE_ROOT
-      if [ ! $? -eq 0 ]; then
-        rm -rf $GUAKE_ROOT
-      fi
-    fi
-
-    if [ -e $GUAKE_ROOT ]; then
-      cd $GUAKE_ROOT
-
-      git pull --rebase origin master
-
-      if [ $? -eq 0 ]; then
-        ./autogen.sh
-
-        if [ $? -eq 0 ]; then
-          ./configure
-
-          if [ $? -eq 0 ]; then
-            sudo make uninstall
-            make
-
-            if [ $? -eq 0 ]; then
-              sudo make install
-
-              if [ $? -eq 0 ]; then
-                guake --help
-              fi
-            fi
-          fi
-        fi
-      fi
-    fi
-
-    cd $PREV_DIR
-  fi
-
-  stop_feature "guake"
-fi
-
 STYLEISH_HASKELL=stylish-haskell
 has_feature $STYLEISH_HASKELL
 if [ $? -eq 1 ]; then
@@ -312,8 +257,7 @@ if [ ! -e $STDMAN_FEATURE ]; then
 
   PREV_DIR=$(pwd)
 
-  is_arch
-  if [ $? -eq 0 ]; then
+  if has_feature pacman; then
     install stdman
   else
 
@@ -382,8 +326,7 @@ FEATURE=$FEATURE_HOME/keepass1
 if [ ! -e $FEATURE ]; then
   start_feature "keepass"
 
-  is_apt_get
-  if [ $? -eq 0 ]; then
+  if has_feature apt-get; then
     sudo apt-add-repository -y ppa:jtaylor/keepass
     sudo apt-get update
   fi
@@ -400,8 +343,7 @@ has_feature megasync
 if [ ! $? -eq 0 ]; then
   start_feature "mega"
 
-  is_apt_get
-  if [ $? -eq 0 ]; then
+  if has_feature apt-get; then
     PREV_DIR=$(pwd)
 
     TEMP_DIR=$(mktemp -d)
@@ -427,8 +369,7 @@ has_feature cscope
 if [ ! $? -eq 0 ]; then
   start_feature "cscope"
 
-  is_arch
-  if [ $? -eq 0 ]; then
+  if has_feature pacman; then
     echo ""
   else
     PREV_DIR=$(pwd)
@@ -488,8 +429,7 @@ FEATURE=$FEATURE_HOME/ctags_universal2
 if [ ! -e $FEATURE ]; then
   start_feature "ctags"
 
-  is_arch
-  if [ $? -eq 0 ]; then
+  if has_feature pacman; then
     echo ""
   else
     PREV_DIR=$(pwd)
@@ -538,8 +478,7 @@ FEATURE=$FEATURE_HOME/cppcheck1
 if [ ! -e $FEATURE ]; then
   start_feature "cppcheck"
 
-  is_arch
-  if [ $? -eq 0 ]; then
+  if has_feature pacman; then
     has_feature cppcheck
     if [[ $? -eq 1 ]]; then
       install cppcheck
@@ -581,21 +520,6 @@ if [ ! -e $FEATURE ]; then
   stop_feature "cppcheck"
 fi
 
-#python format
-# pip2_install git+https://github.com/google/yapf.git
-
-# code formatters
-which npm
-if [ $? -eq 0 ]; then
-  sudo npm install -g typescript
-  # js format
-  sudo npm install -g js-beautify
-  # typescript format
-  sudo npm install -g typescript-formatter
-  # markdown format
-  sudo npm install -g remark
-fi
-
 # ensime scala vim support
 FEATURE=$FEATURE_HOME/ensime
 if [ ! -e $FEATURE ]; then
@@ -614,8 +538,7 @@ FEATURE=$FEATURE_HOME/haskell8
 if [ ! -e $FEATURE ]; then
   start_feature "haskell8"
 
-  is_arch
-  if [ $? -eq 0 ]; then
+  if has_feature pacman; then
     echo ""
   else
     PREV_DIR=$(pwd)

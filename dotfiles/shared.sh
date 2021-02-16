@@ -76,11 +76,12 @@ function head_same(){
 
 function has_feature(){
   which $1 > /dev/null 2>&1
-  WHICH_FEATURE=$?
+  local whichf=$?
+
   hash $1 > /dev/null 2>&1
-  HASH_FEATURE=$?
-  if [ $WHICH_FEATURE -eq $HASH_FEATURE ]; then
-    if [ $WHICH_FEATURE -eq 0 ]; then
+  local hashf=$?
+  if [ $whichf -eq 0 ]; then
+    if [ $hashf -eq 0 ]; then
       return 0
     fi
   fi
@@ -136,27 +137,8 @@ function is_cygwin(){
   fi
 }
 
-function is_arch(){
-  has_feature pacman
-  if [ $? -eq 0 ]; then
-    return 0
-  else
-    return 1
-  fi
-}
-
-function is_apt_get(){
-  # lets say that everything that is not arch uses apt-get
-  has_feature "apt-get"
-  if [ $? -eq 0 ]; then
-    return 0
-  else
-    return 1
-  fi
-}
 function update_package_list(){
-  is_apt_get
-  if [ $? -eq 0 ]; then
+  if has_feature apt-get; then
     echo "sudo apt-get update"
     sudo apt-get update || exit 1
   else
@@ -171,8 +153,7 @@ function update_package_list(){
 }
 
 function install(){
-  is_arch
-  if [ $? -eq 0 ];then
+  if has_feature pacman; then
     if [[ -n "${IS_DOCKER}" ]]; then
       echo "pacman -S --noconfirm $@"
       pacman -S --noconfirm $@
@@ -185,8 +166,7 @@ function install(){
     fi
 
   else
-    is_apt_get
-    if [ $? -eq 0 ]; then
+    if has_feature apt-get; then
       echo "sudo apt-get -y install $@"
       sudo apt-get -y install $@
     else
@@ -200,8 +180,7 @@ function install(){
 }
 
 function install_yay() {
-  is_arch
-  if [ $? -eq 0 ];then
+  if has_feature pacman; then
     if [[ -n "${IS_DOCKER}" ]]; then
       echo "yay -S --noconfirm $@"
       yay -S --noconfirm $@
@@ -240,8 +219,8 @@ function install_cron(){
   rm $CRON_FILE
 }
 
-is_arch()
-if [ $? -eq 0 ]; then
+
+if has_feature pacman; then
   LIB_PYTHON2=/usr/lib/python2.7
   LIB_PYTHON3=/usr/lib/python3.6
   LIB_PYTHON2_PACKAGES="${LIB_PYTHON2}/site-packages"

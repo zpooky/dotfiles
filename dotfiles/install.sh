@@ -7,8 +7,7 @@ lesskey -o "$THE_HOME/.less" "$THE_HOME/.lesskey"
 
 GIT_CONFIG_FEATURE=$FEATURE_HOME/gitconfig4
 if [ ! -e "$GIT_CONFIG_FEATURE" ]; then
-  has_feature git
-  if [ $? -eq 0 ]; then
+  if has_feature git; then
     start_feature "git config"
 
     # TODO fetch from keychain
@@ -39,12 +38,56 @@ git submodule update --init --recursive --remote --jobs 8 || exit 1
 # git submodule update --init --recursive || exit 1
 stop_feature "git submodules"
 
-is_arch
-if [ $? -eq 0 ]; then
+if has_feature pacman; then
   start_feature "arch"
   ${HOME}/dotfiles/arch_install.sh || exit 1
   stop_feature "arch"
+elif has_feature apt-get; then
+  start_feature "apt-get"
+  ${HOME}/dotfiles/ubuntu_installer.sh || exit 1
+  stop_feature "apt-get"
 fi
+
+# {
+npm install -g bash-language-server
+# yay -S bash-language-server shfmt
+# - js
+npm install -g neovim
+  # - yay -S nodejs-neovim
+# - python2
+  # - pip2 install --user --upgrade jedi
+  # - yay -S python2-neovim python2-jedi
+# - python3
+pip3 install --user --upgrade jedi
+  # - yay -S python-neovim python-jedi
+pip3 install --user --upgrade pynvim
+# - ruby
+  # - yay -S ruby-neovim
+gem install --user-install neovim
+# - docker
+npm install -g dockerfile-language-server-nodejs
+# - rust
+  # - rustup component add rustfmt
+# - json
+  # - yay -S jq
+# - scala
+  # - yay -S metals
+# - markdown
+  # - yay -S redpen languagetool
+
+npm install -g prettier
+npm install -g typescript
+npm install -g js-beautify # js format
+npm install -g typescript-formatter # typescript format
+npm install -g remark # markdown format
+
+pip3 install --user --upgrade yapf
+pip3 install --user --upgrade neovim
+pip3 install --user --upgrade jedi-language-server
+
+npm install --global yarn
+
+# }
 
 start_feature "vim"
 if has_feature nvim; then
@@ -116,92 +159,6 @@ if [ -e "${zsh_completions}" ]; then
 fi
 stop_feature "zsh-completions"
 
-# git You Complete Me(YCM)
-ycm_forks=("OblitumYouCompleteMe" "YouCompleteMe")
-for ycm in "${ycm_forks[@]}"; do
-  FEATURE="$FEATURE_HOME/${ycm}"
-  ycm_root="$THE_HOME/.vim/bundle/$ycm"
-
-  start_feature "$ycm"
-  head_same "${ycm_root}" "${FEATURE}"
-  if [ $? -eq 1 ]; then
-
-    # TODO should recompile when vim version changes
-    PREV_DIR=$(pwd)
-
-    cd "${ycm_root}" || exit 1
-
-    git checkout master || exit 1
-    git pull --rebase origin master || exit 1
-    git submodule update --init --recursive || exit 1
-
-    ./install.py --clang-completer --system-libclang # --go-completer --rust-completer --js-completer
-    RET=$?
-    if [ $RET -eq 0 ]; then
-      head_id >"$FEATURE"
-    fi
-
-    cd "${PREV_DIR}" || exit 1
-
-  fi
-  stop_feature "$ycm"
-done
-
-# vim color coded {
-if [ 1 -eq 0 ]; then
-  FEATURE="${FEATURE_HOME}/color_coded2"
-  if [ ! -e "${FEATURE}" ]; then
-    start_feature "color_coded1"
-
-    # TODO should recompile when vim version changes
-    PREV_DIR=$(pwd)
-    COLOR_CODED_PATH=$THE_HOME/.vim/bundle/color_coded
-    COLOR_CODED_BUILD_PATH=$COLOR_CODED_PATH/build
-    cd $COLOR_CODED_PATH
-    if [ -d $COLOR_CODED_BUILD_PATH ]; then
-      rm -rf $COLOR_CODED_BUILD_PATH
-    fi
-
-    mkdir build && cd build || exit 1
-
-    cmake ..
-
-    if [ $? -eq 0 ]; then
-      make -j && make install
-      RET=$?
-
-      # Cleanup afterward; frees several hundred megabytes
-      make clean && make clean_clang
-
-      if [ $RET -eq 0 ]; then
-        touch $FEATURE
-      fi
-    fi
-
-    cd $PREV_DIR
-
-    stop_feature "color_coded1"
-  fi
-fi
-#}
-
-# should update powerline settings and scripts
-LIB_ROOTS=("/lib" "/usr/lib" "/usr/local/lib")
-for LIB_ROOT in "${LIB_ROOTS[@]}"; do
-  PYTHON_VERSION=("python2.7" "python2.8" "python2.9" "python3.6" "python3.7" "python3.8" "python3.9")
-  for PYTHON in "${PYTHON_VERSION[@]}"; do
-    PACKAGES=("dist-packages" "site-packages")
-    for PACKAGE in "${PACKAGES[@]}"; do
-      # install powerline tmux segments
-      POWERLINE_SEGMENTS="${LIB_ROOT}/${PYTHON}/${PACKAGE}/powerline/segments"
-
-      if [ -e "${POWERLINE_SEGMENTS}" ]; then
-        sudo cp "${THE_HOME}/.config/powerline/segments/spooky" "${POWERLINE_SEGMENTS}" -R
-      fi
-    done
-  done
-done
-
 # bashrc
 FEATURE=$FEATURE_HOME/bashrc
 if [ ! -e $BASHRC_FEATURE ]; then
@@ -243,41 +200,13 @@ if [ ! -e $GDB_PP ]; then
 fi
 
 # rust
-has_feature rustup
-if [[ $? -eq 0 ]]; then
+if has_feature rustup; then
   rustup update stable
 fi
 
-is_arch
-if [[ $? -eq 0 ]]; then
+if has_feature pacman; then
   exit 0
 fi
-
-echo "Enter sudo password"
-sudo echo "start" || exit 1
-
-# pip3
-
-# update
-start_feature "update pip"
-
-#python3
-has_feature python
-if [[ $? -eq 1 ]]; then
-  install python || exit 1
-fi
-
-#has_feature pip
-#if [[ $? -eq 1 ]]; then
-#  install python-pip || exit 1
-#fi
-#
-#pip3_install --upgrade pip || exit 1
-
-# pip3_install keyring || exit 1
-
-start_feature "update package database"
-update_package_list
 
 # pdftotext pdf lib + utils
 has_feature pdftohtml
@@ -286,8 +215,7 @@ if [[ $? -eq 1 ]]; then
 fi
 has_feature poppler-util
 if [[ $? -eq 1 ]]; then
-  is_apt_get
-  if [ $? -eq 0 ]; then
+  if has_feature apt-get; then
     install poppler-util
   fi
 fi
@@ -305,119 +233,12 @@ if [[ $? -eq 1 ]]; then
   install htop || exit 1
 fi
 
-has_feature rake
-if [[ $? -eq 1 ]]; then
-  install rake || exit 1
-fi
-
-has_feature tree
-if [[ $? -eq 1 ]]; then
-  install tree || exit 1
-fi
-
-has_feature wget
-if [[ $? -eq 1 ]]; then
-  install wget || exit 1
-fi
-
-has_feature curl
-if [[ $? -eq 1 ]]; then
-  install curl || exit 1
-fi
-# text terminal web browser
-
 # xterm-256color support
 has_feature ncurses-term
 if [[ $? -eq 1 ]]; then
-  is_apt_get
-  if [ $? -eq 0 ]; then
+  if has_feature apt-get; then
     install ncurses-term || exit 1
   fi
-fi
-
-has_feature sqlite3
-if [[ $? -eq 1 ]]; then
-  install sqlite3 || exit 1
-fi
-
-has_feature "sed"
-if [[ $? -eq 1 ]]; then
-  install "sed" || exit 1
-fi
-
-has_feature autoconf
-if [[ $? -eq 1 ]]; then
-  install autoconf || exit 1
-fi
-
-has_feature atool
-if [[ $? -eq 1 ]]; then
-  # for archives text
-  install atool || exit 1
-fi
-
-has_feature highlight
-if [[ $? -eq 1 ]]; then
-  # for syntax highlighting. text ranger
-  install highlight
-fi
-
-has_feature mediainfo
-if [[ $? -eq 1 ]]; then
-  # for media file information.
-  install mediainfo
-fi
-
-has_feature transmission-cli
-if [[ $? -eq 1 ]]; then
-  install transmission-cli
-fi
-
-has_feature openssl
-if [[ $? -eq 1 ]]; then
-  install openssl
-fi
-
-has_feature screenfetch
-if [[ $? -eq 1 ]]; then
-  install screenfetch
-fi
-
-start_feature "libraries"
-
-start_feature "development"
-has_feature build-essential
-if [[ $? -eq 1 ]]; then
-
-  is_apt_get
-  if [ $? -eq 0 ]; then
-    install build-essential || exit 1
-  fi
-fi
-
-has_feature clang
-if [[ $? -eq 1 ]]; then
-  install clang
-fi
-
-has_feature gdb
-if [[ $? -eq 1 ]]; then
-  install gdb || exit 1
-fi
-
-has_feature cmake
-if [[ $? -eq 1 ]]; then
-  install cmake
-fi
-
-has_feature svn
-if [[ $? -eq 1 ]]; then
-  install svn || exit 1
-fi
-
-has_feature git
-if [[ $? -eq 1 ]]; then
-  install git || exit 1
 fi
 
 has_feature cpplint
@@ -489,8 +310,7 @@ fi
 # mpv video player
 has_feature mpv
 if [ $? -eq 1 ]; then
-  is_apt_get
-  if [ $? -eq 0 ]; then
+  if has_feature apt-get; then
     sudo add-apt-repository -y ppa:mc3man/mpv-tests
     update_package_list
   fi
@@ -513,4 +333,4 @@ fi
 #   stop_feature "lesscolors"
 # fi
 
-$HOME/dotfiles/install_atomic.sh
+# $HOME/dotfiles/install_atomic.sh
