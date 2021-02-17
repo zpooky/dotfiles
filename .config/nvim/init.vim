@@ -943,7 +943,7 @@ Plug 'tpope/vim-repeat'
 
 " gl    | shift argument right
 " gh    | shift argument left
-Plug 'AndrewRadev/sideways.vim'
+Plug 'AndrewRadev/sideways.vim',{'branch': 'main'}
 " let dict = Hash<String, Vec<String>>::new();
 " []string{"One", "Two", "Three"}
 " dict = {one: 1, two: 2, three: 3}
