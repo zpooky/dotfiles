@@ -49,6 +49,7 @@ elif has_feature apt-get; then
 fi
 
 # {
+npm install -g npm
 npm install -g bash-language-server
 # yay -S bash-language-server shfmt
 # - js
@@ -102,6 +103,15 @@ if [ -e ~/.vim/plugged/command-t ]; then
   PREV_DIR=$(pwd)
 
   if cd "$HOME/.vim/plugged/command-t"; then
+    rake make
+    cd "${PREV_DIR}"
+  fi
+fi
+
+if [ -e ~/.config/nvim/plugged/command-t ]; then
+  PREV_DIR=$(pwd)
+
+  if cd "$HOME/.config/nvim/plugged/command-t"; then
     rake make
     cd "${PREV_DIR}"
   fi
@@ -164,8 +174,7 @@ FEATURE=$FEATURE_HOME/bashrc
 if [ ! -e $BASHRC_FEATURE ]; then
   start_feature "bashrc"
 
-  echo 'source ~/dotfiles/extrarc' >>~/.bashrc
-  echo 'source ~/dotfiles/extrarc' >>~/.zshrc
+  echo 'source ~/dotfiles/extrarc' >> ~/.bashrc
 
   touch $FEATURE
   stop_feature "bashrc"
@@ -207,6 +216,7 @@ fi
 if has_feature pacman; then
   exit 0
 fi
+exit 0
 
 # pdftotext pdf lib + utils
 has_feature pdftohtml

@@ -52,6 +52,22 @@ esac
 
 [[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
 
+if [ -e $HOME/.gem/ruby/2.7.0/bin ]; then
+  export PATH=$HOME/.gem/ruby/2.7.0/bin:$PATH
+fi
+
+if [ -e $HOME/.npm-packages/bin ]; then
+  export PATH=$PATH:$HOME/.npm-packages/bin
+fi
+
+if [ -e $HOME/.local/bin ]; then
+  export PATH=$PATH:$HOME/.local/bin
+fi
+
+if [ -e $HOME/.cargo/bin ]; then
+  export PATH="${HOME}/.cargo/bin:${PATH}"
+fi
+
 if [[ -e $HOME/bin ]]; then
   PATH=$HOME/bin:$PATH
 fi
@@ -80,25 +96,10 @@ if [ -z "$LIBRARY_PATH" ]; then
 fi
 # LIBRARY_PATH=$CABAL_LIBS:$LIBRARY_PATH
 
-TMUX_COMPLETION=/usr/share/doc/tmux/examples/bash_completion_tmux.sh
-if [[ -e $TMUX_COMPLETION ]]; then
-  source $TMUX_COMPLETION
-fi
-
-CABAL_BIN=~/.cabal/bin
-if [[ -e $CABAL_BIN ]]; then
-  PATH=$CABAL_BIN:$PATH
-fi
-
-GEM_BIN=$HOME/.gem/ruby/2.5.0/bin
-if [[ -e $GEM_BIN ]]; then
-  PATH=$GEM_BIN:$PATH
-fi
-
-SP_PIP_BIN=$HOME/.local/bin
-if [[ -e $SP_PIP_BIN ]]; then
-  PATH=$SP_PIP_BIN:$PATH
-fi
+# TMUX_COMPLETION=/usr/share/doc/tmux/examples/bash_completion_tmux.sh
+# if [[ -e $TMUX_COMPLETION ]]; then
+#   source $TMUX_COMPLETION
+# fi
 
 ALIAS_SRC="$HOME/sources/notes/aliasrc.sh"
 if [ -f "${ALIAS_SRC}" ]; then

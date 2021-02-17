@@ -13,23 +13,9 @@ if [ -e $HOME/sources/fzf/bin ]; then
   #
 fi
 
-if [ -e $HOME/.gem/ruby/2.7.0/bin ]; then
-  export PATH=$PATH:$HOME/.gem/ruby/2.7.0/bin
-fi
-
-if [ -e $HOME/.npm-packages/bin ]; then
-  export PATH=$PATH:$HOME/.npm-packages/bin
-fi
-
-if [ -e $HOME/.local/bin ]; then
-  export PATH=$PATH:$HOME/.local/bin
-fi
-
-if [ -e $HOME/.cargo/bin ]; then
-  export PATH="${HOME}/.cargo/bin:${PATH}"
-fi
-
 export ZSH=$HOME/.oh-my-zsh
+
+source $HOME/dotfiles/extrarc
 
 # oh-my-zsh plugins
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
@@ -237,6 +223,4 @@ zstyle :compinstall filename "$HOME/.zshrc"
 # }
 
 #
-source ~/dotfiles/extrarc
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
