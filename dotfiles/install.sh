@@ -171,7 +171,7 @@ stop_feature "zsh-completions"
 
 # bashrc
 FEATURE=$FEATURE_HOME/bashrc
-if [ ! -e $BASHRC_FEATURE ]; then
+if [ ! -e $FEATURE ]; then
   start_feature "bashrc"
 
   echo 'source ~/dotfiles/extrarc' >> ~/.bashrc
