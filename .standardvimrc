@@ -868,6 +868,12 @@ function! SetupTmp()
   endif
 endfunction
 call SetupTmp()
+
+if has('nvim')
+  set viminfo+=n~/.cache/nvim/viminfo
+else
+  set viminfo+=n~/.cache/vim/viminfo
+endif
 " }}}
 
 " Custom mappings {{{
