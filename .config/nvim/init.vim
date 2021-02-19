@@ -295,7 +295,7 @@ endif
 " coc.vim {{{
 " Plug 'neoclide/coc.nvim',{'do':'yarn install'}
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release'}
-let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-yaml', 'coc-xml', 'coc-java', 'coc-rls', 'coc-rust-analyzer', 'coc-go', 'coc-metals', 'coc-sql', 'coc-vimlsp']
+let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-yaml', 'coc-xml', 'coc-java', 'coc-rls', 'coc-rust-analyzer', 'coc-go', 'coc-metals', 'coc-sql', 'coc-vimlsp', 'coc-jedi']
 " https://github.com/josa42/coc-go
 " https://github.com/neoclide/coc-java
 
@@ -362,7 +362,7 @@ augroup END
 " }}}
 
 " python {{{
-Plug 'pappasam/coc-jedi', { 'do': 'yarn install --frozen-lockfile && yarn build' }
+" Plug 'pappasam/coc-jedi', { 'do': 'yarn install --frozen-lockfile && yarn build' }
 " Plug 'davidhalter/jedi-vim',{'for': ['python']}
 " " Disable default binding
 " let g:jedi#completions_enabled = 0

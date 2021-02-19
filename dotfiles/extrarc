@@ -85,6 +85,11 @@ if [ -z "$LD_LIBRARY_PATH" ]; then
   export LD_LIBRARY_PATH
 fi
 # LD_LIBRARY_PATH=/usr/lib64:/usr/local/lib:$LD_LIBRARY_PATH
+#
+#
+if [[ -e $HOME/.poetry/bin ]]; then
+  PATH=$HOME/.poetry/bin:$PATH
+fi
 
 # CABAL_LIBS=~/.cabal/lib/x86_64-linux-ghc-8.0.2
 # if [ -e $CABAL_LIBS ]; then

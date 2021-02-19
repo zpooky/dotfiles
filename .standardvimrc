@@ -28,6 +28,19 @@ endif
 " if $TERM == "xterm-256color"
 " endif
 
+function! IsWSL()
+	let lines = substitute(system('uname -a'),'\n','','')
+	if lines =~ "Microsoft"
+		return 1
+	endif
+	return 0
+endfunction
+
+if IsWSL()
+  " somewhat fixes the bugged backgound in WSL+alacritty+vim
+  set t_ut=
+endif
+
 if $TERM == "alacritty" || $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal" || $TERM == "urxvt" || $TERM == "tmux-256color" || has('nvim')
   set t_Co=256
   if has('nvim') || has('termguicolors')

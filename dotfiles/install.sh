@@ -40,51 +40,108 @@ stop_feature "git submodules"
 
 if has_feature pacman; then
   start_feature "arch"
-  ${HOME}/dotfiles/arch_install.sh || exit 1
+  "${HOME}/dotfiles/arch_install.sh" || exit 1
   stop_feature "arch"
 elif has_feature apt-get; then
   start_feature "apt-get"
-  ${HOME}/dotfiles/ubuntu_installer.sh || exit 1
+  "${HOME}/dotfiles/ubuntu_installer.sh" || exit 1
   stop_feature "apt-get"
 fi
 
 # {
 npm install -g npm
-npm install -g bash-language-server
-# yay -S bash-language-server shfmt
-# - js
-npm install -g neovim
-  # - yay -S nodejs-neovim
-# - python2
-  # - pip2 install --user --upgrade jedi
-  # - yay -S python2-neovim python2-jedi
-# - python3
-pip3 install --user --upgrade jedi
-  # - yay -S python-neovim python-jedi
-pip3 install --user --upgrade pynvim
-# - ruby
-  # - yay -S ruby-neovim
-gem install --user-install neovim
-# - docker
-npm install -g dockerfile-language-server-nodejs
-# - rust
-  # - rustup component add rustfmt
-# - json
-  # - yay -S jq
-# - scala
-  # - yay -S metals
-# - markdown
-  # - yay -S redpen languagetool
-
-npm install -g prettier
+# sh
+if has_feature pacman; then
+  yay -S bash-language-server
+  yay -S shfmt
+  yay -S shellcheck
+else
+  npm install -g bash-language-server
+  if [[ ! "$(uname -a)" =~ Microsoft ]]; then
+    if has_feature; then
+      sudo snap install shfmt
+    fi
+  else
+    echo "TODO"
+  fi
+  sudo apt-get install shellcheck
+fi
+# js
 npm install -g typescript
 npm install -g js-beautify # js format
 npm install -g typescript-formatter # typescript format
+if has_feature pacman; then
+  yay -S nodejs-neovim
+else
+  npm install -g neovim
+fi
+# - pip2 install --user --upgrade jedi
+# - yay -S python2-neovim python2-jedi
+# python3
+if has_feature pacman; then
+  yay -S python-neovim python-jedi jedi-language-server
+else
+  pip3 install --user --upgrade jedi
+  pip3 install --user --upgrade pynvim
+  pip3 install --user --upgrade neovim
+  pip3 install --user --upgrade jedi-language-server
+fi
+# ruby
+if has_feature pacman; then
+  yay -S ruby-neovim
+else
+  gem install --user-install neovim
+fi
+# docker
+npm install -g dockerfile-language-server-nodejs
+# rust
+if has_feature rustup; then
+  rustup component add rustfmt
+fi
+# json
+if has_feature pacman; then
+  yay -S jq
+else
+  sudo apt-get install jq
+fi
+# c++
+if has_feature pacman; then
+  yay -S cppcheck
+  # yay -S clang
+  yay -S ccls
+else
+  sudo apt-get install cppcheck
+  sudo apt-get install clang-tidy
+  if [[ "$(uname -a)" =~ Microsoft ]]; then
+    sudo apt-get install ccls
+  else
+    sudo snap install ccls
+  fi
+fi
+#  scala
+if has_feature pacman; then
+  yay -S metals
+else
+  echo "TODO"
+fi
+# markdown
 npm install -g remark # markdown format
+if has_feature pacman; then
+  yay -S redpen languagetool
+else
+  if [[ ! "$(uname -a)" =~ Microsoft ]]; then
+    if has_feature snap; then
+      sudo snap install redpen
+      sudo snap install languagetool
+    fi
+  else
+    echo "TODO"
+  fi
+fi
+
+# npm install -g prettier
 
 pip3 install --user --upgrade yapf
-pip3 install --user --upgrade neovim
-pip3 install --user --upgrade jedi-language-server
 
 npm install --global yarn
 
