@@ -1390,6 +1390,7 @@ augroup END
 "nnoremap
 " map <silent> gt :tabnext <bar> redraw <bar> echo @%<cr>
 " nnoremap <expr> gt :tabnext v:count <bar> redraw <bar> echo @%<cr>
+map <silent> gT :tabprevious <bar> redraw <bar> echo @%<cr>
 
 function! SpookyTabnext() abort
   if v:count > 0
