@@ -161,6 +161,21 @@ if g:codedark_conservative | let s:cdPink = s:cdBlue | endif
 " #00ced1   | baby blue
 " #008000   | dark green
 
+let s:Rainbow7 = {'gui': '#ff9900', 'cterm': s:cterm08, 'cterm256': '52'}
+let s:Rainbow6 = {'gui': '#ff1493', 'cterm': s:cterm08, 'cterm256': '52'}
+let s:Rainbow5 = {'gui': '#9acd32', 'cterm': s:cterm08, 'cterm256': '52'}
+let s:Rainbow4 = {'gui': '#48afa7', 'cterm': s:cterm08, 'cterm256': '52'}
+let s:Rainbow3 = {'gui': '#fbdf00', 'cterm': s:cterm08, 'cterm256': '52'}
+let s:Rainbow2 = {'gui': '#7ef1ea', 'cterm': s:cterm08, 'cterm256': '52'}
+let s:Rainbow1 = {'gui': '#4f71ff', 'cterm': s:cterm08, 'cterm256': '52'}
+call <sid>hi('rainbowcol7', s:Rainbow7, {}, 'none', {})
+call <sid>hi('rainbowcol6', s:Rainbow6, {}, 'none', {})
+call <sid>hi('rainbowcol5', s:Rainbow5, {}, 'none', {})
+call <sid>hi('rainbowcol4', s:Rainbow4, {}, 'none', {})
+call <sid>hi('rainbowcol3', s:Rainbow3, {}, 'none', {})
+call <sid>hi('rainbowcol2', s:Rainbow2, {}, 'none', {})
+call <sid>hi('rainbowcol1', s:Rainbow7, {}, 'none', {})
+
 " #ff4500 |viasfora orange(return,if...)
 " cterm[bg/fg] - colors used by terminal [background/foregorund]
 " gui[bg/fg]   - color used by gvim or terminal in true-color mode
@@ -228,6 +243,9 @@ call <sid>hi('cRepeat', s:cdViasfora, {}, 'none', {})
 call <sid>hi('chromaticaStatement', s:cdViasfora, {}, 'none', {})
 call <sid>hi('chromaticaIf', s:cdViasfora, {}, 'none', {})
 call <sid>hi('chromaticaStatement', s:cdViasfora, {}, 'none', {})
+
+
+call <sid>hi('cGlobalVariable', s:cdViasfora, {}, 'none', {})
 
 " ## visual studio
 call <sid>hi('cType', s:cdVSType, {}, 'none', {})

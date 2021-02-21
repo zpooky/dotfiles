@@ -161,141 +161,77 @@ let programming_cpp=          {'for':['c','cpp']}
 let programming_haskell=      {'for':'haskell'}
 let programming_scala=        {'for':'scala'}
 
-" if filereadable("/usr/lib/llvm-6.0/lib/libclang.so"):
-"   let spooky_libclang="/usr/lib/llvm-6.0/lib/libclang.so"
-" elseif filereadable("/usr/lib/llvm-3.8/lib/libclang.so"):
-"   let spooky_libclang="/usr/lib/llvm-3.8/lib/libclang.so"
-" elseif filereadable("/usr/lib/libclang.so"):
-  let spooky_libclang="/usr/lib/libclang.so"
-" endif
-
-if has('nvim')
-  " " Deoplete {{{
-  " Plug 'Shougo/deoplete.nvim',{ 'do': ':UpdateRemotePlugins' }
-  " let g:deoplete#enable_at_startup = 1
-  "
-  " " }}}
-  "
-  " " Deoplete-clang {{{
-  " Plug 'zchee/deoplete-clang',programming
-  " let g:deoplete#sources#clang#libclang_path=spooky_libclang
-  " let g:deoplete#sources#clang#clang_header="/usr/lib/clang"
-  " let g:deoplete#sources#clang#std#cpp = 'c++14'
-  " let g:deoplete#sources#clang#sort_algo = 'priority'
-  " " }}}
+" nvim tree-sitter {{{
+if has('nvim') && has('nvim-0.5.0')
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'zpooky/cglobal'
+Plug 'p00f/nvim-ts-rainbow'
 else
-  " " turned off in cygwin since these plugins requires compilation
-  " " if !has('win32unix') && !has('win64unix')
-  "
-  "   " YouCompleteMe {{{
-  "   " forked YCM for better cpp suggestions
-  "   Plug '~/.vim/bundle/OblitumYouCompleteMe',programming
-  "   " ,programming_cpp
-  "   "
-  "   " vanilla YCM
-  "   " Plug '~/.vim/bundle/YouCompleteMe',programming_nhaskell
-  "
-  "   " YouCompleteMe - Install
-  "   " cd ~/.vim/bundle/YouCompleteMe;./install.sh --clang-completer
-  "
-  "   let g:ycm_show_diagnostics_ui = 0
-  "   let g:ycm_collect_identifiers_from_tags_files = 0
-  "   let g:ycm_confirm_extra_conf = 0                        " disable confirm of project specific ycm conf
-  "
-  "   let g:ycm_autoclose_preview_window_after_completion = 0 " do not directly close prototype window
-  "   let g:ycm_autoclose_preview_window_after_insertion = 1  " close it when I exit insert mode.
-  "   let g:ycm_global_ycm_extra_conf = "~/.ycm_extra_conf.py"
-  "
-  "   let g:ycm_semantic_triggers = {'haskell' : ['.']}
-  "
-  "   " " ycm ultisnip integration
-  "   " " YCM + UltiSnips works like crap
-  "   " " https://www.youtube.com/watch?v=WeppptWfV-0
-  "   " let g:ycm_use_ultisnips_completer = 1
-  "   " let g:ycm_key_list_select_completion=[]
-  "   " let g:ycm_key_list_previous_completion=[]
-  "   " let g:UltiSnipsExpandTrigger = '<Tab>'
-  "   " let g:UltiSnipsJumpForwardTrigger = '<Tab>'
-  "   " let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
-  "   "
-  "   " let g:UltiSnipsMappingsToIgnore = ['autocomplete']
-  "   "
-  "   " let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
-  "   " let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
-  "   " let g:ycm_key_list_accept_completion = ['<C-y>']
-  "
-  "   " using Ycm to navigate
-  "   " https://github.com/Valloric/YouCompleteMe#goto-commands
-  "   " map <silent> <F3> <esc>:YcmCompleter GoTo<CR>
-  "
-  "   " }}}
-  " " else
-  " "   " {{{
-  " "   Plug 'Rip-Rip/clang_complete',{'do':'make install','for':['cpp','c']}
-  " "   let g:clang_close_preview = 1
-  " "
-  " "   " Plug 'xaizek/vim-inccomplete',{'for':['cpp','c']}
-  " "   " }}}
-  " " endif
+" rainbow scope {{{
+" colors scope () {}
+Plug 'luochen1990/rainbow'
 
+" activate rainbow scope higlight
+let g:rainbow_active = 1
+
+"\ 'guifgs': ['darkorange3', 'seagreen3', 'deepskyblue', 'darkorchid3', 'forestgreen', 'lightblue', 'hotpink', 'mistyrose1'],
+" \ 'operators': '_[\,\+\*\-\&\^\!\.\<\>\=\|\?]_',
+", 'lightmagenta'
+" #ff9900   | orange
+" #ff1493   | pink
+" #9acd32   | green
+" #9400d3   | magenta
+" #696969   | grey
+" #4169e1   | dark blue
+" #dc143c   | red
+" #00ced1   | baby blue
+" #008000   | dark green
+let g:rainbow_conf =
+      \ {
+      \ 'ctermfgs': ['lightblue', 'red', 'cyan', 'darkgreen'],
+      \ 'guifgs': ['#ff9900','#ff1493','#9acd32'],
+      \ 'operators': '_[\,\-\<\>\.|\*]_',
+      \	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+      \	'separately': {
+      \   'sh': {
+      \     'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+      \   },
+      \   'make': {
+      \     'parentheses':[['\(^\|\s\)\(ifeq\|ifneq\|ifdef\|ifndef\)\($\|\s\)','_\(^\|\s\)\(endif\|else ifeq\|else ifneq\|else ifdef\|else ifndef\|else\)\($\|\s\)_','\(^\|\s\)endif\($\|\s\)']],
+      \   },
+      \   'fortran': {
+      \     'parentheses':[['\(^\|\s\)\(\#if\|\#ifdef\|\#ifndef\)\($\|\s\)','_\(^\|\s\)\(\#endif\|\#elif\|\#else\)\($\|\s\)_','\(^\|\s\)\#endif\($\|\s\)'], ['\(^\|\s\)\#for\($\|\s\)','\(^\|\s\)\#endfor\($\|\s\)']],
+      \   },
+      \   'vim': {
+      \     'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+      \   },
+      \   'c': {
+      \     'parentheses':[['\(\#ifdef\|\#ifndef\|\#if\)','\#endif'], 'start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+      \   },
+      \ }
+      \ }
+
+      " \   'c': {
+      " \     'parentheses':[['\(\#ifdef\|\#ifndef\|\#if\)','\(\#elif\|\#else\)','\#endif'], 'start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+      " \   },
+
+      " has no effect
+      " \   'sh': {
+      " \     'parentheses': [['\(^\|\s\)\S*()\s*{\?\($\|\s\)','_^{_','}'], ['\(^\|\s\)if\($\|\s\)','_\(^\|\s\)\(then\|else\|elif\)\($\|\s\)_','\(^\|\s\)fi\($\|\s\)'], ['\(^\|\s\)for\($\|\s\)','_\(^\|\s\)\(do\|in\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)while\($\|\s\)','_\(^\|\s\)\(do\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)case\($\|\s\)','_\(^\|\s\)\(\S*)\|in\|;;\)\($\|\s\)_','\(^\|\s\)esac\($\|\s\)']],
+      " \   },
+
+" vim:
+" \           'parentheses': [['fu\w* \s*.*)','endfu\w*'], ['for','endfor'], ['while', 'endwhile'], ['if','_elseif\|else_','endif'], ['(',')'], ['\[','\]'], ['{','}']],
+
+" NOTE: fortran is dummy used for *.fpp files
+
+" }}}
 endif
-
-" " rtags {{{
-" " # rtag
-" " https://github.com/lyuts/vim-rtags
-" " https://github.com/Andersbakken/rtags/
-" " https://skebanga.github.io/rtags-with-cmake-in-spacemacs/
-" Plug 'lyuts/vim-rtags',programming_cpp
-" " disable default mappings
-" let g:rtagsUseDefaultMappings = 0
-"
-" let g:rtagsJumpStackMaxSize = 1000
-" let g:rtagsUseLocationList = 1
-"
-" augroup AugroupRTags
-"   autocmd!
-"   " RENAME
-"   autocmd FileType c,cpp map <silent> <F1> <esc>:call rtags#RenameSymbolUnderCursor()<CR>
-"   "
-" " map <silent> <F1> <esc>:call rtags#SymbolInfo()<CR>
-"
-"   " JUMP TO
-"   autocmd FileType cpp unmap <f3>
-"   autocmd FileType cpp map <silent> <F3> <esc>:call rtags#JumpTo(g:SAME_WINDOW)<CR>
-"   autocmd FileType cpp map <silent> <leader><F3> <esc>:call rtags#JumpTo(g:NEW_TAB)<CR>
-"
-"   autocmd FileType c,cpp map <silent> <F4> <esc>:call rtags#FindRefs()<CR>
-"   autocmd FileType c,cpp map <silent> <F5> <esc>:call rtags#FindRefsCallTree()<CR>
-" augroup END
-"
-"
-" " if g:rtagsUseDefaultMappings == 1
-" "     noremap <Leader>ri :call rtags#SymbolInfo()<CR>
-" "     noremap <Leader>rj :call rtags#JumpTo(g:SAME_WINDOW)<CR>
-" "     noremap <Leader>rJ :call rtags#JumpTo(g:SAME_WINDOW, { '--declaration-only' : '' })<CR>
-" "     noremap <Leader>rS :call rtags#JumpTo(g:H_SPLIT)<CR>
-" "     noremap <Leader>rV :call rtags#JumpTo(g:V_SPLIT)<CR>
-" "     noremap <Leader>rT :call rtags#JumpTo(g:NEW_TAB)<CR>
-" "     noremap <Leader>rp :call rtags#JumpToParent()<CR>
-" "     noremap <Leader>rf :call rtags#FindRefs()<CR>
-" "     noremap <Leader>rF :call rtags#FindRefsCallTree()<CR>
-" "     noremap <Leader>rn :call rtags#FindRefsByName(input("Pattern? ", "", "customlist,rtags#CompleteSymbols"))<CR>
-" "     noremap <Leader>rs :call rtags#FindSymbols(input("Pattern? ", "", "customlist,rtags#CompleteSymbols"))<CR>
-" "     noremap <Leader>rr :call rtags#ReindexFile()<CR>
-" "     noremap <Leader>rl :call rtags#ProjectList()<CR>
-" "     noremap <Leader>rw :call rtags#RenameSymbolUnderCursor()<CR>
-" "     noremap <Leader>rv :call rtags#FindVirtuals()<CR>
-" "     noremap <Leader>rb :call rtags#JumpBack()<CR>
-" "     noremap <Leader>rC :call rtags#FindSuperClasses()<CR>
-" "     noremap <Leader>rc :call rtags#FindSubClasses()<CR>
-" "     noremap <Leader>rd :call rtags#Diagnostics()<CR>
-" " endif
-" " }}}
+" }}}
 
 " coc.vim {{{
-" Plug 'neoclide/coc.nvim',{'do':'yarn install'}
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release'}
-let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-yaml', 'coc-xml', 'coc-java', 'coc-rls', 'coc-rust-analyzer', 'coc-go', 'coc-metals', 'coc-sql', 'coc-vimlsp', 'coc-jedi']
+  Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release', 'for': ['cpp','sh','rust','go','zsh','vim','scala','python','java','lua']}
+let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-yaml', 'coc-xml', 'coc-java', 'coc-rls', 'coc-rust-analyzer', 'coc-go', 'coc-metals', 'coc-sql', 'coc-vimlsp', 'coc-jedi', 'coc-lua']
 " https://github.com/josa42/coc-go
 " https://github.com/neoclide/coc-java
 
@@ -318,15 +254,15 @@ let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-yaml', 'coc-xml', 'c
 
 augroup AugroupCoc
   autocmd!
-  autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java unmap <f3>
+  autocmd FileType cpp,sh,rust,go,zsh,vim,scala,python,java,lua unmap <f3>
   " autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java unmap gd
-  autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java map <silent> <F3> <Plug>(coc-definition)
+  autocmd FileType cpp,sh,rust,go,zsh,vim,scala,python,java,lua map <silent> <F3> <Plug>(coc-definition)
   " autocmd FileType cpp,sh,c,rust,go,zsh map <silent> <leader><F3> :tabedit % | call CocActionAsync('jumpDefinition')
 
-  autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java nmap <silent> gd <Plug>(coc-definition)
-  autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java nmap <silent> gy <Plug>(coc-type-definition)
-  autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java nmap <silent> gi <Plug>(coc-implementation)
-  autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java nmap <silent> gr <Plug>(coc-references)
+  autocmd FileType cpp,sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gd <Plug>(coc-definition)
+  autocmd FileType cpp,sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gy <Plug>(coc-type-definition)
+  autocmd FileType cpp,sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gi <Plug>(coc-implementation)
+  autocmd FileType cpp,sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gr <Plug>(coc-references)
 
   " Go to the Type of a variable
   " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-type-definition)
@@ -354,33 +290,6 @@ augroup AugroupCoc
 " rust https://github.com/jonhoo/configs/blob/master/editor/.config/nvim/init.vim
 augroup END
 
-" cmake -GNinja -H. -BRelease -DCMAKE_INSTALL_PREFIX=$HOME && ninja -C Release && ninja -C Release install
-" NOT a vim plugin
-" Plug 'MaskRay/ccls',{'do':'cmake -GNinja -H. -BRelease -DCMAKE_INSTALL_PREFIX=$HOME && ninja -C Release && ninja -C Release install'}
-" }
-
-" }}}
-
-" python {{{
-" Plug 'pappasam/coc-jedi', { 'do': 'yarn install --frozen-lockfile && yarn build' }
-" Plug 'davidhalter/jedi-vim',{'for': ['python']}
-" " Disable default binding
-" let g:jedi#completions_enabled = 0
-" let g:jedi#goto_command = "<f3>"
-" " autocmd FileType python setlocal completeopt-=preview
-"
-" " TODO let g:jedi#rename_command = "<leader>r"
-" if has('nvim')
-"   Plug 'neovim/python-client'
-"   Plug 'zchee/deoplete-jedi'
-" endif
-
-" Plug 'nathanaelkane/vim-indent-guides',{'for': ['python']}
-
-" redundant?
-" sort imports
-" Plug 'tweekmonster/impsort.vim'
-" autocmd BufWritePre *.py ImpSort!
 " }}}
 
 " {{{
@@ -414,10 +323,11 @@ if !has('win32unix') && !has('win64unix')
   "'clang', 'clangcheck', 'cpplint','cppcheck', 'clangtidy'
   let g:ale_linters = {
         \   'cpp':    ['g++','cppcheck', 'ccls'],
-        \   'c':      ['clangtidy', 'ccls'],
+        \   'c':      ['clangtidy'],
         \   'sh':     ['shellcheck'],
         \   'markdown': [],
         \}
+  " NOTE: ccls is heavy when i open linux (c)
   " coc does this instead: 'rust':   ['rls', 'analyzer'],
   " TODO  'redpen', 'writegood'
   " - redpen config (there is no way of in ALE to configure) http://redpen.herokuapp.com/
@@ -898,7 +808,7 @@ Plug 'nickhutchinson/vim-cmake-syntax'
 
 " markdown {{{
 Plug 'tpope/vim-markdown'
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'c', 'dts', 'xml', 'strace', 'zsh=sh', 'cpp']
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'c', 'dts', 'xml', 'strace', 'zsh=sh', 'cpp', 'vim']
 let g:markdown_syntax_conceal = 0
 let g:markdown_minlines = 9000
 " }}}
@@ -993,64 +903,6 @@ endif
 " cmap <silent> <F10> <ESC>:TagbarToggle<CR>
 " }}}
 
-" rainbow scope {{{
-" colors scope () {}
-Plug 'luochen1990/rainbow'
-
-" activate rainbow scope higlight
-let g:rainbow_active = 1
-
-"\ 'guifgs': ['darkorange3', 'seagreen3', 'deepskyblue', 'darkorchid3', 'forestgreen', 'lightblue', 'hotpink', 'mistyrose1'],
-" \ 'operators': '_[\,\+\*\-\&\^\!\.\<\>\=\|\?]_',
-", 'lightmagenta'
-" #ff9900   | orange
-" #ff1493   | pink
-" #9acd32   | green
-" #9400d3   | magenta
-" #696969   | grey
-" #4169e1   | dark blue
-" #dc143c   | red
-" #00ced1   | baby blue
-" #008000   | dark green
-let g:rainbow_conf =
-      \ {
-      \ 'ctermfgs': ['lightblue', 'red', 'cyan', 'darkgreen'],
-      \ 'guifgs': ['#ff9900','#ff1493','#9acd32'],
-      \ 'operators': '_[\,\-\<\>\.|\*]_',
-      \	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
-      \	'separately': {
-      \   'sh': {
-      \     'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
-      \   },
-      \   'make': {
-      \     'parentheses':[['\(^\|\s\)\(ifeq\|ifneq\|ifdef\|ifndef\)\($\|\s\)','_\(^\|\s\)\(endif\|else ifeq\|else ifneq\|else ifdef\|else ifndef\|else\)\($\|\s\)_','\(^\|\s\)endif\($\|\s\)']],
-      \   },
-      \   'fortran': {
-      \     'parentheses':[['\(^\|\s\)\(\#if\|\#ifdef\|\#ifndef\)\($\|\s\)','_\(^\|\s\)\(\#endif\|\#elif\|\#else\)\($\|\s\)_','\(^\|\s\)\#endif\($\|\s\)'], ['\(^\|\s\)\#for\($\|\s\)','\(^\|\s\)\#endfor\($\|\s\)']],
-      \   },
-      \   'vim': {
-      \     'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
-      \   },
-      \   'c': {
-      \     'parentheses':[['\(\#ifdef\|\#ifndef\|\#if\)','\#endif'], 'start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
-      \   },
-      \ }
-      \ }
-
-      " \   'c': {
-      " \     'parentheses':[['\(\#ifdef\|\#ifndef\|\#if\)','\(\#elif\|\#else\)','\#endif'], 'start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
-      " \   },
-
-      " has no effect
-      " \   'sh': {
-      " \     'parentheses': [['\(^\|\s\)\S*()\s*{\?\($\|\s\)','_^{_','}'], ['\(^\|\s\)if\($\|\s\)','_\(^\|\s\)\(then\|else\|elif\)\($\|\s\)_','\(^\|\s\)fi\($\|\s\)'], ['\(^\|\s\)for\($\|\s\)','_\(^\|\s\)\(do\|in\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)while\($\|\s\)','_\(^\|\s\)\(do\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)case\($\|\s\)','_\(^\|\s\)\(\S*)\|in\|;;\)\($\|\s\)_','\(^\|\s\)esac\($\|\s\)']],
-      " \   },
-
-" vim:
-" \           'parentheses': [['fu\w* \s*.*)','endfu\w*'], ['for','endfor'], ['while', 'endwhile'], ['if','_elseif\|else_','endif'], ['(',')'], ['\[','\]'], ['{','}']],
-
-" note: fortran is dummy used for *.fpp files
-" }}}
 
 " {{{
 " historic buffer navigation
@@ -1181,9 +1033,9 @@ Plug 'vim-python/python-syntax'
 
 " {{{
 if has('nvim')
-Plug 'zpooky/vim-illuminate', {'for':['c','cpp','vim','shell','make','go']}
+Plug 'zpooky/vim-illuminate', {'for':['c','cpp','vim','shell','make','go', 'lua']}
 else
-Plug 'zpooky/vim-illuminate', {'for':['c','cpp','vim','shell','make','python','go', 'java', 'scala']}
+Plug 'zpooky/vim-illuminate', {'for':['c','cpp','vim','shell','make','python','go', 'java', 'scala', 'lua']}
 endif
 
 " hi link illuminatedWord MatchParen
@@ -1203,7 +1055,6 @@ let g:Illuminate_ftHighlightGroups = {
       \ 'make': ['makeIdent', 'makeTarget'],
       \ 'java': ['javaFunction', 'javaIdentifier', 'javaConstant'],
       \ }
-" TODO not working
 
 let g:Illuminate_ftHighlightGroupsBlacklist = {
       \ 'vim': ['vimFuncKey'],
@@ -1250,6 +1101,24 @@ if has('win32unix') || has('win64unix')
   augroup END
 endif
 
+
+if has('nvim') && has('nvim-0.5.0')
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  highlight = {
+    enable = false,              -- false will disable the whole extension
+    disable = { "c", "rust" },  -- list of language that will be disabled
+  },
+  rainbow = {
+    enable = true
+  },
+  cglobal = {
+    enable = true
+  },
+}
+EOF
+endif
 
 " gdb {{{
 " function! JobCallback(self, data) abort
