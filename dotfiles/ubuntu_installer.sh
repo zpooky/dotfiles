@@ -25,11 +25,11 @@ if [[ "$(uname -a)" =~ Microsoft ]]; then
   sudo apt-get install tree
 else
   sudo snap install htop
-  sudo snap install node --classic 
-  sudo snap install ruby --classic 
+  sudo snap install node --classic
+  sudo snap install ruby --classic
 
-  sudo snap install nvim --classic 
-  sudo snap install universal-ctags --classic 
+  sudo snap install nvim --classic  --channel=latest/beta
+  sudo snap install universal-ctags --classic
 
   sudo snap install tree 
 fi

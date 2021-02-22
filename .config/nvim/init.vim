@@ -442,6 +442,10 @@ let g:tcomment_opleader1 = 'gc'
 " Tcomment visual
 vmap <leader>c :TComment<CR>
 vmap <leader>= :TCommentBlock<CR>
+augroup AugroupTComment
+  autocmd!
+  autocmd FileType c,cpp,objc,python xnoremap <leader>c :TCommentInline<CR>
+augroup END
 " }}}
 
 " {{{
