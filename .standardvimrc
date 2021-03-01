@@ -1242,15 +1242,45 @@ function! SpookyGetMirror(file) abort
   return ""
 endfunction
 
+function! SpFindGit(path) abort
+  let l:parent = a:path
+
+  while 1
+    let l:path = l:parent . '/.git'
+    if isdirectory(l:path) || filereadable(l:path)
+      return l:parent
+    endif
+    let l:next = fnamemodify(l:parent, ':h')
+    if l:next == l:parent
+      return ''
+    endif
+    let l:parent = l:next
+  endwhile
+endfunction
+
+
 function! SpookyPrintCurrentFile() abort
   " redraw
-  echomsg expand("%:p")
+  " escape: Escape the characters in {chars} that occur in {string} with a
+  " example: :echo escape('c:\program files\vim', ' \')
+  " results in: 'c:\\program\ files\\vim'
+  let l:self = expand("%:p")
+  let l:parent = expand('%:p:h') " escape()
+  let l:git = SpFindGit(parent)
+  if l:git !=# ''
+    echomsg l:self[len(l:git)+1:len(l:self)]
+  " elseif 
+  else
+    echomsg l:self
+  endif
+" echo fnameescape(fnamemodify(finddir('.git',escape(expand('%:p:h'), ' ') . ';'), ':h'))
+
 endfunction
 
 function! SpookyToggleFile(file) abort
   let mirror = SpookyGetMirror(a:file)
   if strlen(mirror) > 0
-    execute "edit ".mirror
+    execute "silent edit ".mirror
     call SpookyPrintCurrentFile()
   endif
 endfunction
@@ -1400,8 +1430,6 @@ function! SpookyTabNext(cnt) abort
   endif
   call SpookyPrintCurrentFile()
 endfunction
-" echo fnameescape(fnamemodify(finddir('.git',escape(expand('%:p:h'), ' ') . ';'), ':h'))
-
 
 nmap <silent> gt :<C-U>call SpookyTabNext(v:count)<cr>
 " nnoremap <silent> wasd :call SpookyTabNext()<cr>
