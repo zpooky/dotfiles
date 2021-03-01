@@ -243,7 +243,16 @@ nnoremap k gk
 " }}}
 
 " Spell {{{
-map <silent><f6> <esc>:setlocal spell!<CR>
+function! SpSpell()
+  setlocal spell!
+  if &spell is 1
+    echomsg "spell (".&spelllang.")"
+  else
+    echomsg "nospell"
+  endif
+	return 0
+endfunction
+nmap <silent> <f6> :call SpSpell()<cr>
 map zn ]s
 map zp [s
 map zN [s
@@ -256,7 +265,7 @@ nnoremap <leader>z ea<C-X><C-S>
 " hi clear SpellBad
 " hi SpellBad cterm=underline gui=underline
 
-set spelllang=en_gb               " Specify the spell checking language.
+" set spelllang=en_gb               " Specify the spell checking language.
 set nospell                       " Disable spell checking by default.
 set dictionary+=/usr/share/dict/words
 " Own spell db
@@ -918,28 +927,6 @@ nnoremap <silent><leader>e <esc>:tabedit<CR>
 " new line above and below without entering insert mode
 map <silent> <leader>o o<esc>
 map <silent> <leader>O O<esc>
-
-" map <silent> <leader>o o<C-U><esc>
-" map <silent> <leader>O O<C-U><esc>
-
-" " half page down/up
-" map <silent> ö <C-D>
-" map <silent> Ö <C-U>
-" "
-" " page up/down
-" map <silent> å <PageUp>
-" map <silent> ä <PageDown>
-
-" pane navigation
-map <silent> <leader>1 <esc>1gt
-map <silent> <leader>2 <esc>2gt
-map <silent> <leader>3 <esc>3gt
-map <silent> <leader>4 <esc>4gt
-map <silent> <leader>5 <esc>5gt
-map <silent> <leader>6 <esc>6gt
-map <silent> <leader>7 <esc>7gt
-map <silent> <leader>8 <esc>8gt
-map <silent> <leader>9 <esc>9gt
 
 " behave similar to D
 noremap Y y$

@@ -142,8 +142,11 @@ fi
 # npm install -g prettier
 
 pip3 install --user --upgrade yapf
-
 npm install --global yarn
+
+pip3 install --user --upgrade mumpy
+pip3 install --user --upgrade scipy
+pip3 install --user --upgrade matplotlib
 
 # }
 

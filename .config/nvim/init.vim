@@ -1071,6 +1071,12 @@ let g:Illuminate_ftHighlightGroupsBlacklist = {
 "  'cStatement',
 " }}}
 
+" {{{
+Plug 'Konfekt/vim-DetectSpellLang'
+let g:detectspelllang_langs = {}
+let g:detectspelllang_langs.aspell = [ 'en_GB', 'sv' ]
+" }}}
+
 call plug#end()
 " }}}
 

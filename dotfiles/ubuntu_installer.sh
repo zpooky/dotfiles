@@ -14,6 +14,8 @@ sudo apt-get install silversearcher-ag
 sudo apt-get install tig
 sudo apt-get install python3-venv
 
+# vim: Konfekt/vim-DetectSpellLang
+sudo apt-get install aspell aspell-en aspell-sv
 
 if [[ "$(uname -a)" =~ Microsoft ]]; then
   sudo apt-get install htop
