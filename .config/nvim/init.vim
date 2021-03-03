@@ -319,22 +319,24 @@ if !has('win32unix') && !has('win64unix')
   let g:ale_sign_warning = '⚠'
 
   " :ALEInfo - current settings
+  " DEBUG not working by ":ALEInfoToClipboard" and looking at the end for (executable check - failure)
 
   "'clang', 'clangcheck', 'cpplint','cppcheck', 'clangtidy'
   let g:ale_linters = {
         \   'cpp':    ['g++','cppcheck', 'ccls'],
         \   'c':      ['clangtidy'],
         \   'sh':     ['shellcheck'],
-        \   'markdown': [],
+        \   'markdown': ['languagetool'],
+        \   'text': ['languagetool'],
+        \   'mail': ['languagetool']
         \}
+  let g:ale_languagetool_executable = $HOME."/bin/sp_language_tool_commandline.sh"
+  let g:ale_languagetool_options = "--autoDetect"
+
   " NOTE: ccls is heavy when i open linux (c)
   " coc does this instead: 'rust':   ['rls', 'analyzer'],
   " TODO  'redpen', 'writegood'
   " - redpen config (there is no way of in ALE to configure) http://redpen.herokuapp.com/
-  " - 'languagetool' in ALE only states there is an grammatical error in this line not more precise
-  "   - https://github.com/dpelle/vim-LanguageTool
-  "   - https://github.com/rhysd/vim-grammarous
-  "
 " !! :lopen to get a list of more wanring
 " 'gcc','cppcheck', 'ccls',
 
@@ -1181,17 +1183,4 @@ endfunc
 
 command! SynStack :call SynStack()
 map <F7> :SynStack<CR>
-" }}}
-
-" {{{
-" TODO this is the get grammar working
-" https://github.com/vigoux/LanguageTool.nvim
-" let g:languagetool_server='/usr/share/java/languagetool/languagetool-server.jar'
-" Plug 'vigoux/LanguageTool.nvim', {'for':['markdown', 'tex]}
-"
-" augroup AugroupLanguageServerTool
-"   autocmd Filetype tex LanguageToolSetUp
-"   autocmd Filetype markdown LanguageToolSetUp
-" augroup END
-
 " }}}
