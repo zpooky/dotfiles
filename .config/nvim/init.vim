@@ -230,7 +230,7 @@ endif
 " }}}
 
 " coc.vim {{{
-  Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release', 'for': ['cpp','sh','rust','go','zsh','vim','scala','python','java','lua']}
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release', 'for': ['cpp','sh','rust','go','zsh','vim','scala','python','java','lua']}
 let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-yaml', 'coc-xml', 'coc-java', 'coc-rls', 'coc-rust-analyzer', 'coc-go', 'coc-metals', 'coc-sql', 'coc-vimlsp', 'coc-jedi', 'coc-lua']
 " https://github.com/josa42/coc-go
 " https://github.com/neoclide/coc-java
@@ -1051,7 +1051,7 @@ endif
 hi link illuminatedWord SpIlluminated
 "
 let g:sh_no_error = 1
-let g:Illuminate_delay = 0
+let g:Illuminate_delay = 100
 let g:Illuminate_ftblacklist = ['vim-plug', '', 'gitcommit', 'tagbar']
 " by default most things are highlighted, this overrides that:
 let g:Illuminate_ftHighlightGroups = {
