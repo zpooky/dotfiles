@@ -56,7 +56,9 @@ sudo apt-get install tig
 sudo apt-get install python3-venv
 
 # vim: Konfekt/vim-DetectSpellLang
-sudo apt-get install aspell aspell-en aspell-sv
+sudo apt-get install aspell
+sudo apt-get install aspell-en
+sudo apt-get install aspell-sv
 
 if [[ "$(uname -a)" =~ Microsoft ]]; then
   sudo apt-get install htop
@@ -88,3 +90,24 @@ else
   sudo apt-get install gnome-tweak-tool -y
   sudo apt-get install xclip
 fi
+
+sudo apt-get install cppcheck
+sudo apt-get install clang-tidy
+if [[ "$(uname -a)" =~ Microsoft ]]; then
+  sudo apt-get install ccls
+else
+  sudo snap install ccls
+fi
+
+# json
+sudo apt-get install jq
+
+if [[ ! "$(uname -a)" =~ Microsoft ]]; then
+  if has_feature; then
+    sudo snap install shfmt
+  fi
+else
+  echo "TODO"
+fi
+
+# sudo apt-get install shellcheck

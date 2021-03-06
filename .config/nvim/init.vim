@@ -446,7 +446,7 @@ vmap <leader>c :TComment<CR>
 vmap <leader>= :TCommentBlock<CR>
 augroup AugroupTComment
   autocmd!
-  autocmd FileType c,cpp,objc,python xnoremap <leader>c :TCommentInline<CR>
+  autocmd FileType c,cpp,objc xnoremap <leader>c :TCommentInline<CR>
 augroup END
 " }}}
 
@@ -530,8 +530,8 @@ let g:neoformat_only_msg_on_error = 1
 
 augroup AugroupNeoformat
   autocmd!
-  autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust,json,scala,java nnoremap <buffer><leader>f <esc>:Neoformat<CR>
-  autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust,json,scala,java vnoremap <buffer><leader>f <esc>:Neoformat<CR>
+  autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust,json,scala,java,lua nnoremap <buffer><leader>f <esc>:Neoformat<CR>
+  autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust,json,scala,java,lua vnoremap <buffer><leader>f <esc>:Neoformat<CR>
 augroup END
 " }}}
 
@@ -814,7 +814,7 @@ Plug 'nickhutchinson/vim-cmake-syntax'
 
 " markdown {{{
 Plug 'tpope/vim-markdown'
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'c', 'dts', 'xml', 'strace', 'zsh=sh', 'cpp', 'vim']
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'c', 'dts', 'xml', 'strace', 'zsh=sh', 'cpp', 'vim', 'lua']
 let g:markdown_syntax_conceal = 0
 let g:markdown_minlines = 9000
 " }}}

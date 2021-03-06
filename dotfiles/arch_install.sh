@@ -39,7 +39,7 @@ function install_graphic_pkg() {
 function ins_yay_itself() {
   has_feature "yay"
   if [ $? -eq 1 ]; then
-    pacman -Ss "^yay$" > /dev/null
+    pacman -Ss "^yay$" >/dev/null
     local ret=$?
     if [ ${ret} -eq 0 ]; then
       install_pkg yay
@@ -84,76 +84,101 @@ if [ $? -eq 1 ]; then
   install_pkg gvim
 fi
 
-# has_feature powerline
-# if [ $? -eq 1 ]; then
-#   install_pkg powerline
-#   install_pkg python-powerline
-# fi
-
-# TODO
-# - man-db
-# - man-pages
-
-
-install_pkg shellcheck
-
-install_pkg pass
-
-
-has_feature jsonlint
-if [ $? -eq 1 ]; then
-  yay -S nodejs-jsonlint
+if ! has_feature python; then
+  install_pkg python
+  install_pkg python-neovim
+  install_pkg python-jedi
+  install_pkg jedi-language-server
+fi
+install_pkg npm
+install_pkg curl
+if ! has_feature zsh; then
+  install_pkg zsh
+  install_pkg zsh-completions
+fi
+install_pkg rake
+install_pkg yarn
+install_pkg tmux
+if ! has_feature ag; then
+  install_yay the_silver_searcher
+fi
+install_pkg tig
+if ! has_feature aspell; then
+  install_pkg aspell
+  install_pkg aspell-en
+  install_pkg aspell-sv
 fi
 
-#nvim
-install_pkg nodejs
-install_pkg yarn
+install_pkg htop
+if ! has_feature node; then
+  install_pkg nodejs
+  install_yay nodejs-neovim
+fi
 
-install_pkg ruby
-install_pkg npm
+if ! has_feature ruby; then
+  install_pkg ruby
+  install_yay ruby-neovim
+fi
 
+if ! has_feature nvim; then
+  install_pkg neovim
+fi
+install_pkg ctags
+install_pkg tree
+install_pkg languagetool
+
+install_pkg bash-language-server
+install_pkg shfmt
+# install_pkg shellcheck
+
+install_pkg xclip
+
+#python formatter
+install_pkg yapf
+if ! has_feature cppcheck; then
+  install_yay cppcheck
+fi
+install_pkg ccls
+# json
+install_pkg jq
+
+if ! has_feature metals-vim; then
+  install_pkg metals
+fi
+
+if ! has_feature lua-format; then
+  install_yay lua-format
+fi
+
+install_pkg ranger
+install_pkg wget
+install_pkg sudo
+install_pkg cmake
+install_pkg clang
+install_pkg autoconf
+install_pkg perf
+install_pkg patch
+
+# --------------------
+if ! has_feature jsonlint; then
+  yay -S nodejs-jsonlint
+fi
 # wifi
-install_pkg iwd
+if ! has_feature iwctl; then
+  install_pkg iwd
+fi
+
+exit 0
 
 # dev
 install_pkg backward-cpp
 install_pkg gtest
-
-# scala language server
-install_yay metals
-
-# clang based language server
-install_pkg ccls
 
 # Eclipse Java language server
 install_yay jdtls
 
 # An LSP server for Go
 install_yay gopls-git
-
-has_feature nvim
-if [ $? -eq 1 ]; then
-  install_pkg neovim
-
-#pip2 install --user neovim
-#pip3 install --user neovim
-
-  install_pkg python-neovim
-  install_pkg python2-neovim
-
-  # gem install neovim
-  install_yay ruby-neovim
-  # npm install -g neovim
-  install_yay nodejs-neovim
-  install_yay bash-language-server
-
-  #
-  #pip2 install --user jedi
-  #pip3 install --user jedi
-  #pip install --user jedi
-  install_yay python-jedi
-  install_yay python2-jedi
-fi
 
 has_feature trans
 if [ $? -eq 1 ]; then
@@ -178,26 +203,25 @@ if [ $? -eq 1 ]; then
 fi
 
 #spelling
-has_feature proselint
-if [ $? -eq 1 ]; then
-  install_yay proselint
-fi
+# has_feature proselint
+# if [ $? -eq 1 ]; then
+#   install_yay proselint
+# fi
+# has_feature redpen
+# if [ $? -eq 1 ]; then
+#   install_yay redpen
+# fi
+# if ! has_feature cabal; then
+#   install cabal-install || exit 1
+#   cabal update
+#   cabal install spellcheck
+# fi
 
-has_feature redpen
-if [ $? -eq 1 ]; then
-  install_yay redpen
-fi
-
-has_feature cppcheck
-if [ $? -eq 1 ]; then
-  install_yay cppcheck
-fi
-
-has_feature afl-gcc
-if [ $? -eq 1 ]; then
-  install_pkg afl
-  install_pkg afl-utils
-fi
+# has_feature afl-gcc
+# if [ $? -eq 1 ]; then
+#   install_pkg afl
+#   install_pkg afl-utils
+# fi
 
 #video player
 install_graphic_pkg mpv
@@ -210,24 +234,9 @@ install_graphic_pkg chromium
 #
 install_pkg ranger
 install_graphic_pkg firefox
-install_pkg wget
-install_pkg sudo
-# install_pkg python2
-install_pkg cmake
-install_pkg clang
-install_pkg python
-install_pkg htop
-install_pkg autoconf
-install_pkg sshfs
-install_pkg perf
-install_pkg patch
 
 # compdb adds header to compile db
 #pip2 install --user git+https://github.com/Sarcasm/compdb.git#egg=compdb
-
-
-#python formatter
-install_pkg yapf
 
 #tor-browser
 # install_graphic_pkg tor-browser
@@ -266,7 +275,6 @@ if [[ ! -n "${IS_DOCKER}" ]]; then
   fi
 
   #xclip
-  install_pkg xclip
 
   # has_feature ipfs
   # if [ $? -eq 1 ]; then
@@ -333,7 +341,6 @@ if [[ ! -n "${IS_DOCKER}" ]]; then
   #   systemctl --user start rdm
   # fi
 
-
   has_feature bibtex
   if [ $? -eq 1 ]; then
     install_pkg texlive-bin
@@ -392,38 +399,19 @@ install_pkg acpi
 #   install ghc-static || exit 1
 # fi
 
-# has_feature cabal
-# if [ $? -eq 1 ]; then
-#   install cabal-install || exit 1
-#   cabal update
-#   cabal install spellcheck
-# fi
-
 # install_pkg xterm
-has_feature zsh
-if [ $? -eq 1 ]; then
-  install_pkg zsh
-  install_pkg zsh-completions
-fi
 # install_pkg termite
-install_pkg fzf
+# install_pkg fzf
 
-has_feature javac
-if [ $? -eq 1 ]; then
-  install jdk10-openjdk
-fi
+# has_feature javac
+# if [ $? -eq 1 ]; then
+#   install jdk10-openjdk
+# fi
 
 # misc
 install_pkg pkg-config
 install_pkg keepass
 # install_pkg cscope
-install_pkg tig
-install_pkg tmux
-
-has_feature ag
-if [ $? -eq 1 ]; then
-  install_yay the_silver_searcher
-fi
 
 # has_feature lbdb-fetchaddr
 # if [ $? -eq 1 ]; then
@@ -443,8 +431,6 @@ if [ $? -eq 1 ]; then
   install_yay megasync
 fi
 
-install_pkg ctags
-
 # watch directory for file changes
 install_pkg entr
 
@@ -454,7 +440,7 @@ install_pkg entr
 #   install_yay global
 # fi
 
-install_pkg ack
+# install_pkg ack
 
 has_feature bear
 if [ $? -eq 1 ]; then
@@ -490,12 +476,12 @@ fi
 # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/libtinfo5.tar.gz"
 # yay -S libtinfo5
 
-has_feature eatmydata
-if [ $? -eq 1 ]; then
-  install_yay libeatmydata
-  # #any arch
-  # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/libeatmydata.tar.gz"
-fi
+# has_feature eatmydata
+# if [ $? -eq 1 ]; then
+#   install_yay libeatmydata
+#   # #any arch
+#   # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/libeatmydata.tar.gz"
+# fi
 
 # install_aur "https://aur.archlinux.org/cgit/aur.git/snapshot/fbterm-git.tar.gz"
 
@@ -511,12 +497,11 @@ if [ $? -eq 1 ]; then
   install_yay shfmt
 fi
 
-
 install_pkg bison
 install_pkg flex
 install_pkg strace
 
 # echo "/lib/modules/$(uname -r)/build/include"
 # if [ ! -e "/lib/modules/$(uname -r)/build/include" ]; then
-  # install_pkg linux-headers
+# install_pkg linux-headers
 # fi

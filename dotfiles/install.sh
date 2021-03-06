@@ -34,7 +34,7 @@ start_feature "git submodules"
 # git submodule sync --recursive || exit 1
 # recursivly pull in all submodule repos
 echo "git submodule update --init --recursive --remote --jobs 8"
-git submodule update --init --recursive --remote --jobs 8 || exit 1
+#git submodule update --init --recursive --remote --jobs 8 || exit 1
 # git submodule update --init --recursive || exit 1
 stop_feature "git submodules"
 
@@ -52,26 +52,16 @@ fi
 npm install -g npm
 # sh
 if has_feature pacman; then
-  yay -S bash-language-server
-  yay -S shfmt
-  yay -S shellcheck
+  echo
 else
   npm install -g bash-language-server
-  if [[ ! "$(uname -a)" =~ Microsoft ]]; then
-    if has_feature; then
-      sudo snap install shfmt
-    fi
-  else
-    echo "TODO"
-  fi
-  sudo apt-get install shellcheck
 fi
 # js
 npm install -g typescript
 npm install -g js-beautify # js format
 npm install -g typescript-formatter # typescript format
 if has_feature pacman; then
-  yay -S nodejs-neovim
+  echo
 else
   npm install -g neovim
 fi
@@ -79,7 +69,7 @@ fi
 # - yay -S python2-neovim python2-jedi
 # python3
 if has_feature pacman; then
-  yay -S python-neovim python-jedi jedi-language-server
+  echo
 else
   pip3 install --user --upgrade jedi
   pip3 install --user --upgrade pynvim
@@ -88,7 +78,7 @@ else
 fi
 # ruby
 if has_feature pacman; then
-  yay -S ruby-neovim
+  echo
 else
   gem install --user-install neovim
 fi
@@ -98,50 +88,42 @@ npm install -g dockerfile-language-server-nodejs
 if has_feature rustup; then
   rustup component add rustfmt
 fi
-# json
-if has_feature pacman; then
-  yay -S jq
-else
-  sudo apt-get install jq
-fi
 # c++
 if has_feature pacman; then
-  yay -S cppcheck
   # yay -S clang
-  yay -S ccls
+  # clang based language server
+  echo
 else
-  sudo apt-get install cppcheck
-  sudo apt-get install clang-tidy
-  if [[ "$(uname -a)" =~ Microsoft ]]; then
-    sudo apt-get install ccls
-  else
-    sudo snap install ccls
-  fi
+  echo
 fi
-#  scala
+# scala language server
 if has_feature pacman; then
-  yay -S metals
+  echo
 else
   echo "TODO"
 fi
 # markdown
 npm install -g remark # markdown format
-if has_feature pacman; then
-  yay -S redpen languagetool
-else
-  if [[ ! "$(uname -a)" =~ Microsoft ]]; then
-    if has_feature snap; then
-      sudo snap install redpen
-      sudo snap install languagetool
-    fi
-  else
-    echo "TODO"
-  fi
-fi
+# if has_feature pacman; then
+#   yay -S redpen languagetool
+# else
+#   if [[ ! "$(uname -a)" =~ Microsoft ]]; then
+#     if has_feature snap; then
+#       sudo snap install redpen
+#       sudo snap install languagetool
+#     fi
+#   else
+#     echo "TODO"
+#   fi
+# fi
 
 # npm install -g prettier
 
-pip3 install --user --upgrade yapf
+if has_feature pacman; then
+  echo
+else
+  pip3 install --user --upgrade yapf
+fi
 npm install --global yarn
 
 pip3 install --user --upgrade mumpy
