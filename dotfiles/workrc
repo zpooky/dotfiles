@@ -151,7 +151,7 @@ function ssh_192_168_0_90() {
 
     local l_env_setup='ENV=$HOME/.shinit; export ENV;'
     local l_env=''
-    l_env+='echo "alias ll=\"ls -alh\"" >> $HOME/.shinit'
+    l_env+='echo "alias ll=\"ls -alh\"" > $HOME/.shinit'
     l_env+=' && echo "alias systemctl_status=\"systemctl status audiocontrol monolith parhand ioboxd -l\"" >> $HOME/.shinit'
     l_env+=' && echo "alias systemctl_root=\"cd /usr/lib/systemd/system\"" >> $HOME/.shinit'
     l_env+=' && echo "alias port_scan=\"netstat -lnptux\"" >> $HOME/.shinit'
@@ -192,6 +192,8 @@ function ssh_192_168_0_90() {
     l_env+=' && echo "}" >> $HOME/.shinit'
 
     l_env+=' && echo "alias dmesg_tail=\"while true; do dmesg -c ; sleep 1 ; done\"" >> $HOME/.shinit'
+
+    l_env+=' && echo "alias systemd_failed=\"systemctl --state=failed\"" >> $HOME/.shinit'
 
     # l_env+=' && echo "f() {" >> $HOME/.shinit'
     # l_env+=' && echo "  find -iname "*${1}*" >> $HOME/.shinit'

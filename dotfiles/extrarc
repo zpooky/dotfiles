@@ -120,9 +120,10 @@ alias nvim="stty stop '' -ixoff; nvim -p "
 alias vimnoplugin=" vim -u ~/.standardvimrc"
 alias vimp="vim -"
 
-export EDITOR='vim'
-export SYSTEMD_EDITOR='vim'
-export VISUAL='vim'
+export SP_EDITOR=nvim
+export EDITOR=$SP_EDITOR
+export SYSTEMD_EDITOR=$SP_EDITOR
+export VISUAL=$SP_EDITOR
 
 alias nas540_mount="sshfs admin@192.168.1.12:/i-data/ $HOME/mount/nas540"
 alias nas540_dl="cd $HOME/mount/nas540/0da29454/admin/download/Transmission/download"
@@ -289,12 +290,12 @@ alias tmux='tmux -2'
 alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
 
 # meta
-alias sp-alias="vim $ALIAS_SRC $DOTFILES/extrarc && source $DOTFILES/extrarc"
-alias sp-zshrc="vim -p $HOME/.zshrc $ALIAS_SRC $DOTFILES/extrarc $DOTFILES/workrc"
-alias sp-workrc="vim -p $HOME/dotfiles/workrc && source $DOTFILES/workrc"
+alias sp-alias="$SP_EDITOR -p $ALIAS_SRC $DOTFILES/extrarc && source $DOTFILES/extrarc"
+alias sp-zshrc="$SP_EDITOR -p $HOME/.zshrc $ALIAS_SRC $DOTFILES/extrarc $DOTFILES/workrc"
+alias sp-workrc="$SP_EDITOR -p $HOME/dotfiles/workrc && source $DOTFILES/workrc"
 
-alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/c.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc $HOME/.vim/coc-settings.json $HOME/.vim/plugged/vim-markdown/syntax/markdown.vim"
-# alias sp-vimrc="vim -p $HOME/.config/nvim/init.vim  $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc /home/spooky/.config/nvim/plugged/chromatica.nvim/syntax/*"
+alias sp-vimrc="$SP_EDITOR -p $HOME/.config/nvim/init.vim $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/c.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc $HOME/.vim/coc-settings.json $HOME/.vim/plugged/vim-markdown/syntax/markdown.vim"
+# alias sp-vimrc="$SP_EDITOR -p $HOME/.config/nvim/init.vim  $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc /home/spooky/.config/nvim/plugged/chromatica.nvim/syntax/*"
 
 alias vimsession="vim -S Session.vim"
 
