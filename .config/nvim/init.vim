@@ -161,12 +161,21 @@ let programming_cpp=          {'for':['c','cpp']}
 let programming_haskell=      {'for':'haskell'}
 let programming_scala=        {'for':'scala'}
 
+" {{{
+Plug 'tbastos/vim-lua'
+let g:lua_syntax_nofold = 1
+let g:lua_syntax_nosymboloperator = 1
+" }}}
+
 " nvim tree-sitter {{{
 if has('nvim') && has('nvim-0.5.0')
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'zpooky/cglobal'
-Plug 'p00f/nvim-ts-rainbow'
-else
+" NOTE: while hang if we insert allot of [[[[...]]]]
+" Plug 'p00f/nvim-ts-rainbow'
+endif
+
+if 1
 " rainbow scope {{{
 " colors scope () {}
 Plug 'luochen1990/rainbow'
@@ -230,7 +239,7 @@ endif
 " }}}
 
 " coc.vim {{{
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release', 'for': ['cpp','sh','rust','go','zsh','vim','scala','python','java','lua']}
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release', 'for': ['cpp','sh','rust','go','zsh','vim','scala','python','java','lua','c']}
 let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-yaml', 'coc-xml', 'coc-java', 'coc-rls', 'coc-rust-analyzer', 'coc-go', 'coc-metals', 'coc-sql', 'coc-vimlsp', 'coc-jedi', 'coc-lua']
 " https://github.com/josa42/coc-go
 " https://github.com/neoclide/coc-java
@@ -254,15 +263,15 @@ let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-yaml', 'coc-xml', 'c
 
 augroup AugroupCoc
   autocmd!
-  autocmd FileType cpp,sh,rust,go,zsh,vim,scala,python,java,lua unmap <f3>
+  autocmd FileType c,cpp,sh,rust,go,zsh,vim,scala,python,java,lua unmap <f3>
   " autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java unmap gd
-  autocmd FileType cpp,sh,rust,go,zsh,vim,scala,python,java,lua map <silent> <F3> <Plug>(coc-definition)
+  autocmd FileType c,cpp,sh,rust,go,zsh,vim,scala,python,java,lua map <silent> <F3> <Plug>(coc-definition)
   " autocmd FileType cpp,sh,c,rust,go,zsh map <silent> <leader><F3> :tabedit % | call CocActionAsync('jumpDefinition')
 
-  autocmd FileType cpp,sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gd <Plug>(coc-definition)
-  autocmd FileType cpp,sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gy <Plug>(coc-type-definition)
-  autocmd FileType cpp,sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gi <Plug>(coc-implementation)
-  autocmd FileType cpp,sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gr <Plug>(coc-references)
+  autocmd FileType c,cpp,sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gd <Plug>(coc-definition)
+  autocmd FileType c,cpp,sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gy <Plug>(coc-type-definition)
+  autocmd FileType c,cpp,sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gi <Plug>(coc-implementation)
+  autocmd FileType c,cpp,sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gr <Plug>(coc-references)
 
   " Go to the Type of a variable
   " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-type-definition)
@@ -478,7 +487,7 @@ if !has('win32unix') && !has('win64unix')
   " let g:gutentags_trace=1
   " let g:gutentags_define_advanced_commands=1
 
-  let g:gutentags_ctags_exclude=['autoconf','*.md','configure', 'Makefile','CMakeLists.txt','*.cmake','*.mak', '*.am','*.in','*.m4','*.html','*.php','*.py','*.service', '*.mount','*.target','*.css','*.rst', '*.json', 'Session.vim', '*.dtd', '*.patch','*.ac','*.pm','.ccls-cache', 'svg']
+  let g:gutentags_ctags_exclude=['autoconf','*.md','configure', 'Makefile','CMakeLists.txt','*.cmake','*.mak', '*.am','*.in','*.m4','*.html','*.php','*.py','*.service', '*.mount','*.target','*.css','*.rst', '*.json', 'Session.vim', '*.dtd', '*.patch','*.ac','*.pm','.ccls-cache', 'svg','checktest']
 
   " let g:gutentags_file_list_command = 'ack -f --nohtml --nojson --nomd '
   " let g:gutentags_file_list_command = {
@@ -1183,4 +1192,9 @@ endfunc
 
 command! SynStack :call SynStack()
 map <F7> :SynStack<CR>
+" }}}
+
+" vim-markdown {{{
+" supress issue where unmatch _ (italic) will cause bright red error
+hi link markdownError Normal
 " }}}

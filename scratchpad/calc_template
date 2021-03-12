@@ -43,6 +43,7 @@ import hashlib
 import random
 from operator import xor
 import numpy as np
+import scipy
 import matplotlib.pyplot as plt
 
 def gcd(a, b):
