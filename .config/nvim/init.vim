@@ -1197,4 +1197,11 @@ map <F7> :SynStack<CR>
 " vim-markdown {{{
 " supress issue where unmatch _ (italic) will cause bright red error
 hi link markdownError Normal
+augroup AugroupMarkdown
+  autocmd!
+  " suppress '0:' error
+  autocmd FileType markdown hi link pythonNumberError Normal
+  " suppress '{' error
+  autocmd FileType markdown hi link cErrInParen Normal
+augroup END
 " }}}

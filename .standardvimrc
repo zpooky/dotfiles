@@ -273,6 +273,7 @@ set dictionary+=/usr/share/dict/words
 set spellfile=~/.vim/spell/en.utf-8.add
 
 iab unrequsted unrequested
+iab makeing making
 iab thease these
 iab periphrials peripherals
 iab colission collision

@@ -329,9 +329,9 @@ function sp_calc(){
     hi VertSplit ctermbg=NONE
     hi NonText ctermfg=0
     Codi python
-    set ft=codipython
-    set syntax=python
     "
+    # set ft=codipython
+    # set syntax=python
 }
 
 function sp_calc_cpp() {
