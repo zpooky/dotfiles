@@ -1260,6 +1260,16 @@ function! s:SpFindGit(path) abort
   endwhile
 endfunction
 
+function s:FuncPreview()
+  " https://vim.fandom.com/wiki/Quick_reference_of_current_function
+  let opening = search("^\\S.*)\\s*\\\(\\n\\\)\\={","bn")
+  let closing = search("^}","bn")
+  if opening > closing
+    return getline(opening)
+  else
+    return ""
+  endif
+endfunction
 
 function! s:SpookyPrintCurrentFile() abort
   " redraw
@@ -1441,3 +1451,175 @@ nmap <silent> gt :<C-U>call SpookyTabNext(v:count)<cr>
 " set statusline+=%F
 "
 " nnoremap <expr> - (v:count > 3 ? "m'" . v:count : '') . '-'
+
+function! s:SpMathFormat() range
+  function! s:Xx(str)
+    let l:result = ""
+    let l:state = 0
+    let l:del = { 'cnt': 0, 'mem': '', 'inzert':'', 'cmp':'' }
+
+    " TODO a ^ on its own should be kept
+    " TODO a _ on its own should be kept
+
+    for l:char in split(a:str, '\zs')
+      if l:state == 1 " ^
+        let l:dict = {  '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵',
+                       \ '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹', 'i': 'ⁱ', 'a': 'ᵃ',
+                       \ 'b': 'ᵇ', 'c': 'ᶜ', 'd': 'ᵈ', 'e': 'ᵉ', 'f': 'ᶠ', 'g': 'ᵍ',
+                       \ 'h': 'ʰ', 'k': 'ᵏ', 'l': 'ˡ', 'm': 'ᵐ', 'n': 'ⁿ', 'o': 'ᵒ',
+                       \ 'p': 'ᵖ', 'r': 'ʳ', 's': 'ˢ', 't': 'ᵗ', 'u': 'ᵘ', 'v': 'ᵛ',
+                       \ 'w': 'ʷ', 'x': 'ˣ', 'y': 'ʸ', 'z': 'ᶻ', 'j': 'ʲ',
+                       \ '+': '⁺', '-': '⁻', '(': '⁽', ')': '⁾' }
+        let l:default = 'a'
+        let l:super = get(l:dict, l:char, l:default)
+        if l:super == l:default
+          let l:state = 0
+        else
+          let l:result = l:result.l:super
+        endif
+      endif
+
+      if l:state == 2 " _
+        let l:dict = { '0': '₀', '1': '₁', '2': '₂', '3': '₃', '4': '₄',
+                    \ '5': '₅', '6': '₆', '7': '₇', '8': '₈', '9': '₉',
+                    \ 'a': 'ₐ', 'e': 'ₑ', 'o': 'ₒ', 'h': 'ₕ', 'k': 'ₖ',
+                    \ 'l': 'ₗ', 'm': 'ₘ', 'p': 'ₚ', 's': 'ₛ', 't': 'ₜ',
+                    \ 'n': 'ₙ', 'i': 'ᵢ', 'y': 'ᵧ', 'x': 'ₓ', 'j': 'ⱼ', 'ǝ': 'ₔ'}
+        let l:default = 'a'
+        let l:super = get(l:dict, l:char, l:default)
+        if l:super == l:default
+          let l:state = 0
+        else
+          let l:result = l:result.l:super
+        endif
+      endif
+
+      if l:state == 3 " del
+        if l:char == l:del.cmp
+          let l:del.cnt -= 1
+          let l:del.mem .= l:char
+        else " do not match so add memory
+          let l:result = l:result.l:del.mem
+          let l:del.mem = ''
+          let l:del.cmp = ''
+          let l:del.inzert = ''
+          let l:state = 0
+        endif
+        if l:del.cnt == 0
+          let l:result = l:result.l:del.inzert
+          let l:del.mem = ''
+          let l:del.cmp = ''
+          let l:del.inzert = ''
+          let l:state = 4 " skip"
+        endif
+      endif
+
+      if l:state == 0
+        if l:char == '_'
+          let l:state = 2
+        elseif l:char == '^'
+          let l:state = 1
+        elseif l:char == '*'
+          let l:result = l:result.'⋅'
+        elseif l:char == '.'
+          let l:state = 3 " del
+          let l:del.cmp = '.'
+          let l:del.cnt = 2
+          let l:del.inzert = '…'
+          let l:del.mem = l:char
+        elseif l:char == '+'
+          let l:state = 3 " del
+          let l:del.cmp = '-'
+          let l:del.cnt = 1
+          let l:del.inzert = '±'
+          let l:del.mem = l:char
+        elseif l:char == '!'
+          let l:state = 3 " del
+          let l:del.cmp = '='
+          let l:del.cnt = 1
+          let l:del.inzert = '≠'
+          let l:del.mem = l:char
+        elseif l:char == '>'
+          let l:state = 3 " del
+          let l:del.cmp = '='
+          let l:del.cnt = 1
+          let l:del.inzert = '≥'
+          let l:del.mem = l:char
+        elseif l:char == '<'
+          let l:state = 3 " del
+          let l:del.cmp = '='
+          let l:del.cnt = 1
+          let l:del.inzert = '≤'
+          let l:del.mem = l:char
+        else
+          let l:result = l:result.l:char
+        endif
+      endif
+
+      if l:state == 4 " skip"
+        let l:state = 0
+      endif
+
+    endfor
+    if l:state == 3 " del
+      let l:result = l:result.l:del.mem
+    endif
+
+    return l:result
+  endfunction
+  " lines inclusive
+  " echo "firstline ".a:firstline." lastline ".a:lastline
+  let [l:line_start, l:col_start] = getpos("'<")[1:2]
+  let [l:line_end, l:col_end] = getpos("'>")[1:2]
+  let l:lines = range(line_start, line_end)
+
+  for l:lit in l:lines
+    let l:str_line = getline(l:lit)
+    let l:cs = 0
+    let l:ce = strlen(l:str_line)
+    let l:whole_line = 1
+
+    if l:lit == l:line_start
+      let l:cs = l:col_start-1
+      let l:whole_line = 0
+    endif
+    if l:lit == l:line_end
+      let l:ce = l:col_end-1
+      let l:whole_line = 0
+    endif
+
+    if l:whole_line == 0
+      " echo ":".l:ce
+      let l:ln = l:str_line[l:cs : l:ce]
+      " echo "|".l:ln."|"
+    else
+      let l:ln = l:str_line
+    endif
+    let l:enhanced_line = s:Xx(l:ln)
+    if l:whole_line == 0
+      " TODO issue where l:cs-1 becomes negative?
+      call setline(l:lit, l:str_line[0: l:cs-1].l:enhanced_line.l:str_line[l:ce+1: -1])
+      echo
+    else
+      call setline(l:lit, l:enhanced_line)
+    endif
+
+    " echo l:whole_line."|".l:ln
+  endfor
+  "                        line
+  "                      __|_  __column__
+  " whole line start [0, 1464, 1         , 0]
+  " while line end   [0, 1466, 2147483647, 0]
+  " echo getpos("'<")
+  " echo getpos("'>")
+  " echo l:line_start. " ".l:line_end
+  " echo l:col_start. " ".l:col_end
+
+  " fun! s:replace_in_line(lnum, col_start, col_end, item)
+  " let l:curline = getline(a:lnum)
+  " let l:newline = l:curline[0: a:col_start] . a:item . l:curline[a:col_end: -1]
+  " call setline(a:lnum, l:newline)
+  " endfun
+endfunction
+command! -range SpMathFormat <line1>,<line2>call s:SpMathFormat()
+xnoremap <leader>m <Esc>:SpMathFormat<CR>

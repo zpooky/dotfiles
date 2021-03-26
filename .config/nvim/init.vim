@@ -892,7 +892,7 @@ if !has('win32') && !has('win64')
 
   noremap <silent> <leader>r <Esc>:CommandT<CR>
   " noremap <silent> <leader>O <Esc>:CommandTFlush<CR>
-  noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
+  " noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
   " noremap <silent> <leader>. <esc>:CommandTTag<cr>
   nmap <silent> <Leader>. <Plug>(CommandTTag)
 
@@ -1014,7 +1014,9 @@ Plug 'tpope/vim-obsession'
 " align text around character {{{
 " markdown table align format
 let g:lion_squeeze_spaces = 1
-"visual mode: 'gl|': align in paragraph around =
+"
+" visual mode: 'gl|': align in paragraph around =
+"
 Plug 'tommcdo/vim-lion'
 " }}}
 
