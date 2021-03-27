@@ -1583,8 +1583,7 @@ function! s:SpMathFormat() range
 
     return l:result
   endfunction
-  " lines inclusive
-  " echo "firstline ".a:firstline." lastline ".a:lastline
+
   let [l:line_start, l:col_start] = getpos("'<")[1:2]
   let [l:line_end, l:col_end] = getpos("'>")[1:2]
   let l:lines = range(line_start, line_end)
@@ -1613,15 +1612,10 @@ function! s:SpMathFormat() range
     endif
     let l:enhanced_line = s:Xx(l:ln)
     if l:whole_line == 0
-      " TODO issue where l:cs-1 becomes negative?
-      " echo l:cs
-      echo 0."|".l:str_line[0: l:cs]."|".l:cs
-      if l:cs > 0
-        " let l:cs -= 1
-      endif
+      " echo 0."|".l:str_line[0: l:cs]."|".l:cs
       let l:prefix=""
       if l:cs != 0
-        let l:prefix=l:str_line[0: l:cs]
+        let l:prefix=l:str_line[0: l:cs-1]
       endif
 
       call setline(l:lit, l:prefix.l:enhanced_line.l:str_line[l:ce+1: -1])
@@ -1632,6 +1626,10 @@ function! s:SpMathFormat() range
 
     " echo l:whole_line."|".l:ln
   endfor
+
+  " set cursor at start of selection
+  call cursor(l:line_start,l:col_start)
+
   "                        line
   "                      __|_  __column__
   " whole line start [0, 1464, 1         , 0]
