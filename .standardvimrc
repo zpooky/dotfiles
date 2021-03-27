@@ -1457,10 +1457,8 @@ function! s:SpMathFormat() range
     let l:result = ""
     let l:state = 0
     let l:del = { 'cnt': 0, 'mem': '', 'inzert':'', 'cmp':'' }
+    let l:sub_sup = { 'cnt': 0 }
     let l:open_brace_cnt=0
-
-    " TODO a ^ on its own should be kept
-    " TODO a _ on its own should be kept
 
     for l:char in split(a:str, '\zs')
       if l:state == 1 " ^
@@ -1475,8 +1473,12 @@ function! s:SpMathFormat() range
         let l:default = 'a'
         let l:super = get(l:dict, l:char, l:default)
         if l:super == l:default
+          if l:sub_sup.cnt == 0
+            let l:result = l:result.'^'
+          endif
           let l:state = 0
           let l:open_brace_cnt = 0
+          let l:sub_sup = { 'cnt': 0 }
         else
           if l:char == '('
             let l:open_brace_cnt += 1
@@ -1486,11 +1488,14 @@ function! s:SpMathFormat() range
               let l:open_brace_cnt -= 1
             else
               let l:state = 0
+              let l:open_brace_cnt = 0
+              let l:sub_sup = { 'cnt': 0 }
             endif
           endif
         endif
 
-        if l:state == 1
+        if l:state == 1 " ^
+          let l:sub_sup.cnt += 1
           let l:result = l:result.l:super
         endif
       endif
@@ -1504,30 +1509,33 @@ function! s:SpMathFormat() range
         let l:default = 'a'
         let l:super = get(l:dict, l:char, l:default)
         if l:super == l:default
+          if l:sub_sup.cnt == 0
+            let l:result = l:result.'_'
+          endif
           let l:state = 0
+          let l:sub_sup = { 'cnt': 0 }
         else
+          let l:sub_sup.cnt += 1
           let l:result = l:result.l:super
         endif
       endif
 
-      if l:state == 3 " del
+      if l:state == 3 " del +-: ±
         if l:char == l:del.cmp
           let l:del.cnt -= 1
           let l:del.mem .= l:char
         else " do not match so add memory
           let l:result = l:result.l:del.mem
-          let l:del.mem = ''
-          let l:del.cmp = ''
-          let l:del.inzert = ''
-          let l:state = 0
+          let l:del = { 'cnt': 0, 'mem': '', 'inzert':'', 'cmp':'' }
         endif
         if l:del.cnt == 0
           let l:result = l:result.l:del.inzert
-          let l:del.mem = ''
-          let l:del.cmp = ''
-          let l:del.inzert = ''
+          let l:del = { 'cnt': 0, 'mem': '', 'inzert':'', 'cmp':'' }
           let l:state = 4 " skip"
         endif
+      endif
+
+      if l:state == 5 " (xor)
       endif
 
       if l:state == 0
@@ -1577,6 +1585,17 @@ function! s:SpMathFormat() range
       endif
 
     endfor
+
+    if l:state == 1 " ^
+      if l:sub_sup.cnt == 0
+        let l:result = l:result.'^'
+      endif
+    endif
+    if l:state == 2 "_
+      if l:sub_sup.cnt == 0
+        let l:result = l:result.'_'
+      endif
+    endif
     if l:state == 3 " del
       let l:result = l:result.l:del.mem
     endif
