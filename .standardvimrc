@@ -1457,6 +1457,7 @@ function! s:SpMathFormat() range
     let l:result = ""
     let l:state = 0
     let l:del = { 'cnt': 0, 'mem': '', 'inzert':'', 'cmp':'' }
+    let l:open_brace_cnt=0
 
     " TODO a ^ on its own should be kept
     " TODO a _ on its own should be kept
@@ -1470,11 +1471,26 @@ function! s:SpMathFormat() range
                        \ 'p': 'ᵖ', 'r': 'ʳ', 's': 'ˢ', 't': 'ᵗ', 'u': 'ᵘ', 'v': 'ᵛ',
                        \ 'w': 'ʷ', 'x': 'ˣ', 'y': 'ʸ', 'z': 'ᶻ', 'j': 'ʲ',
                        \ '+': '⁺', '-': '⁻', '(': '⁽', ')': '⁾' }
+
         let l:default = 'a'
         let l:super = get(l:dict, l:char, l:default)
         if l:super == l:default
           let l:state = 0
+          let l:open_brace_cnt = 0
         else
+          if l:char == '('
+            let l:open_brace_cnt += 1
+          endif
+          if l:char == ')'
+            if l:open_brace_cnt > 0
+              let l:open_brace_cnt -= 1
+            else
+              let l:state = 0
+            endif
+          endif
+        endif
+
+        if l:state == 1
           let l:result = l:result.l:super
         endif
       endif
@@ -1598,7 +1614,17 @@ function! s:SpMathFormat() range
     let l:enhanced_line = s:Xx(l:ln)
     if l:whole_line == 0
       " TODO issue where l:cs-1 becomes negative?
-      call setline(l:lit, l:str_line[0: l:cs-1].l:enhanced_line.l:str_line[l:ce+1: -1])
+      " echo l:cs
+      echo 0."|".l:str_line[0: l:cs]."|".l:cs
+      if l:cs > 0
+        " let l:cs -= 1
+      endif
+      let l:prefix=""
+      if l:cs != 0
+        let l:prefix=l:str_line[0: l:cs]
+      endif
+
+      call setline(l:lit, l:prefix.l:enhanced_line.l:str_line[l:ce+1: -1])
       echo
     else
       call setline(l:lit, l:enhanced_line)
