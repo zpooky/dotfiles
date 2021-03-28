@@ -1457,8 +1457,12 @@ function! s:SpMathFormat() range
     let l:result = ""
     let l:state = 0
     let l:del = { 'cnt': 0, 'mem': '', 'inzert':'', 'cmp':'' }
-    let l:sub_sup = { 'cnt': 0 }
-    let l:open_brace_cnt=0
+    let l:sub_sup = { 'cnt': 0 } " to support alone: _ ^
+    let l:open_brace_cnt=0 " pairing up () or returning to state:0
+
+    let l:complex = { '(xor)': '⊕', '(pi)': 'π', '(sigma)': '∑', '(integral)': '∫', '(mul)': '∏',
+                    \ '(qed)': '∎', '(element)': '∊' }
+    let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
     for l:char in split(a:str, '\zs')
       if l:state == 1 " ^
@@ -1531,11 +1535,41 @@ function! s:SpMathFormat() range
         if l:del.cnt == 0
           let l:result = l:result.l:del.inzert
           let l:del = { 'cnt': 0, 'mem': '', 'inzert':'', 'cmp':'' }
-          let l:state = 4 " skip"
+          let l:state = 4 " skip
         endif
       endif
 
       if l:state == 5 " (xor)
+        for [l:key, l:value] in items(l:complex_mem.candidates)
+          if strlen(l:key) < strlen(l:complex_mem.memory)
+            call remove(l:complex_mem.candidates, l:key)
+          else
+            if l:key[strlen(l:complex_mem.memory)] != l:char
+              call remove(l:complex_mem.candidates, l:key)
+            else
+              let l:tmp_key=l:key
+              let l:tmp_value=l:value
+            endif
+          endif
+        endfor
+
+        if len(l:complex_mem.candidates) == 0
+          let l:result = l:result.l:complex_mem.memory
+          let l:state = 0
+          let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
+        elseif len(l:complex_mem.candidates) == 1 && strlen(l:tmp_key) == strlen(l:complex_mem.memory)+1
+          let l:tmp = l:complex_mem.memory.l:char
+          if l:tmp_key == l:tmp
+            let l:result = l:result.l:tmp_value
+            let l:state = 4 " skip
+          else
+            let l:result = l:result.l:complex_mem.memory
+            let l:state = 0
+          endif
+          let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
+        else
+          let l:complex_mem.memory .= l:char
+        endif
       endif
 
       if l:state == 0
@@ -1575,6 +1609,9 @@ function! s:SpMathFormat() range
           let l:del.cnt = 1
           let l:del.inzert = '≤'
           let l:del.mem = l:char
+        elseif l:char == '('
+          let l:state = 5 "
+          let l:complex_mem.memory = l:char
         else
           let l:result = l:result.l:char
         endif
@@ -1598,6 +1635,10 @@ function! s:SpMathFormat() range
     endif
     if l:state == 3 " del
       let l:result = l:result.l:del.mem
+    endif
+
+    if l:state == 5 " (xor)
+      let l:result = l:result.l:complex_mem.memory
     endif
 
     return l:result
