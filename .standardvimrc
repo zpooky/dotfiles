@@ -933,7 +933,7 @@ map <silent> <leader>O O<esc>
 " behave similar to D
 noremap Y y$
 "
-" Navigation captial H/L goto extreme Right/Left
+" Navigation capital H/L goto extreme Right/Left
 noremap H _
 noremap L g_
 
