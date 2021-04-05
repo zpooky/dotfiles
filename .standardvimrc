@@ -272,7 +272,18 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab independant independent
+iab beleafe belief
+iab dicease decease
+iab decase decease
+iab falsly falsely
+iab curtany certainty
+iab frequncy frequency
 iab unrequsted unrequested
+iab indpendant independent
+iab sucesses successes
+iab successfull successful
+iab proability probability
 iab makeing making
 iab thease these
 iab periphrials peripherals
@@ -1511,8 +1522,8 @@ function! s:SpMathFormat() range
                     \ 'l': 'ₗ', 'm': 'ₘ', 'p': 'ₚ', 's': 'ₛ', 't': 'ₜ',
                     \ 'n': 'ₙ', 'i': 'ᵢ', 'y': 'ᵧ', 'x': 'ₓ', 'j': 'ⱼ', 'ǝ': 'ₔ'}
         let l:default = 'a'
-        let l:super = get(l:dict, l:char, l:default)
-        if l:super == l:default
+        let l:sub = get(l:dict, l:char, l:default)
+        if l:sub == l:default
           if l:sub_sup.cnt == 0
             let l:result = l:result.'_'
           endif
@@ -1520,7 +1531,7 @@ function! s:SpMathFormat() range
           let l:sub_sup = { 'cnt': 0 }
         else
           let l:sub_sup.cnt += 1
-          let l:result = l:result.l:super
+          let l:result = l:result.l:sub
         endif
       endif
 
@@ -1528,14 +1539,15 @@ function! s:SpMathFormat() range
         if l:char == l:del.cmp
           let l:del.cnt -= 1
           let l:del.mem .= l:char
+          if l:del.cnt == 0
+            let l:result = l:result.l:del.inzert
+            let l:del = { 'cnt': 0, 'mem': '', 'inzert':'', 'cmp':'' }
+            let l:state = 4 " skip
+          endif
         else " do not match so add memory
           let l:result = l:result.l:del.mem
           let l:del = { 'cnt': 0, 'mem': '', 'inzert':'', 'cmp':'' }
-        endif
-        if l:del.cnt == 0
-          let l:result = l:result.l:del.inzert
-          let l:del = { 'cnt': 0, 'mem': '', 'inzert':'', 'cmp':'' }
-          let l:state = 4 " skip
+          let l:state = 0
         endif
       endif
 
@@ -1614,9 +1626,11 @@ function! s:SpMathFormat() range
           let l:complex_mem.memory = l:char
         else
           let l:result = l:result.l:char
+          " echomsg '-'.l:char
         endif
       endif
 
+      " echomsg '['.l:char.']:'.l:state.'"'.l:result.'"'
       if l:state == 4 " skip"
         let l:state = 0
       endif
@@ -1704,8 +1718,11 @@ function! s:SpMathFormat() range
   " let l:newline = l:curline[0: a:col_start] . a:item . l:curline[a:col_end: -1]
   " call setline(a:lnum, l:newline)
   " endfun
-  " TODO debug: <-K_1
-  " TODO debug: RE_i+1.
+  " TODO:
+  " (n)     ⎛n⎞
+  " ( ) =   ⎜ ⎟
+  " (k)     ⎝k⎠
+  " TODO -+-- should not be translated to -±-
 endfunction
 command! -range SpMathFormat <line1>,<line2>call s:SpMathFormat()
 xnoremap <leader>m <Esc>:SpMathFormat<CR>
