@@ -272,6 +272,7 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab postive positive
 iab independant independent
 iab beleafe belief
 iab dicease decease
@@ -1472,18 +1473,22 @@ function! s:SpMathFormat() range
     let l:open_brace_cnt=0 " pairing up () or returning to state:0
 
     let l:complex = { '(xor)': '⊕', '(pi)': 'π', '(sigma)': '∑', '(integral)': '∫', '(mul)': '∏',
-                    \ '(qed)': '∎', '(element)': '∊' }
+                    \ '(qed)': '∎', '(element)': '∊' , '(not)': '¬', '(theta)': 'θ', '(lambda)': 'λ',
+                    \ '(alpha)': 'α', '(phi)': 'φ' }
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
     for l:char in split(a:str, '\zs')
-      if l:state == 1 " ^
+      if l:state == 1 " ^ (superscript)
         let l:dict = {  '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵',
                        \ '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹', 'i': 'ⁱ', 'a': 'ᵃ',
                        \ 'b': 'ᵇ', 'c': 'ᶜ', 'd': 'ᵈ', 'e': 'ᵉ', 'f': 'ᶠ', 'g': 'ᵍ',
                        \ 'h': 'ʰ', 'k': 'ᵏ', 'l': 'ˡ', 'm': 'ᵐ', 'n': 'ⁿ', 'o': 'ᵒ',
                        \ 'p': 'ᵖ', 'r': 'ʳ', 's': 'ˢ', 't': 'ᵗ', 'u': 'ᵘ', 'v': 'ᵛ',
                        \ 'w': 'ʷ', 'x': 'ˣ', 'y': 'ʸ', 'z': 'ᶻ', 'j': 'ʲ',
-                       \ '+': '⁺', '-': '⁻', '(': '⁽', ')': '⁾' }
+                       \ '+': '⁺', '-': '⁻', '(': '⁽', ')': '⁾', 'A': 'ᴬ', 'B': 'ᴮ',
+                       \ 'D': 'ᴰ', 'E': 'ᴱ', 'G': 'ᴳ', 'H': 'ᴴ', 'I': 'ᴵ', 'J': 'ᴶ',
+                       \ 'K': 'ᴷ', 'L': 'ᴸ', 'M': 'ᴹ', 'N': 'ᴺ', 'O': 'ᴼ', 'P': 'ᴾ', 'R': 'ᴿ',
+                       \ 'T': 'ᵀ', 'U': 'ᵁ', 'V': 'ⱽ', 'Z': 'ᶻ' }
 
         let l:default = 'a'
         let l:super = get(l:dict, l:char, l:default)
