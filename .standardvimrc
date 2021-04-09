@@ -1474,7 +1474,7 @@ function! s:SpMathFormat() range
 
     let l:complex = { '(xor)': '⊕', '(pi)': 'π', '(sigma)': '∑', '(integral)': '∫', '(mul)': '∏',
                     \ '(qed)': '∎', '(element)': '∊' , '(not)': '¬', '(theta)': 'θ', '(lambda)': 'λ',
-                    \ '(alpha)': 'α', '(phi)': 'φ' }
+                    \ '(alpha)': 'α', '(phi)': 'φ', '(proportional)': '∝'}
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
     for l:char in split(a:str, '\zs')
@@ -1488,7 +1488,7 @@ function! s:SpMathFormat() range
                        \ '+': '⁺', '-': '⁻', '(': '⁽', ')': '⁾', 'A': 'ᴬ', 'B': 'ᴮ',
                        \ 'D': 'ᴰ', 'E': 'ᴱ', 'G': 'ᴳ', 'H': 'ᴴ', 'I': 'ᴵ', 'J': 'ᴶ',
                        \ 'K': 'ᴷ', 'L': 'ᴸ', 'M': 'ᴹ', 'N': 'ᴺ', 'O': 'ᴼ', 'P': 'ᴾ', 'R': 'ᴿ',
-                       \ 'T': 'ᵀ', 'U': 'ᵁ', 'V': 'ⱽ', 'Z': 'ᶻ' }
+                       \ 'T': 'ᵀ', 'U': 'ᵁ', 'V': 'ⱽ', 'Z': 'ᶻ', '/': '/'}
 
         let l:default = 'a'
         let l:super = get(l:dict, l:char, l:default)
@@ -1697,9 +1697,10 @@ function! s:SpMathFormat() range
         let l:prefix=l:str_line[0: l:cs-1]
       endif
 
+      " echomsg "|".l:prefix."|".l:enhanced_line."|".l:str_line[l:ce+1: -1]."|"
       call setline(l:lit, l:prefix.l:enhanced_line.l:str_line[l:ce+1: -1])
-      echo
     else
+      " echomsg "[".l:enhanced_line."]"
       call setline(l:lit, l:enhanced_line)
     endif
 
