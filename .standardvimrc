@@ -794,6 +794,8 @@ iab intrestign interesting
 iab stero stereo
 iab compenent component
 iab refering referring
+iab positivly positively
+iab negativly negatively
 
 iab Acsending Ascending
 iab acsending ascending
@@ -1472,9 +1474,10 @@ function! s:SpMathFormat() range
     let l:sub_sup = { 'cnt': 0 } " to support alone: _ ^
     let l:open_brace_cnt=0 " pairing up () or returning to state:0
 
-    let l:complex = { '(xor)': '⊕', '(pi)': 'π', '(sigma)': '∑', '(integral)': '∫', '(mul)': '∏',
+    let l:complex = { '(xor)': '⊕', '(pi)': 'π', '(integral)': '∫', '(mul)': '∏',
                     \ '(qed)': '∎', '(element)': '∊' , '(not)': '¬', '(theta)': 'θ', '(lambda)': 'λ',
-                    \ '(alpha)': 'α', '(phi)': 'φ', '(proportional)': '∝'}
+                    \ '(alpha)': 'α', '(phi)': 'φ', '(proportional)': '∝', '(gamma)': 'Γ', '(mu)':'μ',
+                    \ '(sigma)': '∑', '(_sigma)': 'σ'}
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
     for l:char in split(a:str, '\zs')
@@ -1520,12 +1523,14 @@ function! s:SpMathFormat() range
         endif
       endif
 
-      if l:state == 2 " _
+      if l:state == 2 " _ (subscript)
         let l:dict = { '0': '₀', '1': '₁', '2': '₂', '3': '₃', '4': '₄',
                     \ '5': '₅', '6': '₆', '7': '₇', '8': '₈', '9': '₉',
                     \ 'a': 'ₐ', 'e': 'ₑ', 'o': 'ₒ', 'h': 'ₕ', 'k': 'ₖ',
                     \ 'l': 'ₗ', 'm': 'ₘ', 'p': 'ₚ', 's': 'ₛ', 't': 'ₜ',
-                    \ 'n': 'ₙ', 'i': 'ᵢ', 'y': 'ᵧ', 'x': 'ₓ', 'j': 'ⱼ', 'ǝ': 'ₔ'}
+                    \ 'n': 'ₙ', 'i': 'ᵢ', 'y': 'ᵧ', 'x': 'ₓ', 'j': 'ⱼ', 'ǝ': 'ₔ',
+                    \ '+': '₊', '-' :'₋', '(': '₍', ')': '₎', '=': '₌'}
+
         let l:default = 'a'
         let l:sub = get(l:dict, l:char, l:default)
         if l:sub == l:default
