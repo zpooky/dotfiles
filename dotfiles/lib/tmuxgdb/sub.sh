@@ -22,4 +22,5 @@ for REGION in "${REGIONS[@]}"; do
 
   # echo "$REGION=\"`tty`\" > $FIFO_pipe"
   echo "$REGION=\"$(tty)\"" >$FIFO_pipe &
+  # echo "$REGION=\"$(tty)\""
 done

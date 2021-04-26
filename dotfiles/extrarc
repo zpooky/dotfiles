@@ -52,7 +52,19 @@ esac
 
 [[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
 
-if [ -e $HOME/.gem/ruby/2.7.0/bin ]; then
+if [ -e $HOME/.gem/ruby/3.2.0/bin ]; then
+  export PATH=$HOME/.gem/ruby/3.2.0/bin:$PATH
+elif [ -e $HOME/.gem/ruby/3.1.0/bin ]; then
+  export PATH=$HOME/.gem/ruby/3.1.0/bin:$PATH
+elif [ -e $HOME/.gem/ruby/3.0.1/bin ]; then
+  export PATH=$HOME/.gem/ruby/3.0.1/bin:$PATH
+elif [ -e $HOME/.gem/ruby/3.0.0/bin ]; then
+  export PATH=$HOME/.gem/ruby/3.0.0/bin:$PATH
+elif [ -e $HOME/.gem/ruby/2.9.0/bin ]; then
+  export PATH=$HOME/.gem/ruby/2.9.0/bin:$PATH
+elif [ -e $HOME/.gem/ruby/2.8.0/bin ]; then
+  export PATH=$HOME/.gem/ruby/2.8.0/bin:$PATH
+elif [ -e $HOME/.gem/ruby/2.7.0/bin ]; then
   export PATH=$HOME/.gem/ruby/2.7.0/bin:$PATH
 fi
 
@@ -340,7 +352,7 @@ function sp_calc_cpp() {
   which cling 2>&1 > /dev/null
   if [ ! $? -eq 0 ]; then
     echo "missing cling" >&2
-    exit 1
+    return 1
   fi
 
   if [ $# -eq 0 ]; then

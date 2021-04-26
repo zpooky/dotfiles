@@ -3,17 +3,17 @@
 # gdb
 # >>> python help (gdb.Breakpoint)
 
-class Breakpoints(Dashboard.Module):
+class Breakpointz(Dashboard.Module):
   """asdasd"""
 
   def label(self):
-    return 'Breakpoints'
+    return 'Breakpointz'
 
   @staticmethod
   def format(width,id,file,line,enabled,hit_count):
     return '{}|{}|{}'.format(id,file,line)
 
-  def lines(self, term_width, style_changed):
+  def lines(self, term_width, term_height, style_changed):
     lines = []
 
     breakpoints = gdb.breakpoints()
@@ -27,6 +27,6 @@ class Breakpoints(Dashboard.Module):
         line = None
         if len(file_and_line) > 1:
           line = file_and_line[1]
-        lines.append(Breakpoints.format(term_width,br.number,file,line,br.enabled,br.hit_count))
+        lines.append(Breakpointz.format(term_width,br.number,file,line,br.enabled,br.hit_count))
 
     return lines

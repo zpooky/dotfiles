@@ -24,10 +24,15 @@ fi
 #---configure-dashboard------------------
 # source lines
 echo "source ~/sources/gdb-dashboard/.gdbinit" >>"${GDB_CONFIG_file}"
-echo "dashboard source -style context 21" >>"${GDB_CONFIG_file}"
-echo "dashboard assembly -style context 6" >>"${GDB_CONFIG_file}"
+echo "dashboard source -style height 39" >>"${GDB_CONFIG_file}"
+# echo "dashboard assembly -style context 6" >>"${GDB_CONFIG_file}"
+echo "dashboard variables -style compact False" >>"${GDB_CONFIG_file}"
+
 echo "dashboard stack -style locals True" >>"${GDB_CONFIG_file}"
 echo "dashboard stack -style limit 1" >>"${GDB_CONFIG_file}"
+
+echo "dashboard assembly -style function False" >>"${GDB_CONFIG_file}"
+
 echo "dashboard -style syntax_highlighting \"monokai\"" >>"${GDB_CONFIG_file}"
 # dashboard -style syntax_highlighting "paraiso-dark"
 
@@ -46,7 +51,7 @@ fi
 
 #---
 # "history"
-regions=("assembly" "memory" "registers" "source" "stack" "threads" "expression" "breakpoints")
+regions=("assembly" "memory" "registers" "source" "threads" "expression" "breakpointz" "variables")
 
 cont=1
 while [ $cont -eq 1 ]; do
@@ -64,6 +69,8 @@ done
 
 #disable print history
 echo "dashboard history -output /dev/null" >>"${GDB_CONFIG_file}"
+echo "dashboard breakpoints -output /dev/null" >>"${GDB_CONFIG_file}"
+echo "dashboard stack -output /dev/null" >>"${GDB_CONFIG_file}"
 
 for region in "${regions[@]}"; do
   eval "REGION_TTY=\$${region}_TTY"

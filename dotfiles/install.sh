@@ -53,6 +53,7 @@ npm install -g npm
 # sh
 if has_feature pacman; then
   echo
+  yay -S bash-language-server
 else
   npm install -g bash-language-server
 fi
@@ -65,10 +66,9 @@ if has_feature pacman; then
 else
   npm install -g neovim
 fi
-# - pip2 install --user --upgrade jedi
-# - yay -S python2-neovim python2-jedi
 # python3
 if has_feature pacman; then
+  yay -S python-pynvim python-jedi jedi-language-server
   echo
 else
   pip3 install --user --upgrade jedi
@@ -79,6 +79,7 @@ fi
 # ruby
 if has_feature pacman; then
   echo
+  gem install --user-install neovim
 else
   gem install --user-install neovim
 fi
@@ -126,7 +127,7 @@ else
 fi
 npm install --global yarn
 
-pip3 install --user --upgrade mumpy
+pip3 install --user --upgrade numpy
 pip3 install --user --upgrade scipy
 pip3 install --user --upgrade matplotlib
 

@@ -108,7 +108,7 @@ fi
 # tmux set-option -t ${window_id} window-active-style 'fg=colour250,bg=black'
 
 # echo "m+te" # [memory][threads,expression]
-pipe_tty "memory_TTY" "${FIFO_pipe}"
+pipe_tty2 "memory_TTY" "variables_TTY" "${FIFO_pipe}"
 tmux split-window -v -p 15 -t "${window_id}" "${pipe_cmd}" || exit 1
 
 # echo "s" # [source][assembly
@@ -116,7 +116,7 @@ pipe_tty "source_TTY" "${FIFO_pipe}"
 tmux split-window -h -p 55 -t "${window_id}.1" "${pipe_cmd}" || exit 1
 
 # echo "r+b" # [registers]
-pipe_tty2 "registers_TTY" "breakpoints_TTY" "${FIFO_pipe}"
+pipe_tty2 "registers_TTY" "breakpointz_TTY" "${FIFO_pipe}"
 tmux split-window -h -p 20 -t "${window_id}" "${pipe_cmd}" || exit 1
 
 # echo "a" # [assembly]
@@ -160,7 +160,7 @@ fi
 
 #---
 # "history"
-REGIONS=("assembly" "memory" "registers" "source" "stack" "threads" "expression" "breakpoints")
+REGIONS=("assembly" "memory" "registers" "source" "stack" "threads" "expression" "breakpointz" "variables")
 
 CONT=1
 while [ $CONT -eq 1 ]; do
@@ -182,6 +182,7 @@ for REGION in "${REGIONS[@]}"; do
   tmux send-keys -t "${window_id}.1" "dashboard ${REGION}    -output $REGION_TTY" C-m
 done
 
+tmux send-keys -t "${window_id}.1" "dashboard" C-m
 # gdb run!
 tmux send-keys -t "${window_id}.1" "r" C-m
 tmux select-pane -t "${window_id}.1"

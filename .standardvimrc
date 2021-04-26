@@ -1477,7 +1477,7 @@ function! s:SpMathFormat() range
     let l:complex = { '(xor)': '⊕', '(pi)': 'π', '(integral)': '∫', '(mul)': '∏',
                     \ '(qed)': '∎', '(element)': '∊' , '(not)': '¬', '(theta)': 'θ', '(lambda)': 'λ',
                     \ '(alpha)': 'α', '(phi)': 'φ', '(proportional)': '∝', '(gamma)': 'Γ', '(mu)':'μ',
-                    \ '(sigma)': '∑', '(_sigma)': 'σ'}
+                    \ '(sigma)': '∑', '(_sigma)': 'σ', '(omega)': 'Ω', '(_omega)': 'ω'}
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
     for l:char in split(a:str, '\zs')

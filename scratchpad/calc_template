@@ -34,6 +34,8 @@
 # random
 # hex(random.getrandbits(32))
 # random.randint(1, 10)
+
+# socket.ntohl()
 # ===================
 
 import sys
@@ -45,6 +47,7 @@ from operator import xor
 import numpy as np
 import scipy
 import matplotlib.pyplot as plt
+import socket
 
 def gcd(a, b):
   if b == 0:
