@@ -1320,7 +1320,7 @@ endfunction
 command! SpookyToggleFile :call s:SpookyToggleFile(expand('%:p'))
 augroup AugroupToggleFIle
   autocmd!
-  autocmd FileType c,cpp nnoremap <silent> <F2> :SpookyToggleFile<CR>
+  autocmd FileType c,cpp nnoremap <silent> <F2> :silent SpookyToggleFile<CR>
 augroup END
 " }}}
 

@@ -505,6 +505,15 @@ function deploy_192_168_0_90(){
     local l_dest=("/usr/lib/libcamblock_eeprom.so")
     local l_source=("${project_dir}/oe-workdir/package/usr/lib/libcamblock_eeprom.so")
     l_systemd=false
+  elif [ "${project}" = "mux-alsa-plugin" ]; then
+    local l_dest=("/usr/lib/alsa-lib/libasound_module_pcm_mux_alsa_plugin.so")
+    local l_source=("${project_dir}/oe-workdir/package/usr/lib/alsa-lib/libasound_module_pcm_mux_alsa_plugin.so")
+    l_systemd=false
+  elif [ "${project}" = "netd" ]; then
+    local l_dest=("/usr/sbin/netd" "/usr/libexec/netd_migrate")
+    local l_source=("${project_dir}/oe-workdir/package/usr/sbin/netd" "${project_dir}/oe-workdir/package/usr/libexec/netd_migrate")
+    local l_systemd_name="netd"
+    l_systemd=true
   elif [ "${project}" = "powerd-conf" ]; then
     local l_product=$(basename $BUILDDIR)
     local l_pconf="${project_dir}/powerd_${l_product}.conf"
