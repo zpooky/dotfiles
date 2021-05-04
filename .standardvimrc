@@ -1304,14 +1304,16 @@ function! s:SpookyPrintCurrentFile() abort
 endfunction
 
 function! s:SpookyToggleFile(file) abort
+  if !exists("g:sp_toggle_file")
+    let g:sp_toggle_file = {}
+  endif
   let mirror = s:SpookyGetMirror(a:file)
   if strlen(mirror) > 0
-    let w:aa = winsaveview()
+    let g:sp_toggle_file[expand('%:p')] = winsaveview()
     execute "silent edit ".mirror
-    if exists("w:old")
-      call winrestview(w:old)
+    if has_key(g:sp_toggle_file, expand('%:p'))
+      call winrestview(g:sp_toggle_file[expand('%:p')])
     endif
-    let w:old = w:aa
     call s:SpookyPrintCurrentFile()
   endif
 endfunction
@@ -1320,7 +1322,7 @@ endfunction
 command! SpookyToggleFile :call s:SpookyToggleFile(expand('%:p'))
 augroup AugroupToggleFIle
   autocmd!
-  autocmd FileType c,cpp nnoremap <silent> <F2> :silent SpookyToggleFile<CR>
+  autocmd FileType c,cpp nnoremap <silent> <F2> :SpookyToggleFile<CR>
 augroup END
 " }}}
 
