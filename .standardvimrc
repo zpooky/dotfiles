@@ -1306,7 +1306,12 @@ endfunction
 function! s:SpookyToggleFile(file) abort
   let mirror = s:SpookyGetMirror(a:file)
   if strlen(mirror) > 0
+    let w:aa = winsaveview()
     execute "silent edit ".mirror
+    if exists("w:old")
+      call winrestview(w:old)
+    endif
+    let w:old = w:aa
     call s:SpookyPrintCurrentFile()
   endif
 endfunction
@@ -1477,7 +1482,7 @@ function! s:SpMathFormat() range
     let l:complex = { '(xor)': '⊕', '(pi)': 'π', '(integral)': '∫', '(mul)': '∏',
                     \ '(qed)': '∎', '(element)': '∊' , '(not)': '¬', '(theta)': 'θ', '(lambda)': 'λ',
                     \ '(alpha)': 'α', '(phi)': 'φ', '(proportional)': '∝', '(gamma)': 'Γ', '(mu)':'μ',
-                    \ '(sigma)': '∑', '(_sigma)': 'σ', '(omega)': 'Ω', '(_omega)': 'ω'}
+                    \ '(sigma)': '∑', '(_sigma)': 'σ', '(omega)': 'Ω', '(_omega)': 'ω', '(sqrt)': '√'}
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
     for l:char in split(a:str, '\zs')
