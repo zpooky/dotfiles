@@ -272,6 +272,15 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab handeling handling
+iab throguh through
+iab meassures measures
+iab vaccum vacuum
+iab througout throughout
+iab meassure measure
+iab dificult difficult
+iab colide collide
+iab meassured measured
 iab postive positive
 iab independant independent
 iab beleafe belief
@@ -1484,7 +1493,8 @@ function! s:SpMathFormat() range
     let l:complex = { '(xor)': '⊕', '(pi)': 'π', '(integral)': '∫', '(mul)': '∏',
                     \ '(qed)': '∎', '(element)': '∊' , '(not)': '¬', '(theta)': 'θ', '(lambda)': 'λ',
                     \ '(alpha)': 'α', '(phi)': 'φ', '(proportional)': '∝', '(gamma)': 'Γ', '(mu)':'μ',
-                    \ '(sigma)': '∑', '(_sigma)': 'σ', '(omega)': 'Ω', '(_omega)': 'ω', '(sqrt)': '√'}
+                    \ '(sigma)': '∑', '(_sigma)': 'σ', '(omega)': 'Ω', '(_omega)': 'ω', '(sqrt)': '√',
+                    \  '(micro)': 'µ'}
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
     for l:char in split(a:str, '\zs')
