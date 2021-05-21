@@ -240,7 +240,7 @@ endif
 
 " coc.vim {{{
 if executable('ccls')
-  " Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release', 'for': ['cpp','sh','rust','go','zsh','vim','scala','python','java','lua','c']}
+  Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release', 'for': ['cpp','sh','rust','go','zsh','vim','scala','python','java','lua','c']}
   augroup AugroupCocCPP
     autocmd!
     autocmd FileType c,cpp unmap <f3>
@@ -253,7 +253,7 @@ if executable('ccls')
     autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-rename)
   augroup END
 else
-  " Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release', 'for': ['sh','rust','go','zsh','vim','scala','python','java','lua']}
+  Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release', 'for': ['sh','rust','go','zsh','vim','scala','python','java','lua']}
 endif
 let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-yaml', 'coc-xml', 'coc-java', 'coc-rls', 'coc-rust-analyzer', 'coc-go', 'coc-metals', 'coc-sql', 'coc-vimlsp', 'coc-jedi', 'coc-lua']
 " https://github.com/josa42/coc-go
