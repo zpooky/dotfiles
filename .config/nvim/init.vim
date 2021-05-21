@@ -239,7 +239,22 @@ endif
 " }}}
 
 " coc.vim {{{
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release', 'for': ['cpp','sh','rust','go','zsh','vim','scala','python','java','lua','c']}
+if executable('ccls')
+  " Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release', 'for': ['cpp','sh','rust','go','zsh','vim','scala','python','java','lua','c']}
+  augroup AugroupCocCPP
+    autocmd!
+    autocmd FileType c,cpp unmap <f3>
+    autocmd FileType c,cpp map <silent> <F3> <Plug>(coc-definition)
+
+    autocmd FileType c,cpp nmap <silent> gd <Plug>(coc-definition)
+    autocmd FileType c,cpp nmap <silent> gy <Plug>(coc-type-definition)
+    autocmd FileType c,cpp nmap <silent> gi <Plug>(coc-implementation)
+    autocmd FileType c,cpp nmap <silent> gr <Plug>(coc-references)
+    autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-rename)
+  augroup END
+else
+  " Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release', 'for': ['sh','rust','go','zsh','vim','scala','python','java','lua']}
+endif
 let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-yaml', 'coc-xml', 'coc-java', 'coc-rls', 'coc-rust-analyzer', 'coc-go', 'coc-metals', 'coc-sql', 'coc-vimlsp', 'coc-jedi', 'coc-lua']
 " https://github.com/josa42/coc-go
 " https://github.com/neoclide/coc-java
@@ -263,15 +278,15 @@ let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-yaml', 'coc-xml', 'c
 
 augroup AugroupCoc
   autocmd!
-  autocmd FileType c,cpp,sh,rust,go,zsh,vim,scala,python,java,lua unmap <f3>
+  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua unmap <f3>
   " autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java unmap gd
-  autocmd FileType c,cpp,sh,rust,go,zsh,vim,scala,python,java,lua map <silent> <F3> <Plug>(coc-definition)
+  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua map <silent> <F3> <Plug>(coc-definition)
   " autocmd FileType cpp,sh,c,rust,go,zsh map <silent> <leader><F3> :tabedit % | call CocActionAsync('jumpDefinition')
 
-  autocmd FileType c,cpp,sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gd <Plug>(coc-definition)
-  autocmd FileType c,cpp,sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gy <Plug>(coc-type-definition)
-  autocmd FileType c,cpp,sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gi <Plug>(coc-implementation)
-  autocmd FileType c,cpp,sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gr <Plug>(coc-references)
+  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gd <Plug>(coc-definition)
+  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gy <Plug>(coc-type-definition)
+  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gi <Plug>(coc-implementation)
+  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gr <Plug>(coc-references)
 
   " Go to the Type of a variable
   " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-type-definition)
@@ -280,7 +295,7 @@ augroup AugroupCoc
   " Find all references for type under cursor
   " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-references)
   " 
-  autocmd FileType c,cpp,python map <silent> <F4> <Plug>(coc-rename)
+  autocmd FileType python map <silent> <F4> <Plug>(coc-rename)
 
 
   autocmd FileType python map <silent> <F3> <Plug>(coc-definition)
@@ -333,7 +348,7 @@ if !has('win32unix') && !has('win64unix')
   "'clang', 'clangcheck', 'cpplint','cppcheck', 'clangtidy'
   let g:ale_linters = {
         \   'cpp':    ['g++','cppcheck', 'ccls'],
-        \   'c':      ['clangtidy'],
+        \   'c':      ['clangtidy','gcc'],
         \   'sh':     ['shellcheck'],
         \   'markdown': ['languagetool'],
         \   'text': ['languagetool'],
@@ -362,7 +377,7 @@ let g:ale_c_clangtidy_checks = ['-clang-diagnostic-language-extension-token', '-
   "       \}
 
   let g:ale_cpp_gcc_options="-std=c++17 -Wall -Wextra -I. -Iexternal -I../external -I../external/googletest/googletest -Iexternal/googletest/googletest -Werror-pointer-arith"
-  let g:ale_c_gcc_options="-std=gnu11 -Wall -Wextra -I. -Iexternal -I../external -Iinclude -I../include "
+  let g:ale_c_gcc_options="-std=gnu11 -Wall -Wextra -I. -Iexternal -I../external -Iinclude -I../include -Wformat"
 endif
 " }}}
 
