@@ -272,6 +272,13 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab equvalent equivalent
+iab widly widely
+iab equavailent equivalent
+iab becuase because
+iab cuircut circuit
+iab usuaully usually
+iab ordenary ordinary
 iab postitive positive
 iab manifactor manufacture
 iab handeling handling

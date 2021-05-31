@@ -49,6 +49,9 @@ import scipy
 import matplotlib.pyplot as plt
 import socket
 
+k = 1000.
+M = k*k
+
 def gcd(a, b):
   if b == 0:
     return a
