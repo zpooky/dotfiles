@@ -1425,6 +1425,7 @@ function! s:SpookyIndentDetect() abort
   endif
 endfunction
 
+call s:SpookySetSpaceIdent()
 augroup AutogroupIndentDetect
   autocmd!
   autocmd BufReadPost,FileReadPost * call s:SpookyIndentDetect()
@@ -1763,3 +1764,31 @@ function! s:SpMathFormat() range
 endfunction
 command! -range SpMathFormat <line1>,<line2>call s:SpMathFormat()
 xnoremap <leader>m <Esc>:SpMathFormat<CR>
+
+
+function! s:SpookyToString()
+  let l:exe = 'sp_struct_to_string'
+  if executable(l:exe)
+    let l:file = expand('%:p')
+    let l:line = line('.')-1
+    let l:col = col('.')-1
+    " echo l:exe." line ".l:file." ".l:line." ".l:col." 2>/dev/null"
+    let l:append_line = system(l:exe." line ".l:file." ".l:line." ".l:col." 2>/dev/null")
+    if v:shell_error == 0
+      let l:fun = system(l:exe." crunch ".l:file." ".l:line." ".l:col." 2>/dev/null")
+      " echomsg l:fun
+      if v:shell_error == 0
+        call append(l:append_line, split(l:fun, "\n"))
+      else
+        echo "error1: ".v:shell_error
+      endif
+    else
+      echo "error0: ".v:shell_error
+    endif
+  endif
+endfunction
+command! SpookyToString call s:SpookyToString()
+augroup AugroupToString
+  autocmd!
+  autocmd FileType c,cpp noremap <leader>m <Esc>:SpookyToString<CR>
+augroup END
