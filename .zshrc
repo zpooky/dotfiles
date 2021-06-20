@@ -28,23 +28,6 @@ DISABLE_AUTO_UPDATE="true"
 
 source $ZSH/oh-my-zsh.sh
 
-function preexec() {
-  sp_zsh_timer_start=${sp_zsh_timer_start:-$SECONDS}
-  # timer=$(($(date +%s%N)/1000000))
-}
-
-function precmd() {
-  if [ $sp_zsh_timer_start ]; then
-    # TODO ms
-    # now=$(($(date +%s%N)/1000000))
-    # elapsed=$(($now-$timer))
-
-    sp_zsh_timer_show=$(($SECONDS - $sp_zsh_timer_start))
-    sp_zsh_timer_show=$(printf '%.*fs' 1 $sp_zsh_timer_show)
-    unset sp_zsh_timer_start
-  fi
-}
-
 export LANG=en_US.UTF-8
 # locale - format dates according to Swedish standards (24h clock)
 export LC_TIME=sv_SE.UTF-8
@@ -64,38 +47,74 @@ select-word-style bash
 # <ctrl+w> Kill line right
 bindkey '^W' kill-line
 
-#PS
-# %d    - current directory
-# $'\n' - newline
-# %#    - promptchar
-# %B    - bold
-# %b    - bold end
-# %?    - return status of last command
-# %~    - cwd
-RED="\e[0;31m"
-NO_COLOR="\e[0m"
-NEWLINE=$'\n'
-autoload -U colors && colors
+# {{{
+function preexec() {
+  sp_zsh_timer_start=${sp_zsh_timer_start:-$SECONDS}
+  # timer=$(($(date +%s%N)/1000000))
+}
 
-if [[ $EUID -eq 0 ]]; then
-  local SUFFIX='#'
-else
-  # local SUFFIX='>'
-  local SUFFIX='»'
-fi
-local INTTERNAL_NBSP=$'\u00A0'
-PROMPT="%B${NEWLINE}%~%{$fg[yellow]%}:%{$reset_color%}${NEWLINE}%{$fg[red]%}%B$SUFFIX%{$reset_color%}%b${INTTERNAL_NBSP}"
+function precmd() {
+# https://stackoverflow.com/questions/33839665/multiline-prompt-formatting-incorrectly-due-to-date-command-in-zsh/33839913#33839913
+  local sp_zsh_timer_show=0
+  local sp_hostname=$(hostname)
 
-# turnery styled %(1j.true.false)
-# this is displayed on the far right side
-# %S - standout start
-# %s - standout stop
-# %F{color} - foreground color
-# %f        - foreground color standard
-# %K{color} - background color
-# %k        - background color standard
-local sp_hostname=$(hostname)
-RPROMPT='[${sp_hostname}][%(?.%F{green}%?%f.%S%F{red}%?%f%s)][%F{green}$sp_zsh_timer_show%f]%F{red}%(1j.[⌘%j].)%f'
+  if [ $sp_zsh_timer_start ]; then
+    # TODO ms
+    # now=$(($(date +%s%N)/1000000))
+    # elapsed=$(($now-$timer))
+
+    sp_zsh_timer_show=$(($SECONDS - $sp_zsh_timer_start))
+    sp_zsh_timer_show=$(printf '%.*fs' 1 $sp_zsh_timer_show)
+    unset sp_zsh_timer_start
+  fi
+
+  local preprompt_left='%B%~%{$fg[yellow]%}:%{$reset_color%}'
+  local preprompt_right="[${sp_hostname}][%(?.%F{green}%?%f.%S%F{red}%?%f%s)][%F{green}$sp_zsh_timer_show%f]%F{red}%(1j.[⌘%j].)%f"
+  local preprompt_left_length=${#${(S%%)preprompt_left//(\%([KF1]|)\{*\}|\%[Bbkf])}}
+  local preprompt_right_length=${#${(S%%)preprompt_right//(\%([KF1]|)\{*\}|\%[Bbkf])}}
+  local num_filler_spaces=$((COLUMNS - preprompt_left_length - preprompt_right_length))
+  print -Pr $'\n'"$preprompt_left${(l:$num_filler_spaces:)}$preprompt_right"
+}
+
+function set-prompt() {
+  #PS
+  # %d    - current directory
+  # $'\n' - newline
+  # %#    - promptchar
+  # %B    - bold
+  # %b    - bold end
+  # %?    - return status of last command
+  # %~    - cwd
+  local RED="\e[0;31m"
+  local NO_COLOR="\e[0m"
+  local NEWLINE=$'\n'
+  autoload -U colors && colors
+
+  if [[ $EUID -eq 0 ]]; then
+    local SUFFIX='#'
+  else
+    # local SUFFIX='>'
+    local SUFFIX='»'
+  fi
+  local INTTERNAL_NBSP=$'\u00A0'
+  PROMPT="%{$fg[red]%}%B$SUFFIX%{$reset_color%}%b${INTTERNAL_NBSP}"
+
+  # turnery styled %(1j.true.false)
+  # this is displayed on the far right side
+  # %S - standout start
+  # %s - standout stop
+  # %F{color} - foreground color
+  # %f        - foreground color standard
+  # %K{color} - background color
+  # %k        - background color standard
+  local sp_hostname=$(hostname)
+  # RPROMPT='[${sp_hostname}][%(?.%F{green}%?%f.%S%F{red}%?%f%s)][%F{green}$sp_zsh_timer_show%f]%F{red}%(1j.[⌘%j].)%f'
+}
+
+set-prompt
+
+unset -f set-prompt
+# }}}
 
 ## Set up the prompt
 #autoload -Uz promptinit
