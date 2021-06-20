@@ -54,9 +54,11 @@ function preexec() {
 }
 
 function precmd() {
+  local LAST_EXIT_CODE=$?
 # https://stackoverflow.com/questions/33839665/multiline-prompt-formatting-incorrectly-due-to-date-command-in-zsh/33839913#33839913
   local sp_zsh_timer_show=0
   local sp_hostname=$(hostname)
+  local sp_time=$(date "+%H:%M:%S")
 
   if [ $sp_zsh_timer_start ]; then
     # TODO ms
@@ -68,8 +70,12 @@ function precmd() {
     unset sp_zsh_timer_start
   fi
 
+  local ret_code='{green}'
+  if [ ! ${LAST_EXIT_CODE} -eq 0 ]; then
+    ret_code='{red}'
+  fi
   local preprompt_left='%B%~%{$fg[yellow]%}:%{$reset_color%}'
-  local preprompt_right="[${sp_hostname}][%(?.%F{green}%?%f.%S%F{red}%?%f%s)][%F{green}$sp_zsh_timer_show%f]%F{red}%(1j.[⌘%j].)%f"
+  local preprompt_right="[%F${ret_code}${LAST_EXIT_CODE}%f][%F{green}${sp_zsh_timer_show}%f]%F{red}%(1j.[⌘%j].)%f[${sp_time}][${sp_hostname}]"
   local preprompt_left_length=${#${(S%%)preprompt_left//(\%([KF1]|)\{*\}|\%[Bbkf])}}
   local preprompt_right_length=${#${(S%%)preprompt_right//(\%([KF1]|)\{*\}|\%[Bbkf])}}
   local num_filler_spaces=$((COLUMNS - preprompt_left_length - preprompt_right_length))
@@ -97,7 +103,7 @@ function set-prompt() {
     local SUFFIX='»'
   fi
   local INTTERNAL_NBSP=$'\u00A0'
-  PROMPT="%{$fg[red]%}%B$SUFFIX%{$reset_color%}%b${INTTERNAL_NBSP}"
+  PROMPT="%{$fg[red]%}%B${SUFFIX}%{$reset_color%}%b${INTTERNAL_NBSP}"
 
   # turnery styled %(1j.true.false)
   # this is displayed on the far right side
@@ -108,7 +114,6 @@ function set-prompt() {
   # %K{color} - background color
   # %k        - background color standard
   local sp_hostname=$(hostname)
-  # RPROMPT='[${sp_hostname}][%(?.%F{green}%?%f.%S%F{red}%?%f%s)][%F{green}$sp_zsh_timer_show%f]%F{red}%(1j.[⌘%j].)%f'
 }
 
 set-prompt
@@ -116,10 +121,6 @@ set-prompt
 unset -f set-prompt
 # }}}
 
-## Set up the prompt
-#autoload -Uz promptinit
-#promptinit
-#prompt walters
 # }
 
 HISTFILE="$HOME/.zhistory"
@@ -129,8 +130,8 @@ HISTSIZE=10000000
 SAVEHIST=10000000
 
 #=================== {
-setopt HIST_EXPIRE_DUPS_FIRST    	# Expire a duplicate event first when trimming history.
-setopt HIST_IGNORE_DUPS 					# Do not record an entry that was just recorded again.
+setopt HIST_EXPIRE_DUPS_FIRST     # Expire a duplicate event first when trimming history.
+setopt HIST_IGNORE_DUPS           # Do not record an entry that was just recorded again.
 setopt HIST_REDUCE_BLANKS         # Remove superfluous blanks before recording entry.
 
 setopt HIST_IGNORE_ALL_DUPS #If a new command line being added to the history list duplicates an older one, the older command is removed from the list (even if it is not the previous event). 
