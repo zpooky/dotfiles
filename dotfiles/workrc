@@ -368,6 +368,20 @@ function overlay_mount_192_168_0_90(){
   return ${res}
 }
 
+sp_add_prefix(){
+  local prefix=${1}
+  shift 1
+  local arg=("${@}")
+  out=()
+  local b
+
+  for i in "${arg[@]}"; do
+    b=$(basename "${i}")
+    # echo "- ${prefix}|${b}"
+    out+=("${prefix}${b}")
+  done
+}
+
 # TODO sshfs mount camera in some work dir that will be used by makefile
 # TODO find command to setup env(to override dest) and run make with corretch binaries
 #TODO maybe touch all sources in $project_dir?
@@ -481,6 +495,26 @@ function deploy_192_168_0_90(){
     local l_source=("${project_dir}/oe-workdir/package/usr/bin/temperature_ctrld")
     local l_systemd_name="temperature-controller"
     l_systemd=true
+  elif [ "${project}" = "temperature-ctrld-conf" ]; then
+# TODO
+# ├── etc
+# │   └── sysconfig
+# │       └── template
+# └── usr
+#     ├── etc
+#     │   └── sysconfig
+#     │       └── template
+#     │           ├── temperature_ctrld_heater_grp.conf
+#     │           ├── temperature_ctrld_heater_par.conf
+#     │           ├── temperature_ctrld_sensor_grp.conf
+#     │           └── temperature_ctrld_sensor_par.conf
+    local l_product=$(basename $BUILDDIR)
+    l_product=${l_product:u} # uppsercase
+    local l_source=(${project_dir}/${l_product}/oe-workdir/package/usr/share/temperature_ctrld/*)
+    sp_add_prefix "/usr/share/temperature_ctrld/" "${l_source[@]}"
+    local l_dest=(${out[@]})
+    local l_systemd_name="temperature-controller"
+    l_systemd=true
   elif [ "${project}" = "powerd" ]; then
     local l_dest=("/usr/bin/powerd" "/usr/lib/power_plugins/libpower_lib.so")
     local l_source=("${project_dir}/oe-workdir/package/usr/bin/powerd" "${project_dir}/oe-workdir/package/usr/lib/power_plugins/libpower_lib.so")
@@ -501,9 +535,23 @@ function deploy_192_168_0_90(){
     local l_source=("${project_dir}/oe-workdir/package/usr/share/lightd/led0.conf" "${project_dir}/oe-workdir/package/etc/conf.d/lightd" "${project_dir}/oe-workdir/package/etc/lightd/led0.conf" "${project_dir}/oe-workdir/package/etc/lightd/dimming.conf" "${project_dir}/oe-workdir/package/etc/lightd/illumination.conf" "${project_dir}/oe-workdir/package/etc/lightd/lightd.conf")
     local l_systemd_name="light-controller"
     l_systemd=true
+  elif [ "${project}" = "io2d-conf" ]; then
+    local l_dest=("/usr/share/io2d/conf.xml")
+    local l_source=("${project_dir}/oe-workdir/package/usr/share/io2d/conf.xml")
+    local l_systemd_name="io2d"
+    l_systemd=true
+  elif [ "${project}" = "io2d" ]; then
+    local l_dest=("/usr/bin/io2d")
+    local l_source=("${project_dir}/oe-workdir/package/usr/bin/io2d")
+    local l_systemd_name="io2d"
+    l_systemd=true
   elif [ "${project}" = "libcamblock-eeprom" ]; then
     local l_dest=("/usr/lib/libcamblock_eeprom.so")
     local l_source=("${project_dir}/oe-workdir/package/usr/lib/libcamblock_eeprom.so")
+    l_systemd=false
+  elif [ "${project}" = "libpositioning" ]; then
+    local l_dest=("/usr/lib/libpositioning.so.0")
+    local l_source=("${project_dir}/oe-workdir/package/usr/lib/libpositioning.so.0")
     l_systemd=false
   elif [ "${project}" = "mux-alsa-plugin" ]; then
     local l_dest=("/usr/lib/alsa-lib/libasound_module_pcm_mux_alsa_plugin.so")
@@ -863,7 +911,7 @@ function http_ok() {
 
   # ftp -u ftp://${l_user}:${l_pass}@${l_ip}/flash_all ${l_image}
   # if [ ! $? -eq 0 ]; then
-    $HOME/development/axis/tpp/ff enable-ftp
+    # $HOME/development/axis/tpp/ff enable-ftp
     local ret=$?
     if [ ${ret} -eq 0 ]; then
       local l_fwmgr_local="/tmp/fwmgr.conf"
@@ -1270,7 +1318,8 @@ function portcast_features(){
   # echo "${build_root}"
   # echo "${machine_root}"
 
-  local machine_configs=( $(grep "AXIS_CONFIG_PORTCAST=y" "${machine_root}" -lir) )
+  # local machine_configs=( $(grep "AXIS_CONFIG_PORTCAST=y" "${machine_root}" -lir) )
+  local machine_configs=( $(grep "AXIS_CONFIG_AUDIO=y" "${machine_root}" -lir) )
 
   # echo ${machine_configs}
 
@@ -1280,15 +1329,27 @@ function portcast_features(){
     local product_name="$(cut -d '.' -f1 <<< $ax_name)"
     local audiocontrol_conf_product="${audiocontrol_conf_root}/products/${product_name}/audiocontrol_prod.inc"
     local audio_sources=$(grep AXIS_CONFIG_AUDIO_SOURCES "${ax}")
+    local audio_outputs=$(grep AXIS_CONFIG_AUDIO_OUTPUTS "${ax}")
+    local audio_input_internal=$(grep AXIS_CONFIG_AUDIO_INPUT_TYPE_INTERNAL "${ax}")
+    local audio_audio_channels=$(grep AXIS_CONFIG_AUDIO_MAX_CHANNELS "${ax}")
+# AXIS_CONFIG_AUDIO_INPUT_TYPE_INTERNAL is not set
 
-    # if [ "$audio_sources" = "AXIS_CONFIG_AUDIO_SOURCES=0" ]; then
+    if [ "$audio_sources" = "AXIS_CONFIG_AUDIO_SOURCES=1" ]; then
+    if [ "$audio_outputs" = "AXIS_CONFIG_AUDIO_OUTPUTS=1" ]; then
+    if [[ "$audio_input_internal" =~ "# AXIS_CONFIG_AUDIO_INPUT_TYPE_INTERNAL" ]]; then
+    if [ "$audio_audio_channels" = "AXIS_CONFIG_AUDIO_MAX_CHANNELS=1" ]; then
     echo "========================================"
     echo "# ${product_name}"
-    grep "AXIS_CONFIG_AUDIO=" "${ax}" | xargs echo "-"
+    # grep "AXIS_CONFIG_AUDIO=" "${ax}" | xargs echo "-"
     grep AXIS_CONFIG_AUDIO_OUTPUTS "${ax}" | xargs echo "-"
     grep AXIS_CONFIG_AUDIO_SOURCES "${ax}" | xargs echo "-"
-    grep AXIS_CONFIG_PORTCAST "${ax}" | xargs echo "-"
-    # fi
+    grep AXIS_CONFIG_AUDIO_INPUT_TYPE_INTERNAL "${ax}" | xargs echo "-"
+    grep AXIS_CONFIG_AUDIO_MAX_CHANNELS "${ax}" | xargs echo "-"
+    # grep AXIS_CONFIG_PORTCAST "${ax}" | xargs echo "-"
+    fi
+    fi
+    fi
+    fi
     # grep "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_DEFAULT" "${ax}" | xargs echo "- default:"
     # grep -E "^AXIS_CONFIG_AUDIO_SAMPLE_RATE_[0-9]+" "${ax}" | xargs -n1 echo "-"
     # grep -E "AXIS_CONFIG_SIP" "${ax}" | xargs echo "-"
