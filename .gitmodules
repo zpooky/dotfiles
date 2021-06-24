@@ -25,3 +25,9 @@
 [submodule "sources/teamocil"]
 	path = sources/teamocil
 	url = https://github.com/zpooky/teamocil.git
+[submodule "sources/zsh-autosuggestions"]
+	path = sources/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions
+[submodule "sources/zsh-completions"]
+	path = sources/zsh-completions
+	url = git://github.com/zsh-users/zsh-completions.git

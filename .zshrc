@@ -5,28 +5,7 @@ fi
 # }
 
 #=================== {
-if [ -e $HOME/sources/fzf/bin ]; then
-  export FZF_BASE=$HOME/sources/fzf
-  export PATH=$PATH:$FZF_BASE/bin
-  # <ctrl+r> = history
-  # <alt+c> = cd (dir) search
-  #
-fi
-
-export ZSH=$HOME/.oh-my-zsh
-
 source $HOME/dotfiles/extrarc
-
-# oh-my-zsh plugins
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions cabal pip python fzf docker zsh-completions pass)
-
-DISABLE_AUTO_UPDATE="true"
-
-source $ZSH/oh-my-zsh.sh
 
 export LANG=en_US.UTF-8
 # locale - format dates according to Swedish standards (24h clock)
@@ -41,8 +20,17 @@ bindkey "^[[1;5D" backward-word
 bindkey "\e[3~" delete-char
 
 # <alt+backspace> to delete word
-autoload -U select-word-style
-select-word-style bash
+autoload -U select-word-style && select-word-style bash
+
+# Use modern completion system
+if [ -e $HOME/sources/zsh-completions ]; then
+  fpath=($HOME/sources/zsh-completions $fpath)
+fi
+autoload -U compinit && compinit -u
+
+#
+autoload -U colors
+colors
 
 # <ctrl+w> Kill line right
 bindkey '^W' kill-line
@@ -54,6 +42,7 @@ function preexec() {
 }
 
 function precmd() {
+  setopt prompt_subst
   local LAST_EXIT_CODE=$?
 # https://stackoverflow.com/questions/33839665/multiline-prompt-formatting-incorrectly-due-to-date-command-in-zsh/33839913#33839913
   local sp_zsh_timer_show=0
@@ -94,7 +83,6 @@ function set-prompt() {
   local RED="\e[0;31m"
   local NO_COLOR="\e[0m"
   local NEWLINE=$'\n'
-  autoload -U colors && colors
 
   if [[ $EUID -eq 0 ]]; then
     local SUFFIX='#'
@@ -130,19 +118,19 @@ HISTSIZE=10000000
 SAVEHIST=10000000
 
 #=================== {
+setopt AUTO_CD                    # [default] .. is shortcut for cd .. (etc)
+setopt INC_APPEND_HISTORY         # Add commands to history as they are entered, don't wait for shell to exit
 setopt HIST_EXPIRE_DUPS_FIRST     # Expire a duplicate event first when trimming history.
 setopt HIST_IGNORE_DUPS           # Do not record an entry that was just recorded again.
 setopt HIST_REDUCE_BLANKS         # Remove superfluous blanks before recording entry.
 
-setopt HIST_IGNORE_ALL_DUPS #If a new command line being added to the history list duplicates an older one, the older command is removed from the list (even if it is not the previous event). 
+setopt HIST_IGNORE_ALL_DUPS       # If a new command line being added to the history list duplicates an older one, the older command is removed from the list (even if it is not the previous event). 
+
+setopt noflowcontrol              # disable <ctrl+s>, <ctrl+q> flow control
 # }
 
-# disable <ctrl+s>, <ctrl+q> flow control
-setopt noflowcontrol
 
-# Use modern completion system
-autoload -Uz compinit
-compinit
+
 
 #=================== {
 # TODO fi
@@ -190,51 +178,75 @@ function f(){
   #find -iname "*${p}*"
 }
 
+function agf(){
+  local ft="${1}"
+  shift
+  echo "find . -name \"*.${ft}\" -print0 | xargs -0 -n1 grep \"$@\" /dev/null">&2
+  # find . -name "*.${ft}" -print0 | xargs -0 -n1 echo
+
+  find . -name "*.${ft}" -print0 | xargs -0 -n1 grep "$@" /dev/null
+}
+
 if [[ $TERM = "" ]] || [[ -z $TERM ]]; then
   # export TERM="xterm-256color"
 fi
 
+
+# alias -g ...='../..'
+# alias -g ....='../../..'
+# alias -g .....='../../../..'
+# alias -g ......='../../../../..'
+
 # Emacs mode
 bindkey -e
-
+# [Delete] - delete forward
+bindkey -M emacs "^[[3~" delete-char
+# [Backspace] - delete backward
+bindkey -M emacs '^?' backward-delete-char
+# [Ctrl-Delete] - delete whole forward-word
+bindkey -M emacs '^[[3;5~' kill-word
+# [Ctrl-RightArrow] - move forward one word
+bindkey -M emacs '^[[1;5C' forward-word
+# [Ctrl-LeftArrow] - move backward one word
+bindkey -M emacs '^[[1;5D' backward-word
 # }
 
-# {{{
-function xxcopybuffer () {
-  if which clipcopy &>/dev/null; then
-    echo $BUFFER | clipcopy
-    # notify-send "${BUFFER}" "copy"
-  else
-    echo "clipcopy function not found. Please make sure you have Oh My Zsh installed correctly."
-  fi
-}
-
-zle -N xxcopybuffer
-
-# ^f12
-bindkey "^[[24;5~" xxcopybuffer
-#}}}
+# # {{{
+# function xxcopybuffer () {
+#   if which clipcopy &>/dev/null; then
+#     echo $BUFFER | clipcopy
+#     # notify-send "${BUFFER}" "copy"
+#   else
+#     echo "clipcopy function not found. Please make sure you have Oh My Zsh installed correctly."
+#   fi
+# }
+#
+# zle -N xxcopybuffer
+#
+# # ^f12
+# bindkey "^[[24;5~" xxcopybuffer
+# #}}}
 
 # TODO document
-zstyle ':completion:*' auto-description 'specify: %d'
-zstyle ':completion:*' completer _expand _complete _correct _approximate
-zstyle ':completion:*' format 'Completing %d'
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' menu select=2
-
-eval "$(dircolors -b)"
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
-
-zstyle ':completion:*' menu select=long
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-zstyle ':completion:*' use-compctl false
-zstyle ':completion:*' verbose true
-
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+# zstyle ':completion:*' auto-description 'specify: %d'
+# zstyle ':completion:*' completer _expand _complete _correct _approximate
+# zstyle ':completion:*' format 'Completing %d'
+# zstyle ':completion:*' group-name ''
+# zstyle ':completion:*' menu select=2
+#
+# eval "$(dircolors -b)"
+# zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+# zstyle ':completion:*' list-colors ''
+# zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+# zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+#
+# zstyle ':completion:*' menu select=long
+# zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+# zstyle ':completion:*' use-compctl false
+# zstyle ':completion:*' verbose true
+#
+# zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+# zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 #=================== {
 zstyle ':completion:*' special-dirs true  # to make `cd ..<tab>` work
@@ -242,5 +254,15 @@ zstyle ':completion:*' special-dirs true  # to make `cd ..<tab>` work
 zstyle :compinstall filename "$HOME/.zshrc"
 # }
 
-#
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [ -e $HOME/sources/fzf/bin ]; then
+  export FZF_BASE=$HOME/sources/fzf
+  export PATH=$PATH:$FZF_BASE/bin
+  # <ctrl+r> = history
+  # <alt+c> = cd (dir) search
+  source $FZF_BASE/shell/completion.zsh
+  source $FZF_BASE/shell/key-bindings.zsh
+fi
+
+if [ -e $HOME/sources/zsh-autosuggestions ]; then
+  source $HOME/sources/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi

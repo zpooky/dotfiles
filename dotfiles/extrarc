@@ -137,7 +137,7 @@ export EDITOR=$SP_EDITOR
 export SYSTEMD_EDITOR=$SP_EDITOR
 export VISUAL=$SP_EDITOR
 
-alias nas540_mount="sshfs admin@192.168.1.12:/i-data/ $HOME/mount/nas540"
+alias nas540_mount="sshfs admin@192.168.0.6:/i-data/ $HOME/mount/nas540"
 alias nas540_dl="cd $HOME/mount/nas540/0da29454/admin/download/Transmission/download"
 alias nas540_tv="cd $HOME/mount/nas540/0da29454/video/tv"
 
