@@ -26,7 +26,9 @@ autoload -U select-word-style && select-word-style bash
 if [ -e $HOME/sources/zsh-completions ]; then
   fpath=($HOME/sources/zsh-completions $fpath)
 fi
+
 autoload -U compinit && compinit -u
+#
 
 #
 autoload -U colors
@@ -127,6 +129,8 @@ setopt HIST_REDUCE_BLANKS         # Remove superfluous blanks before recording e
 setopt HIST_IGNORE_ALL_DUPS       # If a new command line being added to the history list duplicates an older one, the older command is removed from the list (even if it is not the previous event). 
 
 setopt noflowcontrol              # disable <ctrl+s>, <ctrl+q> flow control
+setopt globdots                   # show directories starting with . when tabbing
+
 # }
 
 
@@ -192,10 +196,11 @@ if [[ $TERM = "" ]] || [[ -z $TERM ]]; then
 fi
 
 
-# alias -g ...='../..'
-# alias -g ....='../../..'
-# alias -g .....='../../../..'
-# alias -g ......='../../../../..'
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias -g ......='../../../../..'
+alias -g .......='../../../../../..'
 
 # Emacs mode
 bindkey -e

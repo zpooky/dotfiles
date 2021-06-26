@@ -757,8 +757,6 @@ iab frequence frequency
 iab Bandwith Bandwidth
 iab bandwith bandwidth
 iab betwen between
-iab Digitial Digital
-iab digitial digital
 iab vacum vacuum
 iab priviously previously
 iab alghorithms algorithms
@@ -1120,157 +1118,157 @@ function! s:SpookyGetMirror(file) abort
   "   return 0
   " endif
 
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/lib\/\('.fname.'\)\.c$', ['\1/include/linux/\2.h'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/lib\/\('.fname.'\)\.c$', ['\1/include/linux/\2.h'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/kernel\/\('.fname.'\)\.c$', ['\1/include/linux/\2.h'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/kernel\/\('.fname.'\)\.c$', ['\1/include/linux/\2.h'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/include\/linux\/\('.fname.'\)\.h$', ['\1/kernel/\2.c', '\1/lib/\2.c'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/include\/linux\/\('.fname.'\)\.h$', ['\1/kernel/\2.c', '\1/lib/\2.c'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
 
   " /src/fname.[c, cc, cpp] -> /[include, inc, '']/fname.[h, hh, hpp]
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/src\/\('.fname.'\)\.c$', ['\1/include/\2.h', '\1/inc/\2.h', '\2.h'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/src\/\('.fname.'\)\.c$', ['\1/include/\2.h', '\1/inc/\2.h', '\2.h'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/src\/\('.fname.'\)\.cc$', ['\1/include/\2.h', '\1/inc/\2.h', '\2.h', '\1/include/\2.hh', '\1/inc/\2.hh', '\2.hh', '\1/include/\2.hpp', '\1/inc/\2.hpp', '\2.hpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/src\/\('.fname.'\)\.cc$', ['\1/include/\2.h', '\1/inc/\2.h', '\2.h', '\1/include/\2.hh', '\1/inc/\2.hh', '\2.hh', '\1/include/\2.hpp', '\1/inc/\2.hpp', '\2.hpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/src\/\('.fname.'\)\.cpp$', ['\1/include/\2.h', '\1/include/\2.hpp', '\1/include/\2.hh', '\1/inc/\2.h', '\1/inc/\2.hpp', '\1/inc/\2.hh'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/src\/\('.fname.'\)\.cpp$', ['\1/include/\2.h', '\1/include/\2.hpp', '\1/include/\2.hh', '\1/inc/\2.h', '\1/inc/\2.hpp', '\1/inc/\2.hh'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
 
   " /source/fname.[c, cc, cpp] -> /[include, inc, '']/fname.[h, hh, hpp]
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/source\/\('.fname.'\)\.c$', ['\1/include/\2.h', '\1/inc/\2.h', '\2.h'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/source\/\('.fname.'\)\.c$', ['\1/include/\2.h', '\1/inc/\2.h', '\2.h'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/source\/\('.fname.'\)\.cc$', ['\1/include/\2.h', '\1/inc/\2.h', '\2.h', '\1/include/\2.hh', '\1/inc/\2.hh', '\2.hh', '\1/include/\2.hpp', '\1/inc/\2.hpp', '\2.hpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/source\/\('.fname.'\)\.cc$', ['\1/include/\2.h', '\1/inc/\2.h', '\2.h', '\1/include/\2.hh', '\1/inc/\2.hh', '\2.hh', '\1/include/\2.hpp', '\1/inc/\2.hpp', '\2.hpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/source\/\('.fname.'\)\.cpp$', ['\1/include/\2.h', '\1/include/\2.hpp', '\1/include/\2.hh', '\1/inc/\2.h', '\1/inc/\2.hpp', '\1/inc/\2.hh'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/source\/\('.fname.'\)\.cpp$', ['\1/include/\2.h', '\1/include/\2.hpp', '\1/include/\2.hh', '\1/inc/\2.h', '\1/inc/\2.hpp', '\1/inc/\2.hh'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
 
   " /include/fname.[h, hh, hpp] -> [src, source]/fname.[c, cc, cpp]
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/include\/\('.fname.'\)\.h$', ['\1/src/\2.cpp', '\1/src/\2.c', '\1/src/\2.cc', '\1/source/\2.cpp', '\1/source/\2.c', '\1/source/\2.cc', '\1/\2.c', '\1/\2.cc', '\1/\2.cpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/include\/\('.fname.'\)\.h$', ['\1/src/\2.cpp', '\1/src/\2.c', '\1/src/\2.cc', '\1/source/\2.cpp', '\1/source/\2.c', '\1/source/\2.cc', '\1/\2.c', '\1/\2.cc', '\1/\2.cpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/include\/\('.fname.'\)\.hh$', ['\1/src/\2.cpp', '\1/src/\2.c', '\1/src/\2.cc', '\1/source/\2.cpp', '\1/source/\2.c', '\1/source/\2.cc', '\1/\2.c', '\1/\2.cc', '\1/\2.cpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/include\/\('.fname.'\)\.hh$', ['\1/src/\2.cpp', '\1/src/\2.c', '\1/src/\2.cc', '\1/source/\2.cpp', '\1/source/\2.c', '\1/source/\2.cc', '\1/\2.c', '\1/\2.cc', '\1/\2.cpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/include\/\('.fname.'\)\.hpp$', ['\1/src/\2.cpp', '\1/src/\2.c', '\1/src/\2.cc', '\1/source/\2.cpp', '\1/source/\2.c', '\1/source/\2.cc', '\1/\2.c', '\1/\2.cc', '\1/\2.cpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/include\/\('.fname.'\)\.hpp$', ['\1/src/\2.cpp', '\1/src/\2.c', '\1/src/\2.cc', '\1/source/\2.cpp', '\1/source/\2.c', '\1/source/\2.cc', '\1/\2.c', '\1/\2.cc', '\1/\2.cpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
 
   " /inc/fname.[h, hh, hpp] -> [src, source, '']/fname.[c, cc, cpp]
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/inc\/\('.fname.'\)\.h$', ['\1/src/\2.cpp', '\1/src/\2.c', '\1/src/\2.cc', '\1/source/\2.cpp', '\1/source/\2.c', '\1/source/\2.cc', '\1/\2.c', '\1/\2.cc', '\1/\2.cpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/inc\/\('.fname.'\)\.h$', ['\1/src/\2.cpp', '\1/src/\2.c', '\1/src/\2.cc', '\1/source/\2.cpp', '\1/source/\2.c', '\1/source/\2.cc', '\1/\2.c', '\1/\2.cc', '\1/\2.cpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/inc\/\('.fname.'\)\.hh$', ['\1/src/\2.cpp', '\1/src/\2.c', '\1/src/\2.cc', '\1/source/\2.cpp', '\1/source/\2.c', '\1/source/\2.cc', '\1/\2.c', '\1/\2.cc', '\1/\2.cpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/inc\/\('.fname.'\)\.hh$', ['\1/src/\2.cpp', '\1/src/\2.c', '\1/src/\2.cc', '\1/source/\2.cpp', '\1/source/\2.c', '\1/source/\2.cc', '\1/\2.c', '\1/\2.cc', '\1/\2.cpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/inc\/\('.fname.'\)\.hpp$', ['\1/src/\2.cpp', '\1/src/\2.c', '\1/src/\2.cc', '\1/source/\2.cpp', '\1/source/\2.c', '\1/source/\2.cc', '\1/\2.c', '\1/\2.cc', '\1/\2.cpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/inc\/\('.fname.'\)\.hpp$', ['\1/src/\2.cpp', '\1/src/\2.c', '\1/src/\2.cc', '\1/source/\2.cpp', '\1/source/\2.c', '\1/source/\2.cc', '\1/\2.c', '\1/\2.cc', '\1/\2.cpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
 
   " fname.[cpp,cc,c] -> [include, inc, '']/fname.[h,hpp,hh]
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.cpp$', ['\1/\2.h', '\1/\2.hpp', '\1/\2.hh', '\1/include/\2.h', '\1/include/\2.hpp', '\1/include/\2.hh', '\1/inc/\2.h', '\1/inc/\2.hpp', '\1/inc/\2.hh'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.cpp$', ['\1/\2.h', '\1/\2.hpp', '\1/\2.hh', '\1/include/\2.h', '\1/include/\2.hpp', '\1/include/\2.hh', '\1/inc/\2.h', '\1/inc/\2.hpp', '\1/inc/\2.hh'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.cc$', ['\1/\2.h', '\1/\2.hpp', '\1/\2.hh', '\1/include/\2.h', '\1/include/\2.hpp', '\1/include/\2.hh', '\1/inc/\2.h', '\1/inc/\2.hpp', '\1/inc/\2.hh'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.cc$', ['\1/\2.h', '\1/\2.hpp', '\1/\2.hh', '\1/include/\2.h', '\1/include/\2.hpp', '\1/include/\2.hh', '\1/inc/\2.h', '\1/inc/\2.hpp', '\1/inc/\2.hh'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.c$', ['\1/\2.h', '\1/include/\2.h', '\1/inc/\2.h'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.c$', ['\1/\2.h', '\1/include/\2.h', '\1/inc/\2.h'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
 
   " fname.[h,hpp,hh] -> fname.[cpp,c,cc]
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.h$', ['\1/\2.cpp', '\1/\2.c', '\1/\2.cc'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.h$', ['\1/\2.cpp', '\1/\2.c', '\1/\2.cc'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.hpp$', ['\1/\2.cpp', '\1/\2.cc'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.hpp$', ['\1/\2.cpp', '\1/\2.cc'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.hh$', ['\1/\2.cpp', '\1/\2.cc'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\('.fname.'\)\.hh$', ['\1/\2.cpp', '\1/\2.cc'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
 
 " /proj/src/fname.[c, cc, cpp] -> /proj/[include, inc]/proj/fname.[h, hh, hpp]
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\(.*\)\/src\/\('.fname.'\)\.c$', ['\1/\2/include/\2/\3.h', '\1/\2/inc/\2/\3.h', '\1/\2/include/\2/\3.hh', '\1/\2/inc/\2/\3.hh', '\1/\2/include/\2/\3.hpp', '\1/\2/inc/\2/\3.hpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\(.*\)\/src\/\('.fname.'\)\.c$', ['\1/\2/include/\2/\3.h', '\1/\2/inc/\2/\3.h', '\1/\2/include/\2/\3.hh', '\1/\2/inc/\2/\3.hh', '\1/\2/include/\2/\3.hpp', '\1/\2/inc/\2/\3.hpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\(.*\)\/src\/\('.fname.'\)\.cc$', ['\1/\2/include/\2/\3.h', '\1/\2/inc/\2/\3.h', '\1/\2/include/\2/\3.hh', '\1/\2/inc/\2/\3.hh', '\1/\2/include/\2/\3.hpp', '\1/\2/inc/\2/\3.hpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\(.*\)\/src\/\('.fname.'\)\.cc$', ['\1/\2/include/\2/\3.h', '\1/\2/inc/\2/\3.h', '\1/\2/include/\2/\3.hh', '\1/\2/inc/\2/\3.hh', '\1/\2/include/\2/\3.hpp', '\1/\2/inc/\2/\3.hpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\(.*\)\/src\/\('.fname.'\)\.cpp$', ['\1/\2/include/\2/\3.h', '\1/\2/inc/\2/\3.h', '\1/\2/include/\2/\3.hh', '\1/\2/inc/\2/\3.hh', '\1/\2/include/\2/\3.hpp', '\1/\2/inc/\2/\3.hpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\(.*\)\/src\/\('.fname.'\)\.cpp$', ['\1/\2/include/\2/\3.h', '\1/\2/inc/\2/\3.h', '\1/\2/include/\2/\3.hh', '\1/\2/inc/\2/\3.hh', '\1/\2/include/\2/\3.hpp', '\1/\2/inc/\2/\3.hpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
 
 " /proj/source/fname.[c,cc,cpp] -> /proj/[include, inc]/proj/fname.[h, hh, hpp]
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\(.*\)\/source\/\('.fname.'\)\.c$', ['\1/\2/include/\2/\3.h', '\1/\2/inc/\2/\3.h', '\1/\2/include/\2/\3.hh', '\1/\2/inc/\2/\3.hh', '\1/\2/include/\2/\3.hpp', '\1/\2/inc/\2/\3.hpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\(.*\)\/source\/\('.fname.'\)\.c$', ['\1/\2/include/\2/\3.h', '\1/\2/inc/\2/\3.h', '\1/\2/include/\2/\3.hh', '\1/\2/inc/\2/\3.hh', '\1/\2/include/\2/\3.hpp', '\1/\2/inc/\2/\3.hpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\(.*\)\/source\/\('.fname.'\)\.cc$', ['\1/\2/include/\2/\3.h', '\1/\2/inc/\2/\3.h', '\1/\2/include/\2/\3.hh', '\1/\2/inc/\2/\3.hh', '\1/\2/include/\2/\3.hpp', '\1/\2/inc/\2/\3.hpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\(.*\)\/source\/\('.fname.'\)\.cc$', ['\1/\2/include/\2/\3.h', '\1/\2/inc/\2/\3.h', '\1/\2/include/\2/\3.hh', '\1/\2/inc/\2/\3.hh', '\1/\2/include/\2/\3.hpp', '\1/\2/inc/\2/\3.hpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\(.*\)\/source\/\('.fname.'\)\.cpp$', ['\1/\2/include/\2/\3.h', '\1/\2/inc/\2/\3.h', '\1/\2/include/\2/\3.hh', '\1/\2/inc/\2/\3.hh', '\1/\2/include/\2/\3.hpp', '\1/\2/inc/\2/\3.hpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/\(.*\)\/source\/\('.fname.'\)\.cpp$', ['\1/\2/include/\2/\3.h', '\1/\2/inc/\2/\3.h', '\1/\2/include/\2/\3.hh', '\1/\2/inc/\2/\3.hh', '\1/\2/include/\2/\3.hpp', '\1/\2/inc/\2/\3.hpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
 
 "  /proj/include/proj/fname.[h, hh, hpp] -> /proj/[source, src]/fname.[c,cc,cpp]
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/include\/\(.*\)\/\('.fname.'\)\.h$', ['\1/src/\3.c', '\1/src/\3.cc', '\1/src/\3.cpp', '\1/source/\3.c', '\1/source/\3.cc', '\1/source/\3.cpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/include\/\(.*\)\/\('.fname.'\)\.h$', ['\1/src/\3.c', '\1/src/\3.cc', '\1/src/\3.cpp', '\1/source/\3.c', '\1/source/\3.cc', '\1/source/\3.cpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/include\/\(.*\)\/\('.fname.'\)\.hh$', ['\1/src/\3.c', '\1/src/\3.cc', '\1/src/\3.cpp', '\1/source/\3.c', '\1/source/\3.cc', '\1/source/\3.cpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/include\/\(.*\)\/\('.fname.'\)\.hh$', ['\1/src/\3.c', '\1/src/\3.cc', '\1/src/\3.cpp', '\1/source/\3.c', '\1/source/\3.cc', '\1/source/\3.cpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/include\/\(.*\)\/\('.fname.'\)\.hpp$', ['\1/src/\3.c', '\1/src/\3.cc', '\1/src/\3.cpp', '\1/source/\3.c', '\1/source/\3.cc', '\1/source/\3.cpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/include\/\(.*\)\/\('.fname.'\)\.hpp$', ['\1/src/\3.c', '\1/src/\3.cc', '\1/src/\3.cpp', '\1/source/\3.c', '\1/source/\3.cc', '\1/source/\3.cpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
 
 "  /proj/inc/proj/fname.[h, hh, hpp] -> /proj/[source, src]/fname.[c,cc,cpp]
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/inc\/\(.*\)\/\('.fname.'\)\.h$', ['\1/src/\3.c', '\1/src/\3.cc', '\1/src/\3.cpp', '\1/source/\3.c', '\1/source/\3.cc', '\1/source/\3.cpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/inc\/\(.*\)\/\('.fname.'\)\.h$', ['\1/src/\3.c', '\1/src/\3.cc', '\1/src/\3.cpp', '\1/source/\3.c', '\1/source/\3.cc', '\1/source/\3.cpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/inc\/\(.*\)\/\('.fname.'\)\.hh$', ['\1/src/\3.c', '\1/src/\3.cc', '\1/src/\3.cpp', '\1/source/\3.c', '\1/source/\3.cc', '\1/source/\3.cpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/inc\/\(.*\)\/\('.fname.'\)\.hh$', ['\1/src/\3.c', '\1/src/\3.cc', '\1/src/\3.cpp', '\1/source/\3.c', '\1/source/\3.cc', '\1/source/\3.cpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
-  let mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/inc\/\(.*\)\/\('.fname.'\)\.hpp$', ['\1/src/\3.c', '\1/src/\3.cc', '\1/src/\3.cpp', '\1/source/\3.c', '\1/source/\3.cc', '\1/source/\3.cpp'])
-  if strlen(mirror) > 0
-    return mirror
+  let l:mirror = s:SpookyMirrorFor(a:file, '^\(.*\)\/inc\/\(.*\)\/\('.fname.'\)\.hpp$', ['\1/src/\3.c', '\1/src/\3.cc', '\1/src/\3.cpp', '\1/source/\3.c', '\1/source/\3.cc', '\1/source/\3.cpp'])
+  if strlen(l:mirror) > 0
+    return l:mirror
   endif
 
   return ""
@@ -1291,6 +1289,38 @@ function! s:SpFindGit(path) abort
     let l:parent = l:next
   endwhile
 endfunction
+
+function! s:SpFindFile(root, needles) abort
+  " find . -type f \( -name "xxx.h" -o -name "xxx.hh" \)
+  let l:first = 1
+  if len(a:needles) == 0
+    return []
+  endif
+
+  if !executable('find')
+    return []
+  endif
+
+  let l:cmd = "find ".a:root." -type f \\("
+  for needle in a:needles
+    if l:first == 0
+      let l:cmd .= " -o " " or
+    endif
+    let l:cmd .= " -name '".needle."'"
+    let l:first = 0
+  endfor
+  let l:cmd .= " \\)"
+  " echomsg l:cmd
+  let l:result = systemlist(l:cmd)
+  " echomsg v:shell_error
+  " echomsg l:result
+  if v:shell_error == 0
+    return l:result
+  endif
+
+  return []
+endfunction
+
 
 function s:FuncPreview()
   " https://vim.fandom.com/wiki/Quick_reference_of_current_function
@@ -1321,23 +1351,53 @@ function! s:SpookyPrintCurrentFile() abort
 
 endfunction
 
-function! s:SpookyToggleFile(file) abort
+function! s:SpookyToggleFile(fpath, fname, fext) abort
   if !exists("g:sp_toggle_file")
     let g:sp_toggle_file = {}
   endif
-  let mirror = s:SpookyGetMirror(a:file)
-  if strlen(mirror) > 0
-    let g:sp_toggle_file[expand('%:p')] = winsaveview()
-    execute "silent edit ".mirror
-    if has_key(g:sp_toggle_file, expand('%:p'))
-      call winrestview(g:sp_toggle_file[expand('%:p')])
+  if !exists("g:sp_cached_mirror")
+    " cache so that we are not required to repeatedly have to re:find mirror
+    let g:sp_cached_mirror = {}
+  endif
+
+  let l:mirror = s:SpookyGetMirror(a:fpath)
+  if strlen(l:mirror) == 0
+    " fallback: we use Linux "find" util to find mirror
+    if has_key(g:sp_cached_mirror, a:fpath)
+      let l:mirror = g:sp_cached_mirror[a:fpath]
+    else
+      let l:git_root = s:SpFindGit(a:fpath)
+      if strlen(l:git_root) > 0
+        let l:candidates = []
+        if a:fext == "c"
+          let l:candidates = s:SpFindFile(l:git_root, [a:fname.'.h'])
+        elseif a:fext == "cc" || a:fext == "cpp"
+          let l:candidates = s:SpFindFile(l:git_root, [a:fname.'.h', a:fname.'.hh', a:fname.'.hpp'])
+        elseif a:fext == "hh" || a:fext == "hpp" || a:fext == "h"
+          let l:candidates = s:SpFindFile(l:git_root, [a:fname.'.c', a:fname.'.cc', a:fname.'.cpp'])
+        endif
+        if len(l:candidates) > 0
+          let l:mirror = l:candidates[0] " just get the first result
+          " cache mirrors:
+          let g:sp_cached_mirror[a:fpath] = l:mirror
+          let g:sp_cached_mirror[l:mirror] = a:fpath
+        endif
+      endif
+    endif
+  endif
+
+  if strlen(l:mirror) > 0
+    let g:sp_toggle_file[a:fpath] = winsaveview()
+    execute "silent edit ".l:mirror
+    if has_key(g:sp_toggle_file, a:fpath)
+      call winrestview(g:sp_toggle_file[a:fpath])
     endif
     call s:SpookyPrintCurrentFile()
   endif
 endfunction
 
 " autocmd FileType c,cpp
-command! SpookyToggleFile :call s:SpookyToggleFile(expand('%:p'))
+command! SpookyToggleFile :call s:SpookyToggleFile(expand('%:p'), expand('%:t:r'), expand('%:e'))
 augroup AugroupToggleFIle
   autocmd!
   autocmd FileType c,cpp nnoremap <silent> <F2> :SpookyToggleFile<CR>
@@ -1346,9 +1406,9 @@ augroup END
 
 " {{{
 function! s:SpookyHeaderType(file) abort
-  let mirror = s:SpookyGetMirror(a:file)
-  if strlen(mirror) > 0
-    if mirror =~ '\.cpp$'
+  let l:mirror = s:SpookyGetMirror(a:file)
+  if strlen(l:mirror) > 0
+    if l:mirror =~ '\.cpp$' || l:mirror =~ '\.cc$'
       set ft=cpp
       return 1
     endif
