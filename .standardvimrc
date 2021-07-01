@@ -1302,11 +1302,11 @@ function! s:SpFindFile(root, needles) abort
   endif
 
   let l:cmd = "find ".a:root." -type f \\("
-  for needle in a:needles
+  for l:needle in a:needles
     if l:first == 0
       let l:cmd .= " -o " " or
     endif
-    let l:cmd .= " -name '".needle."'"
+    let l:cmd .= " -name '".l:needle."'"
     let l:first = 0
   endfor
   let l:cmd .= " \\)"
@@ -1389,8 +1389,8 @@ function! s:SpookyToggleFile(fpath, fname, fext) abort
   if strlen(l:mirror) > 0
     let g:sp_toggle_file[a:fpath] = winsaveview()
     execute "silent edit ".l:mirror
-    if has_key(g:sp_toggle_file, a:fpath)
-      call winrestview(g:sp_toggle_file[a:fpath])
+    if has_key(g:sp_toggle_file, l:mirror)
+      call winrestview(g:sp_toggle_file[l:mirror])
     endif
     call s:SpookyPrintCurrentFile()
   endif
