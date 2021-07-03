@@ -812,6 +812,7 @@ iab compenent component
 iab refering referring
 iab positivly positively
 iab negativly negatively
+iab infinte infinite
 
 iab Acsending Ascending
 iab acsending ascending
@@ -1324,13 +1325,23 @@ endfunction
 
 function s:FuncPreview()
   " https://vim.fandom.com/wiki/Quick_reference_of_current_function
-  let opening = search("^\\S.*)\\s*\\\(\\n\\\)\\={","bn")
-  let closing = search("^}","bn")
-  if opening > closing
-    return getline(opening)
+  let l:opening = search("^\\S.*)\\s*\\\(\\n\\\)\\={","bn")
+  let l:closing = search("^}","bn")
+  if l:opening > l:closing
+    return ':'.getline(l:opening)
   else
     return ""
   endif
+endfunction
+
+function! s:SpookyLimitMsgLength(msg) abort
+  let l:win_width = winwidth(0)-30
+  let l:limit = l:win_width < 0 ? 0 : l:win_width
+  let l:msg_len = strlen(a:msg)
+  if l:msg_len > l:limit
+    return a:msg[:l:limit]
+  endif
+  return a:msg
 endfunction
 
 function! s:SpookyPrintCurrentFile() abort
@@ -1342,11 +1353,13 @@ function! s:SpookyPrintCurrentFile() abort
   let l:parent = expand('%:p:h') " escape()
   let l:git = s:SpFindGit(parent)
   if l:git !=# ''
-    echomsg l:self[len(l:git)+1:len(l:self)]
-  " elseif 
-  else
-    echomsg l:self
+    let l:self = l:self[len(l:git)+1:len(l:self)]
   endif
+
+  if &ft == "c"
+    let l:self = l:self . s:FuncPreview()
+  endif
+  echomsg s:SpookyLimitMsgLength(l:self)
 " echo fnameescape(fnamemodify(finddir('.git',escape(expand('%:p:h'), ' ') . ';'), ':h'))
 
 endfunction
