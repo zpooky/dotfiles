@@ -1328,18 +1328,23 @@ function s:FuncPreview()
   let l:opening = search("^\\S.*)\\s*\\\(\\n\\\)\\={","bn")
   let l:closing = search("^}","bn")
   if l:opening > l:closing
-    return ':'.getline(l:opening)
+    return '   '.getline(l:opening)
   else
     return ""
   endif
 endfunction
 
-function! s:SpookyLimitMsgLength(msg) abort
+function! s:SpookyLimitMsgLength(msg, strip_prefix) abort
   let l:win_width = winwidth(0)-30
   let l:limit = l:win_width < 0 ? 0 : l:win_width
   let l:msg_len = strlen(a:msg)
   if l:msg_len > l:limit
-    return a:msg[:l:limit]
+    if a:strip_prefix == 1
+      let l:start = l:msg_len-l:limit
+      return a:msg[l:start:]
+    else
+      return a:msg[:l:limit]
+    endif
   endif
   return a:msg
 endfunction
@@ -1357,9 +1362,13 @@ function! s:SpookyPrintCurrentFile() abort
   endif
 
   if &ft == "c"
-    let l:self = l:self . s:FuncPreview()
+    let l:win_width = winwidth(0)-30
+    let l:limit = l:win_width < 0 ? 0 : l:win_width
+    if strlen(l:self) < l:limit
+      let l:self = l:self . s:FuncPreview()
+    endif
   endif
-  echomsg s:SpookyLimitMsgLength(l:self)
+  echomsg s:SpookyLimitMsgLength(l:self, 0)
 " echo fnameescape(fnamemodify(finddir('.git',escape(expand('%:p:h'), ' ') . ';'), ':h'))
 
 endfunction
