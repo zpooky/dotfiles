@@ -44,8 +44,8 @@ function preexec() {
 }
 
 function precmd() {
-  setopt prompt_subst
   local LAST_EXIT_CODE=$?
+  setopt prompt_subst
 # https://stackoverflow.com/questions/33839665/multiline-prompt-formatting-incorrectly-due-to-date-command-in-zsh/33839913#33839913
   local sp_zsh_timer_show=0
   local sp_hostname=$(hostname)

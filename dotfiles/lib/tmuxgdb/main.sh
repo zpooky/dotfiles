@@ -35,6 +35,52 @@ echo "dashboard assembly -style function False" >>"${GDB_CONFIG_file}"
 
 echo "dashboard -style syntax_highlighting \"monokai\"" >>"${GDB_CONFIG_file}"
 # dashboard -style syntax_highlighting "paraiso-dark"
+cat >>"${GDB_CONFIG_file}" <<EOF
+# refresh dashboard [gdb hooks]
+# define - a new hook
+# hookpost - means post execution of command
+# -*command* - the command to hook for
+# dashboard - refreshes the gdb-dashboard
+
+# define hookpost-run
+# dashboard
+# end
+
+# refresh on moving up a stack frame
+define hookpost-up
+dashboard
+end
+
+# refresh on moving down a stack frame
+define hookpost-down
+dashboard
+end
+
+# refresh on change thread
+define hookpost-thread
+dashboard
+end
+
+# refresh on change stack frame
+define hookpost-frame
+dashboard
+end
+
+# refresh on new breakpoint
+define hookpost-break
+dashboard
+end
+
+# refresh active breakpoints
+define hookpost-clear
+dashboard
+end
+
+# save active breakpoints on gdb quit
+define hook-quit
+save breakpoints .gdb_breakpoints
+end
+EOF
 
 grep "^break main$" "$BREAKPOINT_file"
 if [ ! $? -eq 0 ]; then
