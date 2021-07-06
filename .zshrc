@@ -65,11 +65,29 @@ function precmd() {
   if [ ! ${LAST_EXIT_CODE} -eq 0 ]; then
     ret_code='{red}'
   fi
+
+  local pp_ret="[%F${ret_code}${LAST_EXIT_CODE}%f]"
+  local pp_timer="[%F{green}${sp_zsh_timer_show}%f]"
+  local pp_backgroud="%F{red}%(1j.[⌘%j].)%f"
+  local pp_time="[${sp_time}]"
+  local pp_hostname="[${sp_hostname}]"
+
   local preprompt_left='%B%~%{$fg[yellow]%}:%{$reset_color%}'
-  local preprompt_right="[%F${ret_code}${LAST_EXIT_CODE}%f][%F{green}${sp_zsh_timer_show}%f]%F{red}%(1j.[⌘%j].)%f[${sp_time}][${sp_hostname}]"
   local preprompt_left_length=${#${(S%%)preprompt_left//(\%([KF1]|)\{*\}|\%[Bbkf])}}
+
+  local preprompt_right="${pp_ret}${pp_timer}${pp_backgroud}${pp_time}${pp_hostname}"
   local preprompt_right_length=${#${(S%%)preprompt_right//(\%([KF1]|)\{*\}|\%[Bbkf])}}
   local num_filler_spaces=$((COLUMNS - preprompt_left_length - preprompt_right_length))
+  if [ ${num_filler_spaces} -lt 0 ]; then
+    local preprompt_right="${pp_ret}${pp_timer}${pp_backgroud}${pp_time}"
+    local preprompt_right_length=${#${(S%%)preprompt_right//(\%([KF1]|)\{*\}|\%[Bbkf])}}
+    local num_filler_spaces=$((COLUMNS - preprompt_left_length - preprompt_right_length))
+    if [ ${num_filler_spaces} -lt 0 ]; then
+      local preprompt_right="${pp_ret}${pp_timer}${pp_backgroud}"
+      local preprompt_right_length=${#${(S%%)preprompt_right//(\%([KF1]|)\{*\}|\%[Bbkf])}}
+      local num_filler_spaces=$((COLUMNS - preprompt_left_length - preprompt_right_length))
+    fi
+  fi
   print -Pr $'\n'"$preprompt_left${(l:$num_filler_spaces:)}$preprompt_right"
 }
 
@@ -243,8 +261,11 @@ bindkey -M emacs '^[[1;5D' backward-word
 # zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 # zstyle ':completion:*' list-colors ''
 # zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-# zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
-#
+# NOTE: case insensitivity when tabbing
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+# NOTE: ..<tab> -> ../
+zstyle -e ':completion:*' special-dirs '[[ $PREFIX = (../)#(..) ]] && reply=(..)'
+
 # zstyle ':completion:*' menu select=long
 # zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 # zstyle ':completion:*' use-compctl false
@@ -254,7 +275,6 @@ bindkey -M emacs '^[[1;5D' backward-word
 # zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 #=================== {
-zstyle ':completion:*' special-dirs true  # to make `cd ..<tab>` work
 # zstyle ':completion:*' completer _complete _ignored
 zstyle :compinstall filename "$HOME/.zshrc"
 # }
