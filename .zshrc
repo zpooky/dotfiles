@@ -150,10 +150,6 @@ setopt noflowcontrol              # disable <ctrl+s>, <ctrl+q> flow control
 setopt globdots                   # show directories starting with . when tabbing
 
 # }
-
-
-
-
 #=================== {
 # TODO fi
 function f(){
