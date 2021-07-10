@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # $TMUX_PANE contains self
 #  `tmux run "echo '#{pane_id}'"` contains active pane

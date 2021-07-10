@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # qemu-system-arm \
 #   -machine raspi2 \

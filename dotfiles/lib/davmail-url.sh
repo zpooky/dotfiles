@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 MAIL=`~/dotfiles/lib/keyring-helper.py $1 $2`
 

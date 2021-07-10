@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 the_port="1234"
 the_ip_port="localhost:${the_port}"

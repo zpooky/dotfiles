@@ -1,5 +1,4 @@
-
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ~/vim/src/Makefile
 # TODO 1 sed -i /prefix = $(HOME)

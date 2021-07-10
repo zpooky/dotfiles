@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 source $HOME/.Xdbus 
 OUT=/tmp/sync_vdirsyncer
 

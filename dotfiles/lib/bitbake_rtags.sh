@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 dir="${1}"
 if [ ! -e "${dir}" ]; then

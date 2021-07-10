@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # 1. run script
 # 2. manually configure installation
 #   update-alternatives --install /usr/bin/java java /opt/java/jdk1.8.0_45/bin/java 100  

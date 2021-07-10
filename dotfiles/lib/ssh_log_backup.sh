@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 PAWD="`cat $HOME/dotfiles/lib/passwd`"
 HOST_USER="root"

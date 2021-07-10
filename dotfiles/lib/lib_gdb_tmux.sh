@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 working_dir="$(mktemp -d /tmp/sp_gdb.XXXXXXXXXXXXXX)"
 FIFO_pipe="$(mktemp -u ${working_dir}/pipe.XXXXXXXXXXXXXX)"

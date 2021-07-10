@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # if [ ! -e "${1}" ]; then
 #   echo "'$1' does not exist"

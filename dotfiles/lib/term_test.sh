@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # http://ascii-table.com/ansi-escape-sequences.php
 

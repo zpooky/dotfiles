@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 videos=(./*.mkv ./*.mp4 ./*.webm)
 

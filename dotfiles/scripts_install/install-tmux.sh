@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 THE_HOME=$HOME
 DOTFILES_HOME=$THE_HOME/dotfiles

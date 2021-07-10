@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 HOST_USER="root"
 HOST_ADDRS=( "172.16.1.113" "172.16.1.114" "172.16.1.115" "172.16.1.116" )

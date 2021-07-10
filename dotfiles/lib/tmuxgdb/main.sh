@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 FIFO_pipe="${1}"
 if [ ! -e "${FIFO_pipe}" ]; then

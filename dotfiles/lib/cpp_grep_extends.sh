@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 echo -e "# \e[1m\e[41m${1}\e[0m"
 

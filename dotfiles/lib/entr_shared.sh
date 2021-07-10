@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 source $HOME/dotfiles/lib/vimcpp/shared.sh
 

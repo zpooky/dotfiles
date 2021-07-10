@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 l_pwd="${1}"
 # name="#(~/dotfiles/lib/tmux_window_status_format_DELETED.sh #{pane_current_path})"
