@@ -120,7 +120,6 @@ function set-prompt() {
   # %f        - foreground color standard
   # %K{color} - background color
   # %k        - background color standard
-  local sp_hostname=$(hostname)
 }
 
 set-prompt
