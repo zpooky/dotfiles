@@ -48,7 +48,6 @@ function precmd() {
   setopt prompt_subst
 # https://stackoverflow.com/questions/33839665/multiline-prompt-formatting-incorrectly-due-to-date-command-in-zsh/33839913#33839913
   local sp_zsh_timer_show=0
-  local sp_hostname=$(hostname)
   local sp_time=$(date "+%H:%M:%S")
 
   if [ $sp_zsh_timer_start ]; then
@@ -70,7 +69,7 @@ function precmd() {
   local pp_timer="[%F{green}${sp_zsh_timer_show}%f]"
   local pp_backgroud="%F{red}%(1j.[⌘%j].)%f"
   local pp_time="[${sp_time}]"
-  local pp_hostname="[${sp_hostname}]"
+  local pp_hostname="[${HOST}]"
 
   local preprompt_left='%B%~%{$fg[yellow]%}:%{$reset_color%}'
   local preprompt_left_length=${#${(S%%)preprompt_left//(\%([KF1]|)\{*\}|\%[Bbkf])}}
