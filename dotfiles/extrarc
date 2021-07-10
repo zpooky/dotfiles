@@ -128,11 +128,15 @@ alias sudo='sudo '
 
 # disable xterm ctrl+S XON XOFF signal
 alias vim="stty stop '' -ixoff; vim -p "
-alias nvim="stty stop '' -ixoff; nvim -p "
+if type nvim >/dev/null 2>&1; then
+  alias nvim="stty stop '' -ixoff; nvim -p "
+  export SP_EDITOR=nvim
+else
+  export SP_EDITOR=vim
+fi
 alias vimnoplugin=" vim -u ~/.standardvimrc"
 alias vimp="vim -"
 
-export SP_EDITOR=nvim
 export EDITOR=$SP_EDITOR
 export SYSTEMD_EDITOR=$SP_EDITOR
 export VISUAL=$SP_EDITOR
