@@ -48,6 +48,10 @@ elif has_feature apt-get; then
   stop_feature "apt-get"
 fi
 
+if [ -e $HOME/sources/fzf ]; then
+  make -C $HOME/sources/fzf bin/fzf
+fi
+
 # {
 npm install -g npm
 # sh
@@ -167,50 +171,6 @@ stop_feature "vim"
 start_feature "update tmux plugins"
 ~/.tmux/plugins/tpm/bin/install_plugins
 stop_feature "update tmux plugins"
-
-start_feature "fzf"
-$HOME/sources/fzf/install --key-bindings --completion --xdg --no-update-rc
-stop_feature "fzf"
-
-start_feature "zsh-autosuggestions"
-zsh_custom_plugins=$HOME/.oh-my-zsh/custom/plugins
-zsh_autosuggest=$zsh_custom_plugins/zsh-autosuggestions
-if [ ! -e $zsh_autosuggest ]; then
-
-  git clone https://github.com/zsh-users/zsh-autosuggestions.git "${zsh_autosuggest}"
-  if [ ! $? -eq 0 ]; then
-    rm -rf "${zsh_autosuggest}"
-  fi
-fi
-
-if [ -e "${zsh_autosuggest}" ]; then
-  PREV_DIR=$(pwd)
-  cd "${zsh_autosuggest}" || exit 1
-
-  git pull --rebase origin master
-  cd "${PREV_DIR}" || exit 1
-fi
-stop_feature "zsh-autosuggestions"
-
-start_feature "zsh-completions"
-zsh_custom_plugins=$HOME/.oh-my-zsh/custom/plugins
-zsh_completions=$zsh_custom_plugins/zsh-completions
-if [ ! -e "${zsh_completions}" ]; then
-
-  git clone https://github.com/zsh-users/zsh-completions.git "${zsh_completions}"
-  if [ ! $? -eq 0 ]; then
-    rm -rf "${zsh_completions}"
-  fi
-fi
-
-if [ -e "${zsh_completions}" ]; then
-  PREV_DIR=$(pwd)
-  cd "${zsh_completions}" || exit 1
-
-  git pull --rebase origin master
-  cd "${PREV_DIR}" || exit 1
-fi
-stop_feature "zsh-completions"
 
 # bashrc
 FEATURE=$FEATURE_HOME/bashrc
