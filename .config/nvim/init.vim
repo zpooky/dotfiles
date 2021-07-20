@@ -557,6 +557,9 @@ augroup AugroupNeoformat
   autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust,json,scala,java,lua nnoremap <buffer><leader>f <esc>:Neoformat<CR>
   autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust,json,scala,java,lua vnoremap <buffer><leader>f <esc>:Neoformat<CR>
 augroup END
+
+" debug:
+" let g:neoformat_verbose = 1
 " }}}
 
 " Codi {{{

@@ -272,6 +272,9 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab instantanious instantaneous
+iab equavivalent equivalent
+iab equvletnt equivalent
 iab equvalent equivalent
 iab widly widely
 iab equavailent equivalent
@@ -1592,7 +1595,8 @@ function! s:SpMathFormat() range
                     \ '(qed)': '∎', '(element)': '∊' , '(not)': '¬', '(theta)': 'θ', '(lambda)': 'λ',
                     \ '(alpha)': 'α', '(phi)': 'φ', '(proportional)': '∝', '(gamma)': 'Γ', '(mu)':'μ',
                     \ '(sigma)': '∑', '(_sigma)': 'σ', '(omega)': 'Ω', '(_omega)': 'ω', '(sqrt)': '√',
-                    \  '(micro)': 'µ', '(infinity)': '∞', '(f)': 'ƒ', '(frequency )': 'ƒ'}
+                    \ '(micro)': 'µ', '(infinity)': '∞', '(inf)': '∞', '(f)': 'ƒ', '(frequency)': 'ƒ',
+                    \ '(almost)': '≈', '(delta)': 'Δ', '(_delta)': 'δ'}
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
     for l:char in split(a:str, '\zs')
