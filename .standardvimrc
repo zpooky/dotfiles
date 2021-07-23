@@ -1600,7 +1600,8 @@ function! s:SpMathFormat() range
                     \ '(micro)': 'µ', '(infinity)': '∞', '(inf)': '∞', '(f)': 'ƒ', '(frequency)': 'ƒ',
                     \ '(almost)': '≈', '(aprox)': '≈', '(delta)': 'Δ', '(_delta)': 'δ', '(1/2)': '½',
                     \ '(_ny)': 'ν', '(member)': '∈', '(angle)': '∠',
-                    \ '(prime)': 'ℙ', '(natural)': 'ℕ', '(integer)': 'ℤ', '(rational)': 'ℚ', '(real)': 'ℝ'}
+                    \ '(prime)': 'ℙ', '(natural)': 'ℕ', '(integer)': 'ℤ', '(rational)': 'ℚ', '(real)': 'ℝ',
+                    \ '(forall)': '∀'}
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
     for l:char in split(a:str, '\zs')
@@ -1611,7 +1612,7 @@ function! s:SpMathFormat() range
                        \ 'h': 'ʰ', 'k': 'ᵏ', 'l': 'ˡ', 'm': 'ᵐ', 'n': 'ⁿ', 'o': 'ᵒ',
                        \ 'p': 'ᵖ', 'r': 'ʳ', 's': 'ˢ', 't': 'ᵗ', 'u': 'ᵘ', 'v': 'ᵛ',
                        \ 'w': 'ʷ', 'x': 'ˣ', 'y': 'ʸ', 'z': 'ᶻ', 'j': 'ʲ',
-                       \ '+': '⁺', '-': '⁻', '(': '⁽', ')': '⁾', 'A': 'ᴬ', 'B': 'ᴮ',
+                       \ '+': '⁺', '−': '⁻', '-': '⁻', '(': '⁽', ')': '⁾', 'A': 'ᴬ', 'B': 'ᴮ',
                        \ 'D': 'ᴰ', 'E': 'ᴱ', 'G': 'ᴳ', 'H': 'ᴴ', 'I': 'ᴵ', 'J': 'ᴶ',
                        \ 'K': 'ᴷ', 'L': 'ᴸ', 'M': 'ᴹ', 'N': 'ᴺ', 'O': 'ᴼ', 'P': 'ᴾ', 'R': 'ᴿ',
                        \ 'T': 'ᵀ', 'U': 'ᵁ', 'V': 'ⱽ', 'Z': 'ᶻ', '/': '/'}
