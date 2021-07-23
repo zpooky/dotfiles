@@ -272,6 +272,8 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab coefficent coefficient
+iab inverant invariant
 iab instantanious instantaneous
 iab equavivalent equivalent
 iab equvletnt equivalent
@@ -1596,7 +1598,9 @@ function! s:SpMathFormat() range
                     \ '(alpha)': 'α', '(phi)': 'φ', '(proportional)': '∝', '(gamma)': 'Γ', '(mu)':'μ',
                     \ '(sigma)': '∑', '(_sigma)': 'σ', '(omega)': 'Ω', '(_omega)': 'ω', '(sqrt)': '√',
                     \ '(micro)': 'µ', '(infinity)': '∞', '(inf)': '∞', '(f)': 'ƒ', '(frequency)': 'ƒ',
-                    \ '(almost)': '≈', '(delta)': 'Δ', '(_delta)': 'δ'}
+                    \ '(almost)': '≈', '(aprox)': '≈', '(delta)': 'Δ', '(_delta)': 'δ', '(1/2)': '½',
+                    \ '(_ny)': 'ν', '(member)': '∈', '(angle)': '∠',
+                    \ '(prime)': 'ℙ', '(natural)': 'ℕ', '(integer)': 'ℤ', '(rational)': 'ℚ', '(real)': 'ℝ'}
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
     for l:char in split(a:str, '\zs')
@@ -1659,8 +1663,23 @@ function! s:SpMathFormat() range
           let l:state = 0
           let l:sub_sup = { 'cnt': 0 }
         else
-          let l:sub_sup.cnt += 1
-          let l:result = l:result.l:sub
+          if l:char == '('
+            let l:open_brace_cnt += 1
+          endif
+          if l:char == ')'
+            if l:open_brace_cnt > 0
+              let l:open_brace_cnt -= 1
+            else
+              let l:state = 0
+              let l:open_brace_cnt = 0
+              let l:sub_sup = { 'cnt': 0 }
+            endif
+          endif
+
+          if l:state == 2 " _
+            let l:sub_sup.cnt += 1
+            let l:result = l:result.l:sub
+          endif
         endif
       endif
 

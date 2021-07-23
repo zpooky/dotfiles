@@ -377,6 +377,10 @@ function sp_calc_cpp() {
     Codi cpp "
 }
 
+function sp_plot() {
+  nvim $HOME/scratchpad_plot/dt.py
+}
+
 alias sp-calc="cd $HOME/scratchpad"
 
 # ===============================================

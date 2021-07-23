@@ -345,9 +345,10 @@ if !has('win32unix') && !has('win64unix')
   " :ALEInfo - current settings
   " DEBUG not working by ":ALEInfoToClipboard" and looking at the end for (executable check - failure)
 
+  " cppcheck is very cpu intensive
   "'clang', 'clangcheck', 'cpplint','cppcheck', 'clangtidy'
   let g:ale_linters = {
-        \   'cpp':    ['g++','cppcheck', 'ccls'],
+        \   'cpp':    ['g++', 'ccls'],
         \   'c':      ['clangtidy','gcc'],
         \   'sh':     ['shellcheck'],
         \   'markdown': ['languagetool'],
