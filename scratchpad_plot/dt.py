@@ -24,7 +24,8 @@ def find_period(ω):
     T = T + 1
   return int(T * N)
 
-def realDFT(f, x):
+
+def DFT(k, x):
   """
   DFT:
           N-1
@@ -35,27 +36,28 @@ def realDFT(f, x):
     e⁻ⁱᵠ = cos(φ) -i⋅sin(φ) = cos(-φ) + i⋅sin(-φ)
   """
   N = len(x)
-  result = 0
+  result = complex(0, 0)
+
   for n in range(0, N):
-    arg = 2.*π*k*(n/N)
-    result += x[n] * np.complex(np.cos(arg), -np.sin(arg))
+    arg = 2. * π * k * (n / float(N))
+    result += complex(x[n], 0) * complex(np.cos(arg), -np.sin(arg))
+
   return result
 
-start = 0
 
 def plot_signal():
   # ω = np.pi*(1./8.)
   # ω = np.pi
   # ω = (4*np.pi)/5
   # ω = π / 4
-  ω = np.pi/4
+  ω = np.pi / 4
   period = find_period(ω)
   print("period: {}".format(period))
   if period < 200:
-    n = np.arange(start, start + period)
+    n = np.arange(0, period)
   else:
     stop = 8
-    n = np.arange(start, stop)
+    n = np.arange(0, stop)
   x = np.cos(ω * n)
 
   plt.xlabel('n')
@@ -63,10 +65,25 @@ def plot_signal():
   plt.stem(n, x)
   plt.show()
 
+
 def plot_DFT():
-  n = np.arange(start, stop)
-  ω = 20*π
-  x = 2*np.cos(ω*n+π/4)
+  Fₛ = 50
+  X = [0] * Fₛ
+  Tₛ = 1. / Fₛ
+  n = np.arange(0, Fₛ)
+  ω = 20 * π
+  x = 2 * np.cos(ω*n + π/4)
+  for k in range(0, Fₛ):
+    X[k] = DFT(k, x)
+
+  k = np.linspace(0, 1, Fₛ)
+
+  X = list(map(lambda x: x.real, X))
+
+  plt.xlabel('k')
+  plt.ylabel('X[k]')
+  plt.stem(k, X)
+  plt.show()
+
 
 plot_DFT()
-realDFT()
