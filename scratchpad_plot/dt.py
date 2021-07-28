@@ -25,11 +25,20 @@ def find_period(ω):
   return int(T * N)
 
 
+def magnitude(z):
+  """
+  z = x + yi
+         _____
+  |z| = √x²+y²
+  """
+  return math.sqrt(math.pow(z.real, 2.) + math.pow(z.imag, 2.))
+
+
 def DFT(k, x):
   """
   DFT:
           N-1
-    X[k] = ∑ 𝑥[n]e⁻ⁱ²πᵏⁿ/ᴺ
+    X[k] = ∑ x[n]e⁻ⁱ²πᵏⁿ/ᴺ
           n=0
 
   Euler formula:
@@ -40,7 +49,7 @@ def DFT(k, x):
 
   for n in range(0, N):
     arg = 2. * π * k * (n / float(N))
-    result += complex(x[n], 0) * complex(np.cos(arg), -np.sin(arg))
+    result += x[n] * complex(np.cos(arg), -np.sin(arg))
 
   return result
 
@@ -68,21 +77,23 @@ def plot_signal():
 
 def plot_DFT():
   Fₛ = 50
-  X = [0] * Fₛ
   Tₛ = 1. / Fₛ
+  X = [0] * Fₛ
+
   n = np.arange(0, Fₛ)
   ω = 20 * π
   x = 2 * np.cos(ω*n + π/4)
+
   for k in range(0, Fₛ):
     X[k] = DFT(k, x)
 
-  k = np.linspace(0, 1, Fₛ)
+  # k = np.linspace(0, 1, Fₛ)
 
-  X = list(map(lambda x: x.real, X))
+  X = list(map(lambda z: magnitude(z), X))
 
   plt.xlabel('k')
   plt.ylabel('X[k]')
-  plt.stem(k, X)
+  plt.stem(n, X)
   plt.show()
 
 

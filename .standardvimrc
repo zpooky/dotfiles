@@ -1595,13 +1595,13 @@ function! s:SpMathFormat() range
 
     let l:complex = { '(xor)': '⊕', '(pi)': 'π', '(integral)': '∫', '(mul)': '∏',
                     \ '(qed)': '∎', '(element)': '∊' , '(not)': '¬', '(theta)': 'θ', '(lambda)': 'λ',
-                    \ '(alpha)': 'α', '(phi)': 'φ', '(proportional)': '∝', '(gamma)': 'Γ', '(mu)':'μ',
+                    \ '(alpha)': 'α', '(phi)': 'φ', '(phi2)': 'ϕ', '(proportional)': '∝', '(gamma)': 'Γ', '(mu)':'μ',
                     \ '(sigma)': '∑', '(_sigma)': 'σ', '(omega)': 'Ω', '(_omega)': 'ω', '(sqrt)': '√',
                     \ '(micro)': 'µ', '(infinity)': '∞', '(inf)': '∞', '(f)': 'ƒ', '(frequency)': 'ƒ',
                     \ '(almost)': '≈', '(aprox)': '≈', '(delta)': 'Δ', '(_delta)': 'δ', '(1/2)': '½',
-                    \ '(_ny)': 'ν', '(member)': '∈', '(angle)': '∠',
+                    \ '(_ny)': 'ν', '(member)': '∈', '(angle)': '∠', '(_tau)': 'τ', '(tau)': 'Τ',
                     \ '(prime)': 'ℙ', '(natural)': 'ℕ', '(integer)': 'ℤ', '(rational)': 'ℚ', '(real)': 'ℝ',
-                    \ '(forall)': '∀'}
+                    \ '(forall)': '∀', '(F)': '𝓕'}
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
     for l:char in split(a:str, '\zs')
@@ -1700,12 +1700,12 @@ function! s:SpMathFormat() range
         endif
       endif
 
-      if l:state == 5 " (xor)
+      if l:state == 5 " example: (xor)
         for [l:key, l:value] in items(l:complex_mem.candidates)
           if strlen(l:key) < strlen(l:complex_mem.memory)
             call remove(l:complex_mem.candidates, l:key)
           else
-            if l:key[strlen(l:complex_mem.memory)] != l:char
+            if l:key[strlen(l:complex_mem.memory)] !=# l:char
               call remove(l:complex_mem.candidates, l:key)
             else
               let l:tmp_key=l:key
@@ -1720,7 +1720,7 @@ function! s:SpMathFormat() range
           let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
         elseif len(l:complex_mem.candidates) == 1 && strlen(l:tmp_key) == strlen(l:complex_mem.memory)+1
           let l:tmp = l:complex_mem.memory.l:char
-          if l:tmp_key == l:tmp
+          if l:tmp_key ==# l:tmp
             let l:result = l:result.l:tmp_value
             let l:state = 4 " skip
           else
