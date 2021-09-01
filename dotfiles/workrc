@@ -185,6 +185,11 @@ function ssh_192_168_0_90() {
     l_env+=' && echo "  fi" >> $HOME/.shinit'
     l_env+=' && echo "}" >> $HOME/.shinit'
 
+    l_env+=' && echo "gdb() {" >> $HOME/.shinit'
+    l_env+=' && echo "  echo \"set auto-load safe-path /\" > ~/.gdbinit" >> $HOME/.shinit'
+    l_env+=' && echo "  /usr/bin/gdb \$@" >> $HOME/.shinit'
+    l_env+=' && echo "}" >> $HOME/.shinit'
+
     l_env+=' && echo "debug_monolith() {" >> $HOME/.shinit'
     l_env+=' && echo "  systemctl stop monolith" >> $HOME/.shinit'
     l_env+=' && echo "  systemctl mask monolith" >> $HOME/.shinit'
