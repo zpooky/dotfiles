@@ -25,38 +25,53 @@ if [ -e $VIM_ROOT ]; then
 
   if [ $? -eq 0 ]; then
     # vim things
-    install libclang-3.9-dev || exit 1
-    install libncurses-dev || exit 1
-    install libz-dev || exit 1
-    install xz-utils || exit 1
-    install libpthread-workqueue-dev || exit 1
-    LUA_VIM_MINOR_VERSION=`vim --version | grep "\-llua" | sed -r "s/.*\-llua5.([0-9]*).*/\1/"`
-    install liblua5.$LUA_VIM_MINOR_VERSION-dev || exit 1
-    install lua5.$LUA_VIM_MINOR_VERSION || exit 1
+    # install libclang-3.9-dev || exit 1
+    # install libncurses-dev || exit 1
+    # install libz-dev || exit 1
+    # install xz-utils || exit 1
+    # install libpthread-workqueue-dev || exit 1
+    # LUA_VIM_MINOR_VERSION=`vim --version | grep "\-llua" | sed -r "s/.*\-llua5.([0-9]*).*/\1/"`
+    # install liblua5.$LUA_VIM_MINOR_VERSION-dev || exit 1
+    # install lua5.$LUA_VIM_MINOR_VERSION || exit 1
 
     # development files
-    sudo apt-get install lua5.2 || exit 1
-    sudo apt-get install ruby-dev
-    sudo apt-get install ruby
-    sudo apt-get install python-dev
-    sudo apt-get install libperl-dev
+    # sudo apt-get install lua5.2 || exit 1
+    # sudo apt-get install ruby-dev
+    # sudo apt-get install ruby
+    # sudo apt-get install python-dev
+    # sudo apt-get install libperl-dev
 
     # X support for clipboard
-    sudo apt-get install libx11-dev
-    sudo apt-get install libxtst-dev
+    # sudo apt-get install libx11-dev
+    # sudo apt-get install libxtst-dev
 
 
     # make uninstall --prefix=/home/`whoami`
-    make uninstall
+    # make uninstall
 
 #    make clean || exit 1
 #    make distclean
     #./configure --with-features=huge --enable-rubyinterp --enable-multibyte --enable-perlinterp=yes --enable-pythoninterp --enable-luainterp --enable-gui=gtk2 --enable-cscope --prefix=$TARGET --with-x || exit 1
-    ./configure --with-features=huge --enable-rubyinterp --enable-multibyte --enable-perlinterp=yes --enable-pythoninterp --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu --enable-python3interp --with-python3-config-dir=/usr/lib/python3.4/config-3.4m-x86_64-linux-gnu --enable-luainterp --enable-gui=gtk2 --enable-cscope --prefix=$TARGET || exit 1
+    LIBRARY_PATH=/usr/lib/x86_64-linux-gnu ./configure \
+      --with-features=huge \
+      --enable-rubyinterp=dynamic \
+      --enable-multibyte \
+      --enable-perlinterp=yes \
+      --enable-pythoninterp \
+      --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu \
+      --enable-python3interp \
+      --with-python3-config-dir=/usr/lib/python3.7/config-3.7m-x86_64-linux-gnu \
+      --enable-luainterp \
+      --with-x \
+      --disable-netbeans \
+      --enable-gui=gtk2 \
+      --enable-cscope \
+      --prefix=${TARGET} || exit 1
+    # ./configure --with-features=huge --enable-rubyinterp --enable-multibyte --enable-perlinterp=yes --enable-pythoninterp --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu  --enable-luainterp --enable-gui=gtk2 --enable-cscope --prefix=$TARGET || exit 1 # --enable-python3interp --with-python3-config-dir=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu
 
-    make || exit 1 # VIMRUNTIMEDIR=/usr/share/vim/vim74
+    make -j || exit 1 # VIMRUNTIMEDIR=/usr/share/vim/vim74
 
-    make install || exit 1
+    # make install || exit 1
 
     echo "python:"
     vim --version | grep python

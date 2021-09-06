@@ -52,6 +52,20 @@ import socket
 k = 1000.
 M = k*k
 
+def mod_exp(b, e, m):
+  """
+  https://github.com/csknk/fast-modular-exponentiation/blob/master/python/main.py
+  bᵉ (mod m)
+  """
+  r = 1
+  if 1 & e:
+    r = b
+  while e:
+    e >>= 1
+    b = (b * b) % m
+    if e & 1: r = (r * b) % m
+  return r
+
 def gcd(a, b):
   if b == 0:
     return a
