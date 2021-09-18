@@ -51,6 +51,8 @@ import socket
 
 k = 1000.
 M = k*k
+π=np.pi
+π2=π*2.
 
 def mod_exp(b, e, m):
   """

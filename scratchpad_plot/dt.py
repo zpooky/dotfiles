@@ -15,10 +15,11 @@ import socket
 sys.setrecursionlimit(1500)
 
 π = np.pi
+π2 = π*2.
 
 
 def find_period(ω):
-  N = (2.*π) / ω
+  N = π2 / ω
   T = 1
   while not (T * N).is_integer():
     T = T + 1
@@ -48,7 +49,7 @@ def DFT(k, x):
   result = complex(0, 0)
 
   for n in range(0, N):
-    arg = 2. * π * k * (n / float(N))
+    arg = π2 * float(k) * (float(n) / float(N))
     result += x[n] * complex(np.cos(arg), -np.sin(arg))
 
   return result
