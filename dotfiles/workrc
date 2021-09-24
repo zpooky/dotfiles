@@ -200,6 +200,14 @@ function ssh_192_168_0_90() {
 
     l_env+=' && echo "alias systemd_failed=\"systemctl --state=failed\"" >> $HOME/.shinit'
 
+    l_env+=' && echo "sp_info() {" >> $HOME/.shinit'
+    l_env+=' && echo "  bootblocktool -l" >> $HOME/.shinit'
+    l_env+=' && echo "  echo " >> $HOME/.shinit'
+    l_env+=' && echo "  fwmgr status" >> $HOME/.shinit'
+    l_env+=' && echo "  echo " >> $HOME/.shinit'
+    l_env+=' && echo "  echo \"product: $(parhandclient get root.Brand.ProdNbr)\"" >> $HOME/.shinit'
+    l_env+=' && echo "}" >> $HOME/.shinit'
+
     # l_env+=' && echo "f() {" >> $HOME/.shinit'
     # l_env+=' && echo "  find -iname "*${1}*" >> $HOME/.shinit'
     # l_env+=' && echo "}" >> $HOME/.shinit'
