@@ -1556,30 +1556,36 @@ augroup END
 "nnoremap
 " map <silent> gt :tabnext <bar> redraw <bar> echo @%<cr>
 " nnoremap <expr> gt :tabnext v:count <bar> redraw <bar> echo @%<cr>
-function! s:SpookyTabPriv() abort
-  tabprevious
-  call s:SpookyPrintCurrentFile()
-endfunction
-command! SpookyTabPriv :call s:SpookyTabPriv()
+" function! s:SpookyTabPriv() abort
+"   tabprevious
+"   call s:SpookyPrintCurrentFile()
+" endfunction
+" command! SpookyTabPriv :call s:SpookyTabPriv()
+"
+" nmap <silent> gT :SpookyTabPriv<cr>
+" " map <silent> gT :tabprevious <bar> redraw <bar> echo @%<cr>
+"
+" function! SpookyTabNext(cnt) abort
+"   " echomsg " tabpagenr():".tabpagenr()." a:cnt:".a:cnt
+"   if a:cnt > 0
+"     " echomsg " tabpagenr():".tabpagenr()." a:cnt:".a:cnt
+"     if tabpagenr() == a:cnt
+"       return
+"     endif
+"     execute "tabnext ".a:cnt
+"   else
+"     tabnext
+"   endif
+"   call s:SpookyPrintCurrentFile()
+" endfunction
+"
+" nmap <silent> gt :<C-U>call SpookyTabNext(v:count)<cr>
+augroup AutogroupPrintCurrentTab
+    autocmd!
+    autocmd TabEnter * call s:SpookyPrintCurrentFile()
+    " autocmd BufEnter * call s:SpookyPrintCurrentFile()
+augroup END
 
-nmap <silent> gT :SpookyTabPriv<cr>
-" map <silent> gT :tabprevious <bar> redraw <bar> echo @%<cr>
-
-function! SpookyTabNext(cnt) abort
-  " echomsg " tabpagenr():".tabpagenr()." a:cnt:".a:cnt
-  if a:cnt > 0
-    " echomsg " tabpagenr():".tabpagenr()." a:cnt:".a:cnt
-    if tabpagenr() == a:cnt
-      return
-    endif
-    execute "tabnext ".a:cnt
-  else
-    tabnext
-  endif
-  call s:SpookyPrintCurrentFile()
-endfunction
-
-nmap <silent> gt :<C-U>call SpookyTabNext(v:count)<cr>
 " set laststatus=2
 " set statusline+=%F
 "
