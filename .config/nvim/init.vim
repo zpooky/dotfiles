@@ -624,7 +624,7 @@ augroup AugroupVimux
   autocmd FileType c,cpp,objc noremap <silent> <leader>p <esc>:call VimuxSpPerf()<CR>
 
   " <leader+l> run man for current word under the cursor
-  autocmd FileType c,cpp noremap <silent> <leader>l <esc>:call VimuxSpMan()<CR>
+  " autocmd FileType c,cpp noremap <silent> <leader>l <esc>:call VimuxSpMan()<CR>
 augroup END
 " }}}
 "
@@ -842,7 +842,7 @@ Plug 'nickhutchinson/vim-cmake-syntax'
 
 " markdown {{{
 Plug 'tpope/vim-markdown'
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'c', 'dts', 'xml', 'strace', 'zsh=sh', 'cpp', 'vim', 'lua', 'make', 'ld']
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'c', 'dts', 'xml', 'strace', 'zsh=sh', 'cpp', 'vim', 'lua', 'make', 'ld', 'asm']
 let g:markdown_syntax_conceal = 0
 let g:markdown_minlines = 9000
 " }}}

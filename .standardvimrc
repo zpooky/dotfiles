@@ -1915,8 +1915,27 @@ function! s:SpookyToString()
     endif
   endif
 endfunction
+
+function! s:SpookyToStringLocals()
+  let l:exe = 'sp_struct_to_string'
+  if executable(l:exe)
+    let l:file = expand('%:p')
+    let l:line = line('.')-1
+    let l:col = col('.')-1
+    " echo l:exe." line ".l:file." ".l:line." ".l:col." 2>/dev/null"
+    let l:append_line = system(l:exe." locals ".l:file." ".l:line." ".l:col." 2>/dev/null")
+    if v:shell_error == 0
+      call append(l:line+1, split(l:append_line, "\n"))
+    else
+      echo "error0: ".v:shell_error
+    endif
+  endif
+endfunction
+
 command! SpookyToString call s:SpookyToString()
+command! SpookyToStringLocals call s:SpookyToStringLocals()
 augroup AugroupToString
   autocmd!
   autocmd FileType c,cpp noremap <leader>m <Esc>:SpookyToString<CR>
+  autocmd FileType c,cpp noremap <leader>l <Esc>:SpookyToStringLocals<CR>
 augroup END
