@@ -7,7 +7,7 @@ export FTP_PROXY="${ftp_proxy}"
 export https_proxy="http://wwwproxy.se.axis.com:3128"
 export HTTPS_PROXY="${https_proxy}"
 
-export no_proxy=192.168.0.90,192.168.0.20,192.168.0.21,localhost,127.0.0.1,127.0.1.1,.localdomain,axis.com
+export no_proxy=192.168.0.90,192.168.0.20,192.168.0.21,192.168.0.34,localhost,127.0.0.1,127.0.1.1,.localdomain,axis.com
 
 # export ftp_proxy="ftp://ftp-proxy.se.axis.com:4514/"
 # export FTP_PROXY="ftp://ftp-proxy.se.axis.com:4514/"
@@ -589,6 +589,16 @@ function deploy_192_168_0_90(){
     local l_dest=("/usr/lib/actionengine_plugins/libmediaclip_plugin.so")
     local l_source=("${project_dir}/oe-workdir/package/usr/lib/actionengine_plugins/libmediaclip_plugin.so")
     local l_systemd_name=(action-engine-user action-engine-system)
+    l_systemd=true
+  elif [ "${project}" = "edge-vault-init" ]; then
+    local l_dest=("/usr/sbin/edge-vault-init")
+    local l_source=("${project_dir}/oe-workdir/package/usr/sbin/edge-vault-init")
+    local l_systemd_name=(edge-vault-init)
+    l_systemd=true
+  elif [ "${project}" = "opticsd" ]; then
+    local l_dest=("/usr/bin/opticsd")
+    local l_source=("${project_dir}/oe-workdir/package/usr/bin/opticsd")
+    local l_systemd_name="opticsd"
     l_systemd=true
   elif [ "${project}" = "powerd-conf" ]; then
     local l_product=$(basename $BUILDDIR)

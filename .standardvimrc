@@ -1508,12 +1508,12 @@ function! s:SpookyIndentDetect() abort
   " TODO rust indent with two tabs
   " echo "tabs:".heuristics.tabs." spaces:".heuristics.spaces
   if heuristics.tabs > heuristics.spaces
-    " echomsg "hard tabs:".heuristics.tabs." spaces:".heuristics.spaces
+    " echomsg "hard! tabs:".heuristics.tabs." spaces:".heuristics.spaces
     setlocal noexpandtab
     setlocal tabstop=2
     setlocal shiftwidth=2
   else " if heuristics.spaces > heuristics.tabs
-    " echomsg "spaces tabs:".heuristics.tabs." spaces:".heuristics.spaces
+    " echomsg "spaces! tabs:".heuristics.tabs." spaces:".heuristics.spaces
     call s:SpookySetSpaceIdent()
   endif
 endfunction

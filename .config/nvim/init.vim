@@ -1112,6 +1112,33 @@ if executable('aspell')
 endif
 " }}}
 
+" {{{
+" Plug 'ConradIrwin/vim-bracketed-paste'
+" }}}
+
+" {{{
+Plug 'nathanaelkane/vim-indent-guides', {'for':['python']}
+" call s:InitVariable('g:indent_guides_indent_levels', 30)
+" call s:InitVariable('g:indent_guides_auto_colors', 1)
+" call s:InitVariable('g:indent_guides_color_change_percent', 10) " ie. 10%
+" call s:InitVariable('g:indent_guides_guide_size', 0)
+" call s:InitVariable('g:indent_guides_start_level', 1)
+" call s:InitVariable('g:indent_guides_enable_on_vim_startup', 0)
+" call s:InitVariable('g:indent_guides_debug', 0)
+" call s:InitVariable('g:indent_guides_space_guides', 1)
+" call s:InitVariable('g:indent_guides_tab_guides', 1)
+" call s:InitVariable('g:indent_guides_soft_pattern', '\s')
+" call s:InitVariable('g:indent_guides_default_mapping', 1)
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+let g:indent_guides_enable_on_vim_startup = 1
+
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#262626   ctermbg=3
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#262626 ctermbg=4
+
+" }}}
+
 call plug#end()
 " }}}
 

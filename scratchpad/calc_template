@@ -49,6 +49,8 @@ import scipy
 import matplotlib.pyplot as plt
 import socket
 
+sys.version
+
 k = 1000.
 M = k*k
 π=np.pi
