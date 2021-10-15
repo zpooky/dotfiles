@@ -1535,7 +1535,7 @@ augroup AutogroupFileSpecific
   autocmd BufNewFile,BufRead *.fpp set ft=sh
 
   " type specific settings
-  autocmd FileType markdown,python setlocal ts=2 sw=2 expandtab
+  autocmd FileType markdown setlocal ts=2 sw=2 expandtab
   autocmd FileType markdown,text,mail,tex setlocal textwidth=80
   autocmd FileType gitcommit setlocal textwidth=72
   autocmd FileType gitcommit,markdown,text,mail,tex setlocal colorcolumn=-1   " display bar at textwidth
