@@ -1300,7 +1300,7 @@ function! s:SpFindGit(path) abort
   endwhile
 endfunction
 
-function! s:SpFindFile(root, needles) abort
+function! s:SpFindFile(root, needles, ignores) abort
   " find . -type f \( -name "xxx.h" -o -name "xxx.hh" \)
   let l:first = 1
   if len(a:needles) == 0
@@ -1320,6 +1320,9 @@ function! s:SpFindFile(root, needles) abort
     let l:first = 0
   endfor
   let l:cmd .= " \\)"
+  for l:ignore in a:ignores
+    let l:cmd .= " -not -path '*/".l:ignore."/*'"
+  endfor
   " echomsg l:cmd
   let l:result = systemlist(l:cmd)
   " echomsg v:shell_error
@@ -1401,13 +1404,14 @@ function! s:SpookyToggleFile(fpath, fname, fext) abort
     else
       let l:git_root = s:SpFindGit(a:fpath)
       if strlen(l:git_root) > 0
+        let l:ignores =  ['stub','testing','checktest','checktests','tests','test','test-support','examples']
         let l:candidates = []
         if a:fext == "c"
-          let l:candidates = s:SpFindFile(l:git_root, [a:fname.'.h'])
+          let l:candidates = s:SpFindFile(l:git_root, [a:fname.'.h'], l:ignores)
         elseif a:fext == "cc" || a:fext == "cpp"
-          let l:candidates = s:SpFindFile(l:git_root, [a:fname.'.h', a:fname.'.hh', a:fname.'.hpp'])
+          let l:candidates = s:SpFindFile(l:git_root, [a:fname.'.h', a:fname.'.hh', a:fname.'.hpp'], l:ignores)
         elseif a:fext == "hh" || a:fext == "hpp" || a:fext == "h"
-          let l:candidates = s:SpFindFile(l:git_root, [a:fname.'.c', a:fname.'.cc', a:fname.'.cpp'])
+          let l:candidates = s:SpFindFile(l:git_root, [a:fname.'.c', a:fname.'.cc', a:fname.'.cpp'], l:ignores)
         endif
         if len(l:candidates) > 0
           let l:mirror = l:candidates[0] " just get the first result
