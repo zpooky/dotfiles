@@ -469,10 +469,12 @@ let g:tcomment_opleader1 = 'gc'
 " Tcomment visual
 vmap <leader>c :TComment<CR>
 vmap <leader>= :TCommentBlock<CR>
-augroup AugroupTComment
-  autocmd!
-  autocmd FileType c,cpp,objc xnoremap <leader>c :TCommentInline<CR>
-augroup END
+"
+" TODO this does not work when selecting multiple commented-out lines and trying to uncomment them
+" augroup AugroupTComment
+"   autocmd!
+"   autocmd FileType c,cpp,objc xnoremap <leader>c :TCommentInline<CR>
+" augroup END
 " }}}
 
 " {{{
@@ -489,6 +491,13 @@ if !has('win32unix') && !has('win64unix')
   endfunction
 
   let g:gutentags_cache_dir = SetupGutentag()
+
+
+  " let g:gutentags_ctags_exclude =[]
+  " let g:gutentags_ctags_exclude_wildignore=1
+  let g:gutentags_file_list_command = "find . oe-workdir/recipe-sysroot/usr/include/glib-2.0 oe-workdir/recipe-sysroot/usr/include/alsa oe-workdir/recipe-sysroot/usr/include/glib-utils oe-workdir/recipe-sysroot/usr/include/systemd -type f -not -path '*/.git/*' -not -path '*/unix/*' -not -path '*/checktest/*' -not -path '*/checktests/*' -not -path '*/unittest/*' -not -path '*/tests/*' -not -path '*/stub/*' -not -path '*/stubs/*'"
+  " index function prototypes (useful when we only have to header files)
+  let g:gutentags_ctags_extra_args = ['--c-kinds=+p']
 
   let g:gutentags_modules=['ctags'] ", 'gtags_cscope'
   let g:gutentags_ctags_executable="ctags"
