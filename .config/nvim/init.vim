@@ -482,7 +482,7 @@ if !has('win32unix') && !has('win64unix')
   " gutentags {{{
   " ctags, cscope & global generation
   Plug 'ludovicchabant/vim-gutentags' ",programming_nhaskell = lazy load does not work correctly
-  function! SetupGutentag()
+  function! s:SetupGutentag()
     let l:tags = $HOME."/.cache/tags"
     if !isdirectory(l:tags)
       call mkdir(l:tags, "p", 0700)
@@ -490,12 +490,13 @@ if !has('win32unix') && !has('win64unix')
     return l:tags
   endfunction
 
-  let g:gutentags_cache_dir = SetupGutentag()
+  let g:gutentags_cache_dir = s:SetupGutentag()
 
 
   " let g:gutentags_ctags_exclude =[]
   " let g:gutentags_ctags_exclude_wildignore=1
-  let g:gutentags_file_list_command = "find . oe-workdir/recipe-sysroot/usr/include/glib-2.0 oe-workdir/recipe-sysroot/usr/include/alsa oe-workdir/recipe-sysroot/usr/include/glib-utils oe-workdir/recipe-sysroot/usr/include/systemd -type f -not -path '*/.git/*' -not -path '*/unix/*' -not -path '*/checktest/*' -not -path '*/checktests/*' -not -path '*/unittest/*' -not -path '*/tests/*' -not -path '*/stub/*' -not -path '*/stubs/*'"
+  " let g:gutentags_file_list_command = "find . oe-workdir/recipe-sysroot/usr/include/glib-2.0 oe-workdir/recipe-sysroot/usr/include/alsa oe-workdir/recipe-sysroot/usr/include/glib-utils oe-workdir/recipe-sysroot/usr/include/systemd -type f -not -path '*/.git/*' -not -path '*/unix/*' -not -path '*/checktest/*' -not -path '*/checktests/*' -not -path '*/unittest/*' -not -path '*/tests/*' -not -path '*/stub/*' -not -path '*/stubs/*'"
+  let g:gutentags_file_list_command = "find . oe-workdir/recipe-sysroot/usr/include -type f -not -path '*/.git/*' -not -path '*/unix/*' -not -path '*/checktest/*' -not -path '*/checktests/*' -not -path '*/unittest/*' -not -path '*/tests/*' -not -path '*/stub/*' -not -path '*/stubs/*'"
   " index function prototypes (useful when we only have to header files)
   let g:gutentags_ctags_extra_args = ['--c-kinds=+p']
 
@@ -525,9 +526,15 @@ if !has('win32unix') && !has('win64unix')
 
   let g:gutentags_project_info=[]
   call add(g:gutentags_project_info, {'type': 'python', 'file': 'setup.py'})
+  call add(g:gutentags_project_info, {'type': 'python', 'file': 'requirements.txt'})
+  call add(g:gutentags_project_info, {'type': 'python', 'file': 'pyproject.toml'})
   call add(g:gutentags_project_info, {'type': 'ruby', 'file': 'Gemfile'})
   call add(g:gutentags_project_info, {'type': 'haskell', 'glob': '*.cabal'})
   call add(g:gutentags_project_info, {'type': 'haskell', 'file': 'stack.yaml'})
+  call add(g:gutentags_project_info, {'type': 'rust', 'file': 'Cargo.toml'})
+  call add(g:gutentags_project_info, { 'type': 'javascript', 'file': 'package.json' })
+  call add(g:gutentags_project_info, { 'type': 'c', 'file': 'meson.build' })
+  call add(g:gutentags_project_info, { 'type': 'c', 'file': 'Makefile' })
 
   " gtags
   let g:gutentags_gtags_executable="gtags"
@@ -1243,14 +1250,14 @@ augroup END
 " }}}
 
 " debug syntax {{{
-function! SynStack()
+function! s:SynStack()
   if !exists("*synstack")
     return
   endif
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
 
-command! SynStack :call SynStack()
+command! SynStack :call s:SynStack()
 map <F7> :SynStack<CR>
 " }}}
 

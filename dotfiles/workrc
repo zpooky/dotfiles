@@ -29,9 +29,12 @@ if [ -e ~/go ]; then
   fi
 fi
 
-export NVM_DIR="$HOME/sources/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+if [ -e "${HOME}/.nvm" ]; then
+  # https://github.com/nvm-sh/nvm#manual-install
+  export NVM_DIR="${HOME}/.nvm"
+  [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh" # This loads nvm
+  # [ -s "${NVM_DIR}/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi
 
 function axis_enable_root_192_168_0_90(){
   local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
@@ -200,12 +203,11 @@ function ssh_192_168_0_90() {
 
     l_env+=' && echo "alias systemd_failed=\"systemctl --state=failed\"" >> $HOME/.shinit'
 
-    l_env+=' && echo "sp_info() {" >> $HOME/.shinit'
-    l_env+=' && echo "  bootblocktool -l" >> $HOME/.shinit'
+    l_env+=' && echo "info() {" >> $HOME/.shinit'
+    l_env+=' && echo "  echo \"product: $(parhandclient get root.Brand.ProdShortName)\"" >> $HOME/.shinit'
+    l_env+=' && echo "  echo \"HWID: $(bootblocktool -x HWID)\"" >> $HOME/.shinit'
+    # l_env+=' && echo "  bootblocktool -lw" >> $HOME/.shinit'
     l_env+=' && echo "  echo " >> $HOME/.shinit'
-    l_env+=' && echo "  fwmgr status" >> $HOME/.shinit'
-    l_env+=' && echo "  echo " >> $HOME/.shinit'
-    l_env+=' && echo "  echo \"product: $(parhandclient get root.Brand.ProdNbr)\"" >> $HOME/.shinit'
     l_env+=' && echo "}" >> $HOME/.shinit'
 
     # l_env+=' && echo "f() {" >> $HOME/.shinit'
@@ -507,6 +509,26 @@ function deploy_192_168_0_90(){
     local l_dest=("/usr/bin/temperature_ctrld")
     local l_source=("${project_dir}/oe-workdir/package/usr/bin/temperature_ctrld")
     local l_systemd_name="temperature-controller"
+    l_systemd=true
+  elif [ "${project}" = "eventbridged" ]; then
+    local l_dest=("/usr/sbin/eventbridged")
+    local l_source=("${project_dir}/oe-workdir/package/usr/sbin/eventbridged")
+    local l_systemd_name="event-bridge"
+    l_systemd=true
+  elif [ "${project}" = "libeventbridge" ]; then
+    local l_dest=("/usr/lib/libeventbridge.so")
+    local l_source=("${project_dir}/oe-workdir/package/usr/lib/libeventbridge.so")
+    local l_systemd_name="event-bridge"
+    l_systemd=true
+  elif [ "${project}" = "libevent2" ]; then
+    local l_dest=("/usr/lib/libevent2.so")
+    local l_source=("${project_dir}/oe-workdir/package/usr/lib/libevent2.so")
+    local l_systemd_name="event-bridge"
+    l_systemd=true
+  elif [ "${project}" = "eventbridge-plugins-audiocontrol" ]; then
+    local l_dest=("/usr/share/event/declarations.d/com.axis.AudioControl.RingPowerLimitExceeded.xml" "/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusOK.xml" "/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusNoSignal.xml" "/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatus.xml" "/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusMetadata.xml" "/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusInvalid.xml" "/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_no_signal.so" "/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status.so" "/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_invalid.so" "/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_ok.so" "/usr/lib/eventbridge_plugins/libaudiocontrol_ring_power_limit_exceeded.so" "/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_metadata.so" "/usr/lib/eventbridge_plugins/libaudiocontrol_audio_analytics_plugin.so")
+    local l_source=("${project_dir}/oe-workdir/package/usr/share/event/declarations.d/com.axis.AudioControl.RingPowerLimitExceeded.xml" "${project_dir}/oe-workdir/package/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusOK.xml" "${project_dir}/oe-workdir/package/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusNoSignal.xml" "${project_dir}/oe-workdir/package/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatus.xml" "${project_dir}/oe-workdir/package/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusMetadata.xml" "${project_dir}/oe-workdir/package/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusInvalid.xml" "${project_dir}/oe-workdir/package/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_no_signal.so" "${project_dir}/oe-workdir/package/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status.so" "${project_dir}/oe-workdir/package/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_invalid.so" "${project_dir}/oe-workdir/package/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_ok.so" "${project_dir}/oe-workdir/package/usr/lib/eventbridge_plugins/libaudiocontrol_ring_power_limit_exceeded.so" "${project_dir}/oe-workdir/package/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_metadata.so" "${project_dir}/oe-workdir/package/usr/lib/eventbridge_plugins/libaudiocontrol_audio_analytics_plugin.so")
+    local l_systemd_name="event-bridge"
     l_systemd=true
   elif [ "${project}" = "temperature-ctrld-conf" ]; then
 # TODO
