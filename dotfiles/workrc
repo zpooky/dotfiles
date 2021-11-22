@@ -153,67 +153,63 @@ function ssh_192_168_0_90() {
     local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
 
     local l_env_setup='ENV=$HOME/.shinit; export ENV;'
-    local l_env=''
-    l_env+='echo "alias ll=\"ls -alh\"" > $HOME/.shinit'
-    l_env+=' && echo "alias systemctl_status=\"systemctl status audiocontrol monolith parhand ioboxd -l\"" >> $HOME/.shinit'
-    l_env+=' && echo "alias systemctl_root=\"cd /usr/lib/systemd/system\"" >> $HOME/.shinit'
-    l_env+=' && echo "alias port_scan=\"netstat -lnptux\"" >> $HOME/.shinit'
-    l_env+=' && echo "alias sp-sd=\"cd /var/spool/storage/SD_DISK\"" >> $HOME/.shinit'
-    # AF_UNIX socket
-    l_env+=' && echo "alias unix_con=\"netstat -apnx\"" >> $HOME/.shinit'
+    local l_env=$(cat <<-END
+echo "alias ll=\"ls -alh\"" > ~/.shinit
+echo "alias systemctl_status=\"systemctl status audiocontrol monolith parhand ioboxd -l\"" >> ~/.shinit &&
+echo "alias systemctl_root=\"cd /usr/lib/systemd/system\"" >> ~/.shinit &&
+echo "alias port_scan=\"netstat -lnptux\"" >> ~/.shinit &&
+echo "alias sp-sd=\"cd /var/spool/storage/SD_DISK\"" >> ~/.shinit &&
+# AF_UNIX socket
+echo "alias unix_con=\"netstat -apnx\"" >> ~/.shinit &&
 
-    l_env+=' && echo "watch() {" >> $HOME/.shinit'
-    l_env+=' && echo "  while [ 1 ]; do" >> $HOME/.shinit'
-    l_env+=' && echo "    echo \"-------------------------------------------------------------------------------\"" >> $HOME/.shinit'
-    l_env+=' && echo "    eval \$1;" >> $HOME/.shinit'
-    l_env+=' && echo "    sleep 1;" >> $HOME/.shinit'
-    l_env+=' && echo "  done" >> $HOME/.shinit'
-    l_env+=' && echo "}" >> $HOME/.shinit'
+echo "watch() {" >> ~/.shinit &&
+echo "  while [ 1 ]; do" >> ~/.shinit &&
+echo "    echo \"-------------------------------------------------------------------------------\"" >> ~/.shinit &&
+echo "    eval \$1;" >> ~/.shinit &&
+echo "    sleep 1;" >> ~/.shinit &&
+echo "  done" >> ~/.shinit &&
+echo "}" >> ~/.shinit &&
 
-    l_env+=' && echo "tree() {" >> $HOME/.shinit'
-    l_env+=' && echo "  if [ -e /usr/bin/tree ]; then" >> $HOME/.shinit'
-    l_env+=' && echo "    /usr/bin/tree \$@" >> $HOME/.shinit'
-    l_env+=' && echo "  else" >> $HOME/.shinit'
-    l_env+=' && echo "    ls -alhR1" >> $HOME/.shinit'
-    l_env+=' && echo "  fi" >> $HOME/.shinit'
-    l_env+=' && echo "}" >> $HOME/.shinit'
+echo "tree() {" >> ~/.shinit &&
+echo "  if [ -e /usr/bin/tree ]; then" >> ~/.shinit &&
+echo "    /usr/bin/tree \$@" >> ~/.shinit &&
+echo "  else" >> ~/.shinit &&
+echo "    ls -alhR1" >> ~/.shinit &&
+echo "  fi" >> ~/.shinit &&
+echo "}" >> ~/.shinit &&
 
-    l_env+=' && echo "vim() {" >> $HOME/.shinit'
-    l_env+=' && echo "  if [ -e  /usr/bin/vim ]; then" >> $HOME/.shinit'
-    l_env+=' && echo "    /usr/bin/vim \$@" >> $HOME/.shinit'
-    l_env+=' && echo "  elif [ -e  /usr/bin/vim.tiny ]; then" >> $HOME/.shinit'
-    l_env+=' && echo "    /usr/bin/vim.tiny \$@" >> $HOME/.shinit'
-    l_env+=' && echo "  else" >> $HOME/.shinit'
-    l_env+=' && echo "    vi \$@" >> $HOME/.shinit'
-    l_env+=' && echo "  fi" >> $HOME/.shinit'
-    l_env+=' && echo "}" >> $HOME/.shinit'
+echo "vim() {" >> ~/.shinit &&
+echo "  if [ -e  /usr/bin/vim ]; then" >> ~/.shinit &&
+echo "    /usr/bin/vim \$@" >> ~/.shinit &&
+echo "  elif [ -e  /usr/bin/vim.tiny ]; then" >> ~/.shinit &&
+echo "    /usr/bin/vim.tiny \$@" >> ~/.shinit &&
+echo "  else" >> ~/.shinit &&
+echo "    vi \$@" >> ~/.shinit &&
+echo "  fi" >> ~/.shinit &&
+echo "}" >> ~/.shinit &&
 
-    l_env+=' && echo "gdb() {" >> $HOME/.shinit'
-    l_env+=' && echo "  echo \"set auto-load safe-path /\" > ~/.gdbinit" >> $HOME/.shinit'
-    l_env+=' && echo "  /usr/bin/gdb \$@" >> $HOME/.shinit'
-    l_env+=' && echo "}" >> $HOME/.shinit'
+echo "gdb() {" >> ~/.shinit &&
+echo "  echo \"set auto-load safe-path /\" > ~/.gdbinit" >> ~/.shinit &&
+echo "  /usr/bin/gdb \$@" >> ~/.shinit &&
+echo "}" >> ~/.shinit &&
 
-    l_env+=' && echo "debug_monolith() {" >> $HOME/.shinit'
-    l_env+=' && echo "  systemctl stop monolith" >> $HOME/.shinit'
-    l_env+=' && echo "  systemctl mask monolith" >> $HOME/.shinit'
-    l_env+=' && echo "  GST_DEBUG=2,monolith:5,rtpbin:4,cachememory:5,cache:5,cachesink:5,cachebufferpool:5 monolith -m 54321" >> $HOME/.shinit'
-    l_env+=' && echo "}" >> $HOME/.shinit'
+echo "alias dmesg_tail=\"while true; do dmesg -c ; sleep 1 ; done\"" >> ~/.shinit &&
 
-    l_env+=' && echo "alias dmesg_tail=\"while true; do dmesg -c ; sleep 1 ; done\"" >> $HOME/.shinit'
+echo "alias systemd_failed=\"systemctl --state=failed\"" >> ~/.shinit &&
 
-    l_env+=' && echo "alias systemd_failed=\"systemctl --state=failed\"" >> $HOME/.shinit'
+echo "info() {" >> ~/.shinit &&
+echo '  echo "product: \$(parhandclient get root.Brand.ProdShortName)"' >> ~/.shinit &&
+echo '  echo "HWID: \$(bootblocktool -x HWID)"' >> ~/.shinit &&
+# TODO show ip "ip addr show dev eth0 scope global | grep inet"
+echo "  bootblocktool -lw" >> ~/.shinit &&
+echo "  echo " >> ~/.shinit &&
+echo "}" >> ~/.shinit &&
 
-    l_env+=' && echo "info() {" >> $HOME/.shinit'
-    l_env+=' && echo "  echo \"product: $(parhandclient get root.Brand.ProdShortName)\"" >> $HOME/.shinit'
-    l_env+=' && echo "  echo \"HWID: $(bootblocktool -x HWID)\"" >> $HOME/.shinit'
-    # l_env+=' && echo "  bootblocktool -lw" >> $HOME/.shinit'
-    l_env+=' && echo "  echo " >> $HOME/.shinit'
-    l_env+=' && echo "}" >> $HOME/.shinit'
-
-    # l_env+=' && echo "f() {" >> $HOME/.shinit'
-    # l_env+=' && echo "  find -iname "*${1}*" >> $HOME/.shinit'
-    # l_env+=' && echo "}" >> $HOME/.shinit'
-
+echo "f() {" >> ~/.shinit &&
+echo '  find -iname "*\${1}*"' >> ~/.shinit &&
+echo "}" >> ~/.shinit
+END
+)
 
     local disable_setup="/tmp/disable_setup"
     # if [ -e "${disable_setup}" ]; then
@@ -453,6 +449,16 @@ function deploy_192_168_0_90(){
     local l_dest=("/usr/html/axis-cgi/audio/streamingcapabilities.cgi")
     local l_source=("${project_dir}/oe-workdir/package/usr/html/axis-cgi/audio/streamingcapabilities.cgi")
     local l_systemd_name="httpd"
+    l_systemd=true
+  elif [ "${project}" = "parhand" ]; then
+    local l_dest=("/usr/bin/parhand" "/usr/bin/parhand-systemctl" "/usr/lib/libparhand.so")
+    local l_source=("${project_dir}/oe-workdir/package/usr/bin/parhand" "${project_dir}/oe-workdir/package/usr/bin/parhand-systemctl" "${project_dir}/oe-workdir/package/usr/lib/libparhand.so")
+    local l_systemd_name="parhand"
+    l_systemd=true
+  elif [ "${project}" = "libservice-registry" ]; then
+    local l_dest=("/usr/lib/libservice_registry.so")
+    local l_source=("${project_dir}/oe-workdir/package/usr/lib/libservice_registry.so")
+    local l_systemd_name="confcache"
     l_systemd=true
   elif [ "${project}" = "audio-service" ]; then
     local l_dest=("/usr/bin/audio-service")
