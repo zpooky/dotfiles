@@ -151,6 +151,9 @@ if ! has_feature lua-format; then
   install_yay lua-format
 fi
 
+# code format
+install_pkg prettier
+
 install_pkg ranger
 install_pkg wget
 install_pkg sudo

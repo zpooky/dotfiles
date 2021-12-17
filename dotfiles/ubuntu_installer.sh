@@ -110,4 +110,7 @@ else
   echo "TODO"
 fi
 
+# code format
+# TODO prettier
+
 # sudo apt-get install shellcheck

@@ -272,6 +272,8 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab sorounding surrounding
+iab surounding surrounding
 iab coefficent coefficient
 iab inverant invariant
 iab instantanious instantaneous
@@ -530,7 +532,6 @@ iab surten certain
 iab teh the
 iab therefor therefore
 iab thresshold threshold
-iab timedout timed out
 iab tradeoff trade-off
 iab uppwards upwards
 iab utillity utility
@@ -1074,6 +1075,8 @@ map <C-D> <C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E>
 set modelines=1   " turn on vim settings that will be read from the last line
 " example:
 " vim:foldmethod=marker:foldlevel=0
+" python: (remember space after #)
+" # vim: tabstop=2 expandtab shiftwidth=2 softtabstop=2
 " }}}
 
 " ctags {{{
@@ -1630,12 +1633,13 @@ function! s:SpMathFormat() range
                        \ '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹', 'i': 'ⁱ', 'a': 'ᵃ',
                        \ 'b': 'ᵇ', 'c': 'ᶜ', 'd': 'ᵈ', 'e': 'ᵉ', 'f': 'ᶠ', 'g': 'ᵍ',
                        \ 'h': 'ʰ', 'k': 'ᵏ', 'l': 'ˡ', 'm': 'ᵐ', 'n': 'ⁿ', 'o': 'ᵒ',
-                       \ 'p': 'ᵖ', 'r': 'ʳ', 's': 'ˢ', 't': 'ᵗ', 'u': 'ᵘ', 'v': 'ᵛ',
+                       \ 'p': 'ᵖ', 'q': '𐞥', 'r': 'ʳ', 's': 'ˢ', 't': 'ᵗ', 'u': 'ᵘ', 'v': 'ᵛ',
                        \ 'w': 'ʷ', 'x': 'ˣ', 'y': 'ʸ', 'z': 'ᶻ', 'j': 'ʲ',
-                       \ '+': '⁺', '−': '⁻', '-': '⁻', '(': '⁽', ')': '⁾', 'A': 'ᴬ', 'B': 'ᴮ',
-                       \ 'D': 'ᴰ', 'E': 'ᴱ', 'G': 'ᴳ', 'H': 'ᴴ', 'I': 'ᴵ', 'J': 'ᴶ',
-                       \ 'K': 'ᴷ', 'L': 'ᴸ', 'M': 'ᴹ', 'N': 'ᴺ', 'O': 'ᴼ', 'P': 'ᴾ', 'R': 'ᴿ',
-                       \ 'T': 'ᵀ', 'U': 'ᵁ', 'V': 'ⱽ', 'Z': 'ᶻ', '/': '/', 'θ':'ᶿ'}
+                       \ '+': '⁺', '−': '⁻', '-': '⁻', '(': '⁽', ')': '⁾', 'A': 'ᴬ', 'B': 'ᴮ', 'C': 'ꟲ',
+                       \ 'D': 'ᴰ', 'E': 'ᴱ', 'F': 'ꟳ', 'G': 'ᴳ', 'H': 'ᴴ', 'I': 'ᴵ', 'J': 'ᴶ',
+                       \ 'K': 'ᴷ', 'L': 'ᴸ', 'M': 'ᴹ', 'N': 'ᴺ', 'O': 'ᴼ', 'P': 'ᴾ', 'Q': 'ꟴ', 'R': 'ᴿ',
+                       \ 'T': 'ᵀ', 'U': 'ᵁ', 'V': 'ⱽ', 'Z': 'ᶻ', '/': '/', 'θ':'ᶿ',
+                       \ 'Β': 'ᵝ', 'Θ': 'ᶿ', 'Φ': 'ᵠ', 'Χ': 'ᵡ'}
 
         let l:default = 'a'
         let l:super = get(l:dict, l:char, l:default)
@@ -1672,8 +1676,9 @@ function! s:SpMathFormat() range
                     \ '5': '₅', '6': '₆', '7': '₇', '8': '₈', '9': '₉',
                     \ 'a': 'ₐ', 'e': 'ₑ', 'o': 'ₒ', 'h': 'ₕ', 'k': 'ₖ',
                     \ 'l': 'ₗ', 'm': 'ₘ', 'p': 'ₚ', 's': 'ₛ', 't': 'ₜ',
-                    \ 'n': 'ₙ', 'i': 'ᵢ', 'y': 'ᵧ', 'x': 'ₓ', 'j': 'ⱼ', 'ǝ': 'ₔ',
-                    \ '+': '₊', '-' :'₋', '(': '₍', ')': '₎', '=': '₌'}
+                    \ 'n': 'ₙ', 'i': 'ᵢ', 'y': 'ᵧ', 'x': 'ₓ', 'j': 'ⱼ', 'ǝ': 'ₔ', 'r': 'ᵣ', 'u': 'ᵤ', 'v': 'ᵥ',
+                    \ '+': '₊', '-' :'₋', '(': '₍', ')': '₎', '=': '₌',
+                    \ 'Β': 'ᵦ', 'Γ': 'ᵧ', 'Ρ':'ᵨ', 'Φ': 'ᵩ', 'Χ': 'ᵪ'}
 
         let l:default = 'a'
         let l:sub = get(l:dict, l:char, l:default)
