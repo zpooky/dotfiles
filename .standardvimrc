@@ -1608,7 +1608,7 @@ function! s:SpMathFormat() range
 
     let l:complex = { '(xor)': '⊕', '(pi)': 'π', '(integral)': '∫', '(mul)': '∏',
                     \ '(qed)': '∎', '(element)': '∊' , '(not)': '¬', '(theta)': 'θ', '(lambda)': 'λ',
-                    \ '(alpha)': 'α', '(phi)': 'φ', '(phi2)': 'ϕ', '(proportional)': '∝', '(gamma)': 'Γ', '(mu)':'μ',
+                    \ '(alpha)': 'α', '(beta)': 'β', '(phi)': 'φ', '(phi2)': 'ϕ', '(proportional)': '∝', '(gamma)': 'Γ', '(mu)':'μ',
                     \ '(sigma)': '∑', '(_sigma)': 'σ', '(omega)': 'Ω', '(_omega)': 'ω', '(sqrt)': '√',
                     \ '(micro)': 'µ', '(infinity)': '∞', '(inf)': '∞', '(f)': 'ƒ', '(frequency)': 'ƒ',
                     \ '(almost)': '≈', '(aprox)': '≈', '(delta)': 'Δ', '(_delta)': 'δ',
@@ -1624,7 +1624,7 @@ function! s:SpMathFormat() range
                     \ '(<=)': '⇐', '(^=)': '⇑', '(=>)': '⇒', '(V=)': '⇓', '(<=>)': '⇔', '(V=^)': '⇕', '(^=V)': '⇕',
                     \ '(<-)': '←', '(|^)': '↑', '(^|)': '↑', '(^)': '↑', '(->)': '→', '(V)': '↓', '(<>)': '↔', '(^V)': '↕', '(V^)': '↕',
                     \ '(union)': '∪', '(intersect)': '∩', '(empty)': '∅', '(F)': '𝓕',
-                    \ '(tick)': '✓', '(untick)': '✗'}
+                    \ '(tick)': '✓', '(untick)': '✗', '(AC)': '⏦', '(degree)': '°'}
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
     for l:char in split(a:str, '\zs')
