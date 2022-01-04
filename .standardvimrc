@@ -1608,7 +1608,7 @@ function! s:SpMathFormat() range
 
     let l:complex = { '(xor)': '⊕', '(pi)': 'π', '(integral)': '∫', '(mul)': '∏',
                     \ '(qed)': '∎', '(element)': '∊' , '(not)': '¬', '(theta)': 'θ', '(lambda)': 'λ',
-                    \ '(alpha)': 'α', '(beta)': 'β', '(phi)': 'φ', '(phi2)': 'ϕ', '(proportional)': '∝', '(gamma)': 'Γ', '(mu)':'μ',
+                    \ '(alpha)': 'α',  '(phi)': 'φ', '(phi2)': 'ϕ', '(proportional)': '∝', '(gamma)': 'Γ', '(mu)':'μ',
                     \ '(sigma)': '∑', '(_sigma)': 'σ', '(omega)': 'Ω', '(_omega)': 'ω', '(sqrt)': '√',
                     \ '(beta)': 'Β', '(_beta)': 'β',
                     \ '(micro)': 'µ', '(infinity)': '∞', '(inf)': '∞', '(f)': 'ƒ', '(frequency)': 'ƒ',
