@@ -272,6 +272,9 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab terminting terminating
+iab nummber number
+iab acourences occurrences
 iab sorounding surrounding
 iab surounding surrounding
 iab coefficent coefficient
@@ -830,6 +833,11 @@ iab enoguh enough
 iab permeabillity permeability
 iab achive achieve
 iab basicly basically
+iab possibilites possibilities
+iab representated represented
+iab signficant significant
+iab succes success
+iab myabe maybe
 
 iab Acsending Ascending
 iab acsending ascending
@@ -1615,7 +1623,7 @@ function! s:SpMathFormat() range
 
     let l:complex = { '(xor)': '⊕', '(pi)': 'π', '(integral)': '∫', '(mul)': '∏',
                     \ '(qed)': '∎', '(element)': '∊' , '(not)': '¬', '(theta)': 'θ', '(lambda)': 'λ',
-                    \ '(alpha)': 'α',  '(phi)': 'φ', '(phi2)': 'ϕ', '(proportional)': '∝', '(gamma)': 'Γ', '(mu)':'μ',
+                    \ '(alpha)': 'α',  '(phi)': 'φ', '(phi2)': 'ϕ', '(proportional)': '∝', '(gamma)': 'Γ', '(_gamma)': '𝛾', '(mu)':'μ',
                     \ '(sigma)': '∑', '(_sigma)': 'σ', '(omega)': 'Ω', '(_omega)': 'ω', '(sqrt)': '√',
                     \ '(beta)': 'Β', '(_beta)': 'β',
                     \ '(micro)': 'µ', '(infinity)': '∞', '(inf)': '∞', '(f)': 'ƒ', '(frequency)': 'ƒ',
