@@ -162,36 +162,36 @@ echo "alias sp-sd=\"cd /var/spool/storage/SD_DISK\"" >> ~/.shinit &&
 # AF_UNIX socket
 echo "alias unix_con=\"netstat -apnx\"" >> ~/.shinit &&
 
-echo "watch() {" >> ~/.shinit &&
-echo "  while [ 1 ]; do" >> ~/.shinit &&
-echo "    echo \"-------------------------------------------------------------------------------\"" >> ~/.shinit &&
-echo "    eval \$1;" >> ~/.shinit &&
-echo "    sleep 1;" >> ~/.shinit &&
-echo "  done" >> ~/.shinit &&
-echo "}" >> ~/.shinit &&
+echo 'watch() {' >> ~/.shinit &&
+echo '  while [ 1 ]; do' >> ~/.shinit &&
+echo '    echo \"-------------------------------------------------------------------------------\"' >> ~/.shinit &&
+echo '    eval \$1;' >> ~/.shinit &&
+echo '    sleep 1;' >> ~/.shinit &&
+echo '  done' >> ~/.shinit &&
+echo '}' >> ~/.shinit &&
 
-echo "tree() {" >> ~/.shinit &&
-echo "  if [ -e /usr/bin/tree ]; then" >> ~/.shinit &&
-echo "    /usr/bin/tree \$@" >> ~/.shinit &&
-echo "  else" >> ~/.shinit &&
-echo "    ls -alhR1" >> ~/.shinit &&
-echo "  fi" >> ~/.shinit &&
-echo "}" >> ~/.shinit &&
+echo 'tree() {' >> ~/.shinit &&
+echo '  if [ -e /usr/bin/tree ]; then' >> ~/.shinit &&
+echo '    /usr/bin/tree \$@' >> ~/.shinit &&
+echo '  else' >> ~/.shinit &&
+echo '    ls -alhR1' >> ~/.shinit &&
+echo '  fi' >> ~/.shinit &&
+echo '}' >> ~/.shinit &&
 
-echo "vim() {" >> ~/.shinit &&
-echo "  if [ -e  /usr/bin/vim ]; then" >> ~/.shinit &&
-echo "    /usr/bin/vim \$@" >> ~/.shinit &&
-echo "  elif [ -e  /usr/bin/vim.tiny ]; then" >> ~/.shinit &&
-echo "    /usr/bin/vim.tiny \$@" >> ~/.shinit &&
-echo "  else" >> ~/.shinit &&
-echo "    vi \$@" >> ~/.shinit &&
-echo "  fi" >> ~/.shinit &&
-echo "}" >> ~/.shinit &&
+echo 'vim() {' >> ~/.shinit &&
+echo '  if [ -e  /usr/bin/vim ]; then' >> ~/.shinit &&
+echo '    /usr/bin/vim \$@' >> ~/.shinit &&
+echo '  elif [ -e  /usr/bin/vim.tiny ]; then' >> ~/.shinit &&
+echo '    /usr/bin/vim.tiny \$@' >> ~/.shinit &&
+echo '  else' >> ~/.shinit &&
+echo '    vi \$@' >> ~/.shinit &&
+echo '  fi' >> ~/.shinit &&
+echo '}' >> ~/.shinit &&
 
-echo "gdb() {" >> ~/.shinit &&
-echo "  echo \"set auto-load safe-path /\" > ~/.gdbinit" >> ~/.shinit &&
-echo "  /usr/bin/gdb \$@" >> ~/.shinit &&
-echo "}" >> ~/.shinit &&
+echo 'gdb() {' >> ~/.shinit &&
+echo '  echo "set auto-load safe-path /" > ~/.gdbinit' >> ~/.shinit &&
+echo '  /usr/bin/gdb \$@' >> ~/.shinit &&
+echo '}' >> ~/.shinit &&
 
 echo "alias dmesg_tail=\"while true; do dmesg -c ; sleep 1 ; done\"" >> ~/.shinit &&
 
@@ -427,7 +427,7 @@ function deploy_192_168_0_90(){
     l_systemd=true
   elif [ "${project}" = "monolith" ]; then
     local l_dest=("/usr/bin/monolith")
-    local l_source=("${project_dir}/monolith/oe-workdir/package/usr/bin/monolith")
+    local l_source=("${project_dir}/oe-workdir/package/usr/bin/monolith")
     local l_systemd_name="monolith"
     l_systemd=true
   elif [ "${project}" = "wsd" ]; then
@@ -531,6 +531,16 @@ function deploy_192_168_0_90(){
     local l_source=("${project_dir}/oe-workdir/package/usr/lib/libevent2.so")
     local l_systemd_name="event-bridge"
     l_systemd=true
+  elif [ "${project}" = "event2" ]; then
+    local l_dest=("/usr/bin/event_switch" "/usr/bin/send_event" "/usr/bin/send_legacy_trigger")
+    local l_source=("${project_dir}/oe-workdir/package/usr/bin/event_switch" "${project_dir}/oe-workdir/package/usr/bin/send_event" "${project_dir}/oe-workdir/package/usr/bin/send_legacy_trigger")
+    local l_systemd_name="event-switch"
+    l_systemd=true
+  elif [ "${project}" = "network-speaker-pairing" ]; then
+    local l_dest=("/usr/bin/network-speaker-pairing" )
+    local l_source=("${project_dir}/daemon/network-speaker-pairing")
+    local l_systemd_name="network-speaker-pairing"
+    l_systemd=true
   elif [ "${project}" = "eventbridge-plugins-audiocontrol" ]; then
     local l_dest=("/usr/share/event/declarations.d/com.axis.AudioControl.RingPowerLimitExceeded.xml" "/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusOK.xml" "/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusNoSignal.xml" "/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatus.xml" "/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusMetadata.xml" "/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusInvalid.xml" "/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_no_signal.so" "/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status.so" "/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_invalid.so" "/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_ok.so" "/usr/lib/eventbridge_plugins/libaudiocontrol_ring_power_limit_exceeded.so" "/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_metadata.so" "/usr/lib/eventbridge_plugins/libaudiocontrol_audio_analytics_plugin.so")
     local l_source=("${project_dir}/oe-workdir/package/usr/share/event/declarations.d/com.axis.AudioControl.RingPowerLimitExceeded.xml" "${project_dir}/oe-workdir/package/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusOK.xml" "${project_dir}/oe-workdir/package/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusNoSignal.xml" "${project_dir}/oe-workdir/package/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatus.xml" "${project_dir}/oe-workdir/package/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusMetadata.xml" "${project_dir}/oe-workdir/package/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusInvalid.xml" "${project_dir}/oe-workdir/package/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_no_signal.so" "${project_dir}/oe-workdir/package/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status.so" "${project_dir}/oe-workdir/package/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_invalid.so" "${project_dir}/oe-workdir/package/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_ok.so" "${project_dir}/oe-workdir/package/usr/lib/eventbridge_plugins/libaudiocontrol_ring_power_limit_exceeded.so" "${project_dir}/oe-workdir/package/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_metadata.so" "${project_dir}/oe-workdir/package/usr/lib/eventbridge_plugins/libaudiocontrol_audio_analytics_plugin.so")
@@ -608,6 +618,22 @@ function deploy_192_168_0_90(){
     local l_source=("${project_dir}/oe-workdir/package/usr/bin/mediaclip")
     local l_systemd_name="mediaclip"
     l_systemd=true
+  elif [ "${project}" = "mediaclip-cgi" ]; then
+# ├── html
+# │   └── axis-cgi
+# │       ├── lib
+# │       │   └── validate_clip_location.sh
+# │       ├── mediaclip2.cgi
+# │       ├── mediaclip.cgi
+# │       ├── playclip.cgi
+# │       └── stopclip.cgi
+# └── lib
+#     └── api-discovery
+#         └── api_manifest_mediaclip.conf
+    local l_dest=("/usr/html/axis-cgi/mediaclip2.cgi" "/usr/html/axis-cgi/mediaclip.cgi" "/usr/html/axis-cgi/playclip.cgi" "/usr/html/axis-cgi/stopclip.cgi")
+    local l_source=("${project_dir}/oe-workdir/package/usr/html/axis-cgi/mediaclip2.cgi" "${project_dir}/oe-workdir/package/usr/html/axis-cgi/mediaclip.cgi" "${project_dir}/oe-workdir/package/usr/html/axis-cgi/playclip.cgi" "${project_dir}/oe-workdir/package/usr/html/axis-cgi/stopclip.cgi")
+    local l_systemd_name="httpd"
+    l_systemd=true
   elif [ "${project}" = "imagine-bdc" ]; then
     local l_dest=("/usr/lib/imagine-plugins/libimagine_bdc.so")
     local l_source=("${project_dir}/oe-workdir/package/usr/lib/imagine-plugins/libimagine_bdc.so")
@@ -627,6 +653,16 @@ function deploy_192_168_0_90(){
     local l_dest=("/usr/bin/opticsd")
     local l_source=("${project_dir}/oe-workdir/package/usr/bin/opticsd")
     local l_systemd_name="opticsd"
+    l_systemd=true
+  elif [ "${project}" = "audio-service-plugin-sip" ]; then
+    local l_dest=("/usr/lib/audio-service-plugins/libaudio-service-plugin-sip.so")
+    local l_source=("${project_dir}/oe-workdir/package/usr/lib/audio-service-plugins/libaudio-service-plugin-sip.so")
+    local l_systemd_name="audio-service"
+    l_systemd=true
+  elif [ "${project}" = "audio-service-plugin-streamer" ]; then
+    local l_dest=("/usr/lib/audio-service-plugins/libaudio-service-plugin-streamer.so")
+    local l_source=("${project_dir}/oe-workdir/package/usr/lib/audio-service-plugins/libaudio-service-plugin-streamer.so")
+    local l_systemd_name="audio-service"
     l_systemd=true
   elif [ "${project}" = "powerd-conf" ]; then
     local l_product=$(basename $BUILDDIR)
@@ -651,30 +687,6 @@ function deploy_192_168_0_90(){
     if [ ! $? -eq 0 ]; then
       return 4
     fi
-
-    return 0
-  elif [ "${project}" = "mediaclip-cgi" ]; then
-    local l_source="${project_dir}/oe-workdir/package/usr/html/axis-cgi"
-
-    local src_mediaclip="${l_source}/mediaclip.cgi"
-    local src_playclip="${l_source}/playclip.cgi"
-
-    local l_systemd_name="httpd"
-
-    # devtool_build "${project}"
-    # if [ ! $? -eq 0 ]; then
-    #   return 4
-    # fi
-
-    overlay_mount_192_168_0_90
-
-    echo "sshpass -p ${l_pass} scp ${src_mediaclip} ${l_user}@${l_ip}:/usr/html/axis-cgi"
-    sshpass -p "${l_pass}" scp "${src_mediaclip}" "${l_user}"@"${l_ip}":"/usr/html/axis-cgi"
-
-    echo "sshpass -p ${l_pass} scp ${src_playclip} ${l_user}@${l_ip}:/usr/html/axis-cgi"
-    sshpass -p "${l_pass}" scp "${src_playclip}" "${l_user}"@"${l_ip}":"/usr/html/axis-cgi"
-
-    ssh_192_168_0_90_execute "systemctl restart ${l_systemd_name}"
 
     return 0
   else

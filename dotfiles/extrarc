@@ -99,6 +99,10 @@ if [[ ! -z NUMBER_OF_PROCESSORS ]]; then
   export NUMBER_OF_PROCESSORS=$(nproc --all)
 fi
 
+if [ -e "${HOME}/lib/pkgconfig" ]; then
+  export PKG_CONFIG_PATH=${HOME}/lib/pkgconfig:${PKG_CONFIG_PATH}
+fi
+
 if [ -z "$LD_LIBRARY_PATH" ]; then
   export LD_LIBRARY_PATH
 fi
