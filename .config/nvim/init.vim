@@ -496,11 +496,17 @@ if !has('win32unix') && !has('win64unix')
   " let g:gutentags_ctags_exclude =[]
   " let g:gutentags_ctags_exclude_wildignore=1
   " let g:gutentags_file_list_command = "find . oe-workdir/recipe-sysroot/usr/include/glib-2.0 oe-workdir/recipe-sysroot/usr/include/alsa oe-workdir/recipe-sysroot/usr/include/glib-utils oe-workdir/recipe-sysroot/usr/include/systemd -type f -not -path '*/.git/*' -not -path '*/unix/*' -not -path '*/checktest/*' -not -path '*/checktests/*' -not -path '*/unittest/*' -not -path '*/tests/*' -not -path '*/stub/*' -not -path '*/stubs/*'"
-  let g:gutentags_file_list_command = "find . oe-workdir/recipe-sysroot/usr/include -type f -not -path '*/.git/*' -not -path '*/unix/*' -not -path '*/checktest/*' -not -path '*/checktests/*' -not -path '*/unittest/*' -not -path '*/tests/*' -not -path '*/stub/*' -not -path '*/stubs/*'"
-  " index function prototypes (useful when we only have to header files)
-  let g:gutentags_ctags_extra_args = ['--c-kinds=+p']
 
-  let g:gutentags_modules=['ctags'] ", 'gtags_cscope'
+  " with custom patch {
+  let g:gutentags_file_list_command = "find . -type f -not -path '*/.git/*' -not -path '*/unix/*' -not -path '*/checktest/*' -not -path '*/checktests/*' -not -path '*/unittest/*' -not -path '*/tests/*' -not -path '*/stub/*' -not -path '*/stubs/*'"
+  let g:gutentags_file_list_command_secondary = "find oe-workdir/recipe-sysroot/usr/include -type f"
+  " index function prototypes (useful when we only have to header files)
+  let g:gutentags_ctags_extra_args_secondary = ['--c-kinds=+p']  " tags=primary.ctag, header_only.ctag
+  " } else {
+  " let g:gutentags_file_list_command = "find . oe-workdir/recipe-sysroot/usr/include -type f -not -path '*/.git/*' -not -path '*/unix/*' -not -path '*/checktest/*' -not -path '*/checktests/*' -not -path '*/unittest/*' -not -path '*/tests/*' -not -path '*/stub/*' -not -path '*/stubs/*'"
+  " }
+
+  let g:gutentags_modules=['ctags', 'ctags_secondary'] ", 'gtags_cscope'
   let g:gutentags_ctags_executable="ctags"
   let g:gutentags_ctags_tagfile=".tags"
   let g:gutentags_generate_on_missing=1
@@ -532,9 +538,9 @@ if !has('win32unix') && !has('win64unix')
   call add(g:gutentags_project_info, {'type': 'haskell', 'glob': '*.cabal'})
   call add(g:gutentags_project_info, {'type': 'haskell', 'file': 'stack.yaml'})
   call add(g:gutentags_project_info, {'type': 'rust', 'file': 'Cargo.toml'})
-  call add(g:gutentags_project_info, { 'type': 'javascript', 'file': 'package.json' })
-  call add(g:gutentags_project_info, { 'type': 'c', 'file': 'meson.build' })
-  call add(g:gutentags_project_info, { 'type': 'c', 'file': 'Makefile' })
+  call add(g:gutentags_project_info, {'type': 'javascript', 'file': 'package.json'})
+  call add(g:gutentags_project_info, {'type': 'c', 'file': 'meson.build'})
+  call add(g:gutentags_project_info, {'type': 'c', 'file': 'Makefile'})
 
   " gtags
   let g:gutentags_gtags_executable="gtags"

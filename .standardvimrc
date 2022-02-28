@@ -272,6 +272,9 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab elemts elements
+iab divisiable divisible
+iab thease these
 iab terminting terminating
 iab nummber number
 iab acourences occurrences
@@ -865,10 +868,6 @@ iab deinfe define
 iab memst memset
 iab szie_t size_t
 iab stati static
-" iab uint8 uint8_t
-" iab uint16 uint16_t
-" iab uint32 uint32_t
-" iab uint64 uint64_t
 iab cosnt const
 iab asssert assert
 iab treu true
@@ -1921,47 +1920,26 @@ endfunction
 command! -range SpMathFormat <line1>,<line2>call s:SpMathFormat()
 xnoremap <leader>m <Esc>:SpMathFormat<CR>
 
-
-function! s:SpookyToString()
+function! s:SpookyToString(kind)
   let l:exe = 'sp_struct_to_string'
   if executable(l:exe)
     let l:file = expand('%:p')
     let l:line = line('.')-1
     let l:col = col('.')-1
-    " echo l:exe." line ".l:file." ".l:line." ".l:col." 2>/dev/null"
-    let l:append_line = system(l:exe." line ".l:file." ".l:line." ".l:col." 2>/dev/null")
+    let l:json = system(l:exe." ".a:kind." ".l:file." ".l:line." ".l:col." 2>/dev/null")
     if v:shell_error == 0
-      let l:fun = system(l:exe." crunch ".l:file." ".l:line." ".l:col." 2>/dev/null")
-      " echomsg l:fun
-      if v:shell_error == 0
-        call append(l:append_line, split(l:fun, "\n"))
-      else
-        echo "error1: ".v:shell_error
-      endif
+      let l:d = json_decode(l:json)
+      for l:lit in l:d['inserts']
+        call append(l:lit['line'], split(l:lit['data'], "\n"))
+      endfor
     else
       echo "error0: ".v:shell_error
     endif
   endif
 endfunction
 
-function! s:SpookyToStringLocals()
-  let l:exe = 'sp_struct_to_string'
-  if executable(l:exe)
-    let l:file = expand('%:p')
-    let l:line = line('.')-1
-    let l:col = col('.')-1
-    " echo l:exe." line ".l:file." ".l:line." ".l:col." 2>/dev/null"
-    let l:append_line = system(l:exe." locals ".l:file." ".l:line." ".l:col." 2>/dev/null")
-    if v:shell_error == 0
-      call append(l:line+1, split(l:append_line, "\n"))
-    else
-      echo "error0: ".v:shell_error
-    endif
-  endif
-endfunction
-
-command! SpookyToString call s:SpookyToString()
-command! SpookyToStringLocals call s:SpookyToStringLocals()
+command! SpookyToString call s:SpookyToString("crunch")
+command! SpookyToStringLocals call s:SpookyToString("locals")
 augroup AugroupToString
   autocmd!
   autocmd FileType c,cpp noremap <leader>m <Esc>:SpookyToString<CR>
