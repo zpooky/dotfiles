@@ -1940,8 +1940,10 @@ endfunction
 
 command! SpookyToString call s:SpookyToString("crunch")
 command! SpookyToStringLocals call s:SpookyToString("locals")
+command! SpookyToStringBranches call s:SpookyToString("branches")
 augroup AugroupToString
   autocmd!
   autocmd FileType c,cpp noremap <leader>m <Esc>:SpookyToString<CR>
   autocmd FileType c,cpp noremap <leader>l <Esc>:SpookyToStringLocals<CR>
+  autocmd FileType c,cpp noremap <leader>k <Esc>:SpookyToStringBranches<CR>
 augroup END
