@@ -155,6 +155,7 @@ fi
 install_pkg prettier
 
 install_pkg ranger
+install_pkg w3m # image preview in ranger
 install_pkg wget
 install_pkg sudo
 install_pkg cmake
