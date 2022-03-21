@@ -481,7 +481,7 @@ vmap <leader>= :TCommentBlock<CR>
 if !has('win32unix') && !has('win64unix')
   " gutentags {{{
   " ctags, cscope & global generation
-  Plug 'ludovicchabant/vim-gutentags' ",programming_nhaskell = lazy load does not work correctly
+  Plug 'zpooky/vim-gutentags' ",programming_nhaskell = lazy load does not work correctly
   function! s:SetupGutentag()
     let l:tags = $HOME."/.cache/tags"
     if !isdirectory(l:tags)
