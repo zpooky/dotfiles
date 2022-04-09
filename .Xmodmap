@@ -1,3 +1,6 @@
 ! keycode 66 = Escape
 clear lock
 keycode 66 = Escape NoSymbol Escape
+
+! no middle click
+pointer = 1 25 3 4 5 6 7 8 9
