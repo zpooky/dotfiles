@@ -577,8 +577,8 @@ let g:neoformat_only_msg_on_error = 1
 
 augroup AugroupNeoformat
   autocmd!
-  autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust,json,scala,java,lua nnoremap <buffer><leader>f <esc>:Neoformat<CR>
-  autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust,json,scala,java,lua vnoremap <buffer><leader>f <esc>:Neoformat<CR>
+  autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust,json,scala,java,lua,html,glsl nnoremap <buffer><leader>f <esc>:Neoformat<CR>
+  autocmd FileType c,cpp,python,sh,bash,zsh,javascript,rust,json,scala,java,lua,html,glsl vnoremap <buffer><leader>f <esc>:Neoformat<CR>
 augroup END
 
 " debug:
