@@ -275,6 +275,7 @@ set spellfile=~/.vim/spell/en.utf-8.add
 iab capcitor capacitor
 iab smothed smoothed
 iab curruent current
+iab suffently sufficiently
 iab dissapates dissipates
 iab dissapate dissipate
 iab dissapated dissipated
