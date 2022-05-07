@@ -1642,7 +1642,7 @@ function! s:SpMathFormat() range
     let l:sub_sup = { 'cnt': 0 } " to support alone: _ ^
     let l:open_brace_cnt=0 " pairing up () or returning to state:0
 
-    let l:complex = { '(xor)': '⊕', '(pi)': 'π', '(integral)': '∫', '(mul)': '∏',
+    let l:complex = { '(xor)': '⊕', '(pi)': 'π', '(integral)': '∫', '(mul)': '∏', '(subset)': '⊂',
                     \ '(qed)': '∎', '(element)': '∊' , '(not)': '¬', '(theta)': 'θ', '(lambda)': 'λ',
                     \ '(alpha)': 'α', '(phi)': 'φ', '(phi2)': 'ϕ', '(proportional)': '∝', '(gamma)': 'Γ', '(_gamma)': '𝛾', '(mu)':'μ',
                     \ '(sigma)': '∑', '(_sigma)': 'σ', '(omega)': 'Ω', '(_omega)': 'ω', '(sqrt)': '√', '(epsilon)': 'ε',
