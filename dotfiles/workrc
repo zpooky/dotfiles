@@ -211,12 +211,11 @@ echo "alias dmesg_tail=\"while true; do dmesg -c ; sleep 1 ; done\"" >> \${tmp_c
 echo "alias systemd_failed=\"systemctl --state=failed\"" >> \${tmp_conf}
 
 echo "info() {" >> \${tmp_conf}
-echo '  echo "product: \$(parhandclient get root.Brand.ProdShortName)"' >> \${tmp_conf}
-echo '  echo "HWID: \$(bootblocktool -x HWID)"' >> \${tmp_conf}
+echo '  echo "product: \$(parhandclient get root.Brand.ProdNbr - raw)"' >> \${tmp_conf}
+echo '  echo "   HWID: \$(bootblocktool -x HWID)"' >> \${tmp_conf}
 # TODO show ip "ip addr show dev eth0 scope global | grep inet"
 echo "  bootblocktool -lw" >> \${tmp_conf}
 echo "  ip -4 addr show eth0 scope global | tail -2 | head -1 | xargs" >> \${tmp_conf}
-echo "  echo " >> \${tmp_conf}
 echo "}" >> \${tmp_conf}
 
 echo "f() {" >> \${tmp_conf}
