@@ -7,7 +7,8 @@ export FTP_PROXY="${ftp_proxy}"
 export https_proxy="http://wwwproxy.se.axis.com:3128"
 export HTTPS_PROXY="${https_proxy}"
 
-export no_proxy=192.168.0.90,192.168.0.20,192.168.0.21,192.168.0.34,localhost,127.0.0.1,127.0.1.1,.localdomain,axis.com
+export no_proxy=192.168.0.21,192.168.0.0/16,localhost,127.0.0.1,127.0.1.1,.localdomain,axis.com
+export NO_PROXY=${no_proxy}
 
 # export ftp_proxy="ftp://ftp-proxy.se.axis.com:4514/"
 # export FTP_PROXY="ftp://ftp-proxy.se.axis.com:4514/"
@@ -36,7 +37,7 @@ if [ -e "${HOME}/.nvm" ]; then
   # [ -s "${NVM_DIR}/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
 
-function axis_enable_root_192_168_0_90(){
+axis_enable_root_192_168_0_90(){
   local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
   local resp=$(curl --noproxy "*" --connect-timeout 5 "http://${l_ip}/axis-cgi/pwdgrp.cgi?action=add&user=root&pwd=pass&grp=root&sgrp=admin:operator:viewer:ptz" -w "%{http_code}" 2>/dev/null)
   echo "${resp}"
@@ -52,7 +53,7 @@ function axis_enable_root_192_168_0_90(){
   return 2
 }
 
-function setup_ssh_eager() {
+setup_ssh_eager() {
   local res=1
   local cnt=0
   local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
@@ -146,95 +147,85 @@ function setup_ssh_eager() {
 }
 
 
-function ssh_192_168_0_90() {
-  function sshx() {
+ssh_192_168_0_90() {
+  sshx() {
     local l_user="root"
     local l_pass="pass"
     local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
 
     local l_env_setup='ENV=$HOME/.shinit; export ENV;'
     local l_env=$(cat <<-END
-echo "alias ll=\"ls -alh\"" > ~/.shinit
-echo "alias systemctl_status=\"systemctl status audiocontrol monolith parhand ioboxd -l\"" >> ~/.shinit &&
-echo "alias systemctl_root=\"cd /usr/lib/systemd/system\"" >> ~/.shinit &&
-echo "alias port_scan=\"netstat -lnptux\"" >> ~/.shinit &&
-echo "alias sp-sd=\"cd /var/spool/storage/SD_DISK\"" >> ~/.shinit &&
+parhandclient set root.System.CaptureFrequencySet yes && parhandclient set root.System.CaptureModeSet yes &
+tmp_conf=\$(mktemp)
+echo "alias ll=\"ls -alh\"" > \${tmp_conf}
+echo "alias systemctl_status=\"systemctl status audiocontrol monolith parhand ioboxd -l\"" >> \${tmp_conf} &&
+echo "alias systemctl_root=\"cd /usr/lib/systemd/system\"" >> \${tmp_conf} &&
+echo "alias port_scan=\"netstat -lnptux\"" >> \${tmp_conf} &&
+echo "alias sp-sd=\"cd /var/spool/storage/SD_DISK\"" >> \${tmp_conf} &&
 # AF_UNIX socket
-echo "alias unix_con=\"netstat -apnx\"" >> ~/.shinit &&
+echo "alias unix_con=\"netstat -apnx\"" >> \${tmp_conf} &&
 
-echo 'watch() {' >> ~/.shinit &&
-echo '  while [ 1 ]; do' >> ~/.shinit &&
-echo '    echo \"-------------------------------------------------------------------------------\"' >> ~/.shinit &&
-echo '    eval \$1;' >> ~/.shinit &&
-echo '    sleep 1;' >> ~/.shinit &&
-echo '  done' >> ~/.shinit &&
-echo '}' >> ~/.shinit &&
+echo 'watch() {' >> \${tmp_conf} &&
+echo '  if [ -e /usr/bin/watch ]; then' >> \${tmp_conf} &&
+echo '    /usr/bin/watch \$@' >> \${tmp_conf} &&
+echo '  else' >> \${tmp_conf} &&
+echo '  while [ 1 ]; do' >> \${tmp_conf} &&
+echo '    echo \"-------------------------------------------------------------------------------\"' >> \${tmp_conf} &&
+echo '    eval \$1;' >> \${tmp_conf} &&
+echo '    sleep 1;' >> \${tmp_conf} &&
+echo '  done' >> \${tmp_conf} &&
+echo '  fi' >> \${tmp_conf} &&
+echo '}' >> \${tmp_conf} &&
 
-echo 'tree() {' >> ~/.shinit &&
-echo '  if [ -e /usr/bin/tree ]; then' >> ~/.shinit &&
-echo '    /usr/bin/tree \$@' >> ~/.shinit &&
-echo '  else' >> ~/.shinit &&
-echo '    ls -alhR1' >> ~/.shinit &&
-echo '  fi' >> ~/.shinit &&
-echo '}' >> ~/.shinit &&
+echo 'tree() {' >> \${tmp_conf} &&
+echo '  if [ -e /usr/bin/tree ]; then' >> \${tmp_conf} &&
+echo '    /usr/bin/tree \$@' >> \${tmp_conf} &&
+echo '  else' >> \${tmp_conf} &&
+echo '    ls -alhR1' >> \${tmp_conf} &&
+echo '  fi' >> \${tmp_conf} &&
+echo '}' >> \${tmp_conf} &&
 
-echo 'vim() {' >> ~/.shinit &&
-echo '  if [ -e  /usr/bin/vim ]; then' >> ~/.shinit &&
-echo '    /usr/bin/vim \$@' >> ~/.shinit &&
-echo '  elif [ -e  /usr/bin/vim.tiny ]; then' >> ~/.shinit &&
-echo '    /usr/bin/vim.tiny \$@' >> ~/.shinit &&
-echo '  else' >> ~/.shinit &&
-echo '    vi \$@' >> ~/.shinit &&
-echo '  fi' >> ~/.shinit &&
-echo '}' >> ~/.shinit &&
+echo 'vim() {' >> \${tmp_conf} &&
+echo '  if [ -e  /usr/bin/vim ]; then' >> \${tmp_conf} &&
+echo '    /usr/bin/vim \$@' >> \${tmp_conf} &&
+echo '  elif [ -e  /usr/bin/vim.tiny ]; then' >> \${tmp_conf} &&
+echo '    /usr/bin/vim.tiny \$@' >> \${tmp_conf} &&
+echo '  else' >> \${tmp_conf} &&
+echo '    vi \$@' >> \${tmp_conf} &&
+echo '  fi' >> \${tmp_conf} &&
+echo '}' >> \${tmp_conf} &&
 
-echo 'gdb() {' >> ~/.shinit &&
-echo '  echo "set auto-load safe-path /" > ~/.gdbinit' >> ~/.shinit &&
-echo '  /usr/bin/gdb \$@' >> ~/.shinit &&
-echo '}' >> ~/.shinit &&
+echo 'gdb() {' >> \${tmp_conf} &&
+echo '  echo "set auto-load safe-path /" > ~/.gdbinit' >> \${tmp_conf} &&
+echo '  /usr/bin/gdb \$@' >> \${tmp_conf} &&
+echo '}' >> \${tmp_conf} &&
 
-echo "alias dmesg_tail=\"while true; do dmesg -c ; sleep 1 ; done\"" >> ~/.shinit &&
+echo "alias dmesg_tail=\"while true; do dmesg -c ; sleep 1 ; done\"" >> \${tmp_conf} &&
 
-echo "alias systemd_failed=\"systemctl --state=failed\"" >> ~/.shinit &&
+echo "alias systemd_failed=\"systemctl --state=failed\"" >> \${tmp_conf} &&
 
-echo "info() {" >> ~/.shinit &&
-echo '  echo "product: \$(parhandclient get root.Brand.ProdShortName)"' >> ~/.shinit &&
-echo '  echo "HWID: \$(bootblocktool -x HWID)"' >> ~/.shinit &&
+echo "info() {" >> \${tmp_conf} &&
+echo '  echo "product: \$(parhandclient get root.Brand.ProdShortName)"' >> \${tmp_conf} &&
+echo '  echo "HWID: \$(bootblocktool -x HWID)"' >> \${tmp_conf} &&
 # TODO show ip "ip addr show dev eth0 scope global | grep inet"
-echo "  bootblocktool -lw" >> ~/.shinit &&
-echo "  echo " >> ~/.shinit &&
-echo "}" >> ~/.shinit &&
+echo "  bootblocktool -lw" >> \${tmp_conf} &&
+echo "  ip -4 addr show eth0 scope global | tail -2 | head -1 | xargs" >> \${tmp_conf} &&
+echo "  echo " >> \${tmp_conf} &&
+echo "}" >> \${tmp_conf} &&
 
-echo "f() {" >> ~/.shinit &&
-echo '  find -iname "*\${1}*"' >> ~/.shinit &&
-echo "}" >> ~/.shinit
+echo "f() {" >> \${tmp_conf} &&
+echo '  find -iname "*\${1}*"' >> \${tmp_conf} &&
+echo "}" >> \${tmp_conf}
+mv \${tmp_conf} ~/.shinit
 END
 )
-
-    local disable_setup="/tmp/disable_setup"
-    # if [ -e "${disable_setup}" ]; then
-      # disable some web menus
-      # ssh_192_168_0_90_execute "parhandclient set root.System.CaptureFrequencySet yes"
-      # local res=$?
-      #
-      # if [ $res -eq 0 ]; then
-      #   ssh_192_168_0_90_execute "parhandclient set root.System.CaptureModeSet yes"
-      #   local res=$?
-      # fi
-      #
-      # if [ $res -eq 0 ]; then
-      #   rm "${disable_setup}"
-      # fi
-    # fi
-
-  # sshpass -p "${l_pass}" ssh -t ${l_user}@${l_ip} 'alias ll="ls -alh";ll; exec /bin/sh -l' # 'alias ll="ls-alh"; /bin/sh -l'
 
   # -o StrictHostKeyChecking=no
   # avoid: "Are you sure you want to continue connecting (yes/no/[fingerprint])? "
 
     # echo "${l_env}"
     # echo "TERM=xterm sshpass -p \"${l_pass}\" ssh -o StrictHostKeyChecking=no -t ${l_user}@${l_ip} \"${l_env_setup} exec /bin/sh -l\""
-    TERM=xterm sshpass -p "${l_pass}" ssh -o StrictHostKeyChecking=no -t ${l_user}@${l_ip} "${l_env_setup} ${l_env}; exec /bin/sh -l"
+    TERM=xterm sshpass -p "${l_pass}" ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=2 -o ForwardX11=no -o StrictHostKeyChecking=no -t ${l_user}@${l_ip} "${l_env_setup} ${l_env}; exec /bin/sh -l"
     return $?
   }
 
@@ -259,7 +250,7 @@ END
 }
 
 
-function scp_192_168_0_90() {
+scp_192_168_0_90() {
   local l_user="root"
   local l_pass="pass"
   local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
@@ -276,7 +267,7 @@ function scp_192_168_0_90() {
   sshpass -p "${l_pass}" scp "${l_source}" "${l_user}"@"${l_ip}":"${l_remote_dest}"
 }
 
-function scp_crashdump_192_168_0_90(){
+scp_crashdump_192_168_0_90(){
   local l_user="root"
   local l_pass="pass"
   local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
@@ -290,19 +281,19 @@ function scp_crashdump_192_168_0_90(){
   sshpass -p "${l_pass}" scp "${l_user}"@"${l_ip}":"${l_source}" "${l_dest}"
 }
 
-# function crashdump_gdb_(){
+# crashdump_gdb_(){
 #   if [ ! -n "${BUILDDIR}" ]; then
 #     echo "Must be run from oe-initenv shell">&2
 #     return 1
 #   fi
 #
-#   function get_build(){
+#   get_build(){
 #     # BUILDDIR=/home/fredriol/dists/m3047-iobox-duo-sound/builds/m3047-p
 #   }
 # # $BUILDDIR
 # }
 
-function valid_build_dir() {
+valid_build_dir() {
   if [ ! -n "${BUILDDIR}" ]; then
     echo "Must be run from oe-initenv shell">&2
     return 1
@@ -316,7 +307,7 @@ function valid_build_dir() {
   return 0
 }
 
-function overlay_mount_192_168_0_90_async(){
+overlay_mount_192_168_0_90_async(){
   local l_fwmgr_local="/tmp/fwmgr.conf"
   local l_fwmgr_remote="/etc/fwmgr.conf"
 
@@ -348,7 +339,7 @@ function overlay_mount_192_168_0_90_async(){
   return ${res}
 }
 
-function overlay_mount_192_168_0_90(){
+overlay_mount_192_168_0_90(){
   # TODO duplicate
   local l_fwmgr_local="/tmp/fwmgr.conf"
   local l_fwmgr_remote="/etc/fwmgr.conf"
@@ -395,12 +386,10 @@ sp_add_prefix(){
   done
 }
 
-# TODO sshfs mount camera in some work dir that will be used by makefile
-# TODO find command to setup env(to override dest) and run make with corretch binaries
-#TODO maybe touch all sources in $project_dir?
-function deploy_192_168_0_90(){
+deploy_single_192_168_0_90(){
   local project="${1}"
   local project_dir="${BUILDDIR}/workspace/sources/${project}"
+  echo "\n\n=============deploy_single_192_168_0_90 ${project}====================="
 
   local l_reboot=false
   local l_systemd=false
@@ -410,17 +399,10 @@ function deploy_192_168_0_90(){
   local l_pass="pass"
   local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
 
-  if ! valid_build_dir; then
-    return 1
-  fi
-
   if [ ! -e "${project_dir}" ]; then
     echo "'${project_dir}' does not exist" >&2
     return 2
   fi
-
-  axis_enable_root_192_168_0_90
-  $HOME/development/axis/tpp/ff enable-ssh
 
   # local install_from_root="${project_dir}/oe-workdir/package"
   local install_from_root="${project_dir}/oe-workdir/image"
@@ -504,7 +486,7 @@ function deploy_192_168_0_90(){
   elif [ "${project}" = "libevent2" ]; then
     local l_dest=("/usr/lib/libevent2.so")
     local l_source=("${install_from_root}/usr/lib/libevent2.so")
-    local l_systemd_name=(action-engine-user action-engine-system)
+    local l_systemd_name=(action-engine-user action-engine-system event-bridge confcache)
     l_systemd=true
   elif [ "${project}" = "camviewsetup-cgi" ]; then
     local l_dest=("/usr/bin/camviewsetup-cgi")
@@ -524,22 +506,17 @@ function deploy_192_168_0_90(){
   elif [ "${project}" = "eventbridged" ]; then
     local l_dest=("/usr/sbin/eventbridged")
     local l_source=("${install_from_root}/usr/sbin/eventbridged")
-    local l_systemd_name="event-bridge"
+    local l_systemd_name="event-bridge confcache"
     l_systemd=true
   elif [ "${project}" = "libeventbridge" ]; then
     local l_dest=("/usr/lib/libeventbridge.so")
     local l_source=("${install_from_root}/usr/lib/libeventbridge.so")
-    local l_systemd_name="event-bridge"
+    local l_systemd_name="event-bridge confcache"
     l_systemd=true
   elif [ "${project}" = "eventbridge-plugins-propertychanged" ]; then
     local l_dest=("/usr/lib/eventbridge_plugins/libpropertychanged.so")
     local l_source=("${install_from_root}/usr/lib/eventbridge_plugins/libpropertychanged.so")
-    local l_systemd_name="event-bridge"
-    l_systemd=true
-  elif [ "${project}" = "libevent2" ]; then
-    local l_dest=("/usr/lib/libevent2.so")
-    local l_source=("${install_from_root}/usr/lib/libevent2.so")
-    local l_systemd_name="event-bridge"
+    local l_systemd_name="event-bridge confcache"
     l_systemd=true
   elif [ "${project}" = "event2" ]; then
     local l_dest=("/usr/bin/event_switch" "/usr/bin/send_event" "/usr/bin/send_legacy_trigger")
@@ -554,17 +531,17 @@ function deploy_192_168_0_90(){
   elif [ "${project}" = "eventbridge-plugins-audiocontrol" ]; then
     local l_dest=("/usr/share/event/declarations.d/com.axis.AudioControl.RingPowerLimitExceeded.xml" "/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusOK.xml" "/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusNoSignal.xml" "/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatus.xml" "/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusMetadata.xml" "/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusInvalid.xml" "/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_no_signal.so" "/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status.so" "/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_invalid.so" "/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_ok.so" "/usr/lib/eventbridge_plugins/libaudiocontrol_ring_power_limit_exceeded.so" "/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_metadata.so" "/usr/lib/eventbridge_plugins/libaudiocontrol_audio_analytics_plugin.so")
     local l_source=("${install_from_root}/usr/share/event/declarations.d/com.axis.AudioControl.RingPowerLimitExceeded.xml" "${install_from_root}/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusOK.xml" "${install_from_root}/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusNoSignal.xml" "${install_from_root}/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatus.xml" "${install_from_root}/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusMetadata.xml" "${install_from_root}/usr/share/event/declarations.d/com.axis.AudioControl.DigitalSignalStatusInvalid.xml" "${install_from_root}/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_no_signal.so" "${install_from_root}/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status.so" "${install_from_root}/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_invalid.so" "${install_from_root}/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_ok.so" "${install_from_root}/usr/lib/eventbridge_plugins/libaudiocontrol_ring_power_limit_exceeded.so" "${install_from_root}/usr/lib/eventbridge_plugins/libaudiocontrol_digital_signal_status_metadata.so" "${install_from_root}/usr/lib/eventbridge_plugins/libaudiocontrol_audio_analytics_plugin.so")
-    local l_systemd_name="event-bridge"
+    local l_systemd_name="event-bridge confcache"
     l_systemd=true
   elif [ "${project}" = "libconfiguration-event" ]; then
     local l_dest=("/usr/lib/libconfiguration_event.so")
     local l_source=("${install_from_root}/usr/lib/libconfiguration_event.so")
-    local l_systemd_name="event-bridge"
+    local l_systemd_name="event-bridge confcache"
     l_systemd=true
   elif [ "${project}" = "eventbridge-plugins-livestream" ]; then
     local l_dest=("/usr/lib/eventbridge_plugins/liblive_stream.so")
     local l_source=("${install_from_root}/usr/lib/eventbridge_plugins/liblive_stream.so")
-    local l_systemd_name="event-bridge"
+    local l_systemd_name="event-bridge confcache"
     l_systemd=true
   elif [ "${project}" = "glib-utils" ]; then
     local l_dest=("/usr/lib/libglib-utils.so")
@@ -892,7 +869,7 @@ function rtags_all(){
   date
 }
 
-function devtool_modify() {
+devtool_modify() {
   if ! valid_build_dir; then
     return 1
   fi
@@ -944,7 +921,7 @@ function devtool_modify() {
   fi
 }
 
-function ssh_192_168_0_90_execute(){
+ssh_192_168_0_90_execute(){
   local l_user="root"
   local l_pass="pass"
   local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
@@ -957,7 +934,7 @@ function ssh_192_168_0_90_execute(){
 }
 
 
-function reboot_192_168_0_90_async() {
+reboot_192_168_0_90_async() {
   local cmd="/usr/sbin/reboot;sleep 4"
 
   # ssh_192_168_0_90_execute "${cmd}"
@@ -973,7 +950,7 @@ function reboot_192_168_0_90_async() {
   return $?
 }
 
-function reboot_192_168_0_90() {
+reboot_192_168_0_90() {
   reboot_192_168_0_90_async
   sleep 5
 
@@ -981,14 +958,14 @@ function reboot_192_168_0_90() {
   return $?
 }
 
-function flash_192_168_0_90_ftp() {
+flash_192_168_0_90_ftp() {
   # TODO grep for "Error: No custom firmware certificate for camera group 'axis-devel-ambarella-s5l'."
   local l_user="root"
   local l_pass="pass"
   local l_ip=${AXIS_TARGET_IP:-192.168.0.90}
   local l_image="./fimage"
 
-function http_ok() {
+http_ok() {
   local cnt=10
   sleep "${cnt}s"
   setup_ssh_eager > /dev/null
@@ -1075,7 +1052,7 @@ function http_ok() {
   return ret
 }
 
-function bitbake_axis-image-cvp() {
+bitbake_axis-image-cvp() {
   if ! valid_build_dir; then
     return 1
   fi
@@ -1105,7 +1082,7 @@ function bitbake_axis-image-cvp() {
   return $ret
 }
 
-function bitbake_axis_ACA() {
+bitbake_axis_ACA() {
   local dist_root="${BUILDDIR}"
   local conf_root="${dist_root}/conf"
   local local_conf="${conf_root}/local.conf"
@@ -1171,7 +1148,7 @@ function bitbake_axis_ACA() {
 
 #ffbuild -c monolith-unittest
 #bitbake monolith:do_check
-function bitbake_clean_all() {
+bitbake_clean_all() {
   #                clean # does cleanup work dirs?
   # devtool build -c gstreamer1.0-plugins-bad
   if ! valid_build_dir; then
@@ -1200,12 +1177,12 @@ function bitbake_clean_all() {
   return $res
 }
 
-function do_touch_dir(){
+do_touch_dir(){
   ack -f --cpp --fortran --shell --ignore-dir=oe-workdir --ignore-dir=oe-logs -r -- . | xargs touch
   return $?
 }
 
-function bitbake_touch_all() {
+bitbake_touch_all() {
   if ! valid_build_dir; then
     return 1
   fi
@@ -1224,7 +1201,7 @@ function bitbake_touch_all() {
   return ${res}
 }
 
-function bitbake_clean() {
+bitbake_clean() {
   if ! valid_build_dir; then
     return 1
   fi
@@ -1236,7 +1213,7 @@ function bitbake_clean() {
   done
 }
 
-function entr_devtool_build(){
+entr_devtool_build(){
   if ! valid_build_dir; then
     return 1
   fi
@@ -1255,7 +1232,7 @@ function entr_devtool_build(){
   cd -
 }
 
-function devtool_build(){
+devtool_build(){
   if ! valid_build_dir; then
     return 1
   fi
@@ -1278,7 +1255,7 @@ function devtool_build(){
 }
 
 
-function env_setup() {
+env_setup() {
   local l_args="${@}"
 
   # -w DIR, --workdir DIR the work directory to setup
@@ -1366,9 +1343,9 @@ function env_setup() {
 }
 
 # TODO portcast-conf
-function portcast_features(){
-  function dumpProperties(){
-    function setProperty(){
+portcast_features(){
+  dumpProperties(){
+    setProperty(){
       local key=$1
       local value=$2
       local file=$3
@@ -1377,14 +1354,14 @@ function portcast_features(){
       mv $file.tmp $file
     }
 
-    function getProperty() {
+    getProperty() {
       local key=$1
       local file=$2
       local value=$(cat "$file" | grep "$key" | cut -d'=' -f2)
       echo $value
     }
 
-    function listProperties(){
+    listProperties(){
       local file=$1
 
       cat "${file}" | cut -d'=' -f1 | xargs
@@ -1494,7 +1471,7 @@ function portcast_features(){
   done
 }
 
-function dump_sample_rates(){
+dump_sample_rates(){
   local build_root="${BUILDDIR}/../.."
   local dir=$(realpath "${build_root}/meta-axis-bsp/conf/machine")
   local name="$(basename ${1})"
@@ -1515,7 +1492,7 @@ function dump_sample_rates(){
   # echo ""
 }
 
-function sample_rate_holes(){
+sample_rate_holes(){
   if ! valid_build_dir; then
     return 1
   fi
@@ -1572,7 +1549,7 @@ function sample_rate_holes(){
   done
 }
 
-function only_one_sample_rate(){
+only_one_sample_rate(){
   if ! valid_build_dir; then
     return 1
   fi
@@ -1618,7 +1595,7 @@ function only_one_sample_rate(){
   done
 }
 
-# function sample_rate_highest_44KHz(){
+# sample_rate_highest_44KHz(){
 #   if ! valid_build_dir; then
 #     return 1
 #   fi
@@ -1656,7 +1633,7 @@ function only_one_sample_rate(){
 #   done
 # }
 
-function no_sources_outputs(){
+no_sources_outputs(){
   if ! valid_build_dir; then
     return 1
   fi
@@ -1696,7 +1673,7 @@ function no_sources_outputs(){
   done
 }
 
-# function sp_gen_bsp_multiple() {
+# sp_gen_bsp_multiple() {
 #   if ! valid_build_dir; then
 #     return 1
 #   fi
@@ -1715,7 +1692,7 @@ function no_sources_outputs(){
 #   done
 # }
 
-function gdb_192_168_0_90(){
+gdb_192_168_0_90(){
   local src="${1}"
   local src_dir="${BUILDDIR}/workspace/sources/${src}"
   if [ "${src}" = "monolith" ]; then
@@ -1776,7 +1753,7 @@ function gdb_192_168_0_90(){
   SP_GDB_EXE="${gdb_exe}" SP_GDB_SOURCE="${new_gdbinit}" $HOME/dotfiles/lib/tmuxgdb/tmuxgdb.sh "${bin_dir}"
 }
 
-function dists_size() {
+dists_size() {
   local dists="$HOME/dists"
 
   for dist in "${dists}"/*; do
@@ -1798,7 +1775,7 @@ function dists_size() {
 }
 
 # repo sync -j10
-function bitbake_repo_sync(){
+bitbake_repo_sync(){
   local project_dir="${BUILDDIR}/workspace/appends"
   local meta_axis="${BUILDDIR}/../../meta-axis"
   local meta_axis_bsp="${BUILDDIR}/../../meta-axis-bsp"
@@ -1857,7 +1834,7 @@ function bitbake_repo_sync(){
   done
 }
 
-function bitbake_backtrace() {
+bitbake_backtrace() {
   if ! valid_build_dir; then
     return 1
   fi
@@ -1910,7 +1887,7 @@ function bitbake_backtrace() {
 
 }
 
-function spooky_boot_axis() {
+spooky_boot_axis() {
   local fimage=""
 
   if [[ -n "${1}" ]]; then
@@ -1959,7 +1936,7 @@ function spooky_boot_axis() {
   return 0
 }
 
-function netboot_192_168_0_90(){
+netboot_192_168_0_90(){
 
   # local l_image="./fimage"
   # local l_machine=""
