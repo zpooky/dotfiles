@@ -272,7 +272,12 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab cryptographicly cryptographically
+iab computaionally computationally
+iab ommit omit
 iab capcitor capacitor
+iab chipher cipher
+iab eliptic elliptic
 iab smothed smoothed
 iab curruent current
 iab suffently sufficiently
