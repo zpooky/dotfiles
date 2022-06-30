@@ -272,6 +272,7 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab liklyhood likelihood
 iab multiplicatible multiplicative
 iab multiplicable multiplicative
 iab beforhand beforehand
@@ -1686,7 +1687,7 @@ function! s:SpMathFormat() range
                        \ 'K': 'ᴷ', 'L': 'ᴸ', 'M': 'ᴹ', 'N': 'ᴺ', 'O': 'ᴼ', 'P': 'ᴾ', 'Q': 'ꟴ', 'R': 'ᴿ',
                        \ 'T': 'ᵀ', 'U': 'ᵁ', 'V': 'ⱽ', 'Z': 'ᶻ', '/': '/', 'θ':'ᶿ',
                        \ 'Β': 'ᵝ', 'Θ': 'ᶿ', 'Φ': 'ᵠ', 'Χ': 'ᵡ',
-                       \ 'π': ' ⷫ'}
+                       \ 'π': ' ⷫ', ',': '`', '.':'·', '`': '𝄒', '∞':' ᪲'}
 
         let l:default = 'a'
         let l:super = get(l:dict, l:char, l:default)
