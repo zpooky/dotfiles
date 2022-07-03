@@ -272,6 +272,9 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab equvivalent equivalent
+iab addative additive
+iab knowning knowing
 iab liklyhood likelihood
 iab multiplicatible multiplicative
 iab multiplicable multiplicative
@@ -1653,10 +1656,10 @@ function! s:SpMathFormat() range
     let l:open_brace_cnt=0 " pairing up () or returning to state:0
 
     let l:complex = { '(xor)': '⊕', '(pi)': 'π', '(integral)': '∫', '(mul)': '∏', '(subset)': '⊂',
-                    \ '(qed)': '∎', '(element)': '∊' , '(not)': '¬', '(theta)': 'θ', '(lambda)': 'λ',
-                    \ '(alpha)': 'α', '(phi)': 'φ', '(phi2)': 'ϕ', '(proportional)': '∝', '(gamma)': 'Γ', '(_gamma)': '𝛾', '(mu)':'μ',
+                    \ '(qed)': '∎', '(element)': '∊' , '(not)': '¬', '(theta)': 'θ', '(_lambda)': 'λ', '(lambda)': 'Λ',
+                    \ '(alpha)': 'α', '(phi)': 'φ', '(phi2)': 'ϕ', '(PHI)': 'Φ', '(proportional)': '∝', '(gamma)': 'Γ', '(_gamma)': '𝛾', '(mu)':'μ',
                     \ '(sigma)': '∑', '(_sigma)': 'σ', '(omega)': 'Ω', '(_omega)': 'ω', '(sqrt)': '√', '(epsilon)': 'ε',
-                    \ '(beta)': 'Β', '(_beta)': 'β',
+                    \ '(beta)': 'Β', '(_beta)': 'β', '(_rho)': 'ρ', '(_chi)': 'χ',
                     \ '(micro)': 'µ', '(infinity)': '∞', '(inf)': '∞', '(f)': 'ƒ', '(frequency)': 'ƒ',
                     \ '(almost)': '≈', '(aprox)': '≈', '(delta)': 'Δ', '(_delta)': 'δ',
                     \ '(_ny)': 'ν', '(member)': '∈', '(angle)': '∠', '(_tau)': 'τ', '(tau)': 'Τ',
@@ -1670,8 +1673,8 @@ function! s:SpMathFormat() range
                     \ '(^\)': '↖', '(/^)': '↗', '(\V)': '↘', '(V/)': '↙',
                     \ '(<=)': '⇐', '(^=)': '⇑', '(=>)': '⇒', '(V=)': '⇓', '(<=>)': '⇔', '(V=^)': '⇕', '(^=V)': '⇕',
                     \ '(<-)': '←', '(|^)': '↑', '(^|)': '↑', '(^)': '↑', '(->)': '→', '(V)': '↓', '(<>)': '↔', '(^V)': '↕', '(V^)': '↕', '(^|V)': '↕', '(V|^)': '↕',
-                    \ '(union)': '∪', '(intersect)': '∩', '(empty)': '∅', '(F)': '𝓕',
-                    \ '(tick)': '✓', '(untick)': '✗', '(AC)': '⏦', '(degree)': '°', '(degrees)': '°'}
+                    \ '(union)': '∪', '(intersect)': '∩', '(superset)': '⊃', '(empty)': '∅', '(F)': '𝓕',
+                    \ '(tick)': '✓', '(untick)': '✗', '(AC)': '⏦', '(degree)': '°', '(degrees)': '°', '(cringle)': '◦'}
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
     for l:char in split(a:str, '\zs')
@@ -1687,7 +1690,9 @@ function! s:SpMathFormat() range
                        \ 'K': 'ᴷ', 'L': 'ᴸ', 'M': 'ᴹ', 'N': 'ᴺ', 'O': 'ᴼ', 'P': 'ᴾ', 'Q': 'ꟴ', 'R': 'ᴿ',
                        \ 'T': 'ᵀ', 'U': 'ᵁ', 'V': 'ⱽ', 'Z': 'ᶻ', '/': '/', 'θ':'ᶿ',
                        \ 'Β': 'ᵝ', 'Θ': 'ᶿ', 'Φ': 'ᵠ', 'Χ': 'ᵡ',
-                       \ 'π': ' ⷫ', ',': '`', '.':'·', '`': '𝄒', '∞':' ᪲'}
+                       \ 'π': ' ⷫ', ',': '`', '.':'·', '`': '𝄒', '∞':' ᪲',
+                       \ '$': 'ᙚ', 'Λ': 'ᣔ', '<': 'ᑉ', '_': 'ᐧ', '\\': 'ᐠ', '/': 'ᐟ', 'ω': 'ᐜ',
+                       \ 'Δ': 'ᐞ', '=': 'ᙿ', '∩': 'ᐢ', '∪': 'ᐡ', '⊃': 'ᐣ'}
 
         let l:default = 'a'
         let l:super = get(l:dict, l:char, l:default)
@@ -1726,7 +1731,9 @@ function! s:SpMathFormat() range
                     \ 'l': 'ₗ', 'm': 'ₘ', 'p': 'ₚ', 's': 'ₛ', 't': 'ₜ',
                     \ 'n': 'ₙ', 'i': 'ᵢ', 'y': 'ᵧ', 'x': 'ₓ', 'j': 'ⱼ', 'ǝ': 'ₔ', 'r': 'ᵣ', 'u': 'ᵤ', 'v': 'ᵥ',
                     \ '+': '₊', '−': '₋', '-' :'₋', '(': '₍', ')': '₎', '=': '₌',
-                    \ 'Β': 'ᵦ', 'Γ': 'ᵧ', 'Ρ':'ᵨ', 'Φ': 'ᵩ', 'Χ': 'ᵪ', ',': ','}
+                    \ 'Β': 'ᵦ', 'Γ': 'ᵧ', 'P':'ᵨ', 'Φ': 'ᵩ', 'Χ': 'ᵪ', ',': ',',
+                    \ 'φ': 'ᵩ', 'β': 'ᵦ', 'χ': 'ᵪ', 
+                    \ }
 
         let l:default = 'a'
         let l:sub = get(l:dict, l:char, l:default)
