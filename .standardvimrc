@@ -272,6 +272,12 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab probalistic probabilistic
+iab differnce difference
+iab infeasable infeasible
+iab therfore therefore
+iab generalizaiton generalization
+iab multipicative multiplicative
 iab equvivalent equivalent
 iab addative additive
 iab knowning knowing
@@ -1674,7 +1680,8 @@ function! s:SpMathFormat() range
                     \ '(<=)': '⇐', '(^=)': '⇑', '(=>)': '⇒', '(V=)': '⇓', '(<=>)': '⇔', '(V=^)': '⇕', '(^=V)': '⇕',
                     \ '(<-)': '←', '(|^)': '↑', '(^|)': '↑', '(^)': '↑', '(->)': '→', '(V)': '↓', '(<>)': '↔', '(^V)': '↕', '(V^)': '↕', '(^|V)': '↕', '(V|^)': '↕',
                     \ '(union)': '∪', '(intersect)': '∩', '(superset)': '⊃', '(empty)': '∅', '(F)': '𝓕',
-                    \ '(tick)': '✓', '(untick)': '✗', '(AC)': '⏦', '(degree)': '°', '(degrees)': '°', '(cringle)': '◦'}
+                    \ '(tick)': '✓', '(untick)': '✗', '(AC)': '⏦', '(degree)': '°', '(degrees)': '°', '(cringle)': '◦',
+                    \ '(ceil)':'⌈⌉', '(floor)': '⌊⌋', '(imaginary)': 'ℑ' }
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
     for l:char in split(a:str, '\zs')
@@ -1818,7 +1825,8 @@ function! s:SpMathFormat() range
         elseif l:char == '^'
           let l:state = 1
         elseif l:char == '*'
-          let l:result = l:result.'⋅'
+          " let l:result = l:result.'⋅'
+          let l:result = l:result.'·'
         elseif l:char == '.'
           let l:state = 3 " del
           let l:del.cmp = '.'
