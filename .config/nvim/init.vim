@@ -927,7 +927,7 @@ nnoremap gh :SidewaysLeft<CR>
 " }}}
 
 " CommandT {{{
-if !has('win32') && !has('win64')
+if !has('win32') && !has('win64') && 0
   " fuzzy search (TODO do step does not work)
   Plug 'wincent/command-t',{'do':'rake make'}
 
@@ -942,6 +942,10 @@ if !has('win32') && !has('win64')
   let g:CommandTFileScanner="find"
 
   " let g:CommandTTagIncludeFilenames=1
+else
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+  noremap <silent> <leader>r <Esc>:Files<CR>
 endif
 " }}}
 

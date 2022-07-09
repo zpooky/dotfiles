@@ -272,6 +272,13 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab ephermial ephemeral
+iab eliptic elliptic
+iab coefficents coefficients
+iab depens depends
+iab generats generates
+iab coefficents coefficients
+iab implemnted implemented
 iab difficulity difficulty
 iab defintion definition
 iab rasing raising
