@@ -272,6 +272,8 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab characeristics characteristics
+iab vurnabilities vulnerabilities
 iab ephermial ephemeral
 iab eliptic elliptic
 iab coefficents coefficients
@@ -1679,7 +1681,7 @@ function! s:SpMathFormat() range
                     \ '(beta)': 'Β', '(_beta)': 'β', '(_rho)': 'ρ', '(_chi)': 'χ',
                     \ '(micro)': 'µ', '(infinity)': '∞', '(inf)': '∞', '(f)': 'ƒ', '(frequency)': 'ƒ',
                     \ '(almost)': '≈', '(aprox)': '≈', '(delta)': 'Δ', '(_delta)': 'δ',
-                    \ '(_ny)': 'ν', '(member)': '∈', '(angle)': '∠', '(_tau)': 'τ', '(tau)': 'Τ',
+                    \ '(_ny)': 'ν', '(member)': '∈', '(nmember)': '∉', '(angle)': '∠', '(_tau)': 'τ', '(tau)': 'Τ',
                     \ '(prime)': 'ℙ', '(natural)': 'ℕ', '(integer)': 'ℤ', '(rational)': 'ℚ', '(real)': 'ℝ', '(FF)': '𝔽', '(ZZ)': 'ℤ',
                     \ '(forall)': '∀', '(z)':'ƶ', '(Z)':'Ƶ', '=>':'⇒', '==>': '⟹',
                     \ '(1/4)': '¼', '(1/2)': '½', '(3/4)': '¾', '(1/7)': '⅐', '(1/9)': '⅑', '(1/3)': '⅓',
@@ -1692,7 +1694,7 @@ function! s:SpMathFormat() range
                     \ '(<-)': '←', '(|^)': '↑', '(^|)': '↑', '(^)': '↑', '(->)': '→', '(V)': '↓', '(<>)': '↔', '(^V)': '↕', '(V^)': '↕', '(^|V)': '↕', '(V|^)': '↕',
                     \ '(union)': '∪', '(intersect)': '∩', '(superset)': '⊃', '(empty)': '∅', '(F)': '𝓕',
                     \ '(tick)': '✓', '(untick)': '✗', '(AC)': '⏦', '(degree)': '°', '(degrees)': '°', '(cringle)': '◦',
-                    \ '(ceil)':'⌈⌉', '(floor)': '⌊⌋', '(imaginary)': 'ℑ' }
+                    \ '(ceil)':'⌈⌉', '(floor)': '⌊⌋', '(imaginary)': 'ℑ', '(ground)': '⏚'}
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
     for l:char in split(a:str, '\zs')
