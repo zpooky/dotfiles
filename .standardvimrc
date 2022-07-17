@@ -272,6 +272,11 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab theorm theorem
+iab likly likely
+iab itterate iterate
+iab elliminate eliminate
+iab alternativly alternatively
 iab characeristics characteristics
 iab vurnabilities vulnerabilities
 iab ephermial ephemeral
