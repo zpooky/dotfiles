@@ -864,7 +864,7 @@ Plug 'nickhutchinson/vim-cmake-syntax'
 
 " markdown {{{
 Plug 'tpope/vim-markdown'
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'c', 'dts', 'xml', 'strace', 'zsh=sh', 'cpp', 'vim', 'lua', 'make', 'ld', 'asm']
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'c', 'dts', 'xml', 'strace', 'zsh=sh', 'cpp', 'vim', 'lua', 'make', 'ld', 'asm', 'json']
 let g:markdown_syntax_conceal = 0
 let g:markdown_minlines = 9000
 " }}}
@@ -875,8 +875,11 @@ let g:markdown_minlines = 9000
 " ########
 " Integrate split navigation with tmux
 Plug 'christoomey/vim-tmux-navigator'
+
+if !has("patch-8.2.2345") && !has('nvim')
 " makes in tmux switching to a vim pane trigger an on-focus event
 Plug 'tmux-plugins/vim-tmux-focus-events'
+endif
 " }}}
 
 " {{{
