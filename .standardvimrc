@@ -272,6 +272,24 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab derivateive derivative
+iab separatly separately
+iab defiend defined
+iab squar square
+iab aproaches approaches
+iab sloap slope
+iab preceeding preceding
+iab disadvantes disadvantages
+iab infeer infer
+iab whitout whiteout
+iab continous continues
+iab infinitly infinitely
+iab ellements elements
+iab probabilty probability
+iab probabillity probability
+iab mutualy mutually
+iab separete separate
+iab happend happened
 iab theorm theorem
 iab likly likely
 iab itterate iterate
@@ -1694,12 +1712,15 @@ function! s:SpMathFormat() range
                     \ '(1/6)': '⅙', '(5/6)':'⅚', '(1/8)': '⅛', '(3/8)':'⅜', '(5/8)': '⅝', '(7/8)': '⅞',
                     \ '(1/)': '⅟', '(0/3)': '↉', '(congruent)': '≡',
                     \ '(<--)': '⟵', '(-->)': '⟶', '(<-->)': '⟷', '(<==)': '⟸', '(==>)': '⟹', '(<==>)': '⟺',
-                    \ '(^\)': '↖', '(/^)': '↗', '(\V)': '↘', '(V/)': '↙',
+                    \ '(^\)': '↖', '(/^)': '↗', '(\V)': '↘', '(V/)': '↙', '(\v)': '↘', '(v/)': '↙', '(V\)': '↘', '(/V)': '↙', '(v\)': '↘', '(/v)': '↙',
                     \ '(<=)': '⇐', '(^=)': '⇑', '(=>)': '⇒', '(V=)': '⇓', '(<=>)': '⇔', '(V=^)': '⇕', '(^=V)': '⇕',
                     \ '(<-)': '←', '(|^)': '↑', '(^|)': '↑', '(^)': '↑', '(->)': '→', '(V)': '↓', '(<>)': '↔', '(^V)': '↕', '(V^)': '↕', '(^|V)': '↕', '(V|^)': '↕',
                     \ '(union)': '∪', '(intersect)': '∩', '(superset)': '⊃', '(empty)': '∅', '(F)': '𝓕',
                     \ '(tick)': '✓', '(untick)': '✗', '(AC)': '⏦', '(degree)': '°', '(degrees)': '°', '(cringle)': '◦',
-                    \ '(ceil)':'⌈⌉', '(floor)': '⌊⌋', '(imaginary)': 'ℑ', '(ground)': '⏚'}
+                    \ '(ceil)':'⌈⌉', '(floor)': '⌊⌋', '(imaginary)': 'ℑ', '(ground)': '⏚',
+                    \ '(xbar)': 'x̄', '(Xbar)': 'X̄', '(yhat)': 'ȳ', '(Yhat)': 'Ȳ', '(zbar)': 'z̄', '(Zbar)': 'Z̄',
+                    \ '(rbar)': 'r̄', '(Rbar)': 'R̄',
+                    \ '(phat)': 'p̂','(Phat)': 'P̂', '(khat)': 'k̂', '(Khat)': 'K̂'}
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
     for l:char in split(a:str, '\zs')
