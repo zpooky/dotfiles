@@ -1203,17 +1203,10 @@ endif
 if has('nvim') && has('nvim-0.5.0')
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  highlight = {
-    enable = false,              -- false will disable the whole extension
-    disable = { "c", "rust" },  -- list of language that will be disabled
-  },
-  rainbow = {
-    enable = true
-  },
+  ensure_installed = "all",
   cglobal = {
     enable = true
-  },
+  }
 }
 EOF
 endif
