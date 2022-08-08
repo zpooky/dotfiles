@@ -272,6 +272,20 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab ceritifacte certificate
+iab assocaited associated
+iab prooves proves
+iab actualy actually
+iab decreypted decrypted
+iab manifactorer manufacturer
+iab manifactoring manufacturing
+iab purposly purposely
+iab artifically artificially
+iab subsicent subsistent
+iab internaly internally
+iab requring requiring
+iab embeded embedded
+iab athorization authorization
 iab derivateive derivative
 iab separatly separately
 iab defiend defined
