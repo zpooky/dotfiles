@@ -506,6 +506,8 @@ install_pkg bison
 install_pkg flex
 install_pkg strace
 
+install_pkg fd
+
 # echo "/lib/modules/$(uname -r)/build/include"
 # if [ ! -e "/lib/modules/$(uname -r)/build/include" ]; then
 # install_pkg linux-headers

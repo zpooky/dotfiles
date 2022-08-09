@@ -110,6 +110,8 @@ else
   echo "TODO"
 fi
 
+cargo install fd-find
+
 # code format
 # TODO prettier
 

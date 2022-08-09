@@ -280,6 +280,12 @@ if [ -e $HOME/sources/fzf/bin ]; then
   # <alt+c> = cd (dir) search
   source $FZF_BASE/shell/completion.zsh
   source $FZF_BASE/shell/key-bindings.zsh
+
+  which fd 2>&1 > /dev/null
+  if [ $? -eq 0 ]; then
+    export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --no-ignore-vcs --exclude oe-workdir --exclude "*.a" --exclude "*.o" --exclude "*.so" --exclude "*.pyc" --exclude node_modules'
+  fi
+
 fi
 
 if [ -e $HOME/sources/zsh-autosuggestions ]; then
