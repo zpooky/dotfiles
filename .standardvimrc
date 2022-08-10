@@ -988,7 +988,11 @@ function! s:SetupTmp()
     set noundofile          " no undo file
     set nobackup            " no bak
   else
-    let l:root = "/tmp/.vim-".$USER
+    if has('nvim')
+      let l:root = "/tmp/.nvim-".$USER
+    else
+      let l:root = "/tmp/.vim-".$USER
+    endif
     if !isdirectory(l:root)
       call mkdir(l:root, "", 0700)
     endif
@@ -1007,7 +1011,11 @@ function! s:SetupTmp()
     set undolevels=1000               " Use many levels of undo
     set undofile                      " File Persistent undo
     " set undodir=l:undo."//"           " Store undo file in tmp directory
-    set undodir=/tmp/.vim-$USER/undo//
+    if has('nvim')
+      set undodir=/tmp/.nvim-$USER/undo//
+    else
+      set undodir=/tmp/.vim-$USER/undo//
+    endif
     " }}}
 
     " swap lock file {{{
@@ -1017,7 +1025,11 @@ function! s:SetupTmp()
     endif
     " two slashes means that vim will create unique swap file names per file
     " set directory=l:swap.//
-    set directory=/tmp/.vim-$USER/swap//
+    if has('nvim')
+      set directory=/tmp/.nvim-$USER/swap//
+    else
+      set directory=/tmp/.vim-$USER/swap//
+    endif
     set swapfile
     " }}}
 
