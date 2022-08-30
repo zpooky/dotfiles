@@ -281,6 +281,11 @@ iab differnetial differential
 iab statys stays
 iab propertional proportional
 iab slowely slowly
+iab enviorment environment
+iab exectution execution
+iab parttion partition
+iab partion partition
+iab enviornment environment
 iab ceritifacte certificate
 iab assocaited associated
 iab prooves proves
@@ -1759,9 +1764,11 @@ function! s:SpMathFormat() range
                     \ '(union)': '∪', '(intersect)': '∩', '(superset)': '⊃', '(empty)': '∅', '(F)': '𝓕',
                     \ '(tick)': '✓', '(untick)': '✗', '(AC)': '⏦', '(degree)': '°', '(degrees)': '°', '(cringle)': '◦',
                     \ '(ceil)':'⌈⌉', '(floor)': '⌊⌋', '(imaginary)': 'ℑ', '(ground)': '⏚',
-                    \ '(xbar)': 'x̄', '(Xbar)': 'X̄', '(yhat)': 'ȳ', '(Yhat)': 'Ȳ', '(zbar)': 'z̄', '(Zbar)': 'Z̄',
-                    \ '(rbar)': 'r̄', '(Rbar)': 'R̄',
-                    \ '(phat)': 'p̂','(Phat)': 'P̂', '(khat)': 'k̂', '(Khat)': 'K̂'}
+                    \ '(xbar)': 'x̄', '(Xbar)': 'X̄', '(zbar)': 'z̄', '(Zbar)': 'Z̄',
+                    \ '(Abar)': 'Ā', '(abar)': 'ā', '(Ebar)': 'Ē', '(ebar)': 'ē', '(Gbar)': 'Ḡ', '(gbar)': 'ḡ', 
+                    \ '(Ibar)': 'Ī', '(ibar)': 'ī', '(Obar)': 'Ō', '(obar)': 'ō', '(Ubar)': 'Ū', '(ubar)': 'ū',
+                    \ '(rbar)': 'r̄', '(Rbar)': 'R̄', '(Ybar)':'Ȳ', '(ybar)':'ȳ',
+                    \ '(phat)': 'p̂','(Phat)': 'P̂', '(khat)': 'k̂', '(Khat)': 'K̂', '(yhat)': 'ȳ', '(Yhat)': 'Ȳ'}
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
     for l:char in split(a:str, '\zs')

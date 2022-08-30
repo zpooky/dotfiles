@@ -1,6 +1,6 @@
 {
-  "python.linting.enabled": true,
-  "python.linting.pylintEnabled": true,
+  "python.linting.enabled": false,
+  "python.linting.pylintEnabled": false,
   "python.jedienabled": true,
 
 
@@ -40,15 +40,6 @@
         },
         "compilationDatabaseDirectory": "build"
       }
-    },
-    "metals": {
-      "command": "metals-vim",
-      "filetypes": ["scala", "sbt"],
-      "rootPatterns": [
-        "build.sbt",
-        ".git/",
-        ".hg/"
-      ]
     },
     "bash": {
       "command": "bash-language-server",

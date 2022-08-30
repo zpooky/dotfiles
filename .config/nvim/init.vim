@@ -353,7 +353,8 @@ if !has('win32unix') && !has('win64unix')
         \   'sh':     ['shellcheck'],
         \   'markdown': ['languagetool'],
         \   'text': ['languagetool'],
-        \   'mail': ['languagetool']
+        \   'mail': ['languagetool'],
+        \   'python': []
         \}
   let g:ale_languagetool_executable = $HOME."/bin/sp_language_tool_commandline.sh"
   let g:ale_languagetool_options = "--autoDetect"
@@ -784,6 +785,7 @@ let g:haskell_conceal_wide = 1
 " scala support
 " Plug 'derekwyatt/vim-scala',programming_scala
 " https://scalameta.org/metals/docs/editors/vim.html
+"  https://github.com/scalameta/nvim-metals
 
 augroup AugroupScala
   au BufRead,BufNewFile *.sbt set filetype=scala
