@@ -275,6 +275,9 @@ set spellfile=~/.vim/spell/en.utf-8.add
 iab coeficents coefficients
 iab deriviate derivative
 iab differnetial differential
+iab statys stays
+iab propertional proportional
+iab slowely slowly
 iab ceritifacte certificate
 iab assocaited associated
 iab prooves proves
