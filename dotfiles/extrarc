@@ -137,9 +137,6 @@ if [ -f "${ALIAS_SRC}" ]; then
   source "${ALIAS_SRC}"
 fi
 
-# Enable aliases to be used when sudoing
-alias sudo='sudo '
-
 # disable xterm ctrl+S XON XOFF signal
 alias vim="stty stop '' -ixoff; vim -p "
 if type nvim >/dev/null 2>&1; then

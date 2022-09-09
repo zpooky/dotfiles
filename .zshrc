@@ -273,20 +273,28 @@ zstyle -e ':completion:*' special-dirs '[[ $PREFIX = (../)#(..) ]] && reply=(..)
 zstyle :compinstall filename "$HOME/.zshrc"
 # }
 
-if [ -e $HOME/sources/fzf/bin ]; then
-  export FZF_BASE=$HOME/sources/fzf
-  export PATH=$PATH:$FZF_BASE/bin
-  # <ctrl+r> = history
-  # <alt+c> = cd (dir) search
-  source $FZF_BASE/shell/completion.zsh
-  source $FZF_BASE/shell/key-bindings.zsh
+sp_setup_fzf() {
+  if [ -e $HOME/sources/fzf/bin ]; then
+    export FZF_BASE=$HOME/sources/fzf
+    export PATH=$PATH:$FZF_BASE/bin
+    # <ctrl+r> = history
+    # <alt+c> = cd (dir) search
+    source $FZF_BASE/shell/completion.zsh
+    source $FZF_BASE/shell/key-bindings.zsh
 
-  which fd 2>&1 > /dev/null
-  if [ $? -eq 0 ]; then
-    export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --no-ignore-vcs --exclude oe-workdir --exclude "*.a" --exclude "*.o" --exclude "*.so" --exclude "*.pyc" --exclude node_modules'
+    local args='--type f --no-ignore-vcs --exclude oe-workdir --exclude "*.a" --exclude "*.o" --exclude "*.so" --exclude "*.pyc" --exclude node_modules --exclude "*.png" --exclude "*.rar" --exclude "*.zip" --exclude "*.jpg" --exclude "*.class" --exclude "*.pdf" --exclude "*.d" --color never'
+    if command -v fdfind 2>&1 > /dev/null; then
+      export FZF_DEFAULT_COMMAND="fdfind ${args}"
+    elif command -v fd 2>&1 > /dev/null; then
+      export FZF_DEFAULT_COMMAND="fd --strip-cwd-prefix ${args}"
+    else
+      unset FZF_DEFAULT_COMMAND
+    fi
+
   fi
-
-fi
+}
+sp_setup_fzf
+unset -f sp_setup_fzf
 
 if [ -e $HOME/sources/zsh-autosuggestions ]; then
   source $HOME/sources/zsh-autosuggestions/zsh-autosuggestions.zsh
