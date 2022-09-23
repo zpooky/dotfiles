@@ -272,6 +272,14 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab missinterpret misinterpret
+iab ligth light
+iab allmost almost
+iab apperature aperture
+iab trough through
+iab parallell parallel
+iab transperant transparent
+iab equvialent equivalent
 iab aperature aperture
 iab geoemtry geometry
 iab componsate compensate

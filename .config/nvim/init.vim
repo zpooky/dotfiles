@@ -499,7 +499,7 @@ if !has('win32unix') && !has('win64unix')
   " let g:gutentags_file_list_command = "find . oe-workdir/recipe-sysroot/usr/include/glib-2.0 oe-workdir/recipe-sysroot/usr/include/alsa oe-workdir/recipe-sysroot/usr/include/glib-utils oe-workdir/recipe-sysroot/usr/include/systemd -type f -not -path '*/.git/*' -not -path '*/unix/*' -not -path '*/checktest/*' -not -path '*/checktests/*' -not -path '*/unittest/*' -not -path '*/tests/*' -not -path '*/stub/*' -not -path '*/stubs/*'"
 
   " with custom patch {
-  let g:gutentags_file_list_command = "find . -type f -not -path '*/.git/*' -not -path '*/unix/*' -not -path '*/checktest/*' -not -path '*/checktests/*' -not -path '*/checktest_commandsource/*' -not -path '*/unittest/*' -not -path '*/tests/*' -not -path '*/stub/*' -not -path '*/stubs/*'"
+  let g:gutentags_file_list_command = "find . -type f -not -path '*/.git/*' -not -path '*/unix/*' -not -path '*/checktest/*' -not -path '*/checktests/*' -not -path '*/checktest_commandsource/*' -not -path '*/unittest/*' -not -path '*/tests/*' -not -path '*/stub/*' -not -path '*/stubs/*' -not -path '*/.ccls-cache/*'"
   let g:gutentags_file_list_command_secondary = "find oe-workdir/recipe-sysroot/usr/include -type f"
   " index function prototypes (useful when we only have to header files)
   let g:gutentags_ctags_extra_args_secondary = ['--c-kinds=+p']  " tags=primary.ctag, header_only.ctag

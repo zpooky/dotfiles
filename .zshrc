@@ -181,7 +181,7 @@ function f(){
   # local exclude="-path .git -prune -o"
   # local ex="-type d \( -name 'tmp' \) -prune -o"
   # local ex2=' -not -path "*/tmp/*"'
-  local ex3='! -path "*/tmp/*" ! -path "*/.git/*" ! -path "*/.ccls-cache/*"'
+  local ex3='! -path "*/tmp/*" ! -path "*/.git/*" ! -path "*/.ccls-cache/*" ! -path "*/.depend/*"'
   if [ "${PWD}" = "${HOME}" ]; then
     ex3="${ex3} ! -path '$HOME/dists/*' ! -path '~/dists/*' ! -path './dists/*'"
   fi
