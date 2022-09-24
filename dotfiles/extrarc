@@ -237,8 +237,8 @@ sp_calc(){
   hi NonText ctermfg=0
   Codi python'"
 
-  # if type nix-shell >/dev/null 2>&1; then
-  if [ 0 -eq 1 ]; then
+  if type nix-shell >/dev/null 2>&1; then
+  # if [ 0 -eq 1 ]; then
     local p="nix-shell -p python39Packages.numpy python39Packages.toolz python39Packages.scipy python39Packages.sympy python39Packages.matplotlib python39Packages.jedi --run"
     echo $p $kk
     eval $p "\"$kk\""
@@ -355,11 +355,10 @@ makex() {
   ccyellow=$(echo -e "\033[0;33m")
   ccend=$(echo -e "\033[0m")
 
-  make "$@" 2>&1 | sed -E -e "/[Ee]rror[: ]/ s%$pathpat%$ccred&$ccend%g" -e "/[Ww]arning[: ]/ s%$pathpat%$ccyellow&$ccend%g"
+  make "$@" 2>&1 | sed -E -e "/[Ee]rror[: ]/ s%$pathpat%$ccred&$ccend%g" -e "/[Ww]arning[: ]/ s%$pathpat%$ccyellow&$ccend%g" | less -RiN -p error
 
   return ${PIPESTATUS[0]}
 }
-alias makex="makex | less -RiN -p error"
 
 sp_perf_report(){
   perf report -n --stdio
