@@ -1,19 +1,3 @@
-# to allow cron jobs to read keyring
-function sp_setup_dbus() {
-  local X_dbus=$HOME/.Xdbus
-  if [ ! -e $X_dbus ]; then
-    touch $X_dbus
-    chmod 600 $X_dbus
-  fi
-  local SP_ENV="`env | grep DBUS_SESSION_BUS_ADDRESS`"
-  if [[ $? -eq 0 ]]; then
-    if [[ ! -z $SP_ENV ]]; then
-      echo "$SP_ENV" > $X_dbus
-      echo 'export DBUS_SESSION_BUS_ADDRESS' >> $X_dbus
-    fi
-  fi
-}
-
 # alias
 alias ll="ls -alh --color=tty"
 
@@ -34,7 +18,7 @@ alias "cd-"="cd -"
 alias gitst="git st"
 alias gitadd="git add"
 
-function htops() {
+htops() {
   TERM=xterm htop -p $(pidof "$1" | tr ' ' ',')
 }
 alias htop=" TERM=xterm htop"
@@ -42,8 +26,6 @@ alias htop=" TERM=xterm htop"
 #
 DOTFILES=$HOME/dotfiles
 DOTFILES_LIB=$DOTFILES/lib
-
-alias sp-open="sp_setup_dbus; $DOTFILES_LIB/keypass_cron.sh; $DOTFILES_LIB/open_keyring.py"
 
 # using terminal emulator xterm with 256 color support
 case "$TERM" in
@@ -140,13 +122,12 @@ fi
 # disable xterm ctrl+S XON XOFF signal
 alias vim="stty stop '' -ixoff; vim -p "
 if type nvim >/dev/null 2>&1; then
-  alias nvim="stty stop '' -ixoff; nvim -p "
-  export SP_EDITOR=nvim
+alias nvim="stty stop '' -ixoff; nvim -p "
+export SP_EDITOR=nvim
 else
-  export SP_EDITOR=vim
+export SP_EDITOR=vim
 fi
 alias vimnoplugin=" vim -u ~/.standardvimrc"
-alias vimp="vim -"
 
 export EDITOR=$SP_EDITOR
 export SYSTEMD_EDITOR=$SP_EDITOR
@@ -156,76 +137,31 @@ alias nas540_mount="sshfs admin@192.168.0.6:/i-data/ $HOME/mount/nas540"
 alias nas540_dl="cd $HOME/mount/nas540/0da29454/admin/download/Transmission/download"
 alias nas540_tv="cd $HOME/mount/nas540/0da29454/video/tv"
 
-# chromecast
-function sp_chromecast(){
-  # http://mkchromecast.com/
-  local file="${1}"
+sp_mount_fat() {
+local dev_file="$1"
+local mount_point="$2"
 
-  sp_has_feature mkchromecast
-  if [ ! $? -eq 0 ]; then
-    yay -S mkchromecast
-  fi
+if [ ! -e "${dev_file}" ]; then
+  echo "not existing: '${dev_file}'"
+  return 1
+fi
 
-#   function sp_subs(){
-#     local file="$1"
-#     local filename=$(basename -- "$file")
-#     local extension="${filename##*.}"
-#     local filename="${filename%.*}"
-#
-#     # TODO
-#
-# # ./The Night Of/The.Night.Of.S01E08.HDTV.1080p.[By ExYu-Subs]/The.Night.Of.S01E08.HDTV.1080p.[By ExYu-Subs].mkv
-# # ./The Night Of/The.Night.Of.S01E08.HDTV.1080p.[By ExYu-Subs]/The.Night.Of.S01E08.HDTV.1080p.[By ExYu-Subs]-slo.srt
-# #
-# # ./Homeland/Homeland.S03.Season.3.Complete.720p.HDTV.x264-\[maximersk\]/Subs-EN                                                                                                [1][0.0s][]
-# # sub/ subs/ Sub Subs Subs-EN
-#     return 1
-#   }
+if [ ! -b "${dev_file}" ]; then
+  echo "not a block device: '${dev_file}'"
+  return 1
+fi
 
-  if [[ "${file}" =~ ^http ]]; then
-    mkchromecast --video -y "${file}"
-  else
+if [ ! -e "${moint_point}" ]; then
+  echo "not existing: '${mount_point}'"
+  return 1
+fi
 
-    if [ ! -e "${file}" ]; then
-      echo "no file '${file}'"
-      return 1
-    fi
+if [ ! -d "${moint_point}" ]; then
+  echo "not a directory: '${mount_point}'"
+  return 1
+fi
 
-    sp_subs "${file}"
-    if [ $? -eq 0 ]; then
-      # mkchromecast --video -i "file.mkv" --subtitles "file.srt"
-      echo ""
-    else
-      mkchromecast --video -i "${file}"
-    fi
-  fi
-}
-
-function sp_mount_fat() {
-  local dev_file="$1"
-  local mount_point="$2"
-
-  if [ ! -e "${dev_file}" ]; then
-    echo "not existing: '${dev_file}'"
-    return 1
-  fi
-
-  if [ ! -b "${dev_file}" ]; then
-    echo "not a block device: '${dev_file}'"
-    return 1
-  fi
-
-  if [ ! -e "${moint_point}" ]; then
-    echo "not existing: '${mount_point}'"
-    return 1
-  fi
-
-  if [ ! -d "${moint_point}" ]; then
-    echo "not a directory: '${mount_point}'"
-    return 1
-  fi
-
-  sudo mount "$dev_file" "$mount_point" -o user,rw,umask=111,dmask=000
+sudo mount "$dev_file" "$mount_point" -o user,rw,umask=111,dmask=000
 }
 
 
@@ -236,76 +172,24 @@ function sp_mount_fat() {
 
 alias hna="~/dotfiles/lib/hn/spawn.sh"
 
-function sp_has_feature() {
-  FEATURE="$1"
-
-  which $FEATURE > /dev/null 2>&1
-  WHICH_FEATURE=$?
-  hash $FEATURE > /dev/null 2>&1
-  HASH_FEATURE=$?
-
-  if [ $WHICH_FEATURE -eq $HASH_FEATURE ]; then
-    if [ $WHICH_FEATURE -eq 0 ]; then
-      return 0
-    fi
-  fi
-  return 1
-}
-#cygwin
-# which sudo > /dev/null 2>&1
-# WHICH_SUDO=$?
-# hash sudo > /dev/null 2>&1
-# HASH_SUDO=$?
-#
-# if [ $WHICH_SUDO -eq $HASH_SUDO ]; then
-#   if [ ! $WHICH_SUDO -eq 0 ]; then
-#     alias sudo=$HOME/dotfiles/sudo
-#   fi
-# fi
-
-#git
-
-#khal
-alias sp-khal='khal calendar -a red -a personal --format="{red-bold}{start-time}{reset}-{green-bold}{end-time}{reset} {calendar-color}{title}{reset}{yellow}{repeat-symbol}{reset} [{cyan}{location}{reset}][{magenta}{calendar}{reset}]"'
-alias k="sp-khal"
-alias m="ms"
-
-#mutt
-alias ms="mutt -F $HOME/.mutt/user_personal"
-alias mf="mutt -F $HOME/.mutt/user2_personal"
-alias mw="mutt -F $HOME/.mutt/user_work"
-
-function sp_newsbeuter() {
-  which newsbeuter 2>&1 > /dev/null
-  if [ $? -eq 0 ]; then
-    newsbeuter
-  else
-    newsboat
-  fi
-
-}
-alias n="sp_newsbeuter"
-
 #force ssh to use xterm when ssh instead of tmux-colour256
 alias ssh='TERM=xterm ssh '
 
-alias sp_sync="$DOTFILES_LIB/mail_sync.sh"
-
-function port_scan() {
-  which netstat 2>&1 > /dev/null
-  if [ $? -eq 0 ]; then
-    # netstat -alnptu | grep -Ei 'Proto|LISTEN'
-    netstat --tcp --udp --udplite --raw --listening --program --numeric
-  else
-    # ss --all --listen --processes --tcp --udp --raw # | grep -Ei 'Proto|LISTEN'
-    # -t: --tcp
-    # -u: --udp
-    # -n: --numeric?
-    # -a: --all
-    # -p: show pid
-    ss -tuna -p | grep 'LISTEN'
-    ss -tuna -p | grep 'udp'
-  fi
+port_scan() {
+which netstat 2>&1 > /dev/null
+if [ $? -eq 0 ]; then
+  # netstat -alnptu | grep -Ei 'Proto|LISTEN'
+  netstat --tcp --udp --udplite --raw --listening --program --numeric
+else
+  # ss --all --listen --processes --tcp --udp --raw # | grep -Ei 'Proto|LISTEN'
+  # -t: --tcp
+  # -u: --udp
+  # -n: --numeric?
+  # -a: --all
+  # -p: show pid
+  ss -tuna -p | grep 'LISTEN'
+  ss -tuna -p | grep 'udp'
+fi
 }
 
 alias sp-space="du -hsc *"
@@ -314,7 +198,6 @@ alias sp_root="cd \`$DOTFILES_LIB/git_root.sh\`"
 #tmux
 # force the 256 colors compatibility
 alias tmux='tmux -2'
-alias sp-source='tmux source-file ~/.tmux.conf; powerline-daemon --replace'
 
 # meta
 alias sp-alias="$SP_EDITOR -p $ALIAS_SRC $DOTFILES/extrarc && source $DOTFILES/extrarc"
@@ -324,21 +207,18 @@ alias sp-workrc="$SP_EDITOR -p $HOME/dotfiles/workrc && source $DOTFILES/workrc"
 alias sp-vimrc="$SP_EDITOR -p $HOME/.config/nvim/init.vim $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/c.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc $HOME/.vim/coc-settings.json $HOME/.vim/plugged/vim-markdown/syntax/markdown.vim"
 # alias sp-vimrc="$SP_EDITOR -p $HOME/.config/nvim/init.vim  $HOME/.standardvimrc $HOME/.vim/colors/* $HOME/.vim/plugged/vim-cpp-enhanced-highlight/after/syntax/cpp.vim $HOME/.vim/plugged/tabline.vim/plugin/tabline.vim $HOME/.vimrc /home/spooky/.config/nvim/plugged/chromatica.nvim/syntax/*"
 
-alias vimsession="vim -S Session.vim"
-
-
 #repeats $1
 alias sp_repeat="~/dotfiles/lib/repeat.sh"
 # alias sp_repeat_i="~/dotfiles/lib/repeati.sh"
 
-function mcd(){
+mcd(){
   if [ ! -e $1 ]; then
     mkdir -p $1
   fi
   cd $1
 }
 
-function sp_calc(){
+sp_calc(){
   local scratchpad_root=$HOME/scratchpad
   if [ $# -eq 0 ]; then
     local codi_file="${scratchpad_root}/calc_$(date +'%Y_%m_%d').py"
@@ -349,19 +229,32 @@ function sp_calc(){
     local codi_file="${1}"
   fi
 
-  nvim -p "${codi_file}" -c "
-    set scrollbind
-    set cursorbind
-    hi ColorColumn ctermbg=NONE
-    hi VertSplit ctermbg=NONE
-    hi NonText ctermfg=0
-    Codi python
-    "
-    # set ft=codipython
-    # set syntax=python
+  local kk="nvim -p '${codi_file}' -c '
+  set scrollbind
+  set cursorbind
+  hi ColorColumn ctermbg=NONE
+  hi VertSplit ctermbg=NONE
+  hi NonText ctermfg=0
+  Codi python'"
+
+  # if type nix-shell >/dev/null 2>&1; then
+  if [ 0 -eq 1 ]; then
+    local p="nix-shell -p python39Packages.numpy python39Packages.toolz python39Packages.scipy python39Packages.sympy python39Packages.matplotlib python39Packages.jedi --run"
+    echo $p $kk
+    eval $p "\"$kk\""
+  else
+    eval $kk
+  fi
+
+  # set ft=codipython
+  # set syntax=python
 }
 
-function sp_calc_cpp() {
+sp_nvim(){
+  nix-shell -p python39Packages.numpy python39Packages.toolz python39Packages.scipy python39Packages.matplotlib python39Packages.jedi --run "nvim ${@}"
+}
+
+sp_calc_cpp() {
   local scratchpad_root=$HOME/scratchpad_cpp
 
   which cling 2>&1 > /dev/null
@@ -388,7 +281,7 @@ function sp_calc_cpp() {
     Codi cpp "
 }
 
-function sp_plot() {
+sp_plot() {
   nvim $HOME/scratchpad_plot/dt.py
 }
 
@@ -410,49 +303,7 @@ alias sp_cmake_compile_db="cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
 alias sp_cppcheck="cppcheck --enable=all --inconclusive --std=posix ."
 alias sp_valgrind="valgrind --tool=memcheck --leak-check=full --track-origins=yes "
 
-function setup_ycm(){
-  if [[ -e CMakeLists.txt ]]; then
-    $HOME/sources/YCM-Generator/config_gen.py . -b cmake --verbose -e --format ycm
-    $HOME/sources/YCM-Generator/config_gen.py . -b cmake --verbose -e --format cc
-  fi
-  if [[ -e Makefile ]]; then
-    $HOME/sources/YCM-Generator/config_gen.py . -b make --verbose -e --format ycm
-    $HOME/sources/YCM-Generator/config_gen.py . -b make --verbose -e --format cc
-  fi
-  # since it looks like they are time same file?
-  cp .color_coded .clang_complete
-}
-
-function setup_meta(){
-  if [ ! -e .git ]; then
-    echo 'project root is required to be git:ed'
-  else
-    #
-    if [ -e .tags ]; then
-      rm .tags
-    fi
-    touch .tags
-    ctags -R *
-
-    # ack-grep -f --cpp > cscope.files
-    # cscope -b -q -k
-
-    gtags
-    make bear
-
-    setup_ycm
-    DIRS=( "test" )
-    for current in "${DIRS[@]}"; do
-      if [ -e $current ]; then
-        cd $current
-        setup_ycm
-        cd -
-      fi
-    done
-  fi
-}
-
-function sp_setup_make_project(){
+sp_setup_make_project(){
   # if clean slate
   if [ ! "$(ls -A ${PWD})" ]; then
     git init
@@ -498,12 +349,7 @@ function sp_setup_make_project(){
 }
 
 
-function sp_setup_c_make_project(){
-  # TODO
-  echo ""
-}
-
-function makex() {
+makex() {
   pathpat="(/[^/]*)+:[0-9]+"
   ccred=$(echo -e "\033[0;31m")
   ccyellow=$(echo -e "\033[0;33m")
@@ -513,23 +359,18 @@ function makex() {
 
   return ${PIPESTATUS[0]}
 }
+alias makex="makex | less -RiN -p error"
 
-function sp_rtags() {
-  find -iname "compile_commands.json" | xargs dirname | xargs -n1 rc -J
-}
-
-function sp_perf_report(){
+sp_perf_report(){
   perf report -n --stdio
 }
 
-function sp_perf(){
+sp_perf(){
   perf record -F 99 -- $@
   # spperf_report
 }
 
-alias makex="makex | less -RiN -p error"
-
-function print_clipboard() {
+print_clipboard() {
   echo "xclip -o -selection primary  : '$(xclip -o -selection primary 2>&1)'"
   echo "xclip -o -selection secondary: '$(xclip -o -selection secondary 2>&1)'"
   echo "xclip -o -selection clipboard: '$(xclip -o -selection clipboard 2>&1)'"
@@ -542,7 +383,7 @@ function print_clipboard() {
 # watch files system for changes and reload
 alias make_loop="$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/make_body.sh"
 alias test_loop="$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/make_test_body.sh test ./test/thetest"
-# function sp_entr(){
+# sp_entr(){
 #   //....
 #   sp_has_feature "entr"
 #   if [ $? -eq 0 ]; then
@@ -554,66 +395,11 @@ alias test_loop="$HOME/dotfiles/lib/entr_cpp.sh $HOME/dotfiles/lib/make_test_bod
 # }
 # alias cpp_change_loop="$HOME/dotfiles/lib/entr_cpp.sh "
 
-# function sp_ag() {
+# sp_ag() {
 #   ag "$1" --cpp --ignore "external"
 # }
 
-function agstruct() {
-  # TODO verify $1 matches A-Z0-9...
-  if [ ! $1 ]; then
-    echo "missing arg">&2
-    return 1
-  fi
-
-  # echo "struct $1([ \t]*\n*)*{" "$(~/dotfiles/lib/git_root.sh) --multiline --cpp --cc" >&2
-  ag "(struct|enum) $1([ \t]*\n*)*{" "$(~/dotfiles/lib/git_root.sh)" --multiline --cpp --cc
-}
-
-function agfunc() {
-  # TODO verify $1 matches A-Z0-9...
-  # TODO "define function" #define wasd(a,b) __fun(a,2,b)
-  if [ ! $1 ]; then
-    echo "missing arg">&2
-    return 1
-  fi
-  local decl;
-  local arg;
-  local args
-  local ctype;
-
-  # extern inline u8 readb(const volatile void __iomem *addr)
-  # void dump_stack(void)
-  #
-  #static int nec_i2c_check_status(struct nec_i2c_dev_info *info, u32 expected)
-  #static void slave_transfer_timeout(struct timer_list *t)
-
-  ctype=""
-  ctype="${ctype}(const)*[ \t\n]*"
-  ctype="${ctype}(volatile)*[ \t\n]*"
-  ctype="${ctype}(struct|enum|class){0,1}[ \t\n]*"
-  ctype="${ctype}[a-zA-Z0-9_]+[ \t\n]+"
-  ctype="${ctype}\\**[ \t\n]*"
-
-  arg="${ctype},{0,1}[ \t\n]*"
-  arg="(${arg})"
-
-  args="(${arg}*|void|)"
-
-  decl=""
-  decl="${decl}((extern|inline|static)*[ \t\n]*)*"
-  decl="${decl}${ctype}"
-  decl="${decl}$1[ \t\n]*"
-  decl="${decl}\\(${args}\\)[ \t\n]*"
-  decl="${decl}{"
-
-echo $decl
-  ag "${decl}" "$(~/dotfiles/lib/git_root.sh)" --multiline --cpp --cc
-}
-
-# function agdecl() {
-# }
-
-function sp_cryptocurrency(){
+sp_cryptocurrency(){
   local COIN="$1"
   local HOURS="$2"
   local HEADER="$3"
@@ -637,15 +423,15 @@ function sp_cryptocurrency(){
 # bitcoin-chart-cli --coin BTC --hours 16 --height 65 --width 250
 }
 
-function sp_bitcoin(){
+sp_bitcoin(){
   sp_cryptocurrency "BTC" "12"
 }
 
-function sp_eth(){
+sp_eth(){
   sp_cryptocurrency "ETH" "12"
 }
 
-function sp_ltc(){
+sp_ltc(){
   sp_cryptocurrency "LTC" "12"
 }
 
