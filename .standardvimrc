@@ -272,6 +272,7 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab recives receives
 iab missinterpret misinterpret
 iab ligth light
 iab allmost almost
@@ -1230,19 +1231,6 @@ set modelines=1   " turn on vim settings that will be read from the last line
 " # vim: tabstop=2 expandtab shiftwidth=2 softtabstop=2
 " }}}
 
-" ctags {{{
-" ctags - look in the current directory for 'tags',
-" and work up the tree towards root until one is found
-set tags=./.tags;/
-
-" open tag
-" map <silent> <F3> <c-]>
-" open tag in vertical split
-map <silent> <F3> <c-]> <bar> :execute 'normal zt'<cr>
-" previous
-" map <silent> <A-Left> <c-t>
-" }}}
-
 " {{{
 " force open open file
 map <leader>gf :e <cfile><cr>
@@ -2081,7 +2069,7 @@ function! s:SpookyToString(kind)
         call append(l:lit['line'], split(l:lit['data'], "\n"))
       endfor
     else
-      echo "error0: ".v:shell_error
+      echoerr "error0: ".v:shell_error
     endif
   endif
 endfunction
@@ -2095,3 +2083,125 @@ augroup AugroupToString
   autocmd FileType c,cpp noremap <leader>l <Esc>:SpookyToStringLocals<CR>
   autocmd FileType c,cpp noremap <leader>k <Esc>:SpookyToStringBranches<CR>
 augroup END
+
+
+" ctags {{{
+" function! s:f3_shared(pattern, flags, info, kind)
+"   let l:tl = taglist(a:pattern)
+"   let l:tl2 = deepcopy(l:tl)
+"
+"   " Note: only prototypes and exact match
+"   let l:tmp = filter(l:tl, 'v:val.kind =~# "'.a:kind.'" && v:val.name == "'.a:pattern.'"')
+"   " echomsg l:tmp
+"   if len(tmp) == 0
+"     let l:tmp = filter(l:tl2, 'v:val.name == "'.a:pattern.'"')
+"   endif
+"
+"   if len(tmp) > 1
+"     let l:tmp = filter(l:tmp, 'v:val.filename == "'.a:info['buf_ffname'].'"')
+"   endif
+"
+"   return l:tmp
+" endfunction
+
+function! s:f3_prototype(pattern, flags, info)
+  " echomsg "f3_definition"
+  " return s:f3_shared(pattern, flags, info, '^p')
+  let l:kind = '^p'
+  let l:tl = taglist(a:pattern)
+  let l:tl2 = deepcopy(l:tl)
+
+  " Note: only prototypes and exact match
+  let l:tmp = filter(l:tl, 'v:val.kind =~# "'.l:kind.'" && v:val.name == "'.a:pattern.'"')
+  " echomsg l:tmp
+  if len(tmp) == 0
+    let l:tmp = filter(l:tl2, 'v:val.name == "'.a:pattern.'"')
+  endif
+
+  if len(tmp) > 1
+    let l:tmp = filter(l:tmp, 'v:val.filename == "'.a:info['buf_ffname'].'"')
+  endif
+
+  return l:tmp
+endfunction
+
+function! s:f3_definition(pattern, flags, info)
+  " echomsg "f3_definition"
+  " return s:f3_shared(pattern, flags, info, '^f')
+  let l:kind = '^f'
+  let l:tl = taglist(a:pattern)
+  let l:tl2 = deepcopy(l:tl)
+
+  " Note: only prototypes and exact match
+  let l:tmp = filter(l:tl, 'v:val.kind =~# "'.l:kind.'" && v:val.name == "'.a:pattern.'"')
+  " echomsg l:tmp
+  if len(tmp) == 0
+    let l:tmp = filter(l:tl2, 'v:val.name == "'.a:pattern.'"')
+  endif
+
+  if len(tmp) > 1
+    let l:tmp = filter(l:tmp, 'v:val.filename == "'.a:info['buf_ffname'].'"')
+  endif
+
+  return l:tmp
+endfunction
+
+" setup tagfunc, exec :tjump with name, restore tagfunc
+function! s:sp_tag(tagfunc, name) abort
+  if strlen(a:name) == 0
+    return
+  endif
+
+  " echomsg '|'.a:name.'|'
+  let l:error = 0
+  try
+    let oldfunc = &tagfunc
+    let &tagfunc = a:tagfunc
+    exec 'tjump' a:name
+    " TODO clear error
+    " exec 'messages clear'
+  catch /^Vim\%((\a\+)\)\=:E426:/
+    let l:error = 1
+  " E426: tag not found: xxx
+    echohl ErrorMsg
+    echom v:exception
+    echohl None
+  finally
+    let &tagfunc = oldfunc
+  endtry
+
+  if !l:error
+    execute 'normal zt'
+  endif
+endfunction
+
+map <silent> <f10> <c-]> <bar> :execute 'normal zt'<cr>
+nnoremap <silent> <f11> :call <sid>sp_tag("<sid>f3_prototype", expand('<cword>'))<cr>
+" nnoremap <silent> <f10> :call <sid>sp_tag("<sid>f3_definition", expand('<cword>'))<cr>
+
+" open tag
+" map <silent> <F3> <c-]>
+" open tag in vertical split
+map <silent> <f3> <c-]> <bar> :execute 'normal zt'<cr>
+" previous
+" map <silent> <A-Left> <c-t>
+
+augroup AugroupCtags
+  autocmd!
+  autocmd FileType c,cpp unmap <f3>
+" <silent> 
+" https://vi.stackexchange.com/questions/20241/jumping-to-prototype-or-definition-of-a-function-using-tags
+  autocmd FileType c,cpp nnoremap <silent> <f3> :call <sid>sp_tag("<sid>f3_definition", expand('<cword>'))<cr>
+  " autocmd FileType c,cpp nnoremap <silent> <C-f3> :call <sid>sp_tag("<sid>f3_prototype", expand('<cword>'))<cr>
+augroup END
+
+" ctags - look in the current directory for 'tags',
+" and work up the tree towards root until one is found
+set tags=./.tags;/
+
+" - TODO more general debug of tags
+" - TODO glib colours
+"   TODO sp_struct... copy to tmp files
+"   TODO :help tagstack-examples
+"   TODO markdown colored block
+" }}}
