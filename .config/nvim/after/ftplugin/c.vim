@@ -1,0 +1,1 @@
+/home/fredriol/.vim/after/ftplugin/c.vim
