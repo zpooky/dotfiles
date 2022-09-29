@@ -272,6 +272,8 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab anoying annoying
+iab relavant relevant
 iab recives receives
 iab missinterpret misinterpret
 iab ligth light
@@ -2087,21 +2089,6 @@ augroup END
 
 " ctags {{{
 " function! s:f3_shared(pattern, flags, info, kind)
-"   let l:tl = taglist(a:pattern)
-"   let l:tl2 = deepcopy(l:tl)
-"
-"   " Note: only prototypes and exact match
-"   let l:tmp = filter(l:tl, 'v:val.kind =~# "'.a:kind.'" && v:val.name == "'.a:pattern.'"')
-"   " echomsg l:tmp
-"   if len(tmp) == 0
-"     let l:tmp = filter(l:tl2, 'v:val.name == "'.a:pattern.'"')
-"   endif
-"
-"   if len(tmp) > 1
-"     let l:tmp = filter(l:tmp, 'v:val.filename == "'.a:info['buf_ffname'].'"')
-"   endif
-"
-"   return l:tmp
 " endfunction
 
 function! s:f3_prototype(pattern, flags, info)
@@ -2120,6 +2107,10 @@ function! s:f3_prototype(pattern, flags, info)
 
   if len(tmp) > 1
     let l:tmp = filter(l:tmp, 'v:val.filename == "'.a:info['buf_ffname'].'"')
+  endif
+  if len(tmp) > 1
+    " uniq(): strips _consecetive_ duplicates
+    uniq(l:tmp)
   endif
 
   return l:tmp
@@ -2141,6 +2132,13 @@ function! s:f3_definition(pattern, flags, info)
 
   if len(tmp) > 1
     let l:tmp = filter(l:tmp, 'v:val.filename == "'.a:info['buf_ffname'].'"')
+  endif
+  if len(tmp) > 1
+    " uniq(): strips _consecetive_ duplicates
+    uniq(l:tmp)
+  endif
+  if len(tmp) > 1
+    echomsg l:tmp
   endif
 
   return l:tmp
