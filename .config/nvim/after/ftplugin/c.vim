@@ -1,1 +1,1 @@
-/home/fredriol/.vim/after/ftplugin/c.vim
+../../../../.vim/after/ftplugin/c.vim
