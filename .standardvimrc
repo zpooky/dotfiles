@@ -1548,7 +1548,7 @@ function! s:SpookyToggleFile(fpath, fname, fext) abort
     else
       let l:git_root = s:SpFindGit(a:fpath)
       if strlen(l:git_root) > 0
-        let l:ignores =  ['stub','testing','checktest','checktests','tests','test','test-support','examples']
+        let l:ignores =  ['stub','testing','checktest','checktests','tests','test','test-support','testdata','examples','oe-logs','oe-workdir','.ccls-cache','node_modules','tmp','target','build']
         let l:candidates = []
         if a:fext == "c"
           let l:candidates = s:SpFindFile(l:git_root, [a:fname.'.h'], l:ignores)
@@ -2157,9 +2157,9 @@ function! s:sp_tag(tagfunc, name) abort
   try
     let oldfunc = &tagfunc
     let &tagfunc = a:tagfunc
-    exec 'tjump' a:name
-    " TODO clear error
-    " exec 'messages clear'
+    exec 'tjump '.a:name.' | normal zt'
+    " clear error
+    echon ''
   catch /^Vim\%((\a\+)\)\=:E426:/
     let l:error = 1
   " E426: tag not found: xxx
@@ -2170,9 +2170,9 @@ function! s:sp_tag(tagfunc, name) abort
     let &tagfunc = oldfunc
   endtry
 
-  if !l:error
-    execute 'normal zt'
-  endif
+  " if !l:error
+  "   execute 'normal zt'
+  " endif
 endfunction
 
 map <silent> <f10> <c-]> <bar> :execute 'normal zt'<cr>
