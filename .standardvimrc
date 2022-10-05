@@ -1754,7 +1754,7 @@ function! s:SpMathFormat() range
     let l:complex = { '(xor)': '⊕', '(pi)': 'π', '(integral)': '∫', '(integrate)': '∫', '(mul)': '∏', '(subset)': '⊂',
                     \ '(qed)': '∎', '(element)': '∊' , '(not)': '¬', '(theta)': 'θ', '(_lambda)': 'λ', '(lambda)': 'Λ',
                     \ '(alpha)': 'α', '(phi)': 'φ', '(phi2)': 'ϕ', '(PHI)': 'Φ', '(proportional)': '∝', '(gamma)': 'Γ', '(_gamma)': '𝛾', '(mu)':'μ',
-                    \ '(sigma)': '∑', '(_sigma)': 'σ', '(omega)': 'Ω', '(_omega)': 'ω', '(sqrt)': '√', '(epsilon)': 'ε',
+                    \ '(sigma)': '∑', '(_sigma)': 'σ', '(omega)': 'Ω', '(_omega)': 'ω', '(sqrt)': '√', '(cbrt)': '∛', '(qdrt)': '∜', '(epsilon)': 'ε',
                     \ '(beta)': 'Β', '(_beta)': 'β', '(_rho)': 'ρ', '(_chi)': 'χ',
                     \ '(micro)': 'µ', '(infinity)': '∞', '(inf)': '∞', '(f)': 'ƒ', '(frequency)': 'ƒ',
                     \ '(almost)': '≈', '(aprox)': '≈', '(delta)': 'Δ', '(_delta)': 'δ',
