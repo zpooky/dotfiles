@@ -496,11 +496,13 @@ if !has('win32unix') && !has('win64unix')
 
   " let g:gutentags_ctags_exclude =[]
   " let g:gutentags_ctags_exclude_wildignore=1
-  " let g:gutentags_file_list_command = "find . oe-workdir/recipe-sysroot/usr/include/glib-2.0 oe-workdir/recipe-sysroot/usr/include/alsa oe-workdir/recipe-sysroot/usr/include/glib-utils oe-workdir/recipe-sysroot/usr/include/systemd -type f -not -path '*/.git/*' -not -path '*/unix/*' -not -path '*/checktest/*' -not -path '*/checktests/*' -not -path '*/unittest/*' -not -path '*/tests/*' -not -path '*/stub/*' -not -path '*/stubs/*'"
+  " let g:gutentags_file_list_command = "find . oe-workdir/recipe-sysroot/usr/include/glib-2.0 oe-workdir/recipe-sysroot/usr/include/alsa oe-workdir/recipe-sysroot/usr/include/glib-utils oe-workdir/recipe-sysroot/usr/include/systemd -type f -not -path '*/.git/*' -not -path '*/unix/*' -not -path '*/checktest/*' -not -path '*/checktests/*' -not -path '*/unittest/*' -not -path '*/tests/*' -not -path '*/stub/*' -not -path '*/stubs/*' -not -path '*/testdir/*'"
 
   " with custom patch {
-  let g:gutentags_file_list_command = "find . -type f -not -path '*/.git/*' -not -path '*/unix/*' -not -path '*/checktest/*' -not -path '*/checktests/*' -not -path '*/checktest_commandsource/*' -not -path '*/unittest/*' -not -path '*/tests/*' -not -path '*/stub/*' -not -path '*/stubs/*' -not -path '*/.ccls-cache/*'"
-  let g:gutentags_file_list_command_secondary = "find oe-workdir/recipe-sysroot/usr/include -type f"
+  let g:gutentags_file_list_command = "find . -type f -not -path '*/.git/*' -not -path '*/unix/*' -not -path '*/checktest/*' -not -path '*/checktests/*' -not -path '*/checktest_commandsource/*' -not -path '*/unittest/*' -not -path '*/tests/*' -not -path '*/stub/*' -not -path '*/stubs/*' -not -path '*/.ccls-cache/*' -not -path '*/testdir/*'"
+  let g:gutentags_file_list_command_secondary = "find ".'$(test -e '.$HOME.'/dotfiles/lib/git_root.sh && '.$HOME.'/dotfiles/lib/git_root.sh || echo "'.$PWD.'")'."/oe-workdir/recipe-sysroot/usr/include -type f -not -path '*/c++/*'"
+  " let g:gutentags_file_list_command_secondary = 'cd $(test -e '.$HOME.'/dotfiles/lib/git_root.sh && '.$HOME."/dotfiles/lib/git_root.sh || echo "."); find oe-workdir/recipe-sysroot/usr/include -type f"
+  " echomsg 'cd $(test -e '.$HOME.'/dotfiles/lib/git_root.sh && '.$HOME."/dotfiles/lib/git_root.sh || echo "."); find oe-workdir/recipe-sysroot/usr/include -type f"
   " index function prototypes (useful when we only have to header files)
   let g:gutentags_ctags_extra_args_secondary = ['--c-kinds=+p']  " tags=primary.ctag, header_only.ctag
   " } else {
@@ -520,7 +522,7 @@ if !has('win32unix') && !has('win64unix')
   " let g:gutentags_trace=1
   " let g:gutentags_define_advanced_commands=1
 
-  let g:gutentags_ctags_exclude=['autoconf','*.md','configure', 'Makefile','CMakeLists.txt','*.cmake','*.mak', '*.am','*.in','*.m4','*.html','*.php','*.py','*.service', '*.mount','*.target','*.css','*.rst', '*.json', 'Session.vim', '*.dtd', '*.patch','*.ac','*.pm','.ccls-cache', 'svg','checktest','*.conf']
+  let g:gutentags_ctags_exclude=['autoconf','*.md','configure', 'Makefile','CMakeLists.txt','*.cmake','*.mak', '*.am','*.in','*.m4','*.html','*.php','*.py','*.service', '*.mount','*.target','*.css','*.rst', '*.json', 'Session.vim', '*.dtd', '*.patch','*.ac','*.pm','.ccls-cache', 'svg','checktest','*.conf', '*.rs']
 
   " let g:gutentags_file_list_command = 'ack -f --nohtml --nojson --nomd '
   " let g:gutentags_file_list_command = {
@@ -721,17 +723,14 @@ augroup END
   " better c++ syntax
   Plug 'octol/vim-cpp-enhanced-highlight',programming_cpp
   " Plug 'abudden/taghighlight-automirror'
-  " syntax keyword cppSTLenum memory_order_acquire
-  " syntax keyword cppSTLenum memory_order_release
   " syntax keyword cppSTLnamespace debug
   " syntax keyword cppSTLnamespace local
   " syntax keyword cppSTLnamespace header
   " syntax keyword cppSTLnamespace sp
   " syntax keyword cppSTLnamespace util
-  " syntax keyword cppType size_t
-  " syntax keyword cppType ssize_t
   let g:cpp_class_scope_highlight = 0           " Highlighting of class scope
   let g:cpp_experimental_template_highlight = 0 " Highlighting of template functions
+  let g:cpp_posix_standard = 1
   " let g:cpp_member_variable_highlight = 1
   " }}}
 

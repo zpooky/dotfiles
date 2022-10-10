@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 # set -e
 
-path="$(pwd)"
+path="${PWD}"
 # shift 1
 # echo "|$path"
-while [[ "$path" != "/" ]];
-do
-    git_path="$path/.git" 
+while [[ "$path" != "/" ]]; do
+    git_path="$path/.git"
     ls "${git_path}" > /dev/null 2>&1
     if [ $? -eq 0 ]; then
       echo "$path"
@@ -17,4 +16,4 @@ do
     path=$(readlink -f "${path}/..")
 done
 
-pwd
+echo "${PWD}"
