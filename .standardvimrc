@@ -272,6 +272,7 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab specfic specific
 iab anoying annoying
 iab relavant relevant
 iab recives receives
@@ -2061,10 +2062,33 @@ xnoremap <leader>m <Esc>:SpMathFormat<CR>
 function! s:SpookyToString(kind)
   let l:exe = 'sp_struct_to_string'
   if executable(l:exe)
-    let l:file = expand('%:p')
+    " let l:real_fname = expand('%:t')
+    let l:tmpfile = tempname()
+    let l:real_file = expand('%:p')
+    if len(l:real_file) > 0
+      let l:tmpfile .= substitute(l:real_file,'/','-','g')
+    else
+      if &ft == 'c'
+        let l:tmpfile .= '.c'
+      elseif &ft == 'cpp'
+        let l:tmpfile .= '.cpp'
+      endif
+    endif
+    " if len(l:real_fname) != 0
+    "   let l:tmpfile .= l:real_fname
+    " endif
+
+    let l:tmpcontent = getline(1, line('$'))
+    call writefile(l:tmpcontent, l:tmpfile, 'b')
+    " echomsg l:tmpfile
+
+    " let l:file = expand('%:p')
+    let l:file = l:tmpfile
     let l:line = line('.')-1
     let l:col = col('.')-1
-    let l:json = system(l:exe." ".a:kind." ".l:file." ".l:line." ".l:col." 2>/dev/null")
+    let l:command = l:exe." ".a:kind." ".l:file." ".l:line." ".l:col." 2>/dev/null"
+    " echomsg l:command
+    let l:json = system(l:command)
     if v:shell_error == 0
       let l:d = json_decode(l:json)
       for l:lit in l:d['inserts']
