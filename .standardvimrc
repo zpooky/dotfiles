@@ -272,6 +272,7 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab soltutions solutions
 iab specfic specific
 iab anoying annoying
 iab relavant relevant
