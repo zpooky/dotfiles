@@ -273,6 +273,9 @@ set dictionary+=/usr/share/dict/words
 set spellfile=~/.vim/spell/en.utf-8.add
 
 iab soltutions solutions
+iab increses increases
+iab aproaching approaching
+iab equelerium equilibrium
 iab specfic specific
 iab anoying annoying
 iab relavant relevant
@@ -1529,6 +1532,7 @@ function! s:SpookyPrintCurrentFile() abort
     endif
   endif
   echomsg s:SpookyLimitMsgLength(l:self, l:strip_prefix)
+  " redraw
 " echo fnameescape(fnamemodify(finddir('.git',escape(expand('%:p:h'), ' ') . ';'), ':h'))
 
 endfunction

@@ -499,7 +499,7 @@ if !has('win32unix') && !has('win64unix')
   " let g:gutentags_file_list_command = "find . oe-workdir/recipe-sysroot/usr/include/glib-2.0 oe-workdir/recipe-sysroot/usr/include/alsa oe-workdir/recipe-sysroot/usr/include/glib-utils oe-workdir/recipe-sysroot/usr/include/systemd -type f -not -path '*/.git/*' -not -path '*/unix/*' -not -path '*/checktest/*' -not -path '*/checktests/*' -not -path '*/unittest/*' -not -path '*/tests/*' -not -path '*/stub/*' -not -path '*/stubs/*' -not -path '*/testdir/*'"
 
   " with custom patch {
-  let g:gutentags_file_list_command = "find . -type f -not -path '*/.git/*' -not -path '*/unix/*' -not -path '*/checktest/*' -not -path '*/checktests/*' -not -path '*/checktest_commandsource/*' -not -path '*/unittest/*' -not -path '*/tests/*' -not -path '*/stub/*' -not -path '*/stubs/*' -not -path '*/.ccls-cache/*' -not -path '*/testdir/*'"
+  let g:gutentags_file_list_command = "find . -type f -not -path '*/.git/*' -not -path '*/unix/*' -not -path '*/checktest/*' -not -path '*/checktests/*' -not -path '*/checktest_commandsource/*' -not -path '*/unittest/*' -not -path '*/tests/*' -not -path '*/stub/*' -not -path '*/stubs/*' -not -path '*/.ccls-cache/*' -not -path '*/testdir/*' -not -path '*/dummy/*' -not -path '*/host-dummy/*'"
   let g:gutentags_file_list_command_secondary = "find ".'$(test -e '.$HOME.'/dotfiles/lib/git_root.sh && '.$HOME.'/dotfiles/lib/git_root.sh || echo "'.$PWD.'")'."/oe-workdir/recipe-sysroot/usr/include -type f -not -path '*/c++/*'"
   " let g:gutentags_file_list_command_secondary = 'cd $(test -e '.$HOME.'/dotfiles/lib/git_root.sh && '.$HOME."/dotfiles/lib/git_root.sh || echo "."); find oe-workdir/recipe-sysroot/usr/include -type f"
   " echomsg 'cd $(test -e '.$HOME.'/dotfiles/lib/git_root.sh && '.$HOME."/dotfiles/lib/git_root.sh || echo "."); find oe-workdir/recipe-sysroot/usr/include -type f"
@@ -950,7 +950,21 @@ else
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
   " listing files
-  noremap <silent> <leader>r <Esc>:Files<CR>
+  " https://github.com/junegunn/fzf/issues/2687#issuecomment-1174569613
+  function! GitFZF()
+    let path = expand('%:p:h')
+    if executable('git')
+      let tmp_path = trim(system('cd '.shellescape(expand('%:p:h')).' && git rev-parse --show-toplevel'))
+      if isdirectory(tmp_path)
+        let path = tmp_path
+      endif
+    endif
+    exe 'FZF ' . path
+  endfunction
+  command! GitFZF call GitFZF()
+  nnoremap <silent> <leader>r <Esc>:GitFZF<CR>
+  " noremap <silent> <leader>r <Esc>:Files<CR>
+
   function! RipgrepFzf(query, fullscreen)
     let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
     let initial_command = printf(command_fmt, shellescape(a:query))
