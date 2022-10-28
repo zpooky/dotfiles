@@ -2131,11 +2131,11 @@ function! s:f3_prototype(pattern, flags, info)
   let l:tmp = filter(l:tl, 'v:val.kind =~# "'.l:kind.'" && v:val.name == "'.a:pattern.'"')
   " echomsg l:tmp
   if len(l:tmp) == 0
-    let l:tmp = filter(l:tl2, 'v:val.name == "'.a:pattern.'"')
+    let l:tmp = filter(l:tl2, 'v:val.name ==# "'.a:pattern.'"')
   endif
 
   if len(l:tmp) > 1
-    let l:tmp = filter(l:tmp, 'v:val.filename == "'.a:info['buf_ffname'].'"')
+    let l:tmp = filter(l:tmp, 'v:val.filename ==# "'.a:info['buf_ffname'].'"')
   endif
   if len(l:tmp) > 1
     " uniq(): strips _consecetive_ duplicates
@@ -2154,10 +2154,13 @@ function! s:f3_definition(pattern, flags, info)
   let l:tl2 = copy(l:tl)
 
   " Note: only prototypes and exact match
-  let l:tmp = filter(l:tl, 'v:val.kind =~# "'.l:kind.'" && v:val.name == "'.a:pattern.'"')
+  if len(l:tl) > 1
+    " echomsg l:tl
+  endif
+  let l:tmp = filter(l:tl, 'v:val.kind =~# "'.l:kind.'" && v:val.name ==# "'.a:pattern.'"')
   " echomsg l:tmp
   if len(l:tmp) == 0
-    let l:tmp = filter(l:tl2, 'v:val.name == "'.a:pattern.'"')
+    let l:tmp = filter(l:tl2, 'v:val.name ==# "'.a:pattern.'"')
   endif
 
   if len(l:tmp) > 1
