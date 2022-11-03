@@ -67,8 +67,11 @@ filetype indent plugin on         " file type specific indentation support + loa
 
 " General {{{
 let mapleader = "\<Space>"        " map leader to  <space>
-" set mouse=a                     " Enables scrolling terminal.(mouse mode)
 set pastetoggle=<f5>              " vim will not perform any formatting when toggled on
+" }}}
+" Mouse {{{
+set mouse=                        " Disable mouse interaction
+" set mouse=a                     " Enables scrolling terminal.(mouse mode)
 " }}}
 " UI {{{
 set ruler                         " Display the ruler
@@ -2121,21 +2124,26 @@ augroup END
 " endfunction
 
 function! s:f3_prototype(pattern, flags, info)
-  " echomsg "f3_definition"
   " return s:f3_shared(pattern, flags, info, '^p')
+  " ctags --list-kinds
+  " p  function prototypes
   let l:kind = '^p'
   let l:tl = taglist(a:pattern)
   let l:tl2 = copy(l:tl)
 
   " Note: only prototypes and exact match
-  let l:tmp = filter(l:tl, 'v:val.kind =~# "'.l:kind.'" && v:val.name == "'.a:pattern.'"')
+  let l:tmp = filter(l:tl, 'v:val.kind =~# "'.l:kind.'" && v:val.name ==? "'.a:pattern.'"')
   " echomsg l:tmp
   if len(l:tmp) == 0
+    let l:tmp = filter(l:tl2, 'v:val.name ==? "'.a:pattern.'"')
+  endif
+
+  if len(l:tmp) > 1
     let l:tmp = filter(l:tl2, 'v:val.name ==# "'.a:pattern.'"')
   endif
 
   if len(l:tmp) > 1
-    let l:tmp = filter(l:tmp, 'v:val.filename ==# "'.a:info['buf_ffname'].'"')
+    let l:tmp = filter(l:tmp, 'v:val.filename == "'.a:info['buf_ffname'].'"')
   endif
   if len(l:tmp) > 1
     " uniq(): strips _consecetive_ duplicates
@@ -2149,29 +2157,47 @@ endfunction
 function! s:f3_definition(pattern, flags, info)
   " echomsg "f3_definition"
   " return s:f3_shared(pattern, flags, info, '^f')
-  let l:kind = '^f'
+
+  " ctags --list-kinds
+  " f  function definitions
+  " s  structure names
   let l:tl = taglist(a:pattern)
-  let l:tl2 = copy(l:tl)
 
   " Note: only prototypes and exact match
   if len(l:tl) > 1
     " echomsg l:tl
   endif
-  let l:tmp = filter(l:tl, 'v:val.kind =~# "'.l:kind.'" && v:val.name ==# "'.a:pattern.'"')
+
+  " Note: we copy l:tl
+  let l:kind = '^f' " first prio
+  let l:tmp = filter(copy(l:tl), 'v:val.kind =~# "'.l:kind.'" && v:val.name ==? "'.a:pattern.'"')
   " echomsg l:tmp
   if len(l:tmp) == 0
-    let l:tmp = filter(l:tl2, 'v:val.name ==# "'.a:pattern.'"')
+    let l:kind = '^s' " second prio
+    let l:tmp = filter(copy(l:tl), 'v:val.kind =~# "'.l:kind.'" && v:val.name ==? "'.a:pattern.'"')
+
+    if len(l:tmp) == 0
+      let l:tmp = filter(l:tl, 'v:val.name ==? "'.a:pattern.'"')
+    endif
+    " echomsg l:tmp
   endif
 
-  if len(l:tmp) > 1
-    let l:tmp = filter(l:tmp, 'v:val.filename == "'.a:info['buf_ffname'].'"')
-  endif
   if len(l:tmp) > 1
     " uniq(): strips _consecetive_ duplicates
     call sort(l:tmp)
     call uniq(l:tmp)
   endif
+
   if len(l:tmp) > 1
+    let l:tmp = filter(l:tmp, 'v:val.name ==# "'.a:pattern.'"')
+  endif
+
+  if len(l:tmp) > 1
+    let l:tmp = filter(l:tmp, 'v:val.filename == "'.a:info['buf_ffname'].'"')
+  endif
+
+  if len(l:tmp) > 1
+    " TODO if cursor is already on a entry in l:tmp
     echomsg l:tmp
   endif
 

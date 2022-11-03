@@ -952,14 +952,14 @@ else
   " listing files
   " https://github.com/junegunn/fzf/issues/2687#issuecomment-1174569613
   function! GitFZF()
-    let path = expand('%:p:h')
+    let l:path = expand('%:p:h')
     if executable('git')
-      let tmp_path = trim(system('cd '.shellescape(expand('%:p:h')).' && git rev-parse --show-toplevel'))
-      if isdirectory(tmp_path)
-        let path = tmp_path
+      let l:tmp_path = trim(system('cd '.shellescape(expand('%:p:h')).' && git rev-parse --show-toplevel'))
+      if isdirectory(l:tmp_path)
+        let l:path = l:tmp_path
       endif
     endif
-    exe 'FZF ' . path
+    exe 'FZF ' . l:path
   endfunction
   command! GitFZF call GitFZF()
   nnoremap <silent> <leader>r <Esc>:GitFZF<CR>
