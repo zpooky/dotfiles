@@ -218,15 +218,29 @@ mcd(){
   cd $1
 }
 
-sp_calc(){
-  local scratchpad_root=$HOME/scratchpad
-  if [ $# -eq 0 ]; then
-    local codi_file="${scratchpad_root}/calc_$(date +'%Y_%m_%d').py"
+sp_calc_generic(){
+  if [ $# -lt 1 ]; then
+    echo "$0: missing arg" 1>&2
+    return 1
+  fi
+  if [ "${1}" = "python" ]; then
+    local scratchpad_root="${HOME}/scratchpad"
+    local file_type="py"
+  else
+    local scratchpad_root="${HOME}/scratchpad_${1}"
+    local file_type="${1}"
+  fi
+  if [ ! -e "${scratchpad_root}" ]; then
+    echo "$0: missing root: $scratchpad_root" 1>&2
+    return 1
+  fi
+  if [ $# -eq 1 ]; then
+    local codi_file="${scratchpad_root}/calc_$(date +'%Y_%m_%d').${file_type}"
     if [ ! -e "${codi_file}" ]; then
       cp "${scratchpad_root}/calc_template" "${codi_file}"
     fi
   else
-    local codi_file="${1}"
+    local codi_file="${2}"
   fi
 
   local kk="nvim -p '${codi_file}' -c '
@@ -235,7 +249,7 @@ sp_calc(){
   hi ColorColumn ctermbg=NONE
   hi VertSplit ctermbg=NONE
   hi NonText ctermfg=0
-  Codi python'"
+  Codi ${1}'"
 
   if type nix-shell >/dev/null 2>&1; then
   # if [ 0 -eq 1 ]; then
@@ -248,6 +262,14 @@ sp_calc(){
 
   # set ft=codipython
   # set syntax=python
+}
+
+sp_calc(){
+  sp_calc_generic "python" $@
+}
+
+sp_calc_js(){
+  sp_calc_generic "javascript" $@
 }
 
 sp_nvim(){
