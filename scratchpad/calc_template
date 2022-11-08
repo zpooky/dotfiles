@@ -26,10 +26,19 @@
 # hex encoded -> raw
 # binascii.unhexlify(hex)
 
+# base64
+# e = base64.b64encode(b'...')
+# p = base64.b64decode(e)
+
+# urlencode
+# e = urllib.parse.quote(p)
+# p = urllib.parse.unquote(e)
+# dict = urllib.parse.parse_qs(p)
+
 # sha256
 # m = hashlib.sha256()
 # m.update(binascii.unhexlify(""))
-# m.hexdigest()
+# m.hexdigest()/m.digest()
 
 # random
 # hex(random.getrandbits(32))
@@ -48,6 +57,8 @@ import numpy as np
 import scipy
 import matplotlib.pyplot as plt
 import socket
+import base64
+import urllib
 
 sys.version
 

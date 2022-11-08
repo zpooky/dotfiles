@@ -1,0 +1,4 @@
+const { createHash } = require('crypto');
+function hash(string) {
+  return createHash('sha512').update(string).digest('base64');
+}
