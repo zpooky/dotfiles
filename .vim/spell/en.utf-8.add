@@ -54,3 +54,10 @@ bitlength
 Ƶ
 utils
 whitelisted
+GPIO
+µC
+SPI
+MOSI
+MISI
+MISO
+CLK
