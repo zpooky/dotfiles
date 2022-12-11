@@ -655,26 +655,26 @@ augroup END
 "
 " {{{
 " Run script in background
-Plug 'joonty/vim-do'
-
-function! VimDoSpScript(script)
-  call do#Execute(a:script . " \"" . expand("%:p") . "\" " . line("."),1)
-endfunction
-
-augroup AugroupVimDo
-  autocmd!
-  " command! -nargs=* Do call do#Execute(<q-args>)
-  " command! -nargs=* DoQuietly call do#Execute(<q-args>, 1)
-  " command! -range DoThis call do#ExecuteSelection()
-  "
-  " ~/dotfiles/lib/tmuxgdb/teamcoil_gen.sh ./test/thetest.exe '--gtest_filter="*btree*"'
-
-  "
-  autocmd FileType c,cpp,objc noremap <silent> <leader>g <esc>:call VimDoSpScript("$HOME/dotfiles/lib/vim_gdb.sh")<CR>
-  "
-  autocmd FileType c,cpp,objc noremap <silent> <leader>u <esc>:call VimDoSpScript("$HOME/dotfiles/lib/vim_gdb_until.sh")<CR>
-
-augroup END
+" Plug 'joonty/vim-do'
+"
+" function! VimDoSpScript(script)
+"   call do#Execute(a:script . " \"" . expand("%:p") . "\" " . line("."),1)
+" endfunction
+"
+" augroup AugroupVimDo
+"   autocmd!
+"   " command! -nargs=* Do call do#Execute(<q-args>)
+"   " command! -nargs=* DoQuietly call do#Execute(<q-args>, 1)
+"   " command! -range DoThis call do#ExecuteSelection()
+"   "
+"   " ~/dotfiles/lib/tmuxgdb/teamcoil_gen.sh ./test/thetest.exe '--gtest_filter="*btree*"'
+"
+"   "
+"   autocmd FileType c,cpp,objc noremap <silent> <leader>g <esc>:call VimDoSpScript("$HOME/dotfiles/lib/vim_gdb.sh")<CR>
+"   "
+"   autocmd FileType c,cpp,objc noremap <silent> <leader>u <esc>:call VimDoSpScript("$HOME/dotfiles/lib/vim_gdb_until.sh")<CR>
+"
+" augroup END
 " }}}
 
 " {{{
@@ -1248,17 +1248,19 @@ endif
 " endfunction
 function! GDBBreak()
   let l:command1 = "echo 'break \"" . bufname("%") . ":" .line(".") . "\"' >> .gdb_breakpoints"
-  let l:command2 = "cat .gdb_breakpoints | sort | uniq > .gdb_breakpoints"
-
-  if v:version < 800
-      silent execute "!" . l:command1
-      silent execute "!" . l:command2
+  let l:tmpfile = tempname()
+  let l:command2 = "cat .gdb_breakpoints | sort | uniq > ".l:tmpfile
+  let l:command3 = "cat '".l:tmpfile."' > .gdb_breakpoints"
+  " echomsg l:command1
+  " if v:version < 800
+      silent execute '!'.l:command1
+      silent execute '!'.l:command2
+      silent execute '!'.l:command3
       execute ':redraw!'
-    return
-  endif
-  " let l:shell_command = [&shell, &shellcmdflag, l:command1 . "&&" . l:command2]
-  let l:shell_command = [&shell, &shellcmdflag, l:command1]
-  let j = job_start(l:shell_command) ", {'out_cb': 'JobCallback', 'exit_cb': 'JobCallback'}
+      return
+  " endif
+  " let l:shell_command = [&shell, &shellcmdflag, l:command1]
+  " let j = job_start(l:shell_command) ", {'out_cb': 'JobCallback', 'exit_cb': 'JobCallback'}
 endfunction
 
 command! GDBBreak :call GDBBreak()
