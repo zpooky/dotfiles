@@ -34,6 +34,7 @@
 # e = urllib.parse.quote(p)
 # p = urllib.parse.unquote(e)
 # dict = urllib.parse.parse_qs(p)
+# e = urllib.parse.urlencode(dict)
 
 # sha256
 # m = hashlib.sha256()
@@ -43,6 +44,13 @@
 # random
 # hex(random.getrandbits(32))
 # random.randint(1, 10)
+
+# json
+# dict = json.loads(str)
+# str = json.dumps(dict)
+
+# string hex
+# bytes.fromhex(hex_str).decode('utf-8')
 
 # socket.ntohl()
 # ===================
@@ -59,6 +67,9 @@ import matplotlib.pyplot as plt
 import socket
 import base64
 import urllib
+import urllib.parse
+import time
+import json
 
 sys.version
 

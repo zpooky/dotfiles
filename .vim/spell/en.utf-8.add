@@ -61,3 +61,5 @@ MOSI
 MISI
 MISO
 CLK
+uncalibrated
+datasheet
