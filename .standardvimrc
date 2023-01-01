@@ -276,6 +276,7 @@ set dictionary+=/usr/share/dict/words
 set spellfile=~/.vim/spell/en.utf-8.add
 
 iab ownes owns
+iab contigeus contiguous
 iab relativly relatively
 iab correponding corresponding
 iab indivudally individually
