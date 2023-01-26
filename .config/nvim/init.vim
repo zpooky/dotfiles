@@ -654,30 +654,6 @@ augroup END
 " }}}
 "
 " {{{
-" Run script in background
-" Plug 'joonty/vim-do'
-"
-" function! VimDoSpScript(script)
-"   call do#Execute(a:script . " \"" . expand("%:p") . "\" " . line("."),1)
-" endfunction
-"
-" augroup AugroupVimDo
-"   autocmd!
-"   " command! -nargs=* Do call do#Execute(<q-args>)
-"   " command! -nargs=* DoQuietly call do#Execute(<q-args>, 1)
-"   " command! -range DoThis call do#ExecuteSelection()
-"   "
-"   " ~/dotfiles/lib/tmuxgdb/teamcoil_gen.sh ./test/thetest.exe '--gtest_filter="*btree*"'
-"
-"   "
-"   autocmd FileType c,cpp,objc noremap <silent> <leader>g <esc>:call VimDoSpScript("$HOME/dotfiles/lib/vim_gdb.sh")<CR>
-"   "
-"   autocmd FileType c,cpp,objc noremap <silent> <leader>u <esc>:call VimDoSpScript("$HOME/dotfiles/lib/vim_gdb_until.sh")<CR>
-"
-" augroup END
-" }}}
-
-" {{{
 " #######
 " # cpp #
 " #######

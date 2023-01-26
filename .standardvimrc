@@ -275,6 +275,10 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab unfourtionally unfortunately
+iab previosuly previously
+iab communciation communication
+iab initate imitate
 iab contine continue
 iab exsiting existing
 iab ignoreing ignoring
@@ -830,7 +834,6 @@ iab generaly generally
 iab Generaly Generally
 iab rentrant re-entrant
 iab interuptable interruptible
-iab postion position
 iab sapce space
 iab utilazing utilizing
 iab beeing being
@@ -1723,6 +1726,8 @@ augroup AutogroupFileSpecific
   autocmd BufRead,BufNewFile /usr/include/c++/* set ft=cpp
   autocmd BufRead,BufNewFile /usr/lib/gcc/* set ft=cpp
   autocmd BufRead,BufNewFile Kbuild.include set ft=make
+
+  autocmd BufRead,BufNewFile *.json.fpp set ft=json
 
   "
   autocmd BufNewFile,BufFilePre,BufRead *.h call s:SpookyHeaderType(expand('%:p'))

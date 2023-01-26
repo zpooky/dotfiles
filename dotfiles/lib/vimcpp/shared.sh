@@ -189,13 +189,15 @@ function search_path_upwards() {
   fi
 
   while [[ "$path" != "/" ]]; do
-    local test_path="${path}/${needle}"
 
-    ls "${test_path}" >/dev/null 2>&1
-    if [ $? -eq 0 ]; then
-      search_RESULT="${path}"
-      return 0
-    fi
+    for needle in "${@}"; do
+      local test_path="${path}/${needle}"
+
+      if [ -e "${test_path}" ]; then
+        search_RESULT="${path}"
+        return 0
+      fi
+    done
 
     local path="$(readlink -f $path/..)"
   done
