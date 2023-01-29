@@ -275,7 +275,10 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab coeffeicents coefficients
+iab powred powered
 iab unfourtionally unfortunately
+iab conneted connected
 iab previosuly previously
 iab communciation communication
 iab initate imitate
