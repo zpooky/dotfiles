@@ -2191,29 +2191,46 @@ function! s:f3_definition(pattern, flags, info)
   " ctags --list-kinds
   " f  function definitions
   " s  structure names
+  " d  DEFINE
   let l:tl = taglist(a:pattern)
 
   " Note: only prototypes and exact match
   if len(l:tl) > 1
     " echomsg l:tl
+    " echomsg a:pattern
   endif
 
-  " Note: we copy l:tl
-  let l:kind = '^f' " first prio
-  let l:tmp = filter(copy(l:tl), 'v:val.kind =~# "'.l:kind.'" && v:val.name ==? "'.a:pattern.'"')
-  " echomsg l:tmp
-  if len(l:tmp) == 0
-    let l:kind = '^s' " second prio
-    let l:tmp = filter(copy(l:tl), 'v:val.kind =~# "'.l:kind.'" && v:val.name ==? "'.a:pattern.'"')
+  let l:tmp = []
+  let l:cases = [1, 0]
+  let l:kinds = ['^f', '^s', '^d']
 
+  for l:case in l:cases
+    for l:kind in l:kinds
+      if l:case == 1
+        let l:tmp = filter(copy(l:tl), 'v:val.kind =~# "'.l:kind.'" && v:val.name ==# "'.a:pattern.'"')
+      else
+        let l:tmp = filter(copy(l:tl), 'v:val.kind =~# "'.l:kind.'" && v:val.name ==? "'.a:pattern.'"')
+      endif
+
+      if len(l:tmp) > 0
+        break
+      endif
+    endfor
+
+    if len(l:tmp) > 0
+      break
+    endif
+  endfor
+
+  if len(l:tmp) == 0
+    let l:tmp = filter(l:tl, 'v:val.name ==# "'.a:pattern.'"')
     if len(l:tmp) == 0
       let l:tmp = filter(l:tl, 'v:val.name ==? "'.a:pattern.'"')
     endif
-    " echomsg l:tmp
   endif
 
   if len(l:tmp) > 1
-    " uniq(): strips _consecetive_ duplicates
+    " uniq(): strips _consecutive_ duplicates
     call sort(l:tmp)
     call uniq(l:tmp)
   endif

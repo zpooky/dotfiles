@@ -12,6 +12,10 @@
 # binary: 0b1011_1111
 # to bin: bin(number)
 
+#   size of type: var.bit_length()
+# number 1₂ bits: var.bit_count()
+#            ALT: bin(var).count('1')
+
 # octet:  0100
 
 # char -> raw: ord('a')
