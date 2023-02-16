@@ -283,6 +283,17 @@ iab conneted connected
 iab previosuly previously
 iab communciation communication
 iab initate imitate
+iab percieved perceived
+iab execpt except
+iab compatiable compatible
+iab chromanance chrominance
+iab usuually usually
+iab consentrated concentrated
+iab sequentelly sequentially
+iab acculumilate accumulate
+iab partiton partition
+iab imposible impossible
+iab approximiate approximate
 iab contine continue
 iab exsiting existing
 iab ignoreing ignoring
@@ -1815,6 +1826,7 @@ function! s:SpMathFormat() range
                     \ '(rbar)': 'r̄', '(Rbar)': 'R̄', '(Ybar)':'Ȳ', '(ybar)':'ȳ',
                     \ '(<<<)': '⋘', '(>>>)': '⋙', '(<<)': '≪', '(>>)': '≫', '(eta)': 'Η', '(_eta)': 'η', '(psi)': 'Ψ', '(_psi)': 'ψ',
                     \ '(phat)': 'p̂','(Phat)': 'P̂', '(khat)': 'k̂', '(Khat)': 'K̂', '(yhat)': 'ȳ', '(Yhat)': 'Ȳ'}
+    " TODO http://shapecatcher.com/unicode/block/Number_Forms
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
     for l:char in split(a:str, '\zs')
