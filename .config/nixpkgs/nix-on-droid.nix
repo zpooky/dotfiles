@@ -24,6 +24,7 @@
     xz
     zip
     unzip
+    fd
 
     keybase
     kbfs
@@ -37,6 +38,7 @@
     ccls
     cmake
     ctags
+    bear
 
     clang
     libcxx
@@ -100,6 +102,7 @@
      #     (nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
      #   ];
      # };
+     programs.java.enable = true;
    };
    home-manager.useUserPackages = true;
 
