@@ -281,6 +281,14 @@ iab simplfied simplified
 iab abow above
 iab dissapear disappear
 iab suseptable susceptible
+iab unfourtinaly unfortunately
+iab electricly electrically
+iab cirucit circuit
+iab disapears disappears
+iab graphicial graphical
+iab belive believe
+iab wiered weird
+iab missbehaving misbehaving
 iab coeffeicents coefficients
 iab powred powered
 iab accelration acceleration
@@ -1631,7 +1639,7 @@ endfunction
 command! SpookyToggleFile :call s:SpookyToggleFile(expand('%:p'), expand('%:t:r'), expand('%:e'))
 augroup AugroupToggleFIle
   autocmd!
-  autocmd FileType c,cpp nnoremap <silent> <F2> :SpookyToggleFile<CR>
+  autocmd FileType c,cpp nnoremap <buffer> <silent> <F2> :SpookyToggleFile<CR>
 augroup END
 " }}}
 
@@ -2161,9 +2169,9 @@ command! SpookyToStringLocals call s:SpookyToString("locals")
 command! SpookyToStringBranches call s:SpookyToString("branches")
 augroup AugroupToString
   autocmd!
-  autocmd FileType c,cpp noremap <leader>m <Esc>:SpookyToString<CR>
-  autocmd FileType c,cpp noremap <leader>l <Esc>:SpookyToStringLocals<CR>
-  autocmd FileType c,cpp noremap <leader>k <Esc>:SpookyToStringBranches<CR>
+  autocmd FileType c,cpp noremap <buffer> <leader>m <Esc>:SpookyToString<CR>
+  autocmd FileType c,cpp noremap <buffer> <leader>l <Esc>:SpookyToStringLocals<CR>
+  autocmd FileType c,cpp noremap <buffer> <leader>k <Esc>:SpookyToStringBranches<CR>
 augroup END
 
 
@@ -2314,7 +2322,7 @@ augroup AugroupCtags
   autocmd FileType c,cpp unmap <f3>
 " <silent> 
 " https://vi.stackexchange.com/questions/20241/jumping-to-prototype-or-definition-of-a-function-using-tags
-  autocmd FileType c,cpp nnoremap <silent> <f3> :call <sid>sp_tag("<sid>f3_definition", expand('<cword>'))<cr>
+  autocmd FileType c,cpp nnoremap <buffer> <silent> <f3> :call <sid>sp_tag("<sid>f3_definition", expand('<cword>'))<cr>
   " autocmd FileType c,cpp nnoremap <silent> <C-f3> :call <sid>sp_tag("<sid>f3_prototype", expand('<cword>'))<cr>
 augroup END
 

@@ -11,6 +11,9 @@ else
   source $HOME/.standardvimrc
 endif
 
+" :PlugUpdate
+" :CocUpdate
+
 if has('nvim')
   " - sh
   "   - npm install bash-language-server
@@ -280,13 +283,13 @@ augroup AugroupCoc
   autocmd!
   autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua unmap <f3>
   " autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java unmap gd
-  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua map <silent> <F3> <Plug>(coc-definition)
+  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua map <silent> <buffer> <F3> <Plug>(coc-definition)
   " autocmd FileType cpp,sh,c,rust,go,zsh map <silent> <leader><F3> :tabedit % | call CocActionAsync('jumpDefinition')
 
-  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gd <Plug>(coc-definition)
-  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gy <Plug>(coc-type-definition)
-  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gi <Plug>(coc-implementation)
-  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> gr <Plug>(coc-references)
+  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua nmap <buffer> <silent> gd <Plug>(coc-definition)
+  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua nmap <buffer> <silent> gy <Plug>(coc-type-definition)
+  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua nmap <buffer> <silent> gi <Plug>(coc-implementation)
+  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua nmap <buffer> <silent> gr <Plug>(coc-references)
 
   " Go to the Type of a variable
   " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-type-definition)
@@ -298,18 +301,18 @@ augroup AugroupCoc
   autocmd FileType python map <silent> <F4> <Plug>(coc-rename)
 
 
-  autocmd FileType python map <silent> <F3> <Plug>(coc-definition)
+  autocmd FileType python map <buffer> <silent> <F3> <Plug>(coc-definition)
 
-  autocmd FileType java map <silent> <F3> <Plug>(coc-definition)
+  autocmd FileType java map <buffer> <silent> <F3> <Plug>(coc-definition)
 
-  autocmd FileType scala map <silent> <F3> <Plug>(coc-definition)
+  autocmd FileType scala map <buffer> <silent> <F3> <Plug>(coc-definition)
 " nmap <silent> [c <Plug>(coc-diagnostic-prev)
 " nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
   " Add missing imports on save
   autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
 
-  autocmd FileType rust map <leader>a <Plug>(coc-codeaction)
+  autocmd FileType rust map <buffer> <leader>a <Plug>(coc-codeaction)
 
 " rust https://github.com/jonhoo/configs/blob/master/editor/.config/nvim/init.vim
 augroup END
@@ -641,12 +644,12 @@ augroup AugroupVimux
   autocmd!
 
   " <leader+t> run gtest test based on the cursor position in a test file
-  autocmd FileType c,cpp,objc noremap <silent> <leader>t <esc>:call VimuxSpTest()<CR>
+  autocmd FileType c,cpp,objc noremap <buffer> <silent> <leader>t <esc>:call VimuxSpTest()<CR>
   " <leader+t> run a translate program for the word under the cursor
-  autocmd FileType md,markdown,text noremap <silent> <leader>t <esc>:call VimuxSpTranslate()<CR>
+  autocmd FileType md,markdown,text noremap <buffer> <silent> <leader>t <esc>:call VimuxSpTranslate()<CR>
 
   " <leader+p> run gtest test under perf based on the cursor position in a test file
-  autocmd FileType c,cpp,objc noremap <silent> <leader>p <esc>:call VimuxSpPerf()<CR>
+  autocmd FileType c,cpp,objc noremap <buffer> <silent> <leader>p <esc>:call VimuxSpPerf()<CR>
 
   " <leader+l> run man for current word under the cursor
   " autocmd FileType c,cpp noremap <silent> <leader>l <esc>:call VimuxSpMan()<CR>
@@ -1167,8 +1170,11 @@ let g:indent_guides_guide_size = 1
 let g:indent_guides_enable_on_vim_startup = 1
 
 let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#262626   ctermbg=3
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#262626 ctermbg=4
+augroup AugroupVimIndentGuides
+  autocmd!
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#262626 ctermbg=3
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#262626 ctermbg=4
+augroup END
 
 " }}}
 
@@ -1242,7 +1248,7 @@ endfunction
 command! GDBBreak :call GDBBreak()
 augroup AugroupGDB
   autocmd!
-  autocmd FileType c,cpp,objc nnoremap <leader>j <esc>:GDBBreak<CR>
+  autocmd FileType c,cpp,objc nnoremap <buffer> <leader>j <esc>:GDBBreak<CR>
 augroup END
 " }}}
 

@@ -56,6 +56,9 @@
 # string hex
 # bytes.fromhex(hex_str).decode('utf-8')
 
+# protocol: RTP (pip install --user rtp)
+# rtp = RTP().fromBytes(binascii.unhexlify(hex))  # decode
+
 # socket.ntohl()
 # ===================
 
