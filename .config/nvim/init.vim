@@ -283,7 +283,7 @@ augroup AugroupCoc
   autocmd!
   autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua unmap <f3>
   " autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java unmap gd
-  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua map <silent> <buffer> <F3> <Plug>(coc-definition)
+  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua map <silent> <F3> <Plug>(coc-definition)
   " autocmd FileType cpp,sh,c,rust,go,zsh map <silent> <leader><F3> :tabedit % | call CocActionAsync('jumpDefinition')
 
   autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua nmap <buffer> <silent> gd <Plug>(coc-definition)
