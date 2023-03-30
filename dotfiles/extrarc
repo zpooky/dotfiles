@@ -460,36 +460,45 @@ alias sp_bitcoin_table="coinmon"
 
 
 goto_pid() {
+  local pid
   if [ $# -lt 1 ]; then
     echo "Missing pid argument" 1>&2
     return 1
   fi
-  local proc="/proc/${1}"
-  if [ ! -e "${proc}" ]; then
-    echo "Process for pid: '${1}' is not running" 1>&2
+  local arguments="$*"
+  if [ $# -eq 1 ]; then
+    local pid="${1}"
+  elif [[ "${arguments}" =~ 'process ID: ([0-9]+)' ]]; then
+    local pid="${match[1]}"
+  else
     return 2
+  fi
+  local proc="/proc/${pid}"
+  if [ ! -e "${proc}" ]; then
+    echo "Process for pid: '${pid}' is not running" 1>&2
+    return 3
   fi
   local tmux_pane="$(cat ${proc}/environ | tr '\0' '\n' | grep '^TMUX_PANE=')"
   if [ ! $? -eq 0 ]; then
     echo "Process not opened in tmux" 1>&2
-    return 3
+    return 4
   fi
 
   if [[ ! "${tmux_pane}" =~ '^TMUX_PANE=(.+)' ]]; then
     echo "???? ${tmux_pane}" 1>&2
-    return 4
+    return 5
   fi
   local pane="${match[1]}"
 
   local tmp="$(tmux list-panes -a | grep ${pane})"
   if [ ! $? -eq 0 ]; then
     echo "pane: '${pane}' not found" 1>&2
-    return 5
+    return 6
   fi
 
   if [[ ! "${tmp}" =~ '^#:([0-9]+)\.([0-9]+)' ]]; then
     echo "!!! ${tmp}" 1>&2
-    return 6
+    return 7
   fi
 
   tmux select-window -t "${match[1]}" && tmux select-pane -t "${match[2]}"

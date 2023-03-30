@@ -275,6 +275,15 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab spech speech
+iab waht what
+iab artifical artificial
+iab knowleadge knowledge
+iab unlabled unlabelled
+iab signla signal
+iab paralell parallel
+iab inteligence intelligence
+iab noticable noticeable
 iab taht that
 iab absrobes absorbs
 iab simplfied simplified
@@ -689,8 +698,6 @@ iab nessessary necessary
 iab noxcept noexcept
 iab ovrride override
 iab ovrrides overrides
-iab paralell parallel
-iab Paralell Parallel
 iab Comunnication Communication
 iab comunnication communication
 iab possitive positive
@@ -2317,7 +2324,7 @@ nnoremap <silent> <f11> :call <sid>sp_tag("<sid>f3_prototype", expand('<cword>')
 " open tag
 " map <silent> <F3> <c-]>
 " open tag in vertical split
-map <silent> <f3> <c-]> <bar> :execute 'normal zt'<cr>
+nmap <silent> <f3> <c-]> <bar> :execute 'normal zt'<cr>
 " previous
 " map <silent> <A-Left> <c-t>
 

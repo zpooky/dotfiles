@@ -283,7 +283,7 @@ augroup AugroupCoc
   autocmd!
   autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua unmap <f3>
   " autocmd FileType cpp,sh,c,rust,go,zsh,vim,scala,python,java unmap gd
-  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua map <silent> <F3> <Plug>(coc-definition)
+  autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua nmap <silent> <F3> <Plug>(coc-definition)
   " autocmd FileType cpp,sh,c,rust,go,zsh map <silent> <leader><F3> :tabedit % | call CocActionAsync('jumpDefinition')
 
   autocmd FileType sh,rust,go,zsh,vim,scala,python,java,lua nmap <buffer> <silent> gd <Plug>(coc-definition)
@@ -844,7 +844,7 @@ Plug 'nickhutchinson/vim-cmake-syntax'
 
 " markdown {{{
 Plug 'tpope/vim-markdown'
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'c', 'dts', 'xml', 'strace', 'zsh=sh', 'cpp', 'vim', 'lua', 'make', 'ld', 'asm', 'json']
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'c', 'dts', 'xml', 'strace', 'zsh=sh', 'cpp', 'vim', 'lua', 'make', 'ld', 'asm', 'json', 'diff']
 let g:markdown_syntax_conceal = 0
 let g:markdown_minlines = 9000
 let g:markdown_recommended_style=0
