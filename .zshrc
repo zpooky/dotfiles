@@ -22,13 +22,14 @@ bindkey "\e[3~" delete-char
 # <alt+backspace> to delete word
 autoload -U select-word-style && select-word-style bash
 
-# Use modern completion system
+# More completion plugins
 if [ -e $HOME/sources/zsh-completions ]; then
   fpath=($HOME/sources/zsh-completions $fpath)
 fi
 
 autoload -U compinit && compinit -u
-#
+# disable mcd in /usr/share/zsh/functions/Completion/Unix/_mtools
+unset '_comps[mcd]'
 
 #
 autoload -U colors

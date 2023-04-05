@@ -192,7 +192,6 @@ else
 fi
 }
 
-alias sp-space="du -hsc *"
 alias sp_root="cd \`$DOTFILES_LIB/git_root.sh\`"
 
 #tmux
