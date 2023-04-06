@@ -252,7 +252,7 @@ sp_calc_generic(){
 
   if type nix-shell >/dev/null 2>&1; then
   # if [ 0 -eq 1 ]; then
-    local p="nix-shell -p python39Packages.numpy python39Packages.toolz python39Packages.scipy python39Packages.sympy python39Packages.matplotlib python39Packages.jedi python39Packages.jedi-language-server --run"
+    local p="nix-shell -p python310Packages.numpy python310Packages.toolz python310Packages.scipy python310Packages.sympy python310Packages.matplotlib python310Packages.jedi python310Packages.jedi-language-server --run"
     echo $p $kk
     eval $p "\"$kk\""
   else
@@ -272,7 +272,7 @@ sp_calc_js(){
 }
 
 sp_nvim(){
-  nix-shell -p python39Packages.numpy python39Packages.toolz python39Packages.scipy python39Packages.matplotlib python39Packages.jedi --run "nvim ${@}"
+  nix-shell -p python310Packages.numpy python310Packages.toolz python310Packages.scipy python310Packages.matplotlib python310Packages.jedi --run "nvim ${@}"
 }
 
 sp_calc_cpp() {

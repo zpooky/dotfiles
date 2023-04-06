@@ -9,12 +9,12 @@ echo -e "\e[9mstrikethrough\e[0m"
 echo -e "\e[31mForeground colour\e[0m"
 
 #TODO
-echo -e "\x1B[31mBackground colour\e[0m"
+echo -e "\e[41mBackground colour\e[0m"
 
 # https://gist.github.com/XVilka/8346728
 echo "24 bit color:"
 awk 'BEGIN{
-    s="/\\/\\/\\/\\/\\"; s=s s s s s s s s;
+    s="               "; s=s s s s s s s s;
     for (colnum = 0; colnum<77; colnum++) {
         r = 255-(colnum*255/76);
         g = (colnum*510/76);

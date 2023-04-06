@@ -25,6 +25,7 @@
     zip
     unzip
     fd
+    gawk
 
     keybase
     kbfs
