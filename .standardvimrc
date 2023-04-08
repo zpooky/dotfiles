@@ -276,6 +276,9 @@ set dictionary+=/usr/share/dict/words
 set spellfile=~/.vim/spell/en.utf-8.add
 
 iab autehtication authentication
+iab depndent dependent
+iab indepedent independent
+iab continious continuous
 iab spech speech
 iab waht what
 iab artifical artificial
@@ -1825,15 +1828,38 @@ function! s:SpMathFormat() range
 " http://shapecatcher.com/unicode/block/Mathematical_Operators
 " http://shapecatcher.com/unicode/block/Supplemental_Mathematical_Operators
 " https://en.wikipedia.org/wiki/Rotated_letter
-    let l:complex = { '(xor)': '⊕', '(pi)': 'π', '(integral)': '∫', '(integrate)': '∫', '(mul)': '∏', '(subset)': '⊂',
-                    \ '(qed)': '∎', '(element)': '∊' , '(not)': '¬', '(theta)': 'θ', '(_lambda)': 'λ', '(lambda)': 'Λ',
-                    \ '(alpha)': 'α', '(phi)': 'φ', '(phi2)': 'ϕ', '(PHI)': 'Φ', '(proportional)': '∝', '(gamma)': 'Γ', '(_gamma)': '𝛾', '(mu)':'μ',
-                    \ '(sigma)': '∑', '(_sigma)': 'σ', '(omega)': 'Ω', '(_omega)': 'ω', '(sqrt)': '√', '(cbrt)': '∛', '(qdrt)': '∜', '(epsilon)': 'ε',
-                    \ '(beta)': 'Β', '(_beta)': 'β', '(_rho)': 'ρ', '(_chi)': 'χ',
+    let l:complex = { '(xor)': '⊕', '(integral)': '∫', '(integrate)': '∫', '(mul)': '∏', '(subset)': '⊂',
+                    \ '(qed)': '∎', '(element)': '∊' , '(not)': '¬', 
+                    \ '(_alpha)': 'α', '(alpha)': 'Α',
+                    \ '(beta)': 'Β', '(_beta)': 'β', 
+                    \ '(_gamma)': '𝛾', '(gamma)': 'Γ',
+                    \ '(delta)': 'Δ', '(_delta)': 'δ',
+                    \ '(_epsilon)': 'ε', '(epsilon)': 'Ε',
+                    \ '(digamma)': 'Ϝ', '(_digamma)': 'ϝ',
+                    \ '(zeta)': 'Ζ', '(_zeta)': 'ζ',
+                    \ '(eta)': 'Η', '(_eta)': 'η',
+                    \ '(theta)': 'Θ', '(_theta)': 'θ', '(_theta2)': 'ϑ',
+                    \ '(iota)': 'Ι', '(_iota)': 'ι',
+                    \ '(kappa)': 'Κ', '(_kappa)': 'κ',
+                    \ '(_lambda)': 'λ', '(lambda)': 'Λ',
+                    \ '(mu)':'Μ', '(_mu)':'μ',
+                    \ '(nu)':'Ν', '(_nu)':'ν',
+                    \ '(xi)':'Ξ', '(_xi)':'ξ',
+                    \ '(omicron)':'Ο', '(_omicron)':'ο',
+                    \ '(_pi)': 'π', '(pi)': 'Π',
+                    \ '(_rho)': 'ρ', '(rho)': 'Ρ',
+                    \ '(sigma)': '∑', '(_sigma)': 'σ','(_sigma2)': 'ς',
+                    \ '(_tau)': 'τ', '(tau)': 'Τ',
+                    \ '(_upsilon)': 'υ', '(upsilon)': 'ϒ',
+                    \ '(_phi)': 'φ', '(_phi2)': 'ϕ', '(phi)': 'Φ',
+                    \ '(_chi)': 'χ','(chi)': 'Χ',
+                    \ '(psi)': 'Ψ', '(_psi)': 'ψ',
+                    \ '(omega)': 'Ω', '(_omega)': 'ω',
                     \ '(micro)': 'µ', '(infinity)': '∞', '(inf)': '∞', '(f)': 'ƒ', '(frequency)': 'ƒ',
-                    \ '(almost)': '≈', '(aprox)': '≈', '(delta)': 'Δ', '(_delta)': 'δ',
-                    \ '(_ny)': 'ν', '(member)': '∈', '(nmember)': '∉', '(angle)': '∠', '(_tau)': 'τ', '(tau)': 'Τ',
-                    \ '(nu)': 'Ν', '(_nu)': 'ν',
+                    \ '(sqrt)': '√', '(cbrt)': '∛', '(qdrt)': '∜',
+                    \ '(proportional)': '∝',
+                    \ '(almost)': '≈', '(aprox)': '≈', 
+                    \ '(member)': '∈', '(nmember)': '∉', '(angle)': '∠', 
                     \ '(prime)': 'ℙ', '(natural)': 'ℕ', '(integer)': 'ℤ', '(rational)': 'ℚ', '(real)': 'ℝ', '(RR)': 'ℝ', '(FF)': '𝔽', '(ZZ)': 'ℤ',
                     \ '(forall)': '∀', '(z)':'ƶ', '(Z)':'Ƶ', '=>':'⇒', '==>': '⟹',
                     \ '(1/4)': '¼', '(1/2)': '½', '(3/4)': '¾', '(1/7)': '⅐', '(1/9)': '⅑', '(1/3)': '⅓',
@@ -1847,12 +1873,34 @@ function! s:SpMathFormat() range
                     \ '(union)': '∪', '(intersect)': '∩', '(superset)': '⊃', '(empty)': '∅', '(F)': '𝓕',
                     \ '(tick)': '✓', '(untick)': '✗', '(AC)': '⏦', '(degree)': '°', '(degrees)': '°', '(cringle)': '◦',
                     \ '(ceil)':'⌈⌉', '(floor)': '⌊⌋', '(imaginary)': 'ℑ', '(ground)': '⏚',
-                    \ '(xbar)': 'x̄', '(Xbar)': 'X̄', '(zbar)': 'z̄', '(Zbar)': 'Z̄',
-                    \ '(Abar)': 'Ā', '(abar)': 'ā', '(Ebar)': 'Ē', '(ebar)': 'ē', '(Gbar)': 'Ḡ', '(gbar)': 'ḡ', 
-                    \ '(Ibar)': 'Ī', '(ibar)': 'ī', '(Obar)': 'Ō', '(obar)': 'ō', '(Ubar)': 'Ū', '(ubar)': 'ū',
-                    \ '(rbar)': 'r̄', '(Rbar)': 'R̄', '(Ybar)':'Ȳ', '(ybar)':'ȳ',
-                    \ '(<<<)': '⋘', '(>>>)': '⋙', '(<<)': '≪', '(>>)': '≫', '(eta)': 'Η', '(_eta)': 'η', '(psi)': 'Ψ', '(_psi)': 'ψ',
-                    \ '(phat)': 'p̂','(Phat)': 'P̂', '(khat)': 'k̂', '(Khat)': 'K̂', '(yhat)': 'ȳ', '(Yhat)': 'Ȳ'}
+                    \ '(Abar)': 'Ā', '(abar)': 'ā',
+                    \ '(bbar)': "b\u0305", '(Bbar)': "B\u0305",
+                    \ '(cbar)': "c\u0305", '(Cbar)': "C\u0305",
+                    \ '(dbar)': "d\u0305", '(Dbar)': "D\u0305",
+                    \ '(Ebar)': 'Ē', '(ebar)': 'ē',
+                    \ '(fbar)': "f\u0305", '(Fbar)': "F\u0305",
+                    \ '(Gbar)': 'Ḡ', '(gbar)': 'ḡ', 
+                    \ '(hbar)': "h\u0305", '(Hbar)': "H\u0305",
+                    \ '(Ibar)': 'Ī', '(ibar)': 'ī',
+                    \ '(jbar)': "j\u0305", '(Jbar)': "J\u0305",
+                    \ '(kbar)': "k\u0305", '(Kbar)': "K\u0305",
+                    \ '(lbar)': "l\u0305", '(Lbar)': "L\u0305",
+                    \ '(mbar)': "m\u0305", '(Mbar)': "M\u0305",
+                    \ '(nbar)': "n\u0305", '(Nbar)': "N\u0305",
+                    \ '(Obar)': 'Ō', '(obar)': 'ō',
+                    \ '(pbar)': "p\u0305", '(Pbar)': "P\u0305",
+                    \ '(qbar)': "q\u0305", '(Qbar)': "Q\u0305",
+                    \ '(rbar)': 'r̄', '(Rbar)': 'R̄',
+                    \ '(sbar)': "s\u0305", '(Sbar)': "S\u0305",
+                    \ '(tbar)': "t\u0305", '(Tbar)': "T\u0305",
+                    \ '(Ybar)':'Ȳ', '(ybar)':'ȳ',
+                    \ '(Ubar)': 'Ū', '(ubar)': 'ū',
+                    \ '(vbar)': "v\u0305", '(Vbar)': "V\u0305",
+                    \ '(xbar)': 'x̄', '(Xbar)': 'X̄',
+                    \ '(zbar)': 'z̄', '(Zbar)': 'Z̄',
+                    \ '(<<<)': '⋘', '(>>>)': '⋙', '(<<)': '≪', '(>>)': '≫', 
+                    \ '(phat)': 'p̂','(Phat)': 'P̂', '(khat)': 'k̂', '(Khat)': 'K̂', '(yhat)': 'ŷ', '(Yhat)': 'Ŷ',
+                    \ '(deriviate)': '∂', '(derivative)': '∂', '(derivate)': '∂'}
     " TODO http://shapecatcher.com/unicode/block/Number_Forms
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
@@ -1911,7 +1959,7 @@ function! s:SpMathFormat() range
                     \ 'n': 'ₙ', 'i': 'ᵢ', 'y': 'ᵧ', 'x': 'ₓ', 'j': 'ⱼ', 'ǝ': 'ₔ', 'r': 'ᵣ', 'u': 'ᵤ', 'v': 'ᵥ',
                     \ '+': '₊', '−': '₋', '-' :'₋', '(': '₍', ')': '₎', '=': '₌',
                     \ 'Γ': 'ᵧ', 'P':'ᵨ', 'Φ': 'ᵩ', 'Χ': 'ᵪ', ',': ',',
-                    \ 'φ': 'ᵩ', 'β': 'ᵦ', 'χ': 'ᵪ' }
+                    \ 'φ': 'ᵩ', 'β': 'ᵦ', 'χ': 'ᵪ', "'": '‚', '"': '„'}
 
         let l:default = 'a'
         let l:sub = get(l:dict, l:char, l:default)

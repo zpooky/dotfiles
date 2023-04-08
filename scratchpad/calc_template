@@ -79,6 +79,7 @@ import time
 import json
 
 sys.version
+sys.setrecursionlimit(1500)
 
 k = 1000.
 M = k*k
@@ -113,5 +114,18 @@ def deg2rad(deg):
 def rad2deg(rad):
   return rad*(180./np.pi)
 
-sys.setrecursionlimit(1500)
+def sigma(x, f):
+  """
+                N
+  sigma(x, f) = ∑ f(xᵢ)
+               i=0
+  sigma(x, lambda xᵢ: xᵢ)
+  """
+  return functools.reduce(lambda value,elem: value+f(elem), x, 0)
+
+def mean(x):
+  """
+  x̄ = mean(x)
+  """
+  return (1./len(x))*sigma(x, lambda x: x)
 
