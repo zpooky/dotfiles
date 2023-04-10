@@ -1924,7 +1924,8 @@ function! s:SpMathFormat() range
                     \ '(vhat)': "v\u0302", '(Vhat)': "V\u0302",
                     \ '(xhat)': "x\u0302", '(Xhat)': "X\u0302",
                     \ '(zhat)': 'ẑ', '(Zhat)': 'Ẑ',
-                    \ '(deriviate)': '∂', '(derivative)': '∂', '(derivate)': '∂'}
+                    \ '(deriviate)': '∂', '(derivative)': '∂', '(derivate)': '∂',
+                    \ '(counter-clockwise)': '↺', '(counterclockwise)': '↺', '(clockwise)': '↻'}
     " TODO http://shapecatcher.com/unicode/block/Number_Forms
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 
