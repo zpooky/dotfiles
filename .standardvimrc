@@ -1829,7 +1829,7 @@ function! s:SpMathFormat() range
 " http://shapecatcher.com/unicode/block/Mathematical_Operators
 " http://shapecatcher.com/unicode/block/Supplemental_Mathematical_Operators
 " https://en.wikipedia.org/wiki/Rotated_letter
-    let l:complex = { '(xor)': '⊕', '(integral)': '∫', '(integrate)': '∫', '(mul)': '∏', '(subset)': '⊂',
+    let l:complex = { '(xor)': '⊕', '(subset)': '⊂',
                     \ '(qed)': '∎', '(element)': '∊' , '(not)': '¬', 
                     \ '(_alpha)': 'α', '(alpha)': 'Α',
                     \ '(beta)': 'Β', '(_beta)': 'β', 
@@ -1849,6 +1849,8 @@ function! s:SpMathFormat() range
                     \ '(omicron)':'Ο', '(_omicron)':'ο',
                     \ '(_pi)': 'π', '(pi)': 'Π',
                     \ '(_rho)': 'ρ', '(rho)': 'Ρ',
+                    \ '(integral)': '∫', '(integrate)': '∫',
+                    \ '(mul)': '∏', '(product)': '∏',
                     \ '(sigma)': '∑', '(_sigma)': 'σ','(_sigma2)': 'ς',
                     \ '(_tau)': 'τ', '(tau)': 'Τ',
                     \ '(_upsilon)': 'υ', '(upsilon)': 'ϒ',
