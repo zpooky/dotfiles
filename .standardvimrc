@@ -275,7 +275,12 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab recieves receives
+iab linarly linearly
+iab destingish distinguish
 iab autehtication authentication
+iab luminace luminance
+iab accuratly accurately
 iab depndent dependent
 iab indepedent independent
 iab continious continuous
@@ -1899,6 +1904,7 @@ function! s:SpMathFormat() range
                     \ '(Ybar)':'Ȳ', '(ybar)':'ȳ',
                     \ '(Ubar)': 'Ū', '(ubar)': 'ū',
                     \ '(vbar)': "v\u0305", '(Vbar)': "V\u0305",
+                    \ '(wbar)': "w\u0305", '(Wbar)': "W\u0305",
                     \ '(xbar)': 'x̄', '(Xbar)': 'X̄',
                     \ '(zbar)': 'z̄', '(Zbar)': 'Z̄',
                     \ '(<<<)': '⋘', '(>>>)': '⋙', '(<<)': '≪', '(>>)': '≫', 
@@ -1925,9 +1931,11 @@ function! s:SpMathFormat() range
                     \ '(yhat)': 'ŷ', '(Yhat)': 'Ŷ',
                     \ '(uhat)': 'û', '(Uhat)': 'Û',
                     \ '(vhat)': "v\u0302", '(Vhat)': "V\u0302",
+                    \ '(what)': "w\u0302", '(What)': "W\u0302",
                     \ '(xhat)': "x\u0302", '(Xhat)': "X\u0302",
                     \ '(zhat)': 'ẑ', '(Zhat)': 'Ẑ',
-                    \ '(deriviate)': '∂', '(derivative)': '∂', '(derivate)': '∂',
+                    \ '(deriviate)': '∂', '(derivative)': '∂', '(derivate)': '∂', '(direvate)': '∂',
+                    \ '(nabla)': '∇',
                     \ '(counter-clockwise)': '↺', '(counterclockwise)': '↺', '(clockwise)': '↻'}
     " TODO http://shapecatcher.com/unicode/block/Number_Forms
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
