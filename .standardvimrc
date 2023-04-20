@@ -275,12 +275,15 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab acustic acoustic
 iab recieves receives
 iab linarly linearly
 iab destingish distinguish
 iab autehtication authentication
 iab luminace luminance
+iab differes differers
 iab accuratly accurately
+iab listenning listening
 iab depndent dependent
 iab indepedent independent
 iab continious continuous
@@ -293,6 +296,8 @@ iab signla signal
 iab paralell parallel
 iab inteligence intelligence
 iab noticable noticeable
+iab wastefull wasteful
+iab percived perceived
 iab whant want
 iab taht that
 iab absrobes absorbs
