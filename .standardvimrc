@@ -276,6 +276,12 @@ set dictionary+=/usr/share/dict/words
 set spellfile=~/.vim/spell/en.utf-8.add
 
 iab acustic acoustic
+iab diffenret different
+iab comforming conforming
+iab differencies differences
+iab componesate compensate
+iab distingish distinguish
+iab measurment measurement
 iab recieves receives
 iab linarly linearly
 iab destingish distinguish
