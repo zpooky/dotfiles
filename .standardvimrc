@@ -275,6 +275,12 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab communiacted communicated
+iab callculate calculate
+iab singal signal
+iab mathimatically mathematically
+iab reprsentation representation
+iab indivudual individual
 iab acustic acoustic
 iab diffenret different
 iab comforming conforming
@@ -407,7 +413,6 @@ iab manifactorer manufacturer
 iab manifactoring manufacturing
 iab purposly purposely
 iab artifically artificially
-iab subsicent subsistent
 iab internaly internally
 iab requring requiring
 iab embeded embedded

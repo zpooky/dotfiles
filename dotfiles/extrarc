@@ -489,18 +489,21 @@ goto_pid() {
   fi
   local pane="${match[1]}"
 
-  local tmp="$(tmux list-panes -a | grep ${pane})"
+  local tmp="$(tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index} #{pane_id}' | grep ${pane})"
   if [ ! $? -eq 0 ]; then
     echo "pane: '${pane}' not found" 1>&2
     return 6
   fi
 
-  if [[ ! "${tmp}" =~ '^#:([0-9]+)\.([0-9]+)' ]]; then
+  if [[ ! "${tmp}" =~ '^([0-9]+):([0-9]+)\.([0-9]+)' ]]; then
     echo "!!! ${tmp}" 1>&2
     return 7
   fi
+  local session_index="${match[1]}"
+  local window_index="${match[2]}"
+  local pane_index="${match[3]}"
 
-  tmux select-window -t "${match[1]}" && tmux select-pane -t "${match[2]}"
+  tmux select-window -t "${window_index}" && tmux select-pane -t "${pane_index}"
 }
 
 # vim: set ft=zsh:
