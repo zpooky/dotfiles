@@ -285,8 +285,16 @@ iab singal signal
 iab mathimatically mathematically
 iab reprsentation representation
 iab indivudual individual
+iab surfice surface
+iab sensitivty sensitivity
+iab aoudio audio
+iab dicrease decrease
+iab tempeature temperature
+iab absoloute absolute
 iab acustic acoustic
 iab diffenret different
+iab caluclate calculate
+iab ciruclar circular
 iab comforming conforming
 iab differencies differences
 iab componesate compensate
@@ -1886,7 +1894,7 @@ function! s:SpMathFormat() range
                     \ '(micro)': 'µ', '(infinity)': '∞', '(inf)': '∞', '(f)': 'ƒ', '(frequency)': 'ƒ',
                     \ '(sqrt)': '√', '(cbrt)': '∛', '(qdrt)': '∜',
                     \ '(proportional)': '∝',
-                    \ '(almost)': '≈', '(aprox)': '≈', 
+                    \ '(almost)': '≈', '(aprox)': '≈', '(approx)': '≈', 
                     \ '(member)': '∈', '(nmember)': '∉', '(angle)': '∠', 
                     \ '(prime)': 'ℙ', '(natural)': 'ℕ', '(integer)': 'ℤ', '(rational)': 'ℚ', '(real)': 'ℝ', '(RR)': 'ℝ', '(FF)': '𝔽', '(ZZ)': 'ℤ',
                     \ '(forall)': '∀', '(z)':'ƶ', '(Z)':'Ƶ', '=>':'⇒', '==>': '⟹',

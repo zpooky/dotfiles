@@ -34,7 +34,7 @@ esac
 
 [[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
 
-if which ruby >/dev/null && which gem >/dev/null; then
+if type ruby >/dev/null && type gem >/dev/null; then
     PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 fi
 
@@ -176,8 +176,7 @@ alias hna="~/dotfiles/lib/hn/spawn.sh"
 alias ssh='TERM=xterm ssh '
 
 port_scan() {
-which netstat 2>&1 > /dev/null
-if [ $? -eq 0 ]; then
+if type netstat 2>&1 > /dev/null; then
   # netstat -alnptu | grep -Ei 'Proto|LISTEN'
   netstat --tcp --udp --udplite --raw --listening --program --numeric
 else
@@ -278,8 +277,7 @@ sp_nvim(){
 sp_calc_cpp() {
   local scratchpad_root=$HOME/scratchpad_cpp
 
-  which cling 2>&1 > /dev/null
-  if [ ! $? -eq 0 ]; then
+  if ! type cling 2>&1 > /dev/null; then
     echo "missing cling" >&2
     return 1
   fi
