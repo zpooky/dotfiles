@@ -62,6 +62,7 @@
 # socket.ntohl()
 # ===================
 
+import os
 import sys
 import math
 import binascii
