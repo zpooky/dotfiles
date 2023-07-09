@@ -79,7 +79,7 @@
   environment.etcBackupExtension = ".bak";
 
   # Read the changelog before changing this value
-  system.stateVersion = "22.05";
+  system.stateVersion = "23.05";
 
   # After installing home-manager channel like
   #   nix-channel --add https://github.com/rycee/home-manager/archive/release-21.05.tar.gz home-manager
@@ -89,7 +89,7 @@
    { pkgs, ... }:
    {
      # Read the changelog before changing this value
-     home.stateVersion = "22.05";
+     home.stateVersion = "23.05";
 
      # Use the same overlays as the system packages
      nixpkgs.overlays = config.nixpkgs.overlays;
