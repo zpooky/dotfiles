@@ -2469,9 +2469,15 @@ nmap <silent> <f3> <c-]> <bar> :execute 'normal zt'<cr>
 " previous
 " map <silent> <A-Left> <c-t>
 
+function! s:maybe_unmap() abort
+  if maparg('<f3>')
+    unmap <f3>
+  endif
+endfunction
+
 augroup AugroupCtags
   autocmd!
-  autocmd FileType c,cpp unmap <f3>
+  autocmd FileType c,cpp call s:maybe_unmap()
 " <silent> 
 " https://vi.stackexchange.com/questions/20241/jumping-to-prototype-or-definition-of-a-function-using-tags
   autocmd FileType c,cpp nnoremap <buffer> <silent> <f3> :call <sid>sp_tag("<sid>f3_definition", expand('<cword>'))<cr>
@@ -2484,7 +2490,6 @@ set tags=./.tags;/
 
 " - TODO more general debug of tags
 " - TODO glib colours
-"   TODO sp_struct... copy to tmp files
 "   TODO :help tagstack-examples
 "   TODO markdown colored block
 " }}}
