@@ -455,7 +455,7 @@ sp_ltc(){
 
 alias sp_bitcoin_table="coinmon"
 
-
+# tmux list-panes -a -F "#{session_name}:#{window_index}.#{pane_index} #{pane_id}"
 goto_pid() {
   local pid
   if [ $# -lt 1 ]; then
