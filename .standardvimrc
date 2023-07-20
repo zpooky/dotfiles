@@ -275,6 +275,11 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab recepy recipe
+iab recepe recipe
+iab recepie recipe
+iab recepi recipe
+iab deriviative derivative
 iab deriviative derivative
 iab avergae average
 iab humnas humans
