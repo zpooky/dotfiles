@@ -47,7 +47,7 @@ build() {
       cd build
 
       if [ ! -e meson-info ] || [ ! -e meson-info ] || [ ! -e meson-logs ]; then
-        meson ..
+        meson setup ..
         res=$?
       fi
 
