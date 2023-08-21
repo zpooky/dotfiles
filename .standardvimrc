@@ -1906,6 +1906,7 @@ function! s:SpMathFormat() range
                     \ '(digamma)': 'Ϝ', '(_digamma)': 'ϝ',
                     \ '(zeta)': 'Ζ', '(_zeta)': 'ζ',
                     \ '(eta)': 'Η', '(_eta)': 'η',
+                    \ '(elipsis)': '⋮', '(ellipsis)': '⋮', '(...)': '⋮',
                     \ '(theta)': 'Θ', '(_theta)': 'θ', '(_theta2)': 'ϑ',
                     \ '(iota)': 'Ι', '(_iota)': 'ι',
                     \ '(kappa)': 'Κ', '(_kappa)': 'κ',
