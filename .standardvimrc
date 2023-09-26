@@ -275,6 +275,18 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab expesnive expensive
+iab majoritee majority
+iab mushrom mushroom
+iab classifing classifying
+iab neigbheres neighbours
+iab neighberes neighbours
+iab neighburs neighbours
+iab neighborus neighbours
+iab neigbhour neighbour
+iab neigbher neighbour
+iab neigbhor neighbour
+iab neigbhur neighbour
 iab recepy recipe
 iab recepe recipe
 iab recepie recipe
@@ -319,7 +331,9 @@ iab reporduce reproduce
 iab pallett pallet
 iab palett palette
 iab incandecent incandescent
+iab simularity similarity
 iab simuarity similarity
+iab stationarity stationary
 iab difeerence difference
 iab incandessent incandescent
 iab efficency efficiency
