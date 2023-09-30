@@ -275,6 +275,9 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab betwwen between
+iab asymetric asymmetric
+iab interprit interpret
 iab expesnive expensive
 iab majoritee majority
 iab mushrom mushroom
