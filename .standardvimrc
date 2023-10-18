@@ -275,6 +275,7 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab diretly directly
 iab occurinces occurrences
 iab mathetmical mathematical
 iab radiactive radioactive
@@ -294,6 +295,10 @@ iab neigbhour neighbour
 iab neigbher neighbour
 iab neigbhor neighbour
 iab neigbhur neighbour
+iab measurment measurement
+iab meansurement measurement
+iab infinitily infinitely
+iab freqnencies frequencies
 iab recepy recipe
 iab recepe recipe
 iab recepie recipe
