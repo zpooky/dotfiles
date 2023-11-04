@@ -39,6 +39,7 @@
     ccls
     cmake
     ctags
+    cling
     bear
 
     clang
@@ -50,12 +51,15 @@
     git
     gnumake
     go
-    nodejs
-    python3
+    nodejs_20
     rustup
     tmux
     jdk
 
+    python3
+    python310Packages.attrs
+
+    ranger
     tree
     lua
     musl

@@ -275,6 +275,12 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab occour occur
+iab occouring occurring
+iab caracter character
+iab inscure insecure
+iab finit finite
+iab fieled field
 iab diretly directly
 iab occurinces occurrences
 iab mathetmical mathematical
@@ -310,6 +316,8 @@ iab registor register
 iab scilicon silicon
 iab correleation correlation
 iab choosen chosen
+iab convoltion convolution
+iab enfacis emphasis
 iab deriviative derivative
 iab avergae average
 iab humnas humans
@@ -2136,7 +2144,8 @@ function! s:SpMathFormat() range
                     \ '(xhat)': "x\u0302", '(Xhat)': "X\u0302",
                     \ '(zhat)': 'ẑ', '(Zhat)': 'Ẑ',
                     \ '(deriviate)': '∂', '(derivative)': '∂', '(derivate)': '∂', '(direvate)': '∂', '(del)': '∂',
-                    \ '(nabla)': '∇', '(n)': 'η',
+                    \ '(lcursive)': 'ℓ',
+                    \ '(nabla)': '∇', '(n)': 'η', '(times)': '×',
                     \ '(counter-clockwise)': '↺', '(counterclockwise)': '↺', '(clockwise)': '↻'}
     " TODO http://shapecatcher.com/unicode/block/Number_Forms
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}

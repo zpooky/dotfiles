@@ -83,6 +83,11 @@ import functools
 sys.version
 sys.setrecursionlimit(1500)
 
+KB = 1024
+MB = 1024 * KB
+GB = 1024 * MB
+TB = 1024 * GB
+
 k = 1000.
 M = k*k
 milli = 1./1000.
@@ -130,6 +135,6 @@ def mean(x):
   """
   x̄ = mean(x)
   """
-  return (1./len(x))*sigma(x, lambda x: x)
+  return (1./len(x))*sigma(x, lambda xᵢ: xᵢ)
 
 
