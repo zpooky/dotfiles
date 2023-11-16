@@ -282,6 +282,11 @@ iab inscure insecure
 iab finit finite
 iab fieled field
 iab diretly directly
+iab accross across
+iab electrecla electrical
+iab electricaly electrically
+iab differance difference
+iab multiplile multiple
 iab occurinces occurrences
 iab mathetmical mathematical
 iab radiactive radioactive
@@ -389,6 +394,10 @@ iab accuratly accurately
 iab listenning listening
 iab depndent dependent
 iab indepedent independent
+iab countinous continuous
+iab polynominal polynomial
+iab subsequences sub-sequences
+iab discontinouties discontinuities
 iab continious continuous
 iab spech speech
 iab waht what
@@ -1041,7 +1050,7 @@ iab infered inferred
 iab operaions operations
 iab operaion operation
 iab calcuation calculation
-iab Devision Division
+iab divission division
 iab devision division
 iab circuts circuits
 iab proffesional professional
@@ -2088,7 +2097,9 @@ function! s:SpMathFormat() range
                     \ '(xx)': '𝕩',
                     \ '(yy)': '𝕪',
                     \ '(zz)': '𝕫',
-                    \ '(tick)': '✓', '(untick)': '✗', '(AC)': '⏦', '(degree)': '°', '(degrees)': '°', '(cringle)': '◦',
+                    \ '(tick)': '🗸', '(untick)': '✗', 
+                    \ '(check)': '🗸', '(uncheck)': '✗', 
+                    \ '(AC)': '⏦', '(degree)': '°', '(degrees)': '°', '(cringle)': '◦',
                     \ '(ceil)':'⌈⌉', '(floor)': '⌊⌋', '(imaginary)': 'ℑ', '(ground)': '⏚',
                     \ '(Abar)': "A\u0305", '(abar)': "a\u0305",
                     \ '(bbar)': "b\u0305", '(Bbar)': "B\u0305",
