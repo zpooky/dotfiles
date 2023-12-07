@@ -4,6 +4,7 @@
 --type-set=cpp:ext:c,cpp,cc,cxx,m,hpp,hh,h,hxx
 --type-set=md:ext:md,mkd
 --type-set=meson:ext:build
+--type-set=devicetree:ext:dts,dtsi
 
 --ignore-file=is:.tags
 --ignore-file=is:tags
