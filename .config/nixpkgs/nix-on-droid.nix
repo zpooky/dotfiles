@@ -58,6 +58,7 @@
 
     python3
     python310Packages.attrs
+    python310Packages.jedi
 
     ranger
     tree
