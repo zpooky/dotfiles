@@ -283,7 +283,13 @@ sp_setup_fzf() {
     source $FZF_BASE/shell/completion.zsh
     source $FZF_BASE/shell/key-bindings.zsh
 
-    local args='--type f --no-ignore-vcs --exclude oe-workdir --exclude "*.a" --exclude "*.o" --exclude "*.so" --exclude "*.pyc" --exclude node_modules --exclude "*.png" --exclude "*.rar" --exclude "*.zip" --exclude "*.jpg" --exclude "*.class" --exclude "*.pdf" --exclude "*.d" --exclude "*.dat" --exclude "*.exe" --color never'
+    local args='--type f --no-ignore-vcs --exclude oe-workdir --exclude "*.a" --exclude "*.o" --exclude "*.so"'
+    args+=' --exclude "*.pyc" --exclude node_modules --exclude "*.png" --exclude "*.rar" --exclude "*.zip"'
+    args+=' --exclude "*.jpg" --exclude "*.class" --exclude "*.pdf" --exclude "*.d" --exclude "*.dat"'
+    args+=' --exclude "*.exe" --exclude "*.dtpre" --exclude "*.bin" --exclude "*.docx" --exclude "*.doc"'
+    args+=' --exclude "*.obj" --exclude "*.xz" --exclude "*.odp" --exclude "*.mp4" --exclude "*.mkv"'
+    args+=' --exclude "*.elf"'
+    args+=' --color never'
     if command -v fdfind 2>&1 > /dev/null; then
       export FZF_DEFAULT_COMMAND="fdfind ${args}"
     elif command -v fd 2>&1 > /dev/null; then
