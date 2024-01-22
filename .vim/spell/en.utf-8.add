@@ -71,3 +71,5 @@ Tristimulus
 overfitting
 MEMS
 config
+prescaler
+PWM

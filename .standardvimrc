@@ -276,6 +276,12 @@ set dictionary+=/usr/share/dict/words
 set spellfile=~/.vim/spell/en.utf-8.add
 
 iab colssion collision
+iab prescalar prescaler
+iab drasticly drastically
+iab disadvantes disadvantages
+iab exlusive exclusive
+iab nativly natively
+iab eachoter each other
 iab occour occur
 iab occouring occurring
 iab reveleaing revelling

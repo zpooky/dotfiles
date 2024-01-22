@@ -283,7 +283,7 @@ sp_setup_fzf() {
     source $FZF_BASE/shell/completion.zsh
     source $FZF_BASE/shell/key-bindings.zsh
 
-    local args='--type f --no-ignore-vcs --exclude oe-workdir --exclude "*.a" --exclude "*.o" --exclude "*.so"'
+    local args='--type f --no-ignore-vcs --exclude build --exclude oe-workdir --exclude "*.a" --exclude "*.o" --exclude "*.so"'
     args+=' --exclude "*.pyc" --exclude node_modules --exclude "*.png" --exclude "*.rar" --exclude "*.zip"'
     args+=' --exclude "*.jpg" --exclude "*.class" --exclude "*.pdf" --exclude "*.d" --exclude "*.dat"'
     args+=' --exclude "*.exe" --exclude "*.dtpre" --exclude "*.bin" --exclude "*.docx" --exclude "*.doc"'
