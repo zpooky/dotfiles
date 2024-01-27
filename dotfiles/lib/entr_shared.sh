@@ -105,13 +105,14 @@ good() {
 }
 
 cls() {
-  if [ -v "TMUX" ]; then
+  if command -v clear 2>&1 > /dev/null; then
     clear
+  else
+    printf "\033[H\033[2J"
+  fi
+  if [ -v "TMUX" ]; then
     sleep .3s
     tmux clear-history
-
-  else
-    clear
   fi
 }
 

@@ -1236,9 +1236,9 @@ function! s:SetupTmp()
     set nobackup            " no bak
   else
     if has('nvim')
-      let l:root = "/tmp/.nvim-".$USER
+      let l:root = $TMPDIR."/.nvim-".$USER
     else
-      let l:root = "/tmp/.vim-".$USER
+      let l:root = $TMPDIR."/.vim-".$USER
     endif
     if !isdirectory(l:root)
       call mkdir(l:root, "", 0700)
@@ -1259,9 +1259,9 @@ function! s:SetupTmp()
     set undofile                      " File Persistent undo
     " set undodir=l:undo."//"           " Store undo file in tmp directory
     if has('nvim')
-      set undodir=/tmp/.nvim-$USER/undo//
+      set undodir=$TMPDIR/.nvim-$USER/undo//
     else
-      set undodir=/tmp/.vim-$USER/undo//
+      set undodir=$TMPDIR/.vim-$USER/undo//
     endif
     " }}}
 
@@ -1273,9 +1273,9 @@ function! s:SetupTmp()
     " two slashes means that vim will create unique swap file names per file
     " set directory=l:swap.//
     if has('nvim')
-      set directory=/tmp/.nvim-$USER/swap//
+      set directory=$TMPDIR/.nvim-$USER/swap//
     else
-      set directory=/tmp/.vim-$USER/swap//
+      set directory=$TMPDIR/.vim-$USER/swap//
     endif
     set swapfile
     " }}}
