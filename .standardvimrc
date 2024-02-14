@@ -275,6 +275,13 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab extenrally externally
+iab applicale applicable
+iab swithcing switching
+iab pullup pull-up
+iab manifacturer manufacturer
+iab pulldown pull-down
+iab componente component
 iab colssion collision
 iab prescalar prescaler
 iab drasticly drastically
@@ -1212,10 +1219,6 @@ iab szie_t size_t
 iab typdef typedef
 
 iab distrubition distribution
-
-" iab nullpt nullptr
-" iab nullp nullptr
-" iab null nullptr
 " }}}
 
 set nowrap                        " do not soft wrap long lines
@@ -1228,26 +1231,26 @@ set autoread                      " auto reload after outside changes(tmux sends
 " set smartindent                   " support auto indentation when for example the previous line end with { used for (c/c++)
 " }}}
 
-" tmp directories {{{
+" directories {{{
 function! s:SetupTmp()
   if has("win32")
     set noswapfile          " no swap
     set noundofile          " no undo file
     set nobackup            " no bak
   else
-    if has('nvim')
-      let l:root = $TMPDIR."/.nvim-".$USER
+    if exists('$TMPDIR')
+      let l:tmpdir = $TMPDIR
     else
-      let l:root = $TMPDIR."/.vim-".$USER
+      let l:tmpdir = "/tmp"
+    endif
+    if has('nvim')
+      let l:root = l:tmpdir."/.nvim-".$USER
+    else
+      let l:root = l:tmpdir."/.vim-".$USER
     endif
     if !isdirectory(l:root)
       call mkdir(l:root, "", 0700)
     endif
-
-    " let l:root = l:base."/".$USER
-    " if !isdirectory(l:root)
-    "   call mkdir(l:root, "", 0700)
-    " endif
 
     " Undo {{{
     let l:undo = l:root."/undo"
@@ -1257,26 +1260,17 @@ function! s:SetupTmp()
     " https://advancedweb.hu/2017/09/12/vim-using-undo-branches
     set undolevels=1000               " Use many levels of undo
     set undofile                      " File Persistent undo
-    " set undodir=l:undo."//"           " Store undo file in tmp directory
-    if has('nvim')
-      set undodir=$TMPDIR/.nvim-$USER/undo//
-    else
-      set undodir=$TMPDIR/.vim-$USER/undo//
-    endif
+    let &undodir = l:undo."//"
     " }}}
 
     " swap lock file {{{
-    let l:swap =l:root."/swap"
+    let l:swap = l:root."/swap"
     if !isdirectory(l:swap)
       call mkdir(l:swap, "", 0700)
     endif
     " two slashes means that vim will create unique swap file names per file
     " set directory=l:swap.//
-    if has('nvim')
-      set directory=$TMPDIR/.nvim-$USER/swap//
-    else
-      set directory=$TMPDIR/.vim-$USER/swap//
-    endif
+    let &directory=l:swap."//"
     set swapfile
     " }}}
 
@@ -1285,11 +1279,9 @@ function! s:SetupTmp()
     if !isdirectory(l:backup)
       call mkdir(l:backup, "", 0700)
     endif
-    set nobackup            " no bak
+    set nobackup
     " set backup
-    " pointles to backup to /tmp?
-    " set backupdir=/tmp/.vim/backup//
-    " set backupskip=/tmp/*,~/tmp
+    " let &dbackupdir=l:backup."//"
     " set writebackup
     " }}}
 
@@ -2009,7 +2001,7 @@ function! s:SpMathFormat() range
                     \ '(!<)': '≮',
                     \ '(^\)': '↖', '(/^)': '↗', '(\V)': '↘', '(V/)': '↙', '(\v)': '↘', '(v/)': '↙', '(V\)': '↘', '(/V)': '↙', '(v\)': '↘', '(/v)': '↙',
                     \ '(<=)': '⇐', '(^=)': '⇑', '(=>)': '⇒', '(V=)': '⇓', '(<=>)': '⇔', '(V=^)': '⇕', '(^=V)': '⇕',
-                    \ '(<-)': '←', '(|^)': '↑', '(^|)': '↑', '(^)': '↑', '(->)': '→', '(V)': '↓', '(<>)': '↔', '(^V)': '↕', '(V^)': '↕', '(^|V)': '↕', '(V|^)': '↕',
+                    \ '(<-)': '←', '(|^)': '↑', '(^|)': '↑', '(^)': '↑', '(->)': '→', '(V)': '↓', '(|V)': '↓', '(V|)': '↓', '(<>)': '↔', '(^V)': '↕', '(V^)': '↕', '(^|V)': '↕', '(V|^)': '↕',
                     \ '(union)': '∪', '(intersect)': '∩', '(superset)': '⊃', '(empty)': '∅',
                     \ '(F)': '𝓕',
                     \ '(/A/)': '𝓐',
