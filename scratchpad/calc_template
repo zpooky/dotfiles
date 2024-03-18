@@ -59,7 +59,14 @@
 # protocol: RTP (pip install --user rtp)
 # rtp = RTP().fromBytes(binascii.unhexlify(hex))  # decode
 
-# socket.ntohl()
+# 16bit (byteswap):
+#   socket.ntohs(), socket.htons()
+# 32bit (byteswap):
+#   socket.ntohl(), socket.htonl()
+
+# variable with explicit type:
+# np.uint32(0), np.int32(0)
+# np.uint16(0), np.int16(0)
 # ===================
 
 import os

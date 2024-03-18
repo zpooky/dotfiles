@@ -195,6 +195,16 @@ function f(){
   #find -iname "*${p}*"
 }
 
+function files() {
+  local ex3='! -path "*/tmp/*" ! -path "*/.git/*" ! -path "*/.ccls-cache/*" ! -path "*/.depend/*"'
+  if [ "${PWD}" = "${HOME}" ]; then
+    ex3="${ex3} ! -path '$HOME/dists/*' ! -path '~/dists/*' ! -path './dists/*'"
+  fi
+  local cmd="find -type f,l ${ex3}"
+  echo "${cmd}">&2
+  eval "${cmd}"
+}
+
 function agf(){
   local ft="${1}"
   shift
@@ -288,7 +298,7 @@ sp_setup_fzf() {
     args+=' --exclude "*.jpg" --exclude "*.class" --exclude "*.pdf" --exclude "*.d" --exclude "*.dat"'
     args+=' --exclude "*.exe" --exclude "*.dtpre" --exclude "*.bin" --exclude "*.docx" --exclude "*.doc"'
     args+=' --exclude "*.obj" --exclude "*.xz" --exclude "*.odp" --exclude "*.mp4" --exclude "*.mkv"'
-    args+=' --exclude "*.elf"'
+    args+=' --exclude "*.elf" --exclude "*.dtb"'
     args+=' --color never'
     if command -v fdfind 2>&1 > /dev/null; then
       export FZF_DEFAULT_COMMAND="fdfind ${args}"
