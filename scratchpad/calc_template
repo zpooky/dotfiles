@@ -12,52 +12,51 @@
 # binary: 0b1011_1111
 # to bin: bin(number)
 
+# octet:  0100
+
 #   size of type: var.bit_length()
 # number 1₂ bits: var.bit_count()
 #            ALT: bin(var).count('1')
 
-# octet:  0100
-
 # char -> raw: ord('a')
 # raw -> char: chr(97)
 
-# Math functions
 # math.log(x)
 # xor(x,y)
 
 # hex encoded -> utf8 string
-# bytearray.fromhex(hex).decode('utf-8')
+#   bytearray.fromhex(hex).decode('utf-8')
 # hex encoded -> raw
-# binascii.unhexlify(hex)
+#   binascii.unhexlify(hex)
 
 # base64
-# e = base64.b64encode(b'...')
-# p = base64.b64decode(e)
+#   e = base64.b64encode(b'...')
+#   p = base64.b64decode(e)
 
 # urlencode
-# e = urllib.parse.quote(p)
-# p = urllib.parse.unquote(e)
-# dict = urllib.parse.parse_qs(p)
-# e = urllib.parse.urlencode(dict)
+#   e = urllib.parse.quote(p)
+#   p = urllib.parse.unquote(e)
+#   dict = urllib.parse.parse_qs(p)
+#   e = urllib.parse.urlencode(dict)
 
 # sha256
-# m = hashlib.sha256()
-# m.update(binascii.unhexlify(""))
-# m.hexdigest()/m.digest()
+#   m = hashlib.sha256()
+#   m.update(binascii.unhexlify(""))
+#   m.hexdigest()/m.digest()
 
 # random
-# hex(random.getrandbits(32))
-# random.randint(1, 10)
+#   hex(random.getrandbits(32))
+#   random.randint(1, 10)
 
 # json
-# dict = json.loads(str)
-# str = json.dumps(dict)
+#   dict = json.loads(str)
+#   str = json.dumps(dict)
 
 # string hex
-# bytes.fromhex(hex_str).decode('utf-8')
+#   bytes.fromhex(hex_str).decode('utf-8')
 
 # protocol: RTP (pip install --user rtp)
-# rtp = RTP().fromBytes(binascii.unhexlify(hex))  # decode
+#   rtp = RTP().fromBytes(binascii.unhexlify(hex))  # decode
 
 # 16bit (byteswap):
 #   socket.ntohs(), socket.htons()
@@ -102,6 +101,11 @@ milli = 1./1000.
 nano = 1./(1000.*1000.*1000.)
 π=np.pi
 π2=π*2.
+
+def wavelength(ƒ):
+  c = 3 * math.pow(10, 8) # m/s
+  λ = c/ƒ
+  return λ
 
 def mod_exp(b, e, m):
   """
