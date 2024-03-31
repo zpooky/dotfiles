@@ -148,4 +148,8 @@ def mean(x):
   """
   return (1./len(x))*sigma(x, lambda xᵢ: xᵢ)
 
+def power_to_dB(P, ref = 1.):
+  return 10. * math.log10(P / ref)
 
+def magnitude_to_dB(V, ref = 1.):
+  return 20. * math.log10(V / ref)
