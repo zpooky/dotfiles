@@ -275,6 +275,11 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab ominidrectional omnidirectional
+iab amplifyer amplifier
+iab curveature curvature
+iab wavelenght wavelength
+iab direcivity directivity
 iab kinnetic kinetic
 iab groundlevel ground level
 iab decreses decreases
