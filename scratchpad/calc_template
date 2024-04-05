@@ -96,6 +96,7 @@ TB = 1024 * GB
 
 k = 1000.
 M = k*k
+G = M*M
 milli = 1./1000.
 μ = 1./(1000.*1000.)
 nano = 1./(1000.*1000.*1000.)
@@ -103,7 +104,7 @@ nano = 1./(1000.*1000.*1000.)
 π2=π*2.
 
 def wavelength(ƒ):
-  c = 3 * math.pow(10, 8) # m/s
+  c = 299792458 # speed of light in vacuum, m/s
   λ = c/ƒ
   return λ
 
