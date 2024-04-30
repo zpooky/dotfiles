@@ -205,6 +205,27 @@ function files() {
   eval "${cmd}"
 }
 
+function catf(){
+  echo "$@"
+  files=$@
+
+  max_len=0
+  for f in $files; do
+    tmp=${#f}
+    max_len=$(( max_len > tmp ? max_len : tmp ))
+  done
+
+  for f in $files; do
+    content=$(cat ${f})
+    f_len=${#f}
+    pad=$((max_len - f_len))
+    for i in $(seq 1 ${pad}); do
+      echo -n ' '
+    done
+    echo "${f}: ${content}"
+  done
+}
+
 function agf(){
   local ft="${1}"
   shift
