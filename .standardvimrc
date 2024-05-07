@@ -275,6 +275,18 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab difrection diffraction
+iab defracted diffracted
+iab possitivly positively
+iab elctrons electrons
+iab abosrbing absorbing
+iab frequncies frequencies
+iab absorptin absorption
+iab absoprtion absorption
+iab collsion collision
+iab releative relative
+iab associatd associated
+iab acitivty activity
 iab efficent efficient
 iab saccrificing sacrificing
 iab mesuared measured
@@ -303,6 +315,9 @@ iab wavelenght wavelength
 iab electriclly electrically
 iab vecinity vicinity
 iab differances differences
+iab diferences differences
+iab differencies differences
+iab quantifed quantified
 iab decreas decreases
 iab efficency efficiency
 iab antnena antenna
@@ -446,7 +461,6 @@ iab diffenret different
 iab caluclate calculate
 iab ciruclar circular
 iab comforming conforming
-iab differencies differences
 iab componesate compensate
 iab distingish distinguish
 iab measurment measurement
@@ -703,6 +717,7 @@ iab decase decease
 iab falsly falsely
 iab curtany certainty
 iab frequncy frequency
+iab freqency frequency
 iab unrequsted unrequested
 iab indpendant independent
 iab sucesses successes
