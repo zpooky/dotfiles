@@ -88,6 +88,7 @@ import functools
 
 sys.version
 sys.setrecursionlimit(1500)
+random.seed(0)
 
 KB = 1024
 MB = 1024 * KB

@@ -275,6 +275,13 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab destinct distinct
+iab diffrence difference
+iab represenatation
+iab closly closely
+iab freuency frequency
+iab continus continues
+iab recipant recipient
 iab difrection diffraction
 iab defracted diffracted
 iab possitivly positively
@@ -2238,6 +2245,7 @@ function! s:SpMathFormat() range
                     \ '(deriviate)': '∂', '(derivative)': '∂', '(derivate)': '∂', '(direvate)': '∂', '(del)': '∂',
                     \ '(lcursive)': 'ℓ',
                     \ '(nabla)': '∇', '(n)': 'η', '(times)': '×',
+                    \ '(antenna)': '𐌙',
                     \ '(counter-clockwise)': '↺', '(counterclockwise)': '↺', '(clockwise)': '↻'}
     " TODO http://shapecatcher.com/unicode/block/Number_Forms
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
