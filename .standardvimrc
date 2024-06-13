@@ -275,7 +275,18 @@ set dictionary+=/usr/share/dict/words
 " Own spell db
 set spellfile=~/.vim/spell/en.utf-8.add
 
+iab continous continuous
+iab simulaniously simultaneously
+iab varries varies
+iab varaint variant
 iab destinct distinct
+iab bandiwht bandwidth
+iab proportiaonlly proportionally
+iab sensitve sensitive
+iab discernable discernible
+iab abillity ability
+iab atenna antenna
+iab incresing increasing
 iab diffrence difference
 iab represenatation
 iab closly closely
