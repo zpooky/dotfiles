@@ -276,7 +276,15 @@ set dictionary+=/usr/share/dict/words
 set spellfile=~/.vim/spell/en.utf-8.add
 
 iab continous continuous
+iab emiited emitted
+iab loobes lobes
+iab loob lobe
 iab simulaniously simultaneously
+iab atennas antennas
+iab atenna antenna
+iab oppsite opposite
+iab wavlenegth wavelength
+iab permitivity permittivity
 iab varries varies
 iab varaint variant
 iab differen different
