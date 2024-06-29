@@ -777,6 +777,7 @@ function! s:SpookyLimitMsgLength(msg, strip_prefix) abort
   return a:msg
 endfunction
 
+let s:spoooooky = 0
 function! s:SpookyPrintCurrentFile() abort
   let l:strip_prefix = 1
   " redraw
@@ -798,7 +799,13 @@ function! s:SpookyPrintCurrentFile() abort
       let l:self = l:self . s:FuncPreview()
     endif
   endif
-  echomsg s:SpookyLimitMsgLength(l:self, l:strip_prefix)
+
+  " HACK: fix when opening multiple files to avoid spamming
+  " tabpagenr('$'): number of tags?
+  if s:spoooooky > tabpagenr('$')
+    echomsg s:SpookyLimitMsgLength(l:self, l:strip_prefix)
+  endif
+  let s:spoooooky = s:spoooooky+1
   " redraw
 " echo fnameescape(fnamemodify(finddir('.git',escape(expand('%:p:h'), ' ') . ';'), ':h'))
 
