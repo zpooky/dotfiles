@@ -1,4 +1,16 @@
 " cat ~/.iabrc | tr '[:upper:]' '[:lower:]' | sort | uniq > /tmp/xxx; cat /tmp/xxx > ~/.iabrc
+iab quanitity quantity
+iab qunatized quantized
+iab possibile possible
+iab similuar similar
+iab freqiencies frequencies
+iab osscilates oscillates
+iab othwerise otherwise
+iab finitly finitely
+iab infitly infinitely
+iab sinosouds sinusoids
+iab sinosoudal sinusoidal
+iab siginificant significant
 iab abbeility ability
 iab abillity ability
 iab abosrbing absorbing
