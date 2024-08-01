@@ -21,7 +21,7 @@
 # char -> raw: ord('a')
 # raw -> char: chr(97)
 
-# math.log(x)
+# math.log(x) = math.log(x, math.e)
 # xor(x,y)
 
 # hex encoded -> utf8 string

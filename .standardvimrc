@@ -1243,7 +1243,36 @@ function! s:SpMathFormat() range
                     \ '(lcursive)': 'ℓ',
                     \ '(nabla)': '∇', '(n)': 'η', '(times)': '×',
                     \ '(antenna)': '𐌙',
+                    \ '(*)': '×',
+                    \ '(atilde)': "a\u0303", '(Atilde)': "A\u0303",
+                    \ '(btilde)': "b\u0303", '(Btilde)': "B\u0303",
+                    \ '(ctilde)': "c\u0303", '(Ctilde)': "C\u0303",
+                    \ '(dtilde)': "d\u0303", '(Dtilde)': "D\u0303",
+                    \ '(etilde)': "e\u0303", '(Etilde)': "E\u0303",
+                    \ '(ftilde)': "f\u0303", '(Ftilde)': "F\u0303",
+                    \ '(gtilde)': "g\u0303", '(Gtilde)': "G\u0303",
+                    \ '(htilde)': "h\u0303", '(Htilde)': "H\u0303",
+                    \ '(itilde)': "i\u0303", '(Itilde)': "I\u0303",
+                    \ '(jtilde)': "j\u0303", '(Jtilde)': "J\u0303",
+                    \ '(ktilde)': "k\u0303", '(Ktilde)': "K\u0303",
+                    \ '(ltilde)': "l\u0303", '(Ltilde)': "L\u0303",
+                    \ '(mtilde)': "m\u0303", '(Mtilde)': "M\u0303",
+                    \ '(ntilde)': "n\u0303", '(Ntilde)': "N\u0303",
+                    \ '(otilde)': "o\u0303", '(Otilde)': "O\u0303",
+                    \ '(ptilde)': "p\u0303", '(Ptilde)': "P\u0303",
+                    \ '(qtilde)': "q\u0303", '(Qtilde)': "Q\u0303",
+                    \ '(rtilde)': "r\u0303", '(Rtilde)': "R\u0303",
+                    \ '(stilde)': "s\u0303", '(Stilde)': "S\u0303",
+                    \ '(ttilde)': "t\u0303", '(Ttilde)': "T\u0303",
+                    \ '(ytilde)': "y\u0303", '(Ytilde)': "Y\u0303",
+                    \ '(utilde)': "u\u0303", '(Utilde)': "U\u0303",
+                    \ '(vtilde)': "v\u0303", '(Vtilde)': "V\u0303",
+                    \ '(wtilde)': "w\u0303", '(Wtilde)': "W\u0303",
+                    \ '(xtilde)': "x\u0303", '(Xtilde)': "X\u0303",
+                    \ '(ztilde)': "z\u0303", '(Ztilde)': "Z\u0303",
                     \ '(counter-clockwise)': '↺', '(counterclockwise)': '↺', '(clockwise)': '↻'}
+" ÃÑÕĨŨỸ
+" ãñõĩũỹ
     " TODO http://shapecatcher.com/unicode/block/Number_Forms
     let l:complex_mem = {'index': 0, 'candidates': deepcopy(l:complex), 'memory': ''}
 

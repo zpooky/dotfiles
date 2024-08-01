@@ -418,6 +418,7 @@ let g:tagbar_show_linenumbers = -1 " display line number in the tagbar pane
 let g:tagbar_compact = 1
 let g:tagbar_autofocus = 1        " focus on open
 let g:tagbar_indent = 1
+let g:tagbar_sort = 0
 nmap <F12> <esc>:TagbarToggle<CR>
 
 let g:tagbar_type_c = {

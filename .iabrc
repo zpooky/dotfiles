@@ -1,5 +1,7 @@
 " cat ~/.iabrc | tr '[:upper:]' '[:lower:]' | sort | uniq > /tmp/xxx; cat /tmp/xxx > ~/.iabrc
 iab quanitity quantity
+iab differnet different
+iab measuremnet measurement
 iab qunatized quantized
 iab possibile possible
 iab similuar similar
@@ -173,6 +175,23 @@ iab centeral central
 iab ceritifacte certificate
 iab chagenes changes
 iab changeing changing
+iab changin changing
+iab occpies occupies
+iab assuem assume
+iab sinsoud sinusoid
+iab regressivly regressively
+iab originaly originally
+iab prefrerence preference
+iab pronmpts prompts
+iab happining happening
+iab distrubution distribution
+iab therfore therefore
+iab indiviual individual
+iab beleaving believing
+iab decsion decision
+iab remmebering remembering
+iab sequencies sequences
+iab reprenstation representation
 iab changess changes
 iab chanse chance
 iab chaoteic chaotic
@@ -248,8 +267,14 @@ iab considure consider
 iab contigeus contiguous
 iab contine continue
 iab continious continuous
-iab continous continues
 iab continous continuous
+iab countinous continuous
+iab traning training
+iab embbedding embedding
+iab emagine imagine
+iab recurisve recursive
+iab independetly independently
+iab varaints variants
 iab continously continuously
 iab continuasly continuously
 iab continueing continuing
@@ -264,7 +289,6 @@ iab correcly correctly
 iab correleation correlation
 iab correponding corresponding
 iab corresponing corresponding
-iab countinous continuous
 iab createing creating
 iab creater creator
 iab cryptographicly cryptographically
