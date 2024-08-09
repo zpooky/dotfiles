@@ -37,8 +37,7 @@
       "initializationOptions": {
         "cache": {
           "directory": "/tmp/ccls-cache"
-        },
-        "compilationDatabaseDirectory": "build"
+        }
       }
     },
     "bash": {
