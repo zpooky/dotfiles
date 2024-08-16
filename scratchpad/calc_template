@@ -24,6 +24,9 @@
 # math.log(x) = math.log(x, math.e)
 # xor(x,y)
 
+# two's compliment (how signed numeric values are serialized)
+#   sp-twos-complement
+
 # hex encoded -> utf8 string
 #   bytearray.fromhex(hex).decode('utf-8')
 # hex encoded -> raw

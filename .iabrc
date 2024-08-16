@@ -1,4 +1,8 @@
 " cat ~/.iabrc | tr '[:upper:]' '[:lower:]' | sort | uniq > /tmp/xxx; cat /tmp/xxx > ~/.iabrc
+iab specifiy specify
+iab explictly explicitly
+iab responsobility responsibility
+iab reconmended recommended
 iab quanitity quantity
 iab differnet different
 iab measuremnet measurement
