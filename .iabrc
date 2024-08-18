@@ -1,5 +1,7 @@
 " cat ~/.iabrc | tr '[:upper:]' '[:lower:]' | sort | uniq > /tmp/xxx; cat /tmp/xxx > ~/.iabrc
 iab specifiy specify
+iab algoirthm algorithm
+iab alghoritm algorithm
 iab explictly explicitly
 iab responsobility responsibility
 iab reconmended recommended
