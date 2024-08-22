@@ -1249,6 +1249,7 @@ function! s:SpMathFormat() range
                     \ '(nabla)': '∇', '(n)': 'η', '(times)': '×',
                     \ '(antenna)': '𐌙',
                     \ '(*)': '×', '(x)': '×',
+                    \ '(therefore)': '∴',
                     \ '(atilde)': "a\u0303", '(Atilde)': "A\u0303",
                     \ '(btilde)': "b\u0303", '(Btilde)': "B\u0303",
                     \ '(ctilde)': "c\u0303", '(Ctilde)': "C\u0303",
