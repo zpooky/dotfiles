@@ -17,7 +17,6 @@ endif
 if has('nvim')
   " - sh
   "   - npm install bash-language-server
-  "   - yay -S bash-language-server shfmt
   " - js
   "   - npm install -g neovim
   "   - yay -S nodejs-neovim
@@ -33,17 +32,11 @@ if has('nvim')
   "   - gem install neovim
   " - docker
   "   - npm install -g dockerfile-language-server-nodejs
-  " - rust
-  "   - rustup component add rustfmt
-  " - json
-  "   - yay -S jq
   " - scala
   "   - yay -S metals
   " - markdown
   "   - yay -S redpen languagetool
   "
-  " npm install --global prettier --upgrade
-  " pip3 install --user yapf --upgrade
   " pip3 install --upgrade neovim
   "
   " :checkhealth
@@ -419,6 +412,8 @@ let g:tagbar_compact = 1
 let g:tagbar_autofocus = 1        " focus on open
 let g:tagbar_indent = 1
 let g:tagbar_sort = 0
+let g:tagbar_autoclose = 0
+let g:tagbar_map_help = ""
 nmap <F12> <esc>:TagbarToggle<CR>
 
 let g:tagbar_type_c = {
@@ -430,7 +425,7 @@ let g:tagbar_type_c = {
 \ }
 
 let g:tagbar_type_cpp = {
-    \ 'ctagstype' : 'c',
+    \ 'ctagstype' : 'cpp',
     \ 'kinds'     : [
         \ 'f:functions',
         \ 'v:variables:0:0',
@@ -565,15 +560,24 @@ Plug 'sbdchd/neoformat'
 let g:neoformat_enabled_cpp = ['clangformat']
 let g:neoformat_enabled_c = ['clangformat']
 
+" pip3 install --user yapf --upgrade
 let g:neoformat_python_spyapf = {
       \ 'args': ['--style="$HOME/style.py"'],
       \ 'exe': 'yapf',
       \ 'stdin': 1,
       \ }
 let g:neoformat_enabled_python = ['spyapf']
+
+" - yay -S shfmt
+" - manualy install from https://github.com/mvdan/sh/releases (which is a static linked binary)
 let g:neoformat_enabled_sh = ['shfmt']
+
+" npm install --global prettier --upgrade
 let g:neoformat_enabled_javascript = ['prettier']
+"
+" rustup component add rustfmt
 let g:neoformat_enabled_rust = ['rustfmt']
+" yay -S jq
 let g:neoformat_enabled_json = ['jq']
 
 let g:neoformat_enabled_java = ['prettier']
@@ -965,15 +969,6 @@ endif
 " TODO Plug 'euclio/gitignore.vim'
 " https://www.vim.org/scripts/script.php?script_id=2557 https://github.com/vim-scripts/gitignore
 " " }}}
-
-" tagbar {{{
-" pane displaying tag information present in current file
-" Plug 'majutsushi/tagbar',programming_nhaskell
-
-" nmap <silent> <F10> <esc>:TagbarToggle<CR>
-" imap <silent> <F10> <ESC>:TagbarToggle<CR>
-" cmap <silent> <F10> <ESC>:TagbarToggle<CR>
-" }}}
 
 
 " {{{

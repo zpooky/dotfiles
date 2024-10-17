@@ -205,6 +205,16 @@ function files() {
   eval "${cmd}"
 }
 
+function directories() {
+  local ex3='! -path "*/tmp/*" ! -path "*/.git/*" ! -path "*/.ccls-cache/*" ! -path "*/.depend/*"'
+  if [ "${PWD}" = "${HOME}" ]; then
+    ex3="${ex3} ! -path '$HOME/dists/*' ! -path '~/dists/*' ! -path './dists/*'"
+  fi
+  local cmd="find -type d ${ex3}"
+  echo "${cmd}">&2
+  eval "${cmd}"
+}
+
 function catf(){
   echo "$@"
   files=$@

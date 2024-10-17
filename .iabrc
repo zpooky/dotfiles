@@ -1,4 +1,9 @@
 " cat ~/.iabrc | tr '[:upper:]' '[:lower:]' | sort | uniq > /tmp/xxx; cat /tmp/xxx > ~/.iabrc
+iab sepearte separate
+iab modifing modifying
+iab assignemnt assignment
+iab addres address
+iab alternativly alternatively
 iab specifiy specify
 iab algoirthm algorithm
 iab alghoritm algorithm
