@@ -47,7 +47,7 @@ build() {
       cd build
 
       if [ ! -e meson-info ] || [ ! -e meson-info ] || [ ! -e meson-logs ]; then
-        meson setup ..
+        meson setup .. -Db_sanitize=address
         res=$?
       fi
 

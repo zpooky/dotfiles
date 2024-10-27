@@ -945,6 +945,7 @@ else
   command! GitFZF call GitFZF()
   nnoremap <silent> <leader>r <Esc>:GitFZF<CR>
   " noremap <silent> <leader>r <Esc>:Files<CR>
+  nnoremap <silent> <leader>. <Esc>:Tags<CR>
 
   function! RipgrepFzf(query, fullscreen)
     let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
