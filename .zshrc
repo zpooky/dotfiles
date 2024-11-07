@@ -7,6 +7,9 @@ fi
 #=================== {
 source $HOME/dotfiles/extrarc
 
+# enabled bracketed paste
+set zle_bracketed_paste
+
 export LANG=en_US.UTF-8
 # locale - format dates according to Swedish standards (24h clock)
 export LC_TIME=sv_SE.UTF-8
@@ -205,6 +208,16 @@ function files() {
   eval "${cmd}"
 }
 
+function regfiles() {
+  local ex3='! -path "*/tmp/*" ! -path "*/.git/*" ! -path "*/.ccls-cache/*" ! -path "*/.depend/*"'
+  if [ "${PWD}" = "${HOME}" ]; then
+    ex3="${ex3} ! -path '$HOME/dists/*' ! -path '~/dists/*' ! -path './dists/*'"
+  fi
+  local cmd="find -type f ${ex3}"
+  echo "${cmd}">&2
+  eval "${cmd}"
+}
+
 function directories() {
   local ex3='! -path "*/tmp/*" ! -path "*/.git/*" ! -path "*/.ccls-cache/*" ! -path "*/.depend/*"'
   if [ "${PWD}" = "${HOME}" ]; then
@@ -221,18 +234,22 @@ function catf(){
 
   max_len=0
   for f in $files; do
-    tmp=${#f}
-    max_len=$(( max_len > tmp ? max_len : tmp ))
+    if [ -f "${f}" ]; then
+      tmp=${#f}
+      max_len=$(( max_len > tmp ? max_len : tmp ))
+    fi
   done
 
   for f in $files; do
-    content=$(cat ${f})
-    f_len=${#f}
-    pad=$((max_len - f_len))
-    for i in $(seq 1 ${pad}); do
-      echo -n ' '
-    done
-    echo "${f}: ${content}"
+    if [ -f "${f}" ]; then
+      content=$(cat ${f})
+      f_len=${#f}
+      pad=$((max_len - f_len))
+      for i in $(seq 1 ${pad}); do
+        echo -n ' '
+      done
+      echo "${f}: ${content}"
+    fi
   done
 }
 
