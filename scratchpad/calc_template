@@ -4,6 +4,8 @@
 # pip3 install --user scipy --upgrade
 # pip3 install --user numpy --upgrade
 # pip3 install --user matplotlib --upgrade
+# pip3 install --user bencode.py --upgrade
+# pip3 install --user rtp --upgrade
 
 ##=Raw================
 # hex:    0xDEADBEEF
@@ -58,8 +60,15 @@
 # string hex
 #   bytes.fromhex(hex_str).decode('utf-8')
 
-# protocol: RTP (pip install --user rtp)
+# protocol: RTP
 #   rtp = RTP().fromBytes(binascii.unhexlify(hex))  # decode
+
+# bencode:
+# b = bytes.fromhex(hex)
+# import bencodepy
+# d = bencodepy.decode(b)
+# del d[b'pieces']
+# print(d)
 
 # 16bit (byteswap):
 #   socket.ntohs(), socket.htons()
@@ -88,6 +97,8 @@ import urllib.parse
 import time
 import json
 import functools
+
+import bencodepy
 
 sys.version
 sys.setrecursionlimit(1500)

@@ -431,7 +431,7 @@ sp_cryptocurrency(){
     echo "npm install $CLIENT -g"
     return 1
   fi
-  local SP_TEMP="`mktemp /tmp/tmp-XXXXX`"
+  local SP_TEMP="`mktemp $TMPDIR/tmp-XXXXX`"
 
   local COLLECT="$CLIENT --coin $COIN --hours $HOURS --width 127 --height 32 > $SP_TEMP "
   local PRESENT="echo $COIN && cat $SP_TEMP"

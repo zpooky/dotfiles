@@ -238,7 +238,7 @@ function has_feature() {
 function tmux_new_window(){
   local name="${1}"
 
-  local tmp_wid=$(mktemp /tmp/tmp.XXXXXXXXXXXXXX -u)
+  local tmp_wid=$(mktemp ${TMPDIR}/tmp.XXXXXXXXXXXXXX -u)
   local comm="tmux display -p '#{window_id}' > $tmp_wid"
 
   tmux new-window -n "${name}" "${comm};${SHELL}"

@@ -17,10 +17,10 @@ if pgrep gdb; then
   fi
 fi
 
-FIFO_pipe="$(mktemp -u /tmp/gdb_fifo.XXXXXXXXXXXXXX)"
+FIFO_pipe="$(mktemp -u ${TMPDIR}/gdb_fifo.XXXXXXXXXXXXXX)"
 mkfifo "${FIFO_pipe}" || exit 1
 
-TEAMCIL_yaml="$(mktemp -u /tmp/teamcil_yaml.XXXXXXXXXXXXXX)"
+TEAMCIL_yaml="$(mktemp -u ${TMPDIR}/teamcil_yaml.XXXXXXXXXXXXXX)"
 
 name="$(mktemp -u XXXXXXXXXX)"
 

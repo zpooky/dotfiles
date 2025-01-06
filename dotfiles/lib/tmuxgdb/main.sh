@@ -11,7 +11,7 @@ if [ ! -p "${FIFO_pipe}" ]; then
   exit 1
 fi
 
-GDB_CONFIG_file="$(mktemp /tmp/gdb_config_file.XXXXXXXXXXXXXX)"
+GDB_CONFIG_file="$(mktemp ${TMPDIR}/gdb_config_file.XXXXXXXXXXXXXX)"
 BREAKPOINT_file='.gdb_breakpoints'
 
 echo "\${SP_GDB_SOURCE}: ${SP_GDB_SOURCE}"

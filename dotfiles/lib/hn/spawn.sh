@@ -11,7 +11,7 @@ fi
 
 the_ART=$1
 
-TEAMCIL_yaml="$(mktemp -u /tmp/teamcil_yaml.XXXXXXXXXXXXXX)"
+TEAMCIL_yaml="$(mktemp -u ${TMPDIR}/teamcil_yaml.XXXXXXXXXXXXXX)"
 
 name="$(mktemp -u XXXXXXXXXX)"
 # echo $name

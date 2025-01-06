@@ -48,7 +48,7 @@ fi
 
 #---------------------------------------
 
-working_dir="$(mktemp -d /tmp/sp_gdb.XXXXXXXXXXXXXX)"
+working_dir="$(mktemp -d ${TMPDIR}/sp_gdb.XXXXXXXXXXXXXX)"
 if [ ! $? -eq 0 ]; then
   echo "failed to create working dir"
   exit 1

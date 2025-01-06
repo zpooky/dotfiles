@@ -23,7 +23,7 @@ if is_meson; then
 
 else
   # make -C test
-  temp_file="$(mktemp /tmp/make_test-XXXXXXXX)"
+  temp_file="$(mktemp ${TMPDIR}/make_test-XXXXXXXX)"
 
   echo ""
   echo "compiling..."
