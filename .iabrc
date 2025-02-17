@@ -1,4 +1,10 @@
 " cat ~/.iabrc | tr '[:upper:]' '[:lower:]' | sort | uniq > /tmp/xxx; cat /tmp/xxx > ~/.iabrc
+iab exess excess
+iab insantly instantly
+iab disapear disappear
+iab decresing decreasing
+iab fundamential fundamental
+iab unfurtionally unfortunately
 iab sepearte separate
 iab modifing modifying
 iab assignemnt assignment
@@ -1065,3 +1071,10 @@ iab witouth without
 iab writeable writable
 iab yeilds yields
 iab yeild yield
+iab seprating separating
+iab seperate separate
+iab prcoess process
+iab visiable visible
+iab asigned assigned
+
+" vim:spell spelllang=en:

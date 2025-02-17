@@ -119,6 +119,10 @@ if [ -f "${ALIAS_SRC}" ]; then
   source "${ALIAS_SRC}"
 fi
 
+# {{{
+export PYTHONSTARTUP=~/.config/python/pythonrc
+# }}}
+
 # disable xterm ctrl+S XON XOFF signal
 alias vim="stty stop '' -ixoff; vim -p "
 if type nvim >/dev/null 2>&1; then
