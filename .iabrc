@@ -1,5 +1,6 @@
 " cat ~/.iabrc | tr '[:upper:]' '[:lower:]' | sort | uniq > /tmp/xxx; cat /tmp/xxx > ~/.iabrc
 iab exess excess
+iab desides decides
 iab insantly instantly
 iab disapear disappear
 iab decresing decreasing

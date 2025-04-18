@@ -67,7 +67,9 @@ filetype indent plugin on         " file type specific indentation support + loa
 
 " General {{{
 let mapleader = "\<Space>"        " map leader to  <space>
-set pastetoggle=<f5>              " vim will not perform any formatting when toggled on
+if !has('nvim')
+  set pastetoggle=<f5>              " vim will not perform any formatting when toggled on
+endif
 " }}}
 " Mouse {{{
 set mouse=                        " Disable mouse interaction
