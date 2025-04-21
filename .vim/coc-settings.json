@@ -30,6 +30,7 @@
       "rootPatterns": [
         ".ccls",
         "compile_commands.json",
+        "build/compile_commands.json",
         ".vim/",
         ".git/",
         ".hg/"
