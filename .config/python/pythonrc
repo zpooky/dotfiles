@@ -2,4 +2,4 @@
 # -*- coding: utf-8 -*-
 
 # disable ~/.python_history
-readline.set_auto_history(False)
+# readline.set_auto_history(False)

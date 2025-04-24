@@ -251,6 +251,8 @@ if executable('ccls')
 else
   Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release', 'for': ['sh','rust','go','zsh','vim','scala','python','java','lua']}
 endif
+
+" apt install python3-venv
 let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-yaml', 'coc-xml', 'coc-java', 'coc-rls', 'coc-rust-analyzer', 'coc-go', 'coc-metals', 'coc-sql', 'coc-vimlsp', 'coc-jedi', 'coc-lua']
 " https://github.com/josa42/coc-go
 " https://github.com/neoclide/coc-java
@@ -561,9 +563,10 @@ let g:neoformat_enabled_cpp = ['clangformat']
 let g:neoformat_enabled_c = ['clangformat']
 
 " pip3 install --user yapf --upgrade
+" apt-get install yapf3
 let g:neoformat_python_spyapf = {
       \ 'args': ['--style="$HOME/style.py"'],
-      \ 'exe': 'yapf',
+      \ 'exe': 'yapf3',
       \ 'stdin': 1,
       \ }
 let g:neoformat_enabled_python = ['spyapf']
@@ -574,12 +577,12 @@ let g:neoformat_enabled_sh = ['shfmt']
 
 " npm install --global prettier --upgrade
 let g:neoformat_enabled_javascript = ['prettier']
-"
-" rustup component add rustfmt
+
+" cargo install rustfmt
 let g:neoformat_enabled_rust = ['rustfmt']
 " yay -S jq
 let g:neoformat_enabled_json = ['jq']
-
+" npm install -g prettier
 let g:neoformat_enabled_java = ['prettier']
 
 let g:neoformat_only_msg_on_error = 1

@@ -38,28 +38,6 @@ if type ruby >/dev/null && type gem >/dev/null; then
     PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 fi
 
-# if [ -e $HOME/.gem/ruby/3.2.0/bin ]; then
-#   export PATH=$HOME/.gem/ruby/3.2.0/bin:$PATH
-# elif [ -e $HOME/.gem/ruby/3.1.0/bin ]; then
-#   export PATH=$HOME/.gem/ruby/3.1.0/bin:$PATH
-# elif [ -e $HOME/.gem/ruby/3.0.1/bin ]; then
-#   export PATH=$HOME/.gem/ruby/3.0.1/bin:$PATH
-# elif [ -e $HOME/.gem/ruby/3.0.0/bin ]; then
-#   export PATH=$HOME/.gem/ruby/3.0.0/bin:$PATH
-# elif [ -e $HOME/.gem/ruby/2.9.0/bin ]; then
-#   export PATH=$HOME/.gem/ruby/2.9.0/bin:$PATH
-# elif [ -e $HOME/.gem/ruby/2.8.0/bin ]; then
-#   export PATH=$HOME/.gem/ruby/2.8.0/bin:$PATH
-# elif [ -e $HOME/.gem/ruby/2.7.0/bin ]; then
-#   export PATH=$HOME/.gem/ruby/2.7.0/bin:$PATH
-# elif [ -e $HOME/.gem/ruby/2.6.0/bin ]; then
-#   export PATH=$HOME/.gem/ruby/2.6.0/bin:$PATH
-# elif [ -e $HOME/.gem/ruby/2.5.0/bin ]; then
-#   export PATH=$HOME/.gem/ruby/2.5.0/bin:$PATH
-# elif [ -e $HOME/.gem/ruby/2.4.0/bin ]; then
-#   export PATH=$HOME/.gem/ruby/2.4.0/bin:$PATH
-# fi
-
 if [ -e $HOME/.npm-packages/bin ]; then
   export PATH=$PATH:$HOME/.npm-packages/bin
 fi
