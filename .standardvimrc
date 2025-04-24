@@ -1790,4 +1790,8 @@ set tags=./.tags;/
 " - TODO glib colours
 "   TODO :help tagstack-examples
 "   TODO markdown colored block
+"   TODO cglobal
+"   TODO # is not a valid vim comment
+"   TODO [r] readonly flag is not alwasy displayed
+"   TODO fzf should search at root of the root-repo (when there are recursive git repos)
 " }}}

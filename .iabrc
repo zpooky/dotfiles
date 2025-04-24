@@ -1,4 +1,16 @@
 " cat ~/.iabrc | tr '[:upper:]' '[:lower:]' | sort | uniq > /tmp/xxx; cat /tmp/xxx > ~/.iabrc
+" set spelllang=en 
+iab paritisipating participating
+iab periprial peripheral
+iab adress address
+iab corrct correct
+iab colum column
+iab controlls controls
+iab adressing addressing
+iab consitent consistent
+iab refrered referred
+iab avaiable available
+iab exection execution
 iab exess excess
 iab desides decides
 iab insantly instantly
