@@ -236,20 +236,35 @@ endif
 
 " coc.vim {{{
 if executable('ccls')
-  Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release', 'for': ['cpp','sh','rust','go','zsh','vim','scala','python','java','lua','c']}
+
+function! s:SpF3Unmap()
+  if maparg('<f3>')
+    unmap <f3>
+  endif
+endfunc
+
+  " https://github.com/neoclide/coc.nvim#example-vim-configuration
+  Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release', 'for': ['cpp','sh','rust','go','zsh','vim','python','java','lua']}
   augroup AugroupCocCPP
     autocmd!
-    autocmd FileType c,cpp unmap <f3>
-    autocmd FileType c,cpp map <silent> <F3> <Plug>(coc-definition)
 
-    autocmd FileType c,cpp nmap <silent> gd <Plug>(coc-definition)
-    autocmd FileType c,cpp nmap <silent> gy <Plug>(coc-type-definition)
-    autocmd FileType c,cpp nmap <silent> gi <Plug>(coc-implementation)
-    autocmd FileType c,cpp nmap <silent> gr <Plug>(coc-references)
-    autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-rename)
+    autocmd FileType cpp :call s:SpF3Unmap()
+    autocmd FileType cpp nmap <buffer> <silent> <f3> <Plug>(coc-definition)
+
+    autocmd FileType cpp nmap <buffer> <silent> gd <Plug>(coc-definition)
+    autocmd FileType cpp nmap <buffer> <silent> gy <Plug>(coc-type-definition)
+    autocmd FileType cpp nmap <buffer> <silent> gi <Plug>(coc-implementation)
+    autocmd FileType cpp nmap <buffer> <silent> gr <Plug>(coc-references)
+    autocmd FileType cpp map <buffer> <silent> <F4> <Plug>(coc-rename)
+
+    autocmd FileType cpp inoremap <silent><expr> <c-n>
+                                \ coc#pum#visible() ? coc#pum#next(1):
+                                \ CheckBackspace() ? "\<Tab>" :
+                                \ coc#refresh()
+    autocmd FileType cpp inoremap <expr><c-p> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
   augroup END
 else
-  Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release', 'for': ['sh','rust','go','zsh','vim','scala','python','java','lua']}
+  Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}, 'branch': 'release', 'for': ['sh','rust','go','zsh','vim','python','java','lua']}
 endif
 
 " apt install python3-venv
@@ -293,8 +308,7 @@ augroup AugroupCoc
   " Find all references for type under cursor
   " autocmd FileType c,cpp map <silent> <F4> <Plug>(coc-references)
   " 
-  autocmd FileType python map <silent> <F4> <Plug>(coc-rename)
-
+  " autocmd FileType python map <silent> <F4> <Plug>(coc-rename)
 
   autocmd FileType python map <buffer> <silent> <F3> <Plug>(coc-definition)
 
