@@ -1712,17 +1712,28 @@ function! s:f3_definition(pattern, flags, info)
   endif
 
   if len(l:tmp) > 1
-    let l:tmp = filter(l:tmp, 'v:val.name ==# "'.a:pattern.'"')
+    " try filter exact match
+    " echomsg l:tmp
+    let l:tmp2 = filter(copy(l:tmp), 'v:val.name ==# "'.a:pattern.'"')
+    if len(l:tmp2) > 0
+      let l:tmp = l:tmp2
+    endif
   endif
 
   if len(l:tmp) > 1
-    let l:tmp = filter(l:tmp, 'v:val.filename == "'.a:info['buf_ffname'].'"')
+    " try filter same file
+    " echomsg l:tmp
+    let l:tmp2 = filter(copy(l:tmp), 'v:val.filename == "'.a:info['buf_ffname'].'"')
+    if len(l:tmp2) > 0
+      let l:tmp = l:tmp2
+    endif
   endif
+  " echomsg l:tmp
 
-  if len(l:tmp) > 1
-    " TODO if cursor is already on a entry in l:tmp
-    echomsg l:tmp
-  endif
+  " if len(l:tmp) > 1
+  "   " TODO if cursor is already on a entry in l:tmp
+  "   echomsg l:tmp
+  " endif
 
   return l:tmp
 endfunction
@@ -1738,7 +1749,7 @@ function! s:sp_tag(tagfunc, name) abort
   try
     let oldfunc = &tagfunc
     let &tagfunc = a:tagfunc
-    exec 'tjump '.a:name.' | normal zt'
+    exec 'tjump '.a:name
     " clear error
     echon ''
   catch /^Vim\%((\a\+)\)\=:E426:/
@@ -1751,9 +1762,9 @@ function! s:sp_tag(tagfunc, name) abort
     let &tagfunc = oldfunc
   endtry
 
-  " if !l:error
-  "   execute 'normal zt'
-  " endif
+  if !l:error
+    execute 'normal zt'
+  endif
 endfunction
 
 map <silent> <f10> <c-]> <bar> :execute 'normal zt'<cr>

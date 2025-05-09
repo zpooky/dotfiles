@@ -268,7 +268,7 @@ else
 endif
 
 " apt install python3-venv
-let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-yaml', 'coc-xml', 'coc-java', 'coc-rls', 'coc-rust-analyzer', 'coc-go', 'coc-metals', 'coc-sql', 'coc-vimlsp', 'coc-jedi', 'coc-lua']
+let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-yaml', 'coc-xml', 'coc-java', 'coc-rls', 'coc-rust-analyzer', 'coc-go', 'coc-sql', 'coc-vimlsp', 'coc-jedi', 'coc-lua']
 " https://github.com/josa42/coc-go
 " https://github.com/neoclide/coc-java
 
@@ -359,17 +359,22 @@ if !has('win32unix') && !has('win64unix')
 
   " cppcheck is very cpu intensive
   "'clang', 'clangcheck', 'cpplint','cppcheck', 'clangtidy'
+
+  " apt-get install clang-tidy shellcheck
+  " snap install ruff
   let g:ale_linters = {
-        \   'cpp':    ['g++', 'ccls'],
+        \   'cpp':    ['g++', 'clangtidy'],
         \   'c':      ['clangtidy','gcc'],
         \   'sh':     ['shellcheck'],
         \   'markdown': ['languagetool'],
         \   'text': ['languagetool'],
         \   'mail': ['languagetool'],
-        \   'python': []
+        \   'python': ['ruff']
         \}
   let g:ale_languagetool_executable = $HOME."/bin/sp_language_tool_commandline.sh"
   let g:ale_languagetool_options = "--autoDetect"
+
+  " let g:ale_echo_msg_format = '[%linter%] %s'
 
   " NOTE: ccls is heavy when i open linux (c)
   " coc does this instead: 'rust':   ['rls', 'analyzer'],
@@ -577,13 +582,13 @@ let g:neoformat_enabled_cpp = ['clangformat']
 let g:neoformat_enabled_c = ['clangformat']
 
 " pip3 install --user yapf --upgrade
-" apt-get install yapf3
+" apt-get install yapf3 isort
 let g:neoformat_python_spyapf = {
       \ 'args': ['--style="$HOME/style.py"'],
       \ 'exe': 'yapf3',
       \ 'stdin': 1,
       \ }
-let g:neoformat_enabled_python = ['spyapf']
+let g:neoformat_enabled_python = ['isort', 'spyapf']
 
 " - yay -S shfmt
 " - manualy install from https://github.com/mvdan/sh/releases (which is a static linked binary)
