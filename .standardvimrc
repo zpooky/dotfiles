@@ -948,10 +948,10 @@ function! s:SpookyIndentDetect() abort
   endif
 endfunction
 
-call s:SpookySetSpaceIdent()
+" call s:SpookySetSpaceIdent()
 augroup AutogroupIndentDetect
   autocmd!
-  autocmd BufReadPost,FileReadPost * call s:SpookyIndentDetect()
+  " autocmd BufReadPost,FileReadPost * call s:SpookyIndentDetect()
   " autocmd FileType call s:SpookyIndentDetect()
 augroup END
 

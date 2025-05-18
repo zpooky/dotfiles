@@ -927,59 +927,43 @@ Plug 'AndrewRadev/sideways.vim',{'branch': 'main'}
 " <input name="one" id="two" class="three" />
 " a { color: #fff; background: blue; text-decoration: underline; }
 
-nnoremap gl :SidewaysRight<CR>
-" TODO not working
+" classhes with vim-lion
+" nnoremap gl :SidewaysRight<CR>
+"
 nnoremap gh :SidewaysLeft<CR>
 " }}}
 
 " CommandT {{{
-if !has('win32') && !has('win64') && 0
-  " fuzzy search (TODO do step does not work)
-  Plug 'wincent/command-t',{'do':'rake make'}
-
-  noremap <silent> <leader>r <Esc>:CommandT<CR>
-  " noremap <silent> <leader>O <Esc>:CommandTFlush<CR>
-  " noremap <silent> <leader>m <Esc>:CommandTBuffer<CR>
-  " noremap <silent> <leader>. <esc>:CommandTTag<cr>
-  nmap <silent> <Leader>. <Plug>(CommandTTag)
-
-  " bitbake: oe-logs,oe-workdir
-  let g:CommandTWildIgnore=&wildignore . ",*.log,oe-logs,oe-workdir,*.wav"
-  let g:CommandTFileScanner="find"
-
-  " let g:CommandTTagIncludeFilenames=1
-else
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'junegunn/fzf.vim'
-  " listing files
-  " https://github.com/junegunn/fzf/issues/2687#issuecomment-1174569613
-  function! GitFZF()
-    let l:path = expand('%:p:h')
-    if executable('git')
-      let l:tmp_path = trim(system('cd '.shellescape(expand('%:p:h')).' && git rev-parse --show-toplevel'))
-      if isdirectory(l:tmp_path)
-        let l:path = l:tmp_path
-      endif
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+" listing files
+" https://github.com/junegunn/fzf/issues/2687#issuecomment-1174569613
+function! GitFZF()
+  let l:path = expand('%:p:h')
+  if executable('git')
+    let l:tmp_path = trim(system('cd '.shellescape(expand('%:p:h')).' && git rev-parse --show-toplevel'))
+    if isdirectory(l:tmp_path)
+      let l:path = l:tmp_path
     endif
-    exe 'FZF ' . l:path
-  endfunction
-  command! GitFZF call GitFZF()
-  nnoremap <silent> <leader>r <Esc>:GitFZF<CR>
-  " noremap <silent> <leader>r <Esc>:Files<CR>
-  nnoremap <silent> <leader>. <Esc>:Tags<CR>
+  endif
+  exe 'FZF ' . l:path
+endfunction
+command! GitFZF call GitFZF()
+nnoremap <silent> <leader>r <Esc>:GitFZF<CR>
+" noremap <silent> <leader>r <Esc>:Files<CR>
+nnoremap <silent> <leader>. <Esc>:Tags<CR>
 
-  function! RipgrepFzf(query, fullscreen)
-    let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
-    let initial_command = printf(command_fmt, shellescape(a:query))
-    let reload_command = printf(command_fmt, '{q}')
-    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
-  endfunction
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
 
-  command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
-  " interactive grep
-  noremap <silent> <leader>g <Esc>:RG<CR>
-endif
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+" interactive grep
+noremap <silent> <leader>g <Esc>:RG<CR>
 " }}}
 
 " " include git:gitignore in vim:wildignore {{{
