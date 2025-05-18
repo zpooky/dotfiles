@@ -615,7 +615,7 @@ augroup END
 
 " Codi {{{
 " repl based on content from current file
-Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
+Plug 'zpooky/codi.vim', { 'on': 'Codi' }
 
 " let g:codi#interpreters = {
 "       \ 'python': {
