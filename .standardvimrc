@@ -949,9 +949,10 @@ function! s:SpookyIndentDetect() abort
 endfunction
 
 " call s:SpookySetSpaceIdent()
+let indent_blacklist = ['python']
 augroup AutogroupIndentDetect
   autocmd!
-  " autocmd BufReadPost,FileReadPost * call s:SpookyIndentDetect()
+  autocmd BufReadPost,FileReadPost * if index(indent_blacklist, &ft) < 0 | call s:SpookyIndentDetect() | endif
   " autocmd FileType call s:SpookyIndentDetect()
 augroup END
 
