@@ -157,27 +157,18 @@ alias hna="~/dotfiles/lib/hn/spawn.sh"
 #force ssh to use xterm when ssh instead of tmux-colour256
 alias ssh='TERM=xterm ssh '
 
-port_scan() {
-if type netstat 2>&1 > /dev/null; then
-  # netstat -alnptu | grep -Ei 'Proto|LISTEN'
-  netstat --tcp --udp --udplite --raw --listening --program --numeric
-else
-  # ss --all --listen --processes --tcp --udp --raw # | grep -Ei 'Proto|LISTEN'
-  # -t: --tcp
-  # -u: --udp
-  # -n: --numeric?
-  # -a: --all
-  # -p: show pid
-  ss -tuna -p | grep 'LISTEN'
-  ss -tuna -p | grep 'udp'
-fi
-}
-
 alias sp_root="cd \`$DOTFILES_LIB/git_root.sh\`"
 
 #tmux
 # force the 256 colors compatibility
-alias tmux='tmux -2'
+# alias tmux='tmux -2'
+tmux() {
+  if [[ -n "${ALACRITTY_WINDOW_ID}" ]]; then
+    command tmux -2 -f ~/.config/tmux/.tmux.alacritty.conf
+  else
+    command tmux -2
+  fi
+}
 
 # meta
 alias sp-alias="$SP_EDITOR -p $ALIAS_SRC $DOTFILES/extrarc && source $DOTFILES/extrarc"

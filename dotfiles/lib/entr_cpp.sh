@@ -5,6 +5,10 @@ source $HOME/dotfiles/lib/vimcpp/shared.sh
 BODY="$1"
 ARG=${@:2:99}
 
+if [[ -z "${TMPDIR}" ]]; then
+  TMPDIR=/tmp
+fi
+
 TEMP_file="$(mktemp ${TMPDIR}/entr.XXXXXXXXXXXXXX)"
 if [ ! $? -eq 0 ]; then
   echo "failed to gen tmp file"

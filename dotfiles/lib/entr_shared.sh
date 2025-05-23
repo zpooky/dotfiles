@@ -47,7 +47,7 @@ build() {
       cd build
 
       if [ ! -e meson-info ] || [ ! -e meson-info ] || [ ! -e meson-logs ]; then
-        meson setup .. -Db_sanitize=address
+        meson setup --backend ninja -Db_sanitize=address ..
         res=$?
       fi
 
@@ -57,11 +57,8 @@ build() {
       fi
     fi
 
-  elif [ -e Makefile ]; then
-    # make and discard everything from stdout(display only errors & warnings)
-    make 1> /dev/null
-    res=$?
   elif is_cmake; then
+    echo "is cmake: $(pwd)"
     if [ ! -e build ]; then
       mkdir build
       res=$?
@@ -70,22 +67,32 @@ build() {
       cd build
 
       if [ ! -e CMakeCache.txt ] || [ ! -e CMakeFiles ] || [ ! -e cmake_install.cmake ]; then
-        cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+        cmake .. -G Ninja -DCMAKE_BUILD_TYPE=debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
         res=$?
       fi
 
       if [ $res -eq 0 ]; then
-        make
+        if [ -e build.ninja ]; then
+          ninja
+        else
+          make
+        fi
         res=$?
       fi
     fi
-
+  elif [ -e Makefile ]; then
+    echo "is make"
+    # make and discard everything from stdout(display only errors & warnings)
+    make 1> /dev/null
+    res=$?
   elif is_gradle; then
+    echo "is gradle"
     gradle build
   elif is_maven; then
+    echo "is maven"
     mvn compile
   else
-    echo "missing buld tool">&2
+    echo "missing buld tool"
     exit 1
   fi
 
