@@ -55,6 +55,11 @@ if path.is_dir():
     register_libstdcxx_printers (None)
   except:
     pass
+else:
+  import glob
+  sys.path.insert(0, glob.glob('/usr/share/gcc-*/python')[0])
+  from libstdcxx.v6.printers import register_libstdcxx_printers
+  register_libstdcxx_printers (None)
 end
 # }
 
