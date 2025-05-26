@@ -164,9 +164,9 @@ alias sp_root="cd \`$DOTFILES_LIB/git_root.sh\`"
 # alias tmux='tmux -2'
 tmux() {
   if [[ -n "${ALACRITTY_WINDOW_ID}" ]]; then
-    command tmux -2 -f ~/.config/tmux/.tmux.alacritty.conf
+    command tmux -2 -f ~/.config/tmux/.tmux.alacritty.conf $@
   else
-    command tmux -2
+    command tmux -2 $@
   fi
 }
 
