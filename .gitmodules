@@ -31,3 +31,12 @@
 [submodule "sources/zsh-completions"]
 	path = sources/zsh-completions
 	url = https://github.com/zsh-users/zsh-completions.git
+[submodule "sources/tmux-prefix-highlight"]
+	path = sources/tmux-prefix-highlight
+	url = https://github.com/tmux-plugins/tmux-prefix-highlight
+[submodule "sources/tmux-fingers"]
+	path = sources/tmux-fingers
+	url = https://github.com/Morantron/tmux-fingers
+[submodule "sources/tmux-yank"]
+	path = sources/tmux-yank
+	url = https://github.com/tmux-plugins/tmux-yank.git
