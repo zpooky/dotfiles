@@ -159,10 +159,14 @@ alias ssh='TERM=xterm ssh '
 
 alias sp_root="cd \`$DOTFILES_LIB/git_root.sh\`"
 
+if [ -e $HOME/sources/tmux-fingers/bin ]; then
+  PATH=$HOME/sources/tmux-fingers/bin:$PATH
+fi
 #tmux
 # force the 256 colors compatibility
 # alias tmux='tmux -2'
 tmux() {
+  # TODO $TERM
   if [[ -n "${ALACRITTY_WINDOW_ID}" ]]; then
     command tmux -2 -f ~/.config/tmux/.tmux.alacritty.conf $@
   elif [[ -n "{TERMUX_APP_PID}" ]]; then

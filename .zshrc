@@ -334,6 +334,12 @@ zstyle -e ':completion:*' special-dirs '[[ $PREFIX = (../)#(..) ]] && reply=(..)
 # zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
+# Open current command in Vim {
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^x^e" edit-command-line
+# }
+
 #=================== {
 # zstyle ':completion:*' completer _complete _ignored
 zstyle :compinstall filename "$HOME/.zshrc"
@@ -342,7 +348,7 @@ zstyle :compinstall filename "$HOME/.zshrc"
 sp_setup_fzf() {
   if [ -e $HOME/sources/fzf/bin ]; then
     export FZF_BASE=$HOME/sources/fzf
-    export PATH=$PATH:$FZF_BASE/bin
+    export PATH=$FZF_BASE/bin:$PATH
     # <ctrl+r> = history
     # <alt+c> = cd (dir) search
     source $FZF_BASE/shell/completion.zsh
