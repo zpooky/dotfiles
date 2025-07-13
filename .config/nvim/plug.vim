@@ -2,45 +2,8 @@
 " h     l
 "   j
 
-if has('win32') || has('win64')
-  source D:\cygwin64\home\fredrik\.standardvimrc
-
-  let g:python_host_prog = "C:\\Python27\\python.exe"
-  let g:python3_host_prog = "C:\\Python36\\python.exe"
-else
-  source $HOME/.standardvimrc
-endif
 
 " :PlugUpdate
-" :CocUpdate
-
-if has('nvim')
-  " - sh
-  "   - npm install bash-language-server
-  " - js
-  "   - npm install -g neovim
-  "   - yay -S nodejs-neovim
-  " - python2
-  "   - pip2 install --user --upgrade jedi
-  "   - yay -S python2-neovim python2-jedi
-  " - python3
-  "   - pip3 install --user --upgrade jedi
-  "   - yay -S python-neovim python-jedi
-  "   - pip3 install pynvim --upgrade
-  " - ruby
-  "   - yay -S ruby-neovim
-  "   - gem install neovim
-  " - docker
-  "   - npm install -g dockerfile-language-server-nodejs
-  " - scala
-  "   - yay -S metals
-  " - markdown
-  "   - yay -S redpen languagetool
-  "
-  " pip3 install --upgrade neovim
-  "
-  " :checkhealth
-endif
 
 " https://github.com/rprichard/sourceweb
 
@@ -143,12 +106,6 @@ endif
 " :h termina-options
 
 " vim-plug {{{
-if has('nvim')
-  call plug#begin('~/.config/nvim/plugged')
-else
-  call plug#begin('~/.vim/plugged')
-endif
-
 let programming_ncpp=         {'for':[          'haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake','javascript','ocaml']}
 let programming_ncpp_nhaskell={'for':[                    'scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake','javascript','ocaml']}
 let programming=              {'for':['c','cpp','haskell','scala','java','python','vim','bash','sh','xml','markdown','conf','text','zsh','gdb','asm','nasm','make','m4','json','rust','ruby','yaml','sql','go','awk','html','cmake','javascript','ocaml']}
@@ -156,23 +113,10 @@ let programming_nhaskell=     {'for':['c','cpp',          'scala','java','python
 let programming_cpp=          {'for':['c','cpp']}
 let programming_haskell=      {'for':'haskell'}
 let programming_scala=        {'for':'scala'}
-
-" {{{
-Plug 'tbastos/vim-lua'
-let g:lua_syntax_nofold = 1
-let g:lua_syntax_nosymboloperator = 1
 " }}}
 
-" nvim tree-sitter {{{
-if has('nvim') && has('nvim-0.5.0')
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'zpooky/cglobal'
-" NOTE: while hang if we insert allot of [[[[...]]]]
-" Plug 'p00f/nvim-ts-rainbow'
-endif
-
-if 1
 " rainbow scope {{{
+if 1
 " colors scope () {}
 Plug 'luochen1990/rainbow'
 
@@ -216,26 +160,13 @@ let g:rainbow_conf =
       \ }
       \ }
 
-      " \   'c': {
-      " \     'parentheses':[['\(\#ifdef\|\#ifndef\|\#if\)','\(\#elif\|\#else\)','\#endif'], 'start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
-      " \   },
-
-      " has no effect
-      " \   'sh': {
-      " \     'parentheses': [['\(^\|\s\)\S*()\s*{\?\($\|\s\)','_^{_','}'], ['\(^\|\s\)if\($\|\s\)','_\(^\|\s\)\(then\|else\|elif\)\($\|\s\)_','\(^\|\s\)fi\($\|\s\)'], ['\(^\|\s\)for\($\|\s\)','_\(^\|\s\)\(do\|in\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)while\($\|\s\)','_\(^\|\s\)\(do\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)case\($\|\s\)','_\(^\|\s\)\(\S*)\|in\|;;\)\($\|\s\)_','\(^\|\s\)esac\($\|\s\)']],
-      " \   },
-
-" vim:
-" \           'parentheses': [['fu\w* \s*.*)','endfu\w*'], ['for','endfor'], ['while', 'endwhile'], ['if','_elseif\|else_','endif'], ['(',')'], ['\[','\]'], ['{','}']],
-
 " NOTE: fortran is dummy used for *.fpp files
-
-" }}}
 endif
 " }}}
 
 " coc.vim {{{
-if executable('ccls')
+if 0
+if executable('cclsx')
 
 function! s:SpF3Unmap()
   if maparg('<f3>')
@@ -284,7 +215,6 @@ let g:coc_global_extensions = [ 'coc-css', 'coc-json', 'coc-yaml', 'coc-xml', 'c
 " don't give |ins-completion-menu| messages.
 " set shortmess+=c
 
-" c++ {
 " set updatetime=300
 " au CursorHold * sil call CocActionAsync('highlight')
 " au CursorHoldI * sil call CocActionAsync('showSignatureHelp')
@@ -326,12 +256,7 @@ augroup AugroupCoc
 " rust https://github.com/jonhoo/configs/blob/master/editor/.config/nvim/init.vim
 augroup END
 
-" }}}
-
-" {{{
-" Create split focusing only on the selected
-" :NR
-" Plug 'chrisbra/NrrwRgn',programming
+endif
 " }}}
 
 " ALE {{{
@@ -566,9 +491,9 @@ if !has('win32unix') && !has('win64unix')
   call add(g:gutentags_project_info, {'type': 'c', 'file': 'Makefile'})
 
   " gtags
-  let g:gutentags_gtags_executable="gtags"
-  let g:gutentags_gtags_cscope_executable = 'gtags-cscope'
-  let g:gutentags_auto_add_gtags_cscope = 1
+  " let g:gutentags_gtags_executable="gtags"
+  " let g:gutentags_gtags_cscope_executable = 'gtags-cscope'
+  " let g:gutentags_auto_add_gtags_cscope = 1
 
   " }}}
 endif
@@ -690,47 +615,7 @@ augroup AugroupVimux
 augroup END
 " }}}
 "
-" {{{
-" #######
-" # cpp #
-" #######
-" vim-projectionist {{{
-" Plug 'tpope/vim-projectionist',programming_cpp
-"
-" augroup AugroupAVIM
-"   autocmd!
-"   " toggle between header and source
-"   autocmd FileType c,cpp,objc map <silent> <F2> :A<CR>
-"   " open source or header in vertical split
-"   autocmd FileType c,cpp,objc map <silent> <leader><F2> :AV<CR>
-"
-"   autocmd User ProjectionistDetect
-"         \ call projectionist#append(getcwd(),
-"         \ {
-"         \    '*.c': {
-"         \      'alternate': '{}.h'
-"         \    },
-"         \    '*.cpp': {
-"         \      'alternate': ['{}.h', '{}.hpp', '{}.hh']
-"         \    },
-"         \    '*.h': {
-"         \      'alternate': ['{}.cpp', '{}.c']
-"         \    },
-"         \    '*.hpp': {
-"         \      'alternate': ['{}.cpp']
-"         \    },
-"         \    '*.hh': {
-"         \      'alternate': ['{}.cpp']
-"         \    },
-"         \    'lib/*.c': { 'alternate': 'include/linux/{}.h' },
-"         \    'kernel/*.c': { 'alternate': 'include/linux/{}.h' },
-"         \    'include/linux/*.h': { 'alternate': [ 'kernel/{}.c', 'lib/{}.c' ] },
-"         \ })
-"
-" augroup END
-" }}}
-
-" {{{
+" cpp {{{
 " if has('win32unix') || has('win64unix') || has('win32') || has('win64') || !has('nvim')
   " vim-cpp-enhanced-highlight {{{
   " better c++ syntax
@@ -766,33 +651,6 @@ augroup END
 " }}}
 
 " {{{
-" ###########
-" # Haskell #
-" ###########
-" Haskell code completion
-Plug 'eagletmt/neco-ghc',programming_haskell
-
-" vim2hs {{{
-Plug 'dag/vim2hs',programming_haskell
-
-let g:haskell_conceal_wide = 1
-" 0 = disable all conceals, including the simple ones like
-" lambda and composition
-" let g:haskell_conceal              = 1
-
-" 0 = disable concealing of "enumerations": commatized lists like
-" deriving clauses and LANGUAGE pragmas,
-" otherwise collapsed into a single ellipsis
-" let g:haskell_conceal_enumerations = 1
-
-" }}}
-
-" }}}
-
-" {{{
-" #########
-" # scala #
-" #########
 " vim-scala {{{
 " scala support
 " Plug 'derekwyatt/vim-scala',programming_scala
@@ -809,71 +667,11 @@ let g:scala_use_default_keymappings = 0
 " }}}
 " }}}
 
-" {{{
-" ##########
-" # syntax #
-" ##########
+" syntax {{{
 " rfc syntax
 Plug 'vim-scripts/rfc-syntax', { 'for': 'rfc' }
-" systemd syntax
-Plug 'Matt-Deacalion/vim-systemd-syntax'
-Plug 'nickhutchinson/vim-cmake-syntax'
-" }}}
-
-" {{{
-" ##########
-" # text   #
-" ##########
-
-" Pencil {{{
-" Plug 'reedes/vim-pencil', { 'for': 'markdown' }
-
-" hardwrap - vim adds newlines character when line is to long
-" softwrap - vim presents long lines wrapped over multiple lines
-
-" TODO
-" let g:pencil#wrapModeDefault = 'hard'
-" augroup AugroupPencil
-"   autocmd!
-"   autocmd FileType markdown,mkd call pencil#init()
-"   autocmd FileType text         call pencil#init({'wrap': 'hard'})
-"   autocmd FileType gitcommit         call pencil#init({'wrap': 'hard'})
-" augroup END
-
-" affects HardPencil only - blacklist formatting for text with tagged by these syntax
-" highlight group
-" let g:pencil#autoformat_config = {
-"       \   'markdown': {
-"       \     'black': [
-"       \       'htmlH[0-9]',
-"       \       'markdown(Code|H[0-9]|Url|IdDeclaration|Link|Rule|Highlight[A-Za-z0-9]+)',
-"       \       'markdown(FencedCodeBlock|InlineCode)',
-"       \       'mkd(Code|Rule|Delimiter|Link|ListItem|IndentCode)',
-"       \       'mmdTable[A-Za-z0-9]*',
-"       \     ],
-"       \     'white': [
-"       \      'markdown(Code|Link)',
-"       \     ],
-"       \   },
-"       \ }
-" }}}
-
-" Goyo {{{
-" Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
-"
-" augroup AugroupGoyo
-"   autocmd!
-"   autocmd FileType markdown,mail,text,gitcommit map <silent> <F11> <Esc> :Goyo <CR>
-" augroup END
-" }}}
-
-" markdown syntax {{{
-" Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-" let g:vim_markdown_new_list_item_indent = 2
-" let g:vim_markdown_auto_insert_bullets = 0
-" let g:vim_markdown_folding_style_pythonic = 1
-
-" Plug 'reedes/vim-colors-pencil'   " http://sherifsoliman.com/2016/05/30/favorite-vim-plugins/#vim-colors-pencil
+" glsl
+Plug 'tikhomirov/vim-glsl'
 " }}}
 
 " markdown {{{
@@ -885,27 +683,15 @@ let g:markdown_recommended_style=0
 " }}}
 
 " {{{
-" ########
-" # tmux #
-" ########
 " Integrate split navigation with tmux
 Plug 'christoomey/vim-tmux-navigator'
-
-if !has("patch-8.2.2345") && !has('nvim')
-" makes in tmux switching to a vim pane trigger an on-focus event
-Plug 'tmux-plugins/vim-tmux-focus-events'
-endif
 " }}}
 
-" {{{
-" ########
-" # git  #
-" ########
+" git {{{
 " better git commmit interface
 Plug 'rhysd/committia.vim'
 Plug 'tpope/vim-fugitive'
 " }}}
-
 
 " {{{
 " # vim-surround
@@ -915,19 +701,13 @@ Plug 'tpope/vim-fugitive'
 " cs([  - change surrounding '()' to '[]'
 " ysiw] - surround 'iw' with '[]'
 " S)    - in Visual mode insert selected with '()'
-Plug 'tpope/vim-surround'
+" Plug 'tpope/vim-surround'
 
 " to make repeat(.) work with vim-surround
-Plug 'tpope/vim-repeat'
+" Plug 'tpope/vim-repeat'
 " }}}
 
 " {{{
-" Plug 'machakann/vim-swap'
-" omap i, <Plug>(swap-textobject-i)
-" xmap i, <Plug>(swap-textobject-i)
-" omap a, <Plug>(swap-textobject-a)
-" xmap a, <Plug>(swap-textobject-a)
-
 " gl    | shift argument right
 " gh    | shift argument left
 Plug 'AndrewRadev/sideways.vim',{'branch': 'main'}
@@ -978,27 +758,9 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 noremap <silent> <leader>g <Esc>:RG<CR>
 " }}}
 
-" " include git:gitignore in vim:wildignore {{{
-" TODO Plug 'euclio/gitignore.vim'
-" https://www.vim.org/scripts/script.php?script_id=2557 https://github.com/vim-scripts/gitignore
-" " }}}
-
-
-" {{{
-" historic buffer navigation
-" TODO
-" Plug 'ton/vim-bufsurf'
-" }}}
-"
 " {{{
 " additional *in* support like ci, to change between two ,
 Plug 'wellle/targets.vim'
-" }}}
-
-" Centre search result {{{
-" Plug 'wincent/loupe'
-noremap n nzz
-noremap N Nzz
 " }}}
 
 " {{{
@@ -1039,21 +801,13 @@ set laststatus=0
 " }}}
 
 
-" {{{
-" translate colorc codes inline into colors
-Plug 'chrisbra/Colorizer', { 'for': 'vim' }
-
-" let g:colorizer_auto_filetype='vim'
-let g:colorizer_colornames_disable = 1
-" }}}
-
 " custom tab bar {{{
 Plug 'zpooky/tabline.vim'
 " }}}
 
 " {{{
 " To support % between \begin{} and \end{} in LaTeX
-Plug 'adelarsq/vim-matchit', { 'for':['tex','html'] }
+" Plug 'adelarsq/vim-matchit', { 'for':['tex','html'] }
 " }}}
 
 " {{{
@@ -1064,16 +818,8 @@ Plug 'xuhdev/vim-latex-live-preview',{'for':['tex','plaintex']}
 " :LLPStartPreview
 " }}}
 
-" meson syntax {{{
-Plug 'matze/vim-meson'
-" }}}
-
 " bitbake syntax {{{
-Plug 'kergoth/vim-bitbake'
-" }}}
-
-" better vim session {{{
-Plug 'tpope/vim-obsession'
+" Plug 'kergoth/vim-bitbake'
 " }}}
 
 " align text around character {{{
@@ -1083,34 +829,6 @@ let g:lion_squeeze_spaces = 1
 " visual mode: 'gl|': align in paragraph around =
 "
 Plug 'tommcdo/vim-lion'
-" }}}
-
-" {{{
-" Plug 'chaoren/vim-wordmotion'
-" change definition of what is a word(w) (CamelCase, _ seperated words, ...)
-" CamelCaseACRONYMWords_underscore1234
-" }}}
-
-" {{{
-" Plug 'chriskempson/base16-vim'
-" }}}
-
-" {{{
-Plug 'tikhomirov/vim-glsl'
-" }}}
-
-" {{{
-" rust Cargo.toml
-Plug 'cespare/vim-toml'
-" }}}
-
-" {{{
-Plug 'uiiaoo/java-syntax.vim'
-highlight link JavaIdentifier NONE
-" }}}
-
-" {{{
-Plug 'vim-python/python-syntax'
 " }}}
 
 " {{{
@@ -1188,115 +906,3 @@ augroup END
 
 " }}}
 
-call plug#end()
-" }}}
-
-" {{{
-
-colorscheme codedark
-
-" colorscheme {{{
-" if has('win32unix') || has('win64unix')
-  " wrk {{{
-" augroup AugroupColorscheme
-"   autocmd!
-"   " autocmd FileType * colorscheme codedark
-" augroup END
-
-" colorscheme base16
-" colorscheme molokai
-" colorscheme jellybeans      " ! https://github.com/nanotech/jellybeans.vim
-" colorscheme pencil
-" badwolf
-
-set background=dark
-" }}}
-
-if has('win32unix') || has('win64unix')
-  " in cygwin if we save a file not in dos mode outside the 'virtual' linux
-  " prompt if it should not be in dos mode instead of the default unix
-  " TODO should ignore special buffers like vim msg
-  augroup AugroupCygwin
-    autocmd!
-    autocmd BufWritePre * if &ff != 'dos' && expand('%:p') =~ "^\/cygdrive\/d\/Worksapce\/" && expand('%:p') !~ "\/Dropbox\/" && input('set ff to dos [y]') == 'y' | setlocal ff=dos | endif
-  augroup END
-endif
-
-
-if has('nvim') && has('nvim-0.5.0')
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all",
-  cglobal = {
-    enable = true
-  }
-}
-EOF
-endif
-
-" gdb {{{
-" function! JobCallback(self, data) abort
-"   echom string([a:self, a:data])
-" endfunction
-function! GDBBreak()
-  let l:command1 = "echo 'break \"" . bufname("%") . ":" .line(".") . "\"' >> .gdb_breakpoints"
-  let l:tmpfile = tempname()
-  let l:command2 = "cat .gdb_breakpoints | sort | uniq > ".l:tmpfile
-  let l:command3 = "cat '".l:tmpfile."' > .gdb_breakpoints"
-  " echomsg l:command1
-  " if v:version < 800
-      silent execute '!'.l:command1
-      silent execute '!'.l:command2
-      silent execute '!'.l:command3
-      execute ':redraw!'
-      return
-  " endif
-  " let l:shell_command = [&shell, &shellcmdflag, l:command1]
-  " let j = job_start(l:shell_command) ", {'out_cb': 'JobCallback', 'exit_cb': 'JobCallback'}
-endfunction
-
-command! GDBBreak :call GDBBreak()
-augroup AugroupGDB
-  autocmd!
-  autocmd FileType c,cpp,objc nnoremap <buffer> <leader>j <esc>:GDBBreak<CR>
-augroup END
-" }}}
-
-" format json {{{
-" function! FormatJson()
-"   :mark o
-"   " format json file using 2 space indentation
-"   exec "%!python ~/dotfiles/lib/json_format.py 2"
-"   :normal `o
-" endfunction!
-" command! FormatJson :call FormatJson()
-"
-" augroup AugroupFormatJson
-"   autocmd!
-"   autocmd FileType json nnoremap <buffer><leader>f <esc>:FormatJson<CR>
-" augroup END
-" }}}
-
-" debug syntax {{{
-function! s:SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
-
-command! SynStack :call s:SynStack()
-map <F7> :SynStack<CR>
-" }}}
-
-" vim-markdown {{{
-" supress issue where unmatch _ (italic) will cause bright red error
-hi link markdownError Normal
-augroup AugroupMarkdown
-  autocmd!
-  " suppress '0:' error
-  autocmd FileType markdown hi link pythonNumberError Normal
-  " suppress '{' error
-  autocmd FileType markdown hi link cErrInParen Normal
-augroup END
-" }}}

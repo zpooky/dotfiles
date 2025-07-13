@@ -111,11 +111,11 @@ set completeopt-=preview
 " }}}
 
 " syntax {{{
-syntax enable                     " Highlight the syntax.
+syntax enable
 " }}}
 
 " folding {{{
-set nofoldenable                  " disable folding
+set nofoldenable
 " }}}
 
 " gvim {{{
@@ -1014,6 +1014,64 @@ augroup END
 "   endif
 "   call s:SpookyPrintCurrentFile()
 " endfunction
+"
+" gdb {{{
+" function! JobCallback(self, data) abort
+"   echom string([a:self, a:data])
+" endfunction
+function! GDBBreak()
+  let l:command1 = "echo 'break \"" . bufname("%") . ":" .line(".") . "\"' >> .gdb_breakpoints"
+  let l:tmpfile = tempname()
+  let l:command2 = "cat .gdb_breakpoints | sort | uniq > ".l:tmpfile
+  let l:command3 = "cat '".l:tmpfile."' > .gdb_breakpoints"
+  " echomsg l:command1
+  " if v:version < 800
+      silent execute '!'.l:command1
+      silent execute '!'.l:command2
+      silent execute '!'.l:command3
+      execute ':redraw!'
+      return
+  " endif
+  " let l:shell_command = [&shell, &shellcmdflag, l:command1]
+  " let j = job_start(l:shell_command) ", {'out_cb': 'JobCallback', 'exit_cb': 'JobCallback'}
+endfunction
+
+command! GDBBreak :call GDBBreak()
+augroup AugroupGDB
+  autocmd!
+  autocmd FileType c,cpp,objc nnoremap <buffer> <leader>j <esc>:GDBBreak<CR>
+augroup END
+" }}}
+
+" debug syntax {{{
+function! s:SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
+command! SynStack :call s:SynStack()
+map <F7> :SynStack<CR>
+" }}}
+
+" vim-markdown {{{
+" supress issue where unmatch _ (italic) will cause bright red error
+hi link markdownError Normal
+augroup AugroupMarkdown
+  autocmd!
+  " suppress '0:' error
+  autocmd FileType markdown hi link pythonNumberError Normal
+  " suppress '{' error
+  autocmd FileType markdown hi link cErrInParen Normal
+augroup END
+" }}}
+"
+
+" Centre search result {{{
+noremap n nzz
+noremap N Nzz
+" }}}
 "
 " nmap <silent> gt :<C-U>call SpookyTabNext(v:count)<cr>
 augroup AutogroupPrintCurrentTab
