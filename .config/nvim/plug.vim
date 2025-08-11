@@ -547,17 +547,17 @@ augroup END
 " repl based on content from current file
 Plug 'zpooky/codi.vim', { 'on': 'Codi' }
 
-if executable('python')
-elseif executable('python3')
+" if executable('python')
+" elseif executable('python3')
 let g:codi#interpreters = {
    \ 'python': {
        \ 'bin': 'python3',
        \ 'prompt': '^\(>>>\|\.\.\.\) ',
        \ },
    \ }
-else
-  echomsg "missing python"
-endif
+" else
+"   echomsg "missing python"
+" endif
 
 " " delay refresh
 " let g:codi#autocmd = 'InsertLeave'

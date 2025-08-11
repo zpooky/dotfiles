@@ -1334,7 +1334,8 @@ function! s:SpMathFormat() range
                     \ '(wtilde)': "w\u0303", '(Wtilde)': "W\u0303",
                     \ '(xtilde)': "x\u0303", '(Xtilde)': "X\u0303",
                     \ '(ztilde)': "z\u0303", '(Ztilde)': "Z\u0303",
-                    \ '(counter-clockwise)': '↺', '(counterclockwise)': '↺', '(clockwise)': '↻'}
+                    \ '(counter-clockwise)': '↺', '(counterclockwise)': '↺', '(clockwise)': '↻',
+                    \ }
 " ÃÑÕĨŨỸ
 " ãñõĩũỹ
     " TODO http://shapecatcher.com/unicode/block/Number_Forms
@@ -1497,6 +1498,10 @@ function! s:SpMathFormat() range
         elseif l:char == '*'
           " let l:result = l:result.'⋅'
           let l:result = l:result.'·'
+        elseif l:char == '“'
+          let l:result = l:result.'"'
+        elseif l:char == '”'
+          let l:result = l:result.'"'
         elseif l:char == '.'
           let l:state = 3 " del
           let l:del.cmp = '.'
