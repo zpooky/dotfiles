@@ -701,7 +701,7 @@ Plug 'tpope/vim-fugitive'
 " cs([  - change surrounding '()' to '[]'
 " ysiw] - surround 'iw' with '[]'
 " S)    - in Visual mode insert selected with '()'
-" Plug 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 
 " to make repeat(.) work with vim-surround
 " Plug 'tpope/vim-repeat'
