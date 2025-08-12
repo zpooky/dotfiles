@@ -278,6 +278,13 @@ call <sid>hi('markdownListMarker', s:cdViasfora, {}, 'bold', {})
 call <sid>hi('mkdInlineURL', s:cdYellow, {}, 'none', {})
 " }}}
 
+" vim-markdown {{{
+" supress issue where unmatch _ (italic) will cause bright red error
+hi link markdownError Normal
+hi link pythonNumberError Normal
+hi link cErrInParen Normal
+" }}}
+
 " '------------------------------- ...'
 call <sid>hi('markdownRule', s:cdLightBlue, {}, 'none', {})
 
