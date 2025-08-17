@@ -778,29 +778,6 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 Plug 'bronson/vim-visual-star-search'
 " }}}
 
-" Statusline {{{
-" if has('win32unix') || has('win64unix') || $TERM == "linux" || has('nvim') || has('win32') || has('win64')
-"   Plug 'vim-airline/vim-airline'
-"
-"   if has('win32unix') || has('win64unix') || has('win32') || has('win64')
-"     " augroup AutogroupCygwinCppVisual
-"     "   autocmd!
-"     " autocmd FileType cpp map <silent> <F11> <Esc> :set laststatus=0 <Bar> :AirlineToggle<CR>
-"     " augroup END
-"     map <silent> <F11> <Esc> :set laststatus=0 <Bar> :AirlineToggle<CR>
-"   endif
-" else
-"   python3 from powerline.vim import setup as powerline_setup
-"   python3 powerline_setup()
-"   python3 del powerline_setup
-" endif
-" 0: never
-" 1: only if there are at least two windows
-" 2: always
-set laststatus=0
-" }}}
-
-
 " custom tab bar {{{
 Plug 'zpooky/tabline.vim'
 " }}}
@@ -825,9 +802,9 @@ Plug 'xuhdev/vim-latex-live-preview',{'for':['tex','plaintex']}
 " align text around character {{{
 " markdown table align format
 let g:lion_squeeze_spaces = 1
-"
-" visual mode: 'gl|': align in paragraph around =
-"
+" gl=
+" visual mode: 'gl|': align in paragraph around |
+
 Plug 'tommcdo/vim-lion'
 " }}}
 
