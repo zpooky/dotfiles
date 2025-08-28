@@ -294,7 +294,8 @@ if !has('win32unix') && !has('win64unix')
         \   'markdown': ['languagetool'],
         \   'text': ['languagetool'],
         \   'mail': ['languagetool'],
-        \   'python': ['ruff']
+        \   'python': ['ruff'],
+        \   'rust': ['rustfmt']
         \}
   let g:ale_languagetool_executable = $HOME."/bin/sp_language_tool_commandline.sh"
   let g:ale_languagetool_options = "--autoDetect"
