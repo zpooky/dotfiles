@@ -1,3 +1,6 @@
+[Install]
+WantedBy = default.target
+
 # mysyncthing.container
 [Container]
 ContainerName=mysyncthing

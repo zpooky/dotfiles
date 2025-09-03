@@ -1,0 +1,10 @@
+[Install]
+WantedBy = default.target
+
+# mynavidrome.container
+[Container]
+ContainerName=mynavidrome
+Image=docker.io/deluan/navidrome:latest
+PublishPort=4533:4533
+Volume=/tank-spooky/navidrome-data:/data:z
+Volume=/tank-spooky/music:/music:ro,z
