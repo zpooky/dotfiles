@@ -1,0 +1,14 @@
+# myjellyfin.container
+[Container]
+AddDevice=/dev/dri/:/dev/dri/
+ContainerName=myjellyfin
+Group=1001
+Image=docker.io/jellyfin/jellyfin:latest
+PublishPort=8096:8096/tcp
+User=1000
+UserNS=keep-id
+Volume=/tank-spooky/jellyfin-config:/config:z
+Volume=/tank-spooky/jellyfin-cache:/cache:z
+Volume=/tank-spooky/film:/film:ro,z
+Volume=/tank-spooky/tv:/tv:ro,z
+Volume=/tank-spooky/syncthing-data:/syncthing-data:ro,z
