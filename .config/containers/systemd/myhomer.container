@@ -1,0 +1,16 @@
+[Install]
+WantedBy = default.target
+
+# homer.container
+[Container]
+ContainerName=myhomer
+Environment=INIT_ASSETS=1
+Image=docker.io/b4bz/homer
+PublishPort=80:8080
+Volume=/tank-spooky/homer-dashboard:/www/assets
+User=1000
+Group=1001
+UserNS=keep-id
+
+[Service]
+Restart=always

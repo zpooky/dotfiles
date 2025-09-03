@@ -5,10 +5,10 @@ WantedBy = default.target
 [Container]
 AddDevice=/dev/dri/:/dev/dri/
 ContainerName=myjellyfin
-Group=1001
 Image=docker.io/jellyfin/jellyfin:latest
 PublishPort=8096:8096/tcp
 User=1000
+Group=1001
 UserNS=keep-id
 Volume=/tank-spooky/jellyfin-config:/config:z
 Volume=/tank-spooky/jellyfin-cache:/cache:z
