@@ -13,6 +13,7 @@ PublishPort=21027:21027/udp
 UserNS=keep-id
 Volume=/tank-spooky/syncthing-config:/var/syncthing/config
 Volume=/tank-spooky/syncthing-data:/data
+AutoUpdate=registry
 
 [Service]
 Restart=always

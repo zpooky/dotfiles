@@ -13,6 +13,7 @@ UserNS=keep-id
 Volume=/tank-spooky/transmission-config:/config
 Volume=/tank-spooky/downloads:/downloads:rw,z
 Volume=/tank-spooky/transmission-watch:/watch
+AutoUpdate=registry
 
 [Service]
 Restart=always

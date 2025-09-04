@@ -19,3 +19,4 @@ Volume=/tank-spooky/jellyfin-cache:/cache:z
 Volume=/tank-spooky/film:/film:ro,z
 Volume=/tank-spooky/tv:/tv:ro,z
 Volume=/tank-spooky/syncthing-data:/syncthing-data:ro,z
+Environment=PUID=1000 PGID=1001 TZ=Etc/UTC

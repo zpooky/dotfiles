@@ -12,3 +12,4 @@ Volume=/tank-spooky/audiobookshelf-metadata:/metadata:z,U
 Volume=/tank-spooky/audiobooks:/audiobooks:ro,z,U
 Volume=/tank-spooky/syncthing-data:/syncthing-data:ro,z,U
 Volume=/tank-spooky/podcasts:/podcasts:ro,z,U
+AutoUpdate=registry
