@@ -8,7 +8,7 @@ Image=docker.io/mrcas/kapowarr:latest
 PublishPort=5656:5656
 Volume=/tank-spooky/kapowarr-db:/app/db
 Volume=/tank-spooky/kapowarr-download:/app/temp_downloads
-Volume=/tank-spooky/syncthing-data/sync-comic:/comics-1
+Volume=/tank-spooky/syncthing-data/sync-comic:/comics-1:ro
 Environment=PUID=1000 PGID=1001 TZ=Etc/UTC
 User=1000
 Group=1001

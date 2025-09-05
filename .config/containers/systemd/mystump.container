@@ -8,7 +8,7 @@ Environment=PUID=1000 PGID=1001 STUMP_CONFIG_DIR=/config TZ=Etc/UTC
 Image=docker.io/aaronleopold/stump:latest
 PublishPort=10801:10801
 Volume=/tank-spooky/stump-config:/config
-Volume=/tank-spooky/syncthing-data/sync-comic:/data
+Volume=/tank-spooky/syncthing-data/sync-comic:/data:ro
 AutoUpdate=registry
 # UserNS=keep-id
 

@@ -6,8 +6,8 @@ WantedBy = default.target
 ContainerName=mykavita
 Image=docker.io/jvmilazz0/kavita:latest
 PublishPort=5000:5000
-Volume=/tank-spooky/syncthing-data/sync-comic:/comics
-Volume=/tank-spooky/syncthing-data/sync-document:/books
+Volume=/tank-spooky/syncthing-data/sync-comic:/comics:ro
+Volume=/tank-spooky/syncthing-data/sync-document:/books:ro
 Volume=/tank-spooky/kavita-config:/kavita/config
 AutoUpdate=registry
 Environment=TZ=UTC

@@ -6,8 +6,8 @@ WantedBy = default.target
 ContainerName=myatsumeru
 Image=docker.io/atsumerudev/atsumeru:latest
 PublishPort=31337:31337
-Volume=/tank-spooky/syncthing-data/sync-comic:/comics
-Volume=/tank-spooky/syncthing-data/sync-document:/books
+Volume=/tank-spooky/syncthing-data/sync-comic:/comics:ro
+Volume=/tank-spooky/syncthing-data/sync-document:/books:ro
 Volume=/tank-spooky/atsumeru-app:/app
 Environment=TZ=UTC
 User=1000
