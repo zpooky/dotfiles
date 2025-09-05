@@ -1,0 +1,19 @@
+[Install]
+WantedBy = default.target
+
+# atsumeru.container
+[Container]
+ContainerName=myatsumeru
+Image=docker.io/atsumerudev/atsumeru:latest
+PublishPort=31337:31337
+Volume=/tank-spooky/syncthing-data/sync-comic:/comics
+Volume=/tank-spooky/syncthing-data/sync-document:/books
+Volume=/tank-spooky/atsumeru-app:/app
+Environment=TZ=UTC
+User=1000
+Group=1001
+UserNS=keep-id
+AutoUpdate=registry
+
+[Service]
+Restart=always

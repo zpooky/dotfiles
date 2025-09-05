@@ -1,0 +1,19 @@
+[Install]
+WantedBy = default.target
+
+# kavita.container
+[Container]
+ContainerName=mykavita
+Image=docker.io/jvmilazz0/kavita:latest
+PublishPort=5000:5000
+Volume=/tank-spooky/syncthing-data/sync-comic:/comics
+Volume=/tank-spooky/syncthing-data/sync-document:/books
+Volume=/tank-spooky/kavita-config:/kavita/config
+AutoUpdate=registry
+Environment=TZ=UTC
+User=1000
+Group=1001
+UserNS=keep-id
+
+[Service]
+Restart=always

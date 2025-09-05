@@ -1,0 +1,16 @@
+[Install]
+WantedBy = default.target
+
+# tubesync.container
+[Container]
+ContainerName=mytubesync
+Environment=TZ=UTC PUID=1000 PGID=1001
+Image=ghcr.io/meeb/tubesync:latest
+PublishPort=4848:4848
+Volume=/tank-spooky/tubesync-config:/config
+Volume=/tank-spooky/tubesync-downloads:/downloads
+AutoUpdate=registry
+# UserNS=keep-id
+
+[Service]
+Restart=always

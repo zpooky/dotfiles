@@ -4,12 +4,15 @@ WantedBy = default.target
 # myaudiobookshelf.container
 [Container]
 ContainerName=myaudiobookshelf
-Environment=TZ=UTC
 Image=ghcr.io/advplyr/audiobookshelf:latest
-PublishPort=17166:80
 Volume=/tank-spooky/audiobookshelf-config:/config:z,U
 Volume=/tank-spooky/audiobookshelf-metadata:/metadata:z,U
 Volume=/tank-spooky/audiobooks:/audiobooks:ro,z,U
 Volume=/tank-spooky/syncthing-data:/syncthing-data:ro,z,U
 Volume=/tank-spooky/podcasts:/podcasts:ro,z,U
+PublishPort=17166:80
+Environment=TZ=UTC
+# User=1000
+# Group=1001
+# UserNS=keep-id
 AutoUpdate=registry

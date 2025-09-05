@@ -1,0 +1,18 @@
+[Install]
+WantedBy = default.target
+
+# komga.container
+[Container]
+ContainerName=mykomga
+Image=docker.io/gotson/komga
+PublishPort=25600:25600
+Volume=/tank-spooky/mykomga-config:/config
+Volume=/tank-spooky/syncthing-data/sync-comic:/data:ro,z
+Environment=TZ=UTC
+AutoUpdate=registry
+User=1000
+Group=1001
+UserNS=keep-id
+
+[Service]
+Restart=always
