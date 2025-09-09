@@ -11,6 +11,10 @@ if [ ! -p "${FIFO_pipe}" ]; then
   exit 1
 fi
 
+if [[ -z "${TMPDIR}" ]]; then
+  TMPDIR=/tmp
+fi
+
 GDB_CONFIG_file="$(mktemp ${TMPDIR}/gdb_config_file.XXXXXXXXXXXXXX)"
 BREAKPOINT_file='.gdb_breakpoints'
 

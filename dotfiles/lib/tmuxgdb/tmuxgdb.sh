@@ -17,6 +17,10 @@ if pgrep gdb; then
   fi
 fi
 
+if [[ -z "${TMPDIR}" ]]; then
+  TMPDIR=/tmp
+fi
+
 FIFO_pipe="$(mktemp -u ${TMPDIR}/gdb_fifo.XXXXXXXXXXXXXX)"
 mkfifo "${FIFO_pipe}" || exit 1
 

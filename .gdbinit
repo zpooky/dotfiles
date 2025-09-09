@@ -43,41 +43,28 @@ add-auto-load-safe-path ~/sources/linux
 #gcc pretty printers {
 python
 import sys
-import os
-from pathlib import Path
+import glob
 
-pp = os.environ['HOME']+'/sources/gdb_pp'
-path = Path(pp)
-if path.is_dir():
-  try:
-    sys.path.insert(0, pp)
-    from libstdcxx.v6.printers import register_libstdcxx_printers
-    register_libstdcxx_printers (None)
-  except:
-    pass
-else:
-  import glob
-  sys.path.insert(0, glob.glob('/usr/share/gcc-*/python')[0])
-  from libstdcxx.v6.printers import register_libstdcxx_printers
-  register_libstdcxx_printers (None)
-end
+sys.path.insert(0, glob.glob('/usr/share/gcc-*/python')[0])
+from libstdcxx.v6.printers import register_libstdcxx_printers
+register_libstdcxx_printers (None)
 # }
 
 #clang pretty printers {
-python
-import sys
-import os
-from pathlib import Path
-
-pp = os.environ['HOME']+'/sources/libcxx-pretty-printers/src'
-path = Path(pp)
-if path.is_dir():
-  try:
-    sys.path.insert(0, pp)
-    from libcxx.v1.printers import register_libcxx_printers
-    register_libcxx_printers (None)
-  except:
-    pass
-
-end
+# python
+# import sys
+# import os
+# from pathlib import Path
+#
+# pp = os.environ['HOME']+'/sources/libcxx-pretty-printers/src'
+# path = Path(pp)
+# if path.is_dir():
+#   try:
+#     sys.path.insert(0, pp)
+#     from libcxx.v1.printers import register_libcxx_printers
+#     register_libcxx_printers (None)
+#   except:
+#     pass
+#
+# end
 # }

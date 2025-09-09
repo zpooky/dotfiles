@@ -75,7 +75,7 @@
 # 32bit (byteswap):
 #   socket.ntohl(), socket.htonl()
 
-# variable with explicit type:
+# variable with explicit type: https://numpy.org/devdocs/user/basics.types.html
 # np.uint32(0), np.int32(0)
 # np.uint16(0), np.int16(0)
 # ===================

@@ -1,5 +1,9 @@
 " cat ~/.iabrc | tr '[:upper:]' '[:lower:]' | sort | uniq > /tmp/xxx; cat /tmp/xxx > ~/.iabrc
 " set spelllang=en 
+iab uncoditionally unconditionally
+iab uninitialzied uninitialized
+iab capacitiy capacity
+iab submited submitted
 iab paritisipating participating
 iab periprial peripheral
 iab adress address
@@ -1148,5 +1152,7 @@ iab visiable visible
 iab asigned assigned
 iab challanges challenges
 iab statisticlaly statistically
+iab slef self
+iab neagtive negative
 
 " vim:spell spelllang=en:

@@ -272,7 +272,8 @@ if !has('win32unix') && !has('win64unix')
   " standalone: https://github.com/languagetool-org/languagetool
 
   " let g:ale_sign_column_always = 1
-  let g:ale_lint_on_enter = 0
+  let g:ale_lint_on_enter = 1
+  let g:ale_disable_lsp = 1
   let b:ale_warn_about_trailing_whitespace = 0
 
   " let g:ale_sign_error = '>>'
@@ -797,7 +798,7 @@ Plug 'xuhdev/vim-latex-live-preview',{'for':['tex','plaintex']}
 " }}}
 
 " bitbake syntax {{{
-" Plug 'kergoth/vim-bitbake'
+Plug 'kergoth/vim-bitbake'
 " }}}
 
 " align text around character {{{

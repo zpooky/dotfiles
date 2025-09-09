@@ -10,9 +10,8 @@ if [ ! -e "$GIT_CONFIG_FEATURE" ]; then
   if has_feature git; then
     start_feature "git config"
 
-    # TODO fetch from keychain
-    git config --global user.name ""
-    git config --global user.email ""
+    # git config --global user.name ""
+    git config --global user.email "spooky.bender@gmail.com"
     git config --global core.editor vim
 
     git config --global alias.st "status --ignore-submodules=dirty"
@@ -202,14 +201,7 @@ if [ ! -e $DOTFILES_INPUTRC ]; then
   fi
 fi
 
-# gdb formatter from gcc
-GDB_PP="${SOURCES_ROOT}/gdb_pp"
-if [ ! -e $GDB_PP ]; then
-  svn co svn://gcc.gnu.org/svn/gcc/trunk/libstdc++-v3/python $GDB_PP
-  if [ ! $? -eq 0 ]; then
-    rm -rf $GDB_PP
-  fi
-fi
+exit 0
 
 # rust
 if has_feature rustup; then
