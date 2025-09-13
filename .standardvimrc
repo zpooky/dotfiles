@@ -1066,7 +1066,10 @@ augroup AugroupMarkdown
   autocmd FileType markdown hi link cErrInParen Normal
 augroup END
 " }}}
-"
+
+" {{{
+set laststatus=0
+" }}}
 
 " Centre search result {{{
 noremap n nzz
