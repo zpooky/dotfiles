@@ -1,3 +1,7 @@
+[Unit]
+Requires=zfs-mount
+After=zfs-mount
+
 [Install]
 WantedBy = default.target
 
@@ -11,8 +15,10 @@ PublishPort=51413:51413
 PublishPort=51413:51413/udp
 UserNS=keep-id
 Volume=/tank-spooky/transmission-config:/config
-Volume=/tank-spooky/downloads:/downloads:rw,z
+Volume=/tank-spooky/downloads:/downloads
 Volume=/tank-spooky/transmission-watch:/watch
+Volume=/tank-spooky/film:/film
+Volume=/tank-spooky/tv:/tv
 AutoUpdate=registry
 
 [Service]

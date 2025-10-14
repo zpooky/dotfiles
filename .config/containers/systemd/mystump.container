@@ -1,3 +1,7 @@
+[Unit]
+Requires=zfs-mount
+After=zfs-mount
+
 [Install]
 WantedBy = default.target
 

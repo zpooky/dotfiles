@@ -1,3 +1,7 @@
+[Unit]
+Requires=zfs-mount
+After=zfs-mount
+
 [Install]
 WantedBy = default.target
 
@@ -6,6 +10,7 @@ WantedBy = default.target
 # AddDevice=/dev/dri/:/dev/dri/
 AddDevice=/dev/dri/renderD128:/dev/dri/renderD128
 AddDevice=/dev/dri/card0:/dev/dri/card0
+# AddDevice=/dev/dri/card1:/dev/dri/card1
 AutoUpdate=registry
 ContainerName=myjellyfin
 Image=docker.io/jellyfin/jellyfin:latest
