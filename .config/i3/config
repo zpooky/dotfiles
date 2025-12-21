@@ -83,7 +83,7 @@ set $lmon HDMI-0
 set $rmon DVI-D-0
 
 # arandr save to get this output
-exec "xrandr --output DVI-D-0 --primary --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI-0 --mode 1920x1080 --pos 0x0 --rotate normal --output DP-0 --off --output DP-1 --off --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-5 --off"
+# exec "xrandr --output DVI-D-0 --primary --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI-0 --mode 1920x1080 --pos 0x0 --rotate normal --output DP-0 --off --output DP-1 --off --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-5 --off"
 
 workspace 1 output $rmon
 workspace 2 output $rmon
@@ -210,7 +210,7 @@ exec "setxkbmap -option caps:escape"
 
 ## clipster {
 ## Start clipster daemon
-exec --no-startup-id $HOME/sources/clipster/clipster -d
+# exec --no-startup-id $HOME/sources/clipster/clipster -d
 # }
 
 ## rtag {
@@ -220,9 +220,9 @@ exec --no-startup-id $HOME/sources/clipster/clipster -d
 ## Special keyboard support
 
 # PulseAudio {
-bindsym XF86AudioLowerVolume  exec pactl set-sink-volume @DEFAULT_SINK@ '-5%'
-bindsym XF86AudioRaiseVolume  exec pactl set-sink-volume @DEFAULT_SINK@ '+5%'
-bindsym XF86AudioMute         exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+# bindsym XF86AudioLowerVolume  exec pactl set-sink-volume @DEFAULT_SINK@ '-5%'
+# bindsym XF86AudioRaiseVolume  exec pactl set-sink-volume @DEFAULT_SINK@ '+5%'
+# bindsym XF86AudioMute         exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 # }
 
 # ALSA {
@@ -234,7 +234,7 @@ bindsym XF86AudioMute         exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 ## brightness control {
 # user needs to belong to the video group 'sudo usermod -a -G video spooky'
 # set the minimum light level
-exec light -N 1
-bindsym XF86MonBrightnessDown exec light -U 5
-bindsym XF86MonBrightnessUp exec light -A 5
+# exec light -N 1
+# bindsym XF86MonBrightnessDown exec light -U 5
+# bindsym XF86MonBrightnessUp exec light -A 5
 ## }
