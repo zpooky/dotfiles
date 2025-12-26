@@ -33,7 +33,7 @@ vim.cmd([[
 
   " nvim tree-sitter {{{
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'zpooky/cglobal'
+  " TODO Plug 'zpooky/cglobal'
   " NOTE: while hang if we insert allot of
   " Plug 'p00f/nvim-ts-rainbow'
   " }}}
@@ -47,13 +47,15 @@ vim.cmd([[
   " }}}
 ]])
 
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all",
-  sync_install = true,
-  cglobal = {
-    enable = true
-  }
-}
+require'nvim-treesitter'.install { 'rust', 'javascript', 'zig', 'html', 'bash', 'c', 'cpp', 'scala', 'make', 'python', 'zsh', 'yaml', 'xml', 'vim', 'lua', 'cmake', 'diff', 'dmesg', 'dockerfile', 'java', 'json'}
+
+-- require'nvim-treesitter.configs'.setup {
+--   ensure_installed = "all",
+--   sync_install = true,
+--   -- cglobal = {
+--   --   enable = true
+--   -- }
+-- }
 
 -- https://github.com/LuaLS/lua-language-server.git
 -- ./make.sh

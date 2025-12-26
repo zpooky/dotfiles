@@ -706,7 +706,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 
 " to make repeat(.) work with vim-surround
-" Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-repeat'
 " }}}
 
 " {{{
@@ -822,7 +822,7 @@ endif
 " hi illuminatedWord cterm=underline gui=underline
 " hi link illuminatedWord CursorLine
 " hi link illuminatedWord Pmenu
-hi link illuminatedWord SpIlluminated
+" hi link illuminatedWord SpIlluminated
 "
 let g:sh_no_error = 1
 let g:Illuminate_delay = 100
