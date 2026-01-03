@@ -208,13 +208,13 @@ exec "setxkbmap -layout se"
 exec "setxkbmap -option caps:escape"
 ## }
 
-## clipster {
-## Start clipster daemon
-# exec --no-startup-id $HOME/sources/clipster/clipster -d
-# }
+## msi {
+exec "mcontrolcenter"
+# exec "nvidia-settings"
+## }
 
-## rtag {
-# exec rdm --daemon
+##  {
+# exec "jellyfin-mpv-shim"
 ## }
 
 ## Special keyboard support
@@ -232,9 +232,6 @@ exec "setxkbmap -option caps:escape"
 # }
 
 ## brightness control {
-# user needs to belong to the video group 'sudo usermod -a -G video spooky'
-# set the minimum light level
-# exec light -N 1
-# bindsym XF86MonBrightnessDown exec light -U 5
-# bindsym XF86MonBrightnessUp exec light -A 5
+bindsym XF86MonBrightnessDown exec light -U 10
+bindsym XF86MonBrightnessUp exec light -A 10
 ## }

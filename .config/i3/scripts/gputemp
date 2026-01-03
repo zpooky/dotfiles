@@ -11,7 +11,7 @@
 # energy1:       1.26 MJ
 
 # examples using Nvidia tools:
-#echo "$(nvidia-smi --format=csv,noheader --query-gpu=temperature.gpu) °C"
+echo "$(nvidia-smi --format=csv,noheader --query-gpu=temperature.gpu) °C"
 #echo "$(nvidia-settings -q gpucoretemp -t) °C"
 # example using sensor name:
 sensors 2>/dev/null | awk '/i915-pci-0600/{flag=1} flag && /temp1/ {gsub("\\+", "", $2); print $2, $3; exit}'
