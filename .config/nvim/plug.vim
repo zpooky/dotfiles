@@ -296,7 +296,9 @@ if !has('win32unix') && !has('win64unix')
         \   'text': ['languagetool'],
         \   'mail': ['languagetool'],
         \   'python': ['ruff'],
-        \   'rust': ['rustfmt']
+        \   'rust': ['rustfmt'],
+        \   'cmake': ['cmake_lint'],
+        \   'bitbake': ['oelint_adv'],
         \}
   let g:ale_languagetool_executable = $HOME."/bin/sp_language_tool_commandline.sh"
   let g:ale_languagetool_options = "--autoDetect"
@@ -515,7 +517,9 @@ let g:neoformat_python_spyapf = {
       \ 'exe': 'yapf3',
       \ 'stdin': 1,
       \ }
-let g:neoformat_enabled_python = ['isort', 'spyapf']
+" let g:neoformat_enabled_python = ['isort', 'spyapf']
+" let g:neoformat_enabled_python = ['isort', 'ruff']
+let g:neoformat_enabled_python = ['black', 'isort'] " TODO the order seems to make a difference
 
 " - yay -S shfmt
 " - manualy install from https://github.com/mvdan/sh/releases (which is a static linked binary)

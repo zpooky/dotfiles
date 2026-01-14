@@ -31,6 +31,7 @@ if [ -e $HOME/sources/zsh-completions ]; then
 fi
 
 autoload -U compinit && compinit -u
+# debug: functions -t _path_files
 # disable mcd in /usr/share/zsh/functions/Completion/Unix/_mtools
 unset '_comps[mcd]'
 
@@ -322,8 +323,9 @@ bindkey -M emacs '^[[1;5D' backward-word
 # zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 # zstyle ':completion:*' list-colors ''
 # zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+#
 # NOTE: case insensitivity when tabbing
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+# TODO this hangs: zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
 # NOTE: ..<tab> -> ../
 zstyle -e ':completion:*' special-dirs '[[ $PREFIX = (../)#(..) ]] && reply=(..)'
 
