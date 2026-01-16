@@ -1,0 +1,23 @@
+# Search hidden files and directories.
+--hidden
+
+# --no-require-git
+# --require-git
+--no-ignore-vcs
+
+# Exclude directories.
+--glob=!{.git,.svn,node_modules,checktests,tests,checktest,test,check,testdir}
+
+# Configure color settings and styles.
+# ag:
+# - const char *color_line_number = "\033[1;33m"; /* bold yellow */
+# - const char *color_match = "\033[30;43m";      /* black with yellow background */
+# - const char *color_path = "\033[1;32m";        /* bold green */
+
+# --colors=path:bg:0x3b,0x3b,0x3b
+--colors=path:fg:green
+--colors=path:style:bold
+--colors=line:fg:0xf2,0xc2,0x60
+--colors=match:bg:0xe6,0xc5,0x47
+--colors=match:fg:0x05,0x05,0x12
+--colors=match:style:nobold

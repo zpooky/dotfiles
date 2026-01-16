@@ -23,6 +23,9 @@ htops() {
 }
 alias htop=" TERM=xterm htop"
 
+
+export RIPGREP_CONFIG_PATH=$HOME/.config/ripgrep/ripgreprc
+
 #
 DOTFILES=$HOME/dotfiles
 DOTFILES_LIB=$DOTFILES/lib
