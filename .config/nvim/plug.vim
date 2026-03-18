@@ -295,11 +295,13 @@ if !has('win32unix') && !has('win64unix')
         \   'markdown': ['languagetool'],
         \   'text': ['languagetool'],
         \   'mail': ['languagetool'],
+        \   'gitcommit': ['languagetool'],
         \   'python': ['ruff'],
         \   'rust': ['rustfmt'],
         \   'cmake': ['cmake_lint'],
         \   'bitbake': ['oelint_adv'],
         \}
+
   let g:ale_languagetool_executable = $HOME."/bin/sp_language_tool_commandline.sh"
   let g:ale_languagetool_options = "--autoDetect"
 
