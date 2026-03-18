@@ -47,7 +47,7 @@ vim.cmd([[
   " }}}
 ]])
 
-require'nvim-treesitter'.install { 'rust', 'javascript', 'zig', 'html', 'bash', 'c', 'cpp', 'scala', 'make', 'python', 'zsh', 'yaml', 'xml', 'vim', 'lua', 'cmake', 'diff', 'dmesg', 'dockerfile', 'java', 'json'}
+require'nvim-treesitter'.install { 'rust', 'javascript', 'zig', 'html', 'bash', 'c', 'cpp', 'scala', 'make', 'python', 'zsh', 'yaml', 'xml', 'vim', 'lua', 'cmake', 'diff', 'dockerfile', 'java', 'json'}
 
 -- require'nvim-treesitter.configs'.setup {
 --   ensure_installed = "all",
