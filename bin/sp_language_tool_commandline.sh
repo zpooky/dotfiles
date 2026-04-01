@@ -6,6 +6,16 @@ disabled="-d UPPERCASE_SENTENCE_START,PUNCTUATION_PARAGRAPH_END,EN_QUOTES,DASH_R
 
 # echo "java -Dfile.encoding=UTF-8 -jar languagetool-commandline.jar ${disabled} -c UTF-8 $@" >> /tmp/ddad.txt
 
+# strip code scope (```) {
+file="${@: -1}" # last arg is the file
+tmp=$(mktemp -u)
+if md_strip_code_block.py "${file}" "${tmp}"; then
+  file="$tmp"
+fi
+last_cnt=$(( $# - 1))
+set -- "${@: 1: $last_cnt}" "${file}"
+# }
+
 usr_jar="/usr/share/java/languagetool/languagetool-commandline.jar"
 use_snap="/snap/languagetool/current/usr/bin/languagetool-commandline.jar"
 if [ -e "${usr_jar}" ]; then
