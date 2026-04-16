@@ -293,7 +293,6 @@ if !has('win32unix') && !has('win64unix')
         \   'c':      ['clangtidy','gcc'],
         \   'sh':     ['shellcheck'],
         \   'markdown': ['languagetool'],
-        \   'text': ['languagetool'],
         \   'mail': ['languagetool'],
         \   'gitcommit': ['languagetool'],
         \   'python': ['ruff'],

@@ -33,7 +33,7 @@ vim.cmd([[
 
   " nvim tree-sitter {{{
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  " TODO Plug 'zpooky/cglobal'
+  Plug 'zpooky/cglobal'
   " NOTE: while hang if we insert allot of
   " Plug 'p00f/nvim-ts-rainbow'
   " }}}
