@@ -17,17 +17,21 @@ set -- "${@: 1: $last_cnt}" "${file}"
 # }
 
 usr_jar="/usr/share/java/languagetool/languagetool-commandline.jar"
+local_jar="$HOME/bin/languagetool-commandline.jar"
 use_snap="/snap/languagetool/current/usr/bin/languagetool-commandline.jar"
 if [ -e "${usr_jar}" ]; then
   java -Dfile.encoding=UTF-8 -jar "${usr_jar}" ${disabled} -c UTF-8 "$@"
-elif [ -e "$HOME/bin/languagetool-commandline.jar" ]; then
-  java -Dfile.encoding=UTF-8 -jar $HOME/bin/languagetool-commandline.jar ${disabled} -c UTF-8 "$@"
+elif [ -e "${local_jar}" ]; then
+  java -Dfile.encoding=UTF-8 -jar "${local_jar}" ${disabled} -c UTF-8 "$@"
 elif [ -e "${use_snap}" ]; then
-  echo "java -Dfile.encoding=UTF-8 -jar ${use_snap} ${disabled} -c UTF-8 $@" >> /tmp/wasd
-  java -Dfile.encoding=UTF-8 -jar "${use_snap}" ${disabled} -c UTF-8 "$@"
+  # echo "java -Dfile.encoding=UTF-8 -jar "${use_snap}" ${disabled} -c UTF-8 --mothertongue en-GB --autoDetect $@" >> /tmp/wasd
+  java -Dfile.encoding=UTF-8 -jar "${use_snap}" ${disabled} -c UTF-8 --mothertongue en-GB --autoDetect "$@"
 else
   exit 1
 fi
 
-# TODO for markdown strip ```
+# TODO limit autodetct language
+# en-GB 
+# sv
+
 # TODO gitcommit... not working
