@@ -772,9 +772,10 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 " }}}
 
 
-" {{{
+" vim-visual-star-search {{{
 " Visual select + * will search the selected
 Plug 'bronson/vim-visual-star-search'
+
 " }}}
 
 " custom tab bar {{{
@@ -882,3 +883,12 @@ augroup END
 
 " }}}
 
+" vim-visual-star-search {{{
+" \C at the start of a pattern disables ignorecase/smartcase for that search.
+" Uses VimEnter to ensure this runs after plug#end() has loaded the plugin.
+augroup visual_star_case_sensitive
+  autocmd!
+  autocmd VimEnter * xnoremap * :<C-u>call VisualStarSearchSet('/')<CR>/\C<C-R>=@/<CR><CR>
+  autocmd VimEnter * xnoremap # :<C-u>call VisualStarSearchSet('?')<CR>?\C<C-R>=@/<CR><CR>
+augroup END
+" }}}
