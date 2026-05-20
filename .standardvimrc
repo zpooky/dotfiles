@@ -754,17 +754,6 @@ function! s:SpFindFile(root, needles, ignores) abort
 endfunction
 
 
-function s:FuncPreview()
-  " https://vim.fandom.com/wiki/Quick_reference_of_current_function
-  let l:opening = search("^\\S.*)\\s*\\\(\\n\\\)\\={","bn")
-  let l:closing = search("^}","bn")
-  if l:opening > l:closing
-    return '    '.getline(l:opening)
-  else
-    return ""
-  endif
-endfunction
-
 function! s:SpookyLimitMsgLength(msg, strip_prefix) abort
   let l:win_width = winwidth(0)-30
   let l:limit = l:win_width < 0 ? 0 : l:win_width
@@ -799,7 +788,7 @@ function! s:SpookyPrintCurrentFile() abort
     let l:limit = l:win_width < 0 ? 0 : l:win_width
     if strlen(l:self) < l:limit
       let l:strip_prefix = 0
-      let l:self = l:self . s:FuncPreview()
+      let l:self = l:self . ":" . s:FuncPreview()
     endif
   endif
 
@@ -1071,17 +1060,27 @@ augroup END
 set laststatus=0
 " }}}
 
+function s:FuncPreview()
+  if exists('tagbar#currenttag')
+    " 'p': fully function prototype
+    " 's': strip return type from function prototype
+    return tagbar#currenttag('%s', '', 's', 'nearest-stl')
+  endif
+  return ''
+endfunction
+
 " Centre search result {{{
-noremap n nzz
-noremap N Nzz
+nnoremap n nzz<Cmd>echo <SID>FuncPreview()<CR>
+nnoremap N Nzz<Cmd>echo <SID>FuncPreview()<CR>
 " }}}
-"
+
+" TODO move to vimrc (init.lua has an alternative impl)
 " nmap <silent> gt :<C-U>call SpookyTabNext(v:count)<cr>
-augroup AutogroupPrintCurrentTab
-    autocmd!
-    autocmd TabEnter * call s:SpookyPrintCurrentFile()
-    " autocmd BufEnter * call s:SpookyPrintCurrentFile()
-augroup END
+" augroup AutogroupPrintCurrentTab
+"     autocmd!
+"     autocmd TabEnter * call s:SpookyPrintCurrentFile()
+"     " autocmd BufEnter * call s:SpookyPrintCurrentFile()
+" augroup END
 
 " set laststatus=2
 " set statusline+=%F

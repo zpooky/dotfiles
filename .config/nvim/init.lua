@@ -216,3 +216,11 @@ vim.lsp.enable('rust_analyzer')
 
 -- npm i -g bash-language-server
 vim.lsp.enable('bashls')
+
+-- print current file when I switch tab
+vim.api.nvim_create_autocmd('TabEnter', {
+  callback = function()
+    local file = vim.fn.expand('%')
+    vim.notify(file, vim.log.levels.INFO)
+  end,
+})
