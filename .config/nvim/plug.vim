@@ -322,9 +322,41 @@ let g:tcomment_mapleader_uncomment_anyway = ''
 let g:tcomment_mapleader_comment_anyway= ''
 let g:tcomment_opleader1 = 'gc'
 
+function! s:TcommentVisualSmart(vmode) abort
+  let l:vmode = a:vmode
+
+  if l:vmode ==# ''
+    let l:vmode = visualmode()
+  endif
+
+  " Keep visual-line selections as line comments.
+  if l:vmode ==# 'V'
+    execute "'<,'>TComment"
+    return
+  endif
+
+  " For charwise and blockwise selections, use exact column bounds so only
+  " selected text is commented (e.g. text inside parentheses).
+  if l:vmode ==# "\<C-v>" || l:vmode ==# 'v'
+    let l:lbeg = line("'<")
+    let l:lend = line("'>")
+    let l:cbeg = virtcol("'<")
+    let l:cend = virtcol("'>")
+    if l:lend < l:lbeg || (l:lend == l:lbeg && l:cend < l:cbeg)
+      let [l:lbeg, l:lend] = [l:lend, l:lbeg]
+      let [l:cbeg, l:cend] = [l:cend, l:cbeg]
+    endif
+    call tcomment#Comment([l:lbeg, l:cbeg], [l:lend, l:cend], 'Io')
+    return
+  endif
+
+  execute "'<,'>TComment"
+endfunction
+
 " Tcomment visual
-vmap <leader>c :TComment<CR>
-vmap <leader>= :TCommentBlock<CR>
+" vmap <leader>c :TComment<CR>
+xnoremap <silent> <leader>= :<C-U>TCommentBlock<CR>
+xnoremap <silent> <leader>c :<C-U>call <SID>TcommentVisualSmart(visualmode())<CR>
 "
 " TODO this does not work when selecting multiple commented-out lines and trying to uncomment them
 " augroup AugroupTComment
