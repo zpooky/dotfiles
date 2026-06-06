@@ -47,7 +47,8 @@ build() {
       cd build
 
       if [ ! -e meson-info ] || [ ! -e meson-info ] || [ ! -e meson-logs ]; then
-        meson setup --backend ninja -Db_sanitize=address ..
+        # meson setup --backend ninja -Db_sanitize=address ..
+        meson setup --backend ninja ..
         res=$?
       fi
 
