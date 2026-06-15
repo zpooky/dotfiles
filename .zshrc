@@ -379,7 +379,7 @@ sp_setup_fzf
 unset -f sp_setup_fzf
 
 sp_entr() {
-  ack -f --cpp --fortran --shell --make --cmake --meson --ignore-dir=oe-workdir --ignore-dir=oe-logs --devicetree -r | entr -c $@
+  rg --files -t cpp -t fortran -t meson -t make -t cmake -t rust -t scala -t java -t devicetree | entr -c $@
 }
 
 if [ -e $HOME/sources/zsh-autosuggestions ]; then

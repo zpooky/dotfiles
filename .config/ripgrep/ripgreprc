@@ -5,8 +5,8 @@
 # --require-git
 --no-ignore-vcs
 
-# Exclude directories.
---glob=!{.git,.svn,node_modules,checktests,tests,checktest,test,check,testdir}
+# Exclude directories:
+--glob=!{.git,.svn,node_modules,checktests,tests,checktest,test,check,testdir,.ccls-cache,oe-workdir,oe-logs}
 
 #
 --type-add=kconfig:{Kconfig}*
