@@ -77,18 +77,18 @@ function precmd() {
   local pp_hostname="[${HOST}]"
 
   local preprompt_left='%B%~%{$fg[yellow]%}:%{$reset_color%}'
-  local preprompt_left_length=${#${(S%%)preprompt_left//(\%([KF1]|)\{*\}|\%[Bbkf])}}
+  local preprompt_left_length=${#${(S%%)preprompt_left//(\%([KF1]|)\{*\}|\%B|\%b|\%k|\%f)}}
 
   local preprompt_right="${pp_ret}${pp_timer}${pp_backgroud}${pp_time}${pp_hostname}"
-  local preprompt_right_length=${#${(S%%)preprompt_right//(\%([KF1]|)\{*\}|\%[Bbkf])}}
+  local preprompt_right_length=${#${(S%%)preprompt_right//(\%([KF1]|)\{*\}|\%B|\%b|\%k|\%f)}}
   local num_filler_spaces=$((COLUMNS - preprompt_left_length - preprompt_right_length))
   if [ ${num_filler_spaces} -lt 0 ]; then
     local preprompt_right="${pp_ret}${pp_timer}${pp_backgroud}${pp_time}"
-    local preprompt_right_length=${#${(S%%)preprompt_right//(\%([KF1]|)\{*\}|\%[Bbkf])}}
+    local preprompt_right_length=${#${(S%%)preprompt_right//(\%([KF1]|)\{*\}|\%B|\%b|\%k|\%f)}}
     local num_filler_spaces=$((COLUMNS - preprompt_left_length - preprompt_right_length))
     if [ ${num_filler_spaces} -lt 0 ]; then
       local preprompt_right="${pp_ret}${pp_timer}${pp_backgroud}"
-      local preprompt_right_length=${#${(S%%)preprompt_right//(\%([KF1]|)\{*\}|\%[Bbkf])}}
+      local preprompt_right_length=${#${(S%%)preprompt_right//(\%([KF1]|)\{*\}|\%B|\%b|\%k|\%f)}}
       local num_filler_spaces=$((COLUMNS - preprompt_left_length - preprompt_right_length))
     fi
   fi
