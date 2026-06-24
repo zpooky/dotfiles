@@ -84,6 +84,10 @@ case "$extension" in
     # BitTorrent Files
     torrent)
         try transmission-show "$path" && { dump | trim; exit 5; } || exit 1;;
+    json)
+        jq --color-output . "${path}" && exit 5
+        python -m json.tool -- "${path}" && exit 5
+        ;;
     # ODT Files
     odt|ods|odp|sxw)
         try odt2txt "$path" && { dump | trim; exit 5; } || exit 1;;
