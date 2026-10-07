@@ -288,6 +288,28 @@ let g:tagbar_type_cpp = {
     \ ],
 \ }
 
+let g:tagbar_type_json = {
+    \ 'ctagstype' : 'json',
+    \ 'kinds' : [
+        \ 'o:objects',
+        \ 'a:arrays',
+        \ 's:strings',
+        \ 'n:numbers',
+        \ 'b:booleans',
+        \ 'z:nulls',
+    \ ],
+    \ 'sro'        : '.',
+    \ 'kind2scope' : {
+        \ 'o' : 'object',
+        \ 'a' : 'array',
+    \ },
+    \ 'scope2kind' : {
+        \ 'object' : 'o',
+        \ 'array'  : 'a',
+    \ },
+    \ 'sort' : 0,
+\ }
+
 " \ 'p:prototypes:1:0',
 " \ 'c:classes',
 " \ 'd:macros:1:0',
@@ -827,7 +849,7 @@ augroup END
 " }}}
 
 " vim-visual-star-search {{{
-" \C at the start of a pattern disables ignorecase/smartcase for that search.
+" disables ignorecase/smartcase for that search.
 " Uses VimEnter to ensure this runs after plug#end() has loaded the plugin.
 augroup visual_star_case_sensitive
   autocmd!

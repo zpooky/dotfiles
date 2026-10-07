@@ -50,6 +50,10 @@ vim.cmd([[
   " {{{
   Plug 'MeanderingProgrammer/render-markdown.nvim'
   " }}}
+
+  " {{{
+  Plug 'phelipetls/jsonpath.nvim'
+  " }}}
   call plug#end()
 
 
@@ -61,6 +65,12 @@ vim.cmd([[
 
 -- TODO
 require('nvim-treesitter').install { 'rust', 'javascript', 'zig', 'html', 'bash', 'c', 'cpp', 'scala', 'make', 'python', 'zsh', 'yaml', 'xml', 'vim', 'lua', 'cmake', 'diff', 'dockerfile', 'java', 'json', 'markdown', 'markdown_inline'}
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "json",
+  callback = function(args)
+    vim.treesitter.start(args.buf)
+  end,
+})
 
 -- require'nvim-treesitter.configs'.setup {
 --   ensure_installed = "all",
@@ -133,6 +143,13 @@ require('render-markdown').setup({
     },
   },
 })
+
+-- <leader>jq prints jq path for element under cursor
+-- example: '.issue[].vector'
+require("jsonpath").setup()
+vim.keymap.set("n", "<leader>jq", function()
+  print(require("jsonpath").get())
+end, { desc = "Print JSON path" })
 
 -- https://github.com/LuaLS/lua-language-server.git
 -- ./make.sh

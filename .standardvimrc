@@ -1074,6 +1074,11 @@ nnoremap n nzz<Cmd>echo <SID>FuncPreview()<CR>
 nnoremap N Nzz<Cmd>echo <SID>FuncPreview()<CR>
 " }}}
 
+" paragraph navigation{{{
+nnoremap { {b
+nnoremap } }w
+" }}}
+
 " TODO move to vimrc (init.lua has an alternative impl)
 " nmap <silent> gt :<C-U>call SpookyTabNext(v:count)<cr>
 " augroup AutogroupPrintCurrentTab
