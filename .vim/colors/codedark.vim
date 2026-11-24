@@ -278,6 +278,11 @@ call <sid>hi('markdownListMarker', s:cdViasfora, {}, 'bold', {})
 call <sid>hi('mkdInlineURL', s:cdYellow, {}, 'none', {})
 " }}}
 
+" render-markdown.nvim {{{
+call <sid>hi('RenderMarkdownBulletCustom', s:cdViasfora, {}, 'bold', {})
+call <sid>hi('RenderMarkdownBullet', s:cdViasfora, {}, 'bold', {})
+" }}}
+
 " vim-markdown {{{
 " supress issue where unmatch _ (italic) will cause bright red error
 hi link markdownError Normal

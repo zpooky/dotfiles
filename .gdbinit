@@ -27,6 +27,9 @@ set print array off
 set print array-indexes on
 
 #
+set debuginfod enabled on
+
+#
 set disassembly-flavor att
 
 # threaded

@@ -98,7 +98,7 @@ import time
 import json
 import functools
 
-import bencodepy
+# import bencodepy
 
 sys.version
 sys.setrecursionlimit(1500)

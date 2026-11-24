@@ -220,6 +220,7 @@ vim.lsp.config('pylsp', {
 vim.lsp.enable('pylsp')
 
 -- yay -S rust-analyzer
+-- rustup component add rust-analyzer
 vim.lsp.config('rust_analyzer', {
   settings = {
     ['rust-analyzer'] = {
@@ -241,3 +242,30 @@ vim.api.nvim_create_autocmd('TabEnter', {
     vim.notify(file, vim.log.levels.INFO)
   end,
 })
+
+-- tmux: change title {
+local function update_tmux_notes_filename()
+  local pane = vim.env.TMUX_PANE
+  if not pane then
+    return
+  end
+
+  local path = vim.api.nvim_buf_get_name(0)
+  local notes_dir = vim.fn.expand("~/sources/notes") .. "/"
+  local filename = ""
+
+  if vim.startswith(path, notes_dir) then
+    filename = vim.fn.fnamemodify(path, ":t")
+  end
+
+  vim.fn.system({ "tmux", "set-option", "-p", "-t", pane, "@notes_filename", filename })
+  if vim.v.shell_error ~= 0 then
+    vim.notify("Failed to update tmux notes filename", vim.log.levels.ERROR)
+  end
+end
+
+vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
+  callback = update_tmux_notes_filename,
+})
+
+-- }

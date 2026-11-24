@@ -10,6 +10,7 @@
 
 #
 --type-add=kconfig:{Kconfig}*
+--type-add=conf:*{.conf}
 
 # Configure color settings and styles.
 # ag:
